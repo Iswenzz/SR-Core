@@ -20,6 +20,7 @@ Email Pro: suxlolz1528@gmail.com
 WriteToFile(path, string)
 {
 	checkQueue();
+	iPrintLnBold(path);
 	file = FS_FOpen(path, "append");
 	level.openFiles++;
 	FS_WriteLine(file, string);

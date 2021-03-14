@@ -31,7 +31,7 @@ onConnectOptions()
 {
 	wait 0.05;
 	
-	path = "./player_options/" + self.playerID + ".txt";
+	path = "./sr/server_data/admin/player_options/" + self.playerID + ".txt";
 	if(!checkfile(path)) // if new player, default settings
 	{
 		checkQueue();

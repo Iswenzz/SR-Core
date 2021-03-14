@@ -24,7 +24,7 @@ Email Pro: suxlolz1528@gmail.com
 init()
 {
 	map = getDvar("mapname");
-	path = "./server_data/speedrun/chicken/"+map+".txt";
+	path = "./sr/server_data/speedrun/chicken/"+map+".txt";
 	file_exists = checkfile(path);
 
 	if(!file_exists)

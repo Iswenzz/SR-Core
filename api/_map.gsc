@@ -65,16 +65,16 @@ createWay(way, sname, number)
 	{
 		level.normal_way[int(number)-1] = SpawnStruct();
 		level.normal_way[int(number)-1].name = sname;
-		level.normal_way[int(number)-1].path190 = "./server_data/speedrun/map_times/"+getDvar("mapname")+"_fastesttimes_ns"+(int(number)-1)+"_190.txt";
-		level.normal_way[int(number)-1].path210 = "./server_data/speedrun/map_times/"+getDvar("mapname")+"_fastesttimes_ns"+(int(number)-1)+"_210.txt";
+		level.normal_way[int(number)-1].path190 = "./sr/server_data/speedrun/map_times/"+getDvar("mapname")+"_fastesttimes_ns"+(int(number)-1)+"_190.txt";
+		level.normal_way[int(number)-1].path210 = "./sr/server_data/speedrun/map_times/"+getDvar("mapname")+"_fastesttimes_ns"+(int(number)-1)+"_210.txt";
 	}
 
 	if(way == "secret")
 	{
 		level.secret_way[int(number)-1] = SpawnStruct();
 		level.secret_way[int(number)-1].name = sname;
-		level.secret_way[int(number)-1].path190 = "./server_data/speedrun/map_times/"+getDvar("mapname")+"_fastesttimes_s"+(int(number)-1)+"_190.txt";
-		level.secret_way[int(number)-1].path210 = "./server_data/speedrun/map_times/"+getDvar("mapname")+"_fastesttimes_s"+(int(number)-1)+"_210.txt";
+		level.secret_way[int(number)-1].path190 = "./sr/server_data/speedrun/map_times/"+getDvar("mapname")+"_fastesttimes_s"+(int(number)-1)+"_190.txt";
+		level.secret_way[int(number)-1].path210 = "./sr/server_data/speedrun/map_times/"+getDvar("mapname")+"_fastesttimes_s"+(int(number)-1)+"_210.txt";
 	}
 }
 

@@ -449,7 +449,7 @@ commands(a, arg)
 				{
 					if(isDefined(level.bot_190_ns_path))
 					{
-						level.bot_curr_path = "./server_data/speedrun/txt_demos/"+mapname+"/"+level.bot_190_ns_path+".txt";
+						level.bot_curr_path = "./sr/server_data/speedrun/txt_demos/"+mapname+"/"+level.bot_190_ns_path+".txt";
 						exec("say "+self.name+" changed botrec to^1 190 ns.");
 					}
 					else
@@ -459,7 +459,7 @@ commands(a, arg)
 				{
 					if(isDefined(level.bot_190_s_path))
 					{
-						level.bot_curr_path = "./server_data/speedrun/txt_demos/"+mapname+"/"+level.bot_190_s_path+".txt";
+						level.bot_curr_path = "./sr/server_data/speedrun/txt_demos/"+mapname+"/"+level.bot_190_s_path+".txt";
 						exec("say "+self.name+" changed botrec to^1 190 s.");
 					}
 					else
@@ -469,7 +469,7 @@ commands(a, arg)
 				{
 					if(isDefined(level.bot_210_ns_path))
 					{
-						level.bot_curr_path = "./server_data/speedrun/txt_demos/"+mapname+"/"+level.bot_210_ns_path+".txt";
+						level.bot_curr_path = "./sr/server_data/speedrun/txt_demos/"+mapname+"/"+level.bot_210_ns_path+".txt";
 						exec("say "+self.name+" changed botrec to^1 210 ns.");
 					}
 					else
@@ -479,7 +479,7 @@ commands(a, arg)
 				{
 					if(isDefined(level.bot_210_s_path))
 					{
-						level.bot_curr_path = "./server_data/speedrun/txt_demos/"+mapname+"/"+level.bot_210_s_path+".txt";
+						level.bot_curr_path = "./sr/server_data/speedrun/txt_demos/"+mapname+"/"+level.bot_210_s_path+".txt";
 						exec("say "+self.name+" changed botrec to^1 210 s.");
 					}
 					else
@@ -528,7 +528,7 @@ commands(a, arg)
 			if(!isDefined(arg) || arg == "")
 				break;
             self recordCommands(a, arg);
-            path = "./server_data/admin/vip.txt";
+            path = "./sr/server_data/admin/vip.txt";
             players = getEntArray( "player", "classname" );
             if(int(arg) < 0 || int(arg) > players.size)
                 break;
@@ -555,7 +555,7 @@ commands(a, arg)
 				break;
 			self recordCommands(a, arg);
             players = getEntArray( "player", "classname" );
-            path = "./server_data/admin/admins.txt";
+            path = "./sr/server_data/admin/admins.txt";
 			tkn = StrTok(arg," ");
 			if(tkn.size > 2)
 				break;
@@ -651,7 +651,7 @@ commands(a, arg)
 				}
 				wait 0.2;
 			}
-			path = "./server_data/speedrun/chicken/"+map+".txt";
+			path = "./sr/server_data/speedrun/chicken/"+map+".txt";
 			file_exists = checkfile(path);
 			if(!file_exists)
 			{
@@ -702,7 +702,7 @@ commands(a, arg)
 				
 				wait 0.05;
 			}
-			path = "./server_data/speedrun/saved_map/"+map+".txt";
+			path = "./sr/server_data/speedrun/saved_map/"+map+".txt";
 			file_exists = checkfile(path);
 			if(!file_exists)
 			{
@@ -1461,7 +1461,7 @@ commands(a, arg)
 			if (tkn.size != 2)
 				break;
             self recordCommands(a, arg);
-            path = "./server_data/admin/ban.txt";
+            path = "./sr/server_data/admin/ban.txt";
             string = "" + tkn[0] + "\\" + tkn[1] + "";
 			wait 1;
 			WriteToFile(path, string);
@@ -1473,7 +1473,7 @@ commands(a, arg)
 			if(!isDefined(arg) || arg == "")
 				break;
             self recordCommands(a, arg);
-            path = "./server_data/admin/ban.txt";
+            path = "./sr/server_data/admin/ban.txt";
             players = getEntArray( "player", "classname" );
             if(int(arg) < 0 || int(arg) > players.size)
                 break;
@@ -1590,7 +1590,7 @@ canExecuteCommand(cmd)
 
 setGroup()
 {
-	path = "./server_data/admin/admins.txt";
+	path = "./sr/server_data/admin/admins.txt";
 	r = readAll(path);
 	for(i=0; i<r.size; i++)
 	{
@@ -1638,7 +1638,7 @@ checkBanned()
 	self endon("disconnect");
 	self.guid = getSubStr(self getGuid(), 24, 32);
 
-	path = "./server_data/admin/ban.txt";
+	path = "./sr/server_data/admin/ban.txt";
 	file_exists = checkfile(path);
 	if(!file_exists)
 		return;
@@ -1728,7 +1728,7 @@ recordReportMap(argument)
 	else
 		return;
 	
-	path = "./server_data/admin/report_map.txt";
+	path = "./sr/server_data/admin/report_map.txt";
 	file_exists = checkfile(path);
 	if(!file_exists)
 	{
@@ -1748,7 +1748,7 @@ recordReportPlayer(argument, player)
 	else
 		return;
 	
-	path = "./server_data/admin/report_player.txt";
+	path = "./sr/server_data/admin/report_player.txt";
 	file_exists = checkfile(path);
 	if(!file_exists)
 	{
@@ -1767,7 +1767,7 @@ recordCommands(command, argument)
 	else
 		line += self.guid + " " + " " + self.name + "    " + command;
 	
-	path = "./server_data/admin/commands.txt";
+	path = "./sr/server_data/admin/commands.txt";
 	file_exists = checkfile(path);
 	if(!file_exists)
 	{
