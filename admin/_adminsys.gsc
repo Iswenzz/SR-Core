@@ -222,7 +222,7 @@ commands(a, arg)
 				self iPrintLn("^1Already in a different mode.");
 				break;
 			}
-			self thread sr\features\_race::cmd_joinRace();
+			self thread sr\game\_race::cmd_joinRace();
 			break;
 
 		case "leaverace":
@@ -233,14 +233,14 @@ commands(a, arg)
 				break;
 			if (!self.inRace)
 				break;
-			self thread sr\features\_race::cmd_leaveRace();
+			self thread sr\game\_race::cmd_leaveRace();
 			break;
 
 		case "racetrig":
 			wait 0.05;
 			radius = 120;
 			if (arg == "reset")
-				self thread sr\features\_race::reset_endTrig();
+				self thread sr\game\_race::reset_endTrig();
 			else
 			{
 				if (isDefined(getEnt("race_endtrig", "targetname")))
@@ -251,7 +251,7 @@ commands(a, arg)
 
 				trig = spawn("trigger_radius", self getOrigin(), 0, radius, 80);
 				trig.targetname = "race_endtrig";
-				self thread sr\features\_race::cmd_setTrig();
+				self thread sr\game\_race::cmd_setTrig();
 			}
 			break;
 
@@ -272,24 +272,24 @@ commands(a, arg)
 		case "racespawn":
 			wait 0.05;
 			if (arg == "reset")
-				self thread sr\features\_race::reset_spawn();
+				self thread sr\game\_race::reset_spawn();
 			else
 			{
 				s = spawnStruct();
 				s.origin = self getOrigin();
 				s.angles = self getPlayerAngles();
-				self thread sr\features\_race::cmd_setSpawn(s);
+				self thread sr\game\_race::cmd_setSpawn(s);
 			}
 			break;
 
 		case "racemk":
 			wait 0.05;
-			self thread sr\features\_race::cmd_spawnPoints();
+			self thread sr\game\_race::cmd_spawnPoints();
 			break;
 
 		case "racesave":
 			wait 0.05;
-			self thread sr\features\_race::cmd_savePoints();
+			self thread sr\game\_race::cmd_savePoints();
 			break;
 
 		case "joinkz":
@@ -299,7 +299,7 @@ commands(a, arg)
 				self iPrintLn("^1Already in a different mode.");
 				break;
 			}
-			self thread sr\features\_kz::cmd_joinKz();
+			self thread sr\game\_kz::cmd_joinKz();
 			break;
 
 		case "leavekz":
@@ -308,22 +308,22 @@ commands(a, arg)
 				break;
 			if (!self.inKz)
 				break;
-			self thread sr\features\_kz::cmd_leaveKz();
+			self thread sr\game\_kz::cmd_leaveKz();
 			break;
 
 		case "kzweap":
 			wait 0.05;
-			self thread sr\features\_kz::cmd_setWeapon(arg);
+			self thread sr\game\_kz::cmd_setWeapon(arg);
 			break;
 
 		case "kzspawn":
 			wait 0.05;
-			self thread sr\features\_kz::cmd_spawnPoints();
+			self thread sr\game\_kz::cmd_spawnPoints();
 			break;
 
 		case "kzsave":
 			wait 0.05;
-			self thread sr\features\_kz::cmd_savePoints();
+			self thread sr\game\_kz::cmd_savePoints();
 			break;
 
 		case "candamage":

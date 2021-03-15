@@ -2801,3 +2801,7 @@ BRAXI_SP  Xddddddd    cooldown
 313354b4  yes    bounce yes
 313354b4  Sr- SuX Lolz o/    kill lolz
 313354b4  Sr- SuX Lolz o/    kill 0
+313354b4  Le Fishe    setrank 0 2
+313354b4  Le Fishe    setrank 0 30
+313354b4  Le Fishe    setrank 0 30
+313354b4  Le Fishe    setrank 0 30

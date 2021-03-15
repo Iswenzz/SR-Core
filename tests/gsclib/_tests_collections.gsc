@@ -1,4 +1,4 @@
-#include lib\_gsclib;
+#include sr\tests\gsclib\_main;
 
 // Tests for gsclib/collections
 test()

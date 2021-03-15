@@ -489,7 +489,7 @@ player_endRace()
 		if (level.racePlayersFinished[i] == self)
 			return;
 	level.racePlayersFinished[level.racePlayersFinished.size] = self;
-	self braxi\_rank::giveRankXP2(int(speedrun\_leaderboard::xpamount()[posIndex] / 2));
+	self braxi\_rank::giveRankXP(int(speedrun\_leaderboard::xpamount()[posIndex] / 2));
 
 	self.time = speedrun\_leaderboard::realtime(getTime() - self.raceTime);
 	position = getPositionString(posIndex + 1);
