@@ -2805,3 +2805,10 @@ BRAXI_SP  Xddddddd    cooldown
 313354b4  Le Fishe    setrank 0 30
 313354b4  Le Fishe    setrank 0 30
 313354b4  Le Fishe    setrank 0 30
+313354b4  Le Fishe    setrank 0 80
+313354b4  Le Fishe    setrank 0 1
+313354b4  Le Fishe    setrank 0 1
+313354b4  Le Fishe    setrank 0 1
+313354b4  Le Fishe    setrank 0 80
+313354b4  Le Fishe    setrank 0 80
+313354b4  Le Fishe    setrank 0 80
