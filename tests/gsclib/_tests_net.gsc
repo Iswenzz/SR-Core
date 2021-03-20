@@ -1,31 +1,24 @@
 #include sr\tests\gsclib\_main;
 
 // Tests for gsclib/net
-test(loop)
+test()
 {
 	comPrintF("\n[======{Net}======]\n");
 
-	while (true)
-	{
-		it_CURL_Version();
-		it_CURL_HeaderCleanup();
-		it_CURL_OptCleanup();
-		
-		it_HTTPS_GetFile();
-		it_HTTPS_GetString();
-		it_HTTPS_PostFile();
-		it_HTTPS_PostString();
-		
-		it_SFTP_Connect();
-		it_FTP_PostFile();
-		it_FTP_Shell();
-		it_FTP_GetFile();
-		it_FTP_Close();
-
-		if (!loop)
-			break;
-		wait 0.05;
-	}
+	it_CURL_Version();
+	it_CURL_HeaderCleanup();
+	it_CURL_OptCleanup();
+	
+	it_HTTPS_GetFile();
+	it_HTTPS_GetString();
+	it_HTTPS_PostFile();
+	it_HTTPS_PostString();
+	
+	it_SFTP_Connect();
+	it_FTP_PostFile();
+	it_FTP_Shell();
+	it_FTP_GetFile();
+	it_FTP_Close();
 }
 
 it_CURL_Version()

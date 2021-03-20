@@ -4,5 +4,5 @@
  */
 runTests()
 {
-    // sr\tests\gsclib\_main::runTests();
+    sr\tests\gsclib\_main::runTests();
 }

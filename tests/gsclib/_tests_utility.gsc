@@ -1,32 +1,25 @@
 #include sr\tests\gsclib\_main;
 
 // Tests for gsclib/utility
-test(loop)
+test()
 {
 	comPrintF("\n[======{Utility}======]\n");
 
-	while (true)
-	{
-		it_GetType();
-		it_Ternary();
-		it_IfUndef();
+	it_GetType();
+	it_Ternary();
+	it_IfUndef();
 
-		it_ToInt();
-		it_ToFloat();
-		it_ToString();
+	it_ToInt();
+	it_ToFloat();
+	it_ToString();
 
-		it_ToUpper();
-		it_IsNullOrEmpty();
-		it_IsStringInt();
-		it_IsStringAlpha();
-		it_IsStringFloat();
-		it_ToRGB();
-		it_HexToRGB();
-
-		if (!loop)
-			break;
-		wait 0.05;
-	}
+	it_ToUpper();
+	it_IsNullOrEmpty();
+	it_IsStringInt();
+	it_IsStringAlpha();
+	it_IsStringFloat();
+	it_ToRGB();
+	it_HexToRGB();
 }
 
 it_GetType()

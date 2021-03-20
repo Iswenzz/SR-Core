@@ -1,36 +1,52 @@
 #include sr\tests\gsclib\_main;
 
 // Tests for gsclib/data
-test(loop)
+test()
 {
 	comPrintF("\n[======{Data}======]\n");
 
-	while (true)
+	// it_RegexMatch();
+	// it_RegexReplace();
+	// it_RegexSplit();
+	
+	// it_SQL_Version();
+	// it_SQL_Connect();
+	// it_SQL_SelectDB();
+	// it_SQL_ListDB();
+	// it_SQL_ListTables();
+	// it_SQL_Query();
+	// it_SQL_AffectedRows();
+	// it_SQL_NumRows();
+	// it_SQL_NumFields();
+	// it_SQL_FetchFields();
+	// it_SQL_FetchRow();
+	// it_SQL_FetchRows();
+	// it_SQL_HexString();
+	// it_SQL_EscapeString();
+	// it_SQL_Close();
+	for (i = 0; i < 5; i++)
 	{
-		it_RegexMatch();
-		it_RegexReplace();
-		it_RegexSplit();
-		
-		it_SQL_Version();
-		it_SQL_Connect();
-		it_SQL_SelectDB();
-		it_SQL_ListDB();
-		it_SQL_ListTables();
-		it_SQL_Query();
-		it_SQL_AffectedRows();
-		it_SQL_NumRows();
-		it_SQL_NumFields();
-		it_SQL_FetchFields();
-		it_SQL_FetchRow();
-		it_SQL_FetchRows();
-		it_SQL_HexString();
-		it_SQL_EscapeString();
-		it_SQL_Close();
-
-		if (!loop)
-			break;
-		wait 0.05;
+		thread it_SQL_MultiThread1();
+		thread it_SQL_MultiThread2();
 	}
+}
+
+it_SQL_MultiThread1()
+{
+	comPrintF("\n<-------[SQL_MultiThread 1]------->\n");
+	SQL_Query("SELECT * FROM speedrun_ranks");
+	wait 2;
+	comPrintF("DEBUG 1: wait over\n");
+	printArrayKeys(SQL_FetchRow());
+}
+
+it_SQL_MultiThread2()
+{
+	comPrintF("\n<-------[SQL_MultiThread 2]------->\n");
+	SQL_Query("SELECT name FROM speedrun_ranks");
+	wait 2;
+	comPrintF("DEBUG 2: wait over\n");
+	printArrayKeys(SQL_FetchRow());
 }
 
 it_SQL_HexString()
@@ -69,7 +85,7 @@ it_SQL_FetchRow()
 {
 	comPrintF("\n<-------[SQL_FetchRow]------->\n");
 	SQL_Query("SELECT * FROM speedrun_ranks");
-	printArray(SQL_FetchRow());
+	printArrayKeys(SQL_FetchRow());
 }
 
 it_SQL_FetchRows()
@@ -81,7 +97,7 @@ it_SQL_FetchRows()
 	if (isDefined(rows) && isDefined(rows.size))
 	{
 		for (i = 0; i < rows.size; i++)
-			printArray(rows[i]);
+			printArrayKeys(rows[i]);
 	}
 }
 

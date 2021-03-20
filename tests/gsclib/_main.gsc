@@ -3,18 +3,18 @@ runTests()
 {
 	wait 10;
 	// spawn bots for testing ents
-	for (i = 0; i < 5; i++)
-	{
-		bot = addTestClient();
-		wait 0.05;
-		bot notify("menuresponse", game["menu_team"], "autoassign");
-	}
+	// for (i = 0; i < 5; i++)
+	// {
+	// 	bot = addTestClient();
+	// 	wait 0.05;
+	// 	bot notify("menuresponse", game["menu_team"], "autoassign");
+	// }
 
 	comPrintf("\n|-------------------[GSCLIB Tests]-------------------|\n");
-	sr\tests\gsclib\_tests_linq::test(false);
-	sr\tests\gsclib\_tests_utility::test(false);
-	sr\tests\gsclib\_tests_data::test(false);
-	sr\tests\gsclib\_tests_net::test(false);
+	// sr\tests\gsclib\_tests_linq::test();
+	// sr\tests\gsclib\_tests_utility::test();
+	sr\tests\gsclib\_tests_data::test();
+	// sr\tests\gsclib\_tests_net::test();
 	comPrintf("\n|----------------------------------------------------|\n");
 }
 
@@ -30,6 +30,27 @@ printArrayWithType(arr)
 				msg = "" + arr[i] + " " + GetType(arr[i]);
 				iprintlnbold(msg);
 				comPrintf(msg + "\n");
+			}
+		}
+	}
+}
+
+// Print all items in a dict
+printArrayKeys(arr)
+{
+	if (isDefined(arr))
+	{
+		keys = getArrayKeys(arr);
+		if (isDefined(keys) && isDefined(keys.size))
+		{
+			for (i = 0; i < keys.size; i++)
+			{
+				if (isDefined(arr[keys[i]]))
+				{
+					msg = keys[i] + ": " + arr[keys[i]];
+					iprintlnbold(msg);
+					comPrintf(msg + "\n");
+				}
 			}
 		}
 	}

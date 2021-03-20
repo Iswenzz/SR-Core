@@ -1,4 +1,4 @@
 main()
 {
-    sr\tests\_main::runTests();
+    thread sr\tests\_main::runTests();
 }
