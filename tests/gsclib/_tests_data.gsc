@@ -1,9 +1,9 @@
-#include sr\tests\gsclib\_main;
+#include sr\tests\_main;
 
 // Tests for gsclib/data
 test()
 {
-	comPrintF("\n[======{Data}======]\n");
+	suit("GSCLIB - Data");
 
 	level.MYSQL_TYPE_DECIMAL      = 0;
 	level.MYSQL_TYPE_TINY         = 1;
@@ -37,52 +37,57 @@ test()
 	level.MYSQL_TYPE_STRING       = 254;
 	level.MYSQL_TYPE_GEOMETRY     = 255;
 
-	// it_RegexMatch();
-	// it_RegexReplace();
-	// it_RegexSplit();
+	run(::it_RegexMatch, "RegexMatch");
+	run(::it_RegexReplace, "RegexReplace");
+	run(::it_RegexSplit, "RegexSplit");
 	
-	// it_SQL_Version();
-	// it_SQL_Connect();
+	run(::it_SQL_Version, "SQL_Version");
+	run(::it_SQL_Connect, "SQL_Connect");
 
-	// it_SQL_SelectDB();
-	// it_SQL_ListDB();
-	// it_SQL_ListTables();
+	run(::it_SQL_SelectDB, "SQL_SelectDB");
+	run(::it_SQL_ListDB, "SQL_ListDB");
+	run(::it_SQL_ListTables, "SQL_ListTables");
 
-	// it_SQL_Query();
-	// it_SQL_AffectedRows();
-	// it_SQL_NumRows();
-	// it_SQL_NumFields();
-	// it_SQL_FetchFields();
-	// it_SQL_FetchRowDict();
-	// it_SQL_FetchRow();
-	// it_SQL_FetchRowsDict();
-	// it_SQL_FetchRows();
+	run(::it_SQL_Query, "SQL_Query");
+	run(::it_SQL_AffectedRows, "SQL_AffectedRows");
+	run(::it_SQL_NumRows, "SQL_NumRows");
+	run(::it_SQL_NumFields, "SQL_NumFields");
+	run(::it_SQL_FetchFields, "SQL_FetchFields");
+	run(::it_SQL_FetchRowDict, "SQL_FetchRowDict");
+	run(::it_SQL_FetchRow, "SQL_FetchRow");
+	run(::it_SQL_FetchRowsDict, "SQL_FetchRowsDict");
+	run(::it_SQL_FetchRows, "SQL_FetchRows");
 
-	// it_SQL_PrepareBindParam();
-	it_SQL_PrepareBindResult();
-	it_SQL_Execute();
-	it_SQL_FetchRow();
+	run(::it_SQL_PrepareBindParam, "SQL_PrepareBindParam");
+	run(::it_SQL_Execute, "SQL_Execute");
+	run(::it_SQL_FetchRowDict, "SQL_FetchRowDict");
 
-	// it_SQL_HexString();
-	// it_SQL_EscapeString();
-	// it_SQL_Close();
+	run(::it_SQL_PrepareBindResult, "SQL_PrepareBindResult");
+	run(::it_SQL_Execute, "SQL_Execute");
+	run(::it_SQL_AffectedRows, "SQL_AffectedRows");
+	run(::it_SQL_NumRows, "SQL_NumRows");
+	run(::it_SQL_NumFields, "SQL_NumFields");
+	run(::it_SQL_FetchFields, "SQL_FetchFields");
+	run(::it_SQL_FetchRowDict, "SQL_FetchRowDict");
+
+	run(::it_SQL_HexString, "SQL_HexString");
+	run(::it_SQL_EscapeString, "SQL_EscapeString");
+	run(::it_SQL_Close, "SQL_Close");
 }
 
 it_SQL_PrepareBindResult()
 {
-	comPrintF("\n<-------[SQL_Prepare SQL_BindResult]------->\n");
-	printVariable(SQL_Prepare("SELECT name, guid FROM speedrun_ranks"));
-	// SQL_BindParam("Iswenzz", level.MYSQL_TYPE_VAR_STRING);
+	printVariable(SQL_Prepare("SELECT name, guid, xp, rank, prestige FROM speedrun_ranks WHERE name = ?"));
+	SQL_BindParam("Iswenzz", level.MYSQL_TYPE_VAR_STRING);
 	SQL_BindResult(level.MYSQL_TYPE_VAR_STRING, 60);
 	SQL_BindResult(level.MYSQL_TYPE_VAR_STRING, 60);
-	// SQL_BindResult(level.MYSQL_TYPE_LONG);
-	// SQL_BindResult(level.MYSQL_TYPE_LONG);
-	// SQL_BindResult(level.MYSQL_TYPE_LONG);
+	SQL_BindResult(level.MYSQL_TYPE_LONG);
+	SQL_BindResult(level.MYSQL_TYPE_LONG);
+	SQL_BindResult(level.MYSQL_TYPE_LONG);
 }
 
 it_SQL_PrepareBindParam()
 {
-	comPrintF("\n<-------[SQL_Prepare SQL_BindParam]------->\n");
 	printVariable(SQL_Prepare("INSERT INTO speedrun_ranks (name, guid, xp, rank, prestige) VALUES (?, ?, ?, ?, ?)"));
 	SQL_BindParam("Iswenzz", level.MYSQL_TYPE_VAR_STRING);
 	SQL_BindParam("313354b4", level.MYSQL_TYPE_VAR_STRING);
@@ -94,50 +99,41 @@ it_SQL_PrepareBindParam()
 
 it_SQL_Execute()
 {
-	comPrintF("\n<-------[SQL_Execute]------->\n");
 	printVariable(SQL_Execute());
 }
 
 it_SQL_HexString()
 {
-	comPrintF("\n<-------[SQL_HexString]------->\n");
 	printVariable(SQL_HexString("Iswenzz"));
 }
 
 it_SQL_EscapeString()
 {
-	comPrintF("\n<-------[SQL_EscapeString]------->\n");
 	printVariable(SQL_EscapeString("\\"));
 }
 
 it_SQL_AffectedRows()
 {
-	comPrintF("\n<-------[SQL_AffectedRows]------->\n");
 	printVariable(SQL_AffectedRows());
 }
 
 it_SQL_Query()
 {
-	comPrintF("\n<-------[SQL_Query]------->\n");
 	printVariable(SQL_Query("SELECT * FROM speedrun_ranks"));
 }
 
 it_SQL_FetchFields()
 {
-	comPrintF("\n<-------[SQL_FetchFields]------->\n");
 	printArray(SQL_FetchFields());
 }
 
 it_SQL_FetchRow()
 {
-	comPrintF("\n<-------[SQL_FetchRow]------->\n");
 	printArray(SQL_FetchRow());
 }
 
 it_SQL_FetchRows()
 {
-	comPrintF("\n<-------[SQL_FetchRows]------->\n");
-
 	rows = SQL_FetchRows();
 	if (isDefined(rows) && isDefined(rows.size))
 	{
@@ -148,14 +144,11 @@ it_SQL_FetchRows()
 
 it_SQL_FetchRowDict()
 {
-	comPrintF("\n<-------[SQL_FetchRowDict]------->\n");
-	printArrayKeys(SQL_FetchRow());
+	printArrayKeys(SQL_FetchRowDict());
 }
 
 it_SQL_FetchRowsDict()
 {
-	comPrintF("\n<-------[SQL_FetchRowsDict]------->\n");
-
 	rows = SQL_FetchRowsDict();
 	if (isDefined(rows) && isDefined(rows.size))
 	{
@@ -166,66 +159,55 @@ it_SQL_FetchRowsDict()
 
 it_SQL_NumFields()
 {
-	comPrintF("\n<-------[SQL_NumFields]------->\n");
 	printVariable(SQL_NumFields());
 }
 
 it_SQL_NumRows()
 {
-	comPrintF("\n<-------[SQL_NumRows]------->\n");
 	printVariable(SQL_NumRows());
 }
 
 it_SQL_SelectDB()
 {
-	comPrintF("\n<-------[SQL_SelectDB]------->\n");
 	printVariable(SQL_SelectDB("sr"));
 }
 
 it_SQL_ListDB()
 {
-	comPrintF("\n<-------[SQL_ListDB]------->\n");
 	printArray(SQL_ListDB());
 }
 
 it_SQL_ListTables()
 {
-	comPrintF("\n<-------[SQL_ListTables]------->\n");
 	printArray(SQL_ListTables());
 }
 
 it_SQL_Version()
 {
-	comPrintF("\n<-------[SQL_Version]------->\n");
 	printVariable(SQL_Version());
 }
 
 it_SQL_Connect()
 {
-	comPrintF("\n<-------[SQL_Connect]------->\n");
 	printVariable(SQL_Connect("127.0.0.1", 3306, "root", "rootpassword"));
 }
 
 it_SQL_Close()
 {
-	comPrintF("\n<-------[SQL_Close]------->\n");
 	printVariable(SQL_Close());
 }
 
 it_RegexMatch()
 {
-	comPrintF("\n<-------[RegexMatch]------->\n");
 	printArray(RegexMatch("zzzz123affff12345ffffb", "\\d+"));
 }
 
 it_RegexSplit()
 {
-	comPrintF("\n<-------[RegexSplit]------->\n");
 	printArray(RegexSplit("zzzz123affff12345ffffb", "\\d+"));
 }
 
 it_RegexReplace()
 {
-	comPrintF("\n<-------[RegexReplace]------->\n");
 	printVariable(RegexReplace("zzzz123affff12345ffffb", "", "\\d+"));
 }

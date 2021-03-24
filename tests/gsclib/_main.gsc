@@ -1,98 +1,14 @@
+#include sr\tests\_main;
+
 // Main tests
-runTests()
+testLib()
 {
-	wait 10;
-	// spawn bots for testing ents
-	// for (i = 0; i < 5; i++)
-	// {
-	// 	bot = addTestClient();
-	// 	wait 0.05;
-	// 	bot notify("menuresponse", game["menu_team"], "autoassign");
-	// }
+	suit("GSCLIB Tests");
 
-	comPrintf("\n|-------------------[GSCLIB Tests]-------------------|\n");
 	// sr\tests\gsclib\_tests_linq::test();
-	// sr\tests\gsclib\_tests_utility::test();
-	sr\tests\gsclib\_tests_data::test();
+	sr\tests\gsclib\_tests_utility::test();
+	// sr\tests\gsclib\_tests_data::test();
 	// sr\tests\gsclib\_tests_net::test();
-	comPrintf("\n|----------------------------------------------------|\n");
-}
-
-// Print all items in the array with their type.
-printArrayWithType(arr)
-{
-	if (isDefined(arr) && isDefined(arr.size))
-	{
-		for (i = 0; i < arr.size; i++)
-		{
-			if (isDefined(arr[i]))
-			{
-				msg = "" + arr[i] + " " + GetType(arr[i]);
-				iprintlnbold(msg);
-				comPrintf(msg + "\n");
-			}
-		}
-	}
-}
-
-// Print all items in a dict
-printArrayKeys(arr)
-{
-	if (isDefined(arr))
-	{
-		keys = getArrayKeys(arr);
-		if (isDefined(keys) && isDefined(keys.size))
-		{
-			for (i = 0; i < keys.size; i++)
-			{
-				if (isDefined(arr[keys[i]]))
-				{
-					msg = keys[i] + ": " + arr[keys[i]];
-					iprintlnbold(msg);
-					comPrintf(msg + "\n");
-				}
-			}
-		}
-	}
-}
-
-// Print all items in the array
-printArray(arr)
-{
-	if (isDefined(arr) && isDefined(arr.size))
-	{
-		for (i = 0; i < arr.size; i++)
-		{
-			if (isDefined(arr[i]))
-			{
-				msg = "" + arr[i];
-				iprintlnbold(msg);
-				comPrintf(msg + "\n");
-			}
-		}
-	}
-}
-
-// Print variable
-printVariable(var)
-{
-	if (isDefined(var))
-	{
-		msg = "" + var;
-		iprintlnbold(msg);
-		comPrintf(msg + "\n");
-	}
-}
-
-// Print variable with its type
-printVariableWithType(var)
-{
-	if (isDefined(var))
-	{
-		msg = "" + var + " " + GetType(var);
-		iprintlnbold(msg);
-		comPrintf(msg + "\n");
-	}
 }
 
 // Test predicate
