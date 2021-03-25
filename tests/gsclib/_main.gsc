@@ -5,10 +5,10 @@ testLib()
 {
 	suit("GSCLIB Tests");
 
-	// sr\tests\gsclib\_tests_linq::test();
+	sr\tests\gsclib\_tests_linq::test();
 	sr\tests\gsclib\_tests_utility::test();
-	// sr\tests\gsclib\_tests_data::test();
-	// sr\tests\gsclib\_tests_net::test();
+	sr\tests\gsclib\_tests_data::test();
+	sr\tests\gsclib\_tests_net::test();
 }
 
 // Test predicate

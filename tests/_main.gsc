@@ -4,7 +4,7 @@ runTests()
     wait 5;
     // spawnBots();
 
-    sr\tests\gsclib\_main::testLib();
+    // sr\tests\gsclib\_main::testLib();
 }
 
 // Spawn bots for testing entities.

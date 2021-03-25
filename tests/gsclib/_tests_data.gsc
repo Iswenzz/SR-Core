@@ -68,7 +68,7 @@ test()
 	run(::it_SQL_NumRows, "SQL_NumRows");
 	run(::it_SQL_NumFields, "SQL_NumFields");
 	run(::it_SQL_FetchFields, "SQL_FetchFields");
-	run(::it_SQL_FetchRowDict, "SQL_FetchRowDict");
+	run(::it_SQL_FetchRowsDict, "SQL_FetchRowsDict");
 
 	run(::it_SQL_HexString, "SQL_HexString");
 	run(::it_SQL_EscapeString, "SQL_EscapeString");
@@ -77,8 +77,8 @@ test()
 
 it_SQL_PrepareBindResult()
 {
-	printVariable(SQL_Prepare("SELECT name, guid, xp, rank, prestige FROM speedrun_ranks WHERE name = ?"));
-	SQL_BindParam("Iswenzz", level.MYSQL_TYPE_VAR_STRING);
+	printVariable(SQL_Prepare("SELECT name, guid, xp, rank, prestige FROM speedrun_ranks WHERE guid = ?"));
+	SQL_BindParam("313354b4", level.MYSQL_TYPE_VAR_STRING);
 	SQL_BindResult(level.MYSQL_TYPE_VAR_STRING, 60);
 	SQL_BindResult(level.MYSQL_TYPE_VAR_STRING, 60);
 	SQL_BindResult(level.MYSQL_TYPE_LONG);
