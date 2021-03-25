@@ -1,4 +1,5 @@
 main()
 {
-    thread sr\tests\_main::runTests();
+    sr\sys\_mysql::main();
+    sr\tests\_main::runTests();
 }

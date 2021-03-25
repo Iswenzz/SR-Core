@@ -3,3 +3,5 @@ server_data/speedrun/demos/
 server_data/speedrun/map_times/
 server_data/speedrun/personbest/
 server_data/speedrun/txt_demos/
+
+server_data/admin/commands.txt
