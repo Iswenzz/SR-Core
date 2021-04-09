@@ -40,10 +40,10 @@ init()
 	level.admin_commands				= [];
 	level.admin_commands["vip"] 		= "color,dance,msg,shovel";
 	level.admin_commands["player"] 		= "fov,fps,myid,sheep,help,fxenable,!pm,discord,requirement,speed,practise,mine,joinrace,leaverace,joinkz,leavekz,stopmusic";
-	level.admin_commands["donator"] 	= level.admin_commands["player"] + ",votemap,chicken";
-	level.admin_commands["member"] 		= level.admin_commands["player"] + ",msg,online,timeplayed,reportplayer,reportmap,chicken,botrec,botswitch";
+	level.admin_commands["donator"] 	= level.admin_commands["player"] + ",votemap,chiken";
+	level.admin_commands["member"] 		= level.admin_commands["player"] + ",votemap,msg,online,timeplayed,reportplayer,reportmap,chicken,botrec,botswitch";
 	level.admin_commands["admin"] 		= level.admin_commands["member"] + ",detail,pid,kill,srkick,renamepid";
-	level.admin_commands["adminplus"] 	= level.admin_commands["admin"] + ",votemap,weapon,weaponall,weaponacti,drop,takeall,flash,shock,music";
+	level.admin_commands["adminplus"] 	= level.admin_commands["admin"] + ",weapon,weaponall,weaponacti,drop,takeall,flash,shock,music";
 	level.admin_commands["masteradmin"] = level.admin_commands["adminplus"] + ",resetpid,banpid,banguid,bounce,srfreeze,srunfreeze,cooldown,shovel,racetrig,racespawn,racemk,racesave,kzspawn,kzsave,kzweap,dance";
 	level.admin_commands["owner"] 		= "*";
 
