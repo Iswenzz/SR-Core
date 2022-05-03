@@ -226,12 +226,19 @@ create_spawn(ori,ori_angles)
 	level.masterSpawn.angles = (0,ori_angles,0);
 }
 
-create_spawn_auto(ori,ori_angles)
+create_spawn_auto()
 {
+	auto_spawn = getEntArray("mp_jumper_spawn", "classname");
+	if(!auto_spawn.size)
+		return;
+	
+	ori = auto_spawn[int(auto_spawn.size / 2)].origin;
+	angle = auto_spawn[int(auto_spawn.size / 2)].angles[1];
+
 	wait 0.05;
 
-	level.masterSpawn = spawn("script_origin",ori);
-	level.masterSpawn.angles = (0,ori_angles,0);
+	level.masterSpawn = spawn("script_origin", ori);
+	level.masterSpawn.angles = (0, angle, 0);
 }
 
 // --------------------------------------------------------------- //
