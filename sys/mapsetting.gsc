@@ -3,7 +3,7 @@
 // Add certain map changes here.
 init()
 {
-	
+
 	switch ( level.mapName )
 	{
 	case "mp_q3_slide_awumpus":
@@ -133,7 +133,7 @@ init()
 		trig = getEnt("finaldoor", "targetname");
 		level.mapHasTimeTrigger = true;
 		wait 1;
-		thread speedrun\_triggerfx::createTrigFx(trig, "endtrig");
+		thread sr\game\_fx_triggers::createTrigFx(trig, "endtrig");
         while(1)
         {
             trig waittill("trigger", player);
@@ -148,22 +148,22 @@ init()
         level.masterSpawn = spawn("script_origin", level.spawn["allies"][10].origin);
         level.masterSpawn.angles = level.spawn["allies"][10].angles;
         level.masterSpawn placeSpawnPoint();
-        break;     
+        break;
     case "mp_dr_lazyriver":
         level.masterSpawn = spawn("script_origin", level.spawn["allies"][3].origin);
         level.masterSpawn.angles = level.spawn["allies"][3].angles;
         level.masterSpawn placeSpawnPoint();
-        break;       
+        break;
     case "mp_dr_overgrownv2":
         level.masterSpawn = spawn("script_origin", level.spawn["allies"][3].origin);
         level.masterSpawn.angles = level.spawn["allies"][3].angles;
         level.masterSpawn placeSpawnPoint();
-        break;    
+        break;
     case "mp_dr_imaginary":
         level.masterSpawn = spawn("script_origin", level.spawn["allies"][3].origin);
         level.masterSpawn.angles = level.spawn["allies"][3].angles;
         level.masterSpawn placeSpawnPoint();
-        break;      
+        break;
     case "mp_dr_beat":
         level.masterSpawn = spawn("script_origin", level.spawn["allies"][5].origin);
         level.masterSpawn.angles = level.spawn["allies"][5].angles;
@@ -202,7 +202,7 @@ init()
         level.masterSpawn = spawn("script_origin", level.spawn["allies"][0].origin);
         level.masterSpawn.angles = level.spawn["allies"][0].angles;
         level.masterSpawn placeSpawnPoint();
-        break;       
+        break;
     case "mp_deathrun_scoria":
         level.masterSpawn = spawn("script_origin", level.spawn["allies"][0].origin);
         level.masterSpawn.angles = level.spawn["allies"][0].angles;
@@ -227,12 +227,12 @@ init()
 		level.masterSpawn = spawn("script_origin", (1861,-567,125));
 		level.masterSpawn.angles = level.spawn["allies"][0].angles;
 		level.masterSpawn placeSpawnPoint();
-		break;	
+		break;
 	case "mp_dr_skydeath":
 		level.masterSpawn = spawn("script_origin", (-205,-1343,82));
 		level.masterSpawn.angles = level.spawn["allies"][0].angles;
 		level.masterSpawn placeSpawnPoint();
-		break;	
+		break;
 	case "mp_deathrun_skypillar":
 		level.masterSpawn = spawn("script_origin", level.spawn["allies"][0].origin);
 		level.masterSpawn.angles = level.spawn["allies"][0].angles;
@@ -263,37 +263,37 @@ init()
 		level.masterSpawn.angles = level.spawn["allies"][0].angles;
 		level.masterSpawn placeSpawnPoint();
 		break;
-		
+
 	case "mp_dr_ravine":
 		level.masterSpawn = spawn("script_origin", (-774,-3072,335));
 		level.masterSpawn.angles = level.spawn["allies"][0].angles;
 		level.masterSpawn placeSpawnPoint();
 		break;
-		
+
 	case "mp_dr_pool":
 		level.masterSpawn = spawn("script_origin", level.spawn["allies"][0].origin);
 		level.masterSpawn.angles = level.spawn["allies"][0].angles;
 		level.masterSpawn placeSpawnPoint();
 		break;
-		
+
 	case "mp_dr_indipyramid":
 		level.masterSpawn = spawn("script_origin", (-3046,155,-308));
 		level.masterSpawn.angles = level.spawn["allies"][0].angles;
 		level.masterSpawn placeSpawnPoint();
 		break;
-		
+
 	case "mp_dr_bounce":
 		level.masterSpawn = spawn("script_origin", level.spawn["allies"][3].origin);
 		level.masterSpawn.angles = level.spawn["allies"][3].angles;
 		level.masterSpawn placeSpawnPoint();
 		break;
-		
+
 	case "mp_deathrun_fusion":
 		level.masterSpawn = spawn("script_origin", level.spawn["allies"][0].origin);
 		level.masterSpawn.angles = level.spawn["allies"][0].angles;
 		level.masterSpawn placeSpawnPoint();
 		break;
-		
+
 	case "mp_deathrun_framey_v3":
 		trig=getent("activator_door_trig","targetname");
 		level.mapHasTimeTrigger = true;
@@ -303,7 +303,7 @@ init()
 			player thread braxi\_mod::endTimer();
 		}
 		break;
-	
+
 	default:
 		break;
 	}

@@ -1,10 +1,10 @@
 /*
 
-  _|_|_|            _|      _|      _|                  _|            
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|  
-  _|_|    _|    _|      _|          _|        _|    _|  _|      _|    
-      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|      
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|  
+  _|_|_|            _|      _|      _|                  _|
+_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|
+  _|_|    _|    _|      _|          _|        _|    _|  _|      _|
+      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|
+_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|
 
 Script made by SuX Lolz (Iswenzz) and Sheep Wizard
 
@@ -20,7 +20,7 @@ Email Pro: suxlolz1528@gmail.com
 #include maps\mp\gametypes\_hud_util;
 #include braxi\_common;
 #include braxi\_dvar;
-#include sr\sys\_gsxcommon;
+#include sr\sys\_common;
 
 displayTop10(a)
 {
@@ -49,7 +49,7 @@ displayTop10(a)
 
     if(l > 10)
         l = 10;
- 
+
     for(i = 0; i < l; i++)
     {
         n = i; n++;
@@ -90,7 +90,7 @@ displayTop10(a)
     self setClientDvar("top10_leaderboard_number", number);
     self setClientDvar("top10_leaderboard_names", names);
     self setClientDvar("top10_leaderboard_times", times);
- 
+
     number = "";
     names = "";
     times = "";
@@ -106,7 +106,7 @@ displayTop10(a)
 
     if(l > 20)
         l = 20;
- 
+
     for(i = 10; i < l; i++)
     {
         n = i; n++;
@@ -141,7 +141,7 @@ displayTop10(a)
     self setClientDvar("top20_leaderboard_number", number);
     self setClientDvar("top20_leaderboard_names", names);
     self setClientDvar("top20_leaderboard_times", times);
- 
+
     number = "";
     names = "";
     times = "";
@@ -157,7 +157,7 @@ displayTop10(a)
 
     if(l > 30)
         l = 30;
- 
+
     for(i = 20; i < l; i++)
     {
         n = i; n++;
@@ -198,7 +198,7 @@ sortTimes(a)
 {
 	p = undefined;
 	l = a.size;
-	
+
 	for(i = 0; i < l; i++)
 	{
 		for(z = 0; z < l; z++)

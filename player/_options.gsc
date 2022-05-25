@@ -1,10 +1,10 @@
 /*
 
-  _|_|_|            _|      _|      _|                  _|            
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|  
-  _|_|    _|    _|      _|          _|        _|    _|  _|      _|    
-      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|      
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|  
+  _|_|_|            _|      _|      _|                  _|
+_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|
+  _|_|    _|    _|      _|          _|        _|    _|  _|      _|
+      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|
+_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|
 
 Script made by SuX Lolz (Iswenzz) and Sheep Wizard
 
@@ -23,14 +23,14 @@ Email Pro: suxlolz1528@gmail.com
 #include braxi\_common;
 #include braxi\_dvar;
 
-#include sr\sys\_gsxcommon;
+#include sr\sys\_common;
 
 init() { }
 
 onConnectOptions()
 {
 	wait 0.05;
-	
+
 	path = "./sr/server_data/admin/player_options/" + self.playerID + ".txt";
 	if(!checkfile(path)) // if new player, default settings
 	{
@@ -70,10 +70,10 @@ onConnectOptions()
 	self setClientDvar("sr_setting_10", "Draw 2D");
 	self setClientDvar("sr_setting_11", "FX");
 	self setClientDvar("sr_setting_12", "Knife Only");
-			
-	self thread sr\plugins\_hideplayers::HidePlayers();
+
+	self thread sr\commands\_player_hide::HidePlayers();
 	self thread show_fps_hud();
-	self thread updateSettings();	
+	self thread updateSettings();
 	self thread menuRes();
 }
 
@@ -116,7 +116,7 @@ readOptions()
 updateSettings()
 {
 	self endon("disconnect");
-	
+
 	if (!self.pers["crosshair"])
 	{
 		self setClientDvar( "sr_setting_value_0", "^1OFF");
@@ -299,7 +299,7 @@ updateSettings()
 menuRes()
 {
 	self endon("disconnect");
-	
+
 	for(;;)
 	{
 		self waittill("menuresponse", menu, response);
@@ -325,7 +325,7 @@ menuRes()
 					self closeInGameMenu();
 					self iprintlnbold("Use ^2!fov ^7<1.0-2.0>");
 					break;
-				
+
 				case "setting:7":
 					if (self.pers["velocity_metter"] == 6)
 						self.pers["velocity_metter"] = 0;
@@ -378,9 +378,9 @@ getVertical(int)
 	{
 		case 1:
 		case 2:
-		case 3: 
+		case 3:
 			return "top";
-		
+
 		case 4:
 		case 5:
 		case 6:
@@ -426,7 +426,7 @@ show_fps_hud()
 		return;
 
 	wait 0.05;
-	
+
 	while(1)
 	{
 		if(isDefined(self.pers["team"]) && self.pers["team"] == "spectator" || self.sessionstate == "spectator")
@@ -435,7 +435,7 @@ show_fps_hud()
 			self on_spawn_show_fps_hud();
 			break;
 		}
-		
+
 		if(!isDefined(self.fpshud))
 			self thread fpsHud_playing();
 
@@ -456,7 +456,7 @@ show_fps_hud()
 
 		if(!isDefined(fps))
 			continue;
-		
+
 		switch(fps)
 		{
 			case "20":
@@ -471,7 +471,7 @@ show_fps_hud()
 				self.fpshud SetShader("fps_"+fps, 90, 60);
 				break;
 		}
-		
+
 		wait 0.05;
 	}
 }
@@ -538,10 +538,10 @@ hide_fps_hud()
 
 	if(isDefined(self.velocity_hud))
 		self.velocity_hud Destroy();
-	
+
 	self.fpshud = undefined;
 	self.velocity_hud = undefined;
-}	
+}
 
 fpsHud_playing()
 {

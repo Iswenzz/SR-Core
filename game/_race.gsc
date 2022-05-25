@@ -1,10 +1,10 @@
 /*
 
-  _|_|_|            _|      _|      _|                  _|            
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|  
-  _|_|    _|    _|      _|          _|        _|    _|  _|      _|    
-      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|      
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|  
+  _|_|_|            _|      _|      _|                  _|
+_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|
+  _|_|    _|    _|      _|          _|        _|    _|  _|      _|
+      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|
+_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|
 
 Script made by SuX Lolz (Iswenzz) and Sheep Wizard
 
@@ -19,7 +19,7 @@ Email Pro: suxlolz1528@gmail.com
 #include common_scripts\utility;
 #include maps\mp\gametypes\_hud_util;
 
-#include sr\sys\_gsxcommon;
+#include sr\sys\_common;
 
 init()
 {
@@ -53,7 +53,7 @@ raceLoop()
 		// wait atleast 2 players in the lobby.
 		while (level.racePlayers.size < 2)
 			wait 1;
-		
+
 		// check if race can start
 		if (!check_race_condition())
 		{
@@ -63,7 +63,7 @@ raceLoop()
 		exec("say ^3Race start in 10sec! ^7[^2!joinrace !leaverace^7]");
 		wait 10;
 		level.raceCanJoin = false;
-	
+
 		// start race
 		threadOnAllRacers(::race_place_player);
 		race_countdown();
@@ -228,11 +228,11 @@ reset_endTrig()
 	self iPrintLnBold("Reset race end trigger");
 }
 
-// set the race endtrig to an updated race_endtrig 
+// set the race endtrig to an updated race_endtrig
 cmd_setTrig()
 {
 	level.raceEndTrig = getEnt("race_endtrig", "targetname");
-	//thread speedrun\_triggerfx::createTrigFx(level.raceEndTrig, "green"); // TODO black/white racing flag
+	//thread sr\game\_fx_triggers::createTrigFx(level.raceEndTrig, "green"); // TODO black/white racing flag
 	self iPrintLnBold("Placed race end trigger");
 }
 
@@ -347,7 +347,7 @@ addToScoreboard()
 cmd_leaveRace()
 {
 	self endon("disconnect");
-	
+
 	self.inRace = false;
 	removePlayer(self);
 	if (isDefined(self.raceHud))
@@ -489,13 +489,13 @@ player_endRace()
 		if (level.racePlayersFinished[i] == self)
 			return;
 	level.racePlayersFinished[level.racePlayersFinished.size] = self;
-	self braxi\_rank::giveRankXP(int(speedrun\_leaderboard::xpamount()[posIndex] / 2));
+	self braxi\_rank::giveRankXP(int(speedrun\game\_leaderboard::xpamount()[posIndex] / 2));
 
-	self.time = speedrun\_leaderboard::realtime(getTime() - self.raceTime);
+	self.time = speedrun\game\_leaderboard::realtime(getTime() - self.raceTime);
 	position = getPositionString(posIndex + 1);
-	self thread speedrun\_speedrunhud::updateHud();
+	self thread speedrun\player\_hud_speedrun::updateHud();
 
-	sayToAllRacers(self.name + " ^7finished " + position + " ^7in ^2" 
+	sayToAllRacers(self.name + " ^7finished " + position + " ^7in ^2"
 		+ self.time.min + ":" + self.time.sec + "." + self.time.milsec);
 	if (posIndex + 1 == 1)
 		updateScoreHud(self);
@@ -668,7 +668,7 @@ watchRace()
 						dist1 = Distance2D(level.racePlayersOrder[i] GetOrigin(), level.racePoints[level.racePlayersOrder[i].closestPoint+1]);
 					if (isDefined(level.racePoints[level.racePlayersOrder[i+1].closestPoint+1]))
 						dist2 = Distance2D(level.racePlayersOrder[i+1] GetOrigin(), level.racePoints[level.racePlayersOrder[i+1].closestPoint+1]);
-					
+
 					if(isDefined(dist1) && isDefined(dist2) && dist1 > dist2)
 					{
 						temp = level.racePlayersOrder[i+1];
@@ -710,8 +710,8 @@ getPositionString(index)
 	switch (index)
 	{
 		case 1: 	return "^31st";
-		case 2: 	return "^82nd"; 
-		case 3: 	return "^93rd"; 
+		case 2: 	return "^82nd";
+		case 3: 	return "^93rd";
 		default: 	return "^7" + index + "th";
 	}
 }

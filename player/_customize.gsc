@@ -1,10 +1,10 @@
 /*
 
-  _|_|_|            _|      _|      _|                  _|            
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|  
-  _|_|    _|    _|      _|          _|        _|    _|  _|      _|    
-      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|      
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|  
+  _|_|_|            _|      _|      _|                  _|
+_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|
+  _|_|    _|    _|      _|          _|        _|    _|  _|      _|
+      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|
+_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|
 
 Script made by SuX Lolz (Iswenzz) and Sheep Wizard
 
@@ -138,7 +138,7 @@ executeResponse(menu, response)
 					self setClientDvar("sr_customize_page", (self.customize_page + 1) + "/" + (self.customize_maxpage + 1));
 				}
 				break;
-				
+
 			case "1":
 			case "2":
 			case "3":
@@ -155,37 +155,37 @@ executeResponse(menu, response)
 
 				switch (self.customize_area)
 				{
-					case "weapon": 
+					case "weapon":
 						if (isDefined(level.itemInfo[tableItemIndex]))
-							self [[level.itemInfo[tableItemIndex]["func"]]](tableItemIndex, true); 
+							self [[level.itemInfo[tableItemIndex]["func"]]](tableItemIndex, true);
 						break;
-					case "character": 
+					case "character":
 						if (isDefined(level.characterInfo[tableItemIndex]))
-							self [[level.characterInfo[tableItemIndex]["func"]]](tableItemIndex, true); 
+							self [[level.characterInfo[tableItemIndex]["func"]]](tableItemIndex, true);
 						break;
-					case "knife": 
+					case "knife":
 						if (isDefined(level.knifeInfo[tableItemIndex]))
-							self [[level.knifeInfo[tableItemIndex]["func"]]](tableItemIndex, true); 
+							self [[level.knifeInfo[tableItemIndex]["func"]]](tableItemIndex, true);
 						break;
-					case "spray": 
+					case "spray":
 						if (isDefined(level.sprayInfo[tableItemIndex]))
-							self [[level.sprayInfo[tableItemIndex]["func"]]](tableItemIndex, true); 
+							self [[level.sprayInfo[tableItemIndex]["func"]]](tableItemIndex, true);
 						break;
-					case "knifeskin": 
+					case "knifeskin":
 						if (isDefined(level.knifeSkinInfo[tableItemIndex]))
-							self [[level.knifeSkinInfo[tableItemIndex]["func"]]](tableItemIndex, true); 
+							self [[level.knifeSkinInfo[tableItemIndex]["func"]]](tableItemIndex, true);
 						break;
-					case "theme": 
+					case "theme":
 						if (isDefined(level.themeInfo[tableItemIndex]))
-							self [[level.themeInfo[tableItemIndex]["func"]]](tableItemIndex, true); 
+							self [[level.themeInfo[tableItemIndex]["func"]]](tableItemIndex, true);
 						break;
-					case "fx": 
+					case "fx":
 						if (isDefined(level.fxInfo[tableItemIndex]))
-							self [[level.fxInfo[tableItemIndex]["func"]]](tableItemIndex, true); 
+							self [[level.fxInfo[tableItemIndex]["func"]]](tableItemIndex, true);
 						break;
-					case "glove": 
+					case "glove":
 						if (isDefined(level.gloveInfo[tableItemIndex]))
-							self [[level.gloveInfo[tableItemIndex]["func"]]](tableItemIndex, true); 
+							self [[level.gloveInfo[tableItemIndex]["func"]]](tableItemIndex, true);
 						break;
 				}
 				break;
@@ -224,11 +224,11 @@ buildButtons(arrayTemplate, startIndex, endIndex)
 
 		switch ([[arrayTemplate[i]["func"]]](i, false))
 		{
-			case 0: 
+			case 0:
 				self setClientDvar("sr_customize_" + (i + 1 - startIndex), "^2LOCKED (" + (int(arrayTemplate[i]["rank"]) + 1) + ")");
 				break;
 			case 1:
-				self setClientDvar("sr_customize_" + (i + 1 - startIndex), arrayTemplate[i]["name"]); 
+				self setClientDvar("sr_customize_" + (i + 1 - startIndex), arrayTemplate[i]["name"]);
 				break;
 			case 2:
 				self setClientDvar("sr_customize_" + (i + 1 - startIndex), "^3VIP");
@@ -257,7 +257,7 @@ initCustomizeMenu()
 {
 	self endon("disconnect");
 	self endon("death");
-	
+
 	self.customize_open = true;
 	angles = self getPlayerAngles();
 	self setPlayerAngles((0, angles[1], 0));
@@ -273,14 +273,14 @@ movePreview(ent)
 	self endon("customize_close");
 	self endon("disconnect");
 
-	eye = self sr\weapons\_bullettrace::eyepos();
+	eye = self sr\weapons\_bullet_trace::eyepos();
     forward = anglesToForward(self getPlayerAngles()) * 70;
 	right = anglesToRight(self getPlayerAngles()) * 50;
 	left = (anglesToRight(self getPlayerAngles()) * 10) * -1;
 
 	oriRight = forward + right + eye;
 	oriLeft = forward + left + eye;
-	
+
 	while (isDefined(ent))
 	{
 		if (isDefined(ent))
@@ -296,7 +296,7 @@ rotatePreview(ent)
 {
 	self endon("customize_close");
 	self endon("disconnect");
-	
+
 	while (isDefined(ent))
 	{
 		if (isDefined(ent))
@@ -326,7 +326,7 @@ buildWeaponMenu(response)
 {
 	self endon("disconnect");
 
-	eye = self sr\weapons\_bullettrace::eyepos();
+	eye = self sr\weapons\_bullet_trace::eyepos();
     forward = anglesToForward(self getPlayerAngles()) * 45;
 	right = anglesToRight(self getPlayerAngles()) * 13;
 
@@ -345,7 +345,7 @@ buildWeaponMenu(response)
 
 weaponPredicate(id, isClicked)
 {
-	if (id <= -1) 
+	if (id <= -1)
 		return false;
 	else if (self braxi\_rank::isItemUnlocked(id))
 	{
@@ -371,7 +371,7 @@ buildCharacterMenu(response)
 {
 	self endon("disconnect");
 
-	eye = self sr\weapons\_bullettrace::eyepos();
+	eye = self sr\weapons\_bullet_trace::eyepos();
 	up = (anglesToUp(self getPlayerAngles()) * 32) * -1;
     forward = anglesToForward(self getPlayerAngles()) * 75;
 	right = anglesToRight(self getPlayerAngles()) * 25;
@@ -390,7 +390,7 @@ buildCharacterMenu(response)
 
 characterPredicate(id, isClicked)
 {
-	if (id <= -1) 
+	if (id <= -1)
 		return false;
 	else if (self braxi\_rank::isCharacterUnlocked(id))
 	{
@@ -416,7 +416,7 @@ buildKnifeMenu(response)
 {
 	self endon("disconnect");
 
-	eye = self sr\weapons\_bullettrace::eyepos();
+	eye = self sr\weapons\_bullet_trace::eyepos();
     forward = anglesToForward(self getPlayerAngles()) * 35;
 	right = anglesToRight(self getPlayerAngles()) * 13;
 
@@ -431,7 +431,7 @@ buildKnifeMenu(response)
 
 knifePredicate(id, isClicked)
 {
-	if (id <= -1) 
+	if (id <= -1)
 		return false;
 	else if (self braxi\_rank::isKnifeUnlocked(id))
 	{
@@ -470,7 +470,7 @@ buildSprayMenu(response)
 
 sprayPredicate(id, isClicked)
 {
-	if (id <= -1) 
+	if (id <= -1)
 		return false;
 	else if (self braxi\_rank::isSprayUnlocked(id))
 	{
@@ -487,7 +487,7 @@ sprayPredicate(id, isClicked)
 			// eye = self getTagOrigin("j_head");
 			// forward = eye + vector_scale(anglesToForward(angles), 70);
 			// trace = bulletTrace(eye, forward, false, self);
-			
+
 			// if (trace["fraction"] == 1) // we didnt hit the wall or floor
 			// 	return true;
 
@@ -513,7 +513,7 @@ buildKnifeSkinMenu(response)
 {
 	self endon("disconnect");
 
-	eye = self sr\weapons\_bullettrace::eyepos();
+	eye = self sr\weapons\_bullet_trace::eyepos();
     forward = anglesToForward(self getPlayerAngles()) * 25;
 	right = anglesToRight(self getPlayerAngles()) * 7;
 
@@ -528,7 +528,7 @@ buildKnifeSkinMenu(response)
 
 knifeSkinPredicate(id, isClicked)
 {
-	if (id <= -1) 
+	if (id <= -1)
 		return false;
 	else if (self braxi\_rank::isKnifeSkinUnlocked(id) || isDefined(self.isVIP) && self.isVIP)
 	{
@@ -565,7 +565,7 @@ fxPredicate(id, isClicked)
 	self endon("customize_close");
 	self endon("disconnect");
 
-	if (id <= -1) 
+	if (id <= -1)
 		return false;
 	else if (isDefined(self.isVIP))
 	{
@@ -579,11 +579,11 @@ fxPredicate(id, isClicked)
 
 			if (self.vip_trail > 0)
 			{
-				eye = self sr\weapons\_bullettrace::eyepos();
+				eye = self sr\weapons\_bullet_trace::eyepos();
 				forward = anglesToForward(self getPlayerAngles()) * 70;
 				left = (anglesToRight(self getPlayerAngles()) * 10) * -1;
 				oriLeft = forward + left + eye;
-				
+
 				self.customize_fx = spawn("script_model", oriLeft);
 				self.customize_fx setmodel("tag_origin");
 				wait 0.05;
@@ -615,7 +615,7 @@ buildThemeMenu(response)
 
 themePredicate(id, isClicked)
 {
-	if (id <= -1) 
+	if (id <= -1)
 		return false;
 	else
 	{
@@ -635,7 +635,7 @@ buildGloveMenu(response)
 {
 	self endon("disconnect");
 
-	eye = self sr\weapons\_bullettrace::eyepos();
+	eye = self sr\weapons\_bullet_trace::eyepos();
 	up = anglesToUp(self getPlayerAngles()) * 7;
     forward = anglesToForward(self getPlayerAngles()) * 45;
 	right = anglesToRight(self getPlayerAngles()) * 13;
@@ -651,7 +651,7 @@ buildGloveMenu(response)
 
 glovePredicate(id, isClicked)
 {
-	if (id <= -1) 
+	if (id <= -1)
 		return false;
 	else if (self braxi\_rank::isGloveUnlocked(id))
 	{

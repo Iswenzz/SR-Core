@@ -39,7 +39,7 @@ init()
 		trigger.targetname = "endmap_trig";
 		trigger.radius = 55;
 		break;
-	
+
 	case "mp_deathrun_supermario":
 		trigger = spawn( "trigger_radius", (293.538, -1472, 8.12501), 0, 40, 50 );
 		trigger.targetname = "endmap_trig";
@@ -628,7 +628,7 @@ init()
 			level.trapTriggers[level.trapTriggers.size] = getEnt( "t4", "targetname" );
 			level.trapTriggers[level.trapTriggers.size] = getEnt( "t5", "targetname" );
 			break;
-		
+
 		// Rednose's MAPS
 		case "mp_deathrun_grassy":
 			level.trapTriggers[level.trapTriggers.size] = getEnt( "trigger1", "targetname" );
@@ -678,29 +678,9 @@ checkTrapUsage()
 		{
 			level.trapTriggers[i] thread giveXpIfActivated();
 		}
-		level.trapTriggers[i] thread processTrapChallenge();
 	}
 }
 
-processTrapChallenge()
-{
-	level endon( "death" );
-	level endon( "delete" );
-	level endon( "deleted" );
-
-	while( isDefined( self ) )
-	{
-		self waittill( "trigger", who );
-		if( who.pers["team"] == "axis" )
-		{
-			if( game["state"] != "playing" )
-				return;
-			who braxi\_missions::processChallenge( "ch_activated", 1 );
-			break;
-		}
-	}
-}
-		
 killFreeRunIfActivated()
 {
 	level endon( "death" );

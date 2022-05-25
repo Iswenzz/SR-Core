@@ -1,10 +1,10 @@
 /*
 
-  _|_|_|            _|      _|      _|                  _|            
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|  
-  _|_|    _|    _|      _|          _|        _|    _|  _|      _|    
-      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|      
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|  
+  _|_|_|            _|      _|      _|                  _|
+_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|
+  _|_|    _|    _|      _|          _|        _|    _|  _|      _|
+      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|
+_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|
 
 Script made by SuX Lolz (Iswenzz) and Sheep Wizard
 
@@ -155,7 +155,7 @@ create_endmap(trig_ori,width,height,way)
 
 	wait 1;
 
-	thread speedrun\_triggerfx::createTrigFx(trig, "red");
+	thread sr\game\_fx_triggers::createTrigFx(trig, "red");
 }
 
 create_endmap_loop(trig, way)
@@ -179,9 +179,9 @@ create_tp(trig_ori,width,height,ori,ori_angles,state,color,way)
 	wait 1;
 
 	if (!isDefined(color))
-		thread speedrun\_triggerfx::createTrigFx(trig, "blue");
+		thread sr\game\_fx_triggers::createTrigFx(trig, "blue");
 	else
-		thread speedrun\_triggerfx::createTrigFx(trig, color);
+		thread sr\game\_fx_triggers::createTrigFx(trig, color);
 }
 
 create_tp_loop(trig,ori,ori_angles,state,way)
@@ -231,7 +231,7 @@ create_spawn_auto()
 	auto_spawn = getEntArray("mp_jumper_spawn", "classname");
 	if(!auto_spawn.size)
 		return;
-	
+
 	ori = auto_spawn[int(auto_spawn.size / 2)].origin;
 	angle = auto_spawn[int(auto_spawn.size / 2)].angles[1];
 
@@ -256,7 +256,7 @@ create_secret(trig_ori,width,height,ori,ori_angles,state)
 
 	wait 1;
 
-	thread speedrun\_triggerfx::createTrigFx(trig, "blue");
+	thread sr\game\_fx_triggers::createTrigFx(trig, "blue");
 }
 
 // DEPRECATED
@@ -304,13 +304,13 @@ way_connect(normalway,secretway)
 	// leaderboard update.
 
     wait 0.05;
-	
+
     createWay("normal", "Normal Way", "1");
 
     if(secretway == 1)
 		createWay("secret", "Secret Way", "1");
-	
-    for(;;) 
+
+    for(;;)
     {
         level waittill( "connected", player );
         player thread way_name();
@@ -322,7 +322,7 @@ way_name()
 {
 	self endon("disconnect");
 	self endon("joined_spectators");
-	
+
 	// s_normal_* = dvars for the menu button ID and name
 
 	if(isDefined(level.normal_way))

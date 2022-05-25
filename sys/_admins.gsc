@@ -1,10 +1,10 @@
 /*
 
-  _|_|_|            _|      _|      _|                  _|            
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|  
-  _|_|    _|    _|      _|          _|        _|    _|  _|      _|    
-      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|      
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|  
+  _|_|_|            _|      _|      _|                  _|
+_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|
+  _|_|    _|    _|      _|          _|        _|    _|  _|      _|
+      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|
+_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|
 
 Script made by Iswenzz (SuX Lolz)
 
@@ -17,7 +17,7 @@ Email Pro: alexisnardiello@gmail.com
 
 */
 #include braxi\_common;
-#include sr\sys\_gsxcommon;
+#include sr\sys\_common;
 
 init()
 {
@@ -25,7 +25,7 @@ init()
 	cmds();
 
 	level.bot_record = 0;
-	
+
 	//               GROUP NAME         POWER
 	level.admin_group 					= [];
 	level.admin_group["player"] 		= 1;
@@ -107,7 +107,7 @@ cmds()
 	cmd("leaverace");
 	cmd("joinkz");
 	cmd("leavekz");
-	
+
 	//admin
 	cmd("dance");
 	cmd("detail");
@@ -118,7 +118,7 @@ cmds()
 	cmd("racetrig");
 	cmd("racespawn");
 	cmd("kzweap");
-	
+
 	//adminplus
 	cmd("weapon");
 	cmd("weaponall");
@@ -129,7 +129,7 @@ cmds()
 	cmd("shock");
 	cmd("music");
 	cmd("votemap");
-	
+
 	//masteradmin
 	cmd("resetpid");
 	cmd("banpid");
@@ -214,7 +214,7 @@ commands(a, arg)
 
 	players = getEntArray( "player", "classname" );
 	switch(a)
-	{	
+	{
 		case "joinrace":
 			wait 0.05;
 			if (self.inKz || self.sr_practise)
@@ -430,7 +430,7 @@ commands(a, arg)
 
 		case "botrefresh":
 			wait 0.05;
-			speedrun\_speedrunbot::bot_search_path();
+			speedrun\game\_bot::bot_search_path();
 			wait 2;
 			break;
 
@@ -699,7 +699,7 @@ commands(a, arg)
 						index++;
 					}
 				}
-				
+
 				wait 0.05;
 			}
 			path = "./sr/server_data/speedrun/saved_map/"+map+".txt";
@@ -754,7 +754,7 @@ commands(a, arg)
 
 		case "dance":
 			wait 0.05;
-				self thread speedrun\_speedrun::fortniteDance();
+				self thread speedrun\_main::fortniteDance();
 			break;
 
 		case "knockback":
@@ -871,7 +871,7 @@ commands(a, arg)
 			wait 0.05;
 			self switchToWeapon("shop_mp");
 			break;
-			
+
 		case "fov":
 			wait 0.05;
 			if(arg == "")
@@ -906,7 +906,7 @@ commands(a, arg)
 				self IPrintLnBold("^1FX disabled");
 			}
 			break;
-			
+
 		case "help":
 			wait 0.05;
 			cmds = strtok(level.admin_commands[self.admin_group], ",");
@@ -914,26 +914,26 @@ commands(a, arg)
 			for (i = 0; i < cmds.size; i++)
 				exec("tell " + self getEntityNumber() + " " + cmds[i]);
 			break;
-			
+
 		case "discord":
 			wait 0.05;
 			exec( "tell " + self getEntityNumber() + " Join Sr- Discord: ^5discord.gg/76aHfGF" );
 			wait 0.2;
 			break;
-			
+
 		case "requirement":
 			wait 0.05;
 			exec( "tell " + self getEntityNumber() + " Check #sr-requirement channel in our discord: ^5discord.gg/76aHfGF" );
 			wait 0.2;
 			break;
-			
+
 		case "myid":
 			wait 0.05;
 			self IPrintLnBold("Your ID is ^2" + self.playerID );
 			wait 0.5;
 			self IPrintLnBold("Please make a note of your ID");
 		break;
-		
+
 		case "reportplayer":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
@@ -966,7 +966,7 @@ commands(a, arg)
 				self recordReportPlayer( string, players[id[0]] );
 			}
 			break;
-			
+
 		case "reportmap":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
@@ -977,7 +977,7 @@ commands(a, arg)
 			tkn = StrTok(arg," ");
 			if(tkn.size < 1)
 			{
-				self iprintlnbold("!reportplayer <reason>"); 
+				self iprintlnbold("!reportplayer <reason>");
 				break;
 			}
 			string = "";
@@ -985,7 +985,7 @@ commands(a, arg)
 				string += tkn[i]+" ";
 			self recordReportMap( string );
 			break;
-		
+
 		case "sheep":
 			wait 0.05;
 			for(i=0; i<50; i++)
@@ -997,7 +997,7 @@ commands(a, arg)
 			self setClientDvar("r_specular", 1);
 			self setClientDvar("r_specularmap", 2);
 			break;
-					
+
 		case "msg":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
@@ -1018,7 +1018,7 @@ commands(a, arg)
 		wait 0.05;
 
 		string = [];
-		for(i=0;i<4;i++) 
+		for(i=0;i<4;i++)
 			string[i] = "";
 
 		count = 1;
@@ -1028,42 +1028,42 @@ commands(a, arg)
 		{
 			if(isDefined(players[i].admin_group) && players[i].admin_group != "player")
 			{
-				if(players[i].admin_group == "owner") 
+				if(players[i].admin_group == "owner")
 					rank = "^5Owner^7";
-				if(players[i].admin_group == "masteradmin") 
+				if(players[i].admin_group == "masteradmin")
 					rank = "^9Master-Admin^7";
-				if(players[i].admin_group == "adminplus") 
+				if(players[i].admin_group == "adminplus")
 					rank = "^1Admin+^7";
-				if(players[i].admin_group == "admin") 
+				if(players[i].admin_group == "admin")
 					rank = "^6Admin^7";
-				if(players[i].admin_group == "member") 
+				if(players[i].admin_group == "member")
 					rank = "^3Member^7";
-				
-				if(count <= 4) 
+
+				if(count <= 4)
 				{
-					string[0] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, "; 
+					string[0] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, ";
 					count++;
 				}
-				
-				else if(count <= 8 && count > 4) 
+
+				else if(count <= 8 && count > 4)
 				{
-					string[1] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, "; 
+					string[1] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, ";
 					count++;
 				}
-				
-				else if(count <= 12 && count > 8) 
+
+				else if(count <= 12 && count > 8)
 				{
-					string[2] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, "; 
+					string[2] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, ";
 					count++;
 				}
-				
-				else if(count <= 16 && count > 12) 
+
+				else if(count <= 16 && count > 12)
 				{
-					string[3] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, "; 
+					string[3] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, ";
 					count++;
 				}
-				
-				else 
+
+				else
 					string[4] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, "; //Don't need if check because it's last reachable code
 			}
 		}
@@ -1074,23 +1074,23 @@ commands(a, arg)
 			exec("say " + string[k]);
 			wait 0.5;
 		}
-		
+
 		break;
-			
+
 		case "detail":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
 				break;
-			
+
 			self clientcmd("set sr_admin_detail 0");
-			
+
 			if(arg == "1")
 				self clientcmd("sr_admin_detail 1");
 			if(arg == "0")
 				self clientcmd("sr_admin_detail 0");
-			
+
 				break;
-			
+
 		case "pid":
 			wait 0.05;
 			players = getEntArray( "player", "classname" );
@@ -1118,7 +1118,7 @@ commands(a, arg)
 				players[id[0]] IPrintLnBold("^6You were killed by an admin");
 			}
 			break;
-			
+
 		case "flash":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
@@ -1135,7 +1135,7 @@ commands(a, arg)
 				players[id[0]] thread maps\mp\_flashgrenades::applyFlash(4, 0.75);
 			}
 			break;
-			
+
 		case "drop":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
@@ -1152,7 +1152,7 @@ commands(a, arg)
 				players[id[0]] dropItem( players[id[0]] getCurrentWeapon() );
 			}
 			break;
-			
+
 		case "takeall":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
@@ -1169,7 +1169,7 @@ commands(a, arg)
 				players[id[0]] takeAllWeapons();
 			}
 			break;
-			
+
 		case "resetpid":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "" || !isStringInt(arg))
@@ -1187,11 +1187,11 @@ commands(a, arg)
             if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
             {
                 players[id[0]] braxi\_rank::sr_reset();
-                
+
                 iPrintln( "^7" + players[id[0]].name + "'s ^7rank was reseted." );
             }
             break;
-			
+
 		case "renamepid":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "" || !isStringInt(arg))
@@ -1214,7 +1214,7 @@ commands(a, arg)
 				players[id[0]] clientcmd("reconnect");
             }
             break;
-			
+
 		case "weapon":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
@@ -1232,7 +1232,7 @@ commands(a, arg)
 				break;
 			}
 			if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-			{	
+			{
 				players[id[0]] giveweapon(tkn[1]);
 				players[id[0]] switchtoweapon(tkn[1]);
 				players[id[0]] givemaxammo(tkn[1]);
@@ -1256,12 +1256,12 @@ commands(a, arg)
 				break;
 			}
 			if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-			{	
+			{
 				var = players[id[0]] getClientDvar(tkn[1]);
 				self iprintlnbold("^5"+tkn[1]+":^7 "+var);
 			}
 			break;
-			
+
 		case "weaponall":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
@@ -1282,7 +1282,7 @@ commands(a, arg)
 							break;
 						}
 					}
-					
+
 					for(k=0;k<level.weapon_list.size;k++)
 					{
 						if(arg == level.weapon_list[k])
@@ -1295,7 +1295,7 @@ commands(a, arg)
 				}
 			}
 			break;
-			
+
 		case "weaponacti":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
@@ -1316,7 +1316,7 @@ commands(a, arg)
 							break;
 						}
 					}
-					
+
 					for(k=0;k<level.weapon_list.size;k++)
 					{
 						if(arg == level.weapon_list[k])
@@ -1329,16 +1329,16 @@ commands(a, arg)
 				}
 			}
 			break;
-				
+
 		case "votemap":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
 				break;
 			self recordCommands(a, arg);
 			if (isSubStr(arg, " ") || !isSubStr(arg, "mp_"))
-				thread sr\admin\_mapvote::startvote("msg", arg);
+				thread sr\commands\_map_vote::startvote("msg", arg);
 			else
-				thread sr\admin\_mapvote::startvote("map", arg);
+				thread sr\commands\_map_vote::startvote("map", arg);
 			break;
 
 		case "cooldown":
@@ -1377,7 +1377,7 @@ commands(a, arg)
 			players[id[0]] FreezeControls(0);
 			players[id[0]] IPrintLnBold("^6You were unfrozen by an admin");
 			break;
-		
+
 		case "timeplayed":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
@@ -1395,7 +1395,7 @@ commands(a, arg)
 				exec( "tell " + self getEntityNumber() + " " + players[id[0]].name + " played " + playtime + " on this server." );
 			}
 			break;
-		
+
 		case "bounce":
 			wait 0.05;
 			if(!isDefined(arg))
@@ -1432,7 +1432,7 @@ commands(a, arg)
 				break;
 			}
 			if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-			{	
+			{
 				players[id[0]] setstat(995, int(tkn[1]));
 				players[id[0]] setstat(996, int(tkn[2]));
 				players[id[0]] setstat(997, int(tkn[3]));
@@ -1520,7 +1520,7 @@ commands(a, arg)
 			{
 				rankId = int(tkn[1])-1;
 				xp = TableLookup( "mp/rankTable.csv", 0, rankId, 2 );
-				
+
 				players[id[0]] thread braxi\_rank::giveRankXP("setrank", int(xp));
 			}
 			break;
@@ -1691,13 +1691,13 @@ clone()
     }
 }
 
-getPlayerByNum( pNum ) 
+getPlayerByNum( pNum )
 {
 	players = getEntArray( "player", "classname" );
 	x = [];
 	for ( i = 0; i < players.size; i++ )
 	{
-		if ( players[i] getEntityNumber() == int(pNum) ) 
+		if ( players[i] getEntityNumber() == int(pNum) )
 		{
 			x[x.size] = i;
 		}
@@ -1705,13 +1705,13 @@ getPlayerByNum( pNum )
 	return x;
 }
 
-getPlayerByName( nickname ) 
+getPlayerByName( nickname )
 {
 	players = getEntArray( "player", "classname" );
 	x = [];
 	for ( i = 0; i < players.size; i++ )
 	{
-		if ( isSubStr( toLower(players[i].name), toLower(nickname) ) ) 
+		if ( isSubStr( toLower(players[i].name), toLower(nickname) ) )
 		{
 			x[x.size] = i;
 		}
@@ -1727,7 +1727,7 @@ recordReportMap(argument)
 		line += level.mapName + " name: " + self.name + " selfguid: " + self.guid + " arg: " + argument;
 	else
 		return;
-	
+
 	path = "./sr/server_data/admin/report_map.txt";
 	file_exists = checkfile(path);
 	if(!file_exists)
@@ -1747,7 +1747,7 @@ recordReportPlayer(argument, player)
 		line += self.name + " selfguid: " + self.guid + " who: " + player.name + " whoguid: " + player.guid + " arg: " + argument;
 	else
 		return;
-	
+
 	path = "./sr/server_data/admin/report_player.txt";
 	file_exists = checkfile(path);
 	if(!file_exists)
@@ -1766,7 +1766,7 @@ recordCommands(command, argument)
 		line += self.guid + " " + " " + self.name + "    " + command + " " + argument;
 	else
 		line += self.guid + " " + " " + self.name + "    " + command;
-	
+
 	path = "./sr/server_data/admin/commands.txt";
 	file_exists = checkfile(path);
 	if(!file_exists)
@@ -1818,9 +1818,9 @@ cloneEffect()
 }
 
 isStringFloat( var )
-{   
+{
     compatibleArray = getSubStr("1234567890.",0);
-    if(var.size<3) 
+    if(var.size<3)
 		return false;
 
 	var = getSubStr(var,0);
@@ -1833,15 +1833,15 @@ isStringFloat( var )
         {
 			if(var[i]!=compatibleArray[j])
 				continue;
-            else 
-				validChar = true; 
+            else
+				validChar = true;
 			break;
 		}
-			
-        if(!validChar) 
+
+        if(!validChar)
 			return false;
     }
-    if(var[0]=="."||var[var.size-1]== ".") 
+    if(var[0]=="."||var[var.size-1]== ".")
 		return false;
 
     value = strTok(var, ".");
@@ -1851,21 +1851,21 @@ isStringFloat( var )
 		divide = 100;
     else if(getSubStr(value[value.size-1], 0).size==3)
 		divide = 1000;
-    else if(getSubStr(value[value.size-1], 0).size>=4) 
+    else if(getSubStr(value[value.size-1], 0).size>=4)
 		return false;
-    else 
+    else
 		divide = 10;
-	
+
     value = int(value[0])+(int(value[value.size-1])/divide);
     return true;
 }
 
 FloatFov( var )
-{   
+{
     compatibleArray = getSubStr("1234567890.",0);
-    if(var.size<3) 
+    if(var.size<3)
 		return false;
-	
+
 	var = getSubStr(var,0);
     for(i=0;i<var.size;i++)
     {
@@ -1876,29 +1876,29 @@ FloatFov( var )
         {
 			if(var[i]!=compatibleArray[j])
 				continue;
-            else 
-				validChar = true; 
+            else
+				validChar = true;
 			break;
 		}
-        if(!validChar) 
+        if(!validChar)
 			return false;
     }
-	
-    if(var[0]=="."||var[var.size-1]== ".") 
+
+    if(var[0]=="."||var[var.size-1]== ".")
 		return false;
     value = strTok(var, ".");
-	
+
     if(int(value[value.size -1]) > 10 && int(value[value.size -1]) < 100)
 		divide = 100;
     else if(getSubStr(value[value.size-1], 0).size==2)
 		divide = 100;
     else if(getSubStr(value[value.size-1], 0).size==3)
 		divide = 1000;
-    else if(getSubStr(value[value.size-1], 0).size>=4) 
+    else if(getSubStr(value[value.size-1], 0).size>=4)
 		return false;
-    else 
+    else
 		divide = 10;
-	
+
     value = int(value[0])+(int(value[value.size-1])/divide);
 	ret = value * 1000;
     return ret;

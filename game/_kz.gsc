@@ -1,10 +1,10 @@
 /*
 
-	_|_|_|            _|      _|      _|                  _|            
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|  
-	_|_|    _|    _|      _|          _|        _|    _|  _|      _|    
-			_|  _|    _|    _|  _|        _|        _|    _|  _|    _|      
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|  
+	_|_|_|            _|      _|      _|                  _|
+_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|
+	_|_|    _|    _|      _|          _|        _|    _|  _|      _|
+			_|  _|    _|    _|  _|        _|        _|    _|  _|    _|
+_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|
 
 Script made by SuX Lolz (Iswenzz) and Sheep Wizard
 
@@ -15,7 +15,7 @@ Paypal: suxlolz@outlook.fr
 Email Pro: suxlolz1528@gmail.com
 
 */
-#include sr\sys\_gsxcommon;
+#include sr\sys\_common;
 #include braxi\_common;
 
 init()
@@ -49,7 +49,7 @@ kzLoop()
 			wait 1;
 		level.kzPlayersInRoom = [];
 		level.kzRandomPoints = [];
-		
+
 		// check if kz can start
 		if (!check_kz_condition())
 		{
@@ -95,19 +95,19 @@ showPlayerCard( attacker, victim, text )
 	self.playerCard[0].sort = 990;
 
 	//logos
-	self.playerCard[1] = braxi\_mod::addTextHud( self, 0, 390, 0, "left", "top", 1.8 ); 
+	self.playerCard[1] = braxi\_mod::addTextHud( self, 0, 390, 0, "left", "top", 1.8 );
 	self.playerCard[1] setShader( logo1, 64, 64 );
 	self.playerCard[1].sort = 998;
-	
-	self.playerCard[2] = braxi\_mod::addTextHud( self, 640, 390, 0, "left", "top", 1.8 ); 
+
+	self.playerCard[2] = braxi\_mod::addTextHud( self, 640, 390, 0, "left", "top", 1.8 );
 	self.playerCard[2] setShader( logo2, 64, 64 );
 	self.playerCard[2].sort = 998;
-	
-	self.playerCard[3] = braxi\_mod::addTextHud( self, 320, 390, 0, "center", "top", 1.6 ); 
+
+	self.playerCard[3] = braxi\_mod::addTextHud( self, 320, 390, 0, "center", "top", 1.6 );
 	self.playerCard[3] setText( text );
 	self.playerCard[3].sort = 999;
 
-	self.playerCard[4] = braxi\_mod::addTextHud( self, 320, 420, 0, "center", "top", 1.5 ); 
+	self.playerCard[4] = braxi\_mod::addTextHud( self, 320, 420, 0, "center", "top", 1.5 );
 	self.playerCard[4] setText( attacker.name + " ^7 VS ^7 " + victim.name );
 	self.playerCard[4].sort = 999;
 
@@ -141,7 +141,7 @@ showPlayerCard( attacker, victim, text )
 		self.playerCard[i].alpha = 0;
 	}
 	wait 0.8;
-	
+
 	self destroyPlayerCard();
 }
 
@@ -249,7 +249,7 @@ watchKzGame()
 		allDied = true;
 		for (i = 0; i < level.kzPlayersInRoom.size; i++)
 		{
-			if (isDefined(level.kzPlayersInRoom[i]) && level.kzPlayersInRoom[i] isReallyAlive() 
+			if (isDefined(level.kzPlayersInRoom[i]) && level.kzPlayersInRoom[i] isReallyAlive()
 				&& level.kzPlayersInRoom[i].sessionstate == "playing")
 				allDied = false;
 			else
@@ -283,8 +283,8 @@ watchKzGame()
 			{
 				level.kzStarted = false;
 				winner.kzWon++;
-				winner.time = speedrun\_leaderboard::realtime(getTime() - winner.timerStartTime);
-				winner thread speedrun\_speedrunhud::updateHud();
+				winner.time = speedrun\game\_leaderboard::realtime(getTime() - winner.timerStartTime);
+				winner thread speedrun\player\_hud_speedrun::updateHud();
 				wait 3;
 				winner spawnPlayerToSpec();
 			}
@@ -395,15 +395,15 @@ spawnPlayerToSpec()
 	self braxi\_teams::setTeam( "spectator" );
 	self braxi\_mod::spawnSpectator( level.spawn["spectator"].origin, level.spawn["spectator"].angles );
 	// if(self.pers["spec_hud"] == 1 )
-	// 	self thread speedrun\_spectatorhud::init();
-	// self thread sr\admin\_anticheat_hud::spec();
+	// 	self thread speedrun\player\_hud_spectator::init();
+	// self thread sr\commands\_hud_anti_cheat::spec();
 }
 
 // command to leave the kz
 cmd_leaveKz()
 {
 	self endon("disconnect");
-	
+
 	self.inKz = false;
 	self.kzWon = 0;
 	self.wonKz = false;
