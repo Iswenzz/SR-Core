@@ -1,0 +1,11 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage,conversion
+
+weap_rk5_fire_plr,,weapons/rk5/st_rk5_fire.wav,0.9,1,max,1,1,5000,,local,,,,0.85,,,,,weapon2,,,,
+weap_rk5_fire_npc,,weapons/rk5/st_rk5_fire.wav,0.8,1,wpnai,1,1,35,13780,weapon,,,,0.7,all_mp,,,,weapon4
+
+
+
+fly_triton_slide_back,,weapons/rk5/st_rk5_slide_back.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+fly_triton_slide_forward,,weapons/rk5/st_rk5_slide_forward.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+fly_triton_mag_in,,weapons/rk5/st_rk5_mag_in.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+fly_triton_mag_out,,weapons/rk5/st_rk5_mag_out.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,

@@ -1,0 +1,17 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage,conversion
+
+
+
+weap_dragunovsniper_fire_npc,,weapon/vks/weap_fire_vks_silencer.wav,0.94,0.99,max,1,1.1,35,10600,weapon,,,,0.7,!ac130 all_mp,,,,weapon4
+weap_dragunovsniper_fire_npc,,weapon/vks/weap_fire_vks_silencer.wav,0.94,0.99,max,1,1.1,35,13780,weapon,,,,0.7,all_mp,,,,weapon4
+weap_dragunovsniper_fire_plr,,weapon/vks/weap_fire_vks_silencer.wav,0.98,1,wpnplyr,0.9,1,500000,,local,,,,0.85,,,,,weapon2,,,,
+
+
+weap_vks_lift_plr,,weapon/vks/weap_vks_lift_v1.wav,0.55,0.6,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+weap_vks_clipout_plr,,weapon/vks/weap_vks_clipout_v1.wav,0.55,0.6,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+weap_vks_clipin_plr,,weapon/vks/weap_vks_clipin_v1.wav,0.55,0.6,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+weap_vks_chamber_plr,,weapon/vks/weap_vks_chamber_v1.wav,0.55,0.6,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+

@@ -1,0 +1,6 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage
+
+weap_mg42_fire,,weapons/mg42/mg42_fire.wav,0.9,1,wpnplyr,0.8,0.9,500000,,local,,,,,all_mp,,,,,,,,,,,,,
+weap_mg42_fire_plr,,weapons/mg42/mg42_fire.wav,0.9,1,wpnplyr,0.8,0.9,500000,,local,,,,,all_mp,,,,,,,,,,,,,
+
+weap_mg42_reload,,weapons/mg42/mg42_reload.wav,0.7,0.75,wpnplyr,1,1,7,500,reload,,reload,,,all_mp,,,,,,,,,,,,,

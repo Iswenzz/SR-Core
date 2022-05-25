@@ -1,0 +1,9 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage
+#870MCS
+weap_870mcs_fire_plr,,weapons\870\870mcs_fire.wav,0.9,0.95,wpnplyr,1,1.05,500000,,local,,,,0.85,,,,,weapon2,,,,
+weap_870mcs_fire_npc,,weapons\870\870mcs_fire.wav,0.79,0.84,wpnai,0.85,0.95,7,8400,weapon,,,,0.7,!ac130 all_mp,,,,weapon4
+weap_870mcs_fire_npc,,weapons\870\870mcs_fire.wav,0.79,0.84,wpnai,0.85,0.95,7,8400,weapon,,,,0.7,all_mp,,,,weapon4
+
+weap_870mcs_sil_fire_plr,,weapons\870\shotgunsilenced_fire.wav,0.45,0.5,wpnplyr,1,1.05,500000,,local,,,,0.85,,,,,weapon2,,,,
+weap_870mcs_sil_fire_npc,,weapons\870\shotgunsilenced_fire.wav,0.79,0.84,wpnai,0.85,0.95,7,8400,weapon,,,,0.7,!ac130 all_mp,,,,weapon4
+weap_870mcs_sil_fire_npc,,weapons\870\shotgunsilenced_fire.wav,0.79,0.84,wpnai,0.85,0.95,7,8400,weapon,,,,0.7,all_mp,,,,weapon4

@@ -1,0 +1,11 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage
+
+#MR6,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+mr6_fire_1st,,weap/mr6/mr6_fire.wav,0.62,0.67,wpnplyr,0.95,1.05,500000,,local,,,,0.85,,,,,weapon2,,,,
+mr6_fire_3rd,,weap/mr6/mr6_fire.wav,0.62,0.67,wpnplyr,0.95,1.05,500000,,weapon,,,,0.85,,,,,weapon2,,,,
+mr6_mag_out,,weap/mr6/mr6_mag_out.wav,1,1,max,0.95,1.05,7,1000,reload,,,,0.5,all_mp
+mr6_mag_in,,weap/mr6/mr6_mag_in.wav,1,1,max,0.95,1.05,7,1000,reload,,,,0.5,all_mp
+mr6_pullf,,weap/mr6/mr6_pullf.wav,1,1,max,0.95,1.05,7,1000,reload,,,,0.5,all_mp
+mr6_pullb,,weap/mr6/mr6_pullb.wav,1,1,max,0.95,1.05,7,1000,reload,,,,0.5,all_mp
+
+## END,,,,,,,,,,,,,,,,,,,

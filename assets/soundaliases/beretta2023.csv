@@ -1,0 +1,29 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage,conversion
+
+weapn_beretta2023_fire_npc,,weps/beretta2023/shot/wpn_beretta2023_fire_plr.wav,0.93,0.98,max,1,1.1,35,13780,weapon,,,,0.7,all_mp,,,,weapon4
+weapn_beretta2023_fire_npc,,weps/beretta2023/shot/wpn_beretta2023_fire_plr.wav,0.93,0.98,max,1,1.1,35,10600,weapon,,,,0.7,!ac130 all_mp,,,,weapon4
+weapn_beretta2023_fire_plr,,weps/beretta2023/shot/wpn_beretta2023_fire_plr.wav,0.91,0.94,wpnplyr,0.65,0.75,500000,,local,,,,0.85,,,,,weapon2,,,,
+
+weapn_beretta2023_silencer_shot_npc,,weps/beretta2023/shot/wpn_beretta2023_silencer_shot_plr.wav,0.5,0.52,wpnai,0.85,0.95,35,8400,weapon,,,,0.7,!ac130 all_mp,,,,weapon4,
+weapn_beretta2023_silencer_shot_npc,,weps/beretta2023/shot/wpn_beretta2023_silencer_shot_plr.wav,0.42,0.44,wpnai,0.85,0.95,35,2000,weapon,,,,0.7,all_mp,,,,weapon4,
+weapn_beretta2023_silencer_shot_plr,,weps/beretta2023/shot/wpn_beretta2023_silencer_shot_plr.wav,0.4,0.42,wpnplyr,0.75,0.85,500000,,local,,,,0.85,,,,,weapon2,,,,
+
+
+fly_beretta93r_hammer,,weps/beretta2023/reload/fly_beretta2023_hammer.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+fly_beretta93r_slide_forward,,weps/beretta2023/reload/fly_beretta2023_slide_forward.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+fly_beretta93r_mag_out,,weps/beretta2023/reload/fly_beretta2023_mag_out.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+fly_beretta93r_futz,,weps/beretta2023/reload/fly_beretta2023_futz.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+fly_beretta93r_mag_in,,weps/beretta2023/reload/fly_beretta2023_mag_in.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+
+
+
+
+
+
+
+

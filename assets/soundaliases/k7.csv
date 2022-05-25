@@ -1,0 +1,4 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage,conversion
+
+fox_k7_fire,,weapons/k7/fox_k7_fire.wav,0.9,1,wpnplyr,1,1,5000,,local,,,,0.85,,,,,weapon2,,,,
+fox_k7_out,,weapons/k7/k7_out.wav,0.9,1,wpnplyr,1,1,5000,,local,,,,0.85,,,,,weapon2,,,,

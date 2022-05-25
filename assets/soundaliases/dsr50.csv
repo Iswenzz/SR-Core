@@ -1,0 +1,35 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage
+
+#DSR50
+weap_dsr50_fire_npc,,weps/dsr50/shot/wpn_dsr_fire_npc.wav,0.93,0.98,max,1,1.1,35,13780,weapon,,,,0.7,all_mp,,,,weapon4
+weap_dsr50_fire_npc,,weps/dsr50/shot/wpn_dsr_fire_npc.wav,0.93,0.98,max,1,1.1,35,10600,weapon,,,,0.7,!ac130 all_mp,,,,weapon4
+weap_dsr50_fire_plr,,weps/dsr50/shot/wpn_dsr_fire_plr.wav,0.91,0.94,wpnplyr,0.65,0.75,500000,,local,,,,0.85,,,,,weapon2,,,,
+
+
+fly_dsr50_bolt_up,,weps/dsr50/reload/fly_sniper_bu.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+fly_dsr50_bolt_back,,weps/dsr50/reload/fly_sniper_bb.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+fly_dsr50_bolt_forward,,weps/dsr50/reload/fly_sniper_bf.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+fly_dsr50_bolt_down,,weps/dsr50/reload/fly_sniper_bd.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+#fly_dsr50_futz,,weps/dsr50/reload/fly_sniper_futz.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+fly_dsr50_mag_in,,weps/dsr50/reload/fly_sniper_mag_in.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+fly_dsr50_mag_out,,weps/dsr50/reload/fly_sniper_mag_out.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+#fly_dsr50_dial_scope,,weps/dsr50/reload/fly_sniper_dial_scope.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+#fly_dsr50_reload_npc,,weps/ballista/reload/fly_sniper_mag_out.wav,0.55,0.6,wpnai,1,1,7,500,reload,,,,0.7,all_mp,,,fly_dsr50_mag_in_npc,weapon2,50
+#fly_dsr50_mag_in_npc,,weps/ballista/reload/fly_sniper_mag_in.wav,0.55,0.6,wpnai,1,1,7,500,auto,,,,0.7,all_mp,,,,weapon2,600
+#fly_dsr50_rechamber_npc,,weps/ballista/reload/rechamber_sniper.wav,0.55,0.6,wpnai,1,1,7,500,reload,,,,0.7,all_mp,,,,weapon2,
+
+
+
+
+
+
+
+

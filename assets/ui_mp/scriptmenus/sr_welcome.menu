@@ -1,0 +1,173 @@
+#include "ui/menudef.h"
+#include "ui_mp/common_macro.inc"
+
+#define CHOICE_X_START			0
+#define CHOICE_Y_START			50
+#define CHOICE_GROUP			"contents"
+
+
+#include "ui_mp/menustyle.inc"
+#include "ui/choices_setup_common.menu"
+#include "ui_mp/sr_common.inc"
+
+#define DR_WELCOME_BUTTON( id, x, y, w, h, itemName, itemAction, visArg ) \
+		DR_WELCOME_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, ;, ;, visArg )
+
+#define DR_WELCOME_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, onItemEnter, onItemExit, visArg ) \
+itemDef \
+{ \
+	visible			visArg \
+	name			"button_default"id \
+	rect			x y w h SR_ALIGN_BOTTOM_RIGHT \
+	style			WINDOW_STYLE_FILLED \
+	border			1 \
+	bordercolor		DR_BUTTON_BORDERCOLOR_SR \ 
+	forecolor		DR_BUTTON_FORECOLOR \ 
+	backcolor		DR_BUTTON_BACKCOLOR \
+} \
+itemDef \
+{ \
+	visible			visArg \
+	name			"button_over"id \
+	rect			x y w h SR_ALIGN_BOTTOM_RIGHT \
+	style			WINDOW_STYLE_FILLED \
+	border			1 \
+	bordercolor		DR_BUTTON_BORDERCOLOR_SR \ 
+	forecolor		DR_BUTTON_FORECOLOR \ 
+	backcolor		DR_BUTTON_BACKCOLOR_FOCUSED \
+} \
+itemDef \
+{ \
+	style		WINDOW_STYLE_FILLED \
+	rect		x y w h SR_ALIGN_BOTTOM_RIGHT \
+	backcolor	0.137 0 0.239 0.5 \
+	forecolor	1 1 1 1 \
+	exp			text( itemName ) \
+	border		1 \
+	bordersize	2 \
+	bordercolor 0.137 0 0.239 0.8 \
+	type		ITEM_TYPE_BUTTON \
+	textfont	UI_FONT_OBJECTIVE \
+	textstyle	ITEM_TEXTSTYLE_SHADOWED \
+	textalign	ITEM_ALIGN_CENTER \
+	textscale	0.35 \
+	textaligny	(h-7) \
+	visible		visArg \
+	mouseEnter \
+	{ \
+		play "mouse_over"; \
+		show "button_over"id; \
+		hide "button_default"id; \
+		setdvar sr_button ""id \
+		onItemEnter \
+	} \
+	mouseExit \
+	{ \
+		show "button_default"id; \
+		hide "button_over"id; \
+		setdvar sr_button "0" \
+		onItemExit \
+	} \
+	action \
+	{ \
+		itemAction \
+	} \
+} 
+
+{
+	menuDef
+	{
+		name			"sr_welcome"
+		rect			-128 -20 894 515 
+		blurworld		0
+		border			1
+		bordersize		10
+		fullscreen		0
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+		
+		onOpen
+		{
+		}
+		
+		onEsc			
+		{ 
+			close self;
+		}
+		
+		onClose			
+		{
+			scriptMenuResponse "connectmessage";
+		}
+		
+		// #define theme (stat(984))
+		// itemDef
+		// {
+		// 	style			WINDOW_STYLE_SHADER
+		// 	rect			0 0 1000 500 SR_ALIGN_TOP_LEFT
+		// 	exp 			material("sr_menu_bg_" + (theme + 1))
+		// 	visible			1
+		// 	decoration
+		// }
+
+		#define theme (stat(984))
+		itemdef
+		{
+			name			"theme"
+			rect			0 0 1000 500 0 0 
+			style			3
+			visible			1
+			exp				material("sr_menu_bg_" + (theme + 1))
+			decoration
+		}
+
+		// Frame background
+		blurworld		1
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			-40 -40 1000 112 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+			background		"black"
+			border			1
+			bordercolor		0 0 0 0.5
+			bordersize		3
+			forecolor		0 0 0 1
+			visible			1
+			decoration
+		}
+		itemDef
+		{
+			style			WINDOW_STYLE_SHADER
+			rect			-40 408 1000 112 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+			background		"black"
+			forecolor		0 0 0 1
+			border			1
+			bordercolor		0 0 0 1
+			bordersize		3
+			visible			1
+			decoration
+		}
+
+		DR_WELCOME_BUTTON( "5", -30, -110, 110, 25, "Continue", close self; open team_select; , 1 )
+
+		itemDef
+		{
+			visible			1
+			rect			150 105 450 270 SR_ALIGN_TOP_LEFT
+			style			WINDOW_STYLE_FILLED
+			backcolor		0 0 0 0.3
+			forecolor		1 1 1 1
+			autowrapped
+			exp 			text("@BRAXI_SERV_DESC")
+			textfont		UI_FONT_NORMAL
+			textscale		.30
+			textalignx		8
+			textaligny		16
+			textalign		ITEM_ALIGN_LEFT
+			decoration
+		}
+
+	
+	}
+}
+

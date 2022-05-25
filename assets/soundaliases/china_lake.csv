@@ -1,0 +1,10 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage,conversion
+
+#CHINA LAKE
+weap_china_lake_fire_plr,,weapons\china_lake\chinalake_fire.wav,0.9,0.9,wpnplyr,1,1.05,500000,,local,,,,0.85,,,,,weapon2,,,,
+weap_china_lake_fire_npc,,weapons\china_lake\chinalake_fire.wav,0.79,0.84,wpnai,0.85,0.95,7,8400,weapon,,,,0.7,!ac130 all_mp,,,,weapon4
+weap_china_lake_fire_npc,,weapons\china_lake\chinalake_fire.wav,0.79,0.84,wpnai,0.85,0.95,7,8400,weapon,,,,0.7,all_mp,,,,weapon4
+weap_ex41_pull_plr,,weapons\china_lake\fly_china_lake_back.wav,0.95,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,100
+weap_ex41_push_plr,,weapons\china_lake\fly_china_lake_forward.wav,0.95,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,100
+weap_ex41_shell_in_plr,,weapons\china_lake\fly_china_lake_load.wav,0.95,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+weap_ex41_sight_up_plr,,weapons\china_lake\fly_china_lake_sight_up.wav,0.95,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,

@@ -1,0 +1,21 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage,conversion
+
+weap_olympia_fire_npc,,weps/olympia/wpn_srm1216_fire.LN65.pc.snd.wav,0.93,0.98,max,1,1.1,35,13780,weapon,,,,0.7,all_mp,,,,weapon4
+weap_olympia_fire_npc,,weps/olympia/wpn_srm1216_fire.LN65.pc.snd.wav,0.93,0.98,max,1,1.1,35,10600,weapon,,,,0.7,!ac130 all_mp,,,,weapon4
+weap_olympia_fire_plr,,weps/olympia/wpn_srm1216_fire.LN65.pc.snd.wav,0.91,0.94,wpnplyr,1,1.1,500000,,local,,,,0.85,,,,,weapon2,,,,
+
+
+wpn_rottweil72_close,,weps/olympia/wpn_rottweil72_close.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+wpn_rottweil72_shell_in,,weps/olympia/wpn_rottweil72_shell_in.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+wpn_rottweil72_open,,weps/olympia/wpn_rottweil72_open.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+wpn_rottweil72_switch,,weps/olympia/wpn_rottweil72_switch.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+fly_gear_reload_plr,,weps/olympia/fly_shotgun_pump_back.LN65.pc.snd.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+reload_rechamber,,weps/olympia/rechamber_00.LN65.pc.snd.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+
+wpn_rottweil72_shell_in_2,,weps/olympia/wpn_rottweil72_shell_in.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,

@@ -1,0 +1,17 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage,conversion
+
+garand_fire_plr,,weapons/garand/garand_fire.wav,0.9,1,max,1,1,5000,,local,,,,0.85,,,,,weapon2,,,,
+garand_fire_npc,,weapons/garand/garand_fire.wav,0.8,1,wpnai,1,1,35,13780,weapon,,,,0.7,all_mp,,,,weapon4
+garand_fire_npc,,weapons/garand/garand_fire.wav,0.90,0.95,max,1,1.1,35,10600,weapon,,,,0.7,!ac130 all_mp,,,,weapon4
+
+garand_upgraded_last_fire_plr,,weapons/garand/garand_fire_last.wav,0.9,1,max,1,1,5000,,local,,,,0.85,,,,,weapon2,,,,
+garand_upgraded_last_fire_npc,,weapons/garand/garand_fire_last.wav,0.8,1,wpnai,1,1,35,13780,weapon,,,,0.7,all_mp,,,,weapon4
+garand_upgraded_last_fire_npc,,weapons/garand/garand_fire_last.wav,0.90,0.95,max,1,1.1,35,10600,weapon,,,,0.7,!ac130 all_mp,,,,weapon4
+
+fly_garand_bolt_back,,weapons/garand/garand_bolt_back.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+fly_garand_bolt_forward,,weapons/garand/garand_bolt_forward.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+fly_garand_clip_in,,weapons/garand/garand_mag_in.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+weap_bo2_ar_fire_silenced2_plr,,weps/bo2_ar_sounds/silenced/silenced_04.wav,0.9,1,max,1,1,5000,,local,,,,0.85,,,,,weapon2,,,,
+weap_bo2_ar_fire_silenced2_npc,,weps/bo2_ar_sounds/silenced/silenced_04.wav,0.8,1,wpnai,1,1,35,13780,weapon,,,,0.7,all_mp,,,,weapon4
+weap_bo2_ar_fire_silenced2_npc,,weps/bo2_ar_sounds/silenced/silenced_04.wav,0.90,0.95,max,1,1.1,35,10600,weapon,,,,0.7,!ac130 all_mp,,,,weapon4

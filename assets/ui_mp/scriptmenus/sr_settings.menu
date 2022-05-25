@@ -1,0 +1,386 @@
+#include "ui/menudef.h"
+#include "ui_mp/menustyle.inc"
+#include "ui/choices_setup_common.menu"
+#include "ui_mp/sr_common.inc"
+
+#define DR_SETTINGS_BUTTON( id, x, y, w, h, itemName, itemAction, visArg ) \
+		DR_SETTINGS_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, ;, ;, visArg )
+
+#define DR_SETTINGS_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, onItemEnter, onItemExit, visArg ) \
+itemDef \
+{ \
+	visible			visArg \
+	name			"button_default"id \
+	rect			x y w h DR_BUTTON_ALIGN_LEFT \
+	style			WINDOW_STYLE_EMPTY \
+	forecolor		DR_BUTTON_FORECOLOR \ 
+	backcolor		DR_BUTTON_BACKCOLOR \
+} \
+itemDef \
+{ \
+	visible			visArg \
+	name			"button_over"id \
+	rect			x y w h DR_BUTTON_ALIGN_LEFT \
+	style			WINDOW_STYLE_EMPTY \
+	forecolor		DR_BUTTON_FORECOLOR \ 
+	backcolor		DR_BUTTON_BACKCOLOR_FOCUSED \
+} \
+itemDef \
+{ \
+	style		WINDOW_STYLE_EMPTY \
+	rect		x y w h DR_BUTTON_ALIGN_LEFT \
+	backcolor	0.137 0 0.239 0.5 \
+	forecolor	1 1 1 1 \
+	exp			text( itemName ) \
+	type		ITEM_TYPE_BUTTON \
+	textfont	UI_FONT_OBJECTIVE \
+	textstyle	ITEM_TEXTSTYLE_SHADOWED \
+	textalign	ITEM_ALIGN_CENTER \
+	textscale	0.3 \
+	textaligny	(h-7) \
+	visible		visArg \
+	mouseEnter \
+	{ \
+		play "mouse_over"; \
+		show "button_over"id; \
+		hide "button_default"id; \
+		setdvar sr_button ""id \
+		onItemEnter \
+	} \
+	mouseExit \
+	{ \
+		show "button_default"id; \
+		hide "button_over"id; \
+		setdvar sr_button "0" \
+		onItemExit \
+	} \
+	action \
+	{ \
+		itemAction \
+	} \
+}
+
+#define SETTINGS_BUTTON(txt, orix, oriy, zaction, id)\
+itemDef\
+{\
+	name 			"button_text"id\
+	visible			1\
+	rect			orix oriy 300 10 1 0 \
+	forecolor		1 1 1 1\
+	exp				txt\
+	textfont		UI_FONT_NORMAL\
+	textalign		ITEM_ALIGN_MIDDLE_LEFT\
+	textfont		6\
+	textscale		0.25\
+	decoration\
+}\
+itemDef\
+{\
+	name 			"button_text_green"id\
+	visible			0\
+	rect			orix oriy 300 10 1 0 \
+	forecolor		0.5 0.5 0.5 1\
+	exp				txt\
+	textfont		UI_FONT_NORMAL\
+	textalign		ITEM_ALIGN_MIDDLE_LEFT\
+	textfont		6\
+	textscale		0.25\
+	decoration\
+}\
+itemDef\
+{\
+	type			ITEM_TYPE_BUTTON\
+	rect			orix oriy 220 10 DR_BUTTON_ALIGN_LEFT \
+	forecolor		1 1 1 1.85\
+	visible			1\
+	mouseEnter \
+	{ \
+		show "button_text_green"id; \
+		hide "button_text"id; \
+	} \
+	mouseExit \
+	{ \
+		show "button_text"id; \
+		hide "button_text_green"id; \
+	} \
+	action\
+	{\
+		zaction\
+	}\
+}
+
+#define SETTINGS_BUTTON_TEXT(txt, orix, oriy)\
+itemDef\
+{\
+	visible			1\
+	rect			orix oriy 300 10 1 0 \
+	forecolor		1 1 1 1\
+	exp				txt\
+	textfont		UI_FONT_NORMAL\
+	textalign		ITEM_ALIGN_MIDDLE_LEFT\
+	textfont		6\
+	textscale		0.25\
+	decoration\
+}
+
+{
+    menuDef
+	{
+	    name			"sr_settings"
+		rect			-128 -20 894 515 
+		blurworld			0
+		border			1
+		bordersize			10
+		fullscreen		0
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+
+		onOpen
+		{
+		}
+		onEsc
+		{
+			close self;
+		}
+	
+		itemdef
+		{
+			name			"background"
+			rect			200 50 329 270 1 0 
+			style			1
+			backcolor			0.1 0.1 0.1 0.6 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"title"
+			rect			200 0 449 50 1 0 
+			style			1
+			backcolor			0 0 0 0.7 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"panel"
+			rect			547 50 102 270 1 0 
+			style			1
+			backcolor			0.2 0.2 0.2 0.6 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 80 102 30 1 0 
+			style			1
+			backcolor			0.1 0.1 0.1 0.5 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 110 102 30 1 0 
+			style			1
+			backcolor			0.2 0.2 0.2 0.6 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 140 102 30 1 0 
+			style			1
+			backcolor			0.1 0.1 0.1 0.5 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 170 102 30 1 0 
+			style			1
+			backcolor			0.2 0.2 0.2 0.6 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 200 102 30 1 0 
+			style			1
+			backcolor			0.1 0.1 0.1 0.5 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 230 102 30 1 0 
+			style			1
+			backcolor			0.2 0.2 0.2 0.6 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 290 102 30 1 0 
+			style			1
+			backcolor			0.1 0.1 0.1 0.5 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"titleText"
+			rect			200 36 449 50 1 0 
+			style			0
+			backcolor			0 0 0 0.7 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			text			"^8Settings"
+			textscale			0.4
+			textstyle			3
+			textalign			1
+			decoration
+		}
+
+		SETTINGS_BUTTON(text(dvarString("sr_setting_0")), 270, 65, scriptMenuResponse "setting:0";, "0")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_1")), 270, 75, scriptMenuResponse "setting:1";, "1")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_2")), 270, 85, scriptMenuResponse "setting:2";, "2")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_3")), 270, 95, scriptMenuResponse "setting:3";, "3")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_4")), 270, 105, scriptMenuResponse "setting:4";, "4")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_5")), 270, 115, scriptMenuResponse "setting:5";, "5")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_6")), 270, 125, scriptMenuResponse "setting:6";, "6")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_7")), 270, 135, scriptMenuResponse "setting:7";, "7")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_8")), 270, 145, scriptMenuResponse "setting:8";, "8")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_9")), 270, 155, scriptMenuResponse "setting:9";, "9")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_10")), 270, 165, scriptMenuResponse "setting:10";, "10")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_11")), 270, 175, scriptMenuResponse "setting:11";, "11")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_12")), 270, 185, scriptMenuResponse "setting:12";, "12")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_13")), 270, 195, scriptMenuResponse "setting:13";, "13")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_14")), 270, 205, scriptMenuResponse "setting:14";, "14")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_15")), 270, 215, scriptMenuResponse "setting:15";, "15")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_16")), 270, 225, scriptMenuResponse "setting:16";, "16")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_17")), 270, 235, scriptMenuResponse "setting:17";, "17")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_18")), 270, 245, scriptMenuResponse "setting:18";, "18")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_19")), 270, 255, scriptMenuResponse "setting:19";, "19")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_20")), 270, 265, scriptMenuResponse "setting:20";, "20")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_21")), 270, 275, scriptMenuResponse "setting:21";, "21")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_22")), 270, 285, scriptMenuResponse "setting:22";, "22")
+		SETTINGS_BUTTON(text(dvarString("sr_setting_23")), 270, 295, scriptMenuResponse "setting:23";, "23")
+
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_0")), 400, 65)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_1")), 400, 75)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_2")), 400, 85)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_3")), 400, 95)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_4")), 400, 105)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_5")), 400, 115)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_6")), 400, 125)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_7")), 400, 135)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_8")), 400, 145)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_9")), 400, 155)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_10")), 400, 165)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_11")), 400, 175)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_12")), 400, 185)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_13")), 400, 195)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_14")), 400, 205)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_15")), 400, 215)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_16")), 400, 225)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_17")), 400, 235)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_18")), 400, 245)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_19")), 400, 255)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_20")), 400, 265)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_21")), 400, 275)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_22")), 400, 285)
+		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_23")), 400, 295)
+		
+		DR_SETTINGS_BUTTON( "13", 547, (80 + (30 * 0)), 102, 30, "^8Options", close self; open main_options;, 1)
+		DR_SETTINGS_BUTTON( "14", 547, (80 + (30 * 1)), 102, 30, "^8Controls", close self; open main_controls;, 1)
+
+		// DR_SETTINGS_BUTTON( "19", 547, (80 + (30 * 6)), 102, 30, "^8Time +10", scriptMenuResponse "callvote:add10"; close self;, 1)
+		// DR_SETTINGS_BUTTON( "20", 547, (80 + (30 * 7)), 102, 30, "^8Time +20", scriptMenuResponse "callvote:add20"; close self;, 1)
+
+		// itemdef
+		// {
+		// 	name			"prev"
+		// 	rect			240 240 30 30 1 0 
+		// 	style			WINDOW_STYLE_SHADER
+		// 	background		"sr_prev"
+		// 	type			ITEM_TYPE_BUTTON
+		// 	textstyle		ITEM_TEXTSTYLE_SHADOWED 
+		// 	visible			1
+		// 	mouseEnter 
+		// 	{ 
+		// 		play "mouse_over"; 
+		// 	} 
+		// 	action 
+		// 	{ 
+		// 		scriptMenuResponse "page:prev";
+		// 	} 
+		// }
+		// itemdef
+		// {
+		// 	name			"next"
+		// 	rect			240 210 30 30 1 0 
+		// 	style			WINDOW_STYLE_SHADER
+		// 	background		"sr_next"
+		// 	type			ITEM_TYPE_BUTTON
+		// 	textstyle		ITEM_TEXTSTYLE_SHADOWED 
+		// 	visible			1
+		// 	mouseEnter 
+		// 	{ 
+		// 		play "mouse_over"; 
+		// 	} 
+		// 	action 
+		// 	{ 
+		// 		scriptMenuResponse "page:next";
+		// 	} 
+		// }
+		// itemdef
+		// {
+		// 	name			"pageindex"
+		// 	rect			240 315 20 20 1 0 
+		// 	style			WINDOW_STYLE_EMPTY
+		// 	textstyle		ITEM_TEXTSTYLE_SHADOWED 
+		// 	visible			1
+		// 	exp				text("^8" + dvarString("sr_votepage"))
+		// 	decoration
+		// }
+	}
+}

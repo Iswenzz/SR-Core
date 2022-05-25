@@ -1,0 +1,7 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage,conversion
+#PPS-42
+weap_ppsh42_fire_plr,,weapons/iw2_pps43/weap_pps43_fire_plr.wav,0.66,0.73,wpnplyr,1,1,500000,,local,,,,0.85,,,,,weapon2
+weap_ppsh42_fire,,weapons/iw2_pps43/weap_pps43_fire_plr.wav,0.87,0.93,wpnai,1,1,35,10920,weapon,,,,0.7,all_mp,,,,weapon4
+weap_pps43_clipout_plr,,weapons/iw2_pps43/weap_pps43_clipout_plr.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+weap_pps43_clipin_plr,,weapons/iw2_pps43/weap_pps43_clipin_plr.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+weap_pps43_charge_plr,,weapons/iw2_pps43/weap_pps43_charge_plr.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,

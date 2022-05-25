@@ -1,0 +1,5 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage,conversion
+
+weap_quake_rocket_shoot,,weapons/rocket/weap_quake_rocket_shoot.wav,1,1,wpnplyr,1,1,5000,,local,,,,0.85,,,,,weapon2,,,,
+weap_quake_rocket_loop,,weapons/rocket/weap_quake_rocket_loop.wav,1,1,,,,200,1000,auto,,,looping,master,all_mp
+weap_quake_rocket_explode,,weapons/rocket/weap_quake_rocket_explode.wav,1,1,,,,200,1000,auto,streamed

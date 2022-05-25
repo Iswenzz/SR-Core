@@ -1,0 +1,19 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage,conversion
+
+weap_triton_fire_npc,,weps/mr6/wpn_pistol32_fire_2d.wav,0.93,0.98,max,1,1.1,35,13780,weapon,,,,0.7,all_mp,,,,weapon4
+weap_triton_fire_npc,,weps/mr6/wpn_pistol32_fire_2d.wav,0.93,0.98,max,1,1.1,35,10600,weapon,,,,0.7,!ac130 all_mp,,,,weapon4
+weap_triton_fire_plr,,weps/mr6/wpn_pistol32_fire_2d.wav,0.91,0.94,wpnplyr,1,1.1,500000,,local,,,,0.85,,,,,weapon2,,,,
+
+weap_mr6_silencer_shot_npc,,weps/mr6/weap_usp45sd_slst_y1.wav,0.42,0.44,wpnai,0.85,0.95,35,2000,weapon,,,,0.7,all_mp,,,,weapon4,
+weap_mr6_silencer_shot_npc,,weps/mr6/weap_usp45sd_slst_y1.wav,0.5,0.52,wpnai,0.85,0.95,35,8400,weapon,,,,0.7,!ac130 all_mp,,,,weapon4,
+weap_mr6_silencer_shot_plr,,weps/mr6/weap_usp45sd_slst_y1.wav,0.4,0.42,wpnplyr,0.85,0.95,500000,,local,,,,0.85,,,,,weapon2,,,,
+
+
+//weap_mr6_lift_plr,,weps/mr6/wpfoly_usp_reload_lift_v1.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+weap_mr6_clipout_plr,,weps/mr6/wpfoly_usp_reload_clipout_v2.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+weap_mr6_clipin_plr,,weps/mr6/wpfoly_usp_reload_clipin_v1.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+
+weap_mr6_chamber_plr,,weps/mr6/wpfoly_usp_reload_chamber_v1.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
+

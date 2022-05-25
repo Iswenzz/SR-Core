@@ -1,0 +1,361 @@
+#include "ui/menudef.h"
+#include "ui_mp/menustyle.inc"
+#include "ui/choices_setup_common.menu"
+#include "ui_mp/sr_common.inc"
+
+#define DR_VOTEMAP_BUTTON( id, x, y, w, h, itemName, itemAction, visArg ) \
+		DR_VOTEMAP_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, ;, ;, visArg )
+
+#define DR_VOTEMAP_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, onItemEnter, onItemExit, visArg ) \
+itemDef \
+{ \
+	visible			visArg \
+	name			"button_default"id \
+	rect			x y w h DR_BUTTON_ALIGN_LEFT \
+	style			WINDOW_STYLE_EMPTY \
+	forecolor		DR_BUTTON_FORECOLOR \ 
+	backcolor		DR_BUTTON_BACKCOLOR \
+} \
+itemDef \
+{ \
+	visible			visArg \
+	name			"button_over"id \
+	rect			x y w h DR_BUTTON_ALIGN_LEFT \
+	style			WINDOW_STYLE_EMPTY \
+	forecolor		DR_BUTTON_FORECOLOR \ 
+	backcolor		DR_BUTTON_BACKCOLOR_FOCUSED \
+} \
+itemDef \
+{ \
+	style		WINDOW_STYLE_EMPTY \
+	rect		x y w h DR_BUTTON_ALIGN_LEFT \
+	backcolor	0.137 0 0.239 0.5 \
+	forecolor	1 1 1 1 \
+	exp			text( itemName ) \
+	type		ITEM_TYPE_BUTTON \
+	textfont	UI_FONT_OBJECTIVE \
+	textstyle	ITEM_TEXTSTYLE_SHADOWED \
+	textalign	ITEM_ALIGN_CENTER \
+	textscale	0.3 \
+	textaligny	(h-7) \
+	visible		visArg \
+	mouseEnter \
+	{ \
+		play "mouse_over"; \
+		show "button_over"id; \
+		hide "button_default"id; \
+		setdvar sr_button ""id \
+		onItemEnter \
+	} \
+	mouseExit \
+	{ \
+		show "button_default"id; \
+		hide "button_over"id; \
+		setdvar sr_button "0" \
+		onItemExit \
+	} \
+	action \
+	{ \
+		itemAction \
+	} \
+}
+
+#define VOTE_MAP_BUTTON(txt, orix, oriy, zaction, id)\
+itemDef\
+{\
+	name 			"button_text"id\
+	visible			1\
+	rect 			orix oriy 300 10 1 0 \
+	forecolor		1 1 1 1\
+	exp				txt\
+	textfont		UI_FONT_NORMAL\
+	textalign		ITEM_ALIGN_MIDDLE_LEFT\
+	textfont		6\
+	textscale		0.25\
+	decoration\
+}\
+itemDef\
+{\
+	name 			"button_text_green"id\
+	visible			0\
+	rect 			orix oriy 300 10 1 0 \
+	forecolor		0 1 0 1\
+	exp				txt\
+	textfont		UI_FONT_NORMAL\
+	textalign		ITEM_ALIGN_MIDDLE_LEFT\
+	textfont		6\
+	textscale		0.25\
+	decoration\
+}\
+itemDef\
+{\
+	type			ITEM_TYPE_BUTTON\
+	rect			orix oriy 140 10 DR_BUTTON_ALIGN_LEFT \
+	forecolor		1 1 1 1.85\
+	visible			1\
+	mouseEnter \
+	{ \
+		show "button_text_green"id; \
+		hide "button_text"id; \
+	} \
+	mouseExit \
+	{ \
+		show "button_text"id; \
+		hide "button_text_green"id; \
+	} \
+	action\
+	{\
+		zaction\
+	}\
+}
+
+{
+    menuDef
+	{
+	    name			"sr_votemap"
+		rect			-128 -20 894 515 
+		blurworld			0
+		border			1
+		bordersize			10
+		fullscreen		0
+		focuscolor		COLOR_FOCUSED
+		style			WINDOW_STYLE_EMPTY
+
+		onOpen
+		{
+		}
+		onEsc
+		{
+			close self;
+		}
+	
+		itemdef
+		{
+			name			"background"
+			rect			200 50 329 270 1 0 
+			style			1
+			backcolor			0.1 0.1 0.1 0.6 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"title"
+			rect			200 0 449 50 1 0 
+			style			1
+			backcolor			0 0 0 0.7 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"panel"
+			rect			547 50 102 270 1 0 
+			style			1
+			backcolor			0.2 0.2 0.2 0.6 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 80 102 30 1 0 
+			style			1
+			backcolor			0.1 0.1 0.1 0.5 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 110 102 30 1 0 
+			style			1
+			backcolor			0.2 0.2 0.2 0.6 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 140 102 30 1 0 
+			style			1
+			backcolor			0.1 0.1 0.1 0.5 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 170 102 30 1 0 
+			style			1
+			backcolor			0.2 0.2 0.2 0.6 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 200 102 30 1 0 
+			style			1
+			backcolor			0.1 0.1 0.1 0.5 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 230 102 30 1 0 
+			style			1
+			backcolor			0.2 0.2 0.2 0.6 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"square"
+			rect			547 290 102 30 1 0 
+			style			1
+			backcolor			0.1 0.1 0.1 0.5 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			decoration
+		}
+		itemdef
+		{
+			name			"titleText"
+			rect			200 30 449 50 1 0 
+			style			0
+			backcolor			0 0 0 0.7 
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7 
+			type			0
+			text			"^8Vote Menu"
+			textscale			0.4
+			textstyle			3
+			textalign			1
+			decoration
+		}
+
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_0")), 310, 65, scriptMenuResponse "votemap:0";, "0")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_1")), 310, 75, scriptMenuResponse "votemap:1";, "1")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_2")), 310, 85, scriptMenuResponse "votemap:2";, "2")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_3")), 310, 95, scriptMenuResponse "votemap:3";, "3")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_4")), 310, 105, scriptMenuResponse "votemap:4";, "4")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_5")), 310, 115, scriptMenuResponse "votemap:5";, "5")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_6")), 310, 125, scriptMenuResponse "votemap:6";, "6")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_7")), 310, 135, scriptMenuResponse "votemap:7";, "7")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_8")), 310, 145, scriptMenuResponse "votemap:8";, "8")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_9")), 310, 155, scriptMenuResponse "votemap:9";, "9")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_10")), 310, 165, scriptMenuResponse "votemap:10";, "10")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_11")), 310, 175, scriptMenuResponse "votemap:11";, "11")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_12")), 310, 185, scriptMenuResponse "votemap:12";, "12")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_13")), 310, 195, scriptMenuResponse "votemap:13";, "13")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_14")), 310, 205, scriptMenuResponse "votemap:14";, "14")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_15")), 310, 215, scriptMenuResponse "votemap:15";, "15")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_16")), 310, 225, scriptMenuResponse "votemap:16";, "16")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_17")), 310, 235, scriptMenuResponse "votemap:17";, "17")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_18")), 310, 245, scriptMenuResponse "votemap:18";, "18")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_19")), 310, 255, scriptMenuResponse "votemap:19";, "19")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_20")), 310, 265, scriptMenuResponse "votemap:20";, "20")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_21")), 310, 275, scriptMenuResponse "votemap:21";, "21")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_22")), 310, 285, scriptMenuResponse "votemap:22";, "22")
+		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_23")), 310, 295, scriptMenuResponse "votemap:23";, "23")
+		
+		DR_VOTEMAP_BUTTON( "13", 547, (80 + (30 * 0)), 102, 30, "Call Vote", scriptMenuResponse "callvote:map"; close self;, 1)
+		DR_VOTEMAP_BUTTON( "14", 547, (80 + (30 * 1)), 102, 30, "^8End Map", scriptMenuResponse "callvote:endmap"; close self;, 1)
+		DR_VOTEMAP_BUTTON( "15", 547, (80 + (30 * 2)), 102, 30, "^8SR#C & KC", scriptMenuResponse "callvote:krispy"; close self;, 1)
+
+		DR_VOTEMAP_BUTTON( "19", 547, (80 + (30 * 6)), 102, 30, "^8Time +10", scriptMenuResponse "callvote:add10"; close self;, 1)
+		DR_VOTEMAP_BUTTON( "20", 547, (80 + (30 * 7)), 102, 30, "^8Time +20", scriptMenuResponse "callvote:add20"; close self;, 1)
+
+		itemdef
+		{
+			name			"prev"
+			rect			240 240 30 30 1 0 
+			style			WINDOW_STYLE_SHADER
+			background		"sr_prev"
+			type			ITEM_TYPE_BUTTON
+			textstyle		ITEM_TEXTSTYLE_SHADOWED 
+			visible			1
+			mouseEnter 
+			{ 
+				play "mouse_over"; 
+			} 
+			action 
+			{ 
+				scriptMenuResponse "page:prev";
+			} 
+		}
+		itemdef
+		{
+			name			"next"
+			rect			240 210 30 30 1 0 
+			style			WINDOW_STYLE_SHADER
+			background		"sr_next"
+			type			ITEM_TYPE_BUTTON
+			textstyle		ITEM_TEXTSTYLE_SHADOWED 
+			visible			1
+			mouseEnter 
+			{ 
+				play "mouse_over"; 
+			} 
+			action 
+			{ 
+				scriptMenuResponse "page:next";
+			} 
+		}
+		itemdef
+		{
+			name			"pageindex"
+			rect			240 315 20 20 1 0 
+			style			WINDOW_STYLE_EMPTY
+			textstyle		ITEM_TEXTSTYLE_SHADOWED 
+			visible			1
+			exp				text("^8" + dvarString("sr_votepage"))
+			decoration
+		}
+
+		itemDef
+		{
+			visible			1
+			rect 			200 43 449 50 1 0
+			forecolor		1 1 1 1
+			exp             text(dvarString("sr_selectedmap"))
+			textstyle		ITEM_TEXTSTYLE_SHADOWED 
+			textfont		UI_FONT_OBJECTIVE
+			textalign		ITEM_ALIGN_CENTER
+			textscale		0.25
+			decoration
+		}
+	}
+}
