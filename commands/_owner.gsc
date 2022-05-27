@@ -1,20 +1,8 @@
-/*
+main()
+{
+	cmd("owner", "owner");
+}
 
-  _|_|_|            _|      _|      _|                  _|
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|
-  _|_|    _|    _|      _|          _|        _|    _|  _|      _|
-      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|
-
-Script made by SuX Lolz (Iswenzz) and Sheep Wizard
-
-Steam: http://steamcommunity.com/profiles/76561198163403316/
-Discord: https://discord.gg/76aHfGF
-Youtube: https://www.youtube.com/channel/UC1vxOXBzEF7W4g7TRU0C1rw
-Paypal: suxlolz@outlook.fr
-Email Pro: suxlolz1528@gmail.com
-
-*/
 init(l)
 {
 	level.shaders = strTok("ui_host;line_vertical;nightvision_overlay_goggles;hud_arrow_left",";");

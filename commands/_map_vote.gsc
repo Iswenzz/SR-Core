@@ -1,25 +1,10 @@
-/*
+// Allow admins to cancel vote
+// Allow admins to force vote
 
-  _|_|_|            _|      _|      _|                  _|            
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|  
-  _|_|    _|    _|      _|          _|        _|    _|  _|      _|    
-      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|      
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|  
-
-Script made by SuX Lolz (Iswenzz) and Sheep Wizard
-
-Steam: http://steamcommunity.com/profiles/76561198163403316/
-Discord: https://discord.gg/76aHfGF
-Youtube: https://www.youtube.com/channel/UC1vxOXBzEF7W4g7TRU0C1rw
-Paypal: suxlolz@outlook.fr
-Email Pro: suxlolz1528@gmail.com
-
-*/
-
-//allow admins to cancel vote
-//allow admins to force vote
 init()
 {
+	cmd("adminplus", "votemap");
+
 	self.mapselection = loadmaps(false);
 	self.votePage = 0;
 	self displayMaps();

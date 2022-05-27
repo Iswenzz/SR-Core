@@ -4,7 +4,6 @@
 init()
 {
 	precache();
-	cmds();
 
 	// Groups
 	level.admin_group 					= [];
@@ -21,103 +20,6 @@ init()
 
 	// Commands
 	level.admin_commands				= [];
-}
-
-cmds()
-{
-	// Player
-	cmd(level.admin_group["player"], "fov");
-	cmd(level.admin_group["player"], "fps");
-	cmd(level.admin_group["player"], "myid");
-	cmd(level.admin_group["player"], "sheep");
-	cmd(level.admin_group["player"], "help");
-	cmd(level.admin_group["player"], "fxenable");
-	cmd(level.admin_group["player"], "!pm");
-	cmd(level.admin_group["player"], "discord");
-	cmd(level.admin_group["player"], "requirement");
-	cmd(level.admin_group["player"], "speed");
-	cmd(level.admin_group["player"], "practise");
-	cmd(level.admin_group["player"], "mine");
-	cmd(level.admin_group["player"], "stopmusic");
-
-	// VIP
-	cmd(level.admin_group["vip"], "color");
-
-	// Member
-	cmd(level.admin_group["member"], "msg");
-	cmd(level.admin_group["member"], "online");
-	cmd(level.admin_group["member"], "timeplayed");
-	cmd(level.admin_group["member"], "reportplayer");
-	cmd(level.admin_group["member"], "reportmap");
-	cmd(level.admin_group["member"], "chicken");
-	cmd(level.admin_group["member"], "botrec");
-	cmd(level.admin_group["member"], "botswitch");
-	cmd(level.admin_group["member"], "joinrace");
-	cmd(level.admin_group["member"], "leaverace");
-	cmd(level.admin_group["member"], "joinkz");
-	cmd(level.admin_group["member"], "leavekz");
-
-	// Admin
-	cmd(level.admin_group["admin"], "dance");
-	cmd(level.admin_group["admin"], "detail");
-	cmd(level.admin_group["admin"], "pid");
-	cmd(level.admin_group["admin"], "kill");
-	cmd(level.admin_group["admin"], "srkick");
-	cmd(level.admin_group["admin"], "renamepid");
-	cmd(level.admin_group["admin"], "racetrig");
-	cmd(level.admin_group["admin"], "racespawn");
-	cmd(level.admin_group["admin"], "kzweap");
-
-	// Admin+
-	cmd(level.admin_group["adminplus"], "weapon");
-	cmd(level.admin_group["adminplus"], "weaponall");
-	cmd(level.admin_group["adminplus"], "weaponacti");
-	cmd(level.admin_group["adminplus"], "drop");
-	cmd(level.admin_group["adminplus"], "takeall");
-	cmd(level.admin_group["adminplus"], "flash");
-	cmd(level.admin_group["adminplus"], "shock");
-	cmd(level.admin_group["adminplus"], "music");
-	cmd(level.admin_group["adminplus"], "votemap");
-
-	// Master Admin
-	cmd(level.admin_group["masteradmin"], "resetpid");
-	cmd(level.admin_group["masteradmin"], "banpid");
-	cmd(level.admin_group["masteradmin"], "banguid");
-	cmd(level.admin_group["masteradmin"], "bounce");
-	cmd(level.admin_group["masteradmin"], "srfreeze");
-	cmd(level.admin_group["masteradmin"], "srunfreeze");
-	cmd(level.admin_group["masteradmin"], "cooldown");
-	cmd(level.admin_group["masteradmin"], "shovel");
-
-	// Owner
-	cmd(level.admin_group["owner"], "clone");
-	cmd(level.admin_group["owner"], "redirectall");
-	cmd(level.admin_group["owner"], "candamage");
-	cmd(level.admin_group["owner"], "turret");
-	cmd(level.admin_group["owner"], "delturret");
-	cmd(level.admin_group["owner"], "setrank");
-	cmd(level.admin_group["owner"], "setgroup");
-	cmd(level.admin_group["owner"], "setvip");
-	cmd(level.admin_group["owner"], "savechicken");
-	cmd(level.admin_group["owner"], "savemap");
-	cmd(level.admin_group["owner"], "grav");
-	cmd(level.admin_group["owner"], "gspeed");
-	cmd(level.admin_group["owner"], "cmd");
-	cmd(level.admin_group["owner"], "model");
-	cmd(level.admin_group["owner"], "botrefresh");
-	cmd(level.admin_group["owner"], "getdvar");
-	cmd(level.admin_group["owner"], "setid");
-	cmd(level.admin_group["owner"], "knockback");
-	cmd(level.admin_group["owner"], "god");
-	cmd(level.admin_group["owner"], "uammo");
-	cmd(level.admin_group["owner"], "detonate");
-	cmd(level.admin_group["owner"], "jetpack");
-	cmd(level.admin_group["owner"], "owner");
-	cmd(level.admin_group["owner"], "kzspawn");
-	cmd(level.admin_group["owner"], "kzsave");
-	cmd(level.admin_group["owner"], "racemk");
-	cmd(level.admin_group["owner"], "racesave");
-	cmd(level.admin_group["owner"], "noclip");
 }
 
 precache()
@@ -1386,7 +1288,7 @@ commands(a, arg)
 
 cmd(group, name)
 {
-	level.admin_commands[name] = group;
+	level.admin_commands[name] = level.admin_group[group];
 	addscriptcommand(name, 1);
 }
 

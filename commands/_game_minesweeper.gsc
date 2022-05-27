@@ -1,0 +1,4 @@
+main()
+{
+    cmd("player", "mine");
+}

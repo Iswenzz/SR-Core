@@ -21,8 +21,11 @@ Email Pro: suxlolz1528@gmail.com
 
 #include sr\sys\_common;
 
-init()
+main()
 {
+	cmd("member", 	"chicken");
+	cmd("owner", 	"chicken_save");
+
 	map = getDvar("mapname");
 	path = "./sr/server_data/speedrun/chicken/"+map+".txt";
 	file_exists = checkfile(path);
