@@ -1,21 +1,3 @@
-/*
-
-  _|_|_|            _|      _|      _|                  _|
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|
-  _|_|    _|    _|      _|          _|        _|    _|  _|      _|
-      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|
-
-Script made by Iswenzz (SuX Lolz)
-
-Steam: https://steamcommunity.com/id/iswenzz
-Discord: Iswenzz#3906
-SR Discord: https://discord.gg/76aHfGF
-Youtube: https://www.youtube.com/c/iswenzz
-Paypal: alexisnardiello@gmail.com
-Email Pro: alexisnardiello@gmail.com
-
-*/
 #include braxi\_common;
 #include sr\sys\_common;
 
@@ -24,154 +6,118 @@ init()
 	precache();
 	cmds();
 
-	level.bot_record = 0;
-
-	//               GROUP NAME         POWER
+	// Groups
 	level.admin_group 					= [];
 	level.admin_group["player"] 		= 1;
-	level.admin_group["donator"] 		= 5;
 	level.admin_group["member"] 		= 10;
 	level.admin_group["admin"] 			= 30;
 	level.admin_group["adminplus"] 		= 50;
 	level.admin_group["masteradmin"] 	= 60;
 	level.admin_group["owner"] 			= 100;
 
-	// 					GROUP NAME        ALLOWED COMMANDS
+	// Special
+	level.admin_group["vip"] 			= -1;
+	level.admin_group["donator"] 		= -2;
+
+	// Commands
 	level.admin_commands				= [];
-	level.admin_commands["vip"] 		= "color,dance,msg,shovel";
-	level.admin_commands["player"] 		= "fov,fps,myid,sheep,help,fxenable,!pm,discord,requirement,speed,practise,mine,joinrace,leaverace,joinkz,leavekz,stopmusic";
-	level.admin_commands["donator"] 	= level.admin_commands["player"] + ",votemap,chiken";
-	level.admin_commands["member"] 		= level.admin_commands["player"] + ",votemap,msg,online,timeplayed,reportplayer,reportmap,chicken,botrec,botswitch";
-	level.admin_commands["admin"] 		= level.admin_commands["member"] + ",detail,pid,kill,srkick,renamepid";
-	level.admin_commands["adminplus"] 	= level.admin_commands["admin"] + ",weapon,weaponall,weaponacti,drop,takeall,flash,shock,music";
-	level.admin_commands["masteradmin"] = level.admin_commands["adminplus"] + ",resetpid,banpid,banguid,bounce,srfreeze,srunfreeze,cooldown,shovel,racetrig,racespawn,racemk,racesave,kzspawn,kzsave,kzweap,dance";
-	level.admin_commands["owner"] 		= "*";
-
-	musics();
 }
 
-// known sr music hashmap
-musics()
-{
-	level.sr_music = [];
-	level.sr_music["dame_tu_cosita"] 		= "srm1";
-	level.sr_music["ways_to_die"] 			= "srm2";
-	level.sr_music["this_is_minecraft"] 	= "srm3";
-	level.sr_music["stal"] 					= "srm4";
-	level.sr_music["fn_despacito"] 			= "srm5";
-	level.sr_music["oof"] 					= "srm6";
-	level.sr_music["mc"] 					= "srm7";
-	level.sr_music["doot"] 					= "srm8";
-	level.sr_music["despacito"] 			= "srm9";
-	level.sr_music["dead"] 					= "srm10";
-	level.sr_music["delfino"] 				= "srm11";
-	level.sr_music["ninja"] 				= "srm12";
-	level.sr_music["poopy"] 				= "srm13";
-	level.sr_music["wii"] 					= "srm14";
-	level.sr_music["ricardo"] 				= "srm15";
-	level.sr_music["fishe"] 				= "srm16";
-	level.sr_music["tense"] 				= "srm17";
-	level.sr_music["cow"] 					= "srm18";
-	level.sr_music["polish"] 				= "srm19";
-	level.sr_music["minion"] 				= "srm20";
-}
-
-// all cmds
 cmds()
 {
-	//player
-	cmd("fov");
-	cmd("fps");
-	cmd("myid");
-	cmd("sheep");
-	cmd("help");
-	cmd("fxenable");
-	cmd("!pm");
-	cmd("discord");
-	cmd("requirement");
-	cmd("speed");
-	cmd("practise");
-	cmd("mine");
-	cmd("stopmusic");
+	// Player
+	cmd(level.admin_group["player"], "fov");
+	cmd(level.admin_group["player"], "fps");
+	cmd(level.admin_group["player"], "myid");
+	cmd(level.admin_group["player"], "sheep");
+	cmd(level.admin_group["player"], "help");
+	cmd(level.admin_group["player"], "fxenable");
+	cmd(level.admin_group["player"], "!pm");
+	cmd(level.admin_group["player"], "discord");
+	cmd(level.admin_group["player"], "requirement");
+	cmd(level.admin_group["player"], "speed");
+	cmd(level.admin_group["player"], "practise");
+	cmd(level.admin_group["player"], "mine");
+	cmd(level.admin_group["player"], "stopmusic");
 
-	//member
-	cmd("msg");
-	cmd("online");
-	cmd("timeplayed");
-	cmd("reportplayer");
-	cmd("reportmap");
-	cmd("chicken");
-	cmd("botrec");
-	cmd("botswitch");
-	cmd("joinrace");
-	cmd("leaverace");
-	cmd("joinkz");
-	cmd("leavekz");
+	// VIP
+	cmd(level.admin_group["vip"], "color");
 
-	//admin
-	cmd("dance");
-	cmd("detail");
-	cmd("pid");
-	cmd("kill");
-	cmd("srkick");
-	cmd("renamepid");
-	cmd("racetrig");
-	cmd("racespawn");
-	cmd("kzweap");
+	// Member
+	cmd(level.admin_group["member"], "msg");
+	cmd(level.admin_group["member"], "online");
+	cmd(level.admin_group["member"], "timeplayed");
+	cmd(level.admin_group["member"], "reportplayer");
+	cmd(level.admin_group["member"], "reportmap");
+	cmd(level.admin_group["member"], "chicken");
+	cmd(level.admin_group["member"], "botrec");
+	cmd(level.admin_group["member"], "botswitch");
+	cmd(level.admin_group["member"], "joinrace");
+	cmd(level.admin_group["member"], "leaverace");
+	cmd(level.admin_group["member"], "joinkz");
+	cmd(level.admin_group["member"], "leavekz");
 
-	//adminplus
-	cmd("weapon");
-	cmd("weaponall");
-	cmd("weaponacti");
-	cmd("drop");
-	cmd("takeall");
-	cmd("flash");
-	cmd("shock");
-	cmd("music");
-	cmd("votemap");
+	// Admin
+	cmd(level.admin_group["admin"], "dance");
+	cmd(level.admin_group["admin"], "detail");
+	cmd(level.admin_group["admin"], "pid");
+	cmd(level.admin_group["admin"], "kill");
+	cmd(level.admin_group["admin"], "srkick");
+	cmd(level.admin_group["admin"], "renamepid");
+	cmd(level.admin_group["admin"], "racetrig");
+	cmd(level.admin_group["admin"], "racespawn");
+	cmd(level.admin_group["admin"], "kzweap");
 
-	//masteradmin
-	cmd("resetpid");
-	cmd("banpid");
-	cmd("banguid");
-	cmd("bounce");
-	cmd("srfreeze");
-	cmd("srunfreeze");
-	cmd("cooldown");
-	cmd("shovel");
+	// Admin+
+	cmd(level.admin_group["adminplus"], "weapon");
+	cmd(level.admin_group["adminplus"], "weaponall");
+	cmd(level.admin_group["adminplus"], "weaponacti");
+	cmd(level.admin_group["adminplus"], "drop");
+	cmd(level.admin_group["adminplus"], "takeall");
+	cmd(level.admin_group["adminplus"], "flash");
+	cmd(level.admin_group["adminplus"], "shock");
+	cmd(level.admin_group["adminplus"], "music");
+	cmd(level.admin_group["adminplus"], "votemap");
 
-	//owner
-	cmd("clone");
-	cmd("redirectall");
-	cmd("candamage");
-	cmd("turret");
-	cmd("delturret");
-	cmd("setrank");
-	cmd("setgroup");
-	cmd("setvip");
-	cmd("savechicken");
-	cmd("savemap");
-	cmd("grav");
-	cmd("gspeed");
-	cmd("cmd");
-	cmd("model");
-	cmd("botrefresh");
-	cmd("getdvar");
-	cmd("setid");
-	cmd("knockback");
-	cmd("god");
-	cmd("uammo");
-	cmd("detonate");
-	cmd("jetpack");
-	cmd("owner");
-	cmd("kzspawn");
-	cmd("kzsave");
-	cmd("racemk");
-	cmd("racesave");
-	cmd("noclip");
+	// Master Admin
+	cmd(level.admin_group["masteradmin"], "resetpid");
+	cmd(level.admin_group["masteradmin"], "banpid");
+	cmd(level.admin_group["masteradmin"], "banguid");
+	cmd(level.admin_group["masteradmin"], "bounce");
+	cmd(level.admin_group["masteradmin"], "srfreeze");
+	cmd(level.admin_group["masteradmin"], "srunfreeze");
+	cmd(level.admin_group["masteradmin"], "cooldown");
+	cmd(level.admin_group["masteradmin"], "shovel");
 
-	//vip
-	cmd("color");
+	// Owner
+	cmd(level.admin_group["owner"], "clone");
+	cmd(level.admin_group["owner"], "redirectall");
+	cmd(level.admin_group["owner"], "candamage");
+	cmd(level.admin_group["owner"], "turret");
+	cmd(level.admin_group["owner"], "delturret");
+	cmd(level.admin_group["owner"], "setrank");
+	cmd(level.admin_group["owner"], "setgroup");
+	cmd(level.admin_group["owner"], "setvip");
+	cmd(level.admin_group["owner"], "savechicken");
+	cmd(level.admin_group["owner"], "savemap");
+	cmd(level.admin_group["owner"], "grav");
+	cmd(level.admin_group["owner"], "gspeed");
+	cmd(level.admin_group["owner"], "cmd");
+	cmd(level.admin_group["owner"], "model");
+	cmd(level.admin_group["owner"], "botrefresh");
+	cmd(level.admin_group["owner"], "getdvar");
+	cmd(level.admin_group["owner"], "setid");
+	cmd(level.admin_group["owner"], "knockback");
+	cmd(level.admin_group["owner"], "god");
+	cmd(level.admin_group["owner"], "uammo");
+	cmd(level.admin_group["owner"], "detonate");
+	cmd(level.admin_group["owner"], "jetpack");
+	cmd(level.admin_group["owner"], "owner");
+	cmd(level.admin_group["owner"], "kzspawn");
+	cmd(level.admin_group["owner"], "kzsave");
+	cmd(level.admin_group["owner"], "racemk");
+	cmd(level.admin_group["owner"], "racesave");
+	cmd(level.admin_group["owner"], "noclip");
 }
 
 precache()
@@ -206,7 +152,6 @@ precache()
 	precacheShellShock("concussion_grenade_mp");
 }
 
-// Command callback
 commands(a, arg)
 {
 	if (!self canExecuteCommand(a))
@@ -335,14 +280,6 @@ commands(a, arg)
 			wait 1;
 			break;
 
-		case "getmusics":
-			wait 0.05;
-			musics = strTok("ways_to_die,this_is_minecraft,stal,fn_despacito,oof,mc,doot,dame_tu_cosita,despacito,ninja,delfino,poopy,ricardo,dead,wii", ",");
-			for (i = 0; i < musics.size; i++)
-				exec("tell " + self getEntityNumber() + " " + musics[i]);
-			wait 5;
-			break;
-
 		case "god":
 			wait 0.05;
 			self.health = 999999999999999999;
@@ -385,108 +322,6 @@ commands(a, arg)
 			wait 0.2;
 			thread sr\weapons\_portal_turret::spawn_turret( self.origin, self getPlayerAngles() );
 			wait 1;
-			break;
-
-		case "botrec":
-			wait 0.05;
-			if(isDefined(self.bot_record))
-			{
-				self iprintlnbold("Botrec is already enabled on you.");
-				break;
-			}
-			if(level.bot_record == 5)
-			{
-				exec("say Botrec is already 5/5.");
-				break;
-			}
-			level.bot_record++;
-			self.bot_record = true;
-			exec("say ^7Enabled botrec on "+self.name+" ^1("+level.bot_record+"/5)");
-			wait 0.2;
-			break;
-
-		case "music":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			if(arg == "stop")
-			{
-				AmbientStop(2);
-				break;
-			}
-			AmbientStop(2);
-			wait 0.05;
-			srm = level.sr_music[arg];
-			if (isDefined(srm))
-				AmbientPlay(srm, 2);
-			else
-				AmbientPlay("" + arg, 2);
-			break;
-
-		case "stopmusic":
-			wait 0.05;
-			self clientcmd("snd_stopambient");
-			break;
-
-		case "botrefresh":
-			wait 0.05;
-			speedrun\game\_bot::bot_search_path();
-			wait 2;
-			break;
-
-		case "botswitch":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			tkn = StrTok(arg," ");
-			if(tkn.size > 2)
-				break;
-			if(int(tkn[0]) == 190 || int(tkn[0]) == 210 && tkn[1] == "ns" || tkn[1] == "s")
-			{
-				mapname = getDvar("mapname");
-
-				if(int(tkn[0]) == 190 && tkn[1] == "ns")
-				{
-					if(isDefined(level.bot_190_ns_path))
-					{
-						level.bot_curr_path = "./sr/server_data/speedrun/txt_demos/"+mapname+"/"+level.bot_190_ns_path+".txt";
-						exec("say "+self.name+" changed botrec to^1 190 ns.");
-					}
-					else
-						exec("say 190 ns botrec doesn't exsist.");
-				}
-				if(int(tkn[0]) == 190 && tkn[1] == "s")
-				{
-					if(isDefined(level.bot_190_s_path))
-					{
-						level.bot_curr_path = "./sr/server_data/speedrun/txt_demos/"+mapname+"/"+level.bot_190_s_path+".txt";
-						exec("say "+self.name+" changed botrec to^1 190 s.");
-					}
-					else
-						exec("say 190 s botrec doesn't exsist.");
-				}
-				if(int(tkn[0]) == 210 && tkn[1] == "ns")
-				{
-					if(isDefined(level.bot_210_ns_path))
-					{
-						level.bot_curr_path = "./sr/server_data/speedrun/txt_demos/"+mapname+"/"+level.bot_210_ns_path+".txt";
-						exec("say "+self.name+" changed botrec to^1 210 ns.");
-					}
-					else
-						exec("say 210 ns botrec doesn't exsist.");
-				}
-				if(int(tkn[0]) == 210 && tkn[1] == "s")
-				{
-					if(isDefined(level.bot_210_s_path))
-					{
-						level.bot_curr_path = "./sr/server_data/speedrun/txt_demos/"+mapname+"/"+level.bot_210_s_path+".txt";
-						exec("say "+self.name+" changed botrec to^1 210 s.");
-					}
-					else
-						exec("say 210 s botrec doesn't exsist.");
-				}
-			}
-			wait 2;
 			break;
 
 		case "color":
@@ -1549,8 +1384,9 @@ commands(a, arg)
 	}
 }
 
-cmd(name)
+cmd(group, name)
 {
+	level.admin_commands[name] = group;
 	addscriptcommand(name, 1);
 }
 
