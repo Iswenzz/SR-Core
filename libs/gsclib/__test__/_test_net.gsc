@@ -70,7 +70,7 @@ setup()
 	level.MYSQL_TYPE_MEDIUM_BLOB  = 250;
 	level.MYSQL_TYPE_LONG_BLOB    = 251;
 	level.MYSQL_TYPE_BLOB         = 252;
-	level.MYSQL_TYPE_VAR_STRING   = 253;
+	level.MYSQL_TYPE_STRING   = 253;
 	level.MYSQL_TYPE_STRING       = 254;
 	level.MYSQL_TYPE_GEOMETRY     = 255;
 }
@@ -94,7 +94,7 @@ beforeMySQL()
 {
 	if (!hasMySQL())
 		return false;
-	SQL_Query("DELETE FROM speedrun_ranks");
+	SQL_Query("DELETE FROM ranks_speedrun");
 	return true;
 }
 
@@ -240,9 +240,9 @@ test_SQL_PrepareStatement()
 	expectedRow[4] = 10;
 
 	// Insert Into
-	EXPECT_TRUE(SQL_Prepare("INSERT INTO speedrun_ranks (name, guid, xp, rank, prestige) VALUES (?, ?, ?, ?, ?)"));
-	SQL_BindParam("Iswenzz", level.MYSQL_TYPE_VAR_STRING);
-	SQL_BindParam("313354b4", level.MYSQL_TYPE_VAR_STRING);
+	EXPECT_TRUE(SQL_Prepare("INSERT INTO ranks_speedrun (name, guid, xp, rank, prestige) VALUES (?, ?, ?, ?, ?)"));
+	SQL_BindParam("Iswenzz", level.MYSQL_TYPE_STRING);
+	SQL_BindParam("313354b4", level.MYSQL_TYPE_STRING);
 	SQL_BindParam("1296000", level.MYSQL_TYPE_LONG);
 	SQL_BindParam("80", level.MYSQL_TYPE_LONG);
 	SQL_BindParam("10", level.MYSQL_TYPE_LONG);
@@ -251,9 +251,9 @@ test_SQL_PrepareStatement()
 	EXPECT_EQ(SQL_AffectedRows(), 1);
 
 	// Select
-	EXPECT_TRUE(SQL_Prepare("SELECT name, guid, xp, rank, prestige FROM speedrun_ranks"));
-	SQL_BindResult(level.MYSQL_TYPE_VAR_STRING, 36);
-	SQL_BindResult(level.MYSQL_TYPE_VAR_STRING, 8);
+	EXPECT_TRUE(SQL_Prepare("SELECT name, guid, xp, rank, prestige FROM ranks_speedrun"));
+	SQL_BindResult(level.MYSQL_TYPE_STRING, 36);
+	SQL_BindResult(level.MYSQL_TYPE_STRING, 8);
 	SQL_BindResult(level.MYSQL_TYPE_LONG);
 	SQL_BindResult(level.MYSQL_TYPE_LONG);
 	SQL_BindResult(level.MYSQL_TYPE_LONG);
@@ -292,9 +292,9 @@ test_SQL_PrepareStatementDict()
 	expectedRow[4] = 10;
 
 	// Insert Into
-	EXPECT_TRUE(SQL_Prepare("INSERT INTO speedrun_ranks (name, guid, xp, rank, prestige) VALUES (?, ?, ?, ?, ?)"));
-	SQL_BindParam("Iswenzz", level.MYSQL_TYPE_VAR_STRING);
-	SQL_BindParam("313354b4", level.MYSQL_TYPE_VAR_STRING);
+	EXPECT_TRUE(SQL_Prepare("INSERT INTO ranks_speedrun (name, guid, xp, rank, prestige) VALUES (?, ?, ?, ?, ?)"));
+	SQL_BindParam("Iswenzz", level.MYSQL_TYPE_STRING);
+	SQL_BindParam("313354b4", level.MYSQL_TYPE_STRING);
 	SQL_BindParam("1296000", level.MYSQL_TYPE_LONG);
 	SQL_BindParam("80", level.MYSQL_TYPE_LONG);
 	SQL_BindParam("10", level.MYSQL_TYPE_LONG);
@@ -303,9 +303,9 @@ test_SQL_PrepareStatementDict()
 	EXPECT_EQ(SQL_AffectedRows(), 1);
 
 	// Select
-	EXPECT_TRUE(SQL_Prepare("SELECT name, guid, xp, rank, prestige FROM speedrun_ranks"));
-	SQL_BindResult(level.MYSQL_TYPE_VAR_STRING, 36);
-	SQL_BindResult(level.MYSQL_TYPE_VAR_STRING, 8);
+	EXPECT_TRUE(SQL_Prepare("SELECT name, guid, xp, rank, prestige FROM ranks_speedrun"));
+	SQL_BindResult(level.MYSQL_TYPE_STRING, 36);
+	SQL_BindResult(level.MYSQL_TYPE_STRING, 8);
 	SQL_BindResult(level.MYSQL_TYPE_LONG);
 	SQL_BindResult(level.MYSQL_TYPE_LONG);
 	SQL_BindResult(level.MYSQL_TYPE_LONG);
@@ -346,13 +346,13 @@ test_SQL_Query()
 	expectedRow[4] = "10";
 
 	// Insert Into
-	queryInsert = "INSERT INTO speedrun_ranks (name, guid, xp, rank, prestige) " +
+	queryInsert = "INSERT INTO ranks_speedrun (name, guid, xp, rank, prestige) " +
 		"VALUES ('Iswenzz', '313354b4', 1296000, 80, 10)";
 	EXPECT_TRUE(SQL_Query(queryInsert));
 	EXPECT_EQ(SQL_AffectedRows(), 1);
 
 	// Select
-	EXPECT_TRUE(SQL_Query("SELECT name, guid, xp, rank, prestige FROM speedrun_ranks"));
+	EXPECT_TRUE(SQL_Query("SELECT name, guid, xp, rank, prestige FROM ranks_speedrun"));
 
 	fields = SQL_FetchFields();
 	rows = SQL_FetchRowsDict();
