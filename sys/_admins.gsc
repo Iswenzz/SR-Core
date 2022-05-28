@@ -1,5 +1,4 @@
-#include braxi\_common;
-#include sr\sys\_common;
+#include sr\utils\_common;
 
 init()
 {
@@ -15,8 +14,8 @@ init()
 	level.admin_group["owner"] 			= 100;
 
 	// Special
-	level.admin_group["vip"] 			= -1;
-	level.admin_group["donator"] 		= -2;
+	level.special_group["vip"] 			= 1;
+	level.special_group["donator"] 		= 2;
 
 	// Commands
 	level.admin_commands				= [];
@@ -54,12 +53,11 @@ precache()
 	precacheShellShock("concussion_grenade_mp");
 }
 
-commands(a, arg)
+commands(cmd, arg)
 {
-	if (!self canExecuteCommand(a))
+	if (!self canExecuteCommand(cmd))
 		return;
 
-	players = getEntArray( "player", "classname" );
 	switch(a)
 	{
 		case "joinrace":
@@ -260,73 +258,6 @@ commands(a, arg)
 			}
 			break;
 
-		case "setvip":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-            self recordCommands(a, arg);
-            path = "./sr/server_data/admin/vip.txt";
-            players = getEntArray( "player", "classname" );
-            if(int(arg) < 0 || int(arg) > players.size)
-                break;
-            id = getPlayerByNum(arg);
-            if(id.size > 1 || id.size == 0)
-            {
-                self IPrintLnBold("Could not find player");
-                break;
-            }
-            if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-            {
-            	string = ""+players[id[0]].playerID+"\\"+players[id[0]].name+"";
-
-                wait 1;
-
-				WriteToFile(path, string);
-				self iprintlnbold(""+players[id[0]].name+" was added to vip.txt");
-            }
-            break;
-
-		case "setgroup":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-            players = getEntArray( "player", "classname" );
-            path = "./sr/server_data/admin/admins.txt";
-			tkn = StrTok(arg," ");
-			if(tkn.size > 2)
-				break;
-			if(int(tkn[0]) < 0 || int(tkn[0]) > players.size)
-                break;
-            id = getPlayerByNum(tkn[0]);
-			if(!isDefined(tkn[1]) || tkn[1] == "")
-				break;
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-			{
-				string = "";
-
-				if(tkn[1] == "member" || tkn[1] == "admin" || tkn[1] == "adminplus" || tkn[1] == "masteradmin" || tkn[1] == "donator")
-					string = ""+players[id[0]].playerID+"\\"+tkn[1]+"\\"+players[id[0]].name+"";
-				else
-				{
-					self iprintlnbold("this rank doesnt exsist.");
-					break;
-				}
-
-				wait 1;
-
-				if(isDefined(string) && string != "")
-					WriteToFile(path, string);
-
-				self iprintlnbold(""+players[id[0]].name+" was added to admin.txt");
-			}
-			break;
-
 		case "clone":
 			wait 0.05;
 			if (isDefined(self.pers["clone"]))
@@ -354,15 +285,6 @@ commands(a, arg)
 			if(!isDefined(arg) || arg == "")
 				break;
 			self setmovespeed(int(arg));
-			break;
-
-		case "redirectall":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			players = getEntArray( "player", "classname" );
-			for (i = 0; i < players.size; i++)
-				players[i] clientcmd("connect " + arg);
 			break;
 
 		case "chicken":
@@ -644,14 +566,6 @@ commands(a, arg)
 			}
 			break;
 
-		case "help":
-			wait 0.05;
-			cmds = strtok(level.admin_commands[self.admin_group], ",");
-			exec("tell " + self getEntityNumber() + " ^2" + self.admin_group + " ^7Commands:");
-			for (i = 0; i < cmds.size; i++)
-				exec("tell " + self getEntityNumber() + " " + cmds[i]);
-			break;
-
 		case "discord":
 			wait 0.05;
 			exec( "tell " + self getEntityNumber() + " Join Sr- Discord: ^5discord.gg/76aHfGF" );
@@ -664,65 +578,6 @@ commands(a, arg)
 			wait 0.2;
 			break;
 
-		case "myid":
-			wait 0.05;
-			self IPrintLnBold("Your ID is ^2" + self.playerID );
-			wait 0.5;
-			self IPrintLnBold("Please make a note of your ID");
-		break;
-
-		case "reportplayer":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-			{
-				self iprintlnbold("!reportplayer <playerName> <reason>");
-				break;
-			}
-			tkn = StrTok(arg," ");
-			if(tkn.size < 2)
-			{
-				self iprintlnbold("!reportplayer <playerName> <reason>");
-				break;
-			}
-			id = getPlayerByName(tkn[0]);
-			if(!isDefined(tkn[1]) || tkn[1] == "")
-			{
-				self iprintlnbold("!reportplayer <playerName> <reason>");
-				break;
-			}
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			string = "";
-			for(i=1;i<tkn.size;i++)
-				string += tkn[i]+" ";
-			if( isDefined( players[id[0]] ) )
-			{
-				self recordReportPlayer( string, players[id[0]] );
-			}
-			break;
-
-		case "reportmap":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-			{
-				self iprintlnbold("!reportplayer <reason>");
-				break;
-			}
-			tkn = StrTok(arg," ");
-			if(tkn.size < 1)
-			{
-				self iprintlnbold("!reportplayer <reason>");
-				break;
-			}
-			string = "";
-			for(i=0;i<tkn.size;i++)
-				string += tkn[i]+" ";
-			self recordReportMap( string );
-			break;
-
 		case "sheep":
 			wait 0.05;
 			for(i=0; i<50; i++)
@@ -733,109 +588,6 @@ commands(a, arg)
 			}
 			self setClientDvar("r_specular", 1);
 			self setClientDvar("r_specularmap", 2);
-			break;
-
-		case "msg":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			if(isDefined(self.isVIP) && self.isVIP)
-			{
-				self recordCommands(a, arg);
-				IPrintLnBold(arg);
-			}
-			else
-			{
-				self recordCommands(a, arg);
-				IPrintLnBold(arg);
-			}
-			break;
-
-	case "online":
-		wait 0.05;
-
-		string = [];
-		for(i=0;i<4;i++)
-			string[i] = "";
-
-		count = 1;
-		rank = "";
-
-		for(i=0;i<players.size;i++)
-		{
-			if(isDefined(players[i].admin_group) && players[i].admin_group != "player")
-			{
-				if(players[i].admin_group == "owner")
-					rank = "^5Owner^7";
-				if(players[i].admin_group == "masteradmin")
-					rank = "^9Master-Admin^7";
-				if(players[i].admin_group == "adminplus")
-					rank = "^1Admin+^7";
-				if(players[i].admin_group == "admin")
-					rank = "^6Admin^7";
-				if(players[i].admin_group == "member")
-					rank = "^3Member^7";
-
-				if(count <= 4)
-				{
-					string[0] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, ";
-					count++;
-				}
-
-				else if(count <= 8 && count > 4)
-				{
-					string[1] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, ";
-					count++;
-				}
-
-				else if(count <= 12 && count > 8)
-				{
-					string[2] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, ";
-					count++;
-				}
-
-				else if(count <= 16 && count > 12)
-				{
-					string[3] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, ";
-					count++;
-				}
-
-				else
-					string[4] += "^7" + players[i].name + "^7[" + rank + "^7]" + "^7, "; //Don't need if check because it's last reachable code
-			}
-		}
-		wait 0.2;
-
-		for(k=0;k<string.size;k++)
-		{
-			exec("say " + string[k]);
-			wait 0.5;
-		}
-
-		break;
-
-		case "detail":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-
-			self clientcmd("set sr_admin_detail 0");
-
-			if(arg == "1")
-				self clientcmd("sr_admin_detail 1");
-			if(arg == "0")
-				self clientcmd("sr_admin_detail 0");
-
-				break;
-
-		case "pid":
-			wait 0.05;
-			players = getEntArray( "player", "classname" );
-			for(i=0; i<players.size; i++)
-			{
-				players[i].guid = getSubStr(players[i] getGuid(), 24, 32);
-				self IPrintLn("^2Name:^7 " + players[i].name + " ^3PID:^7 " + players[i] getEntityNumber() + " ^5ID:^7 " + players[i].playerID + " ^5GUID:^7 " + players[i].guid);
-			}
 			break;
 
 		case "kill":
@@ -907,51 +659,6 @@ commands(a, arg)
 			}
 			break;
 
-		case "resetpid":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "" || !isStringInt(arg))
-				break;
-            self recordCommands(a, arg);
-            players = getEntArray( "player", "classname" );
-            if(int(arg) < 0 || int(arg) > players.size)
-                break;
-            id = getPlayerByNum(arg);
-            if(id.size > 1 || id.size == 0)
-            {
-                self IPrintLnBold("Could not find player");
-                break;
-            }
-            if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-            {
-                players[id[0]] braxi\_rank::sr_reset();
-
-                iPrintln( "^7" + players[id[0]].name + "'s ^7rank was reseted." );
-            }
-            break;
-
-		case "renamepid":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "" || !isStringInt(arg))
-				break;
-            self recordCommands(a, arg);
-            players = getEntArray( "player", "classname" );
-            if(int(arg) < 0 || int(arg) > players.size)
-                break;
-            id = getPlayerByNum(arg);
-            if(id.size > 1 || id.size == 0)
-            {
-                self IPrintLnBold("Could not find player");
-                break;
-            }
-            if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-            {
-				name = RandomInt(999999);
-                players[id[0]] clientcmd("name "+name);
-				wait 0.1;
-				players[id[0]] clientcmd("reconnect");
-            }
-            break;
-
 		case "weapon":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
@@ -973,29 +680,6 @@ commands(a, arg)
 				players[id[0]] giveweapon(tkn[1]);
 				players[id[0]] switchtoweapon(tkn[1]);
 				players[id[0]] givemaxammo(tkn[1]);
-			}
-			break;
-
-		case "getdvar":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			tkn = StrTok(arg," ");
-			if(tkn.size > 2)
-				break;
-			id = getPlayerByName(tkn[0]);
-			if(!isDefined(tkn[1]) || tkn[1] == "")
-				break;
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-			{
-				var = players[id[0]] getClientDvar(tkn[1]);
-				self iprintlnbold("^5"+tkn[1]+":^7 "+var);
 			}
 			break;
 
@@ -1078,13 +762,6 @@ commands(a, arg)
 				thread sr\commands\_map_vote::startvote("map", arg);
 			break;
 
-		case "cooldown":
-			wait 0.05;
-			self recordCommands(a, undefined);
-			self.voteCoolDown = -1000000;
-			self IPrintLnBold("^6Cool down time removed");
-			break;
-
 		case "srfreeze":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
@@ -1153,203 +830,59 @@ commands(a, arg)
 			for( i = 0; i < 2; i++ )
 				players[id[0]] bounce( vectorNormalize( players[id[0]].origin - (players[id[0]].origin - (0,0,20)) ), 200 );
 			break;
-
-		case "setid":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			tkn = StrTok(arg," ");
-			if(tkn.size != 4)
-				break;
-			id = getPlayerByName(tkn[0]);
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-			{
-				players[id[0]] setstat(995, int(tkn[1]));
-				players[id[0]] setstat(996, int(tkn[2]));
-				players[id[0]] setstat(997, int(tkn[3]));
-			}
-			break;
-
-		case "srkick":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			id = getPlayerByName(arg);
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			kick(players[id[0]] getEntityNumber());
-			break;
-
-		case "banguid":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			tkn = strTok(arg, " ");
-			if (tkn.size != 2)
-				break;
-            self recordCommands(a, arg);
-            path = "./sr/server_data/admin/ban.txt";
-            string = "" + tkn[0] + "\\" + tkn[1] + "";
-			wait 1;
-			WriteToFile(path, string);
-			self iprintlnbold(""+tkn[1]+" was added to ban.txt");
-            break;
-
-		case "banpid":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-            self recordCommands(a, arg);
-            path = "./sr/server_data/admin/ban.txt";
-            players = getEntArray( "player", "classname" );
-            if(int(arg) < 0 || int(arg) > players.size)
-                break;
-            id = getPlayerByNum(arg);
-            if(id.size > 1 || id.size == 0)
-            {
-                self IPrintLnBold("Could not find player");
-                break;
-            }
-            if(isDefined(players[id[0]]))
-            {
-            	string = ""+players[id[0]].guid+"\\"+players[id[0]].name+"";
-
-                wait 1;
-
-				WriteToFile(path, string);
-				self iprintlnbold(""+players[id[0]].name+" was added to ban.txt");
-				players[id[0]] clientCmd("reconnect");
-            }
-            break;
-
-		case "setrank":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-            self recordCommands(a, arg);
-            players = getEntArray( "player", "classname" );
-			tkn = StrTok(arg," ");
-			if(tkn.size > 2)
-				break;
-			if(!isStringInt(tkn[0]))
-				break;
-			if(int(tkn[0]) < 0 || int(tkn[0]) > players.size)
-                break;
-            id = getPlayerByNum(tkn[0]);
-			if(!isDefined(tkn[1]) || tkn[1] == "")
-				break;
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() && int(tkn[1]) > 1 )
-			{
-				rankId = int(tkn[1])-1;
-				xp = TableLookup( "mp/rankTable.csv", 0, rankId, 2 );
-
-				players[id[0]] thread braxi\_rank::giveRankXP("setrank", int(xp));
-			}
-			break;
-
-		case "cmd":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			tkn = StrTok(arg,":");
-			if(tkn.size > 2)
-				break;
-			id = getPlayerByName(tkn[0]);
-			if(!isDefined(tkn[1]) || tkn[1] == "")
-				break;
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			players[id[0]] clientCmd(tkn[1]);
-			break;
-
-		default:
-			break;
 	}
 }
 
 cmd(group, name)
 {
-	level.admin_commands[name] = level.admin_group[group];
-	addscriptcommand(name, 1);
+	cmdGroup = IfDefined(level.admin_group[group], level.special_group[group]);
+	level.admin_commands[name] = cmdGroup;
+	
+	addScriptCommand(name, 1);
+}
+
+message(msg)
+{
+	exec(fmt("say %s", msg));
+}
+
+pm(msg)
+{
+	exec(fmt("tell %d %s", self getEntityNumber(), msg));
 }
 
 canExecuteCommand(cmd)
 {
-	self endon("disconnect");
-	isAllowed = false;
+	return false;
+}
 
-	if (level.admin_commands[self.admin_group][0] == "*")
-		return true;
-
-	array = strTok(level.admin_commands[self.admin_group], ",");
-	for (i = 0; i < array.size; i++)
+getGroupString()
+{
+	group = "^7Player";
+	switch (self.admin_group)
 	{
-		if (array[i] == cmd)
-		{
-			isAllowed = true;
+		case "owner":
+			group = "^5Owner";
 			break;
-		}
+		case "masteradmin":
+			group = "^9Master Admin";
+			break;
+		case "adminplus":
+			group = "^1Admin+";
+			break;
+		case "admin":
+			group = "^6Admin";
+			break;
+		case "member":
+			group = "^3Member";
+			break;
 	}
-
-	if (!isAllowed && self isVIP())
-	{
-		array = strTok(level.admin_commands["vip"], ",");
-
-		for (i = 0; i < array.size; i++)
-		{
-			if (array[i] == cmd)
-			{
-				isAllowed = true;
-				break;
-			}
-		}
-	}
-	return isAllowed;
+	return group;
 }
 
-setGroup()
+hasPower(group)
 {
-	path = "./sr/server_data/admin/admins.txt";
-	r = readAll(path);
-	for(i=0; i<r.size; i++)
-	{
-		a = StrTok(r[i],"\\");
-		if(isDefined(a[0]))
-		{
-			if(self.playerID == a[0])
-			{
-				if(isDefined(a[1]))
-					self.admin_group = a[1];
-			}
-		}
-	}
-	if(!isDefined(self.admin_group))
-		self.admin_group = "player";
-	self setPlayerPower(level.admin_group[self.admin_group]);
-}
-
-hasPower(rankname)
-{
-	return self getPlayerPower() >= level.admin_group[rankname];
+	return self getPlayerPower() >= level.admin_group[group];
 }
 
 isVIP()
@@ -1366,10 +899,6 @@ setPlayerPower(power)
 {
 	self.admin_power = power;
 }
-
-// ---------------------------------------------------------- //
-// ------------------------ FUNCTION ------------------------ //
-// ---------------------------------------------------------- //
 
 checkBanned()
 {
@@ -1400,7 +929,7 @@ banned()
 {
 	self setClientDvar("ui_dr_info", "^4You have been banned.");
 	self setClientDvar("ui_dr_info2", "^5More info at https://discord.gg/76aHfGF");
-	// use this instead of kick() to get the ui_dr_info menu.
+	// Use this instead of kick() to get the ui_dr_info menu
 	exec("kick " + self getEntityNumber() + " banned.");
 }
 
@@ -1429,103 +958,39 @@ clone()
     }
 }
 
-getPlayerByNum( pNum )
+getPlayerByNum(pNum) 
 {
-	players = getEntArray( "player", "classname" );
-	x = [];
+	found = [];
+	players = getAllPlayers();
+
+	for (i = 0; i < players.size; i++)
+	{
+		if (players[i] getEntityNumber() == IfDefined(ToInt(pNum), -1))
+			found[found.size] = players[i];
+	}
+	return found;
+}
+
+getPlayerByName(nickname)
+{
+	found = [];
+	players = getAllPlayers();
+
 	for ( i = 0; i < players.size; i++ )
 	{
-		if ( players[i] getEntityNumber() == int(pNum) )
-		{
-			x[x.size] = i;
-		}
+		if (isSubStr(toLower(players[i].name), toLower(nickname)))
+			found[found.size] = players[i];
 	}
-	return x;
+	return found;
 }
 
-getPlayerByName( nickname )
+recordCommands()
 {
-	players = getEntArray( "player", "classname" );
-	x = [];
-	for ( i = 0; i < players.size; i++ )
-	{
-		if ( isSubStr( toLower(players[i].name), toLower(nickname) ) )
-		{
-			x[x.size] = i;
-		}
-	}
-	return x;
-}
+	line = fmt("%s %s\t%s", self.guid, self.name, self.lastCommand);
 
-recordReportMap(argument)
-{
-	self.guid = getSubStr(self getGuid(), 24, 32);
-	line = "";
-	if(isDefined(argument))
-		line += level.mapName + " name: " + self.name + " selfguid: " + self.guid + " arg: " + argument;
-	else
-		return;
-
-	path = "./sr/server_data/admin/report_map.txt";
-	file_exists = checkfile(path);
-	if(!file_exists)
-	{
-		checkQueue();
-		new = FS_Fopen(path, "write");
-		FS_FClose(new);
-	}
-	WriteToFile(path, line);
-}
-
-recordReportPlayer(argument, player)
-{
-	self.guid = getSubStr(self getGuid(), 24, 32);
-	line = "";
-	if(isDefined(argument))
-		line += self.name + " selfguid: " + self.guid + " who: " + player.name + " whoguid: " + player.guid + " arg: " + argument;
-	else
-		return;
-
-	path = "./sr/server_data/admin/report_player.txt";
-	file_exists = checkfile(path);
-	if(!file_exists)
-	{
-		checkQueue();
-		new = FS_Fopen(path, "write");
-		FS_FClose(new);
-	}
-	WriteToFile(path, line);
-}
-
-recordCommands(command, argument)
-{
-	line = "";
-	if(isDefined(argument))
-		line += self.guid + " " + " " + self.name + "    " + command + " " + argument;
-	else
-		line += self.guid + " " + " " + self.name + "    " + command;
-
-	path = "./sr/server_data/admin/commands.txt";
-	file_exists = checkfile(path);
-	if(!file_exists)
-	{
-		checkQueue();
-		new = FS_Fopen(path, "write");
-		FS_FClose(new);
-	}
-	WriteToFile(path, line);
-}
-
-getClientDvar(dvar)
-{
-	self endon("disconnect");
-
-	self braxi\_common::clientCmd("setu "+dvar+" 125");
-	val = self getuserinfo(dvar);
-	wait 0.05;
-
-	self setClientDvar(dvar,val);
-	return val;
+	file = FILE_OpenMod("sr/data/admin/commands.txt");
+	FILE_WriteLine(file, line);
+	FILE_Close(file);
 }
 
 unammo()
@@ -1540,7 +1005,7 @@ unammo()
 	}
 }
 
-cloneEffect()
+jetpack()
 {
 	self endon("death");
 	self endon("disconnect");
@@ -1553,91 +1018,4 @@ cloneEffect()
 		playfxontag( level.jetpack, self, "tag_jetpack_r" );
 		wait 3;
 	}
-}
-
-isStringFloat( var )
-{
-    compatibleArray = getSubStr("1234567890.",0);
-    if(var.size<3)
-		return false;
-
-	var = getSubStr(var,0);
-    for(i=0;i<var.size;i++)
-    {
-		// I set this to false to begin with, if it's still false by end of loop
-		// then we know string has a character not allowed in a float
-        validChar = false;
-		for(j=0;j<compatibleArray.size;j++)
-        {
-			if(var[i]!=compatibleArray[j])
-				continue;
-            else
-				validChar = true;
-			break;
-		}
-
-        if(!validChar)
-			return false;
-    }
-    if(var[0]=="."||var[var.size-1]== ".")
-		return false;
-
-    value = strTok(var, ".");
-    if(int(value[value.size -1]) > 10 && int(value[value.size -1]) < 100)
-		divide = 100;
-    else if(getSubStr(value[value.size-1], 0).size==2)
-		divide = 100;
-    else if(getSubStr(value[value.size-1], 0).size==3)
-		divide = 1000;
-    else if(getSubStr(value[value.size-1], 0).size>=4)
-		return false;
-    else
-		divide = 10;
-
-    value = int(value[0])+(int(value[value.size-1])/divide);
-    return true;
-}
-
-FloatFov( var )
-{
-    compatibleArray = getSubStr("1234567890.",0);
-    if(var.size<3)
-		return false;
-
-	var = getSubStr(var,0);
-    for(i=0;i<var.size;i++)
-    {
-		// I set this to false to begin with, if it's still false by end of loop
-		// then we know string has a character not allowed in a float
-        validChar = false;
-		for(j=0;j<compatibleArray.size;j++)
-        {
-			if(var[i]!=compatibleArray[j])
-				continue;
-            else
-				validChar = true;
-			break;
-		}
-        if(!validChar)
-			return false;
-    }
-
-    if(var[0]=="."||var[var.size-1]== ".")
-		return false;
-    value = strTok(var, ".");
-
-    if(int(value[value.size -1]) > 10 && int(value[value.size -1]) < 100)
-		divide = 100;
-    else if(getSubStr(value[value.size-1], 0).size==2)
-		divide = 100;
-    else if(getSubStr(value[value.size-1], 0).size==3)
-		divide = 1000;
-    else if(getSubStr(value[value.size-1], 0).size>=4)
-		return false;
-    else
-		divide = 10;
-
-    value = int(value[0])+(int(value[value.size-1])/divide);
-	ret = value * 1000;
-    return ret;
 }

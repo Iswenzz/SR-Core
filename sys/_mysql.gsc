@@ -28,7 +28,7 @@ main()
 	level.MYSQL_TYPE_MEDIUM_BLOB  = 250;
 	level.MYSQL_TYPE_LONG_BLOB    = 251;
 	level.MYSQL_TYPE_BLOB         = 252;
-	level.MYSQL_TYPE_VAR_STRING   = 253;
+	level.MYSQL_TYPE_STRING       = 253;
 	level.MYSQL_TYPE_STRING       = 254;
 	level.MYSQL_TYPE_GEOMETRY     = 255;
 }
