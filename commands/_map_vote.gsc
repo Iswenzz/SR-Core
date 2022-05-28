@@ -3,7 +3,7 @@
 
 init()
 {
-	cmd("adminplus", "votemap");
+	cmd("adminplus", "votemap", ::cmd_Votemap);
 
 	self.mapselection = loadmaps(false);
 	self.votePage = 0;
@@ -11,9 +11,15 @@ init()
 	self thread menuresponse();
 }
 
-//returns an array of maps - does not include current map being played
-//true = array includes current map being played
-//false = array wont include currentmap being played
+cmd_Cooldown()
+{
+	self sr\sys\_admins::recordCommands();
+	self.voteCoolDown = -1000000;
+	self IPrintLnBold("^6Vote CD cleared");
+}
+
+// True: array includes current map being played.
+// False: array wont include current map being played.
 loadmaps(x)
 {
 	map_list = [];
@@ -36,7 +42,7 @@ loadmaps(x)
 	return map_list;
 }
 
-//writes map names to client dvars for display
+// Writes map names to client dvars for display
 displayMaps()
 {
 	if(!isDefined(self.mapselection))

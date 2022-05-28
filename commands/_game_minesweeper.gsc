@@ -1,4 +1,4 @@
 main()
 {
-    cmd("player", "mine");
+    cmd("player", "mine", ::cmd_Minesweeper);
 }

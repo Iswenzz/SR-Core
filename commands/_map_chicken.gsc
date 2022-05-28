@@ -23,8 +23,8 @@ Email Pro: suxlolz1528@gmail.com
 
 main()
 {
-	cmd("member", 	"chicken");
-	cmd("owner", 	"chicken_save");
+	cmd("member", 	"chicken",		::cmd_Chicken);
+	cmd("owner", 	"chicken_save",	::cmd_ChickenSave);
 
 	map = getDvar("mapname");
 	path = "./sr/server_data/speedrun/chicken/"+map+".txt";

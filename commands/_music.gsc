@@ -2,6 +2,8 @@ main()
 {
 	level.sr_music = [];
 
+	cmd("adminplus", "music", ::cmd_Music);
+
 	addMusic("dame_tu_cosita");
 	addMusic("ways_to_die");
 	addMusic("this_is_minecraft");

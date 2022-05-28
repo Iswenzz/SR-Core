@@ -6,7 +6,7 @@
 
 init()
 {
-	cmd("owner", "map_save");
+	cmd("owner", "map_save", ::cmd_MapSave);
 
 	map = getDvar("mapname");
 	path = "./sr/server_data/speedrun/saved_map/"+map+".txt";
