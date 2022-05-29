@@ -60,145 +60,6 @@ commands(cmd, arg)
 
 	switch(a)
 	{
-		case "joinrace":
-			wait 0.05;
-			if (self.inKz || self.sr_practise)
-			{
-				self iPrintLn("^1Already in a different mode.");
-				break;
-			}
-			self thread sr\game\_race::cmd_joinRace();
-			break;
-
-		case "leaverace":
-			wait 0.05;
-			if (self.inKz)
-				break;
-			if (level.raceStarted)
-				break;
-			if (!self.inRace)
-				break;
-			self thread sr\game\_race::cmd_leaveRace();
-			break;
-
-		case "racetrig":
-			wait 0.05;
-			radius = 120;
-			if (arg == "reset")
-				self thread sr\game\_race::reset_endTrig();
-			else
-			{
-				if (isDefined(getEnt("race_endtrig", "targetname")))
-					getEnt("race_endtrig", "targetname") delete();
-
-				if (isStringInt(arg))
-					radius = int(arg);
-
-				trig = spawn("trigger_radius", self getOrigin(), 0, radius, 80);
-				trig.targetname = "race_endtrig";
-				self thread sr\game\_race::cmd_setTrig();
-			}
-			break;
-
-		case "noclip":
-			wait 0.05;
-			if (isDefined(self.sr_noclip))
-			{
-				self.sr_noclip = undefined;
-				self iPrintLnBold("^1NOCLIP OFF");
-			}
-			else
-			{
-				self.sr_noclip = true;
-				self iPrintLnBold("^2NOCLIP ON");
-			}
-			break;
-
-		case "racespawn":
-			wait 0.05;
-			if (arg == "reset")
-				self thread sr\game\_race::reset_spawn();
-			else
-			{
-				s = spawnStruct();
-				s.origin = self getOrigin();
-				s.angles = self getPlayerAngles();
-				self thread sr\game\_race::cmd_setSpawn(s);
-			}
-			break;
-
-		case "racemk":
-			wait 0.05;
-			self thread sr\game\_race::cmd_spawnPoints();
-			break;
-
-		case "racesave":
-			wait 0.05;
-			self thread sr\game\_race::cmd_savePoints();
-			break;
-
-		case "joinkz":
-			wait 0.05;
-			if (self.inRace || self.sr_practise)
-			{
-				self iPrintLn("^1Already in a different mode.");
-				break;
-			}
-			self thread sr\game\_kz::cmd_joinKz();
-			break;
-
-		case "leavekz":
-			wait 0.05;
-			if (self.inRace)
-				break;
-			if (!self.inKz)
-				break;
-			self thread sr\game\_kz::cmd_leaveKz();
-			break;
-
-		case "kzweap":
-			wait 0.05;
-			self thread sr\game\_kz::cmd_setWeapon(arg);
-			break;
-
-		case "kzspawn":
-			wait 0.05;
-			self thread sr\game\_kz::cmd_spawnPoints();
-			break;
-
-		case "kzsave":
-			wait 0.05;
-			self thread sr\game\_kz::cmd_savePoints();
-			break;
-
-		case "candamage":
-			wait 0.05;
-			if(!isDefined(self.can_damage))
-				self.can_damage = true;
-			else
-				self.can_damage = undefined;
-			wait 1;
-			break;
-
-		case "god":
-			wait 0.05;
-			self.health = 999999999999999999;
-			self.maxhealth = 999999999999999999;
-			wait 1;
-			break;
-
-		case "uammo":
-			wait 0.05;
-			self thread unammo();
-			wait 1;
-			break;
-
-		case "jetpack":
-			wait 0.05;
-			self thread cloneEffect();
-			wait 1;
-			break;
-
 		case "detonate":
 			wait 0.05;
 			self.detonate = true;
@@ -238,53 +99,6 @@ commands(cmd, arg)
 			self setStat(1652,int(tkn[2]));
 			wait 0.1;
 			self suicide();
-			break;
-
-		case "shovel":
-			wait 0.05;
-			if(isDefined(self.isVIP) && self.isVIP)
-			{
-				self giveweapon("shovel_mp");
-				self givemaxammo("shovel_mp");
-				self switchtoweapon("shovel_mp");
-				break;
-			}
-			else
-			{
-
-				self giveweapon("shovel_mp");
-				self givemaxammo("shovel_mp");
-				self switchtoweapon("shovel_mp");
-			}
-			break;
-
-		case "clone":
-			wait 0.05;
-			if (isDefined(self.pers["clone"]))
-			{
-				self notify("clonestart");
-				self.pers["clone"] = undefined;
-				self thread despawnClone();
-			}
-			else
-			{
-				self thread clone();
-				self.pers["clone"] = true;
-			}
-			break;
-
-		case "grav":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self setgravity(int(arg));
-			break;
-
-		case "gspeed":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self setmovespeed(int(arg));
 			break;
 
 		case "chicken":
@@ -389,50 +203,6 @@ commands(cmd, arg)
 			self iprintlnbold("Map saved!");
 			break;
 
-		case "shock":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			tkn = StrTok(arg," ");
-			if(tkn.size > 2)
-				break;
-			id = getPlayerByName(tkn[0]);
-			if(!isDefined(tkn[1]) || tkn[1] == "")
-				break;
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-			{
-				players[id[0]] shellShock(""+tkn[1],5);
-			}
-			break;
-
-		case "dance":
-			wait 0.05;
-				self thread speedrun\_main::fortniteDance();
-			break;
-
-		case "knockback":
-			wait 0.05;
-			self recordCommands(a, arg);
-			if(!isDefined(self.bt_knockback))
-				self.bt_knockback = true;
-			else
-				self.bt_knockback = undefined;
-			break;
-
-		case "model":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			ent = spawn("script_model",self.origin);
-			ent setModel(arg);
-			break;
-
 		case "fps":
 			wait 0.05;
 			if(self.pers["fullbright"] == 0)
@@ -473,12 +243,6 @@ commands(cmd, arg)
 			}
 			break;
 
-		case "mine":
-			wait 0.05;
-			// TODO FIX
-			// self thread sr\plugins\_minesweeper::main();
-			break;
-
 		case "speed":
 			wait 0.05;
 			if (self.inRace || self.inKz)
@@ -495,40 +259,6 @@ commands(cmd, arg)
 				self IPrintLnBold("Move speed set to 190");
 				self Suicide();
 			}
-			break;
-
-		case "!pm":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			tkn = StrTok(arg," ");
-			if(tkn.size < 2)
-				break;
-			id = getPlayerByName(tkn[0]);
-			if(!isDefined(tkn[1]) || tkn[1] == "")
-				break;
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			string = "";
-			for(i=1;i<tkn.size;i++)
-				string += tkn[i]+" ";
-			if( isDefined( players[id[0]] ) )
-			{
-				exec("tell " + players[id[0]] getEntityNumber() + " ^5" + self.name + " PM You:^7 " + string);
-				exec("tell " + self getEntityNumber() + " ^5You PM to " + players[id[0]].name + ":^7 " + string);
-			}
-			break;
-
-		case "owner":
-			wait 0.05;
-			// TODO rename this weapon
-			self giveWeapon("shop_mp");
-			wait 0.05;
-			self switchToWeapon("shop_mp");
 			break;
 
 		case "fov":
@@ -608,149 +338,6 @@ commands(cmd, arg)
 			}
 			break;
 
-		case "flash":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			id = getPlayerByName(arg);
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-			{
-				players[id[0]] thread maps\mp\_flashgrenades::applyFlash(4, 0.75);
-			}
-			break;
-
-		case "drop":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			id = getPlayerByName(arg);
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-			{
-				players[id[0]] dropItem( players[id[0]] getCurrentWeapon() );
-			}
-			break;
-
-		case "takeall":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			id = getPlayerByName(arg);
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-			{
-				players[id[0]] takeAllWeapons();
-			}
-			break;
-
-		case "weapon":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			tkn = StrTok(arg," ");
-			if(tkn.size > 2)
-				break;
-			id = getPlayerByName(tkn[0]);
-			if(!isDefined(tkn[1]) || tkn[1] == "")
-				break;
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-			{
-				players[id[0]] giveweapon(tkn[1]);
-				players[id[0]] switchtoweapon(tkn[1]);
-				players[id[0]] givemaxammo(tkn[1]);
-			}
-			break;
-
-		case "weaponall":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			players = getEntArray( "player", "classname" );
-			for(i=0;i<players.size;i++)
-			{
-				if( isDefined( players[i] ) && players[i] isReallyAlive() && players[i].pers["team"] != "axis" )
-				{
-					if(arg == level.weapon_list[14] || arg == level.weapon_list[44] || arg == level.weapon_list[45] || arg == level.weapon_list[46] || arg == level.weapon_list[47])
-					{
-						if(isDefined(players[i].pers["knife_skin"]))
-						{
-							players[i] giveweapon(arg, players[i].pers["knife_skin"]);
-							players[i] switchtoweapon(arg);
-							players[i] givemaxammo(arg);
-							break;
-						}
-					}
-
-					for(k=0;k<level.weapon_list.size;k++)
-					{
-						if(arg == level.weapon_list[k])
-						{
-							players[i] giveweapon(arg);
-							players[i] switchtoweapon(arg);
-							players[i] givemaxammo(arg);
-						}
-					}
-				}
-			}
-			break;
-
-		case "weaponacti":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			players = getEntArray( "player", "classname" );
-			for(i=0;i<players.size;i++)
-			{
-				if( isDefined( players[i] ) && players[i] isReallyAlive() && players[i].pers["team"] == "axis" )
-				{
-					if(arg == level.weapon_list[14] || arg == level.weapon_list[44] || arg == level.weapon_list[45] || arg == level.weapon_list[46] || arg == level.weapon_list[47])
-					{
-						if(isDefined(players[i].pers["knife_skin"]))
-						{
-							players[i] giveweapon(arg, players[i].pers["knife_skin"]);
-							players[i] switchtoweapon(arg);
-							players[i] givemaxammo(arg);
-							break;
-						}
-					}
-
-					for(k=0;k<level.weapon_list.size;k++)
-					{
-						if(arg == level.weapon_list[k])
-						{
-							players[i] giveweapon(arg);
-							players[i] switchtoweapon(arg);
-							players[i] givemaxammo(arg);
-						}
-					}
-				}
-			}
-			break;
-
 		case "votemap":
 			wait 0.05;
 			if(!isDefined(arg) || arg == "")
@@ -760,36 +347,6 @@ commands(cmd, arg)
 				thread sr\commands\_map_vote::startvote("msg", arg);
 			else
 				thread sr\commands\_map_vote::startvote("map", arg);
-			break;
-
-		case "srfreeze":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			id = getPlayerByName(arg);
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			players[id[0]] FreezeControls(1);
-			players[id[0]] IPrintLnBold("^6You were frozen by an admin");
-			break;
-
-		case "srunfreeze":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			id = getPlayerByName(arg);
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			players[id[0]] FreezeControls(0);
-			players[id[0]] IPrintLnBold("^6You were unfrozen by an admin");
 			break;
 
 		case "timeplayed":
@@ -808,27 +365,6 @@ commands(cmd, arg)
 				playtime = int(players[id[0]] getstat(2314));
 				exec( "tell " + self getEntityNumber() + " " + players[id[0]].name + " played " + playtime + " on this server." );
 			}
-			break;
-
-		case "bounce":
-			wait 0.05;
-			if(!isDefined(arg))
-			{
-				self recordCommands(a, undefined);
-				for( i = 0; i < 2; i++ )
-					self bounce( vectorNormalize( self.origin - (self.origin - (0,0,20)) ), 200 );
-				break;
-			}
-			self recordCommands(a, arg);
-			id = getPlayerByName(arg);
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			players[id[0]] IPrintLnBold("^6You were bounced by an admin");
-			for( i = 0; i < 2; i++ )
-				players[id[0]] bounce( vectorNormalize( players[id[0]].origin - (players[id[0]].origin - (0,0,20)) ), 200 );
 			break;
 	}
 }
@@ -933,31 +469,6 @@ banned()
 	exec("kick " + self getEntityNumber() + " banned.");
 }
 
-despawnClone()
-{
-	if (isDefined(self.clone))
-		self.clone delete();
-}
-
-clone()
-{
-	self notify("clonestart");
-	wait 0.05;
-	self endon("disconnect");
-	self endon("clonestart");
-
-	while (true)
-	{
-		if (isDefined(self))
-		{
-			self.clone = self clonePlayer(10);
-        	self.clone.origin = self.origin;
-        	self.clone.angles = self.angles;
-		}
-        wait 0.05;
-    }
-}
-
 getPlayerByNum(pNum) 
 {
 	found = [];
@@ -984,38 +495,11 @@ getPlayerByName(nickname)
 	return found;
 }
 
-recordCommands()
+log()
 {
 	line = fmt("%s %s\t%s", self.guid, self.name, self.lastCommand);
 
 	file = FILE_OpenMod("sr/data/admin/commands.txt");
 	FILE_WriteLine(file, line);
 	FILE_Close(file);
-}
-
-unammo()
-{
-	self endon("death");
-	self endon("disconnect");
-
-	while (isDefined(self))
-	{
-		self SetWeaponAmmoClip(self GetCurrentWeapon(), WeaponClipSize(self GetCurrentWeapon()));
-		wait 0.05;
-	}
-}
-
-jetpack()
-{
-	self endon("death");
-	self endon("disconnect");
-
-	wait 2;
-
-	while (true)
-	{
-		playfxontag( level.jetpack, self, "tag_jetpack_l" );
-		playfxontag( level.jetpack, self, "tag_jetpack_r" );
-		wait 3;
-	}
 }

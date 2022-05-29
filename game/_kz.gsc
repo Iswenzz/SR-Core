@@ -165,7 +165,7 @@ destroyPlayerCard()
 }
 
 // set kz weapon
-cmd_setWeapon(weap)
+setWeapon(weap)
 {
 	if (weap == "rng")
 	{
@@ -196,7 +196,7 @@ spawnPlayersInRoom()
 {
 	// regen rng weapons
 	if (level.kzWeaponMode == "rng")
-		cmd_setWeapon("rng");
+		setWeapon("rng");
 
 	for (i = 0; i < level.kzPlayersInRoom.size; i++)
 		if (isDefined(level.kzPlayersInRoom[i]))
@@ -338,11 +338,11 @@ playersLeaveKz()
 	players = getEntArray("player", "classname");
 	for (i = 0; i < players.size; i++)
 		if (isDefined(players[i]) && players[i].inKz)
-			players[i] cmd_leaveKz();
+			players[i] leaveKz();
 }
 
 // add a new point to the list
-cmd_spawnPoints()
+spawnPoints()
 {
 	ent = spawnStruct();
 	ent.origin = self GetOrigin();
@@ -352,7 +352,7 @@ cmd_spawnPoints()
 }
 
 // save all point to file
-cmd_savePoints()
+savePoints()
 {
 	path = "./sr/server_data/speedrun/kz_points/" + getDvar("mapname") + ".txt";
 	if (level.placedPoints.size % 2 == 1)
@@ -373,7 +373,7 @@ cmd_savePoints()
 }
 
 // command to join the kz
-cmd_joinKz()
+joinKz()
 {
 	self endon("disconnect");
 	for (i = 0; i < level.kzPlayers.size; i++)
@@ -383,7 +383,7 @@ cmd_joinKz()
 	level.kzPlayers[level.kzPlayers.size] = self;
 	self.sr_cheatmode = true;
 	self.inKz = true;
-	self.can_damage = true;
+	self.canDamage = true;
 	self spawnPlayerToSpec();
 	exec("say " + self.name + " ^7joined the killzone! [^6!joinkz !leavekz^7] [^1" + level.kzPlayers.size + "^7]");
 }
@@ -400,7 +400,7 @@ spawnPlayerToSpec()
 }
 
 // command to leave the kz
-cmd_leaveKz()
+leaveKz()
 {
 	self endon("disconnect");
 
@@ -415,7 +415,7 @@ cmd_leaveKz()
 
 	self unlink();
 	self.sr_cheatmode = false;
-	self.can_damage = undefined;
+	self.canDamage = undefined;
 	self setClientDvar("cg_drawFriendlyNames", 1);
 	self braxi\_mod::respawn();
 	self suicide();

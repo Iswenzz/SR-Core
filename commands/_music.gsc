@@ -2,35 +2,61 @@ main()
 {
 	level.sr_music = [];
 
-	cmd("adminplus", "music", ::cmd_Music);
+	// Commands
+	cmd("adminplus", 	"music", 		::cmd_Music);
+	cmd("adminplus", 	"music_help", 	::cmd_MusicHelp);
+	cmd("player", 		"music_stop", 	::cmd_MusicStop);
 
-	addMusic("dame_tu_cosita");
-	addMusic("ways_to_die");
-	addMusic("this_is_minecraft");
-	addMusic("stal");
-	addMusic("fn_despacito");
-	addMusic("oof");
-	addMusic("mc");
-	addMusic("doot");
-	addMusic("despacito");
-	addMusic("dead");
-	addMusic("delfino");
-	addMusic("ninja");
-	addMusic("poopy");
-	addMusic("wii");
-	addMusic("ricardo");
-	addMusic("fishe");
-	addMusic("tense");
-	addMusic("cow");
-	addMusic("polish");
-	addMusic("minion");
+	// Musics
+	add("dame_tu_cosita");
+	add("ways_to_die");
+	add("this_is_minecraft");
+	add("stal");
+	add("fn_despacito");
+	add("oof");
+	add("mc");
+	add("doot");
+	add("despacito");
+	add("dead");
+	add("delfino");
+	add("ninja");
+	add("poopy");
+	add("wii");
+	add("ricardo");
+	add("fishe");
+	add("tense");
+	add("cow");
+	add("polish");
+	add("minion");
 }
 
-playMusic(name)
+cmd_Music(args)
 {
-	stopMusic();
+	if (args.size < 1)
+		return self sr\sys\_admins::pm("Usage: music <name>");
 
-	if(name == "stop")
+	name = args[0];
+	play(name);
+}
+
+cmd_MusicHelp()
+{
+	aliases = getArrayKeys(level.sr_music);
+	string = StrJoin(aliases, ",");
+
+	self sr\sys\_admins::pm(string);
+}
+
+cmd_MusicStop()
+{
+	self clientcmd("snd_stopambient");
+}
+
+play(name)
+{
+	stop();
+
+	if (name == "stop")
 		return;
 
 	wait 0.05;
@@ -39,25 +65,12 @@ playMusic(name)
 		AmbientPlay(srm, 2);
 }
 
-stopAmbient()
-{
-	self clientcmd("snd_stopambient");
-}
-
-stopMusic()
+stop()
 {
 	AmbientStop(2);
 }
 
-musicHelp()
-{
-	aliases = getArrayKeys(level.sr_music);
-	string = StrJoin(aliases, ",");
-
-	exec(fmt("tell %d %s", self getEntityNumber(), string));
-}
-
-addMusic(name)
+add(name)
 {
 	index = level.sr_music.size + 1;
 	level.sr_music[name] = fmt("srm%d", index);

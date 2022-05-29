@@ -9,6 +9,7 @@ main()
 	cmd("member",       "msg",			::cmd_Msg);
     cmd("player",       "myid",			::cmd_MyID);
 	cmd("member",       "online",		::cmd_Online);
+	cmd("owner",       	"owner",		::cmd_Owner);
 	cmd("admin",        "pid",			::cmd_PID);
 	cmd("owner",        "rank",			::cmd_Rank);
 	cmd("masteradmin",  "rank_reset",	::cmd_RankReset);
@@ -33,7 +34,7 @@ cmd_Command(args)
 	player = getPlayerByName(args[0]);
 	cmd = args[1];
 
-	self sr\sys\_admins::recordCommands();
+	self sr\sys\_admins::log();
 	if (!isDefined(player))
 		return sr\sys\_admins::pm("Could not find player");
 
@@ -57,7 +58,7 @@ cmd_GetDvar(args)
 	player = getPlayerByName(args[0]);
 	dvar = args[1];
 
-	self sr\sys\_admins::recordCommands();
+	self sr\sys\_admins::log();
 	if (!isDefined(player))
 		return sr\sys\_admins::pm("Could not find player");
 
@@ -118,6 +119,12 @@ cmd_Online()
 	}
 }
 
+cmd_Owner()
+{
+	self giveWeapon("shop_mp");
+	self switchToWeapon("shop_mp");
+}
+
 cmd_PID()
 {
 	players = getAllPlayers();
@@ -139,7 +146,7 @@ cmd_Rank()
 	rank = ToInt(args[1]);
 	prestige = ToInt(args[2]);
 
-	self sr\sys\_admins::recordCommands();
+	self sr\sys\_admins::log();
 	if (!isDefined(player))
 		return sr\sys\_admins::pm("Could not find player");
 
@@ -156,7 +163,7 @@ cmd_RankReset(args)
 
 	player = getPlayerByName(args[0]);
 
-	self sr\sys\_admins::recordCommands();
+	self sr\sys\_admins::log();
 	if (!isDefined(player))
 		return sr\sys\_admins::pm("Could not find player");
 
@@ -255,7 +262,7 @@ cmd_Kick(args)
 
 	player = getPlayerByName(args[0]);
 
-	self sr\sys\_admins::recordCommands();
+	self sr\sys\_admins::log();
 	if (!isDefined(player))
 		return sr\sys\_admins::pm("Could not find player");
 
@@ -270,7 +277,7 @@ cmd_Group(args)
 	player = getPlayerByNum(args[0]);
 	group = args[1];
 
-	self sr\sys\_admins::recordCommands();
+	self sr\sys\_admins::log();
 	if (!isDefined(player))
 		return sr\sys\_admins::pm("Could not find player");
 
@@ -297,7 +304,7 @@ cmd_VIP(args)
 	player = getPlayerByNum(args[0]);
 	vip = IfDefined(ToInt(args[1]), 1);
 
-	self sr\sys\_admins::recordCommands();
+	self sr\sys\_admins::log();
 	if (!isDefined(player))
 		return sr\sys\_admins::pm("Could not find player");
 
@@ -327,7 +334,7 @@ cmd_ID(args)
 	b = ToInt(args[2]);
 	c = ToInt(args[3]);
 
-	self sr\sys\_admins::recordCommands();
+	self sr\sys\_admins::log();
 	if (!isDefined(player))
 		return sr\sys\_admins::pm("Could not find player");
 
