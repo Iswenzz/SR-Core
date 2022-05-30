@@ -71,7 +71,7 @@ onConnectOptions()
 	self setClientDvar("sr_setting_11", "FX");
 	self setClientDvar("sr_setting_12", "Knife Only");
 
-	self thread sr\commands\_player_hide::HidePlayers();
+	self thread hidePlayers();
 	self thread show_fps_hud();
 	self thread updateSettings();
 	self thread menuRes();
@@ -566,7 +566,7 @@ hidePlayers()
     while (true)
     {
         players = braxi\_common::getAllPlayers();
-        for (i = 0; i < players.size; i++) 
+        for (i = 0; i < players.size; i++)
         {
             if (!isDefined(players[i].pers["team"]))
                 continue;
@@ -577,15 +577,15 @@ hidePlayers()
             else
                 players[i] hide();
         }
-        for (i = 0; i < players.size; i++) 
+        for (i = 0; i < players.size; i++)
         {
-            for (j = 0; j < players.size; j++) 
+            for (j = 0; j < players.size; j++)
             {
-                if ((!isDefined(players[j].ghost) || !players[j].ghost) 
+                if ((!isDefined(players[j].ghost) || !players[j].ghost)
                     && (isDefined(players[i].pers) && isDefined(players[i].pers["hideplayers"]) || players[i].pers["team"] == "axis"))
                 {
                     if (!players[i].pers["hideplayers"])
-                        players[j] showToPlayer(players[i]); 
+                        players[j] showToPlayer(players[i]);
                     // TODO HIDE NEAR PLAYERS
                     // else if (players[i].pers["hideplayers"] == 2 && distance2D(players[i].origin, players[j].origin) <= 3)
                     //     players[j] showToPlayer(players[i]);

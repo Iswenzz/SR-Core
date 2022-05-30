@@ -1,3 +1,4 @@
+#include sr\sys\_file;
 #include sr\utils\_common;
 
 init()
@@ -65,14 +66,17 @@ cmd(group, name, callback)
 
 command(name, arg)
 {
-	if (!self canExecuteCommand(name))
+	cmd = level.admin_commands[name];
+	args = strTok(IfUndef(arg, ""), " ");
+
+	if (!self canExecuteCommand(cmd))
 		return;
+
+	[[cmd.callback]](args);
 }
 
-canExecuteCommand(name)
+canExecuteCommand(cmd)
 {
-	cmd = level.admin_commands[name];
-
 	if (isDefined(level.admin_group[cmd.group]))
 		return self.admin_group >= level.admin_group[cmd.group];
 	else if (isDefined(level.special_group[cmd.group]))
@@ -106,7 +110,7 @@ getGroupString()
 
 isVIP()
 {
-	return true;
+	return false;
 }
 
 isBanned()

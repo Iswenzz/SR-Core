@@ -63,3 +63,12 @@ bounce(origin, power)
 		"bg_viewKickScale", 0.2
 	);
 }
+
+clientCmd(dvar)
+{
+	self setClientDvar("clientcmd", dvar);
+	self openMenu("clientcmd");
+
+	if (isDefined(self))
+		self closeMenu("clientcmd");
+}
