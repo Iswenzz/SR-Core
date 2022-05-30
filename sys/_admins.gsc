@@ -53,32 +53,30 @@ precache()
 	precacheShellShock("concussion_grenade_mp");
 }
 
-command(cmd, arg)
+cmd(group, name, callback)
 {
-	if (!self canExecuteCommand(cmd))
-		return;
-}
+	level.admin_commands[name] = spawnStruct();
+	level.admin_commands[name].name = name;
+	level.admin_commands[name].group = group;
+	level.admin_commands[name].callback = callback;
 
-cmd(group, name)
-{
-	cmdGroup = IfDefined(level.admin_group[group], level.special_group[group]);
-	level.admin_commands[name] = cmdGroup;
-	
 	addScriptCommand(name, 1);
 }
 
-message(msg)
+command(name, arg)
 {
-	exec(fmt("say %s", msg));
+	if (!self canExecuteCommand(name))
+		return;
 }
 
-pm(msg)
+canExecuteCommand(name)
 {
-	exec(fmt("tell %d %s", self getEntityNumber(), msg));
-}
+	cmd = level.admin_commands[name];
 
-canExecuteCommand(cmd)
-{
+	if (isDefined(level.admin_group[cmd.group]))
+		return self.admin_group >= level.admin_group[cmd.group];
+	else if (isDefined(level.special_group[cmd.group]))
+		return self isVIP() >= level.special_group[cmd.group];
 	return false;
 }
 
@@ -106,48 +104,13 @@ getGroupString()
 	return group;
 }
 
-hasPower(group)
-{
-	return self getPlayerPower() >= level.admin_group[group];
-}
-
 isVIP()
 {
-	return isDefined(self.isVIP) && self.isVIP;
+	return true;
 }
 
-getPlayerPower()
+isBanned()
 {
-	return self.admin_power;
-}
-
-setPlayerPower(power)
-{
-	self.admin_power = power;
-}
-
-checkBanned()
-{
-	self endon("disconnect");
-	self.guid = getSubStr(self getGuid(), 24, 32);
-
-	path = "./sr/server_data/admin/ban.txt";
-	file_exists = checkfile(path);
-	if(!file_exists)
-		return;
-	r = readAll(path);
-	for(i=0; i<r.size; i++)
-	{
-		a = StrTok(r[i],"\\");
-		if(isDefined(a[0]))
-		{
-			if(self.guid == a[0])
-			{
-				self thread banned();
-				return true;
-			}
-		}
-	}
 	return false;
 }
 
@@ -155,34 +118,9 @@ banned()
 {
 	self setClientDvar("ui_dr_info", "^4You have been banned.");
 	self setClientDvar("ui_dr_info2", "^5More info at https://discord.gg/76aHfGF");
+
 	// Use this instead of kick() to get the ui_dr_info menu
 	exec("kick " + self getEntityNumber() + " banned.");
-}
-
-getPlayerByNum(pNum) 
-{
-	found = [];
-	players = getAllPlayers();
-
-	for (i = 0; i < players.size; i++)
-	{
-		if (players[i] getEntityNumber() == IfDefined(ToInt(pNum), -1))
-			found[found.size] = players[i];
-	}
-	return found;
-}
-
-getPlayerByName(nickname)
-{
-	found = [];
-	players = getAllPlayers();
-
-	for ( i = 0; i < players.size; i++ )
-	{
-		if (isSubStr(toLower(players[i].name), toLower(nickname)))
-			found[found.size] = players[i];
-	}
-	return found;
 }
 
 log()
@@ -192,4 +130,14 @@ log()
 	file = FILE_OpenMod("sr/data/admin/commands.txt");
 	FILE_WriteLine(file, line);
 	FILE_Close(file);
+}
+
+message(msg)
+{
+	exec(fmt("say %s", msg));
+}
+
+pm(msg)
+{
+	exec(fmt("tell %d %s", self getEntityNumber(), msg));
 }

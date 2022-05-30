@@ -10,7 +10,7 @@ main()
 cmd_FOV(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: fov <value>");
+		return self pm("Usage: fov <value>");
 
 	value = ToFloat(args[0]);
 	f3 = fmt("%.3f", value);
@@ -32,7 +32,7 @@ cmd_FPS()
 	msg = Ternary(self.pers["fullbright"], "^2Fullbright On", "^1Fullbright Off");
 
 	self setClientDvar("r_fullbright", self.pers["fullbright"]);
-	self sr\sys\_admins::pm(msg);
+	self pm(msg);
 	self thread sr\player\_options::updateSettings();
 }
 
@@ -53,14 +53,14 @@ cmd_FX()
 	msg = Ternary(self.pers["fx"], "^2FX On", "^1FX Off");
 
 	self setClientDvar("fx_enabled", self.pers["fx"]);
-	self sr\sys\_admins::pm(msg);
+	self pm(msg);
 	self thread sr\player\_options::updateSettings();
 }
 
 cmd_Color(args)
 {
 	if (args.size < 3)
-		return self sr\sys\_admins::pm("Usage: color <r> <g> <b>");
+		return self pm("Usage: color <r> <g> <b>");
 
 	r = ToInt(args[0]);
 	g = ToInt(args[1]);

@@ -82,6 +82,6 @@ cmd_CanDamage(args)
 
 cmd_Message(args)
 {
-	message = IfDefined(self getDvar("message"), "XD")
+	message = IfUndef(self getDvar("message"), "XD")
 	iPrintLnBold(message);
 }

@@ -1,3 +1,4 @@
+#include sr\sys\_admins;
 #include sr\game\_race;
 
 main()
@@ -21,7 +22,7 @@ cmd_Race()
 
 cmd_RaceTrig(args)
 {
-	radius = IfDefined(ToInt(args[0]), 120);
+	radius = IfUndef(ToInt(args[0]), 120);
 
 	if (arg == "reset")
 	{

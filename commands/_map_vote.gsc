@@ -1,3 +1,5 @@
+#include sr\sys\_admins;
+
 main()
 {
 	level.vote_maps = load(false);
@@ -19,12 +21,12 @@ event()
 cmd_Vote(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: vote <value>");
+		return self pm("Usage: vote <value>");
 
 	value = args[0];
 	type = Ternary(StartsWith(value, "mp_"), "map", "msg");
 
-	self sr\sys\_admins::log();
+	self log();
 	vote(type, value);
 }
 
@@ -38,7 +40,7 @@ cmd_VoteCancel()
 cmd_VoteCooldown()
 {
 	self.vote_cd = -1000000;
-	self sr\sys\_admins::pm("^6Vote CD cleared");
+	self pm("^6Vote CD cleared");
 }
 
 cmd_VoteForce()
@@ -102,7 +104,7 @@ onMenuResponse()
 		args = strTok(response, ":");
 		action = args[0];
 		value = args[1];
-		
+
 		if(action == "page")
 		{
 			if (value == "next" && page < maxPage - 1)
@@ -123,7 +125,7 @@ onMenuResponse()
 			num = ToInt(value) + (page * level.vote_max_entries);
 			selected = level.vote_maps[num];
 			self setClientDvar("sr_vote_selected", selected);
-			self setClientDvar("sr_vote_selected_material", "loadscreen_" + selected); 
+			self setClientDvar("sr_vote_selected_material", "loadscreen_" + selected);
 		}
 		if (action == "callvote")
 		{
@@ -148,7 +150,7 @@ vote(vote, value)
 	level.vote_timer = 20;
 	level.vote_yes = 0;
 	level.vote_no = 0;
-	
+
 	// Type
 	string = "";
 	switch (vote)
@@ -272,7 +274,7 @@ hud(message)
     self.vote_hud[7] = addHud(self, 5, -42, 1, "left", "bottom", 1.4);
     self.vote_hud[7] setText(message);
     self.vote_hud[7].sort = 96;
-	
+
     self.vote_hud[8] = addHud(self, 135, -42, 1, "left", "bottom", 1.4);
     self.vote_hud[8].sort = 96;
     self hudUpdate();
@@ -285,7 +287,7 @@ hudUpdate()
 
 	while (true)
 	{
-		self.vote_hud[5] setText(level.vote_yes);	
+		self.vote_hud[5] setText(level.vote_yes);
 		self.vote_hud[6] setText(level.vote_no);
 		self.vote_hud[8] setText("" + level.vote_timer);
 		wait 0.1;

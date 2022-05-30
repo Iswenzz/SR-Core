@@ -73,7 +73,7 @@ close()
 
 option(name, id, menu, script, arg)
 {
-	predator = IfDefined(level.sr_menu[id][menu], []);
+	predator = IfUndef(level.sr_menu[id][menu], []);
 
 	predator[predator.size] = name;
 	predator[predator.size] = script;
@@ -103,7 +103,7 @@ open(id)
 
 	submenu = "main";
 	menu = level.sr_menu[id][submenu];
-	
+
 	self.sr_menu[0] = addTextHud(self, -200, 0, .6, "left", "top", "right",0, 101);
 	self.sr_menu[0] setShader("nightvision_overlay_goggles", 400, 650);
 	self.sr_menu[0] thread fadeIn(.5, true, "right");
@@ -229,7 +229,7 @@ fadeOut(time, slide, dir)
 	self.alpha = 0;
 
 	wait time;
-	if (isDefined(self)) 
+	if (isDefined(self))
 		self destroy();
 }
 

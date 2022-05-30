@@ -1,3 +1,4 @@
+#include sr\sys\_admins;
 #include sr\game\_kz;
 
 main()
@@ -31,7 +32,7 @@ cmd_KzSave()
 cmd_KzWeapon(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: kz_weapon <name>");
+		return self pm("Usage: kz_weapon <name>");
 
 	weapon = args[0];
 

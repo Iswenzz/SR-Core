@@ -1,3 +1,4 @@
+#include sr\sys\_admins;
 #include sr\utils\_common;
 
 main()
@@ -29,14 +30,14 @@ main()
 cmd_Command(args)
 {
 	if (args.size < 2)
-		return self sr\sys\_admins::pm("Usage: cmd <playerName> <\"command\">");
+		return self pm("Usage: cmd <playerName> <\"command\">");
 
 	player = getPlayerByName(args[0]);
 	cmd = args[1];
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	player clientCmd(cmd);
 }
@@ -44,7 +45,7 @@ cmd_Command(args)
 cmd_Detail(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: detail <1|0>");
+		return self pm("Usage: detail <1|0>");
 
 	value = args[0];
 	self clientCmd(fmt("sr_admin_detail %d", value));
@@ -53,35 +54,36 @@ cmd_Detail(args)
 cmd_GetDvar(args)
 {
 	if (args.size < 2)
-		return self sr\sys\_admins::pm("Usage: cmd <playerName> <dvar>");
+		return self pm("Usage: cmd <playerName> <dvar>");
 
 	player = getPlayerByName(args[0]);
 	dvar = args[1];
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	value = player getClientDvar(dvar);
-	self sr\sys\_admins::pm("%s: %s", dvar, value);
+	self pm("%s: %s", dvar, value);
 }
 
 cmd_Help()
 {
-	chunks = Chunk(Where(keys, ::sr\sys\_admins::canExecuteCommand), 10);
-	
-	self sr\sys\_admins::pm(fmt("%s commands:", self.admin_group));
+	keys = getArrayKeys(level.admin_commands);
+	chunks = Chunk(Where(keys, ::canExecuteCommand), 10);
+
+	self pm(fmt("%s commands:", self.admin_group));
 	for (i = 0; i < chunks.size; i++)
 	{
-		string = StrJoin(chunks[i], ",");
-		self sr\sys\_admins::pm(string);
+		string = StrJoin(chunks[i].name, ",");
+		self pm(string);
 	}
 }
 
 cmd_Msg(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: msg <message>");
+		return self pm("Usage: msg <message>");
 
 	msg = args[0];
 	iPrintLnBold(msg);
@@ -89,9 +91,9 @@ cmd_Msg(args)
 
 cmd_MyID()
 {
-	self self sr\sys\_admins::pm(fmt("Your ID is ^2%s", self.playerID));
+	self self pm(fmt("Your ID is ^2%s", self.playerID));
 	wait 0.5;
-	self self sr\sys\_admins::pm("Please make a note of your ID");
+	self self pm("Please make a note of your ID");
 }
 
 cmd_Online()
@@ -107,7 +109,7 @@ cmd_Online()
 	for (i = 0; i < strings.size; i++)
 	{
 		message = StrJoin(strings[i], ",");
-		sr\sys\_admins::message(message);
+		message(message);
 	}
 }
 
@@ -132,15 +134,15 @@ cmd_PID()
 cmd_Rank()
 {
 	if (args.size < 3)
-		return self sr\sys\_admins::pm("Usage: rank <playerName> <rank> <?prestige>");
+		return self pm("Usage: rank <playerName> <rank> <?prestige>");
 
 	player = getPlayerByName(args[0]);
 	rank = ToInt(args[1]);
 	prestige = ToInt(args[2]);
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	if (isDefined(prestige))
 		player.pers["prestige"] = prestige;
@@ -151,13 +153,13 @@ cmd_Rank()
 cmd_RankReset(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: rank_reset <playerName>");
+		return self pm("Usage: rank_reset <playerName>");
 
 	player = getPlayerByName(args[0]);
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	player sr\game\_rank::reset();
 }
@@ -165,7 +167,7 @@ cmd_RankReset(args)
 cmd_RedirectAll(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: redirect_all <ip>");
+		return self pm("Usage: redirect_all <ip>");
 
 	ip = args[0];
 	players = getAllPlayers();
@@ -176,12 +178,12 @@ cmd_RedirectAll(args)
 cmd_Reconnect(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: reconnect <playerNum>");
+		return self pm("Usage: reconnect <playerNum>");
 
 	player = getPlayerByNum(args[0]);
 
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	player clientCmd("reconnect");
 }
@@ -189,15 +191,15 @@ cmd_Reconnect(args)
 cmd_Rename(args)
 {
 	if (args.size < 2)
-		return self sr\sys\_admins::pm("Usage: rename <playerNum> <newName>");
+		return self pm("Usage: rename <playerNum> <newName>");
 
 	player = getPlayerByNum(args[0]);
 	newName = args[1];
 
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
-	player clientCmd(fmt("name %s", IfDefined(newName, ToString(randomInt(999999)))));
+	player clientCmd(fmt("name %s", IfUndef(newName, ToString(randomInt(999999)))));
 	wait 0.1;
 	player clientCmd("reconnect");
 }
@@ -205,14 +207,14 @@ cmd_Rename(args)
 cmd_ReportPlayer(args)
 {
 	if (args.size < 2)
-		return self sr\sys\_admins::pm("Usage: report_player <name> <reason>");
+		return self pm("Usage: report_player <name> <reason>");
 
 	player = getPlayerByName(args[0]);
 	reason = args[1];
 
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
-	
+		return pm("Could not find player");
+
 	message = fmt("reporter: %s[%s]\nplayer: %s[%s]\nreason: %s",
 		self.name, self.guid,
 		player.name, player.guid,
@@ -223,10 +225,10 @@ cmd_ReportPlayer(args)
 cmd_ReportBug(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: report_bug <reason>");
+		return self pm("Usage: report_bug <reason>");
 
 	reason = args[0];
-	
+
 	message = fmt("reporter: %s[%s]\nreason: %s",
 		self.name, self.guid,
 		reason);
@@ -236,27 +238,27 @@ cmd_ReportBug(args)
 cmd_TimePlayed(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: timeplayed <playerName>");
+		return self pm("Usage: timeplayed <playerName>");
 
 	player = getPlayerByName(args[0]);
 
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	playTime = player getStat(2314);
-	sr\sys\_admins::pm("%s play time: %d", player.name, playTime);
+	pm("%s play time: %d", player.name, playTime);
 }
 
 cmd_Kick(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: sr_kick <playerName>");
+		return self pm("Usage: sr_kick <playerName>");
 
 	player = getPlayerByName(args[0]);
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	kick(player getEntityNumber());
 }
@@ -264,14 +266,14 @@ cmd_Kick(args)
 cmd_Group(args)
 {
 	if (args.size < 2)
-		return self sr\sys\_admins::pm("Usage: sr_group <playerNum> <group>");
+		return self pm("Usage: sr_group <playerNum> <group>");
 
 	player = getPlayerByNum(args[0]);
 	group = args[1];
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	sr\sys\_mysql::prepare("UPDATE admins SET group = ? WHERE id = ?");
 	SQL_BindParam(group, level.MYSQL_TYPE_STRING);
@@ -291,14 +293,14 @@ cmd_Group(args)
 cmd_VIP(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: sr_vip <playerNum> <vip>");
+		return self pm("Usage: sr_vip <playerNum> <vip>");
 
 	player = getPlayerByNum(args[0]);
-	vip = IfDefined(ToInt(args[1]), 1);
+	vip = IfUndef(ToInt(args[1]), 1);
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	sr\sys\_mysql::prepare("UPDATE admins SET vip = ? WHERE id = ?");
 	SQL_BindParam(vip, level.MYSQL_TYPE_STRING);
@@ -319,16 +321,16 @@ cmd_VIP(args)
 cmd_ID(args)
 {
 	if (args.size < 4)
-		return self sr\sys\_admins::pm("Usage: sr_vip <playerNum> <stat 1> <stat 2> <stat 3>");
+		return self pm("Usage: sr_vip <playerNum> <stat 1> <stat 2> <stat 3>");
 
 	player = getPlayerByNum(args[0]);
 	a = ToInt(args[1]);
 	b = ToInt(args[2]);
 	c = ToInt(args[3]);
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	player setStat(995, a);
 	player setStat(996, b);
@@ -338,7 +340,7 @@ cmd_ID(args)
 cmd_Ban(args)
 {
 	if (args.size < 2)
-		return self sr\sys\_admins::pm("Usage: sr_ban <name> <guid> <pid> <steamid> <ip>");
+		return self pm("Usage: sr_ban <name> <guid> <pid> <steamid> <ip>");
 
 	name = args[0];
 	guid = args[1];

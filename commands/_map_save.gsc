@@ -1,3 +1,4 @@
+#include sr\sys\_admins;
 #include sr\sys\_file;
 
 main()
@@ -23,7 +24,7 @@ cmd_MapSave()
 		for (j = 0; j < ents.size; j++)
 		{
 			e = ents[j];
-			line = fmt("%d/%f/%f/%f/%f/%f/%f/%s/%d", index, 
+			line = fmt("%d/%f/%f/%f/%f/%f/%f/%s/%d", index,
 				e.origin[0], e.origin[1], e.origin[2],
 				e.angles[0], e.angles[1], e.angles[2],
 				targetName, j);

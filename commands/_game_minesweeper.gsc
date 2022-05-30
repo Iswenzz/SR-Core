@@ -1,3 +1,4 @@
+#include sr\sys\_admins;
 #include sr\game\_minesweeper;
 
 main()

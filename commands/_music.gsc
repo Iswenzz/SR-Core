@@ -1,3 +1,5 @@
+#include sr\sys\_admins;
+
 main()
 {
 	level.sr_music = [];
@@ -33,7 +35,7 @@ main()
 cmd_Music(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: music <name>");
+		return self pm("Usage: music <name>");
 
 	name = args[0];
 	play(name);
@@ -44,7 +46,7 @@ cmd_MusicHelp()
 	aliases = getArrayKeys(level.sr_music);
 	string = StrJoin(aliases, ",");
 
-	self sr\sys\_admins::pm(string);
+	self pm(string);
 }
 
 cmd_MusicStop()

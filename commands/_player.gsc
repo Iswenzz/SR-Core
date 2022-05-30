@@ -1,3 +1,4 @@
+#include sr\sys\_admins;
 #include sr\utils\_common;
 
 main()
@@ -30,8 +31,8 @@ main()
 
 cmd_Bounce(args)
 {
-	self sr\sys\_admins::log();
-	player = IfDefined(getPlayerByName(args[0]), self);
+	self log();
+	player = IfUndef(getPlayerByName(args[0]), self);
 
 	player bounce(vectorNormalize(player.origin - (player.origin - (0, 0, 20))), 400);
 }
@@ -54,12 +55,12 @@ cmd_Dance()
 cmd_Drop(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: drop <playerName>");
+		return self pm("Usage: drop <playerName>");
 
 	player = getPlayerByName(args[0]);
-	
+
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	player dropItem(player getCurrentWeapon());
 }
@@ -67,12 +68,12 @@ cmd_Drop(args)
 cmd_Flash(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: flash <playerName>");
+		return self pm("Usage: flash <playerName>");
 
 	player = getPlayerByName(args[0]);
 
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	player thread maps\mp\_flashgrenades::applyFlash(4, 0.75);
 }
@@ -80,36 +81,36 @@ cmd_Flash(args)
 cmd_G_Gravity(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: g_gravity <value> <playerName>");
+		return self pm("Usage: g_gravity <value> <playerName>");
 
 	value = ToInt(args[0]);
-	player = IfDefined(getPlayerByName(args[1]), self);
+	player = IfUndef(getPlayerByName(args[1]), self);
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
-		
+		return pm("Could not find player");
+
 	player setGravity(value);
 }
 
 cmd_G_Speed(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: g_speed <value> <playerName>");
+		return self pm("Usage: g_speed <value> <playerName>");
 
 	value = ToInt(args[0]);
-	player = IfDefined(getPlayerByName(args[1]), self);
+	player = IfUndef(getPlayerByName(args[1]), self);
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
-		
+		return pm("Could not find player");
+
 	player setMoveSpeed(value);
 }
 
 cmd_God(args)
 {
-	player = IfDefined(getPlayerByName(args[0]), self);
+	player = IfUndef(getPlayerByName(args[0]), self);
 
 	player.health = 999999999999999999;
 	player.maxhealth = 999999999999999999;
@@ -118,21 +119,21 @@ cmd_God(args)
 cmd_Kill(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: kill <playerName>");
+		return self pm("Usage: kill <playerName>");
 
 	player = getPlayerByName(args[0]);
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	player suicide();
 }
 
 cmd_Knockback(args)
 {
-	player = IfDefined(getPlayerByName(args[0]), self);
-	self sr\sys\_admins::log();
+	player = IfUndef(getPlayerByName(args[0]), self);
+	self log();
 
 	player.bt_knockback = Ternary(!isDefined(player.bt_knockback), true, undefined);
 }
@@ -140,13 +141,13 @@ cmd_Knockback(args)
 cmd_Model(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: model <name> <playerName>");
+		return self pm("Usage: model <name> <playerName>");
 
 	model = args[0];
-	player = IfDefined(getPlayerByName(args[1]), self);
+	player = IfUndef(getPlayerByName(args[1]), self);
 
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	player setModel(model);
 }
@@ -159,7 +160,7 @@ cmd_NoClip()
 cmd_PM(args)
 {
 	if (args.size < 2)
-		return self sr\sys\_admins::pm("Usage: !!pm <playerName> <message>");
+		return self pm("Usage: !!pm <playerName> <message>");
 
 	player = getPlayerByName(args[0]);
 	msg = args[1];
@@ -171,13 +172,13 @@ cmd_PM(args)
 cmd_Freeze(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: sr_freeze <playerName>");
+		return self pm("Usage: sr_freeze <playerName>");
 
 	player = getPlayerByName(args[0]);
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	player freezeControls(true);
 }
@@ -185,13 +186,13 @@ cmd_Freeze(args)
 cmd_UnFreeze(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: sr_unfreeze <playerName>");
+		return self pm("Usage: sr_unfreeze <playerName>");
 
 	player = getPlayerByName(args[0]);
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	player freezeControls(false);
 }
@@ -199,14 +200,14 @@ cmd_UnFreeze(args)
 cmd_Shock(args)
 {
 	if (args.size < 2)
-		return self sr\sys\_admins::pm("Usage: shock <playerName> <name>");
+		return self pm("Usage: shock <playerName> <name>");
 
 	player = getPlayerByName(args[0]);
 	shock = args[1];
 
-	self sr\sys\_admins::log();
+	self log();
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	player shellShock(shock, 5);
 }
@@ -221,12 +222,12 @@ cmd_Shovel()
 cmd_TakeAll(args)
 {
 	if (args.size < 2)
-		return self sr\sys\_admins::pm("Usage: takeall <playerName>");
+		return self pm("Usage: takeall <playerName>");
 
 	player = getPlayerByName(args[0]);
 
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	player takeAllWeapons();
 }
@@ -244,13 +245,13 @@ cmd_UAmmo()
 cmd_Weapon(args)
 {
 	if (args.size < 2)
-		return self sr\sys\_admins::pm("Usage: weapon <playerName> <weapon>");
+		return self pm("Usage: weapon <playerName> <weapon>");
 
 	player = getPlayerByName(args[0]);
 	weapon = args[1];
 
 	if (!isDefined(player))
-		return sr\sys\_admins::pm("Could not find player");
+		return pm("Could not find player");
 
 	player giveWeapon(weapon);
 	player switchToWeapon(weapon);
@@ -260,7 +261,7 @@ cmd_Weapon(args)
 cmd_WeaponAll(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: weapon_all <weapon>");
+		return self pm("Usage: weapon_all <weapon>");
 
 	weapon = args[0];
 
@@ -276,7 +277,7 @@ cmd_WeaponAll(args)
 cmd_WeaponActi(args)
 {
 	if (args.size < 1)
-		return self sr\sys\_admins::pm("Usage: weapon_acti <weapon>");
+		return self pm("Usage: weapon_acti <weapon>");
 
 	weapon = args[0];
 
@@ -362,7 +363,7 @@ unlimitedAmmo()
 
 	while (isDefined(self))
 	{
-		self SetWeaponAmmoClip(self GetCurrentWeapon(), 
+		self SetWeaponAmmoClip(self GetCurrentWeapon(),
 			WeaponClipSize(self GetCurrentWeapon()));
 		wait 0.05;
 	}

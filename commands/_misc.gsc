@@ -1,3 +1,5 @@
+#include sr\sys\_admins;
+
 main()
 {
     cmd("player", 	"discord",      ::cmd_Discord);
@@ -6,10 +8,10 @@ main()
 
 cmd_Discord()
 {
-    sr\sys\_admins::message("Join Sr- Discord: ^5discord.gg/76aHfGF");
+    message("Join Sr- Discord: ^5discord.gg/76aHfGF");
 }
 
 cmd_Requirement()
 {
-    sr\sys\_admins::message("Check #sr-requirement channel in our discord: ^5discord.gg/76aHfGF");
+    message("Check #sr-requirement channel in our discord: ^5discord.gg/76aHfGF");
 }
