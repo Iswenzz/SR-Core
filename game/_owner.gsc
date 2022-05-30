@@ -5,26 +5,27 @@ main()
     level.sr_menu["owner"] = [];
 
     // Main
-	option("Message", 			"owner", "main", ::cmd_Message, undefined);
-	option("God", 				"owner", "main", ::cmd_God, undefined);
-	option("Epic Speed", 		"owner", "main", ::cmd_Speed, 500);
-	option("Q3", 				"owner", "main", ::cmd_Q3, undefined);
-	option("Unlimited Ammo", 	"owner", "main", ::cmd_UAmmo, undefined);
-	option("Can Damage", 		"owner", "main", ::cmd_CanDamage, undefined);
+	main = menu("Main", "owner", "main");
+	option(main, "Message", 		::cmd_Message);
+	option(main, "God", 			::cmd_God);
+	option(main, "Epic Speed", 		::cmd_Speed, 500);
+	option(main, "Q3", 				::cmd_Q3);
+	option(main, "Unlimited Ammo", 	::cmd_UAmmo);
+	option(main, "Can Damage", 		::cmd_CanDamage);
 
 	// Weapons
-	menu("Weapons", 			"owner", "weapon");
-	option("Frag", 				"owner", "weapon", ::cmd_Weapon, "frag_grenade_mp");
-	option("Smoke", 			"owner", "weapon", ::cmd_Weapon, "smoke_grenade_mp");
-	option("Flash", 			"owner", "weapon", ::cmd_Weapon, "flash_grenade_mp");
-	option("Dance", 			"owner", "weapon", ::cmd_Weapon, "fortnite_mp");
+	weapons = menu("Weapons", "owner", "weapon");
+	option(weapons, "Frag", 		::cmd_Weapon, "frag_grenade_mp");
+	option(weapons, "Smoke", 		::cmd_Weapon, "smoke_grenade_mp");
+	option(weapons, "Flash", 		::cmd_Weapon, "flash_grenade_mp");
+	option(weapons, "Dance", 		::cmd_Weapon, "fortnite_mp");
 
 	// Redirect
-	menu("Redirect", 			"owner", "redirect");
-	option("Sr- BattleRoyale", 	"owner", "redirect", ::cmd_Redirect, "iswenzz.com:28964");
-	option("Sr- Deathrun", 		"owner", "redirect", ::cmd_Redirect, "iswenzz.com:28962");
-	option("FNRP", 				"owner", "redirect", ::cmd_Redirect, "fr1.fnrp-servers.com:28940");
-	option("3xP CJ", 			"owner", "redirect", ::cmd_Redirect, "c.3xP-Clan.com:1337");
+	redirect = menu("Redirect", "owner", "redirect");
+	option(redirect, "SR-BR", 		::cmd_Redirect, "iswenzz.com:28964");
+	option(redirect, "SR-DR",  		::cmd_Redirect, "iswenzz.com:28962");
+	option(redirect, "FNRP", 		::cmd_Redirect, "fr1.fnrp-servers.com:28940");
+	option(redirect, "3xP CJ", 		::cmd_Redirect, "c.3xP-Clan.com:1337");
 }
 
 event()
@@ -32,22 +33,22 @@ event()
     self thread onMenuResponse("owner", "shop_mp");
 }
 
-cmd_God(args)
+cmd_God(arg)
 {
 	self sr\sys\_admins::command("god");
 }
 
-cmd_Redirect(args)
+cmd_Redirect(arg)
 {
-	self sr\sys\_admins::command("redirect_all", args);
+	self sr\sys\_admins::command("redirect_all", arg);
 }
 
-cmd_Speed(args)
+cmd_Speed(arg)
 {
-	self sr\sys\_admins::command("g_speed", args);
+	self sr\sys\_admins::command("g_speed", arg);
 }
 
-cmd_Q3(args)
+cmd_Q3(arg)
 {
 	self sr\sys\_admins::command("practise");
 	self sr\sys\_admins::command("knockback");
@@ -61,27 +62,27 @@ cmd_Q3(args)
 	self notify("sr_menu_close");
 }
 
-cmd_Weapon(args)
+cmd_Weapon(arg)
 {
-	self giveWeapon(args);
-	self switchToWeapon(args);
+	self giveWeapon(arg);
+	self switchToWeapon(arg);
 
 	self thread close();
 	self notify("sr_menu_close");
 }
 
-cmd_UAmmo(args)
+cmd_UAmmo(arg)
 {
 	self sr\sys\_admins::command("cmd_UAmmo", "");
 }
 
-cmd_CanDamage(args)
+cmd_CanDamage(arg)
 {
 	self sr\sys\_admins::command("candamage", "");
 }
 
-cmd_Message(args)
+cmd_Message(arg)
 {
-	message = IfUndef(self getDvar("message"), "XD")
+	message = IfUndef(getDvar("message"), "XD");
 	iPrintLnBold(message);
 }

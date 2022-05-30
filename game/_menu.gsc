@@ -71,10 +71,12 @@ close()
 	self giveWeapon("shop_mp");
 }
 
-option(name, id, menu, script, arg)
+option(section, name, script, arg)
 {
-	predator = IfUndef(level.sr_menu[id][menu], []);
+	id = section.id;
+	menu = section.name;
 
+	predator = IfUndef(level.sr_menu[id][menu], []);
 	predator[predator.size] = name;
 	predator[predator.size] = script;
 	predator[predator.size] = arg;
@@ -84,7 +86,15 @@ option(name, id, menu, script, arg)
 
 menu(name, id, script)
 {
-	option(name, id, "main", script);
+	menu = "main";
+
+	section = spawnStruct();
+	section.name = name;
+	section.id = id;
+	section.script = script;
+
+	option(name, id, menu, script);
+	return section;
 }
 
 getMenuOptions(id, menu)
