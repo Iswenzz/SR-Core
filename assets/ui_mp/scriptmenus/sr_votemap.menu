@@ -293,7 +293,7 @@ itemDef\
 		
 		DR_VOTEMAP_BUTTON( "13", 547, (80 + (30 * 0)), 102, 30, "Call Vote", scriptMenuResponse "callvote:map"; close self;, 1)
 		DR_VOTEMAP_BUTTON( "14", 547, (80 + (30 * 1)), 102, 30, "^8End Map", scriptMenuResponse "callvote:endmap"; close self;, 1)
-		DR_VOTEMAP_BUTTON( "15", 547, (80 + (30 * 2)), 102, 30, "^8SR#C & KC", scriptMenuResponse "callvote:krispy"; close self;, 1)
+		DR_VOTEMAP_BUTTON( "15", 547, (80 + (30 * 2)), 102, 30, "^8SR#C & KC", scriptMenuResponse "callvote:src"; close self;, 1)
 
 		DR_VOTEMAP_BUTTON( "19", 547, (80 + (30 * 6)), 102, 30, "^8Time +10", scriptMenuResponse "callvote:add10"; close self;, 1)
 		DR_VOTEMAP_BUTTON( "20", 547, (80 + (30 * 7)), 102, 30, "^8Time +20", scriptMenuResponse "callvote:add20"; close self;, 1)

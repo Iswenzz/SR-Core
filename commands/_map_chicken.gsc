@@ -1,54 +1,63 @@
-/*
-
-  _|_|_|            _|      _|      _|                  _|
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|
-  _|_|    _|    _|      _|          _|        _|    _|  _|      _|
-      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|
-
-Script made by SuX Lolz (Iswenzz) and Sheep Wizard
-
-Steam: http://steamcommunity.com/profiles/76561198163403316/
-Discord: https://discord.gg/76aHfGF
-Youtube: https://www.youtube.com/channel/UC1vxOXBzEF7W4g7TRU0C1rw
-Paypal: suxlolz@outlook.fr
-Email Pro: suxlolz1528@gmail.com
-
-*/
-#include maps\mp\_utility;
-#include common_scripts\utility;
-#include maps\mp\gametypes\_hud_util;
-
-#include sr\sys\_common;
+#include sr\sys\_file;
 
 main()
 {
+	level.file_chicken = fmt("sr/data/chickens/%s.txt", getDvar("mapname"));
+
 	cmd("member", 	"chicken",		::cmd_Chicken);
 	cmd("owner", 	"chicken_save",	::cmd_ChickenSave);
 
-	map = getDvar("mapname");
-	path = "./sr/server_data/speedrun/chicken/"+map+".txt";
-	file_exists = checkfile(path);
-
-	if(!file_exists)
-		return;
-	else
-		thread spawn_chicken(path);
+	spawnChickens();
 }
 
-spawn_chicken(path)
+cmd_Chicken()
 {
-	chicken = [];
+	ent = spawn("script_model", self.origin);
+	ent setModel("chicken");
+	ent.chicken = true;
+}
 
-	r = readAll(path);
-	for(i=0; i<r.size; i++)
+cmd_ChickenSave()
+{
+	index = 0;
+	models = getEntArray("script_model", "classname");
+	file = FILE_OpenMod(level.file_chicken);
+
+	for (i = 0; i < models.size; i++)
 	{
-		a = StrTok(r[i],"\\");
-		if(isDefined(a[0]) && isDefined(a[1]) && isDefined(a[2]) && isDefined(a[3]))
-		{
-			chicken[a[0]] = spawn("script_model",(toFloat(a[1]),toFloat(a[2]),toFloat(a[3])));
-			chicken[a[0]] setModel("chicken");
-			chicken[a[0]].realModel = "chicken";
-		}
+		if (!isDefined(models[i].chicken))
+			continue;
+
+		c = models[i];
+
+		line = fmt("%d/%f/%f/%f", index, c.origin[0], c.origin[1], c.origin[2]);
+		FILE_WriteLine(file, line);
+		index++;
 	}
+	FILE_Close(file);
+}
+
+spawnChickens()
+{
+	chickens = [];
+	file = FILE_OpenMod(level.file_chicken);
+
+	do
+	{
+		line = FILE_ReadLine(file);
+		tkn = strTok(line, "/");
+
+		if (tkn.size != 4)
+			continue;
+
+		index = ToInt(tkn[0]);
+		x = ToFloat(tkn[1]);
+		y = ToFloat(tkn[2]);
+		z = ToFloat(tkn[3]);
+
+		chickens[index] = spawn("script_model", (x, y, z));
+		chickens[index] setModel("chicken");
+	} while (line);
+
+	FILE_Close(file);
 }

@@ -68,11 +68,14 @@ cmd_GetDvar(args)
 
 cmd_Help()
 {
-	cmds = Where(keys, ::sr\sys\_admins::canExecuteCommand);
-	string = StrJoin(cmds, ",");
-
+	chunks = Chunk(Where(keys, ::sr\sys\_admins::canExecuteCommand), 10);
+	
 	self sr\sys\_admins::pm(fmt("%s commands:", self.admin_group));
-	self sr\sys\_admins::pm(string);
+	for (i = 0; i < chunks.size; i++)
+	{
+		string = StrJoin(chunks[i], ",");
+		self sr\sys\_admins::pm(string);
+	}
 }
 
 cmd_Msg(args)
@@ -96,22 +99,11 @@ cmd_Online()
 	strings = [];
 	index = 0;
 
-	// Chunks
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
-	{
-		player = players[i];
-		current = strings[index];
+		strings[strings.size] = fmt("%s[%s]", player.name, player getGroupString());
+	strings = Chunk(strings, 6);
 
-		if (i % 5)
-			index++;
-		if (!isDefined(current))
-			current = [];
-
-		current[current.size] = fmt("%s[%s]", player.name, player getGroupString());
-	}
-
-	// Display
 	for (i = 0; i < strings.size; i++)
 	{
 		message = StrJoin(strings[i], ",");

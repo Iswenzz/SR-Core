@@ -53,174 +53,13 @@ precache()
 	precacheShellShock("concussion_grenade_mp");
 }
 
-commands(cmd, arg)
+command(cmd, arg)
 {
 	if (!self canExecuteCommand(cmd))
 		return;
 
 	switch(a)
 	{
-		case "detonate":
-			wait 0.05;
-			self.detonate = true;
-			wait 1;
-			break;
-
-		case "delturret":
-			wait 0.05;
-			for(i=0;i<level.portal_turrets.size;i++)
-			{
-				level.portal_turrets[i] sr\weapons\_portal_turret::explode("MOD_EXPLOSIVE");
-				wait 1;
-				level.portal_turrets[i] sr\weapons\_portal_turret::delete_turret();
-			}
-			wait 1;
-			break;
-
-		case "turret":
-			wait 0.05;
-			self thread braxi\_common::clientcmd("centerview");
-			wait 0.2;
-			thread sr\weapons\_portal_turret::spawn_turret( self.origin, self getPlayerAngles() );
-			wait 1;
-			break;
-
-		case "color":
-			wait 0.05;
-			if(!isDefined(self.isVIP))
-				break;
-			if(!self.isVIP)
-				break;
-			tkn = StrTok(arg," ");
-			if(tkn.size != 3)
-				break;
-			self setStat(1650,int(tkn[0]));
-			self setStat(1651,int(tkn[1]));
-			self setStat(1652,int(tkn[2]));
-			wait 0.1;
-			self suicide();
-			break;
-
-		case "chicken":
-			wait 0.05;
-			ent = spawn("script_model",self.origin);
-			ent setModel("chicken");
-			ent.realModel = "chicken";
-			break;
-
-		case "savechicken":
-			wait 0.05;
-			map = getDvar("mapname");
-			model = getEntArray("script_model","classname");
-			string = "";
-			chicken = 0;
-			wait 0.5;
-			for(i=0;i<model.size;i++)
-			{
-				if(isDefined(model[i].realModel) && model[i].realModel == "chicken")
-				{
-					string += ""+chicken+"\\"+model[i].origin[0]+"\\"+model[i].origin[1]+"\\"+model[i].origin[2]+"\n";
-					chicken++;
-				}
-				wait 0.2;
-			}
-			path = "./sr/server_data/speedrun/chicken/"+map+".txt";
-			file_exists = checkfile(path);
-			if(!file_exists)
-			{
-				WriteToFile(path, string);
-				wait 0.5;
-			}
-			else
-			{
-				deleteFile_late(path);
-				wait 0.5;
-				WriteToFile(path, string);
-				wait 0.5;
-			}
-			self iprintlnbold("Chicken saved!");
-			break;
-
-		case "savemap":
-			wait 0.05;
-			map = getDvar("mapname");
-			brush = getEntArray("script_brushmodel","classname");
-			string = [];
-			index = 0;
-			wait 0.5;
-			for(i=0;i<brush.size;i++)
-			{
-				if(isDefined(brush[i]) && isDefined(brush[i].targetname) && isDefined(getEntArray(brush[i].targetname,"targetname").size) && getEntArray(brush[i].targetname,"targetname").size > 1)
-				{
-					brush_def = getEntArray(brush[i].targetname,"targetname");
-
-					for(j=0;j<brush_def.size;j++)
-					{
-						if(isDefined(brush_def[j]) && isDefined(brush_def[j].targetname))
-						{
-							string[index] = ""+int(index)+"\\"+brush_def[j].origin[0]+"\\"+brush_def[j].origin[1]+"\\"+brush_def[j].origin[2]+"\\"+brush_def[j].angles[0]+"\\"+brush_def[j].angles[1]+"\\"+brush_def[j].angles[2]+"\\"+brush_def[j].targetname+"\\"+j;
-							index++;
-						}
-					}
-				}
-
-				else
-				{
-					if(isDefined(brush[i]) && isDefined(brush[i].targetname))
-					{
-						string[index] = ""+index+"\\"+brush[i].origin[0]+"\\"+brush[i].origin[1]+"\\"+brush[i].origin[2]+"\\"+brush[i].angles[0]+"\\"+brush[i].angles[1]+"\\"+brush[i].angles[2]+"\\"+brush[i].targetname+"\\"+"1";
-						index++;
-					}
-				}
-
-				wait 0.05;
-			}
-			path = "./sr/server_data/speedrun/saved_map/"+map+".txt";
-			file_exists = checkfile(path);
-			if(!file_exists)
-			{
-				for(i=0;i<string.size;i++)
-				{
-					if(isDefined(string[i]) && string[i] != "")
-						WriteToFile(path, string[i]);
-				}
-
-				wait 0.5;
-			}
-			else
-			{
-				deleteFile_late(path);
-				wait 0.5;
-
-				for(i=0;i<string.size;i++)
-				{
-					if(isDefined(string[i]) && string[i] != "")
-						WriteToFile(path, string[i]);
-				}
-
-				wait 0.5;
-			}
-			self iprintlnbold("Map saved!");
-			break;
-
-		case "fps":
-			wait 0.05;
-			if(self.pers["fullbright"] == 0)
-			{
-				self.pers["fullbright"] = 1;
-				self setClientDvar( "r_fullbright", 1 );
-				self IPrintLnBold("^2Fullbright On");
-				self thread sr\player\_options::updateSettings();
-			}
-			else
-			{
-				self.pers["fullbright"] = 0;
-				self setClientDvar( "r_fullbright", 0 );
-				self IPrintLnBold("^1Fullbright Off");
-				self thread sr\player\_options::updateSettings();
-			}
-			break;
-
 		case "practise":
 			wait 0.05;
 			if (self.inRace || self.inKz)
@@ -261,41 +100,6 @@ commands(cmd, arg)
 			}
 			break;
 
-		case "fov":
-			wait 0.05;
-			if(arg == "")
-			{
-				self iprintlnbold("^5command usage example: ^7!fov 1.292");
-				break;
-			}
-			if(!isDefined(arg) || arg == "" || !isStringFloat(arg))
-				break;
-			self.fovscale = FloatFov(arg);
-			if(self.fovscale > 2000)
-				break;
-			if(self.fovscale < 200)
-				break;
-			self setClientDvar("cg_fovscale", arg);
-			self IPrintLnBold("^5FOV scale ^7" + arg);
-			self.pers["fovscale"] = self.fovscale;
-			self thread sr\player\_options::updateSettings();
-			break;
-
-		case "fxenable":
-			if(self.pers["fxenabled"] == 0)
-			{
-				self.pers["fxenabled"] = 1;
-				self setClientDvar("fx_enable", 1);
-				self IPrintLnBold("^2FX enabled");
-			}
-			else
-			{
-				self.pers["fxenabled"] = 0;
-				self setClientDvar("fx_enable", 0);
-				self IPrintLnBold("^1FX disabled");
-			}
-			break;
-
 		case "discord":
 			wait 0.05;
 			exec( "tell " + self getEntityNumber() + " Join Sr- Discord: ^5discord.gg/76aHfGF" );
@@ -306,47 +110,6 @@ commands(cmd, arg)
 			wait 0.05;
 			exec( "tell " + self getEntityNumber() + " Check #sr-requirement channel in our discord: ^5discord.gg/76aHfGF" );
 			wait 0.2;
-			break;
-
-		case "sheep":
-			wait 0.05;
-			for(i=0; i<50; i++)
-			{
-				self IPrintLnBold("^3S^2h^1e^4e^6p ^3w^2i^1z^4a^6r^5d");
-				wait 0.2;
-				i++;
-			}
-			self setClientDvar("r_specular", 1);
-			self setClientDvar("r_specularmap", 2);
-			break;
-
-		case "kill":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			id = getPlayerByName(arg);
-			if(id.size > 1 || id.size == 0)
-			{
-				self IPrintLnBold("Could not find player");
-				break;
-			}
-			if( isDefined( players[id[0]] ) && players[id[0]] isReallyAlive() )
-			{
-				players[id[0]] Suicide();
-				players[id[0]] IPrintLnBold("^6You were killed by an admin");
-			}
-			break;
-
-		case "votemap":
-			wait 0.05;
-			if(!isDefined(arg) || arg == "")
-				break;
-			self recordCommands(a, arg);
-			if (isSubStr(arg, " ") || !isSubStr(arg, "mp_"))
-				thread sr\commands\_map_vote::startvote("msg", arg);
-			else
-				thread sr\commands\_map_vote::startvote("map", arg);
 			break;
 
 		case "timeplayed":

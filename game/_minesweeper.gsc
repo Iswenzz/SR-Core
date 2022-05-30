@@ -1,27 +1,21 @@
-/*
-MineSweeper for Call of Duty 4
-Created by Sheep Wizard
-Please give credit for any code you use from this .gsc
-*/
 #include maps\mp\_utility;
 #include common_scripts\utility;
 
-main()
+open()
 {
 	self notify("minesweep_gameover");
 
-	self openMenu( "minesweeper" );
+	self openMenu("minesweeper");
 
 	level.mines = 10;
 
-	self SetClientDvars();
+	self setClientDvars();
 	self placeMines();
 	self placeNumbers();
 	self gameLoop();
 }
 
-//define dvars / variables
-SetClientDvars()
+setClientDvars()
 {
 	x=9;
 	y=9;

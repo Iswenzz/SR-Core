@@ -1,47 +1,68 @@
-#include maps\mp\_utility;
-#include common_scripts\utility;
-#include maps\mp\gametypes\_hud_util;
+#include sr\sys\_file;
 
-#include sr\sys\_common;
-
-init()
+main()
 {
+	level.file_map = fmt("sr/data/maps/%s.txt", getDvar("mapname"));
+
 	cmd("owner", "map_save", ::cmd_MapSave);
 
-	map = getDvar("mapname");
-	path = "./sr/server_data/speedrun/saved_map/"+map+".txt";
-	file_exists = checkfile(path);
-
-	if(!file_exists)
-		return;
-	else
-		thread spawn_brushes(path);
+	spawnBrushes();
 }
 
-spawn_brushes(path)
+cmd_MapSave()
 {
-	brushes = [];
+	index = 0;
+	brushes = getEntArray("script_brushmodel", "classname");
+	file = FILE_OpenMod(level.file_map);
 
-	r = readAll(path);
-	for(i=0; i<r.size; i++)
+	for (i = 0; i < brushes.size; i++)
 	{
-		a = StrTok(r[i],"\\");
-		if(isDefined(a[0]) && isDefined(a[1]) && isDefined(a[2]) && isDefined(a[3]) && isDefined(a[4]) && isDefined(a[5]) && isDefined(a[6]) && isDefined(a[7]) && isDefined(a[8]))
-		{
-			if(isDefined(getEntArray(a[7],"targetname")) && getEntArray(a[7],"targetname").size == 1)
-			{
-				brushes[a[0]] = getEntArray(a[7],"targetname");
-				brushes[a[0]][0] moveTo((toFloat(a[1]),toFloat(a[2]),toFloat(a[3])),0.05);
-				brushes[a[0]][0].angles = (toFloat(a[4]),toFloat(a[5]),toFloat(a[6]));
-			}
+		targetName = brushes[i].targetname;
+		ents = getEntArray(targetName, "targetname");
 
-			if(isDefined(getEntArray(a[7],"targetname")) && getEntArray(a[7],"targetname").size > 1)
-			{
-				brushes[a[0]] = getEntArray(a[7],"targetname");
-				brushes[a[0]][int(a[8])] moveTo((toFloat(a[1]),toFloat(a[2]),toFloat(a[3])),0.05);
-				brushes[a[0]][int(a[8])].angles = (toFloat(a[4]),toFloat(a[5]),toFloat(a[6]));
-			}
+		for (j = 0; j < ents.size; j++)
+		{
+			e = ents[j];
+			line = fmt("%d/%f/%f/%f/%f/%f/%f/%s/%d", index, 
+				e.origin[0], e.origin[1], e.origin[2],
+				e.angles[0], e.angles[1], e.angles[2],
+				targetName, j);
+			FILE_WriteLine(file, line);
+			index++;
 		}
-		wait 0.05;
 	}
+	FILE_Close(file);
+}
+
+spawnBrushes()
+{
+	chickens = [];
+	file = FILE_OpenMod(level.file_map);
+
+	do
+	{
+		line = FILE_ReadLine(file);
+		tkn = strTok(line, "/");
+
+		if (tkn.size != 9)
+			continue;
+
+		index = ToInt(tkn[0]);
+		x = ToFloat(tkn[1]);
+		y = ToFloat(tkn[2]);
+		z = ToFloat(tkn[3]);
+		ax = ToFloat(tkn[4]);
+		ay = ToFloat(tkn[5]);
+		az = ToFloat(tkn[6]);
+		brushes = getEntArray(tkn[7], "targetname");
+		brush_index = ToInt(tkn[8]);
+
+		if (isDefined(brushes[brush_index]))
+		{
+			brushes[brush_index].origin = (x, y, z);
+			brushes[brush_index].angles = (ax, ay, az);
+		}
+	} while (line);
+
+	FILE_Close(file);
 }
