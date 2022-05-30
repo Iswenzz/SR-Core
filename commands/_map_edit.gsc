@@ -4,10 +4,41 @@
 main()
 {
 	level.file_map = fmt("sr/data/maps/%s.txt", getDvar("mapname"));
+	level.file_chicken = fmt("sr/data/chickens/%s.txt", getDvar("mapname"));
 
-	cmd("owner", "map_save", ::cmd_MapSave);
+	cmd("member", 	"chicken",		::cmd_Chicken);
+	cmd("owner", 	"chicken_save",	::cmd_ChickenSave);
+	cmd("owner",	"map_save", 	::cmd_MapSave);
 
+	spawnChickens();
 	spawnBrushes();
+}
+
+cmd_Chicken()
+{
+	ent = spawn("script_model", self.origin);
+	ent setModel("chicken");
+	ent.chicken = true;
+}
+
+cmd_ChickenSave()
+{
+	index = 0;
+	models = getEntArray("script_model", "classname");
+	file = FILE_OpenMod(level.file_chicken);
+
+	for (i = 0; i < models.size; i++)
+	{
+		if (!isDefined(models[i].chicken))
+			continue;
+
+		c = models[i];
+
+		line = fmt("%d/%f/%f/%f", index, c.origin[0], c.origin[1], c.origin[2]);
+		FILE_WriteLine(file, line);
+		index++;
+	}
+	FILE_Close(file);
 }
 
 cmd_MapSave()
@@ -40,11 +71,13 @@ spawnBrushes()
 	chickens = [];
 	file = FILE_OpenMod(level.file_map);
 
-	do
+	while (true)
 	{
 		line = FILE_ReadLine(file);
 		tkn = strTok(line, "/");
 
+		if (IsNullOrEmpty(line))
+			break;
 		if (tkn.size != 9)
 			continue;
 
@@ -63,7 +96,32 @@ spawnBrushes()
 			brushes[brush_index].origin = (x, y, z);
 			brushes[brush_index].angles = (ax, ay, az);
 		}
-	} while (line);
+	}
+	FILE_Close(file);
+}
 
+spawnChickens()
+{
+	chickens = [];
+	file = FILE_OpenMod(level.file_chicken);
+
+	while (true)
+	{
+		line = FILE_ReadLine(file);
+		tkn = strTok(line, "/");
+
+		if (IsNullOrEmpty(line))
+			break;
+		if (tkn.size != 4)
+			continue;
+
+		index = ToInt(tkn[0]);
+		x = ToFloat(tkn[1]);
+		y = ToFloat(tkn[2]);
+		z = ToFloat(tkn[3]);
+
+		chickens[index] = spawn("script_model", (x, y, z));
+		chickens[index] setModel("chicken");
+	}
 	FILE_Close(file);
 }

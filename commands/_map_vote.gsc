@@ -49,7 +49,7 @@ cmd_VoteForce()
 	level.vote_yes = 9999;
 	level.vote_timer = 0;
 }
-.
+
 load(includeCurrent)
 {
 	list = [];
@@ -72,7 +72,7 @@ display()
 	maxPage = maps.size / level.vote_max_entries;
 
 	for (i = 0; i < level.vote_max_entries; i++)
-		self setClientDvar("sr_votemap_" + index, maps[page][i]);
+		self setClientDvar("sr_votemap_" + i, maps[page][i]);
 	self setClientDvar("sr_vote_page", fmt("%d/%d", page + 1, maxPage));
 }
 
@@ -199,7 +199,7 @@ vote(vote, value)
 			break;
 
 		case "map":
-			thread sr\game\_map::end(map);
+			thread sr\game\_map::end(string);
 			break;
 
 		case "src":
