@@ -23,7 +23,7 @@ cmd_FOV(args)
 	self setClientDvar("cg_fovscale", normalized);
 	self IPrintLnBold("^5FOV scale ^7" + normalized);
 	self.pers["fovscale"] = self.fovscale;
-	self thread sr\player\_options::updateSettings();
+	self thread sr\player\_settings::update();
 }
 
 cmd_FPS()
@@ -33,7 +33,7 @@ cmd_FPS()
 
 	self setClientDvar("r_fullbright", self.pers["fullbright"]);
 	self pm(msg);
-	self thread sr\player\_options::updateSettings();
+	self thread sr\player\_settings::update();
 }
 
 cmd_Sheep()
@@ -54,7 +54,7 @@ cmd_FX()
 
 	self setClientDvar("fx_enabled", self.pers["fx"]);
 	self pm(msg);
-	self thread sr\player\_options::updateSettings();
+	self thread sr\player\_settings::update();
 }
 
 cmd_Color(args)

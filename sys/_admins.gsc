@@ -72,7 +72,7 @@ command(name, arg)
 	if (!self canExecuteCommand(cmd))
 		return;
 
-	[[cmd.callback]](args);
+	self thread [[cmd.callback]](args);
 }
 
 canExecuteCommand(cmd)
