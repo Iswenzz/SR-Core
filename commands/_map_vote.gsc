@@ -1,3 +1,4 @@
+#include sr\game\_menu;
 #include sr\sys\_admins;
 
 main()
@@ -9,13 +10,17 @@ main()
 	cmd("masteradmin", 	"vote_cancel", 	::cmd_VoteCancel);
 	cmd("adminplus", 	"vote_cd", 		::cmd_VoteCooldown);
 	cmd("masteradmin", 	"vote_force", 	::cmd_VoteForce);
+
+	menu("sr_votemap", 	"next", 		::menu_pageNext);
+	menu("sr_votemap", 	"prev", 		::menu_pagePrev);
+	menu("sr_votemap", 	"select", 		::menu_select);
+	menu("sr_votemap", 	"vote", 		::menu_vote);
 }
 
 event()
 {
 	self.vote_page = 0;
 	self display();
-	self thread onMenuResponse();
 }
 
 cmd_Vote(args)
@@ -73,6 +78,7 @@ display()
 
 	for (i = 0; i < level.vote_max_entries; i++)
 		self setClientDvar("sr_votemap_" + i, maps[page][i]);
+	self setClientDvar("sr_vote_selected", "");
 	self setClientDvar("sr_vote_page", fmt("%d/%d", page + 1, maxPage));
 }
 
@@ -82,66 +88,61 @@ displayClear()
 		self setClientDvar("sr_votemap_" + i, "");
 }
 
-onMenuResponse()
+menu_pageNext()
 {
-	self endon("disconnect");
-	self notify("votemenu_end");
-	self endon("votemenu_end");
+	page = self.vote_page;
+	maxPage = level.vote_maps.size / level.vote_max_entries;
+
+	if (page >= maxPage - 1)
+		return;
+
+	self.vote_page++;
+	self displayClear();
+	self display();
+}
+
+menu_pagePrev()
+{
+	if (self.vote_page <= 0)
+		return;
+
+	self.vote_page--;
+	self displayClear();
+	self display();
+}
+
+menu_select(arg)
+{
+	args = strTok(arg, ":");
+	value = args[1];
 
 	page = self.vote_page;
 	maxPage = level.vote_maps.size / level.vote_max_entries;
 
-	selected = undefined;
-	self setClientDvar("sr_vote_selected", "");
-	self setClientDvar("sr_vote_page", fmt("%d/%d", page + 1, maxPage));
+	self.vote_selected = ToInt(value) + (page * level.vote_max_entries);
+	selected = level.vote_maps[self.vote_selected];
+	self setClientDvar("sr_vote_selected", selected);
+	self setClientDvar("sr_vote_selected_material", "loadscreen_" + selected);
+}
 
-	while (true)
+menu_vote(arg)
+{
+	args = strTok(arg, ":");
+
+	value = args[0];
+	selected = level.vote_maps[self.vote_selected];
+
+	if ((getTime() - self.vote_cd) < 300000)
+		self IPrintLnBold("You cannot vote yet");
+	if (level.vote_progress)
+		self IPrintLnBold("A vote is already in progress");
+	if (!IsNullOrEmpty(value))
 	{
-		self waittill("onMenuResponse", menu, response);
-		if(menu != "sr_votemap")
-			continue;
-
-		args = strTok(response, ":");
-		action = args[0];
-		value = args[1];
-
-		if(action == "page")
-		{
-			if (value == "next" && page < maxPage - 1)
-			{
-				self.vote_page++;
-				self displayClear();
-				self display();
-			}
-			else if (value == "prev" && page > 0)
-			{
-				self.vote_page--;
-				self displayClear();
-				self display();
-			}
-		}
-		if (action == "votemap")
-		{
-			num = ToInt(value) + (page * level.vote_max_entries);
-			selected = level.vote_maps[num];
-			self setClientDvar("sr_vote_selected", selected);
-			self setClientDvar("sr_vote_selected_material", "loadscreen_" + selected);
-		}
-		if (action == "callvote")
-		{
-			if ((gettime() - self.vote_cd) < 300000)
-				self IPrintLnBold("You cannot vote yet");
-			if (level.vote_progress)
-				self IPrintLnBold("A vote is already in progress");
-			if (!IsNullOrEmpty(value))
-			{
-				thread vote(value, selected);
-				self.vote_cd = getTime();
-			}
-			self closeMenu();
-			self closeInGameMenu();
-		}
+		thread vote(value, selected);
+		self.vote_cd = getTime();
 	}
+	self closeMenu();
+	self closeInGameMenu();
 }
 
 vote(vote, value)

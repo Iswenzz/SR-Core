@@ -1,8 +1,8 @@
 #include sr\sys\_menu;
 
-main()
+initSettings()
 {
-	menu("sr_settings", undefined, ::menu_noop, ::onMenuResponse);
+	menu_multiple("sr_settings", "setting", ::menu_setting);
 }
 
 onConnect()
@@ -201,7 +201,7 @@ updateHud(index, state, string)
 	self setClientDvar("sr_setting_value_" + index, value);
 }
 
-onMenuResponse(response)
+menu_setting(response)
 {
 	self endon("disconnect");
 

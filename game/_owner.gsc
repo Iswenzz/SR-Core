@@ -30,7 +30,7 @@ main()
 
 event()
 {
-    self thread onMenuResponse("owner", "shop_mp");
+    self thread menuEvent("owner", "shop_mp");
 }
 
 menu_God(arg)

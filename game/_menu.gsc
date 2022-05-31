@@ -1,4 +1,4 @@
-init()
+initMenu()
 {
 	level.sr_menu = [];
 
@@ -8,7 +8,7 @@ init()
 	precacheShader("hud_arrow_left");
 }
 
-onMenuResponse(id, weapon)
+menuEvent(id, weapon)
 {
 	self endon("disconnect");
 	self.sr_menu_open = false;

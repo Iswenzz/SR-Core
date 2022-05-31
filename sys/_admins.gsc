@@ -1,7 +1,7 @@
 #include sr\sys\_file;
 #include sr\utils\_common;
 
-init()
+initAdmins()
 {
 	precache();
 
