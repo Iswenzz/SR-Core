@@ -27,7 +27,7 @@ checkid()
 		self setstat(996, newid[1]);
 		self setstat(997, newid[2]);
 	}
-	self.playerID = self getstat(995) +""+self getstat(996)+""+self getstat(997);
+	self.id = self getstat(995) +""+self getstat(996)+""+self getstat(997);
 }
 
 createid()

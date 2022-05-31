@@ -86,7 +86,7 @@ canExecuteCommand(cmd)
 
 getGroupString()
 {
-	group = "^7Player";
+	group = Ternary(!self.isBot, "^7Player", "^8Speedrun Bot");
 	switch (self.admin_group)
 	{
 		case "owner":
@@ -110,7 +110,7 @@ getGroupString()
 
 isVIP()
 {
-	return false;
+	return true;
 }
 
 isBanned()

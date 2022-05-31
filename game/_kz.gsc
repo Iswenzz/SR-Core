@@ -396,7 +396,7 @@ spawnPlayerToSpec()
 	self braxi\_mod::spawnSpectator( level.spawn["spectator"].origin, level.spawn["spectator"].angles );
 	// if(self.pers["spec_hud"] == 1 )
 	// 	self thread speedrun\player\_hud_spectator::init();
-	// self thread sr\commands\_hud_anti_cheat::spec();
+	// self thread sr\commands\_hud_cheat::spec();
 }
 
 // command to leave the kz

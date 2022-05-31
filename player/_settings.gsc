@@ -241,7 +241,7 @@ check_lowfps()
 	self.check_lowfps = true;
 	wait 0.05;
 
-	if(self.real_fps < 1)
+	if(self.fps < 1)
 	{
 		if(self.pers["team"] == "allies")
 			self suicide();

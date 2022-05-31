@@ -109,8 +109,8 @@ player_go()
 	self unlink();
 	self clearLowerMessage();
 	self iPrintLnBold("^3GO!");
-	if (isDefined(self.timerHud[4]))
-		self.timerHud[4] setTenthsTimerUp( 0.0001 );
+	if (isDefined(self.huds.speedrun[4]))
+		self.huds.speedrun[4] setTenthsTimerUp( 0.0001 );
 	self.raceTime = getTime();
 	self thread player_die();
 }
@@ -144,8 +144,8 @@ race_place_player()
 	self braxi\_mod::respawn();
 	self freezeControls(true);
 	wait 0.3;
-	if (isDefined(self.timerHud[4]))
-		self.timerHud[4] setText("^50:00.0");
+	if (isDefined(self.huds.speedrun[4]))
+		self.huds.speedrun[4] setText("^50:00.0");
 }
 
 // update the race scoreboard
@@ -167,7 +167,7 @@ updateScoreHud(player)
 		{
 			for (i = 0; i < level.raceScoreboard.size; i++)
 			{
-				if (level.raceScoreboard[i]["guid"] == players[p].playerID)
+				if (level.raceScoreboard[i]["guid"] == players[p].id)
 					level.raceScoreboard[i]["score"] = players[p].raceWon;
 			}
 		}
@@ -333,13 +333,13 @@ cmd_joinRace()
 addToScoreboard()
 {
 	for (i = 0; i < level.raceScoreboard.size; i++)
-		if (level.raceScoreboard[i]["guid"] == self.playerID)
+		if (level.raceScoreboard[i]["guid"] == self.id)
 			return;
 
 	entry = [];
 	entry["name"] = self.name;
 	entry["score"] = self.raceWon;
-	entry["guid"] = self.playerID;
+	entry["guid"] = self.id;
 	level.raceScoreboard[level.raceScoreboard.size] = entry;
 }
 

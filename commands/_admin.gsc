@@ -91,7 +91,7 @@ cmd_Msg(args)
 
 cmd_MyID()
 {
-	self self pm(fmt("Your ID is ^2%s", self.playerID));
+	self self pm(fmt("Your ID is ^2%s", self.id));
 	wait 0.5;
 	self self pm("Please make a note of your ID");
 }
@@ -127,7 +127,7 @@ cmd_PID()
 		player = players[i];
 
 		self iPrintLn(fmt("^2Name:^7 %s ^3PID:^7 %s ^5ID:^7 %s ^5GUID:^7 %s",
-			player.name, player getEntityNumber(), player.playerID, player.guid));
+			player.name, player getEntityNumber(), player.id, player.guid));
 	}
 }
 
@@ -277,14 +277,14 @@ cmd_Group(args)
 
 	sr\sys\_mysql::prepare("UPDATE admins SET group = ? WHERE id = ?");
 	SQL_BindParam(group, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(player.playerID, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
 	sr\sys\_mysql::execute();
 
 	if (!SQL_AffectedRows())
 	{
 		sr\sys\_mysql::prepare("INSERT INTO admins (name, id, group) VALUES (?, ?, ?)");
 		SQL_BindParam(player.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(player.playerID, level.MYSQL_TYPE_LONG);
+		SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
 		SQL_BindParam(group, level.MYSQL_TYPE_STRING);
 		sr\sys\_mysql::execute();
 	}
@@ -304,14 +304,14 @@ cmd_VIP(args)
 
 	sr\sys\_mysql::prepare("UPDATE admins SET vip = ? WHERE id = ?");
 	SQL_BindParam(vip, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(player.playerID, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
 	sr\sys\_mysql::execute();
 
 	if (!SQL_AffectedRows())
 	{
 		sr\sys\_mysql::prepare("INSERT INTO admins (name, id, group, vip) VALUES (?, ?, ?, ?)");
 		SQL_BindParam(player.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(player.playerID, level.MYSQL_TYPE_LONG);
+		SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
 		SQL_BindParam(player.admin_group, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(vip, level.MYSQL_TYPE_LONG);
 		sr\sys\_mysql::execute();

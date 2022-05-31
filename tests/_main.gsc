@@ -14,7 +14,7 @@ setup()
 {
 	gscunitEnv();
 
-	spawnBots(5);
+	// spawnBots(5);
 	level.tests = spawnStruct();
 	level.tests.ftp = true;
 	level.tests.sftp = true;

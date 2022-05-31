@@ -28,7 +28,11 @@ menu(name, response, callback, callbackMenu)
 
 range(variable, min, max)
 {
-
+	if (variable < min)
+		return max;
+	if (variable > max)
+		return min;
+	return variable;
 }
 
 menu_noop() { }

@@ -1,25 +1,8 @@
-/*
-
-  _|_|_|            _|      _|      _|                  _|
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|
-  _|_|    _|    _|      _|          _|        _|    _|  _|      _|
-      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|
-
-Script made by SuX Lolz (Iswenzz) and Sheep Wizard
-
-Steam: http://steamcommunity.com/profiles/76561198163403316/
-Discord: https://discord.gg/76aHfGF
-Youtube: https://www.youtube.com/channel/UC1vxOXBzEF7W4g7TRU0C1rw
-Paypal: suxlolz@outlook.fr
-Email Pro: suxlolz1528@gmail.com
-
-*/
 #include maps\mp\_utility;
 #include common_scripts\utility;
 #include maps\mp\gametypes\_hud_util;
-
 #include braxi\_common;
+#include sr\sys\_admins;
 
 executeResponse(menu, response)
 {
@@ -530,7 +513,7 @@ knifeSkinPredicate(id, isClicked)
 {
 	if (id <= -1)
 		return false;
-	else if (self braxi\_rank::isKnifeSkinUnlocked(id) || isDefined(self.isVIP) && self.isVIP)
+	else if (self braxi\_rank::isKnifeSkinUnlocked(id) || self isVIP())
 	{
 		if (isClicked)
 		{
@@ -567,7 +550,7 @@ fxPredicate(id, isClicked)
 
 	if (id <= -1)
 		return false;
-	else if (isDefined(self.isVIP))
+	else if (isDefined(self.vip))
 	{
 		if (isClicked)
 		{
