@@ -261,7 +261,7 @@ cmd_spawnPoints()
 // save all point to file
 cmd_savePoints()
 {
-	path = "./sr/server_data/speedrun/map_points/" + getDvar("mapname") + ".txt";
+	path = "./sr/data/speedrun/map_points/" + getDvar("mapname") + ".txt";
 	for(i = 0; i < level.placedPoints.size; i++)
 		WriteToFile(path,  level.placedPoints[i]);
 	self IPrintLnBold("Points saved");
@@ -272,7 +272,7 @@ cmd_savePoints()
 // get points from txt file
 loadAllPoints()
 {
-	path = "./sr/server_data/speedrun/map_points/" + getDvar("mapname") + ".txt";
+	path = "./sr/data/speedrun/map_points/" + getDvar("mapname") + ".txt";
 	if(!checkfile(path))
 	{
 		IPrintLn("No race points");

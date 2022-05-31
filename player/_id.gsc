@@ -33,7 +33,7 @@ checkid()
 createid()
 {
 	self IPrintLn("creating ID");
-	path = "./sr/server_data/speedrun/admin/player_ids.txt";
+	path = "./sr/data/speedrun/admin/player_ids.txt";
 	file_exists = checkfile(path);
 	if(!file_exists)
 	{

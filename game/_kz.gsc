@@ -354,7 +354,7 @@ spawnPoints()
 // save all point to file
 savePoints()
 {
-	path = "./sr/server_data/speedrun/kz_points/" + getDvar("mapname") + ".txt";
+	path = "./sr/data/speedrun/kz_points/" + getDvar("mapname") + ".txt";
 	if (level.placedPoints.size % 2 == 1)
 	{
 		self iPrintLnBold("^1Points failed to save.");
@@ -476,7 +476,7 @@ removePlayerIndex(index)
 // get points from txt file
 loadAllPoints()
 {
-	path = "./sr/server_data/speedrun/kz_points/" + getDvar("mapname") + ".txt";
+	path = "./sr/data/speedrun/kz_points/" + getDvar("mapname") + ".txt";
 	if(!checkfile(path))
 	{
 		IPrintLn("No kz points");
