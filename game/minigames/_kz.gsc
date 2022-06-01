@@ -79,8 +79,8 @@ showPlayerCard( attacker, victim, text )
 
 	self destroyPlayerCard();
 
-	logo1 = level.rankIconInfo[attacker.pers["rank"] - 1]["icon"];
-	logo2 = level.rankIconInfo[victim.pers["rank"] - 1]["icon"];
+	logo1 = level.assets["rank"][attacker.pers["rank"] - 1]["icon"];
+	logo2 = level.assets["rank"][victim.pers["rank"] - 1]["icon"];
 
 	if (attacker.pers["prestige"] > 0)
 		logo1 = "rank_prestige" + attacker.pers["prestige"];

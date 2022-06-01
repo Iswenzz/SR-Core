@@ -1,10 +1,13 @@
 #include common_scripts\utility;
 #include maps\mp\gametypes\_hud_util;
 
-init()
+initRank()
 {
 	level.scoreInfo = [];
-	level.rankTable = [];
+	level.ranks = [];
+
+	level.maxRank = int(tableLookup("mp/ranks.csv", 0, "maxrank", 1));
+	level.maxPrestige = int(tableLookup("mp/rankIconTable.csv", 0, "maxprestige", 1));
 
 	precacheShader("white");
 
@@ -12,8 +15,6 @@ init()
 	precacheString(&"RANK_PLAYER_WAS_PROMOTED");
 	precacheString(&"RANK_PROMOTED");
 	precacheString(&"MP_PLUS");
-	precacheString(&"BRAXI_CHARACTER_NEW");
-	precacheString(&"BRAXI_SPRAY_NEW");
 
 	registerScoreInfo("kill", 10);
 	registerScoreInfo("headshot", 25);
@@ -26,49 +27,48 @@ init()
 	registerScoreInfo("loss", 0);
 	registerScoreInfo("tie", 0);
 
-	level.maxRank = int(tableLookup("mp/rankTable.csv", 0, "maxrank", 1));
-	level.maxPrestige = int(tableLookup("mp/rankIconTable.csv", 0, "maxprestige", 1));
+	buildRanks();
+	buildRanksIcon();
+}
 
-	pId = 0;
-	rId = 0;
-	for (pId = 0; pId <= level.maxPrestige; pId++)
-	{
-		for (rId = 0; rId <= level.maxRank; rId++)
-			precacheShader(tableLookup("mp/rankIconTable.csv", 0, rId, pId + 1));
-	}
+buildRanks()
+{
+	tableName = "mp/ranks.csv";
 
 	rankId = 0;
-	rankName = tableLookup("mp/ranktable.csv", 0, rankId, 1);
-	assert(isDefined(rankName) && rankName != "");
+	rankName = tableLookup(tableName, 0, rankId, 1);
 
 	while (isDefined(rankName) && rankName != "")
 	{
-		level.rankTable[rankId][1] = tableLookup("mp/ranktable.csv", 0, rankId, 1);
-		level.rankTable[rankId][2] = tableLookup("mp/ranktable.csv", 0, rankId, 2);
-		level.rankTable[rankId][3] = tableLookup("mp/ranktable.csv", 0, rankId, 3);
-		level.rankTable[rankId][7] = tableLookup("mp/ranktable.csv", 0, rankId, 7);
+		level.ranks[rankId][1] = tableLookup(tableName, 0, rankId, 1);
+		level.ranks[rankId][2] = tableLookup(tableName, 0, rankId, 2);
+		level.ranks[rankId][3] = tableLookup(tableName, 0, rankId, 3);
+		level.ranks[rankId][7] = tableLookup(tableName, 0, rankId, 7);
 
-		precacheString(tableLookupIString("mp/ranktable.csv", 0, rankId, 16));
+		precacheString(tableLookupIString(tableName, 0, rankId, 16));
 
 		rankId++;
-		rankName = tableLookup("mp/ranktable.csv", 0, rankId, 1);
+		rankName = tableLookup(tableName, 0, rankId, 1);
 	}
-
-	level thread onPlayerConnect();
 }
 
-sr_reset()
+buildRanksIcon()
 {
-	self resetEverything();
-	updateRankStats(self, 0);
+	tableName = "mp/rankIconTable.csv";
+	level.assets["rank"] = [];
+
+	for (pId = 0; pId <= level.maxPrestige; pId++)
+	{
+		for (rId = 0; rId <= level.maxRank; rId++)
+		{
+			icon = tableLookup(tableName, 0, rId, pId + 1);
+			level.assets["rank"][pId][rId] = icon;
+			precacheShader(icon);
+		}
+	}
 }
 
-setStatFromStat(stat2, stat1)
-{
-	self setStat(stat1, self getStat(stat2));
-}
-
-resetEverything()
+reset()
 {
 	self.pers["prestige"] = 0;
 	self.pers["rank"] = 0;
@@ -87,14 +87,7 @@ resetEverything()
 		self setStat(stat, 0);
 
 	self databaseSetRank(0, 0, 0);
-}
-
-isRegisteredEvent(type)
-{
-	if (isDefined(level.scoreInfo[type]))
-		return true;
-	else
-		return false;
+	updateRankStats(self, 0);
 }
 
 registerScoreInfo(type, value)
@@ -114,27 +107,27 @@ getScoreInfoLabel(type)
 
 getRankInfoMinXP(rankId)
 {
-	return int(level.rankTable[rankId][2]);
+	return int(level.ranks[rankId][2]);
 }
 
 getRankInfoXPAmt(rankId)
 {
-	return int(level.rankTable[rankId][3]);
+	return int(level.ranks[rankId][3]);
 }
 
 getRankInfoMaxXp(rankId)
 {
-	return int(level.rankTable[rankId][7]);
+	return int(level.ranks[rankId][7]);
 }
 
 getRankInfoFull(rankId)
 {
-	return tableLookupIString("mp/ranktable.csv", 0, rankId, 16);
+	return tableLookupIString("mp/ranks.csv", 0, rankId, 16);
 }
 
 getRankInfoFullInt(rankId)
 {
-	return int(tableLookupIString("mp/ranktable.csv", 0, rankId, 16));
+	return int(tableLookupIString("mp/ranks.csv", 0, rankId, 16));
 }
 
 getRankInfoIcon(rankId, prestigeId)
@@ -142,74 +135,29 @@ getRankInfoIcon(rankId, prestigeId)
 	return tableLookup("mp/rankIconTable.csv", 0, rankId, prestigeId + 1);
 }
 
-getRankInfoUnlockWeapon(rankId)
+onConnect()
 {
-	return tableLookup("mp/ranktable.csv", 0, rankId, 8);
-}
+	if (self.isBot)
+		return;
 
-getRankInfoUnlockPerk(rankId)
-{
-	return tableLookup("mp/ranktable.csv", 0, rankId, 9);
-}
+	data = self databaseGetRank();
 
-getRankInfoUnlockChallenge(rankId)
-{
-	return tableLookup("mp/ranktable.csv", 0, rankId, 10);
-}
+	self.pers["rankxp"] = data.rankxp;
+	self.pers["rank"] = data.rank;
+	self.pers["prestige"] = data.prestige;
+	self.pers["participation"] = 0;
+	self.doingNotify = false;
+	self.rankUpdateTotal = 0;
 
-getRankInfoUnlockFeature(rankId)
-{
-	return tableLookup("mp/ranktable.csv", 0, rankId, 15);
-}
+	self setStat(251, self.pers["rank"]); // stock
+	self setStat(2326, self.pers["prestige"]);
+	self setStat(2350, self.pers["rank"]);
+	self setStat(2301, self.pers["rankxp"]);
+	self setRank(self.pers["rank"], int(self.pers["prestige"]));
 
-getRankInfoUnlockCamo(rankId)
-{
-	return tableLookup("mp/ranktable.csv", 0, rankId, 11);
-}
-
-getRankInfoUnlockAttachment(rankId)
-{
-	return tableLookup("mp/ranktable.csv", 0, rankId, 12);
-}
-
-getRankInfoLevel(rankId)
-{
-	return int(tableLookup("mp/ranktable.csv", 0, rankId, 13));
-}
-
-onPlayerConnect()
-{
-	for (;;)
-	{
-		level waittill("connected", player);
-		if (player.isBot)
-			continue;
-
-		playerData = player databaseGetRank();
-
-		player.pers["rankxp"] = playerData.rankxp;
-		player.pers["rank"] = playerData.rank;
-		player.pers["prestige"] = playerData.prestige;
-		player.pers["participation"] = 0;
-		player.doingNotify = false;
-		player.rankUpdateTotal = 0;
-
-		// for keeping track of rank through stat#251 used by menu script
-		// attempt to move logic out of menus as much as possible
-		player.cur_rankNum = player.pers["rank"];
-		assertex(isdefined(player.cur_rankNum), "rank: " + player.pers["rank"] + " does not have an index, check mp/ranktable.csv");
-		player setStat(251, player.cur_rankNum);
-
-		player setRank(player.pers["rank"], int(player.pers["prestige"]));
-		player setStat(2326, player.pers["prestige"]);
-		player setStat(2350, player.pers["rank"]);
-		player setStat(2301, player.pers["rankxp"]);
-
-		player thread onPlayerSpawned();
-		player thread onJoinedTeam();
-		player thread onJoinedSpectators();
-		player initUnlockMessage();
-	}
+	self thread onSpawned();
+	self thread onJoinedTeam();
+	self thread onJoinedSpectators();
 }
 
 onJoinedTeam()
@@ -234,7 +182,7 @@ onJoinedSpectators()
 	}
 }
 
-onPlayerSpawned()
+onSpawned()
 {
 	self endon("disconnect");
 
@@ -242,7 +190,7 @@ onPlayerSpawned()
 	{
 		self waittill("spawned_player");
 
-		if (!isdefined(self.huds.rankscroreupdate))
+		if (!isDefined(self.huds.rankscroreupdate))
 		{
 			self.huds.rankscroreupdate = newClientHudElem(self);
 			self.huds.rankscroreupdate.horzAlign = "center";
@@ -258,14 +206,6 @@ onPlayerSpawned()
 			self.huds.rankscroreupdate maps\mp\gametypes\_hud::fontPulseInit();
 		}
 	}
-}
-
-roundUp(floatVal)
-{
-	if (int(floatVal) != floatVal)
-		return int(floatVal + 1);
-	else
-		return int(floatVal);
 }
 
 giveRankXP(type, value)
@@ -323,46 +263,33 @@ databaseGetRank()
 	SQL_BindResult(level.MYSQL_TYPE_LONG);
 	sr\sys\_mysql::execute();
 
-	// Get user's rank
-	s = spawnStruct();
+	// Rank
+	data = spawnStruct();
 	if (SQL_NumRows())
 	{
 		row = SQL_FetchRowDict();
 		if (isDefined(row))
 		{
-			s.rankxp = row["xp"];
-			s.rank = row["rank"] - 1;
-			s.prestige = row["prestige"];
+			data.rankxp = row["xp"];
+			data.rank = row["rank"] - 1;
+			data.prestige = row["prestige"];
 		}
 	}
-	// Get default rank
-	if (!isDefined(s.rankxp))
+	// Default
+	if (!isDefined(data.rankxp))
 	{
-		// Check for previous rank system - @TODO remove later
-		if (!self getStat(3122))
-		{
-			self setStat(3122, 157);
- 			// Random value
-			s.rankxp = self getStat(2301);
-			s.rank = self getStat(2350);
-			s.prestige = self getStat(2326);
-			self databaseSetRank(s.rankxp, s.rank, s.prestige);
-		}
-		else
-		{
-			s.rankxp = 0;
-			s.rank = 0;
-			s.prestige = 0;
-		}
+		data.rankxp = 0;
+		data.rank = 0;
+		data.prestige = 0;
 	}
-	return s;
+	return data;
 }
 
-prestigeSystem()
+prestige()
 {
-	if (!isdefined(self.pers["rank"]) || !isdefined(self.pers["rankxp"]) || !isdefined(self.pers["prestige"]))
+	if (!isDefined(self.pers["rank"]) || !isDefined(self.pers["rankxp"]) || !isDefined(self.pers["prestige"]))
 		return;
-	if (self.pers["prestige"] >= level.maxprestige || self.pers["rankxp"] < getrankinfomaxxp(level.maxrank))
+	if (self.pers["prestige"] >= level.maxPrestige || self.pers["rankxp"] < getRankInfoMaxXP(level.maxRank))
 	{
 		self iprintlnbold("^1Prestige Mode^7 is unavailable!");
 		return;
@@ -375,7 +302,7 @@ prestigeSystem()
 
 	updaterankstats(self, 0);
 
-	iprintln(self.name + " has entered Prestige " + self.pers["prestige"] + " of " + level.maxprestige);
+	iPrintLn(fmt("%s has entered prestige %d of %d", self.name, self.pers["prestige"], level.maxPrestige));
 
 	self setStat(979, 0);
 	self setStat(980, 0);
@@ -446,7 +373,7 @@ getRank()
 getRankForXp(xpVal)
 {
 	rankId = 0;
-	rankName = level.rankTable[rankId][1];
+	rankName = level.ranks[rankId][1];
 	assert(isDefined(rankName));
 
 	while (isDefined(rankName) && rankName != "")
@@ -455,20 +382,14 @@ getRankForXp(xpVal)
 			return rankId;
 
 		rankId++;
-		if (isDefined(level.rankTable[rankId]))
-			rankName = level.rankTable[rankId][1];
+		if (isDefined(level.ranks[rankId]))
+			rankName = level.ranks[rankId][1];
 		else
 			rankName = undefined;
 	}
 
 	rankId--;
 	return rankId;
-}
-
-getSPM()
-{
-	rankLevel = (self getRank() % 61) + 1;
-	return 3 + (rankLevel * 0.5);
 }
 
 getPrestigeLevel()
@@ -485,12 +406,6 @@ incRankXP(amount)
 {
 	xp = self getRankXP();
 	newXp = (xp + amount);
-
-	if (level.dvar["dev"])
-	{
-		iprintln("getRankXP() : " + xp);
-		iprintln("newXp : " + newXp);
-	}
 
 	if (self.pers["rank"] == level.maxRank && newXp >= getRankInfoMaxXP(level.maxRank))
 		newXp = getRankInfoMaxXP(level.maxRank);
@@ -540,7 +455,7 @@ updateRankAnnounceHUD()
 	self endon("update_rank");
 
 	team = self.pers["team"];
-	if (!isdefined(team))
+	if (!isDefined(team))
 		return;
 
 	self notify("reset_outcome");
@@ -580,14 +495,14 @@ processXpReward(sMeansOfDeath, attacker, victim)
 		case "MOD_HEAD_SHOT":
 		attacker.pers["headshots"]++;
 
-		attacker braxi\_rank::giveRankXP("headshot");
+		attacker giveRankXP("headshot");
 		hs = attacker maps\mp\gametypes\_persistence::statGet("headshots");
 		attacker maps\mp\gametypes\_persistence::statSet("headshots", hs + 1);
 		break;
 		case "MOD_MELEE":
 		attacker.pers["knifes"]++;
 
-		attacker braxi\_rank::giveRankXP("melee");
+		attacker giveRankXP("melee");
 		knife = attacker maps\mp\gametypes\_persistence::statGet("MELEE_KILLS");
 		attacker maps\mp\gametypes\_persistence::statSet("MELEE_KILLS", knife + 1);
 		break;
@@ -595,217 +510,62 @@ processXpReward(sMeansOfDeath, attacker, victim)
 		pistol = attacker maps\mp\gametypes\_persistence::statGet("PISTOL_KILLS");
 
 		attacker maps\mp\gametypes\_persistence::statSet("PISTOL_KILLS", pistol + 1);
-		attacker braxi\_rank::giveRankXP("kill");
+		attacker giveRankXP("kill");
 		break;
 	}
 }
 
-unlockSpray()
-{
-	for (i = 0; i < level.assets["spray"].size; i++)
-	{
-		if (self.pers["rank"] == level.assets["spray"][i]["rank"])
-		{
-			notifyData = spawnStruct();
-			notifyData.title = "New Spray!";
-			notifyData.description = level.assets["spray"][i]["name"];
-			notifyData.icon = level.assets["spray"][i]["shader"];
-			notifyData.duration = 2.9;
-			self thread unlockMessage(notifyData);
-			break;
-		}
-	}
-
-}
-
-unlockAbility(name)
-{
-	for (i = 0; i < level.abilityInfo.size; i++)
-	{
-		if (level.abilityInfo[i]["codeName"] == name)
-		{
-			notifyData = spawnStruct();
-			notifyData.title = "New Ability!";
-			notifyData.description = level.abilityInfo[i]["name"];
-			notifyData.icon = level.abilityInfo[i]["shader"];
-			notifyData.duration = 2.9;
-
-			self thread unlockMessage(notifyData);
-			break;
-		}
-	}
-}
-
-unlockCharacter()
-{
-	for (i = 0; i < level.assets["character"].size; i++)
-	{
-		if (self.pers["rank"] == level.assets["character"][i]["rank"])
-		{
-			notifyData = spawnStruct();
-			notifyData.title = "New Character Unlocked!";
-			notifyData.description = level.assets["character"][i]["name"];
-			notifyData.icon = level.assets["character"][i]["shader"];
-			notifyData.duration = 2.9;
-			self thread unlockMessage(notifyData);
-			break;
-		}
-	}
-
-}
-
 isCharacterUnlocked(num)
 {
-	if (num >= level.assets["character"].size || num <= -1)
-		return false;
-	if (self.pers["prestige"] > level.assets["character"][num]["prestige"])
-		return true;
-	if (self.pers["rank"] >= level.assets["character"][num]["rank"] && self.pers["prestige"] >= level.assets["character"][num]["prestige"])
-		return true;
-	return false;
+	return isUnlocked(level.assets["character"], num);
 }
 
-unlockItem()
+isWeaponUnlocked(num)
 {
-	for (i = 0; i < level.assets["weapon"].size; i++)
-	{
-		if (self.pers["rank"] == level.assets["weapon"][i]["rank"])
-		{
-			notifyData = spawnStruct();
-			notifyData.title = "New Weapon!";
-			notifyData.description = level.assets["weapon"][i]["name"];
-			notifyData.icon = level.assets["weapon"][i]["shader"];
-			notifyData.duration = 2.9;
-			self thread unlockMessage(notifyData);
-			break;
-		}
-	}
-}
-
-unlockKnifeSkin()
-{
-	for (i = 0; i < level.assets["knifeSkin"].size; i++)
-	{
-		if (self.pers["prestige"] == level.assets["knifeSkin"][i]["rank"])
-		{
-			notifyData = spawnStruct();
-			notifyData.title = "New Knife Skin!";
-			notifyData.description = level.assets["knifeSkin"][i]["name"];
-			notifyData.icon = level.assets["knifeSkin"][i]["shader"];
-			notifyData.duration = 2.9;
-			self thread unlockMessage(notifyData);
-			break;
-		}
-	}
-}
-
-unlockKnife()
-{
-	for (i = 0; i < level.assets["knife"].size; i++)
-	{
-		if (self.pers["rank"] == level.assets["knife"][i]["rank"])
-		{
-			notifyData = spawnStruct();
-			notifyData.title = "New Knife!";
-			notifyData.description = level.assets["knife"][i]["name"];
-			notifyData.icon = level.assets["knife"][i]["shader"];
-			notifyData.duration = 2.9;
-			self thread unlockMessage(notifyData);
-			break;
-		}
-	}
-}
-
-isItemUnlocked(num)
-{
-	if (num > level.numItems || num <= -1)
-		return false;
-	if (self.pers["prestige"] > level.assets["weapon"][num]["prestige"])
-		return true;
-	if (self.pers["rank"] >= level.assets["weapon"][num]["rank"] && self.pers["prestige"] >= level.assets["weapon"][num]["prestige"])
-		return true;
-	return false;
-}
-
-isAbilityUnlocked(num)
-{
-	if (num > level.numAbilities || num <= -1)
-		return false;
-
-	if (self.pers["prestige"] >= level.abilityinfo[num]["prestige"])
-		return true;
-
-	return false;
+	return isUnlocked(level.assets["weapon"], num);
 }
 
 isSprayUnlocked(num)
 {
-	if (num >= level.assets["spray"].size || num <= -1)
-		return false;
-	if (self.pers["prestige"] > level.assets["spray"][num]["prestige"])
-		return true;
-	if (self.pers["rank"] >= level.assets["spray"][num]["rank"] && self.pers["prestige"] >= level.assets["spray"][num]["prestige"])
-		return true;
-	return false;
+	return isUnlocked(level.assets["spray"], num);
 }
 
 isKnifeSkinUnlocked(num)
 {
-	if (num > level.numKnifeSkins || num <= -1)
-		return false;
-	if (self.pers["prestige"] >= level.assets["knifeSkin"][num]["rank"])
-		return true;
-	return false;
+	return isUnlocked(level.assets["knifeSkin"], num, 1);
 }
 
 isKnifeUnlocked(num)
 {
-	if (num > level.numKnifes || num <= -1)
-		return false;
-	if (self.pers["prestige"] > level.assets["knife"][num]["prestige"])
-		return true;
-	if (self.pers["rank"] >= level.assets["knife"][num]["rank"] && self.pers["prestige"] >= level.assets["knife"][num]["prestige"])
-		return true;
-	return false;
+	return isUnlocked(level.assets["knife"], num);
 }
 
 isGloveUnlocked(num)
 {
-	if (num > level.numGlove || num <= -1)
-		return false;
-	if (self.pers["prestige"] > level.assets["glove"][num]["prestige"])
-		return true;
-	if (self.pers["rank"] >= level.assets["glove"][num]["rank"] && self.pers["prestige"] >= level.assets["glove"][num]["prestige"])
-		return true;
-	return false;
+	return isUnlocked(level.assets["glove"], num);
 }
 
 isFxUnlocked(num)
 {
-	if (num > level.numFx || num <= -1)
-		return false;
-	if (self.pers["prestige"] > level.assets["fx"][num]["prestige"])
-		return true;
-	if (self.pers["rank"] >= level.assets["fx"][num]["rank"] && self.pers["prestige"] >= level.assets["fx"][num]["prestige"])
-		return true;
-	return false;
+	return isUnlocked(level.assets["fx"], num);
 }
 
-unlockTrail()
+isThemeUnlocked(num)
 {
-	for (i = 0; i < level.trailInfo.size; i++)
-	{
-		if (self.pers["rank"] == level.trailInfo[i]["rank"])
-		{
-			notifyData = spawnStruct();
-			notifyData.title = "New Trail!";
-			notifyData.description = level.trailInfo[i]["name"];
-			notifyData.icon = level.trailInfo[i]["shader"];
-			notifyData.duration = 2.9;
-			self thread unlockMessage(notifyData);
-			break;
-		}
-	}
+	return isUnlocked(level.assets["theme"], num);
+}
+
+isUnlocked(assets, num, vip)
+{
+	if (num > assets.size || num <= -1)
+		return 0;
+	if (isDefined(vip) && self sr\sys\_admins::isVIP() >= vip)
+		return vip;
+	if (self.pers["prestige"] < assets[num]["prestige"])
+		return 0;
+	if (self.pers["rank"] < assets["fx"][num]["rank"])
+		return 0;
+	return 1;
 }
 
 destroyUnlockMessage()
@@ -820,16 +580,13 @@ destroyUnlockMessage()
 	self.doingUnlockMessage = false;
 }
 
-initUnlockMessage()
-{
-	self.doingUnlockMessage = false;
-	self.unlockMessageQueue = [];
-}
-
 unlockMessage(notifyData)
 {
 	self endon("death");
 	self endon("disconnect");
+
+	self.doingUnlockMessage = false;
+	self.unlockMessageQueue = [];
 
 	if (!self.doingUnlockMessage)
 	{

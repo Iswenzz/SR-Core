@@ -146,7 +146,7 @@ cmd_Rank()
 
 	if (isDefined(prestige))
 		player.pers["prestige"] = prestige;
-	xp = int(TableLookup("mp/rankTable.csv", 0, rank - 1, 2));
+	xp = int(TableLookup("mp/ranks.csv", 0, rank - 1, 2));
 	player sr\game\_rank::giveRankXP("setrank", xp);
 }
 

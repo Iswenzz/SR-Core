@@ -81,7 +81,7 @@ menu_Pick(arg)
 		self [[level.assets[category][selected]["callback"]]](selected);
 }
 
-buildButtons(array)
+buildButtons(assets)
 {
 	self endon("disconnect");
 
@@ -94,16 +94,16 @@ buildButtons(array)
 	{
 		itemIndex = startIndex + i;
 
-		if (!isDefined(array[i]))
+		if (!isDefined(assets[i]))
 			continue;
 
-		switch ([[array[i]["unlock"]]](i))
+		switch ([[assets[i]["unlock"]]](i))
 		{
 			case 0:
-				self setClientDvar("sr_customize_" + i, fmt("^2LOCKED (%d)", int(array[itemIndex]["rank"]) + 1));
+				self setClientDvar("sr_customize_" + i, fmt("^2LOCKED (%d)", int(assets[itemIndex]["rank"]) + 1));
 				break;
 			case 1:
-				self setClientDvar("sr_customize_" + i, array[itemIndex]["name"]);
+				self setClientDvar("sr_customize_" + i, assets[itemIndex]["name"]);
 				break;
 			case 2:
 				self setClientDvar("sr_customize_" + i, "^3VIP");
@@ -112,9 +112,9 @@ buildButtons(array)
 	}
 }
 
-countPages(array)
+countPages(assets)
 {
-	count = int(array.size / level.customize_max_entries);
+	count = int(assets.size / level.customize_max_entries);
 	count = Ternary(count <= 0, 1, count);
 	return count;
 }

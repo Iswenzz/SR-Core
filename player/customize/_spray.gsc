@@ -24,7 +24,7 @@ precache()
 		level.assets["spray"][id]["name"] = tableLookup(tableName, 0, idx, 5);
 		level.assets["spray"][id]["model"] = "";
 		level.assets["spray"][id]["callback"] = sr\player\customize\_spray::pick;
-		level.assets["spray"][id]["unlock"] = sr\player\customize\_spray::unlock;
+		level.assets["spray"][id]["unlock"] = sr\sys\_rank::isSprayUnlocked;
 
 		level.numSprays++;
 	}
@@ -52,18 +52,9 @@ build(response)
 	buildButtons(level.assets["spray"]);
 }
 
-unlock(id)
-{
-	if (id <= -1)
-		return 0;
-	else if (!self braxi\_rank::isSprayUnlocked(id))
-		return 0;
-	return 1;
-}
-
 pick(id)
 {
-	if (!self unlock(id))
+	if (!self sr\sys\_rank::isSprayUnlocked(id))
 		return;
 
 	self setStat(979, id);

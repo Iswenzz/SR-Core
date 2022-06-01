@@ -715,7 +715,7 @@ giveXpIfActivated()
 		{
 			if( game["state"] != "playing" )
 				return;
-			who braxi\_rank::giveRankXP( "trap_activation" );
+			who sr\sys\_rank::giveRankXP( "trap_activation" );
 			break;
 		}
 	}

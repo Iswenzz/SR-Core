@@ -25,7 +25,7 @@ precache()
 		level.assets["character"][id]["name"] = tableLookup(tableName, 0, idx, 6);
 		level.assets["character"][id]["desc"] = tableLookup(tableName, 0, idx, 7);
 		level.assets["character"][id]["callback"] = sr\player\customize\_character::pick;
-		level.assets["character"][id]["unlock"] = sr\player\customize\_character::unlock;
+		level.assets["character"][id]["unlock"] = sr\sys\_rank::isCharacterUnlocked;
 
 		precacheModel(level.assets["character"][id]["model"]);
 		precacheModel(level.assets["character"][id]["handsModel"]);
@@ -60,18 +60,9 @@ build(response)
 	buildButtons(level.assets["character"]);
 }
 
-unlock(id)
-{
-	if (id <= -1)
-		return 0;
-	else if (!self braxi\_rank::isCharacterUnlocked(id))
-		return 0;
-	return 1;
-}
-
 pick(id)
 {
-	if (!self unlock(id))
+	if (!self sr\sys\_rank::isCharacterUnlocked(id))
 		return;
 
 	self setStat(980, id);
