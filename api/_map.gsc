@@ -155,7 +155,7 @@ create_endmap(trig_ori,width,height,way)
 
 	wait 1;
 
-	thread sr\game\_fx_triggers::createTrigFx(trig, "red");
+	thread sr\game\fx\_trigger::createTrigFx(trig, "red");
 }
 
 create_endmap_loop(trig, way)
@@ -179,9 +179,9 @@ create_tp(trig_ori,width,height,ori,ori_angles,state,color,way)
 	wait 1;
 
 	if (!isDefined(color))
-		thread sr\game\_fx_triggers::createTrigFx(trig, "blue");
+		thread sr\game\fx\_trigger::createTrigFx(trig, "blue");
 	else
-		thread sr\game\_fx_triggers::createTrigFx(trig, color);
+		thread sr\game\fx\_trigger::createTrigFx(trig, color);
 }
 
 create_tp_loop(trig,ori,ori_angles,state,way)
@@ -256,7 +256,7 @@ create_secret(trig_ori,width,height,ori,ori_angles,state)
 
 	wait 1;
 
-	thread sr\game\_fx_triggers::createTrigFx(trig, "blue");
+	thread sr\game\fx\_trigger::createTrigFx(trig, "blue");
 }
 
 // DEPRECATED

@@ -1,5 +1,5 @@
 #include sr\sys\_admins;
-#include sr\game\_kz;
+#include sr\game\minigames\_kz;
 
 main()
 {

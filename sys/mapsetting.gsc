@@ -133,7 +133,7 @@ init()
 		trig = getEnt("finaldoor", "targetname");
 		level.mapHasTimeTrigger = true;
 		wait 1;
-		thread sr\game\_fx_triggers::createTrigFx(trig, "endtrig");
+		thread sr\game\fx\_trigger::createTrigFx(trig, "endtrig");
         while(1)
         {
             trig waittill("trigger", player);

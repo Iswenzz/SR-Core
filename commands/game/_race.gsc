@@ -1,5 +1,5 @@
 #include sr\sys\_admins;
-#include sr\game\_race;
+#include sr\game\minigames\_race;
 
 main()
 {

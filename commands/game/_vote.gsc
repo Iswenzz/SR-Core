@@ -1,4 +1,4 @@
-#include sr\game\menus\_main;
+#include sr\sys\_menu;
 #include sr\sys\_admins;
 
 main()

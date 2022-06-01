@@ -232,7 +232,7 @@ reset_endTrig()
 cmd_setTrig()
 {
 	level.raceEndTrig = getEnt("race_endtrig", "targetname");
-	//thread sr\game\_fx_triggers::createTrigFx(level.raceEndTrig, "green"); // TODO black/white racing flag
+	//thread sr\game\fx\_trigger::createTrigFx(level.raceEndTrig, "green"); // TODO black/white racing flag
 	self iPrintLnBold("Placed race end trigger");
 }
 

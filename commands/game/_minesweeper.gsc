@@ -1,5 +1,5 @@
 #include sr\sys\_admins;
-#include sr\game\_minesweeper;
+#include sr\game\minigames\_minesweeper;
 
 main()
 {
