@@ -1,5 +1,5 @@
 #include sr\sys\_menu;
-#include sr\player\_customize;
+#include sr\player\customize\_main;
 
 init()
 {
@@ -24,8 +24,8 @@ precache()
 		level.assets["weapon"][id]["name"] = tableLookup(tableName, 0, idx, 5);
 		level.assets["weapon"][id]["desc"] = tableLookup(tableName, 0, idx, 6);
 		level.assets["weapon"][id]["model"] = getWeaponModel(level.assets["weapon"][id]["item"]);
-		level.assets["weapon"][id]["callback"] = sr\player\_customize_weapon::pick;
-		level.assets["weapon"][id]["unlock"] = sr\player\_customize_weapon::unlock;
+		level.assets["weapon"][id]["callback"] = sr\player\customize\_weapon::pick;
+		level.assets["weapon"][id]["unlock"] = sr\player\customize\_weapon::unlock;
 
 		precacheItem(level.assets["weapon"][id]["item"]);
 		level.numItems++;

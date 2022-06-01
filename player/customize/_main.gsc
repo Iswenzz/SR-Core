@@ -8,14 +8,14 @@ initCustomize()
 	precacheMenu("sr_customize");
 	precacheMenu("sr_customize_category");
 
-	sr\player\_customize_character::init();
-	sr\player\_customize_fx::init();
-	sr\player\_customize_glove::init();
-	sr\player\_customize_knife_skin::init();
-	sr\player\_customize_knife::init();
-	sr\player\_customize_spray::init();
-	sr\player\_customize_theme::init();
-	sr\player\_customize_weapon::init();
+	sr\player\customize\_character::init();
+	sr\player\customize\_fx::init();
+	sr\player\customize\_glove::init();
+	sr\player\customize\_knife_skin::init();
+	sr\player\customize\_knife::init();
+	sr\player\customize\_spray::init();
+	sr\player\customize\_theme::init();
+	sr\player\customize\_weapon::init();
 
 	menu("sr_customize_category",			"open",		::menu_Open);
 	menu("sr_customize_category",			"close",	::menu_Close);

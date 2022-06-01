@@ -1,5 +1,5 @@
 #include sr\sys\_menu;
-#include sr\player\_customize;
+#include sr\player\customize\_main;
 
 init()
 {
@@ -22,8 +22,8 @@ precache()
 		level.assets["fx"][id]["prestige"] = int(tableLookup(tableName, 0, idx, 3));
 		level.assets["fx"][id]["name"] = tableLookup(tableName, 0, idx, 4);
 		level.assets["fx"][id]["model"] = "";
-		level.assets["fx"][id]["callback"] = sr\player\_customize_fx::pick;
-		level.assets["fx"][id]["unlock"] = sr\player\_customize_fx::unlock;
+		level.assets["fx"][id]["callback"] = sr\player\customize\_fx::pick;
+		level.assets["fx"][id]["unlock"] = sr\player\customize\_fx::unlock;
 
 		level.numFx++;
 	}

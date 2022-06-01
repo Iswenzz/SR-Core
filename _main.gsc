@@ -4,7 +4,7 @@ main()
 	sr\sys\_file::initFile();
     sr\sys\_mysql::initMySQL();
 	sr\game\_hud::initHud();
-	sr\player\_customize::initCustomize();
+	sr\player\customize\_main::initCustomize();
 
     sr\tests\_main::runTests();
 }

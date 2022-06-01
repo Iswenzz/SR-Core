@@ -493,7 +493,7 @@ player_endRace()
 
 	self.time = speedrun\game\_leaderboard::realtime(getTime() - self.raceTime);
 	position = getPositionString(posIndex + 1);
-	self thread speedrun\player\_hud_speedrun::updateHud();
+	self thread speedrun\player\huds\_speedrun::updateHud();
 
 	sayToAllRacers(self.name + " ^7finished " + position + " ^7in ^2"
 		+ self.time.min + ":" + self.time.sec + "." + self.time.milsec);

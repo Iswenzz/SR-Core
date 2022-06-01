@@ -1,5 +1,5 @@
 #include sr\sys\_menu;
-#include sr\player\_customize;
+#include sr\player\customize\_main;
 
 init()
 {
@@ -22,8 +22,8 @@ precache()
 		level.assets["glove"][id]["prestige"] = int(tableLookup(tableName, 0, idx, 3));
 		level.assets["glove"][id]["model"] = tableLookup(tableName, 0, idx, 4);
 		level.assets["glove"][id]["name"] = tableLookup(tableName, 0, idx, 5);
-		level.assets["glove"][id]["callback"] = sr\player\_customize_glove::pick;
-		level.assets["glove"][id]["unlock"] = sr\player\_customize_glove::unlock;
+		level.assets["glove"][id]["callback"] = sr\player\customize\_glove::pick;
+		level.assets["glove"][id]["unlock"] = sr\player\customize\_glove::unlock;
 
 		precacheModel(level.assets["glove"][id]["model"]);
 		level.numGlove++;

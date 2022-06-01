@@ -1,5 +1,5 @@
 #include sr\sys\_menu;
-#include sr\player\_customize;
+#include sr\player\customize\_main;
 
 init()
 {
@@ -23,8 +23,8 @@ precache()
 		level.assets["spray"][id]["effect"] = loadFx(tableLookup(tableName, 0, idx, 4));
 		level.assets["spray"][id]["name"] = tableLookup(tableName, 0, idx, 5);
 		level.assets["spray"][id]["model"] = "";
-		level.assets["spray"][id]["callback"] = sr\player\_customize_spray::pick;
-		level.assets["spray"][id]["unlock"] = sr\player\_customize_spray::unlock;
+		level.assets["spray"][id]["callback"] = sr\player\customize\_spray::pick;
+		level.assets["spray"][id]["unlock"] = sr\player\customize\_spray::unlock;
 
 		level.numSprays++;
 	}

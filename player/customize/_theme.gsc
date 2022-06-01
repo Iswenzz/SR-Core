@@ -1,5 +1,5 @@
 #include sr\sys\_menu;
-#include sr\player\_customize;
+#include sr\player\customize\_main;
 
 init()
 {
@@ -24,8 +24,8 @@ precache()
 		level.assets["theme"][id]["name"] = tableLookup(tableName, 0, idx, 5);
 		level.assets["theme"][id]["desc"] = tableLookup(tableName, 0, idx, 6);
 		level.assets["theme"][id]["model"] = "";
-		level.assets["theme"][id]["callback"] = sr\player\_customize_theme::pick;
-		level.assets["theme"][id]["unlock"] = sr\player\_customize_theme::unlock;
+		level.assets["theme"][id]["callback"] = sr\player\customize\_theme::pick;
+		level.assets["theme"][id]["unlock"] = sr\player\customize\_theme::unlock;
 
 		level.numTheme++;
 	}

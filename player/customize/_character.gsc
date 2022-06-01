@@ -1,5 +1,5 @@
 #include sr\sys\_menu;
-#include sr\player\_customize;
+#include sr\player\customize\_main;
 
 init()
 {
@@ -24,8 +24,8 @@ precache()
 		level.assets["character"][id]["handsModel"] = tableLookup(tableName, 0, idx, 5);
 		level.assets["character"][id]["name"] = tableLookup(tableName, 0, idx, 6);
 		level.assets["character"][id]["desc"] = tableLookup(tableName, 0, idx, 7);
-		level.assets["character"][id]["callback"] = sr\player\_customize_character::pick;
-		level.assets["character"][id]["unlock"] = sr\player\_customize_character::unlock;
+		level.assets["character"][id]["callback"] = sr\player\customize\_character::pick;
+		level.assets["character"][id]["unlock"] = sr\player\customize\_character::unlock;
 
 		precacheModel(level.assets["character"][id]["model"]);
 		precacheModel(level.assets["character"][id]["handsModel"]);

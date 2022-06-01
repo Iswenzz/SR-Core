@@ -1,5 +1,5 @@
 #include sr\sys\_menu;
-#include sr\player\_customize;
+#include sr\player\customize\_main;
 
 init()
 {
@@ -23,8 +23,8 @@ precache()
 		level.assets["knifeSkin"][id]["item"] = tableLookup(tableName, 0, idx, 4);
 		level.assets["knifeSkin"][id]["name"] = tableLookup(tableName, 0, idx, 5);
 		level.assets["knifeSkin"][id]["model"] = tableLookup(tableName, 0, idx, 6);
-		level.assets["knifeSkin"][id]["callback"] = sr\player\_customize_knife_skin::pick;
-		level.assets["knifeSkin"][id]["unlock"] = sr\player\_customize_knife_skin::unlock;
+		level.assets["knifeSkin"][id]["callback"] = sr\player\customize\_knife_skin::pick;
+		level.assets["knifeSkin"][id]["unlock"] = sr\player\customize\_knife_skin::unlock;
 
 		precacheModel(level.assets["knifeSkin"][id]["model"]);
 		level.numKnifeSkins++;

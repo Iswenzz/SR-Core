@@ -284,7 +284,7 @@ watchKzGame()
 				level.kzStarted = false;
 				winner.kzWon++;
 				winner.time = speedrun\game\_leaderboard::realtime(getTime() - winner.timerStartTime);
-				winner thread speedrun\player\_hud_speedrun::updateHud();
+				winner thread speedrun\player\huds\_speedrun::updateHud();
 				wait 3;
 				winner spawnPlayerToSpec();
 			}
@@ -395,7 +395,7 @@ spawnPlayerToSpec()
 	self braxi\_teams::setTeam( "spectator" );
 	self braxi\_mod::spawnSpectator( level.spawn["spectator"].origin, level.spawn["spectator"].angles );
 	// if(self.pers["spec_hud"] == 1 )
-	// 	self thread speedrun\player\_hud_spectator::init();
+	// 	self thread speedrun\player\huds\_spectator::init();
 	// self thread sr\commands\_hud_cheat::spec();
 }
 

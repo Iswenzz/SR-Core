@@ -1,4 +1,4 @@
-#include sr\game\_menu;
+#include sr\game\menus\_main;
 
 main()
 {
