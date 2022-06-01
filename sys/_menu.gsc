@@ -1,13 +1,17 @@
+#include sr\sys\_events;
+
 initMenu()
 {
 	level.menus = [];
+
+	event("connect", ::eventMenu);
 }
 
 eventMenu()
 {
 	self endon("disconnect");
 
-	for (;;)
+	while (true)
 	{
 		self waittill("menuresponse", menu, response);
 

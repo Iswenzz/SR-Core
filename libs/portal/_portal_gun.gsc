@@ -61,7 +61,7 @@ watchvelocity()
 
 	playingsound = 0;
 
-	for(;;)
+	while (true)
 	{
 		vel2 = lengthsquared( self getvelocity() );
 
@@ -110,7 +110,7 @@ startwindsoundloop()
 
 	self stoplocalsound( "fall_wind_sound_start" );
 
-	for(;;)
+	while (true)
 	{
 		self playlocalsound( "fall_wind_sound_loop" );
 		wait 4.9;
@@ -125,7 +125,7 @@ watchWeaponUsage()
 	self endon( "death" );
 	self endon( "disconnect" );
 
-	for(;;)
+	while (true)
 	{
 		self waittill("begin_firing");
 		self watchcurrentfiring();
@@ -458,7 +458,7 @@ turret()
 		old_eye = (0,0,0);
 		old_ang = (0,0,0);
 
-		for(;;)
+		while (true)
 		{
 			eye = self eyepos();
 			angles = self getPlayerAngles();

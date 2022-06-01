@@ -161,7 +161,7 @@ damagelistener( turret )
 	turret endon("destroyed");
 	turret endon("delete");
 
-	for(;;)
+	while (true)
 	{
 		self waittill( "damage", damage, player, this, nthat , meansofdeath );
 

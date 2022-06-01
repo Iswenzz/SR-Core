@@ -25,11 +25,11 @@
               "NNNNL.                           _L.
                �4NNNNN_.                     _JNNNNL
                  �"NNNNNNL__            ,__JNNNNNF"
-                    �"NNNNNNNNNNN___NNNNNNNNNNF" 
+                    �"NNNNNNNNNNN___NNNNNNNNNNF"
                         ""4NNNNNNNNNNNNNNN""`
-                               """"""` 
+                               """"""`
 
-                        ASCIIARTBY - R4d0xZz 
+                        ASCIIARTBY - R4d0xZz
 								� 2k11
 
 */
@@ -48,21 +48,21 @@ rotatevec_x( vec, deg )
 {
 	a = sin( deg );
 	b = cos( deg );
-	return  ( vec[0], vec[1] * b - vec[2] * a, vec[1] * a + vec[2] * b ); 
+	return  ( vec[0], vec[1] * b - vec[2] * a, vec[1] * a + vec[2] * b );
 }
 
 rotatevec_y( vec, deg )
 {
 	a = sin( deg );
 	b = cos( deg );
-	return  ( vec[0] * b + vec[2] * a, vec[1], vec[2] * b - vec[0] * a ); 
+	return  ( vec[0] * b + vec[2] * a, vec[1], vec[2] * b - vec[0] * a );
 }
 
 rotatevec_z( vec, deg )
 {
 	a = sin( deg );
 	b = cos( deg );
-	return  ( vec[0] * b - vec[1] * a, vec[0] * a + vec[1] * b, vec[2] ); 
+	return  ( vec[0] * b - vec[1] * a, vec[0] * a + vec[1] * b, vec[2] );
 }
 
 vector_divide_index( v, i, s )
@@ -128,10 +128,10 @@ portal_out_angles( angles1, angles2, angles3 )		//calculate the angles after tra
 portal_out_angles_player( angles1, angles2, angles3 )	//calculate player angles after travelling through a portal
 {
 	angles = portal_out_angles( angles1, angles2, angles3 );
-	
+
 	while( abs(angles[0]) > 120 ) 	// if the x-Angle is going over 120 degrees player will be flipped (max player angle is 85)
 		angles = ( max_x_angle( angles[0] ) , angles[1] + 180, normalize_angle( angles[2] + 180 ) );
-	
+
 	return angles;
 }
 
@@ -348,7 +348,7 @@ centerpos()
 
 eye()
 {
-	
+
 	switch(self getstance())
 	{
 		case "crouch":	height = (0,0,40);
@@ -357,14 +357,14 @@ eye()
 		break;
 		default:		height = (0,0,60);
 	}
-	
+
 	// right = anglestoright( self getplayerangles() );
-	
+
 	// lean_offset = vectordot( right, ( self gettagorigin( "tag_eye" ) - self.origin ) );
-	
+
 	// if( abs(lean_offset) > 7 )
 		// height += right * sign( lean_offset ) * 14.67 + (0,0,-3.125);
-	
+
 	return height;
 }
 
@@ -390,18 +390,18 @@ isinarray( array )
 
 trace_array( start, end, hit_players, ignore_array )	//trace allowing object arrays to be ignored
 {
-	
+
 	if(!isdefined(ignore_array))	//change this probably
 		ignore_ent = undefined;
-	
+
 	else
 		ignore_ent = ignore_array[0];
-	
+
 	if( !isdefined(hit_players) )
 		hit_players = false;
-	
+
 	trace = bullettrace( start, end, hit_players, ignore_ent );
-	
+
 	if( getdvarint( "portal_debug" ) )
 	{
 		drawline( start, trace["position"], getdvarint("portal_debugtime"), (1,0.3,0.2)*(trace["fraction"]!=1) + (0,1,0)*(trace["fraction"]==1) );
@@ -410,32 +410,32 @@ trace_array( start, end, hit_players, ignore_array )	//trace allowing object arr
 		//drawtext( start + 0.5*(trace["position"]-start), level.debugtracenum + "", 40, (0.8,0,0)*(trace["fraction"]!=1) + (0,1,0)*(trace["fraction"]==1) );
 		level.debugtracenum++;
 	}
-	
+
 	if( isdefined(ignore_array) )
 		if( isdefined(trace["entity"]) )
 			if( trace["entity"] isinarray(ignore_array) )
 				return trace_array_raw( trace["position"], end, hit_players, ignore_array, trace["entity"], trace["fraction"] );
-	
+
 	return trace;
 }
 
 trace_array_raw( start, end, hit_players, ignore_array, ignore_ent, fraction_add )	//trace allowing object arrays to be ignored
 {
 	trace = bullettrace( start, end, hit_players, ignore_ent );
-	
+
 	trace["fraction"] = fraction_add + (1-fraction_add)*trace["fraction"];	//fraction needs to be corrected
-	
+
 	if( isdefined(trace["entity"]) )
 		if( trace["entity"] isinarray(ignore_array) )
 			return trace_array_raw( trace["position"], end, hit_players, ignore_array, trace["entity"], trace["fraction"] );
-	
+
 	return trace;
 }
 
 ConeTrace( pos, angles, objects, conedegree, maxlength )
 {
 	close = [];
-	
+
 	for( i = 0; i < objects.size; i++ )
 	{
 		q = objects[i].origin;
@@ -447,7 +447,7 @@ ConeTrace( pos, angles, objects, conedegree, maxlength )
 					close[close.size] = objects[i];
 		}
 	}
-	
+
 	return close;
 }
 
@@ -456,20 +456,20 @@ ClosestConeTrace( pos, angles, objects, conedegree, maxlength )
 {
 	//get an array of the possible objects
 	close = ConeTrace( pos, angles, objects, conedegree, maxlength );
-	
+
 	//none found
 	if( !close.size )
 		return;
-	
+
 	//check for the closest object
 	object = close[0];
-	
+
 	for( i = 1; i < close.size; i++ )
 	{
 		if( distancesquared( object.origin, pos ) > distancesquared( close[i].origin, pos ) )
 			object = close[i];
 	}
-	
+
 	return object;
 }
 
@@ -493,11 +493,11 @@ isOnSameWall( p, q, normal )	//will return true, if point p and q are on the sam
 point_translation_angles( p, q, angles )	//return the translation of point q from p oriented by the given angles
 {
 	vec = q - p;
-	
+
 	a = anglestoforward( angles );						//forward vector
 	b = anglestoright( angles );						//right vector
 	c = vectornormalize( vectorprod( b, a ) );			//up vector
-	
+
 	return ( vectordot( vec, b ), vectordot( vec, c ), vectordot( vec, a ) );
 }
 
@@ -506,7 +506,7 @@ vec_translation_angles( vec, angles )	//return the translation of point q from p
 	a = anglestoforward( angles );						//forward vector
 	b = anglestoright( angles );						//right vector
 	c = vectornormalize( vectorprod( b, a ) );			//up vector
-	
+
 	return ( vectordot( vec, b ), vectordot( vec, c ), vectordot( vec, a ) );
 }
 
@@ -515,9 +515,9 @@ vec_translation_angles_2( vec, angles )	//return the actual translation of point
 	a = anglestoforward( angles );						//forward vector
 	b = anglestoright( angles )*-1;						//left vector
 	c = vectorprod( a, b );								//up vector
-	
+
 	v = ( vectordot( vec, a ), vectordot( vec, b ), vectordot( vec, c ) );
-	
+
 	return v;
 }
 
@@ -529,11 +529,11 @@ localtoworldcoordinates( vec, angles ) //all the matrix shit cause IW cant make 
 	M[0] = [];
 	M[1] = [];
 	M[2] = [];
-	
+
 	a = anglestoforward( angles );						//forward vector
 	b = anglestoright( angles )*-1;						//left vector
 	c = vectorprod( a, b );								//up vector
-	
+
 	M[0][0] = a[0];
 	M[0][1] = a[1];
 	M[0][2] = a[2];
@@ -543,7 +543,7 @@ localtoworldcoordinates( vec, angles ) //all the matrix shit cause IW cant make 
 	M[2][0] = c[0];
 	M[2][1] = c[1];
 	M[2][2] = c[2];
-	
+
 	return matrix_solve( M, vec );
 }
 
@@ -587,15 +587,15 @@ drawtext( pos, text, time, color )
 
 draw_text( pos, text, time, color, alpha, scale )
 {
-	
+
 	if( !isdefined( color ) )
 		color = random_color_dark();
-	
+
 	if( !isdefined( time ) || time==0 )
 		time = -1;
-	
+
 	time = int(time*20);
-	
+
 	for( i = 0; i != time; i++ )
 	{
 		print3d( pos, text, color, alpha, scale );
@@ -617,40 +617,40 @@ draw_point( pos, time, color )	//this failed, draw "." text instead?
 {
 	if( !isdefined( color ) )
 		color = random_color_dark();
-	
+
 	if( !isdefined( time ) )
 		time = 0;
-	
+
 	lines = [];
 	count = 5;
-	
+
 	for( i=0; i<count*2; i+=2 )
 	{
 		l = vectornormalize(random_color());
 		lines[i] = pos - l/10;
 		lines[i+1] = pos + l/10;
 	}
-	
+
 	for( j = 1; j != 20*time; j++ )
 	{
 		for( i=0; i<count*2; i+=2 )
 			line( lines[i], lines[i+1], color, true );
 		wait 0.05;
 	}
-	
+
 }
 
 draw_line( from, to, time, color )
 {
-	
+
 	if( !isdefined( color ) )
 		color = random_color_dark();
-	
+
 	if( !isdefined( time ) || time==0 )
 		time = -1;
-	
+
 	time = int(time*20);
-	
+
 	for( i = 0; i != time; i++ )
 	{
 		line( from, to, color, true );
@@ -660,21 +660,21 @@ draw_line( from, to, time, color )
 
 draw_axis( time, pos )
 {
-	
+
 	if( !isdefined( time ) )
 		time = 0;
-	
+
 	time = int(time*20);
-	
+
 	if( !isdefined( pos ) )
 		pos = self.origin;
 	if( !isdefined( pos ) )
 		return;
-	
+
 	f = anglestoforward( self.angles )*20;
 	r = anglestoright( self.angles )*-20;
 	u = anglestoup( self.angles )*20;
-	
+
 	for( i = 1; i != time; i++ )
 	{
 		//x
@@ -683,7 +683,7 @@ draw_axis( time, pos )
 		thread draw_line( pos, pos + r, 0.05, (0,0,1) );
 		//z
 		thread draw_line( pos, pos + u, 0.05, (0,1,0) );
-		
+
 		wait 0.05;
 	}
 }
@@ -692,11 +692,11 @@ draw_collision( color )
 {
 	self notify("draw_collision");
 	self endon("draw_collision");
-	
+
 	if( !isdefined( color ) )
 		color = random_color_dark();
-	
-	
+
+
 	if( self.physics["colType"] == "cube" )
 	{
 		while(1)
@@ -704,26 +704,26 @@ draw_collision( color )
 			f = anglestoforward( self.angles )*self.physics["colSize"];
 			r = anglestoright( self.angles )*self.physics["colSize"]*-1;
 			u = anglestoup( self.angles )*self.physics["colSize"];
-			
+
 			thread draw_line( self.origin, self.origin + f/2, 0.05, (1,0,0) );
 			thread draw_line( self.origin, self.origin + r/2, 0.05, (0,0,1) );
 			thread draw_line( self.origin, self.origin + u/2, 0.05, (0,1,0) );
-			
+
 			thread draw_line( self.origin - f - u - r, self.origin + f - u - r, 0.05, color );
 			thread draw_line( self.origin - f + u - r, self.origin + f + u - r, 0.05, color );
 			thread draw_line( self.origin - f - u + r, self.origin + f - u + r, 0.05, color );
 			thread draw_line( self.origin - f + u + r, self.origin + f + u + r, 0.05, color );
-			
+
 			thread draw_line( self.origin - f - u - r, self.origin - f - u + r, 0.05, color );
 			thread draw_line( self.origin + f - u - r, self.origin + f - u + r, 0.05, color );
 			thread draw_line( self.origin - f + u - r, self.origin - f + u + r, 0.05, color );
 			thread draw_line( self.origin + f + u - r, self.origin + f + u + r, 0.05, color );
-			
+
 			thread draw_line( self.origin - f - u - r, self.origin - f + u - r, 0.05, color );
 			thread draw_line( self.origin + f - u - r, self.origin + f + u - r, 0.05, color );
 			thread draw_line( self.origin - f - u + r, self.origin - f + u + r, 0.05, color );
 			thread draw_line( self.origin + f - u + r, self.origin + f + u + r, 0.05, color );
-			
+
 			wait 0.05;
 		}
 	}
@@ -745,7 +745,7 @@ arrow( n, normal, pos)
 	{
 		level.testarrow[n] = spawn( "script_model", pos );
 		level.testarrow[n] setModel( "projectile_sidewinder_missile" );
-		
+
 	}
 	else
 		level.testarrow[n].origin = pos;
@@ -767,9 +767,9 @@ physicstrace_debug( start, end )
 printz( t0, t1, t2, t3, t4, t5, t6, t7, t8, t9 )
 {
 	t = "";
-	
+
 	spacer = " ^1: ^7";
-	
+
 	if( isdefined( t0 ) )
 		t = t0;
 	if( isdefined( t1 ) )
@@ -790,7 +790,7 @@ printz( t0, t1, t2, t3, t4, t5, t6, t7, t8, t9 )
 		t += spacer + t8;
 	if( isdefined( t9 ) )
 		t += spacer + t9;
-	
+
 	iprintln( t );
 }
 
@@ -798,17 +798,17 @@ printz( t0, t1, t2, t3, t4, t5, t6, t7, t8, t9 )
 
 Matrix_solve( A, b )
 {
-	
+
 	//extended matrix
 	A[0][3] = b[0];
 	A[1][3] = b[1];
 	A[2][3] = b[2];
-	
+
 	//iprintln( "Original: " );
 	//print_matrix( A );
-	
+
 	M = A;
-	
+
 	for(i=0;i<3;i++)
 	{
 		A = pivot_row( M, i );
@@ -819,9 +819,9 @@ Matrix_solve( A, b )
 				M = restore_row( subtract_row( multiply_row(M,i,M[j][i]) ,j,i), A, i );
 		}
 	}
-	
+
 	return (M[0][3],M[1][3],M[2][3]);
-	
+
 }
 
 restore_row(M,A,n)
@@ -856,26 +856,26 @@ pivot_row( M, n )
 	if(!M[n][n])	//if its 0 it has to be swapped with row x
 	{
 		x = biggest_value_index( (0,M[1][n]*(n<1),M[2][n]*(n<2)) );
-		
+
 		//swap row
 		temp = M[n];
 		M[n] = M[x];
 		M[x] = temp;
-		
+
 		//iprintln( "Swapping row " + n + " with " + x );
 		//print_matrix( M );
 	}
-	
+
 	//divide row to pivot
 	d = M[n][n];
-	
+
 	for(i=0;i<4;i++)
 		M[n][i] /= d;
-	
-	
+
+
 	//iprintln( "Pivoting row " + n + " ( divide by " + d + " ) " );
 	//print_matrix( M );
-	
+
 	return M;
 }
 
@@ -887,7 +887,7 @@ print_matrix(A)
 		line = "";
 		for(j=0;j<A[i].size;j++)
 			line += A[i][j] + " | ";
-		
+
 		iprintln( line );
 	}
 	iprintln( ".");
@@ -911,7 +911,7 @@ PlayLoopSoundToPlayer( soundAlias, length, endon_str )
 	self endon("joined_spectators");
 	self endon("spawned");
 	self endon( endon_str );
-	
+
 	while( true )
 	{
 		self playlocalsound( soundAlias );
@@ -923,11 +923,11 @@ playlocalsoundloop( SoundAlias, repeatTime)
 {
 	self endon( "death" );
 	self endon( "disconnect" );
-	
+
 	self notify( "stoplocalsoundloop_"+SoundAlias );
 	self endon( "stoplocalsoundloop_"+SoundAlias );
-	
-	for(;;)
+
+	while (true)
 	{
 		self playlocalsound( "fall_wind_sound" );
 		wait repeatTime;
@@ -938,7 +938,7 @@ playlocalsoundloop( SoundAlias, repeatTime)
 PlayLoopSound( soundAlias, length, endon_str )
 {
 	self endon( endon_str );
-	
+
 	while( true )
 	{
 		if( !isdefined( self ) )
@@ -946,7 +946,7 @@ PlayLoopSound( soundAlias, length, endon_str )
 		self playsound( soundAlias );
 		wait length;
 	}
-	
+
 }
 
 /*  -   Other   - */
@@ -954,7 +954,7 @@ PlayLoopSound( soundAlias, length, endon_str )
 waittill_any( string1, string2, string3, string4, string5 )
 {
 	assert( isdefined( string1 ) );
-	
+
 	if ( isdefined( string2 ) )
 		self endon( string2 );
 
@@ -966,7 +966,7 @@ waittill_any( string1, string2, string3, string4, string5 )
 
 	if ( isdefined( string5 ) )
 		self endon( string5 );
-	
+
 	self waittill( string1 );
 }
 

@@ -209,7 +209,7 @@ spawnPlayersInRoom_thread(i)
 	self endon("disconnect");
 
 	self.wonKz = false;
-	self braxi\_teams::setTeam("axis");
+	self sr\game\_teams::setTeam("axis");
 	self suicide();
 
 	self endon("death");
@@ -392,7 +392,7 @@ joinKz()
 spawnPlayerToSpec()
 {
 	self endon("disconnect");
-	self braxi\_teams::setTeam( "spectator" );
+	self sr\game\_teams::setTeam( "spectator" );
 	self braxi\_mod::spawnSpectator( level.spawn["spectator"].origin, level.spawn["spectator"].angles );
 	// if(self.pers["spec_hud"] == 1 )
 	// 	self thread speedrun\player\huds\_spectator::init();
@@ -407,7 +407,7 @@ leaveKz()
 	self.inKz = false;
 	self.kzWon = 0;
 	self.wonKz = false;
-	self braxi\_teams::setTeam("allies");
+	self sr\game\_teams::setTeam("allies");
 	self suicide();
 
 	removePlayer(self);

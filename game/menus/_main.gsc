@@ -13,7 +13,7 @@ menuEvent(id, weapon)
 	self endon("disconnect");
 	self.sr_menu_open = false;
 
-	for (;;)
+	while (true)
 	{
 		if (!isDefined(self))
 			break;

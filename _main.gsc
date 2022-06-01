@@ -1,24 +1,13 @@
 main()
 {
-	sr\sys\_menu::initMenu();
+	sr\sys\_events::initEvents();
 	sr\sys\_file::initFile();
-    sr\sys\_mysql::initMySQL();
 	sr\sys\_hud::initHud();
+	sr\sys\_menu::initMenu();
+    sr\sys\_mysql::initMySQL();
 	sr\sys\_rank::initRank();
+
 	sr\player\customize\_main::initCustomize();
 
     sr\tests\_main::runTests();
-}
-
-onConnect()
-{
-	self endon("disconnect");
-
-	self thread sr\sys\_hud::eventHud();
-	self thread sr\sys\_menu::eventMenu();
-}
-
-onSpawn()
-{
-	self endon("disconnect");
 }

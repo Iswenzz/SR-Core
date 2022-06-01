@@ -1,11 +1,18 @@
+#include sr\sys\_events;
 #include sr\utils\_hud;
 #include sr\utils\_common;
 
+main()
+{
+	event("spawn", ::hud);
+	event("death", ::clear);
+}
+
 hud()
 {
+	self endon("death");
 	self endon("disconnect");
-	self notify("hud_player_end");
-	self endon("hud_player_end");
+	self endon("joined_spectators");
 
 	if(self.isBot)
 		return;
@@ -19,7 +26,6 @@ hud()
 		self updateFps();
 		self updateVelocity();
 	}
-	self remove();
 }
 
 hudFps()
@@ -67,7 +73,7 @@ updateVelocity()
 	self.huds.velocity setValue(self getPlayerVelocity());
 }
 
-remove()
+clear()
 {
 	if (isDefined(self.huds.fps))
 		self.huds.fps destroy();

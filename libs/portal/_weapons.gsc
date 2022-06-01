@@ -253,7 +253,7 @@ watchGrenadePickup()	//currently unused
 
 	player = undefined;
 
-	for(;;)
+	while (true)
 	{
 		self.trigger waittill( "trigger", player );
 		//player maps\mp\gametypes\_hud_message::hintMessage( "throw grenade" );

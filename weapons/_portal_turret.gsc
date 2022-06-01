@@ -164,7 +164,7 @@ damagelistener( turret )
 	turret endon("destroyed");
 	turret endon("delete");
 
-	for(;;)
+	while (true)
 	{
 		self waittill( "damage", damage, player, this, nthat , meansofdeath );
 
@@ -433,7 +433,7 @@ deploying( woken_up )
 	self updatetargets();
 	self.last_target = self;	//just so we got something defined
 
-	for(;;)
+	while (true)
 	{
 		if( !level.turret_killed_player_this_frame )	//note: make this better
 			self.losttarget = true;

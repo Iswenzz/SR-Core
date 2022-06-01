@@ -164,7 +164,7 @@ onJoinedTeam()
 {
 	self endon("disconnect");
 
-	for (;;)
+	while (true)
 	{
 		self waittill("joined_team");
 		self thread removeRankHUD();
@@ -175,7 +175,7 @@ onJoinedSpectators()
 {
 	self endon("disconnect");
 
-	for (;;)
+	while (true)
 	{
 		self waittill("joined_spectators");
 		self thread removeRankHUD();
@@ -186,7 +186,7 @@ onSpawned()
 {
 	self endon("disconnect");
 
-	for (;;)
+	while (true)
 	{
 		self waittill("spawned_player");
 

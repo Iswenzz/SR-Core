@@ -158,7 +158,7 @@ _linkto_thread( ent )
 	self endon("unlink");
 	self endon("death");
 	ent endon("death");
-	for(;;)
+	while (true)
 	{
 		if( !isdefined( ent ) || !isdefined( self ) )
 			self notify("unlink");

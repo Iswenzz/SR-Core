@@ -160,7 +160,7 @@ create_endmap(trig_ori,width,height,way)
 
 create_endmap_loop(trig, way)
 {
-	for(;;)
+	while (true)
 	{
 		trig waittill("trigger",player);
 
@@ -186,7 +186,7 @@ create_tp(trig_ori,width,height,ori,ori_angles,state,color,way)
 
 create_tp_loop(trig,ori,ori_angles,state,way)
 {
-	for(;;)
+	while (true)
 	{
 		trig waittill("trigger",player);
 
@@ -262,7 +262,7 @@ create_secret(trig_ori,width,height,ori,ori_angles,state)
 // DEPRECATED
 create_secret_loop(trig,ori,ori_angles,state)
 {
-	for(;;)
+	while (true)
 	{
 		trig waittill("trigger",player);
 
@@ -310,7 +310,7 @@ way_connect(normalway,secretway)
     if(secretway == 1)
 		createWay("secret", "Secret Way", "1");
 
-    for(;;)
+    while (true)
     {
         level waittill( "connected", player );
         player thread way_name();
