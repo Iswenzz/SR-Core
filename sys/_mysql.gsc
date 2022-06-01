@@ -1,5 +1,9 @@
-main()
+initMySQL()
 {
+	SQL_Connect("127.0.0.1", 3306, "root", "rootpassword");
+	SQL_SelectDB("sr");
+	ComPrint(SQL_Version());
+
     level.MYSQL_TYPE_DECIMAL      = 0;
 	level.MYSQL_TYPE_TINY         = 1;
 	level.MYSQL_TYPE_SHORT        = 2;

@@ -1,9 +1,9 @@
-main()
+initMenu()
 {
 	level.menus = [];
 }
 
-event()
+eventMenu()
 {
 	self endon("disconnect");
 
@@ -11,30 +11,43 @@ event()
 	{
 		self waittill("menuresponse", menu, response);
 
-		if (isDefined(level.menus[menu]))
+		if (!isDefined(level.menus[menu]))
+			continue;
+
+		for (i = 0; i < level.menus[menu].size; i++)
 		{
-			if (isDefined(level.menus[menu][response]))
-				self thread [[level.menus[menu][response].callback]](response);
-			else if (isDefined(level.menus[menu].callback) && StartsWith(level.menus[menu].response, response))
-				self thread [[level.menus[menu].callback]](response);
+			script = level.menus[menu][i];
+
+			if (script.response == response || (script.multiple && StartsWith(script.response, response)))
+				[[script.callback]](response);
 		}
 	}
 }
 
 menu(name, response, callback)
 {
-	level.menus[name] = spawnStruct();
-	level.menus[name].name = name;
-	level.menus[name].responses = [];
-	level.menus[name].responses[response] = callback;
+	if (!isDefined(level.menus[name]))
+		level.menus[name] = [];
+
+	index = level.menus[name].size;
+	level.menus[name][index] = spawnStruct();
+	level.menus[name][index].name = name;
+	level.menus[name][index].response = response;
+	level.menus[name][index].callback = callback;
+	level.menus[name][index].multiple = false;
 }
 
 menu_multiple(name, response, callback)
 {
-	level.menus[name] = spawnStruct();
-	level.menus[name].name = name;
-	level.menus[name].callback = callback;
-	level.menus[name].response = response;
+	if (!isDefined(level.menus[name]))
+		level.menus[name] = [];
+
+	index = level.menus[name].size;
+	level.menus[name][index] = spawnStruct();
+	level.menus[name][index].name = name;
+	level.menus[name][index].response = response;
+	level.menus[name][index].callback = callback;
+	level.menus[name][index].multiple = true;
 }
 
 range(variable, min, max)

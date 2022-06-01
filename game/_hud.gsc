@@ -1,9 +1,9 @@
-main()
+initHud()
 {
 	level.huds = spawnStruct();
 }
 
-event()
+eventHud()
 {
 	self.huds = spawnStruct();
 }

@@ -1,0 +1,79 @@
+#include sr\sys\_menu;
+#include sr\player\_customize;
+
+init()
+{
+	precache();
+
+	menu("sr_customize", "glove", ::menu_Glove);
+}
+
+precache()
+{
+	level.assets["glove"] = [];
+	level.numGlove = 0;
+
+	tableName = "mp/gloveTable.csv";
+
+	for (idx = 1; isdefined(tableLookup(tableName, 0, idx, 0)) && tableLookup(tableName, 0, idx, 0) != ""; idx++)
+	{
+		id = int(tableLookup(tableName, 0, idx, 1));
+		level.assets["glove"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
+		level.assets["glove"][id]["prestige"] = int(tableLookup(tableName, 0, idx, 3));
+		level.assets["glove"][id]["model"] = tableLookup(tableName, 0, idx, 4);
+		level.assets["glove"][id]["name"] = tableLookup(tableName, 0, idx, 5);
+		level.assets["glove"][id]["callback"] = sr\player\_customize_glove::pick;
+		level.assets["glove"][id]["unlock"] = sr\player\_customize_glove::unlock;
+
+		precacheModel(level.assets["glove"][id]["model"]);
+		level.numGlove++;
+	}
+}
+
+menu_Glove(response)
+{
+	self closeMenu();
+	self clean();
+	self openMenu("sr_customize_category");
+	self.customize_category = "glove";
+	self.customize_max_page = countPages(level.assets["glove"]);
+	self setClientDvar("menuName", "Gloves");
+	self setClientDvar("sr_customize_page", "1/" + self.customize_max_page);
+	self thread build(response);
+}
+
+build(response)
+{
+	self endon("disconnect");
+
+	eye = self sr\weapons\_bullet_trace::eyepos();
+	up = anglesToUp(self getPlayerAngles()) * 7;
+    forward = anglesToForward(self getPlayerAngles()) * 45;
+	right = anglesToRight(self getPlayerAngles()) * 13;
+
+    if (isDefined(self.customize_preview))
+        self.customize_preview.origin = forward + right + up + eye;
+
+	buildButtons(level.assets["glove"]);
+}
+
+unlock(id)
+{
+	if (id <= -1)
+		return 0;
+	else if (self braxi\_rank::isGloveUnlocked(id))
+		return 0;
+	return 1;
+}
+
+pick(id)
+{
+	if (!self unlock(id))
+		return;
+
+	self setStat(985, id);
+	self setClientDvar("drui_glove", id);
+
+	if (isDefined(self.customize_preview))
+		self.customize_preview setModel(level.assets["glove"][id]["model"]);
+}

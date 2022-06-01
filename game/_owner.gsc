@@ -28,7 +28,7 @@ main()
 	option(redirect, "3xP CJ", 		::menu_Redirect, "c.3xP-Clan.com:1337");
 }
 
-event()
+eventOwner()
 {
     self thread menuEvent("owner", "shop_mp");
 }

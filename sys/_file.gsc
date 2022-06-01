@@ -1,4 +1,4 @@
-main()
+initFile()
 {
 	level.file = spawnStruct();
 }

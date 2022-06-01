@@ -18,7 +18,7 @@ itemDef \
 	bordercolor		0 0 0 0.5 \
 	bordersize		1 \
 	style			WINDOW_STYLE_EMPTY \
-	forecolor		DR_BUTTON_FORECOLOR \ 
+	forecolor		DR_BUTTON_FORECOLOR \
 	backcolor		DR_BUTTON_BACKCOLOR \
 } \
 itemDef \
@@ -30,7 +30,7 @@ itemDef \
 	bordercolor		0 0 0 0.8 \
 	bordersize		1 \
 	style			WINDOW_STYLE_EMPTY \
-	forecolor		DR_BUTTON_FORECOLOR \ 
+	forecolor		DR_BUTTON_FORECOLOR \
 	backcolor		DR_BUTTON_BACKCOLOR_FOCUSED \
 } \
 itemDef \
@@ -81,7 +81,7 @@ itemDef \
 	bordercolor		0 0 0 0.5 \
 	bordersize		1 \
 	style			WINDOW_STYLE_EMPTY \
-	forecolor		DR_BUTTON_FORECOLOR \ 
+	forecolor		DR_BUTTON_FORECOLOR \
 	backcolor		DR_BUTTON_BACKCOLOR \
 } \
 itemDef \
@@ -93,7 +93,7 @@ itemDef \
 	bordercolor		0 0 0 0.8 \
 	bordersize		1 \
 	style			WINDOW_STYLE_EMPTY \
-	forecolor		DR_BUTTON_FORECOLOR \ 
+	forecolor		DR_BUTTON_FORECOLOR \
 	backcolor		DR_BUTTON_BACKCOLOR_FOCUSED \
 } \
 itemDef \
@@ -135,7 +135,7 @@ itemDef \
 	menuDef
 	{
 		name			"sr_customize"
-		rect			-128 -20 894 515 
+		rect			-128 -20 894 515
 		blurworld		0
 		border			1
 		bordersize		10
@@ -158,36 +158,36 @@ itemDef \
 		itemdef
 		{
 			name			"background"
-			rect			150 50 230 500 1 0 
+			rect			150 50 230 500 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.6 
+			backcolor			0.1 0.1 0.1 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"title"
-			rect			150 0 230 50 1 0 
+			rect			150 0 230 50 1 0
 			style			1
-			backcolor			0 0 0 0.7 
+			backcolor			0 0 0 0.7
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"titleText"
-			rect			150 35 230 50 1 0 
+			rect			150 35 230 50 1 0
 			style			0
-			backcolor		0 0 0 0.7 
+			backcolor		0 0 0 0.7
 			visible			1
 			bordersize		3
-			bordercolor		0 0 0 0.7 
+			bordercolor		0 0 0 0.7
 			type			0
 			exp				text( dvarString(menuName))
 			textscale		0.4
@@ -196,20 +196,20 @@ itemDef \
 			decoration
 		}
 
-		DR_STUFF_BUTTON( "1", 205, 90, 120, 25, "^8Weapons", scriptMenuResponse "customize:weapon";, 1 )
-		DR_STUFF_BUTTON( "2", 205, 120, 120, 25, "^8Characters", scriptMenuResponse "customize:character";, 1 )
-		DR_STUFF_BUTTON( "3", 205, 150, 120, 25, "^8Sprays", scriptMenuResponse "customize:spray";, 1 )
-		DR_STUFF_BUTTON( "4", 205, 180, 120, 25, "^8Knifes", scriptMenuResponse "customize:knife";, 1 )
-		DR_STUFF_BUTTON( "5", 205, 210, 120, 25, "^8Knife Skins", scriptMenuResponse "customize:knifeskin";, 1 )
-		DR_STUFF_BUTTON( "6", 205, 240, 120, 25, "^8Gloves", scriptMenuResponse "customize:glove";, 1 )
-		DR_STUFF_BUTTON( "7", 205, 270, 120, 25, "^8Effects", scriptMenuResponse "customize:fx";, 1 )
-		DR_STUFF_BUTTON( "8", 205, 300, 120, 25, "^8Themes", scriptMenuResponse "customize:theme";, 1 )
+		DR_STUFF_BUTTON( "1", 205, 90, 120, 25, "^8Weapons", scriptMenuResponse "weapon";, 1 )
+		DR_STUFF_BUTTON( "2", 205, 120, 120, 25, "^8Characters", scriptMenuResponse "character";, 1 )
+		DR_STUFF_BUTTON( "3", 205, 150, 120, 25, "^8Sprays", scriptMenuResponse "spray";, 1 )
+		DR_STUFF_BUTTON( "4", 205, 180, 120, 25, "^8Knifes", scriptMenuResponse "knife";, 1 )
+		DR_STUFF_BUTTON( "5", 205, 210, 120, 25, "^8Knife Skins", scriptMenuResponse "knifeskin";, 1 )
+		DR_STUFF_BUTTON( "6", 205, 240, 120, 25, "^8Gloves", scriptMenuResponse "glove";, 1 )
+		DR_STUFF_BUTTON( "7", 205, 270, 120, 25, "^8Effects", scriptMenuResponse "fx";, 1 )
+		DR_STUFF_BUTTON( "8", 205, 300, 120, 25, "^8Themes", scriptMenuResponse "theme";, 1 )
 	}
 
 	menuDef
 	{
-		name			"sr_customize_area"
-		rect			-128 -20 894 515 
+		name			"sr_customize_category"
+		rect			-128 -20 894 515
 		blurworld		0
 		border			1
 		bordersize		10
@@ -218,11 +218,11 @@ itemDef \
 
 		onOpen
 		{
-			scriptMenuResponse "customize:init";
+			scriptMenuResponse "open";
 		}
 		onClose
 		{
-			scriptMenuResponse "customize:close";
+			scriptMenuResponse "close";
 		}
 		onEsc
 		{
@@ -234,7 +234,7 @@ itemDef \
 		itemdef
 		{
 			name			"theme"
-			rect			0 146 890 217 0 0 
+			rect			0 146 890 217 0 0
 			style			3
 			visible			when(dvarString("preview_theme") == "1")
 			exp				material("sr_menu_bg_" + (theme + 1))
@@ -244,36 +244,36 @@ itemDef \
 		itemdef
 		{
 			name			"background"
-			rect			150 50 230 500 1 0 
+			rect			150 50 230 500 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.6 
+			backcolor			0.1 0.1 0.1 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"title"
-			rect			150 0 230 50 1 0 
+			rect			150 0 230 50 1 0
 			style			1
-			backcolor			0 0 0 0.7 
+			backcolor			0 0 0 0.7
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"titleText"
-			rect			150 35 230 50 1 0 
+			rect			150 35 230 50 1 0
 			style			0
-			backcolor			0 0 0 0.7 
+			backcolor			0 0 0 0.7
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			exp				text("^8" + dvarString(menuName))
 			textscale			0.4
@@ -282,57 +282,57 @@ itemDef \
 			decoration
 		}
 
-		STUFF_BUTTON( "1", 205, 90, 120, 25, dvarString("sr_customize_1"), scriptMenuResponse "customize:1";, 1 )
-		STUFF_BUTTON( "2", 205, 120, 120, 25, dvarString("sr_customize_2"), scriptMenuResponse "customize:2";, 1 )
-		STUFF_BUTTON( "3", 205, 150, 120, 25, dvarString("sr_customize_3"), scriptMenuResponse "customize:3";, 1 )
-		STUFF_BUTTON( "4", 205, 180, 120, 25, dvarString("sr_customize_4"), scriptMenuResponse "customize:4";, 1 )
-		STUFF_BUTTON( "5", 205, 210, 120, 25, dvarString("sr_customize_5"), scriptMenuResponse "customize:5";, 1 )
-		STUFF_BUTTON( "6", 205, 240, 120, 25, dvarString("sr_customize_6"), scriptMenuResponse "customize:6";, 1 )
-		STUFF_BUTTON( "7", 205, 270, 120, 25, dvarString("sr_customize_7"), scriptMenuResponse "customize:7";, 1 )
-		STUFF_BUTTON( "8", 205, 300, 120, 25, dvarString("sr_customize_8"), scriptMenuResponse "customize:8";, 1 )
-		STUFF_BUTTON( "9", 205, 330, 120, 25, dvarString("sr_customize_9"), scriptMenuResponse "customize:9";, 1 )
-		STUFF_BUTTON( "10", 205, 360, 120, 25, dvarString("sr_customize_10"), scriptMenuResponse "customize:10";, 1 )
+		STUFF_BUTTON( "1", 205, 90, 120, 25, dvarString("sr_customize_1"), scriptMenuResponse "pick:0";, 1 )
+		STUFF_BUTTON( "2", 205, 120, 120, 25, dvarString("sr_customize_2"), scriptMenuResponse "pick:1";, 1 )
+		STUFF_BUTTON( "3", 205, 150, 120, 25, dvarString("sr_customize_3"), scriptMenuResponse "pick:2";, 1 )
+		STUFF_BUTTON( "4", 205, 180, 120, 25, dvarString("sr_customize_4"), scriptMenuResponse "pick:3";, 1 )
+		STUFF_BUTTON( "5", 205, 210, 120, 25, dvarString("sr_customize_5"), scriptMenuResponse "pick:4";, 1 )
+		STUFF_BUTTON( "6", 205, 240, 120, 25, dvarString("sr_customize_6"), scriptMenuResponse "pick:5";, 1 )
+		STUFF_BUTTON( "7", 205, 270, 120, 25, dvarString("sr_customize_7"), scriptMenuResponse "pick:6";, 1 )
+		STUFF_BUTTON( "8", 205, 300, 120, 25, dvarString("sr_customize_8"), scriptMenuResponse "pick:7";, 1 )
+		STUFF_BUTTON( "9", 205, 330, 120, 25, dvarString("sr_customize_9"), scriptMenuResponse "pick:8";, 1 )
+		STUFF_BUTTON( "10", 205, 360, 120, 25, dvarString("sr_customize_10"), scriptMenuResponse "pick:9";, 1 )
 
 		itemdef
 		{
 			name			"prev"
-			rect			210 440 30 30 1 0 
+			rect			210 440 30 30 1 0
 			style			WINDOW_STYLE_SHADER
 			background		"sr_prev"
 			type			ITEM_TYPE_BUTTON
-			textstyle		ITEM_TEXTSTYLE_SHADOWED 
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			visible			1
-			mouseEnter 
-			{ 
-				play "mouse_over"; 
-			} 
-			action 
-			{ 
-				scriptMenuResponse "customize:prev";
-			} 
+			mouseEnter
+			{
+				play "mouse_over";
+			}
+			action
+			{
+				scriptMenuResponse "prev";
+			}
 		}
 		itemdef
 		{
 			name			"next"
-			rect			290 440 30 30 1 0 
+			rect			290 440 30 30 1 0
 			style			WINDOW_STYLE_SHADER
 			background		"sr_next"
 			type			ITEM_TYPE_BUTTON
-			textstyle		ITEM_TEXTSTYLE_SHADOWED 
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			visible			1
-			mouseEnter 
-			{ 
-				play "mouse_over"; 
-			} 
-			action 
-			{ 
-				scriptMenuResponse "customize:next";
-			} 
+			mouseEnter
+			{
+				play "mouse_over";
+			}
+			action
+			{
+				scriptMenuResponse "next";
+			}
 		}
 		itemdef
 		{
 			name			"page"
-			rect			250 463 30 30 1 0 
+			rect			250 463 30 30 1 0
 			style			WINDOW_STYLE_EMPTY
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textalign		ITEM_ALIGN_CENTER

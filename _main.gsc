@@ -1,8 +1,10 @@
 main()
 {
-	sr\game\_hud::main();
-	sr\sys\_file::main();
-    sr\sys\_mysql::main();
+	sr\sys\_menu::initMenu();
+	sr\sys\_file::initFile();
+    sr\sys\_mysql::initMySQL();
+	sr\game\_hud::initHud();
+	sr\player\_customize::initCustomize();
 
     sr\tests\_main::runTests();
 }
@@ -11,8 +13,8 @@ onConnect()
 {
 	self endon("disconnect");
 
-	self thread sr\game\_hud::event();
-	self thread sr\sys\_menu::event();
+	self thread sr\game\_hud::eventHud();
+	self thread sr\sys\_menu::eventMenu();
 }
 
 onSpawn()

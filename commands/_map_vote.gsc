@@ -17,7 +17,7 @@ main()
 	menu("sr_votemap", 	"vote", 		::menu_vote);
 }
 
-event()
+eventMapVote()
 {
 	self.vote_page = 0;
 	self display();
