@@ -1,6 +1,6 @@
 #include "ui/menudef.h"
 #include "ui_mp/menustyle.inc"
-#include "ui/choices_setup_common.menu"
+#include "ui/choicesetup_common.menu"
 #include "ui_mp/sr_common.inc"
 
 #define DR_LEADERBOARD_BUTTON( id, x, y, w, h, itemName, itemAction, visArg ) \
@@ -13,7 +13,7 @@ itemDef \
 	name			"button_default"id \
 	rect			x y w h DR_BUTTON_ALIGN_LEFT \
 	style			WINDOW_STYLE_EMPTY \
-	forecolor		DR_BUTTON_FORECOLOR \ 
+	forecolor		DR_BUTTON_FORECOLOR \
 	backcolor		DR_BUTTON_BACKCOLOR \
 } \
 itemDef \
@@ -22,7 +22,7 @@ itemDef \
 	name			"button_over"id \
 	rect			x y w h DR_BUTTON_ALIGN_LEFT \
 	style			WINDOW_STYLE_EMPTY \
-	forecolor		DR_BUTTON_FORECOLOR \ 
+	forecolor		DR_BUTTON_FORECOLOR \
 	backcolor		DR_BUTTON_BACKCOLOR_FOCUSED \
 } \
 itemDef \
@@ -58,13 +58,13 @@ itemDef \
 	{ \
 		itemAction \
 	} \
-} 
+}
 
 {
     menuDef
 	{
 	    name			"sr_leaderboard"
-		rect			-128 -20 894 515 
+		rect			-128 -20 894 515
 		blurworld			2
 		border			1
 		bordersize			10
@@ -74,201 +74,202 @@ itemDef \
 
 		onOpen
 		{
+			scriptMenuResponse "open";
 		}
 		onEsc
 		{
 			close self;
 		}
-	
+
 		itemdef
 		{
 			name			"background"
-			rect			200 50 329 500 1 0 
+			rect			200 50 329 500 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.6 
+			backcolor			0.1 0.1 0.1 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"title"
-			rect			200 0 449 50 1 0 
+			rect			200 0 449 50 1 0
 			style			1
-			backcolor			0 0 0 0.7 
+			backcolor			0 0 0 0.7
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"panel"
-			rect			547 50 102 552 1 0 
+			rect			547 50 102 552 1 0
 			style			1
-			backcolor			0.2 0.2 0.2 0.6 
+			backcolor			0.2 0.2 0.2 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 80 102 30 1 0 
+			rect			547 80 102 30 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.5 
+			backcolor			0.1 0.1 0.1 0.5
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 110 102 30 1 0 
+			rect			547 110 102 30 1 0
 			style			1
-			backcolor			0.2 0.2 0.2 0.6 
+			backcolor			0.2 0.2 0.2 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 140 102 30 1 0 
+			rect			547 140 102 30 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.5 
+			backcolor			0.1 0.1 0.1 0.5
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 170 102 30 1 0 
+			rect			547 170 102 30 1 0
 			style			1
-			backcolor			0.2 0.2 0.2 0.6 
+			backcolor			0.2 0.2 0.2 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 200 102 30 1 0 
+			rect			547 200 102 30 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.5 
+			backcolor			0.1 0.1 0.1 0.5
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 230 102 30 1 0 
+			rect			547 230 102 30 1 0
 			style			1
-			backcolor			0.2 0.2 0.2 0.6 
+			backcolor			0.2 0.2 0.2 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 290 102 30 1 0 
+			rect			547 290 102 30 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.5 
+			backcolor			0.1 0.1 0.1 0.5
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 320 102 30 1 0 
+			rect			547 320 102 30 1 0
 			style			1
-			backcolor			0.2 0.2 0.2 0.6 
+			backcolor			0.2 0.2 0.2 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 350 102 30 1 0 
+			rect			547 350 102 30 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.5 
+			backcolor			0.1 0.1 0.1 0.5
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 380 102 30 1 0 
+			rect			547 380 102 30 1 0
 			style			1
-			backcolor			0.2 0.2 0.2 0.6 
+			backcolor			0.2 0.2 0.2 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 410 102 30 1 0 
+			rect			547 410 102 30 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.5 
+			backcolor			0.1 0.1 0.1 0.5
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 440 102 30 1 0 
+			rect			547 440 102 30 1 0
 			style			1
-			backcolor			0.2 0.2 0.2 0.6 
+			backcolor			0.2 0.2 0.2 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"titleText"
-			rect			200 30 449 50 1 0 
+			rect			200 30 449 50 1 0
 			style			0
-			backcolor			0 0 0 0.7 
+			backcolor			0 0 0 0.7
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			text			"^8Leaderboard"
 			textscale			0.4
@@ -282,19 +283,19 @@ itemDef \
 			visible			1
 			rect 			295 65 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("top10_leaderboard_number"))
+			exp             text( dvarString("leaderboard_numbers"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
 			decoration
 		}
-		
+
 		itemDef
 		{
 			visible			1
 			rect 			320 65 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("top10_leaderboard_names"))
+			exp             text( dvarString("leaderboard_names"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -306,32 +307,32 @@ itemDef \
 			visible			1
 			rect 			410 65 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		0 1 1 1
-			exp             text( dvarString("top10_leaderboard_times"))
+			exp             text( dvarString("leaderboard_values"))
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
 			decoration
 		}
-		
+
 		itemDef
 		{
 			visible			1
 			rect 			295 209 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("top20_leaderboard_number"))
+			exp             text( dvarString("leaderboard_numbers"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
 			decoration
 		}
-		
+
 		itemDef
 		{
 			visible			1
 			rect 			320 209 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("top20_leaderboard_names"))
+			exp             text( dvarString("leaderboard_names"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -343,7 +344,7 @@ itemDef \
 			visible			1
 			rect 			410 209 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		0 1 1 1
-			exp             text( dvarString("top20_leaderboard_times"))
+			exp             text( dvarString("leaderboard_values"))
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
@@ -356,19 +357,19 @@ itemDef \
 			visible			1
 			rect 			295 353 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("top30_leaderboard_number"))
+			exp             text( dvarString("leaderboard_numbers"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
 			decoration
 		}
-		
+
 		itemDef
 		{
 			visible			1
 			rect 			320 353 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("top30_leaderboard_names"))
+			exp             text( dvarString("leaderboard_names"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -380,7 +381,7 @@ itemDef \
 			visible			1
 			rect 			410 353 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		0 1 1 1
-			exp             text( dvarString("top30_leaderboard_times"))
+			exp             text( dvarString("leaderboard_values"))
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
@@ -388,29 +389,31 @@ itemDef \
 			decoration
 		}
 
-		DR_LEADERBOARD_BUTTON( "13", 547, (80 + (30 * 0)), 102, 30, dvarString("s_normal_0_name"), scriptMenuResponse "ns:0";, when(dvarString("s_normal_0")=="1") )
-		DR_LEADERBOARD_BUTTON( "14", 547, (80 + (30 * 1)), 102, 30, dvarString("s_normal_1_name"), scriptMenuResponse "ns:1";, when(dvarString("s_normal_1")=="1") )
-		DR_LEADERBOARD_BUTTON( "15", 547, (80 + (30 * 2)), 102, 30, dvarString("s_normal_2_name"), scriptMenuResponse "ns:2";, when(dvarString("s_normal_2")=="1") )
-		DR_LEADERBOARD_BUTTON( "16", 547, (80 + (30 * 3)), 102, 30, dvarString("s_normal_3_name"), scriptMenuResponse "ns:3";, when(dvarString("s_normal_3")=="1") )
-		DR_LEADERBOARD_BUTTON( "17", 547, (80 + (30 * 4)), 102, 30, dvarString("s_normal_4_name"), scriptMenuResponse "ns:4";, when(dvarString("s_normal_4")=="1") )
-		DR_LEADERBOARD_BUTTON( "18", 547, (80 + (30 * 5)), 102, 30, dvarString("s_normal_5_name"), scriptMenuResponse "ns:5";, when(dvarString("s_normal_5")=="1") )
-		DR_LEADERBOARD_BUTTON( "19", 547, (80 + (30 * 7)), 102, 30, dvarString("s_secret_0_name"), scriptMenuResponse "s:0";, when(dvarString("s_secret_0")=="1") )
-		DR_LEADERBOARD_BUTTON( "20", 547, (80 + (30 * 8)), 102, 30, dvarString("s_secret_1_name"), scriptMenuResponse "s:1";, when(dvarString("s_secret_1")=="1") )
-		DR_LEADERBOARD_BUTTON( "21", 547, (80 + (30 * 9)), 102, 30, dvarString("s_secret_2_name"), scriptMenuResponse "s:2";, when(dvarString("s_secret_2")=="1") )
-		DR_LEADERBOARD_BUTTON( "22", 547, (80 + (30 * 10)), 102, 30, dvarString("s_secret_3_name"), scriptMenuResponse "s:3";, when(dvarString("s_secret_3")=="1") )
-		DR_LEADERBOARD_BUTTON( "23", 547, (80 + (30 * 11)), 102, 30, dvarString("s_secret_4_name"), scriptMenuResponse "s:4";, when(dvarString("s_secret_4")=="1") )
-		DR_LEADERBOARD_BUTTON( "24", 547, (80 + (30 * 12)), 102, 30, dvarString("s_secret_5_name"), scriptMenuResponse "s:5";, when(dvarString("s_secret_5")=="1") )
-		//Middle
+		// Leaderboards
+		DR_LEADERBOARD_BUTTON( "13", 547, (80 + (30 * 0)), 102, 30, dvarString("normal_0_name"), scriptMenuResponse "way:ns0";, when(dvarString("normal_0")=="1") )
+		DR_LEADERBOARD_BUTTON( "14", 547, (80 + (30 * 1)), 102, 30, dvarString("normal_1_name"), scriptMenuResponse "way:ns1";, when(dvarString("normal_1")=="1") )
+		DR_LEADERBOARD_BUTTON( "15", 547, (80 + (30 * 2)), 102, 30, dvarString("normal_2_name"), scriptMenuResponse "way:ns2";, when(dvarString("normal_2")=="1") )
+		DR_LEADERBOARD_BUTTON( "16", 547, (80 + (30 * 3)), 102, 30, dvarString("normal_3_name"), scriptMenuResponse "way:ns3";, when(dvarString("normal_3")=="1") )
+		DR_LEADERBOARD_BUTTON( "17", 547, (80 + (30 * 4)), 102, 30, dvarString("normal_4_name"), scriptMenuResponse "way:ns4";, when(dvarString("normal_4")=="1") )
+		DR_LEADERBOARD_BUTTON( "18", 547, (80 + (30 * 5)), 102, 30, dvarString("normal_5_name"), scriptMenuResponse "way:ns5";, when(dvarString("normal_5")=="1") )
+		DR_LEADERBOARD_BUTTON( "19", 547, (80 + (30 * 7)), 102, 30, dvarString("secret_0_name"), scriptMenuResponse "way:s0";, when(dvarString("secret_0")=="1") )
+		DR_LEADERBOARD_BUTTON( "20", 547, (80 + (30 * 8)), 102, 30, dvarString("secret_1_name"), scriptMenuResponse "way:s1";, when(dvarString("secret_1")=="1") )
+		DR_LEADERBOARD_BUTTON( "21", 547, (80 + (30 * 9)), 102, 30, dvarString("secret_2_name"), scriptMenuResponse "way:s2";, when(dvarString("secret_2")=="1") )
+		DR_LEADERBOARD_BUTTON( "22", 547, (80 + (30 * 10)), 102, 30, dvarString("secret_3_name"), scriptMenuResponse "way:s3";, when(dvarString("secret_3")=="1") )
+		DR_LEADERBOARD_BUTTON( "23", 547, (80 + (30 * 11)), 102, 30, dvarString("secret_4_name"), scriptMenuResponse "way:s4";, when(dvarString("secret_4")=="1") )
+		DR_LEADERBOARD_BUTTON( "24", 547, (80 + (30 * 12)), 102, 30, dvarString("secret_5_name"), scriptMenuResponse "way:s5";, when(dvarString("secret_5")=="1") )
+
+		// Filters
 		DR_LEADERBOARD_BUTTON( "25", 215, 230, 60, 20, "190", scriptMenuResponse "filter:190";, 1 )
 		DR_LEADERBOARD_BUTTON( "26", 215, 260, 60, 20, "210", scriptMenuResponse "filter:210";, 1 )
 
 		itemDef
 		{
 			visible			1
-			rect			200 43 449 50 1 0 
+			rect			200 43 449 50 1 0
 			forecolor		1 1 1 1
-			exp             text(dvarString("top10_leaderboard_filter"))
-			textstyle		ITEM_TEXTSTYLE_SHADOWED 
+			exp             text(dvarString("leaderboard_filter"))
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textfont		UI_FONT_OBJECTIVE
 			textalign		ITEM_ALIGN_CENTER
 			textscale		0.25

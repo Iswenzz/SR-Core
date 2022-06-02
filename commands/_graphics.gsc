@@ -22,16 +22,16 @@ cmd_FOV(args)
 	self.fovscale = normalized;
 	self setClientDvar("cg_fovscale", normalized);
 	self IPrintLnBold("^5FOV scale ^7" + normalized);
-	self.pers["fovscale"] = self.fovscale;
+	self.settings["gfx_fov"] = self.fovscale;
 	self thread sr\player\_settings::update();
 }
 
 cmd_FPS()
 {
-	self.pers["fullbright"] = !self.pers["fullbright"];
-	msg = Ternary(self.pers["fullbright"], "^2Fullbright On", "^1Fullbright Off");
+	self.settings["gfx_fullbright"] = !self.settings["gfx_fullbright"];
+	msg = Ternary(self.settings["gfx_fullbright"], "^2Fullbright On", "^1Fullbright Off");
 
-	self setClientDvar("r_fullbright", self.pers["fullbright"]);
+	self setClientDvar("r_fullbright", self.settings["gfx_fullbright"]);
 	self pm(msg);
 	self thread sr\player\_settings::update();
 }
@@ -49,10 +49,10 @@ cmd_Sheep()
 
 cmd_FX()
 {
-	self.pers["fx"] = !self.pers["fx"];
-	msg = Ternary(self.pers["fx"], "^2FX On", "^1FX Off");
+	self.settings["gfx_fx"] = !self.settings["gfx_fx"];
+	msg = Ternary(self.settings["gfx_fx"], "^2FX On", "^1FX Off");
 
-	self setClientDvar("fx_enabled", self.pers["fx"]);
+	self setClientDvar("fx_enabled", self.settings["gfx_fx"]);
 	self pm(msg);
 	self thread sr\player\_settings::update();
 }

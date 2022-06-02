@@ -232,7 +232,7 @@ databaseSetRank(xp, rank, prestige)
 		return;
 
 	// Update rank
-	sr\sys\_mysql::prepare("UPDATE ranks_speedrun SET name = ?, xp = ?, rank = ?, prestige = ? WHERE guid = ?");
+	sr\sys\_mysql::prepare("UPDATE speedrun_ranks SET name = ?, xp = ?, rank = ?, prestige = ? WHERE guid = ?");
 	SQL_BindParam(self.name, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(xp, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(rank + 1, level.MYSQL_TYPE_LONG);
@@ -243,7 +243,7 @@ databaseSetRank(xp, rank, prestige)
 	// Insert new rank
 	if (!SQL_AffectedRows())
 	{
-		sr\sys\_mysql::prepare("INSERT INTO ranks_speedrun (name, guid, xp, rank, prestige) VALUES (?, ?, ?, ?, ?)");
+		sr\sys\_mysql::prepare("INSERT INTO speedrun_ranks (name, guid, xp, rank, prestige) VALUES (?, ?, ?, ?, ?)");
 		SQL_BindParam(self.name, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(getSubStr(self getGuid(), 24, 32), level.MYSQL_TYPE_STRING);
 		SQL_BindParam(xp, level.MYSQL_TYPE_LONG);
@@ -255,7 +255,7 @@ databaseSetRank(xp, rank, prestige)
 
 databaseGetRank()
 {
-	sr\sys\_mysql::prepare("SELECT guid, xp, rank, prestige FROM ranks_speedrun WHERE guid = ?");
+	sr\sys\_mysql::prepare("SELECT guid, xp, rank, prestige FROM speedrun_ranks WHERE guid = ?");
 	SQL_BindParam(getSubStr(self getGuid(), 24, 32), level.MYSQL_TYPE_STRING);
 	SQL_BindResult(level.MYSQL_TYPE_STRING, 8);
 	SQL_BindResult(level.MYSQL_TYPE_LONG);

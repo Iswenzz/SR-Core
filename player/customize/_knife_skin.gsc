@@ -47,7 +47,7 @@ build(response)
 {
 	self endon("disconnect");
 
-	eye = self sr\weapons\_bullet_trace::eyepos();
+	eye = self sr\game\weapons\_bullet_trace::eyepos();
     forward = anglesToForward(self getPlayerAngles()) * 25;
 	right = anglesToRight(self getPlayerAngles()) * 7;
 

@@ -283,7 +283,7 @@ watchKzGame()
 			{
 				level.kzStarted = false;
 				winner.kzWon++;
-				winner.time = speedrun\game\_leaderboard::realtime(getTime() - winner.timerStartTime);
+				winner.time = sr\utils\_common::originToTime(getTime() - winner.time.origin);
 				winner thread speedrun\player\huds\_speedrun::updateHud();
 				wait 3;
 				winner spawnPlayerToSpec();

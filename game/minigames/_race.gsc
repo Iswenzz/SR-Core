@@ -489,9 +489,9 @@ player_endRace()
 		if (level.racePlayersFinished[i] == self)
 			return;
 	level.racePlayersFinished[level.racePlayersFinished.size] = self;
-	self braxi\_rank::giveRankXP(int(speedrun\game\_leaderboard::xpamount()[posIndex] / 2));
+	// self braxi\_rank::giveRankXP(int(speedrun\game\_leaderboard::xpamount()[posIndex] / 2));
 
-	self.time = speedrun\game\_leaderboard::realtime(getTime() - self.raceTime);
+	self.time = sr\utils\_common::originToTime(getTime() - self.raceTime.origin);
 	position = getPositionString(posIndex + 1);
 	self thread speedrun\player\huds\_speedrun::updateHud();
 

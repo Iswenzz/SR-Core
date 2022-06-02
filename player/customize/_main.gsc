@@ -17,11 +17,11 @@ initCustomize()
 	sr\player\customize\_theme::init();
 	sr\player\customize\_weapon::init();
 
-	menu("sr_customize_category",			"open",		::menu_Open);
-	menu("sr_customize_category",			"close",	::menu_Close);
-	menu("sr_customize_category", 			"next", 	::menu_NextPage);
-	menu("sr_customize_category", 			"prev", 	::menu_PrevPage);
-	menu_multiple("sr_customize_category",	"pick", 	::menu_Pick);
+	menu_multiple("sr_customize_category", "pick", ::menu_Pick);
+	menu("sr_customize_category", "open", ::menu_Open);
+	menu("sr_customize_category", "close", ::menu_Close);
+	menu("sr_customize_category", "next", ::menu_NextPage);
+	menu("sr_customize_category", "prev", ::menu_PrevPage);
 }
 
 menu_Open(arg)
@@ -137,7 +137,7 @@ movePreview(ent)
 	self endon("customize_close");
 	self endon("disconnect");
 
-	eye = self sr\weapons\_bullet_trace::eyepos();
+	eye = self sr\game\weapons\_bullet_trace::eyepos();
     forward = anglesToForward(self getPlayerAngles()) * 70;
 	right = anglesToRight(self getPlayerAngles()) * 50;
 	left = (anglesToRight(self getPlayerAngles()) * 10) * -1;

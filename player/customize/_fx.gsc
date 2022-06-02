@@ -64,7 +64,7 @@ pick(id)
 
 	if (self.vip_trail > 0)
 	{
-		eye = self sr\weapons\_bullet_trace::eyepos();
+		eye = self sr\game\weapons\_bullet_trace::eyepos();
 		forward = anglesToForward(self getPlayerAngles()) * 70;
 		left = (anglesToRight(self getPlayerAngles()) * 10) * -1;
 		oriLeft = forward + left + eye;

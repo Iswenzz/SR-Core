@@ -4,8 +4,11 @@ main()
 {
     level.sr_menu["owner"] = [];
 
+	main = menu("Main", "owner", "main");
+	weapons = menu("Weapons", "owner", "weapon");
+	redirect = menu("Redirect", "owner", "redirect");
+
     // Main
-	main = menu("Main", 			"owner", "main");
 	option(main, "Message", 		::menu_Message);
 	option(main, "God", 			::menu_God);
 	option(main, "Epic Speed", 		::menu_Speed, 500);
@@ -14,14 +17,12 @@ main()
 	option(main, "Can Damage", 		::menu_CanDamage);
 
 	// Weapons
-	weapons = menu("Weapons", 		"owner", "weapon");
 	option(weapons, "Frag", 		::menu_Weapon, "frag_grenade_mp");
 	option(weapons, "Smoke", 		::menu_Weapon, "smoke_grenade_mp");
 	option(weapons, "Flash", 		::menu_Weapon, "flash_grenade_mp");
 	option(weapons, "Dance", 		::menu_Weapon, "fortnite_mp");
 
 	// Redirect
-	redirect = menu("Redirect", 	"owner", "redirect");
 	option(redirect, "SR-BR", 		::menu_Redirect, "iswenzz.com:28964");
 	option(redirect, "SR-DR",  		::menu_Redirect, "iswenzz.com:28962");
 	option(redirect, "FNRP", 		::menu_Redirect, "fr1.fnrp-servers.com:28940");

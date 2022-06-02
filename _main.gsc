@@ -9,5 +9,5 @@ main()
 
 	sr\player\customize\_main::initCustomize();
 
-    sr\tests\_main::runTests();
+    sr\_tests::runTests();
 }

@@ -19,8 +19,6 @@ Email Pro: suxlolz1528@gmail.com
 #include common_scripts\utility;
 #include maps\mp\gametypes\_hud_util;
 
-// TODO rename this file sr\api\_map + change the name in all gsc file + GSC Parser.
-
 create_normal_way(token)
 {
 	level.new_leaderboard = true;
