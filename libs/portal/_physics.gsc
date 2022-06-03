@@ -351,7 +351,7 @@ portalObjectCollisionTraceOnly(pos)
 		if (self == level.portalobjects[i])
 			continue;
 		if (isDefined(self.physics["ignore_ents"]))
-			if (level.portalobjects isinarray(self.physics["ignore_ents"]))
+			if (level.portalobjects isInArray(self.physics["ignore_ents"]))
 				continue;
 
 		if (exp(self givemaxcollisionradius() + level.portalobjects[i] givemaxcollisionradius(), 2) > distancesquared(pos, level.portalobjects[i].origin))	//cheap guess if objects might collide

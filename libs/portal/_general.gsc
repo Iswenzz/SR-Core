@@ -18,61 +18,6 @@ playerPortalOutAngles(angles1, angles2, angles3)
 	return angles;
 }
 
-isInArray(array)
-{
-	for (i = 0; i < array.size; i++)
-	{
-		if (self == array[i])
-			return true;
-	}
-	return false;
-}
-
-// Trace allowing object arrays to be ignored
-traceArray(start, end, hit_players, ignore_array)
-{
-	if (!isDefined(ignore_array))
-		ignore_ent = undefined;
-	else
-		ignore_ent = ignore_array[0];
-
-	if (!isDefined(hit_players))
-		hit_players = false;
-
-	trace = bullettrace(start, end, hit_players, ignore_ent);
-
-	if (getdvarint("portal_debug"))
-	{
-		drawline(start, trace["position"], getdvarint("portal_debugtime"),
-			(1, 0.3, 0.2) * (trace["fraction"] != 1) + (0, 1, 0) * (trace["fraction"] == 1));
-		if (trace["fraction"] != 1)
-			drawline(trace["position"], end, getdvarint("portal_debugtime"), (1, 1, 0.3));
-		level.debugtracenum++;
-	}
-
-	if (isDefined(ignore_array))
-		if (isDefined(trace["entity"]))
-			if (trace["entity"] isinarray(ignore_array))
-				return traceArrayRaw(trace["position"], end, hit_players, ignore_array,
-					trace["entity"], trace["fraction"]);
-
-	return trace;
-}
-
-// Trace allowing object arrays to be ignored
-traceArrayRaw(start, end, hit_players, ignore_array, ignore_ent, fraction_add)
-{
-	// Fraction needs to be corrected
-	trace = bullettrace(start, end, hit_players, ignore_ent);
-	trace["fraction"] = fraction_add + (1 - fraction_add) * trace["fraction"];
-
-	if (isDefined(trace["entity"]))
-		if (trace["entity"] isinarray(ignore_array))
-			return traceArrayRaw(trace["position"], end, hit_players, ignore_array, trace["entity"], trace["fraction"]);
-
-	return trace;
-}
-
 coneTrace(pos, angles, objects, conedegree, maxlength)
 {
 	close = [];

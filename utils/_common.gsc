@@ -44,6 +44,18 @@ getPlayerVelocity()
 	return int(sqrt((velocity[0] * velocity[0]) + (velocity[1] * velocity[1])));
 }
 
+getPlayingPlayers()
+{
+	players = getAllPlayers();
+	array = [];
+	for (i = 0; i < players.size; i++)
+	{
+		if (players[i] isReallyAlive() && players[i].pers["team"] != "spectator")
+			array[array.size] = players[i];
+	}
+	return array;
+}
+
 playSoundOnPosition(soundAlias, pos, local)
 {
 	soundObj = spawn("script_model", pos);
@@ -96,6 +108,13 @@ playLoopSound(soundAlias, length)
 	}
 }
 
+playSoundOnAllPlayers(soundAlias)
+{
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+		players[i] playLocalSound(soundAlias);
+}
+
 bounce(origin, power)
 {
 	self endon("disconnect");
@@ -145,6 +164,28 @@ originToTime(origin)
 	return time;
 }
 
+isInArray(array)
+{
+	for (i = 0; i < array.size; i++)
+	{
+		if (self == array[i])
+			return true;
+	}
+	return false;
+}
+
+isReallyAlive()
+{
+	if (self.sessionstate == "playing")
+		return true;
+	return false;
+}
+
+isPlaying()
+{
+	return isReallyAlive();
+}
+
 waittill_any(a, b, c, d, e)
 {
 	if (isDefined(b))
@@ -166,4 +207,66 @@ randomColor()
 randomColorDark()
 {
 	return (randomint(50) / 100, randomint(50) / 100, randomint(50) / 100);
+}
+
+cleanScreen()
+{
+	for (i = 0; i < 6; i++)
+	{
+		iPrintlnBold(" ");
+		iPrintln(" ");
+	}
+}
+
+spawnCollision(origin, height, width)
+{
+	level.colliders[level.colliders.size] = spawn("trigger_radius", origin, 0, width, height);
+	level.colliders[level.colliders.size - 1] setContents(1);
+	level.colliders[level.colliders.size - 1].targetname = "script_collision";
+}
+
+deleteAfterTime(time)
+{
+	wait time;
+	if (isDefined(self))
+		self delete();
+}
+
+// Trace allowing object arrays to be ignored
+traceArray(start, end, hit_players, ignore_array)
+{
+	if (!isDefined(ignore_array))
+		ignore_ent = undefined;
+	else
+		ignore_ent = ignore_array[0];
+
+	if (!isDefined(hit_players))
+		hit_players = false;
+
+	trace = bullettrace(start, end, hit_players, ignore_ent);
+
+	if (isDefined(ignore_array))
+	{
+		if (isDefined(trace["entity"]))
+		{
+			if (trace["entity"] isInArray(ignore_array))
+				return traceArrayRaw(trace["position"], end, hit_players, ignore_array, trace["entity"], trace["fraction"]);
+		}
+	}
+	return trace;
+}
+
+// Trace allowing object arrays to be ignored
+traceArrayRaw(start, end, hit_players, ignore_array, ignore_ent, fraction_add)
+{
+	// Fraction needs to be corrected
+	trace = bullettrace(start, end, hit_players, ignore_ent);
+	trace["fraction"] = fraction_add + (1 - fraction_add) * trace["fraction"];
+
+	if (isDefined(trace["entity"]))
+	{
+		if (trace["entity"] isInArray(ignore_array))
+			return traceArrayRaw(trace["position"], end, hit_players, ignore_array, trace["entity"], trace["fraction"]);
+	}
+	return trace;
 }

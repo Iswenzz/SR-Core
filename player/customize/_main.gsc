@@ -137,7 +137,7 @@ movePreview(ent)
 	self endon("customize_close");
 	self endon("disconnect");
 
-	eye = self sr\game\weapons\_bullet_trace::eyepos();
+	eye = self sr\utils\_math::eyePos();
     forward = anglesToForward(self getPlayerAngles()) * 70;
 	right = anglesToRight(self getPlayerAngles()) * 50;
 	left = (anglesToRight(self getPlayerAngles()) * 10) * -1;
