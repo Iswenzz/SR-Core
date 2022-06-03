@@ -100,7 +100,7 @@ menu(name, id, script)
 getMenuOptions(id, menu)
 {
 	options = "";
-	for(i = 0; i < level.sr_menu[id][menu].size; i++)
+	for (i = 0; i < level.sr_menu[id][menu].size; i++)
 		options += level.sr_menu[id][menu][i] + "\n";
 	return options;
 }
@@ -153,7 +153,7 @@ open(id)
 		}
 		if (self adsButtonPressed() || self attackButtonPressed())
 		{
-			if(submenu == "main")
+			if (submenu == "main")
 			{
 				self.sr_menu[2] moveOverTime(.05);
 				self.sr_menu[2].y = 89 + (16.8 * selected);
@@ -177,19 +177,19 @@ open(id)
 				abstand = (16.8 * selected);
 				submenu = menu[selected + 1];
 
-				self.sr_menu[6] = addTextHud( self, -430, abstand + 50, .5, "left", "top", "right", 0, 101 );
+				self.sr_menu[6] = addTextHud(self, -430, abstand + 50, .5, "left", "top", "right", 0, 101);
 				self.sr_menu[6] setShader("black", 200, 300);
 				self.sr_menu[6] thread fadeIn(.5, true, "left");
 
-				self.sr_menu[7] = addTextHud( self, -430, abstand + 60, .5, "left", "top", "right", 0, 102 );
+				self.sr_menu[7] = addTextHud(self, -430, abstand + 60, .5, "left", "top", "right", 0, 102);
 				self.sr_menu[7] setShader("line_vertical", 200, 22);
 				self.sr_menu[7] thread fadeIn(.5, true, "left");
 
-				self.sr_menu[8] = addTextHud( self, -219, 93 + (16.8 * selected), 1, "left", "top", "right", 0, 104 );
+				self.sr_menu[8] = addTextHud(self, -219, 93 + (16.8 * selected), 1, "left", "top", "right", 0, 104);
 				self.sr_menu[8] setShader("hud_arrow_left", 14, 14);
 				self.sr_menu[8] thread fadeIn(.5, true, "left");
 
-				self.sr_menu[9] = addTextHud( self, -420, abstand + 71, 1, "left", "middle", "right", 1.4, 103 );
+				self.sr_menu[9] = addTextHud(self, -420, abstand + 71, 1, "left", "middle", "right", 1.4, 103);
 				self.sr_menu[9] setText(getMenuOptions(id, submenu));
 				self.sr_menu[9] thread fadeIn(.5, true, "left");
 
@@ -205,7 +205,7 @@ open(id)
 
 addTextHud(who, x, y, alpha, alignX, alignY, vert, fontScale, sort)
 {
-	if (isPlayer(who) )
+	if (isPlayer(who))
 		hud = newClientHudElem(who);
 	else
 		hud = newHudElem();
@@ -249,7 +249,7 @@ fadeIn(time, slide, dir)
 		return;
 	if (isDefined(slide) && slide)
 	{
-		if(isDefined(dir) && dir == "right")
+		if (isDefined(dir) && dir == "right")
 			self.x += 600;
 		else
 			self.x -= 600;
@@ -286,7 +286,7 @@ blur(start, end)
 			wait .05;
 		}
 	}
-	else for(i = start; i >= end; i--)
+	else for (i = start; i >= end; i--)
 	{
 		self setClientDvar("r_blur", i / 10);
 		wait .05;

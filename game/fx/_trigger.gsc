@@ -4,8 +4,8 @@
 init()
 {
 	wait 5;
-	trig = getEntArray( "endmap_trig", "targetname" );
-	if( !trig.size || trig.size > 1 )
+	trig = getEntArray("endmap_trig", "targetname");
+	if (!trig.size || trig.size > 1)
 	{
 		iPrintln("^1NO END TRIG!! CREATE ONE!");
 		return;
@@ -15,13 +15,13 @@ init()
 
 createTrigFx(trigger, fx)
 {
-	if(!isDefined(trigger) || !isDefined(fx))
+	if (!isDefined(trigger) || !isDefined(fx))
 		return;
-	type = trigger.classname;	
+	type = trigger.classname;
 	z = getfloor(trigger)[2];
 
 	//trigger radius requires you to define .radius
-	if(type == "trigger_radius")
+	if (type == "trigger_radius")
 	{
 		switch (fx)
 		{
@@ -39,12 +39,12 @@ createTrigFx(trigger, fx)
 
 			case "blue":
 			case "secret":
-			default: 
-				fx = level.fx["secrettrigcircle_fx"]; 
+			default:
+				fx = level.fx["secrettrigcircle_fx"];
 				break;
 		}
-		if(!isDefined(trigger.radius)) trigger.radius = 0;
-		if(isDefined(trigger.inAir) && trigger.inAir) z = trigger.origin[2];
+		if (!isDefined(trigger.radius)) trigger.radius = 0;
+		if (isDefined(trigger.inAir) && trigger.inAir) z = trigger.origin[2];
 		width = trigger.radius;
 
 		points = thread circlePoints(trigger, z, width);
@@ -53,13 +53,13 @@ createTrigFx(trigger, fx)
 		trigger thread moveFxcir(points, fx);
 
 		/*
-		for(i=0; i<points.size-1; i++)
+		for (i=0; i<points.size-1; i++)
 			thread drawLine(points[i], points[i+1], (1,0,0), false);
 		*/
 	}
 	else
 	{
-		if(fx == "endtrig")
+		if (fx == "endtrig")
 			fx = level.fx["endtrig_fx"];
 		else
 			fx = level.fx["secrettrig_fx"];
@@ -67,7 +67,7 @@ createTrigFx(trigger, fx)
 		length = getTrigsize(trigger)[1];
 		height_bottom = getTrigsize(trigger)[2];
 		points = [];
-		if(isDefined(trigger.inAir) && trigger.inAir)
+		if (isDefined(trigger.inAir) && trigger.inAir)
 			z = trigger.origin[2]+height_bottom;
 
 		x = trigger.origin[0]+width;
@@ -97,15 +97,15 @@ createTrigFx(trigger, fx)
 moveFxcir(a, fx)
 {
 	level endon("game over");
-	while(isDefined(self))
+	while (isDefined(self))
 	{
 		tag = spawn("script_model", a[0]);
 		tag setmodel("tag_origin");
 		wait 0.1;
 		PlayFXOnTag(fx, tag, "tag_origin");
-		for(i=0; i<a.size+1; i++)
+		for (i=0; i<a.size+1; i++)
 		{
-			if(i >= a.size)
+			if (i >= a.size)
 				tag MoveTo(a[0], 0.1);
 			else
 				tag MoveTo(a[i], 0.1);
@@ -121,15 +121,15 @@ moveFxcir(a, fx)
 moveFxrect(a, fx)
 {
 	level endon("game over");
-	while(1)
+	while (true)
 	{
 		tag = spawn("script_model", a[0]);
 		tag setmodel("tag_origin");
 		wait 0.1;
 		PlayFXOnTag(fx, tag, "tag_origin");
-		for(i=0; i<a.size+1; i++)
+		for (i=0; i<a.size+1; i++)
 		{
-			if(i >= a.size)
+			if (i >= a.size)
 				tag MoveTo(a[0], 5, 0.5, 0.5);
 			else
 				tag MoveTo(a[i], 5, 0.5, 0.5);
@@ -145,7 +145,7 @@ moveFxrect(a, fx)
 getfloor(a)
 {
 	trace = BulletTrace(a.origin, a.origin - (0,0,999999), false, undefined);
-	if(trace["fraction"] != 1)
+	if (trace["fraction"] != 1)
 		return trace["position"];
 	else
 		return a;
@@ -159,8 +159,8 @@ getTrigsize(a)
 	tag = spawn("script_origin", a.origin);
 	ori1 = tag GetOrigin();
 	x = 0;
-	while(tag IsTouching(a))
-	{	
+	while (tag IsTouching(a))
+	{
 		tag.origin = (tag.origin + (x,0,0));
 		wait 0.05;
 		x++;
@@ -172,8 +172,8 @@ getTrigsize(a)
 	tag.origin = a.origin - (0,0,0);
 	ori1 = tag GetOrigin();
 	y = 0;
-	while(tag IsTouching(a))
-	{	
+	while (tag IsTouching(a))
+	{
 		tag.origin = (tag.origin + (0,y,0));
 		wait 0.05;
 		y++;
@@ -185,8 +185,8 @@ getTrigsize(a)
 	tag.origin = a.origin - (0,0,0);
     ori1 = tag GetOrigin();
     z = 0;
-    while(tag IsTouching(a))
-    {    
+    while (tag IsTouching(a))
+    {
         tag.origin = (tag.origin + (0,0,z));
         wait 0.05;
         z--;
@@ -212,12 +212,12 @@ circlePoints(a, floor, radius)
 
 	h = a.origin[0];
 	k = a.origin[1];
-	for(i = 0; i< 360; i++)
+	for (i = 0; i< 360; i++)
 	{
 		x = h + r*Cos(i);
 		y = k - r*Sin(i);
 		points[idx] = (x,y,z);
-		if(i%2 == 0)	
+		if (i%2 == 0)
 			idx++;
 	}
 	return points;
@@ -225,7 +225,7 @@ circlePoints(a, floor, radius)
 
 drawLine(start, end, colour, depth)
 {
-	while(1)
+	while (true)
 	{
 		/#
 		line(start, end, colour, depth);

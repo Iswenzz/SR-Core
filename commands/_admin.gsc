@@ -122,7 +122,7 @@ cmd_Owner()
 cmd_PID()
 {
 	players = getAllPlayers();
-	for(i = 0; i < players.size; i++)
+	for (i = 0; i < players.size; i++)
 	{
 		player = players[i];
 

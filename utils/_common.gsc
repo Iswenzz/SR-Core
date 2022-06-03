@@ -30,7 +30,7 @@ getPlayerByName(nickname)
 	found = [];
 	players = getAllPlayers();
 
-	for ( i = 0; i < players.size; i++ )
+	for (i = 0; i < players.size; i++)
 	{
 		if (isSubStr(toLower(players[i].name), toLower(nickname)))
 			found[found.size] = players[i];
@@ -42,6 +42,58 @@ getPlayerVelocity()
 {
 	velocity = self getVelocity();
 	return int(sqrt((velocity[0] * velocity[0]) + (velocity[1] * velocity[1])));
+}
+
+playSoundOnPosition(soundAlias, pos, local)
+{
+	soundObj = spawn("script_model", pos);
+	if (isDefined(local) && local)
+		soundObj playSoundToPlayer(soundAlias, self);
+	soundObj playSound(soundAlias);
+	soundObj delete();
+}
+
+playLoopSoundToPlayer(soundAlias, length)
+{
+	self endon("death");
+	self endon("disconnect");
+	self endon("joined_spectators");
+	self endon("spawned");
+
+	while (true)
+	{
+		self playlocalsound(soundAlias);
+		wait length;
+	}
+}
+
+playLocalSoundLoop(soundAlias, length)
+{
+	self endon("death");
+	self endon("disconnect");
+
+	self notify("stoplocalsoundloop_" + soundAlias);
+	self endon("stoplocalsoundloop_" + soundAlias);
+
+	while (true)
+	{
+		self playlocalsound(soundAlias);
+		wait length;
+	}
+}
+
+playLoopSound(soundAlias, length)
+{
+	self notify("stopsoundloop_" + soundAlias);
+	self endon("stopsoundloop_" + soundAlias);
+
+	while (true)
+	{
+		if (!isDefined(self))
+			return;
+		self playsound(soundAlias);
+		wait length;
+	}
 }
 
 bounce(origin, power)
@@ -91,4 +143,27 @@ originToTime(origin)
 	time.milsec = time.milsec % 1000;
 
 	return time;
+}
+
+waittill_any(a, b, c, d, e)
+{
+	if (isDefined(b))
+		self endon(b);
+	if (isDefined(c))
+		self endon(c);
+	if (isDefined(d))
+		self endon(d);
+	if (isDefined(e))
+		self endon(e);
+	self waittill(a);
+}
+
+randomColor()
+{
+	return (randomint(100) / 100, randomint(100) / 100, randomint(100) / 100);
+}
+
+randomColorDark()
+{
+	return (randomint(50) / 100, randomint(50) / 100, randomint(50) / 100);
 }

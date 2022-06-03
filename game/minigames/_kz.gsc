@@ -67,15 +67,15 @@ kzLoop()
 }
 
 // draw a player card
-showPlayerCard( attacker, victim, text )
+showPlayerCard(attacker, victim, text)
 {
 	self endon("disconnect");
 
-	if( attacker == victim || !isPlayer( attacker ) )
+	if (attacker == victim || !isPlayer(attacker))
 		return;
 
-	self notify( "new emblem" );	// one instance at a time
-	self endon( "new emblem" );
+	self notify("new emblem");	// one instance at a time
+	self endon("new emblem");
 
 	self destroyPlayerCard();
 
@@ -87,57 +87,57 @@ showPlayerCard( attacker, victim, text )
 	if (victim.pers["prestige"] > 0)
 		logo2 = "rank_prestige" + victim.pers["prestige"];
 
-	self.playerCard[0] = newClientHudElem( self );
+	self.playerCard[0] = newClientHudElem(self);
 	self.playerCard[0].x = 170;
 	self.playerCard[0].y = 390;
 	self.playerCard[0].alpha = 0;
-	self.playerCard[0] setShader( "black", 300, 64 );
+	self.playerCard[0] setShader("black", 300, 64);
 	self.playerCard[0].sort = 990;
 
 	//logos
-	self.playerCard[1] = braxi\_mod::addTextHud( self, 0, 390, 0, "left", "top", 1.8 );
-	self.playerCard[1] setShader( logo1, 64, 64 );
+	self.playerCard[1] = braxi\_mod::addTextHud(self, 0, 390, 0, "left", "top", 1.8);
+	self.playerCard[1] setShader(logo1, 64, 64);
 	self.playerCard[1].sort = 998;
 
-	self.playerCard[2] = braxi\_mod::addTextHud( self, 640, 390, 0, "left", "top", 1.8 );
-	self.playerCard[2] setShader( logo2, 64, 64 );
+	self.playerCard[2] = braxi\_mod::addTextHud(self, 640, 390, 0, "left", "top", 1.8);
+	self.playerCard[2] setShader(logo2, 64, 64);
 	self.playerCard[2].sort = 998;
 
-	self.playerCard[3] = braxi\_mod::addTextHud( self, 320, 390, 0, "center", "top", 1.6 );
-	self.playerCard[3] setText( text );
+	self.playerCard[3] = braxi\_mod::addTextHud(self, 320, 390, 0, "center", "top", 1.6);
+	self.playerCard[3] setText(text);
 	self.playerCard[3].sort = 999;
 
-	self.playerCard[4] = braxi\_mod::addTextHud( self, 320, 420, 0, "center", "top", 1.5 );
-	self.playerCard[4] setText( attacker.name + " ^7 VS ^7 " + victim.name );
+	self.playerCard[4] = braxi\_mod::addTextHud(self, 320, 420, 0, "center", "top", 1.5);
+	self.playerCard[4] setText(attacker.name + " ^7 VS ^7 " + victim.name);
 	self.playerCard[4].sort = 999;
 
-	for( i = 3; i < 5; i++ )
+	for (i = 3; i < 5; i++)
 	{
 		self.playerCard[i].color = (0.8,0.8,0.8);
 		self.playerCard[i].glowColor = (0.6,0.6,0.6);
-		self.playerCard[i] SetPulseFX( 30, 100000, 700 );
+		self.playerCard[i] SetPulseFX(30, 100000, 700);
 		self.playerCard[i].glowAlpha = 0.8;
 	}
 
 	// === animation === //
-	self.playerCard[1] moveOverTime( 0.44 );
+	self.playerCard[1] moveOverTime(0.44);
 	self.playerCard[1].x = 170;
-	self.playerCard[2] moveOverTime( 0.44 );
+	self.playerCard[2] moveOverTime(0.44);
 	self.playerCard[2].x = 170+300-64;
-	for( i = 0; i < self.playerCard.size; i++ )
+	for (i = 0; i < self.playerCard.size; i++)
 	{
-		self.playerCard[i] fadeOverTime( 0.3 );
+		self.playerCard[i] fadeOverTime(0.3);
 
-		if( i == 0 ) // hack
+		if (i == 0) // hack
 			self.playerCard[i].alpha = 0.5;
 		else
 			self.playerCard[i].alpha = 1.0;
 	}
 	wait 3;
 
-	for( i = 0; i < self.playerCard.size; i++ )
+	for (i = 0; i < self.playerCard.size; i++)
 	{
-		self.playerCard[i] fadeOverTime( 0.8 );
+		self.playerCard[i] fadeOverTime(0.8);
 		self.playerCard[i].alpha = 0;
 	}
 	wait 0.8;
@@ -156,10 +156,10 @@ draw_player_cards()
 // destroy the player card hud
 destroyPlayerCard()
 {
-	if( !isDefined( self.playerCard ) || !self.playerCard.size )
+	if (!isDefined(self.playerCard) || !self.playerCard.size)
 		return;
 
-	for( i = 0; i < self.playerCard.size; i++ )
+	for (i = 0; i < self.playerCard.size; i++)
 		self.playerCard[i] destroy();
 	self.playerCard = [];
 }
@@ -348,7 +348,7 @@ spawnPoints()
 	ent.origin = self GetOrigin();
 	ent.angles = self getPlayerAngles();
 	level.placedPoints[level.placedPoints.size] = ent;
-	self IPrintLnBold("Points placed " + level.placedPoints.size );
+	self IPrintLnBold("Points placed " + level.placedPoints.size);
 }
 
 // save all point to file
@@ -361,7 +361,7 @@ savePoints()
 		return;
 	}
 
-	for(i = 0; i < level.placedPoints.size; i++)
+	for (i = 0; i < level.placedPoints.size; i++)
 	{
 		vec = level.placedPoints[i].origin;
 		angle = level.placedPoints[i].angles[1];
@@ -392,9 +392,9 @@ joinKz()
 spawnPlayerToSpec()
 {
 	self endon("disconnect");
-	self sr\game\_teams::setTeam( "spectator" );
-	self braxi\_mod::spawnSpectator( level.spawn["spectator"].origin, level.spawn["spectator"].angles );
-	// if(self.pers["spec_hud"] == 1 )
+	self sr\game\_teams::setTeam("spectator");
+	self braxi\_mod::spawnSpectator(level.spawn["spectator"].origin, level.spawn["spectator"].angles);
+	// if (self.pers["spec_hud"] == 1)
 	// 	self thread speedrun\player\huds\_spectator::init();
 	// self thread sr\commands\_hud_cheat::spec();
 }
@@ -477,14 +477,14 @@ removePlayerIndex(index)
 loadAllPoints()
 {
 	path = "./sr/data/speedrun/kz_points/" + getDvar("mapname") + ".txt";
-	if(!checkfile(path))
+	if (!checkfile(path))
 	{
 		IPrintLn("No kz points");
 		return;
 	}
 
 	a = readAll(path);
-	for(i = 0; i < a.size; i++)
+	for (i = 0; i < a.size; i++)
 	{
 		tkn = StrTok(a[i], ",");
 		if (tkn.size >= 4)

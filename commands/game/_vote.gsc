@@ -262,7 +262,7 @@ hud(message)
     self.vote_hud[3] setText("Yes:(^2[{openscriptmenu cjvote cjvoteyes}]^7)");
     self.vote_hud[3].sort = 96;
 
-    self.vote_hud[4] = addHud(self, 95, -20, 1, "left", "bottom", 1.4 );
+    self.vote_hud[4] = addHud(self, 95, -20, 1, "left", "bottom", 1.4);
     self.vote_hud[4] setText("No:(^1[{openscriptmenu cjvote cjvoteno}]^7)");
     self.vote_hud[4].sort = 96;
 
@@ -304,7 +304,7 @@ hudDestroy()
 	}
 }
 
-addHud(who, x, y, alpha, alignX, alignY, fontScale )
+addHud(who, x, y, alpha, alignX, alignY, fontScale)
 {
     if (isPlayer(who))
         hud = newClientHudElem(who);

@@ -4,7 +4,7 @@
 init()
 {
 
-	switch ( level.mapName )
+	switch (level.mapName)
 	{
 	case "mp_q3_slide_awumpus":
 		level.masterSpawn = spawn("script_origin",(4608,-7776,0));
@@ -99,11 +99,11 @@ init()
         level.masterSpawn.angles = (0,270,0);
 		del = getEnt("endmap_trig","targetname");
 		del delete();
-		trig = spawn( "trigger_radius", (5513.96, -2223.63, 32.125), 0, 105, 100 );
+		trig = spawn("trigger_radius", (5513.96, -2223.63, 32.125), 0, 105, 100);
 		trig.targetname = "endmap_trig";
 		trig.radius = 105;
 		level.mapHasTimeTrigger = true;
-		while(1)
+		while (true)
 		{
 			trig waittill("trigger", player);
 			player thread braxi\_mod::endTimer();
@@ -134,7 +134,7 @@ init()
 		level.mapHasTimeTrigger = true;
 		wait 1;
 		thread sr\game\fx\_trigger::createTrigFx(trig, "endtrig");
-        while(1)
+        while (true)
         {
             trig waittill("trigger", player);
             player thread braxi\_mod::endTimer();
@@ -172,7 +172,7 @@ init()
 	case "mp_fnrp_monderland":
         trig=getEnt("finaldoor", "targetname");
         level.mapHasTimeTrigger = true;
-        while(1)
+        while (true)
         {
             trig waittill("trigger", player);
             player thread braxi\_mod::endTimer();
@@ -297,7 +297,7 @@ init()
 	case "mp_deathrun_framey_v3":
 		trig=getent("activator_door_trig","targetname");
 		level.mapHasTimeTrigger = true;
-		while(1)
+		while (true)
 		{
 			trig waittill("trigger", player);
 			player thread braxi\_mod::endTimer();

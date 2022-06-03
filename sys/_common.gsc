@@ -22,10 +22,10 @@ readAll(a)
 	level.openFiles++;
 
 	array = [];
-	while(1)
+	while (true)
 	{
 		line = FS_ReadLine(file);
-		if(isDefined(line))
+		if (isDefined(line))
 			array[array.size] = line;
 		else
 			break;
@@ -55,7 +55,7 @@ checkQueue()
 	if (!isDefined(level.openFiles))
 		level.openFiles = 0;
 
-	while( level.openFiles > 8 )
+	while (level.openFiles > 8)
 		wait .05;
 }
 

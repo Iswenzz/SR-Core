@@ -17,7 +17,7 @@ it(callback, name, beforeCallback, afterCallback)
 		return;
 
 	// Before
-	sysPrint("^2(            )^0 %s ^7", name);
+	sysPrint("^2(          )^0 %s ^7", name);
 	if (isDefined(beforeCallback) && ![[beforeCallback]]())
 	{
 		sysPrintLn(" (ERROR beforeCallback)");
@@ -37,7 +37,7 @@ it(callback, name, beforeCallback, afterCallback)
 	// Result
 	result = Ternary(level.gscunit.fail, "FAIL", "PASS");
 	color = Ternary(level.gscunit.fail, "^1", "^2");
-	sysPrint("%s(    %s    )^7 %s (%dms) ^7", color, result, name, time);
+	sysPrint("%s(   %s   )^7 %s (%dms) ^7", color, result, name, time);
 
 	// After
 	if (isDefined(afterCallback) && ![[afterCallback]]())

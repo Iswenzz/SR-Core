@@ -1,10 +1,10 @@
 /*
 
-  _|_|_|            _|      _|      _|                  _|            
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|  
-  _|_|    _|    _|      _|          _|        _|    _|  _|      _|    
-      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|      
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|  
+  _|_|_|            _|      _|      _|                  _|
+_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|
+  _|_|    _|    _|      _|          _|        _|    _|  _|      _|
+      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|
+_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|
 
 Map and GSC Made By SuX Lolz.
 
@@ -88,7 +88,7 @@ main()
 	level.bt_weap["sfx_impact"] [3] = "weap_rpg_loop";
 	level.bt_weap["power"]      [3] = 3;
 
-	for(i=0;i<level.bt_weap["model"].size;i++)
+	for (i=0;i<level.bt_weap["model"].size;i++)
 		precacheModel(level.bt_weap["model"][i]);
 }
 
@@ -99,26 +99,26 @@ bt_check()
 	self endon("disconnect");
 	self endon("bt_weapon_switched");
 
-	while(1) // more opti to check first if they have the weapon and loop every sec, then if they have it 0.05.
-	{ 
-		if(self isWeaponBT() != "")
+	while (true) // more opti to check first if they have the weapon and loop every sec, then if they have it 0.05.
+	{
+		if (self isWeaponBT() != "")
 			break;
 		wait 1;
 	}
 
-	while(1)
+	while (true)
 	{
-		if(!self isReallyAlive() || self isWeaponBT() == "")
+		if (!self isReallyAlive() || self isWeaponBT() == "")
 		{
 			self thread bt_check();
 			return;
 		}
 
-		if(self attackButtonPressed())
+		if (self attackButtonPressed())
 		{
 			weapon = self getWeaponBT();
 
-			if(!isStringInt(weapon))
+			if (!isStringInt(weapon))
 			{
 				wait 0.05;
 				continue;
@@ -130,48 +130,48 @@ bt_check()
 		}
 
 		wait 0.05;
-	}	
+	}
 }
 
 bt_shoot(name,model,muzzle,impact,trail,sfx_shoot,sfx_trail,sfx_impact,power)
 {
-	if(name == "plasma_mp" && self.sr_group != "owner")
+	if (name == "plasma_mp" && self.sr_group != "owner")
 		return;
 
 	eye = self eyepos();
-	forward = anglesToForward( self getPlayerAngles() ) * 999999;
+	forward = anglesToForward(self getPlayerAngles()) * 999999;
 	bullet = spawn("script_model", eye);
 	bullet setModel(model);
-	trace = trace_array( eye, eye + forward, false, self );
-	
+	trace = trace_array(eye, eye + forward, false, self);
+
 	oldpos = trace["position"];
 	pos = oldpos;
 	normal = trace["normal"];
-	angles = vectortoangles( normal );
+	angles = vectortoangles(normal);
 
 	on_ground = false;
 	on_terrain = false;
-	
-	if( on_ground  )
-		angles = ( angles[0], self getPlayerAngles()[1] - 180, 0 );
-	
+
+	if (on_ground )
+		angles = (angles[0], self getPlayerAngles()[1] - 180, 0);
+
 	right = anglestoright(angles);
 	up = anglestoup(angles);
-	
+
 	trace["position"] = pos;
 	trace["fx_position"] = pos + normal*1;
 	trace["start_position"] = eye;
 	trace["old_position"] = oldpos;
 	trace["angles"] = angles;
 	trace["up"] = up;
-	
+
 	oldpos = trace["old_position"];
 	fxpos = trace["fx_position"];
 	p = trace["start_position"];
-	p += vectornormalize( oldpos - p ) * 33;
+	p += vectornormalize(oldpos - p) * 33;
 	self.owner = self;
 	speed = 1500;
-	time = length( fxpos - p ) / speed*1.5;
+	time = length(fxpos - p) / speed*1.5;
 
 	self playSoundToPlayer(sfx_shoot,self);
 
@@ -184,10 +184,10 @@ bt_shoot(name,model,muzzle,impact,trail,sfx_shoot,sfx_trail,sfx_impact,power)
 	bullet stopLoopSound();
 	bullet playSound(sfx_impact);
 
-	if(isDefined(self.bt_knockback) && self.bt_knockback)
+	if (isDefined(self.bt_knockback) && self.bt_knockback)
 		bullet thread bt_knockback(self,trace,power);
 
-	playFX( impact, fxpos, trace["normal"], trace["up"] );
+	playFX(impact, fxpos, trace["normal"], trace["up"]);
 
 	wait 0.05;
 	bullet delete();
@@ -195,9 +195,9 @@ bt_shoot(name,model,muzzle,impact,trail,sfx_shoot,sfx_trail,sfx_impact,power)
 
 bt_knockback(player,trace,power)
 {
-	n = Distance2D( trace["position"], player.origin );
+	n = Distance2D(trace["position"], player.origin);
 
-	if(int(n) > 50)
+	if (int(n) > 50)
 		return;
 
 	vec = trace["position"] - player.origin;
@@ -220,9 +220,9 @@ isWeaponBT()
 
 	weapon = "";
 
-	for(i=0;i<level.bt_weap["name"].size;i++)
+	for (i=0;i<level.bt_weap["name"].size;i++)
 	{
-		if(level.bt_weap["name"][i] == self getCurrentWeapon())
+		if (level.bt_weap["name"][i] == self getCurrentWeapon())
 		{
 			weapon = level.bt_weap["name"][i];
 			break;
@@ -239,9 +239,9 @@ getWeaponBT()
 
 	weapon = "";
 
-	for(i=0;i<level.bt_weap["name"].size;i++)
+	for (i=0;i<level.bt_weap["name"].size;i++)
 	{
-		if(level.bt_weap["name"][i] == self getCurrentWeapon())
+		if (level.bt_weap["name"][i] == self getCurrentWeapon())
 		{
 			weapon = i;
 			break;
@@ -251,13 +251,13 @@ getWeaponBT()
 	return weapon;
 }
 
-trace_array( start, end, hit_players, ignore_array )
+trace_array(start, end, hit_players, ignore_array)
 {
-	if( !isdefined(hit_players) )
+	if (!isDefined(hit_players))
 		hit_players = false;
-	
-	trace = bullettrace( start, end, hit_players, self );
-	
+
+	trace = bullettrace(start, end, hit_players, self);
+
 	return trace;
 }
 
@@ -268,7 +268,7 @@ eyepos()
 
 eye()
 {
-	switch(self getstance())
+	switch (self getstance())
 	{
 		case "crouch":	height = (0,0,40);
 		break;
@@ -276,8 +276,8 @@ eye()
 		break;
 		default:		height = (0,0,60);
 	}
-	
-	if(!isDefined(self))
+
+	if (!isDefined(self))
 		return;
 
 	return height;

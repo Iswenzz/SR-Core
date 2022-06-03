@@ -14,7 +14,7 @@ hud()
 	self endon("disconnect");
 	self endon("joined_spectators");
 
-	if(self.isBot)
+	if (self.isBot)
 		return;
 
 	self hudFps();
@@ -52,7 +52,7 @@ updateFps()
 {
 	self.fps = self getUserInfo("com_maxfps");
 
-	switch(self.fps)
+	switch (self.fps)
 	{
 		case "20":
 		case "30":

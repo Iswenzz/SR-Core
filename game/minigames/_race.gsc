@@ -110,7 +110,7 @@ player_go()
 	self clearLowerMessage();
 	self iPrintLnBold("^3GO!");
 	if (isDefined(self.huds.speedrun[4]))
-		self.huds.speedrun[4] setTenthsTimerUp( 0.0001 );
+		self.huds.speedrun[4] setTenthsTimerUp(0.0001);
 	self.raceTime = getTime();
 	self thread player_die();
 }
@@ -255,14 +255,14 @@ startRace()
 cmd_spawnPoints()
 {
 	level.placedPoints[level.placedPoints.size] = self GetOrigin();
-	self IPrintLnBold("Points placed " + level.placedPoints.size );
+	self IPrintLnBold("Points placed " + level.placedPoints.size);
 }
 
 // save all point to file
 cmd_savePoints()
 {
 	path = "./sr/data/speedrun/map_points/" + getDvar("mapname") + ".txt";
-	for(i = 0; i < level.placedPoints.size; i++)
+	for (i = 0; i < level.placedPoints.size; i++)
 		WriteToFile(path,  level.placedPoints[i]);
 	self IPrintLnBold("Points saved");
 	loadAllPoints();
@@ -273,14 +273,14 @@ cmd_savePoints()
 loadAllPoints()
 {
 	path = "./sr/data/speedrun/map_points/" + getDvar("mapname") + ".txt";
-	if(!checkfile(path))
+	if (!checkfile(path))
 	{
 		IPrintLn("No race points");
 		return;
 	}
 
 	a = readAll(path);
-	for(i = 0; i < a.size; i++)
+	for (i = 0; i < a.size; i++)
 	{
 		tkn = StrTok(GetSubStr(a[i], 1, a[i].size - 1), ",");
 		if (tkn.size >= 3)
@@ -291,7 +291,7 @@ loadAllPoints()
 // spawn racers hud
 makeRaceHud()
 {
-	players = getEntArray( "player", "classname" );
+	players = getEntArray("player", "classname");
 	for (i = 0; i < players.size; i++)
 	{
 		if (isDefined(players[i]) && players[i].inRace)
@@ -600,7 +600,7 @@ watchRace()
 	wait 0.05;
 	level endon("race ended");
 
-	for(i = 0; i < level.racePlayers.size; i++)
+	for (i = 0; i < level.racePlayers.size; i++)
 		level.racePlayers[i].closestPoint = 0;
 
 	// reset placements
@@ -608,14 +608,14 @@ watchRace()
 	thread watchRaceEndTrig();
 	thread watchTimer();
 
-	while(1)
+	while (true)
 	{
 		checkRequiredPlayers();
 
 		//get players closest point
-		for(i=0; i<level.racePlayers.size; i++)
+		for (i=0; i<level.racePlayers.size; i++)
 		{
-			for(z=0; z<level.racePoints.size; z++)
+			for (z=0; z<level.racePoints.size; z++)
 			{
 				if (!isDefined(level.racePlayers[i]))
 				{
@@ -624,7 +624,7 @@ watchRace()
 				}
 				newDist = Distance2D(level.racePlayers[i] GetOrigin(), level.racePoints[z]);
 				oldDist = Distance2D(level.racePlayers[i] GetOrigin(), level.racePoints[level.racePlayers[i].closestPoint]);
-				if(newDist < oldDist)
+				if (newDist < oldDist)
 					level.racePlayers[i].closestPoint = z;
 			}
 		}
@@ -632,16 +632,16 @@ watchRace()
 		//see who is closest to the highest point
 		level.racePlayersOrder = [];
 		idx = 0;
-		for(z=level.racePoints.size; z>=0; z--)
+		for (z=level.racePoints.size; z>=0; z--)
 		{
-			for(i=0; i<level.racePlayers.size; i++)
+			for (i=0; i<level.racePlayers.size; i++)
 			{
 				if (!isDefined(level.racePlayers[i]))
 				{
 					removePlayerIndex(i);
 					continue;
 				}
-				if(level.racePlayers[i].closestPoint == z)
+				if (level.racePlayers[i].closestPoint == z)
 				{
 					level.racePlayersOrder[idx] = level.racePlayers[i];
 					idx++;
@@ -651,16 +651,16 @@ watchRace()
 
 		//check if multiple players have the same highest point
 		temp = 0;
-		for(t=0; t<level.racePlayersOrder.size; t++)
+		for (t=0; t<level.racePlayersOrder.size; t++)
 		{
-			for(i=0; i<level.racePlayersOrder.size-1; i++)
+			for (i=0; i<level.racePlayersOrder.size-1; i++)
 			{
 				if (!isDefined(level.racePlayers[i]))
 				{
 					removePlayerIndex(i);
 					continue;
 				}
-				if(level.racePlayersOrder[i].closestPoint == level.racePlayersOrder[i+1].closestPoint)
+				if (level.racePlayersOrder[i].closestPoint == level.racePlayersOrder[i+1].closestPoint)
 				{
 					dist1 = undefined;
 					dist2 = undefined;
@@ -669,7 +669,7 @@ watchRace()
 					if (isDefined(level.racePoints[level.racePlayersOrder[i+1].closestPoint+1]))
 						dist2 = Distance2D(level.racePlayersOrder[i+1] GetOrigin(), level.racePoints[level.racePlayersOrder[i+1].closestPoint+1]);
 
-					if(isDefined(dist1) && isDefined(dist2) && dist1 > dist2)
+					if (isDefined(dist1) && isDefined(dist2) && dist1 > dist2)
 					{
 						temp = level.racePlayersOrder[i+1];
 						level.racePlayersOrder[i+1] = level.racePlayersOrder[i];
@@ -696,7 +696,7 @@ playersLeaveRace()
 // update racers placement hud
 updateRaceHud(players)
 {
-	for(i = 0; i < players.size; i++)
+	for (i = 0; i < players.size; i++)
 	{
 		position = getPositionString(i + 1);
 		if (isDefined(players[i]) && isDefined(players[i].raceHud))
@@ -731,7 +731,7 @@ getPositionColorString(index)
 // create specific hud elem
 addHud(who, x, y, alpha, alignX, alignY, fontScale)
 {
-	if(isPlayer(who))
+	if (isPlayer(who))
 		hud = newClientHudElem(who);
 	else
 		hud = newHudElem();

@@ -15,7 +15,7 @@ precache()
 
 	tableName = "mp/characterTable.csv";
 
-	for (idx = 1; isdefined(tableLookup(tableName, 0, idx, 0)) && tableLookup(tableName, 0, idx, 0) != ""; idx++)
+	for (idx = 1; isDefined(tableLookup(tableName, 0, idx, 0)) && tableLookup(tableName, 0, idx, 0) != ""; idx++)
 	{
 		id = int(tableLookup(tableName, 0, idx, 1));
 		level.assets["character"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);

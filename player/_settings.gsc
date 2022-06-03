@@ -235,15 +235,15 @@ check_lowfps()
 {
 	self endon("disconnect");
 
-	if(isDefined(self.admin_group) && self.admin_group == "owner")
+	if (isDefined(self.admin_group) && self.admin_group == "owner")
 		return;
 
 	self.check_lowfps = true;
 	wait 0.05;
 
-	if(self.fps < 1)
+	if (self.fps < 1)
 	{
-		if(self.pers["team"] == "allies")
+		if (self.pers["team"] == "allies")
 			self suicide();
 	}
 	self.check_lowfps = false;
@@ -251,7 +251,7 @@ check_lowfps()
 
 check_ele()
 {
-	if(self.sr_cheatmode)
+	if (self.sr_cheatmode)
 		return;
 
 	self endon("disconnect");
@@ -263,9 +263,9 @@ check_ele()
 	if (!isDefined(self.real_velocity))
 		return;
 
-	if(self.origin[2] != before[2] && self.real_velocity == (0,0,0) && !self isOnGround() && !self isOnLadder() && !self isMantling())
+	if (self.origin[2] != before[2] && self.real_velocity == (0,0,0) && !self isOnGround() && !self isOnLadder() && !self isMantling())
 	{
-		if(self.pers["team"] == "allies" && !isDefined(self.disableAntiEle))
+		if (self.pers["team"] == "allies" && !isDefined(self.disableAntiEle))
 			self suicide();
 	}
 	self.check_ele = false;
