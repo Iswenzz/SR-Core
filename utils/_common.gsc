@@ -174,6 +174,18 @@ isInArray(array)
 	return false;
 }
 
+removeFromArray(array)
+{
+	new = [];
+	for (i = 0; i < array.size; i++)
+	{
+		if (array[i] == self)
+			continue;
+		new[new.size] = array[i];
+	}
+	return new;
+}
+
 isReallyAlive()
 {
 	if (self.sessionstate == "playing")

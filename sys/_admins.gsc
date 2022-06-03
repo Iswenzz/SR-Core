@@ -131,7 +131,7 @@ log()
 {
 	line = fmt("%s %s\t%s", self.guid, self.name, self.lastCommand);
 
-	file = FILE_OpenMod("sr/data/admin/commands.txt");
+	file = FILE_OpenMod("sr/data/admin/commands.txt", "a+");
 	FILE_WriteLine(file, line);
 	FILE_Close(file);
 }

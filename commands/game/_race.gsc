@@ -14,7 +14,7 @@ cmd_Race()
 {
 	if (self.sr_minigame_playing)
 	{
-		sr\sys\_admin::pm("^1Already in a different mode.");
+		self pm("^1Already in a different mode.");
 		return;
 	}
 	Ternary(self.sr_minigame["race"], join(), leave());

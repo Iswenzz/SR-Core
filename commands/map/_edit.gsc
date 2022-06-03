@@ -25,7 +25,7 @@ cmd_ChickenSave()
 {
 	index = 0;
 	models = getEntArray("script_model", "classname");
-	file = FILE_OpenMod(level.file.chicken);
+	file = FILE_OpenMod(level.file.chicken, "w+");
 
 	for (i = 0; i < models.size; i++)
 	{
@@ -45,7 +45,7 @@ cmd_MapSave()
 {
 	index = 0;
 	brushes = getEntArray("script_brushmodel", "classname");
-	file = FILE_OpenMod(level.file.map);
+	file = FILE_OpenMod(level.file.map, "w+");
 
 	for (i = 0; i < brushes.size; i++)
 	{
@@ -69,7 +69,7 @@ cmd_MapSave()
 spawnBrushes()
 {
 	chickens = [];
-	file = FILE_OpenMod(level.file.map);
+	file = FILE_OpenMod(level.file.map, "r+");
 
 	while (true)
 	{
@@ -82,19 +82,15 @@ spawnBrushes()
 			continue;
 
 		index = ToInt(tkn[0]);
-		x = ToFloat(tkn[1]);
-		y = ToFloat(tkn[2]);
-		z = ToFloat(tkn[3]);
-		ax = ToFloat(tkn[4]);
-		ay = ToFloat(tkn[5]);
-		az = ToFloat(tkn[6]);
+		origin = (ToFloat(tkn[1]), ToFloat(tkn[2]), ToFloat(tkn[3]));
+		angles = (ToFloat(tkn[4]), ToFloat(tkn[5]), ToFloat(tkn[6]));
 		brushes = getEntArray(tkn[7], "targetname");
 		brush_index = ToInt(tkn[8]);
 
 		if (isDefined(brushes[brush_index]))
 		{
-			brushes[brush_index].origin = (x, y, z);
-			brushes[brush_index].angles = (ax, ay, az);
+			brushes[brush_index].origin = origin;
+			brushes[brush_index].angles = angles;
 		}
 	}
 	FILE_Close(file);
@@ -103,7 +99,7 @@ spawnBrushes()
 spawnChickens()
 {
 	chickens = [];
-	file = FILE_OpenMod(level.file.chicken);
+	file = FILE_OpenMod(level.file.chicken, "r+");
 
 	while (true)
 	{
@@ -116,11 +112,9 @@ spawnChickens()
 			continue;
 
 		index = ToInt(tkn[0]);
-		x = ToFloat(tkn[1]);
-		y = ToFloat(tkn[2]);
-		z = ToFloat(tkn[3]);
+		origin = (ToFloat(tkn[1]), ToFloat(tkn[2]), ToFloat(tkn[3]));
 
-		chickens[index] = spawn("script_model", (x, y, z));
+		chickens[index] = spawn("script_model", origin);
 		chickens[index] setModel("chicken");
 	}
 	FILE_Close(file);
