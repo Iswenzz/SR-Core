@@ -58,10 +58,8 @@ load()
 		line = FILE_ReadLine(file);
 		tkn = strTok(line, ",");
 
-		if (IsNullOrEmpty(line))
+		if (IsNullOrEmpty(line) || tkn.size < 4)
 			break;
-		if (tkn.size < 4)
-			continue;
 
 		origin = (ToFloat(tkn[0]), ToFloat(tkn[1]), ToFloat(tkn[2]));
 		angle = ToFloat(tkn[3]);

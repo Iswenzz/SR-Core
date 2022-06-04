@@ -64,10 +64,8 @@ load()
 		line = FILE_ReadLine(file);
 		tkn = strTok(line, ",");
 
-		if (IsNullOrEmpty(line))
+		if (IsNullOrEmpty(line) || tkn.size < 3)
 			break;
-		if (tkn.size < 3)
-			continue;
 
 		origin = (ToFloat(tkn[0]), ToFloat(tkn[1]), ToFloat(tkn[2]));
 		level.kzPoints[level.kzPoints.size] = origin;
@@ -250,15 +248,15 @@ canStart()
 	if (!isDefined(level.raceEndTrig))
 	{
 		iPrintLn("^1RACE ERROR: Race end trig not found.");
-		ForEach(level.minigames["race"].queue, ::cleanRaceHud);
-		ForEach(level.minigames["race"].queue, ::leave);
+		ForEachThread(level.minigames["race"].queue, ::cleanRaceHud);
+		ForEachThread(level.minigames["race"].queue, ::leave);
 		return false;
 	}
 	if (level.racePoints.size <= 0)
 	{
 		iPrintLn("^1RACE ERROR: Race points not found.");
-		ForEach(level.minigames["race"].queue, ::cleanRaceHud);
-		ForEach(level.minigames["race"].queue, ::leave);
+		ForEachThread(level.minigames["race"].queue, ::cleanRaceHud);
+		ForEachThread(level.minigames["race"].queue, ::leave);
 		return false;
 	}
 	if (level.minigames["race"].queue.size < 2)

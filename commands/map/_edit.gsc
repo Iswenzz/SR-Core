@@ -76,10 +76,8 @@ spawnBrushes()
 		line = FILE_ReadLine(file);
 		tkn = strTok(line, "/");
 
-		if (IsNullOrEmpty(line))
+		if (IsNullOrEmpty(line) || tkn.size != 9)
 			break;
-		if (tkn.size != 9)
-			continue;
 
 		index = ToInt(tkn[0]);
 		origin = (ToFloat(tkn[1]), ToFloat(tkn[2]), ToFloat(tkn[3]));
@@ -106,10 +104,8 @@ spawnChickens()
 		line = FILE_ReadLine(file);
 		tkn = strTok(line, "/");
 
-		if (IsNullOrEmpty(line))
+		if (IsNullOrEmpty(line) || tkn.size != 4)
 			break;
-		if (tkn.size != 4)
-			continue;
 
 		index = ToInt(tkn[0]);
 		origin = (ToFloat(tkn[1]), ToFloat(tkn[2]), ToFloat(tkn[3]));
