@@ -201,25 +201,25 @@ updateHud(index, state, string)
 	self setClientDvar("sr_setting_value_" + index, value);
 }
 
-menu_setting(response)
+menu_setting(args)
 {
 	self endon("disconnect");
 
-	switch (response)
+	switch (args[1])
 	{
-		case "setting:0": 	self.settings["hud_crosshair"] 	= !self.settings["hud_crosshair"]; 				break;
-		case "setting:1": 	self.settings["hud_fps"] 		= !self.settings["hud_fps"]; 					break;
-		case "setting:2": 	self.settings["gfx_fullbright"] = !self.settings["gfx_fullbright"]; 			break;
-		case "setting:3": 	self.settings["hud_xp"] 		= !self.settings["hud_xp"]; 					break;
-		case "setting:4": 	self.settings["hud_spectator"] 	= !self.settings["hud_spectator"]; 				break;
-		case "setting:5": 	self.settings["gfx_distance"] 	= range(self.settings["gfx_distance"], 0, 3);	break;
-		case "setting:6": 	self menu_FOV();																break;
-		case "setting:7": 	self.settings["gfx_distance"] 	= range(self.settings["hud_velocity"], 0, 6);	break;
-		case "setting:8": 	self.settings["hud_compass"] 	= range(self.settings["hud_velocity"], 0, 6);	break;
-		case "setting:9": 	self.settings["player_hide"] 	= range(self.settings["hud_velocity"], 0, 2);	break;
-		case "setting:10": 	self.settings["hud_2D"] 		= !self.settings["hud_2D"]; 					break;
-		case "setting:11": 	self.settings["gfx_fx"] 		= !self.settings["gfx_fx"]; 					break;
-		case "setting:12": 	self.settings["player_knife"] 	= !self.settings["player_knife"]; 				break;
+		case "0": 	self.settings["hud_crosshair"] 	= !self.settings["hud_crosshair"]; 				break;
+		case "1": 	self.settings["hud_fps"] 		= !self.settings["hud_fps"]; 					break;
+		case "2": 	self.settings["gfx_fullbright"] = !self.settings["gfx_fullbright"]; 			break;
+		case "3": 	self.settings["hud_xp"] 		= !self.settings["hud_xp"]; 					break;
+		case "4": 	self.settings["hud_spectator"] 	= !self.settings["hud_spectator"]; 				break;
+		case "5": 	self.settings["gfx_distance"] 	= range(self.settings["gfx_distance"], 0, 3);	break;
+		case "6": 	self menu_FOV();																break;
+		case "7": 	self.settings["gfx_distance"] 	= range(self.settings["hud_velocity"], 0, 6);	break;
+		case "8": 	self.settings["hud_compass"] 	= range(self.settings["hud_velocity"], 0, 6);	break;
+		case "9": 	self.settings["player_hide"] 	= range(self.settings["hud_velocity"], 0, 2);	break;
+		case "10": 	self.settings["hud_2D"] 		= !self.settings["hud_2D"]; 					break;
+		case "11": 	self.settings["gfx_fx"] 		= !self.settings["gfx_fx"]; 					break;
+		case "12": 	self.settings["player_knife"] 	= !self.settings["player_knife"]; 				break;
 	}
 	self thread update();
 }

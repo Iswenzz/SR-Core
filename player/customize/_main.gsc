@@ -53,7 +53,7 @@ menu_Close(arg)
 		self.customize_fx delete();
 }
 
-menu_NextPage(arg)
+menu_NextPage()
 {
 	if (self.customize_page >= self.customize_max_page - 1)
 		return;
@@ -62,7 +62,7 @@ menu_NextPage(arg)
 	self setClientDvar("sr_customize_page", (self.customize_page + 1) + "/" + self.customize_max_page);
 }
 
-menu_PrevPage(arg)
+menu_PrevPage()
 {
 	if (self.customize_page <= 0)
 		return;
@@ -71,9 +71,8 @@ menu_PrevPage(arg)
 	self setClientDvar("sr_customize_page", (self.customize_page + 1) + "/" + self.customize_max_page);
 }
 
-menu_Pick(arg)
+menu_Pick(args)
 {
-	args = strTok(arg, ":");
 	selected = ToInt(args[0]);
 	category = self.customize_category;
 

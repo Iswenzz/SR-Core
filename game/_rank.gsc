@@ -1,5 +1,6 @@
 #include common_scripts\utility;
 #include maps\mp\gametypes\_hud_util;
+#include sr\sys\_events;
 
 initRank()
 {
@@ -29,6 +30,8 @@ initRank()
 
 	buildRanks();
 	buildRanksIcon();
+
+	menu("-1", "prestige", ::prestige);
 }
 
 buildRanks()

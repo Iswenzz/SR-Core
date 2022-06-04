@@ -56,6 +56,6 @@ spawnBots(number)
 	{
 		bot = addTestClient();
 		wait 0.05;
-		bot notify("menuresponse", game["menu_team"], "autoassign");
+		bot notify("menuresponse", level.menus["team"], "autoassign");
 	}
 }

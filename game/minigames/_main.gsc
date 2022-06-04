@@ -28,7 +28,18 @@ isInOtherQueue(minigame)
 		if (keys[i] == minigame)
 			continue;
 
-		if (self isInQueue(minigame))
+		if (self isInQueue(keys[i]))
+			return true;
+	}
+	return false;
+}
+
+isInAnyQueue()
+{
+	keys = getArrayKeys(level.minigames);
+	for (i = 0; i < keys.size; i++)
+	{
+		if (self isInQueue(keys[i]))
 			return true;
 	}
 	return false;

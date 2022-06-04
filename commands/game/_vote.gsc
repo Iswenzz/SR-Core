@@ -15,6 +15,9 @@ main()
 	menu("sr_votemap", 	"prev", 		::menu_pagePrev);
 	menu("sr_votemap", 	"select", 		::menu_select);
 	menu("sr_votemap", 	"vote", 		::menu_vote);
+
+	menu("-1", 			"cjvoteyes",	::menu_playerVote);
+	menu("-1", 			"cjvoteno",		::menu_playerVote);
 }
 
 eventMapVote()
@@ -145,6 +148,19 @@ menu_vote(arg)
 	self closeInGameMenu();
 }
 
+// Use CJ vote binds as most people already have these.
+menu_playerVote(arg)
+{
+	if (isDefined(self.sr_vote))
+		return;
+
+	switch (arg)
+	{
+		case "cjvoteyes": level.vote_yes++; break;
+		case "cjvoteno":  level.vote_no++;  break;
+	}
+}
+
 vote(vote, value)
 {
 	level.vote_progress = true;
@@ -168,7 +184,7 @@ vote(vote, value)
 	players = GetEntArray("player", "classname");
 	for (i = 0; i < players.size; i++)
 	{
-		players[i] thread watchVotes();
+		players[i].sr_vote = undefined;
 		players[i] thread hud(string);
 	}
 
@@ -220,29 +236,6 @@ vote(vote, value)
 			level.huds.time setTimer(time);
 			level notify("time_update");
 			break;
-	}
-}
-
-// Use CJ vote binds as most people already have these.
-watchVotes()
-{
-	self endon("disconnect");
-	level endon("vote_ended");
-
-	self.sr_vote = undefined;
-	while (true)
-	{
-		self waittill("onMenuResponse", menu, response);
-		if (response == "cjvoteyes")
-		{
-			level.vote_yes++;
-			break;
-		}
-		if (response == "cjvoteno")
-		{
-			level.vote_no++;
-			break;
-		}
 	}
 }
 

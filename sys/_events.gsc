@@ -32,36 +32,53 @@ eventMenu()
 		{
 			script = level.menus[menu][i];
 
-			if (script.response == response || (script.multiple && StartsWith(script.response, response)))
+			if (script.type == "response" && script.response == response)
 				[[script.callback]](response);
+			if (script.type == "callback")
+				[[script.callback]](response);
+			if (script.type == "multiple" && StartsWith(script.response, response))
+				[[script.callback]](strTok(response, ":"));
 		}
 	}
 }
 
-menu(name, response, callback)
+_menu(name, response, callback)
 {
 	if (!isDefined(level.menus[name]))
+	{
+		preCacheMenu(name);
 		level.menus[name] = [];
-
+	}
 	index = level.menus[name].size;
+
 	level.menus[name][index] = spawnStruct();
 	level.menus[name][index].name = name;
 	level.menus[name][index].response = response;
 	level.menus[name][index].callback = callback;
-	level.menus[name][index].multiple = false;
+}
+
+menu(name, response, callback)
+{
+	_menu(name, response, callback);
+	index = level.menus[name].size;
+
+	level.menus[name][index].type = "response";
 }
 
 menu_multiple(name, response, callback)
 {
-	if (!isDefined(level.menus[name]))
-		level.menus[name] = [];
-
+	_menu(name, response, callback);
 	index = level.menus[name].size;
-	level.menus[name][index] = spawnStruct();
-	level.menus[name][index].name = name;
-	level.menus[name][index].response = response;
-	level.menus[name][index].callback = callback;
-	level.menus[name][index].multiple = true;
+
+	level.menus[name][index].type = "multiple";
+}
+
+menu_callback(name, callback)
+{
+	_menu(name, undefined, callback);
+	index = level.menus[name].size;
+
+	level.menus[name][index].type = "callback";
 }
 
 range(variable, min, max)
