@@ -1,4 +1,5 @@
 #include maps\mp\_utility;
+
 #include sr\sys\_file;
 #include sr\game\minigames\_main;
 #include sr\utils\_common;
@@ -13,7 +14,6 @@ init()
 	level.racePoints = [];
 	level.raceSpawn = level.masterspawn;
 	level.raceEndTrig = getEnt("endmap_trig", "targetname");
-	level.minigames["race"].queue = [];
 	level.racePlayersFinished = [];
 	level.raceScoreboard = [];
 	level.racePoints = [];

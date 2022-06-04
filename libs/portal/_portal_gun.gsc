@@ -2,7 +2,7 @@
 #include sr\libs\portal\_hud;
 #include sr\libs\portal\_portal;
 #include sr\utils\_common;
-#include sr\sys\_menu;
+#include sr\sys\_events;
 
 main()
 {

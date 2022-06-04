@@ -1,4 +1,3 @@
-#include sr\sys\_menu;
 #include sr\sys\_events;
 
 main()
