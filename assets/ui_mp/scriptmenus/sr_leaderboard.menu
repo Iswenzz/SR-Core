@@ -403,16 +403,16 @@ itemDef \
 		DR_LEADERBOARD_BUTTON( "23", 547, (80 + (30 * 11)), 102, 30, dvarString("secret_4_name"), scriptMenuResponse "way:s4";, when(dvarString("secret_4")=="1") )
 		DR_LEADERBOARD_BUTTON( "24", 547, (80 + (30 * 12)), 102, 30, dvarString("secret_5_name"), scriptMenuResponse "way:s5";, when(dvarString("secret_5")=="1") )
 
-		// Filters
-		DR_LEADERBOARD_BUTTON( "25", 215, 230, 60, 20, "190", scriptMenuResponse "filter:190";, 1 )
-		DR_LEADERBOARD_BUTTON( "26", 215, 260, 60, 20, "210", scriptMenuResponse "filter:210";, 1 )
+		// Modes
+		DR_LEADERBOARD_BUTTON( "25", 215, 230, 60, 20, "190", scriptMenuResponse "mode:190";, 1 )
+		DR_LEADERBOARD_BUTTON( "26", 215, 260, 60, 20, "210", scriptMenuResponse "mode:210";, 1 )
 
 		itemDef
 		{
 			visible			1
 			rect			200 43 449 50 1 0
 			forecolor		1 1 1 1
-			exp             text(dvarString("leaderboard_filter"))
+			exp             text(dvarString("leaderboard_mode"))
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textfont		UI_FONT_OBJECTIVE
 			textalign		ITEM_ALIGN_CENTER
