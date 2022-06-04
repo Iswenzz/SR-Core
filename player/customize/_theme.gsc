@@ -25,7 +25,7 @@ precache()
 		level.assets["theme"][id]["desc"] = tableLookup(tableName, 0, idx, 6);
 		level.assets["theme"][id]["model"] = "";
 		level.assets["theme"][id]["callback"] = sr\player\customize\_theme::pick;
-		level.assets["theme"][id]["unlock"] = sr\sys\_rank::isThemeUnlocked;
+		level.assets["theme"][id]["unlock"] = sr\game\_rank::isThemeUnlocked;
 
 		level.numTheme++;
 	}
@@ -53,7 +53,7 @@ build(response)
 
 pick(id)
 {
-	if (!self sr\sys\_rank::isThemeUnlocked(id))
+	if (!self sr\game\_rank::isThemeUnlocked(id))
 		return;
 
 	self setStat(984, id);

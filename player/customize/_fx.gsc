@@ -23,7 +23,7 @@ precache()
 		level.assets["fx"][id]["name"] = tableLookup(tableName, 0, idx, 4);
 		level.assets["fx"][id]["model"] = "";
 		level.assets["fx"][id]["callback"] = sr\player\customize\_fx::pick;
-		level.assets["fx"][id]["unlock"] = sr\sys\_rank::isFxUnlocked;
+		level.assets["fx"][id]["unlock"] = sr\game\_rank::isFxUnlocked;
 
 		level.numFx++;
 	}
@@ -53,7 +53,7 @@ pick(id)
 	self endon("customize_close");
 	self endon("disconnect");
 
-	if (!self sr\sys\_rank::isFxUnlocked(id))
+	if (!self sr\game\_rank::isFxUnlocked(id))
 		return;
 
 	if (isDefined(self.customize_fx))

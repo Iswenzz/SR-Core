@@ -24,7 +24,7 @@ precache()
 		level.assets["spray"][id]["name"] = tableLookup(tableName, 0, idx, 5);
 		level.assets["spray"][id]["model"] = "";
 		level.assets["spray"][id]["callback"] = sr\player\customize\_spray::pick;
-		level.assets["spray"][id]["unlock"] = sr\sys\_rank::isSprayUnlocked;
+		level.assets["spray"][id]["unlock"] = sr\game\_rank::isSprayUnlocked;
 
 		level.numSprays++;
 	}
@@ -54,7 +54,7 @@ build(response)
 
 pick(id)
 {
-	if (!self sr\sys\_rank::isSprayUnlocked(id))
+	if (!self sr\game\_rank::isSprayUnlocked(id))
 		return;
 
 	self setStat(979, id);

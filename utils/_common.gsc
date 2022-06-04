@@ -164,6 +164,18 @@ originToTime(origin)
 	return time;
 }
 
+foreachThread(array, callback, args)
+{
+	for (i = 0; i < array.size; i++)
+		Ternary(isDefined(args), array[i] thread [[callback]](args), array[i] thread [[callback]]());
+}
+
+foreachCall(array, callback, args)
+{
+	for (i = 0; i < array.size; i++)
+		Ternary(isDefined(args), array[i] [[callback]](args), array[i] [[callback]]());
+}
+
 isInArray(array)
 {
 	for (i = 0; i < array.size; i++)

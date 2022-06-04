@@ -12,12 +12,12 @@ main()
 
 cmd_Kz()
 {
-	if (self.sr_minigame_playing)
+	if (self isInOtherQueue("kz"))
 	{
 		self pm("^1Already in a different mode.");
 		return;
 	}
-	Ternary(self.sr_minigame["kz"], join(), leave());
+	Ternary(!self isInQueue("kz"), join(), leave());
 }
 
 cmd_KzSpawn()
@@ -34,7 +34,7 @@ cmd_KzSave()
 {
 	if (level.kzPoints.size % 2 == 1)
 	{
-		self iPrintLnBold("^1Points count is not even.");
+		self pm("^1Points count is not even.");
 		return;
 	}
 
@@ -49,7 +49,7 @@ cmd_KzSave()
 	FILE_Close(file);
 	self pm("Points saved");
 
-	loadAllPoints();
+	load();
 	self pm("Points loaded");
 }
 

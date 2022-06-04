@@ -25,7 +25,7 @@ precache()
 		level.assets["weapon"][id]["desc"] = tableLookup(tableName, 0, idx, 6);
 		level.assets["weapon"][id]["model"] = getWeaponModel(level.assets["weapon"][id]["item"]);
 		level.assets["weapon"][id]["callback"] = sr\player\customize\_weapon::pick;
-		level.assets["weapon"][id]["unlock"] = sr\sys\_rank::isWeaponUnlocked;
+		level.assets["weapon"][id]["unlock"] = sr\game\_rank::isWeaponUnlocked;
 
 		precacheItem(level.assets["weapon"][id]["item"]);
 		level.numItems++;
@@ -60,7 +60,7 @@ build(response)
 
 pick(id)
 {
-	if (!self sr\sys\_rank::isWeaponUnlocked(id))
+	if (!self sr\game\_rank::isWeaponUnlocked(id))
 		return;
 
 	self setStat(981, id);

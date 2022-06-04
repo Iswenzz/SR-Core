@@ -24,7 +24,7 @@ precache()
 		level.assets["knifeSkin"][id]["name"] = tableLookup(tableName, 0, idx, 5);
 		level.assets["knifeSkin"][id]["model"] = tableLookup(tableName, 0, idx, 6);
 		level.assets["knifeSkin"][id]["callback"] = sr\player\customize\_knife_skin::pick;
-		level.assets["knifeSkin"][id]["unlock"] = sr\sys\_rank::isKnifeSkinUnlocked;
+		level.assets["knifeSkin"][id]["unlock"] = sr\game\_rank::isKnifeSkinUnlocked;
 
 		precacheModel(level.assets["knifeSkin"][id]["model"]);
 		level.numKnifeSkins++;
@@ -59,7 +59,7 @@ build(response)
 
 pick(id)
 {
-	if (!self sr\sys\_rank::isKnifeSkinUnlocked(id))
+	if (!self sr\game\_rank::isKnifeSkinUnlocked(id))
 		return;
 
 	self setStat(983, id);

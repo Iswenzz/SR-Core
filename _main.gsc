@@ -5,7 +5,7 @@ main()
 	sr\sys\_hud::initHud();
 	sr\sys\_menu::initMenu();
     sr\sys\_mysql::initMySQL();
-	sr\sys\_rank::initRank();
+	sr\game\_rank::initRank();
 
 	sr\player\customize\_main::initCustomize();
 

@@ -1,4 +1,5 @@
 #include sr\sys\_file;
+#include sr\sys\_events;
 #include sr\game\minigames\_main;
 #include sr\utils\_common;
 
@@ -7,6 +8,7 @@ init()
 	level.file.kz = fmt("sr/data/kz/%s.txt", getDvar("mapname"));
 
 	createMinigame("kz");
+	event("killed", ::onPlayerKilled);
 
 	level.kzPoints = [];
 	level.kzPlayersInRoom = [];
@@ -16,7 +18,6 @@ init()
 	level.kzWeaponList = strTok("m40a3_mp,g3_reflex_mp,m1014_mp,m14_mp,ak47_mp,mp5_acog_mp,ak47_gl_mp,g36c_silencer_mp,m1014_grip_mp,mp5_mp,gl_m14_mp,m60e4_mp,dragunov_mp,p90_acog_mp,rpg_mp", ",");
 	level.kzStarted = false;
 
-	load();
 	kz();
 }
 
@@ -25,6 +26,8 @@ kz()
 	level endon("end map");
 	level endon("game over");
 	level endon("intermission");
+
+	load();
 
 	while (true)
 	{
@@ -97,6 +100,21 @@ leave()
 	self.canDamage = undefined;
 	self setClientDvar("cg_drawFriendlyNames", 1);
 	self suicide();
+}
+
+onPlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration)
+{
+	if (attacker != self && isPlayer(attacker))
+	{
+		attacker.kzWon = true;
+		attacker.kills++;
+		attacker.pers["kills"]++;
+		sr\game\_rank::processXpReward(sMeansOfDeath, attacker, self);
+	}
+	deaths = self maps\mp\gametypes\_persistence::statGet("deaths");
+	self maps\mp\gametypes\_persistence::statSet("deaths", deaths + 1);
+	self.deaths++;
+	self.pers["deaths"]++;
 }
 
 setWeapon(weapon)
@@ -211,7 +229,7 @@ canStart()
 	if (level.kzPoints.size <= 0)
 	{
 		iPrintLn("^1KZ ERROR: Kz points not found.");
-		ForEach(level.minigames["kz"].queue, ::leave);
+		ForEachThread(level.minigames["kz"].queue, ::leave);
 		return false;
 	}
 	return true;

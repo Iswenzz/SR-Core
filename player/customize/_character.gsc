@@ -25,7 +25,7 @@ precache()
 		level.assets["character"][id]["name"] = tableLookup(tableName, 0, idx, 6);
 		level.assets["character"][id]["desc"] = tableLookup(tableName, 0, idx, 7);
 		level.assets["character"][id]["callback"] = sr\player\customize\_character::pick;
-		level.assets["character"][id]["unlock"] = sr\sys\_rank::isCharacterUnlocked;
+		level.assets["character"][id]["unlock"] = sr\game\_rank::isCharacterUnlocked;
 
 		precacheModel(level.assets["character"][id]["model"]);
 		precacheModel(level.assets["character"][id]["handsModel"]);
@@ -62,7 +62,7 @@ build(response)
 
 pick(id)
 {
-	if (!self sr\sys\_rank::isCharacterUnlocked(id))
+	if (!self sr\game\_rank::isCharacterUnlocked(id))
 		return;
 
 	self setStat(980, id);

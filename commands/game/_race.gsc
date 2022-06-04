@@ -12,12 +12,12 @@ main()
 
 cmd_Race()
 {
-	if (self.sr_minigame_playing)
+	if (self isInOtherQueue("race"))
 	{
 		self pm("^1Already in a different mode.");
 		return;
 	}
-	Ternary(self.sr_minigame["race"], join(), leave());
+	Ternary(!self isInQueue("race"), join(), leave());
 }
 
 cmd_RaceTrig(args)
@@ -26,7 +26,8 @@ cmd_RaceTrig(args)
 
 	if (arg == "reset")
 	{
-		resetEndTrig();
+		level.raceEndTrig = getEnt("endmap_trig", "targetname");
+		self pm("Reset race end trigger");
 		return;
 	}
 	if (isDefined(getEnt("race_endtrig", "targetname")))
@@ -34,14 +35,17 @@ cmd_RaceTrig(args)
 
 	trig = spawn("trigger_radius", self getOrigin(), 0, radius, 80);
 	trig.targetname = "race_endtrig";
-	self setTrig();
+
+	level.raceEndTrig = trig;
+	self pm("Placed race end trigger");
 }
 
-cmd_RaceSpawn()
+cmd_RaceSpawn(args)
 {
-	if (arg == "reset")
+	if (args[0] == "reset")
 	{
-		resetSpawn();
+		level.raceSpawn = level.masterspawn;
+		self pm("Reset race spawn point");
 		return;
 	}
 	spawn = spawnStruct();
@@ -52,10 +56,22 @@ cmd_RaceSpawn()
 
 cmd_RaceMk()
 {
-	placeCheckpoint();
+	level.racePoints[level.racePoints.size] = self GetOrigin();
+	self pm("Points placed " + level.racePoints.size);
 }
 
 cmd_RaceSave()
 {
-	saveCheckpoints();
+	file = FILE_OpenMod(level.file.race, "w+");
+	for (i = 0; i < level.racePoints.size; i++)
+	{
+		origin = level.racePoints[i];
+
+		FILE_WriteLine(file, fmt("%f,%f,%f", origin[0], origin[1], origin[2]));
+	}
+	FILE_Close(file);
+	self pm("Points saved");
+
+	load();
+	self pm("Points loaded");
 }

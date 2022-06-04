@@ -20,6 +20,20 @@ isInQueue(minigame)
 	return self isInArray(level.minigames[minigame].queue);
 }
 
+isInOtherQueue(minigame)
+{
+	keys = getArrayKeys(level.minigames);
+	for (i = 0; i < keys.size; i++)
+	{
+		if (keys[i] == minigame)
+			continue;
+
+		if (self isInQueue(minigame))
+			return true;
+	}
+	return false;
+}
+
 addToQueue(minigame)
 {
 	if (self isInQueue(minigame))

@@ -23,7 +23,7 @@ precache()
 		level.assets["glove"][id]["model"] = tableLookup(tableName, 0, idx, 4);
 		level.assets["glove"][id]["name"] = tableLookup(tableName, 0, idx, 5);
 		level.assets["glove"][id]["callback"] = sr\player\customize\_glove::pick;
-		level.assets["glove"][id]["unlock"] = sr\sys\_rank::isGloveUnlocked;
+		level.assets["glove"][id]["unlock"] = sr\game\_rank::isGloveUnlocked;
 
 		precacheModel(level.assets["glove"][id]["model"]);
 		level.numGlove++;
@@ -59,7 +59,7 @@ build(response)
 
 pick(id)
 {
-	if (!self sr\sys\_rank::isGloveUnlocked(id))
+	if (!self sr\game\_rank::isGloveUnlocked(id))
 		return;
 
 	self setStat(985, id);
