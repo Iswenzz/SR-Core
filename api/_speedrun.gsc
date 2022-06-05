@@ -97,3 +97,14 @@ playerTeleport(origin, angles, state)
 		self freezeControls(false);
 	}
 }
+
+cj()
+{
+	level.map_cj = true;
+}
+
+slide(speed)
+{
+	level.map_slide = true;
+	level.map_slide_multiplier = speed;
+}
