@@ -1,61 +1,50 @@
-/*
+#include sr\sys\_file;
 
-  _|_|_|            _|      _|      _|                  _|
-_|        _|    _|    _|  _|        _|          _|_|    _|  _|_|_|_|
-  _|_|    _|    _|      _|          _|        _|    _|  _|      _|
-      _|  _|    _|    _|  _|        _|        _|    _|  _|    _|
-_|_|_|      _|_|_|  _|      _|      _|_|_|_|    _|_|    _|  _|_|_|_|
-
-Script made by SuX Lolz (Iswenzz) and Sheep Wizard
-
-Steam: http://steamcommunity.com/profiles/76561198163403316/
-Discord: https://discord.gg/76aHfGF
-Youtube: https://www.youtube.com/channel/UC1vxOXBzEF7W4g7TRU0C1rw
-Paypal: suxlolz@outlook.fr
-Email Pro: suxlolz1528@gmail.com
-
-*/
-#include sr\sys\_common;
-// TODO more secure
-
-checkid()
+initId()
 {
-	if (self getstat(995) == 0 || self getstat(996) == 0 || self getstat(997) == 0)
-	{
-		newid = createid();
-		self setstat(995, newid[0]);
-		self setstat(996, newid[1]);
-		self setstat(997, newid[2]);
-	}
-	self.id = self getstat(995) +""+self getstat(996)+""+self getstat(997);
+	level.file.playerIds = "sr/data/speedrun/admin/player_ids.txt";
 }
 
-createid()
+load()
 {
-	self IPrintLn("creating ID");
-	path = "./sr/data/speedrun/admin/player_ids.txt";
-	file_exists = checkfile(path);
-	if (!file_exists)
+	if (self getStat(995) == 0 || self getStat(996) == 0 || self getStat(997) == 0)
 	{
-		checkQueue();
-		new = FS_Fopen(path, "write");
-		FS_FClose(new);
+		id = createId();
+		self setStat(995, id[0]);
+		self setStat(996, id[1]);
+		self setStat(997, id[2]);
 	}
-	a = readAll(path);
-	check = false;
+	self.id = fmt("%d%d%d", self getStat(995), self getStat(996), self getStat(997));
+}
+
+createId()
+{
+	file = FILE_OpenMod(level.file.playerIds, "a+");
+	lines = FILE_ReadLines(file);
+
 	id = [];
-	string = "";
-	while (!check)
+	idString = "";
+
+	while (true)
 	{
-		id[0] = RandomIntRange(1, 255);
-		id[1] = RandomIntRange(1, 255);
-		id[2] = RandomIntRange(1, 255);
-		string = id[0] +""+id[1]+""+id[2];
-		for (i = 0; i<a.size; i++)
-			if (string == a[i])
-				continue;
-		check = true;
+		id[0] = randomIntRange(1, 255);
+		id[1] = randomIntRange(1, 255);
+		id[2] = randomIntRange(1, 255);
+		idString = fmt("%d%d%d", id[0], id[1], id[2]);
+
+		if (!idExists(lines, idString))
+			break;
 	}
-	WriteToFile(path, string);
+	FILE_WriteLine(file, idString);
 	return id;
+}
+
+idExists(lines, id)
+{
+	for (i = 0; i < lines.size; i++)
+	{
+		if (lines[i] == id)
+			return true;
+	}
+	return false;
 }

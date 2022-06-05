@@ -2,9 +2,15 @@ initMySQL()
 {
 	SQL_Connect("127.0.0.1", 3306, "root", "rootpassword");
 	SQL_SelectDB("sr");
-	ComPrint(SQL_Version());
 
-    level.MYSQL_TYPE_DECIMAL      = 0;
+	comPrint(SQL_Version());
+
+    variables();
+}
+
+variables()
+{
+	level.MYSQL_TYPE_DECIMAL      = 0;
 	level.MYSQL_TYPE_TINY         = 1;
 	level.MYSQL_TYPE_SHORT        = 2;
 	level.MYSQL_TYPE_LONG         = 3;
@@ -35,14 +41,4 @@ initMySQL()
 	level.MYSQL_TYPE_STRING       = 253;
 	level.MYSQL_TYPE_STRING       = 254;
 	level.MYSQL_TYPE_GEOMETRY     = 255;
-}
-
-prepare(query)
-{
-    return SQL_Prepare(query);
-}
-
-execute()
-{
-    return SQL_Execute();
 }

@@ -231,46 +231,6 @@ menu_FOV()
 	self iprintlnbold("Use ^2!fov ^7<1.0-2.0>");
 }
 
-check_lowfps()
-{
-	self endon("disconnect");
-
-	if (isDefined(self.admin_group) && self.admin_group == "owner")
-		return;
-
-	self.check_lowfps = true;
-	wait 0.05;
-
-	if (self.fps < 1)
-	{
-		if (self.pers["team"] == "allies")
-			self suicide();
-	}
-	self.check_lowfps = false;
-}
-
-check_ele()
-{
-	if (self.sr_cheatmode)
-		return;
-
-	self endon("disconnect");
-
-	self.check_ele = true;
-	before = self.origin;
-	wait 0.05;
-
-	if (!isDefined(self.real_velocity))
-		return;
-
-	if (self.origin[2] != before[2] && self.real_velocity == (0,0,0) && !self isOnGround() && !self isOnLadder() && !self isMantling())
-	{
-		if (self.pers["team"] == "allies" && self.antiElevator)
-			self suicide();
-	}
-	self.check_ele = false;
-}
-
 hidePlayers()
 {
     while (true)

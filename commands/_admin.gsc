@@ -275,19 +275,22 @@ cmd_Group(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	sr\sys\_mysql::prepare("UPDATE admins SET group = ? WHERE id = ?");
+	mutex_acquire("mysql");
+
+	SQL_Prepare("UPDATE admins SET group = ? WHERE id = ?");
 	SQL_BindParam(group, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
-	sr\sys\_mysql::execute();
+	SQL_Execute();
 
 	if (!SQL_AffectedRows())
 	{
-		sr\sys\_mysql::prepare("INSERT INTO admins (name, id, group) VALUES (?, ?, ?)");
+		SQL_Prepare("INSERT INTO admins (name, id, group) VALUES (?, ?, ?)");
 		SQL_BindParam(player.name, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
 		SQL_BindParam(group, level.MYSQL_TYPE_STRING);
-		sr\sys\_mysql::execute();
+		SQL_Execute();
 	}
+	mutex_release("mysql");
 }
 
 cmd_VIP(args)
@@ -302,20 +305,23 @@ cmd_VIP(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	sr\sys\_mysql::prepare("UPDATE admins SET vip = ? WHERE id = ?");
+	mutex_acquire("mysql");
+
+	SQL_Prepare("UPDATE admins SET vip = ? WHERE id = ?");
 	SQL_BindParam(vip, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
-	sr\sys\_mysql::execute();
+	SQL_Execute();
 
 	if (!SQL_AffectedRows())
 	{
-		sr\sys\_mysql::prepare("INSERT INTO admins (name, id, group, vip) VALUES (?, ?, ?, ?)");
+		SQL_Prepare("INSERT INTO admins (name, id, group, vip) VALUES (?, ?, ?, ?)");
 		SQL_BindParam(player.name, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
 		SQL_BindParam(player.admin_group, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(vip, level.MYSQL_TYPE_LONG);
-		sr\sys\_mysql::execute();
+		SQL_Execute();
 	}
+	mutex_release("mysql");
 }
 
 cmd_ID(args)
@@ -348,11 +354,15 @@ cmd_Ban(args)
 	steamid = args[3];
 	ip = args[4];
 
-	sr\sys\_mysql::prepare("INSERT INTO bans (name, guid, pid, steamid, ip) VALUES (?, ?, ?, ?, ?)");
+	mutex_acquire("mysql");
+
+	SQL_Prepare("INSERT INTO bans (name, guid, pid, steamid, ip) VALUES (?, ?, ?, ?, ?)");
 	SQL_BindParam(name, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(guid, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(pid, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(steamid, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(ip, level.MYSQL_TYPE_STRING);
-	sr\sys\_mysql::execute();
+	SQL_Execute();
+
+	mutex_release("mysql");
 }

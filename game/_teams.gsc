@@ -9,8 +9,7 @@ setPlayerModel()
 	cid = self getStat(980);
 	hid = self getStat(985);
 
-	// If a player doesnt have a character model
-	// he will have unlimited health and can cause bugs
+	// If a player doesnt have a character model, he will have unlimited health and can cause bugs
 	if (!isDefined(level.assets["character"][cid]))
 	{
 		self setStat(980, 0);
@@ -27,13 +26,11 @@ setHealth()
 	switch (self.pers["team"])
 	{
 		case "allies":
-		self.maxhealth = level.dvar["allies_health"];
-		break;
-
+			self.maxhealth = level.dvar["allies_health"];
+			break;
 		case "axis":
-		self.maxhealth = level.dvar["axis_health"];
-		break;
-
+			self.maxhealth = level.dvar["axis_health"];
+			break;
 	}
 	self.health = self.maxhealth;
 }

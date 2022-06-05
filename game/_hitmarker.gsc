@@ -1,6 +1,7 @@
-#include braxi\_dvar;
+#include sr\sys\_dvar;
+#include sr\sys\_events;
 
-init(modVers)
+init()
 {
 	addDvar("pi_hm", "plugin_hitmarker_enable", 1, 0, 1, "int");
 	addDvar("pi_hm_av", "plugin_hitmarker_armorvest", 1, 0, 1, "int");
@@ -8,20 +9,14 @@ init(modVers)
 	if (!level.dvar["pi_hm"])
 		return;
 
-	thread onDamage();
+	event("damage", ::onDamage);
 }
 
-onDamage()
+onDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, timeOffset)
 {
-	while (true)
-	{
-		level waittill("player_damage", victim, eAttacker);
-		if (!isDefined(victim) || !isPlayer(victim) || !isDefined(eAttacker) || !isPlayer(eAttacker) || eAttacker == victim)
-			continue;
+	if (!isDefined(eInflictor) || !isPlayer(eInflictor) || !isDefined(eAttacker) || !isPlayer(eAttacker) || eAttacker == eInflictor)
+		continue;
 
-		armor = false;
-		if (victim hasPerk("specialty_armorvest") && level.dvar["pi_hm_av"])
-			armor = true;
-		eAttacker thread maps\mp\gametypes\_damagefeedback::updateDamageFeedback(armor);
-	}
+	armor = eInflictor hasPerk("specialty_armorvest") && level.dvar["pi_hm_av"];
+	eAttacker thread maps\mp\gametypes\_damagefeedback::updateDamageFeedback(armor);
 }

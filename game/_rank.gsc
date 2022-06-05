@@ -234,37 +234,42 @@ databaseSetRank(xp, rank, prestige)
 	if (self.isBot)
 		return;
 
+	mutex_acquire("mysql");
+
 	// Update rank
-	sr\sys\_mysql::prepare("UPDATE speedrun_ranks SET name = ?, xp = ?, rank = ?, prestige = ? WHERE guid = ?");
+	SQL_Prepare("UPDATE speedrun_ranks SET name = ?, xp = ?, rank = ?, prestige = ? WHERE guid = ?");
 	SQL_BindParam(self.name, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(xp, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(rank + 1, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(prestige, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(getSubStr(self getGuid(), 24, 32), level.MYSQL_TYPE_STRING);
-	sr\sys\_mysql::execute();
+	SQL_Execute();
 
 	// Insert new rank
 	if (!SQL_AffectedRows())
 	{
-		sr\sys\_mysql::prepare("INSERT INTO speedrun_ranks (name, guid, xp, rank, prestige) VALUES (?, ?, ?, ?, ?)");
+		SQL_Prepare("INSERT INTO speedrun_ranks (name, guid, xp, rank, prestige) VALUES (?, ?, ?, ?, ?)");
 		SQL_BindParam(self.name, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(getSubStr(self getGuid(), 24, 32), level.MYSQL_TYPE_STRING);
 		SQL_BindParam(xp, level.MYSQL_TYPE_LONG);
 		SQL_BindParam(rank + 1, level.MYSQL_TYPE_LONG);
 		SQL_BindParam(prestige, level.MYSQL_TYPE_LONG);
-		sr\sys\_mysql::execute();
+		SQL_Execute();
 	}
+	mutex_release("mysql");
 }
 
 databaseGetRank()
 {
-	sr\sys\_mysql::prepare("SELECT guid, xp, rank, prestige FROM speedrun_ranks WHERE guid = ?");
+	mutex_acquire("mysql");
+
+	SQL_Prepare("SELECT guid, xp, rank, prestige FROM speedrun_ranks WHERE guid = ?");
 	SQL_BindParam(getSubStr(self getGuid(), 24, 32), level.MYSQL_TYPE_STRING);
 	SQL_BindResult(level.MYSQL_TYPE_STRING, 8);
 	SQL_BindResult(level.MYSQL_TYPE_LONG);
 	SQL_BindResult(level.MYSQL_TYPE_LONG);
 	SQL_BindResult(level.MYSQL_TYPE_LONG);
-	sr\sys\_mysql::execute();
+	SQL_Execute();
 
 	// Rank
 	data = spawnStruct();
@@ -285,6 +290,7 @@ databaseGetRank()
 		data.rank = 0;
 		data.prestige = 0;
 	}
+	mutex_release("mysql");
 	return data;
 }
 

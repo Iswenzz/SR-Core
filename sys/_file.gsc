@@ -12,3 +12,18 @@ FILE_OpenMod(path, mode)
 
     return FILE_Open(path, mode);
 }
+
+FILE_ReadLines(file)
+{
+	lines = [];
+	while (true)
+	{
+		line = FILE_ReadLine(file);
+
+		if (IsNullOrEmpty(line))
+			break;
+
+		lines[lines.size] = line;
+	}
+	return lines;
+}

@@ -54,7 +54,7 @@ watchTriggerEndMap(trig, way)
 	while (true)
 	{
 		trig waittill("trigger", player);
-		player finish_way(way);
+		player finishWay(way);
 	}
 }
 

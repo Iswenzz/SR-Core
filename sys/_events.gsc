@@ -4,6 +4,7 @@ initEvents()
 	level.menus = [];
 	level.huds = spawnStruct();
 	level.dvar = [];
+	level.mutex = [];
 
 	event("connect", ::eventHud);
 	event("connect", ::eventMenu);
@@ -96,23 +97,18 @@ eventHud()
 	self.huds = spawnStruct();
 }
 
-addDvar(scriptName, varname, vardefault, min, max, type)
+mutex_acquire(id)
 {
-	value = getDvar(varname);
+	if (!isDefined(level.mutex[id]))
+		level.mutex[id] = false;
 
-	switch (type)
-	{
-		case "int":		definition = Ternary(IsNullOrEmpty(value), vardefault, getDvarInt(varname));	break;
-		case "float": 	definition = Ternary(IsNullOrEmpty(value), vardefault, getDvarFloat(varname));	break;
-		default: 		definition = Ternary(IsNullOrEmpty(value), vardefault, value);					break;
-	}
-	if ((type == "int" || type == "float") && min != 0 && definition < min)
-		definition = min;
-	if ((type == "int" || type == "float") && max != 0 && definition > max)
-		definition = max;
+	if (level.mutex[id])
+		level waittill(fmt("mutex_%s", id));
+	level.mutex[id] = true;
+}
 
-	if (isNullOrEmpty(value))
-		setDvar(varname, definition);
-
-	level.dvar[scriptName] = definition;
+mutex_release(id)
+{
+	level.mutex[id] = false;
+	level notify(fmt("mutex_%s", id));
 }
