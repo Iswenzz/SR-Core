@@ -265,7 +265,7 @@ check_ele()
 
 	if (self.origin[2] != before[2] && self.real_velocity == (0,0,0) && !self isOnGround() && !self isOnLadder() && !self isMantling())
 	{
-		if (self.pers["team"] == "allies" && !isDefined(self.disableAntiElevator))
+		if (self.pers["team"] == "allies" && self.antiElevator)
 			self suicide();
 	}
 	self.check_ele = false;
