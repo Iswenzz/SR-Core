@@ -83,15 +83,6 @@ menu_callback(name, callback)
 	level.menus[name][index].type = "callback";
 }
 
-range(variable, min, max)
-{
-	if (variable < min)
-		return max;
-	if (variable > max)
-		return min;
-	return variable;
-}
-
 eventHud()
 {
 	self.huds = spawnStruct();

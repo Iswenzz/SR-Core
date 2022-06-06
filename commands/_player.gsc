@@ -154,7 +154,8 @@ cmd_Model(args)
 
 cmd_NoClip()
 {
-	player.noclip = Ternary(!isDefined(player.noclip), true, undefined);
+	self.noclip = Ternary(!isDefined(self.noclip), true, undefined);
+	self sr\api\_player::antiElevator(!self.noclip);
 }
 
 cmd_PM(args)
@@ -350,8 +351,8 @@ trooper()
 
 	while (true)
 	{
-		playFxOnTag(level.jetpack, self, "tag_jetpack_l");
-		playFxOnTag(level.jetpack, self, "tag_jetpack_r");
+		playFxOnTag(level.fx["jetpack"], self, "tag_jetpack_l");
+		playFxOnTag(level.fx["jetpack"], self, "tag_jetpack_r");
 		wait 3;
 	}
 }

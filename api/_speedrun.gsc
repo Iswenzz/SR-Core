@@ -108,3 +108,13 @@ slide(speed)
 	level.map_slide = true;
 	level.map_slide_multiplier = speed;
 }
+
+isCJ()
+{
+	return isDefined(level.map_cj) && level.map_cj;
+}
+
+isSlide()
+{
+	return isDefined(level.map_slide) && level.map_slide;
+}

@@ -233,6 +233,15 @@ randomColorDark()
 	return (randomint(50) / 100, randomint(50) / 100, randomint(50) / 100);
 }
 
+range(variable, min, max)
+{
+	if (variable < min)
+		return max;
+	if (variable > max)
+		return min;
+	return variable;
+}
+
 cleanScreen()
 {
 	for (i = 0; i < 6; i++)

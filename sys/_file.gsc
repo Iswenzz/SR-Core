@@ -3,9 +3,14 @@ initFile()
 	level.file = spawnStruct();
 }
 
+PATH_Mod(path)
+{
+	return PathJoin(getDvar("fs_game"), path);
+}
+
 FILE_OpenMod(path, mode)
 {
-	path = PathJoin(getDvar("fs_game"), path);
+	path = PATH_Mod(path);
 
 	if (!FILE_Exists(path))
 		FILE_Create(path);

@@ -224,14 +224,14 @@ vote(vote, value)
 			break;
 
 		case "add10":
-			time = level.sr_time;
+			time = level.time;
 			time += 600;
 			level.huds.time setTimer(time);
 			level notify("time_update");
 			break;
 
 		case "add20":
-			time = level.sr_time;
+			time = level.time;
 			time += 1200;
 			level.huds.time setTimer(time);
 			level notify("time_update");

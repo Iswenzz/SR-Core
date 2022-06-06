@@ -151,7 +151,7 @@ vectorDivideIndex(v, i, s)
 
 vector2D(vec)
 {
-	return vectornormalize((vec[0], vec[1], 0));
+	return vectorNormalize((vec[0], vec[1], 0));
 }
 
 vectorBiggestValueIndex(vec)
@@ -166,6 +166,16 @@ vectorSmallestValueIndex(vec)
 	return 0 * (vec[0] <= vec[1] && vec[0] <= vec[2])
 		+ 1 * (vec[1] < vec[0] && vec[1] <= vec[2])
 		+ 2 * (vec[2] < vec[1] && vec[2] < vec[0]);
+}
+
+vectorMultiply(vecA, vecB)
+{
+	return (vecA[0] * vecB[0], vecA[1] * vecB[1], vecA[2] * vecB[2]);
+}
+
+vectorScale(vec, scale)
+{
+	return (vec[0] * scale, vec[1] * scale, vec[2] * scale);
 }
 
 // The translation of point q from p oriented by the given angles

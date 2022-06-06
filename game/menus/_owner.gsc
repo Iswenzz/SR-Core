@@ -1,8 +1,11 @@
+#include sr\sys\_admins;
 #include sr\game\menus\_main;
 
 main()
 {
     level.sr_menu["owner"] = [];
+
+	event("connect", ::onConnect);
 
 	main = menu("Main", "owner", "main");
 	weapons = menu("Weapons", "owner", "weapon");
@@ -29,9 +32,9 @@ main()
 	option(redirect, "3xP CJ", 		::menu_Redirect, "c.3xP-Clan.com:1337");
 }
 
-eventOwner()
+onConnect()
 {
-    self thread menuEvent("owner", "shop_mp");
+    self menuEvent("owner", "shop_mp");
 }
 
 menu_God(arg)

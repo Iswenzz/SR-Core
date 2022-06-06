@@ -66,13 +66,13 @@ pick(id)
 
 	// angles = self getPlayerAngles();
 	// eye = self getTagOrigin("j_head");
-	// forward = eye + vector_scale(anglesToForward(angles), 70);
+	// forward = eye + vectorScale(anglesToForward(angles), 70);
 	// trace = bulletTrace(eye, forward, false, self);
 
 	// if (trace["fraction"] == 1) // we didnt hit the wall or floor
 	// 	return true;
 
-	// position = trace["position"] - vector_scale(anglesToForward(angles), -2);
+	// position = trace["position"] - vectorScale(anglesToForward(angles), -2);
 	// angles = vectorToAngles(eye - position);
 	// forward = anglesToForward(angles);
 	// up = anglesToUp(angles);

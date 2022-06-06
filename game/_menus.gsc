@@ -7,5 +7,13 @@ main()
 
 menu_WelcomeMessage(arg)
 {
-	self thread speedrun\_main::connectMessages();
+	self endon("disconnect");
+
+	if (self.pers["team"] != "allies")
+		return;
+
+	group = self sr\sys\_admins::getGroupString();
+	geo = self getGeoLocation(2);
+
+	sy\sys\_admins::message(fmt("^2Welcome ^7%s ^7%s ^7from ^1%s", group, self.name, geo));
 }
