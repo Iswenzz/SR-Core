@@ -1,3 +1,11 @@
+initDvars()
+{
+	setDvar("jump_slowdownEnable", 0);
+	setDvar("bullet_penetrationEnabled", 0);
+	setDvar("mod_author", "SuX Lolz");
+	makeDvarServerInfo("mod_author", "SuX Lolz");
+}
+
 addDvar(scriptName, varname, vardefault, min, max, type)
 {
 	value = getDvar(varname);

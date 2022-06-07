@@ -11,8 +11,6 @@ init()
 precache()
 {
 	level.assets["fx"] = [];
-	level.numFx = 0;
-
 	tableName = "mp/fxTable.csv";
 
 	for (idx = 1; isDefined(tableLookup(tableName, 0, idx, 0)) && tableLookup(tableName, 0, idx, 0) != ""; idx++)
@@ -24,8 +22,6 @@ precache()
 		level.assets["fx"][id]["model"] = "";
 		level.assets["fx"][id]["callback"] = sr\player\customize\_fx::pick;
 		level.assets["fx"][id]["unlock"] = sr\game\_rank::isFxUnlocked;
-
-		level.numFx++;
 	}
 }
 

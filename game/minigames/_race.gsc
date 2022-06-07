@@ -1,13 +1,14 @@
 #include maps\mp\_utility;
 
 #include sr\sys\_file;
+#include sr\sys\_events;
 #include sr\game\minigames\_main;
 #include sr\utils\_common;
 #include sr\utils\_hud;
 
 init()
 {
-	level.file.kz = fmt("sr/data/race/%s.txt", getDvar("mapname"));
+	level.files["race"] = fmt("sr/data/race/%s.txt", getDvar("mapname"));
 
 	createMinigame("race");
 
@@ -18,6 +19,8 @@ init()
 	level.raceScoreboard = [];
 	level.racePoints = [];
 	level.raceStarted = false;
+
+	event("spawn", ::hud);
 
 	race();
 }
@@ -55,9 +58,18 @@ race()
 	}
 }
 
+hud()
+{
+	if (!isInQueue("race"))
+		return;
+
+	self.runId = "Race";
+	self.huds["speedrun"]["name"] setText("^2Race");
+}
+
 load()
 {
-	file = FILE_OpenMod(level.file.kz, "r+");
+	file = FILE_OpenMod(level.files["race"], "r+");
 
 	while (true)
 	{
@@ -68,7 +80,7 @@ load()
 			break;
 
 		origin = (ToFloat(tkn[0]), ToFloat(tkn[1]), ToFloat(tkn[2]));
-		level.kzPoints[level.kzPoints.size] = origin;
+		level.racePoints[level.racePoints.size] = origin;
 	}
 	FILE_Close(file);
 }
@@ -77,7 +89,7 @@ join()
 {
 	self addToQueue("race");
 	self addToScoreboard();
-	self.sr_cheatmode = true;
+	self.sr_cheat = true;
 
 	sr\sys\_admins::message("%s ^7joined the race! [^2!race^7] [^1%d^7]", self.name, level.minigames["race"].queue.size);
 }
@@ -92,7 +104,7 @@ leave()
 
 	self unlink();
 	self suicide();
-	self.sr_cheatmode = false;
+	self.sr_cheat = false;
 }
 
 countdown()
@@ -128,8 +140,7 @@ go()
 	self unlink();
 	self clearLowerMessage();
 	self iPrintLnBold("^3GO!");
-	if (isDefined(self.huds.speedrun[4]))
-		self.huds.speedrun[4] setTenthsTimerUp(0.0001);
+	self.huds["speedrun"]["time"] setTenthsTimerUp(0.0001);
 	self.raceTime = getTime();
 	self thread onDeath();
 }
@@ -157,12 +168,11 @@ spawnPlayer()
 	self.raceDead = false;
 	self.raceFinish = false;
 	self suicide();
-	self braxi\_mod::respawn();
+	self respawn();
 	self freezeControls(true);
 
 	wait 0.3;
-	if (isDefined(self.huds.speedrun[4]))
-		self.huds.speedrun[4] setText("^50:00.0");
+	self.huds["speedrun"]["time"] setText("^50:00.0");
 }
 
 updateScoreHud()

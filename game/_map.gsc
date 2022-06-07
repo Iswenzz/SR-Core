@@ -1,3 +1,54 @@
+main()
+{
+	level.spawn = [];
+	level.colliders = [];
+	level.tempEntity = spawn("script_model", (0, 0, 0));
+}
+
+placeSpawns()
+{
+	level.spawn["allies"] = getEntArray("mp_jumper_spawn", "classname");
+	level.spawn["axis"] = getEntArray("mp_activator_spawn", "classname");
+
+	if (getEntArray("mp_global_intermission", "classname").size == 0)
+	{
+		level.spawn["spectator"] = spawn("script_origin", (0, 0, 0));
+		level.spawn["spectator"].angles = (0, 0, 0);
+	}
+	else
+		level.spawn["spectator"] = getEntArray("mp_global_intermission", "classname")[0];
+
+	if (!level.spawn["allies"].size)
+		level.spawn["allies"] = getEntArray("mp_dm_spawn", "classname");
+	if (!level.spawn["axis"].size)
+		level.spawn["axis"] = getEntArray("mp_tdm_spawn", "classname");
+
+	for (i = 0; i < level.spawn["allies"].size; i++)
+		level.spawn["allies"][i] placeSpawnPoint();
+
+	for (i = 0; i < level.spawn["axis"].size; i++)
+		level.spawn["axis"][i] placeSpawnPoint();
+
+	x = 0;
+	y = 0;
+	z = 0;
+
+	for (i = 0; i < level.spawn["allies"].size; i++)
+	{
+		x += level.spawn["allies"][i].origin[0];
+		y += level.spawn["allies"][i].origin[1];
+		x += level.spawn["allies"][i].origin[2];
+	}
+
+	x /= level.spawn["allies"].size;
+	y /= level.spawn["allies"].size;
+	z /= level.spawn["allies"].size;
+
+	level.masterSpawn = spawn("script_origin", (x, y, z));
+	level.masterSpawn.angles = level.spawn["allies"][0].angles;
+	level.masterSpawn placeSpawnPoint();
+}
+
 end(map)
 {
 	game["state"] = "endmap";
@@ -70,35 +121,3 @@ endEarthquake()
 		wait 0.05;
 	}
 }
-
-timer(time, callbackEnd)
-{
-    level endon("time_update");
-	level.time = time;
-
-	clock = spawn("script_origin", (0, 0, 0));
-
-	while (level.time > 0)
-	{
-		wait 1;
-		level.time--;
-
-		if (level.time == 180)
-			iprintlnbold("^1Map will end in 3 minutes!");
-		else if (level.time <= 60 && level.time > 10 && level.time % 2 == 0)
-		{
-			clock playSound("ui_mp_timer_countdown");
-			level.huds.time.color = (1, 140 / 255, 0);
-		}
-		else if (level.time <= 10)
-		{
-			clock playSound("ui_mp_timer_countdown");
-			level.huds.time.color = (1, 0, 0);
-		}
-		else if (level.time >= 60)
-			level.huds.time.color = (1, 1, 1);
-	}
-	clock delete();
-	level thread [[callbackEnd]]();
-}
-

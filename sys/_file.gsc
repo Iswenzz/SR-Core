@@ -1,6 +1,6 @@
 initFile()
 {
-	level.file = spawnStruct();
+	level.files = [];
 }
 
 PATH_Mod(path)

@@ -2,7 +2,7 @@ initEvents()
 {
 	level.events = [];
 	level.menus = [];
-	level.huds = spawnStruct();
+	level.huds = [];
 	level.dvar = [];
 	level.mutex = [];
 

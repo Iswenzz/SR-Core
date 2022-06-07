@@ -5,8 +5,7 @@ initCustomize()
 	level.assets = [];
 	level.customize_max_entries = 10;
 
-	precacheMenu("sr_customize");
-	precacheMenu("sr_customize_category");
+	precache();
 
 	sr\player\customize\_character::init();
 	sr\player\customize\_fx::init();
@@ -22,6 +21,26 @@ initCustomize()
 	menu("sr_customize_category", "close", ::menu_Close);
 	menu("sr_customize_category", "next", ::menu_NextPage);
 	menu("sr_customize_category", "prev", ::menu_PrevPage);
+}
+
+precache()
+{
+	precacheMenu("sr_customize");
+	precacheMenu("sr_customize_category");
+
+	precacheItem("fortnite_mp");
+	precacheItem("colt45_mp");
+	precacheItem("tomahawk_mp");
+	precacheItem("claymore_mp");
+	precacheItem("shop_mp");
+	precacheItem("vip_mp");
+	precacheItem("knife_mp");
+	precacheItem("dog_mp");
+	precacheItem("shovel_mp");
+	precacheItem("rpg_mp");
+	precacheItem("c4_mp");
+	precacheItem("rtd_mp");
+	precacheItem("frag_grenade_short_mp");
 }
 
 menu_Open(arg)

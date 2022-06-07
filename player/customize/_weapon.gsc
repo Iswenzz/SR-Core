@@ -11,8 +11,6 @@ init()
 precache()
 {
 	level.assets["weapon"] = [];
-	level.numItems = 0;
-
 	tableName = "mp/itemTable.csv";
 
 	for (idx = 1; isDefined(tableLookup(tableName, 0, idx, 0)) && tableLookup(tableName, 0, idx, 0) != ""; idx++)
@@ -28,7 +26,6 @@ precache()
 		level.assets["weapon"][id]["unlock"] = sr\game\_rank::isWeaponUnlocked;
 
 		precacheItem(level.assets["weapon"][id]["item"]);
-		level.numItems++;
 	}
 }
 

@@ -11,8 +11,6 @@ init()
 precache()
 {
 	level.assets["knife"] = [];
-	level.numKnifes = 0;
-
 	tableName = "mp/knifeTable.csv";
 
 	for (idx = 1; isDefined(tableLookup(tableName, 0, idx, 0)) && tableLookup(tableName, 0, idx, 0) != ""; idx++)
@@ -28,7 +26,6 @@ precache()
 
 		precacheModel(level.assets["knife"][id]["model"]);
 		precacheItem(level.assets["knife"][id]["item"]);
-		level.numKnifes++;
 	}
 }
 

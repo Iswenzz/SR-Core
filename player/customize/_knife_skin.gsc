@@ -11,8 +11,6 @@ init()
 precache()
 {
 	level.assets["knifeSkin"] = [];
-	level.numKnifeSkins = 0;
-
 	tableName = "mp/knifeSkinTable.csv";
 
 	for (idx = 1; isDefined(tableLookup(tableName, 0, idx, 0)) && tableLookup(tableName, 0, idx, 0) != ""; idx++)
@@ -27,7 +25,6 @@ precache()
 		level.assets["knifeSkin"][id]["unlock"] = sr\game\_rank::isKnifeSkinUnlocked;
 
 		precacheModel(level.assets["knifeSkin"][id]["model"]);
-		level.numKnifeSkins++;
 	}
 }
 

@@ -1,4 +1,5 @@
 #include sr\sys\_file;
+#include sr\sys\_events;
 #include sr\utils\_common;
 
 initAdmins()
@@ -20,6 +21,8 @@ initAdmins()
 
 	// Commands
 	level.admin_commands				= [];
+
+	event("command", ::command);
 }
 
 precache()
@@ -50,8 +53,19 @@ precache()
 	precacheModel("vehicle_blackhawk");
 	precacheModel("vehicle_bm21_mobile_cover");
 
+	precacheStatusIcon("vip_status");
+	precacheShader("vip_status");
+	precacheShader("vip_gold");
+
+	precacheStatusIcon("hud_status_connecting");
+	precacheStatusIcon("hud_status_dead");
+	precacheHeadIcon("headicon_admin");
+
+	precacheShellShock("flashbang");
 	precacheShellShock("death");
 	precacheShellShock("concussion_grenade_mp");
+
+	precacheMenu("clientcmd");
 }
 
 cmd(group, name, callback)
@@ -78,10 +92,15 @@ command(name, arg)
 canExecuteCommand(cmd)
 {
 	if (isDefined(level.admin_group[cmd.group]))
-		return self.admin_group >= level.admin_group[cmd.group];
+		return self isGroup(cmd.group);
 	else if (isDefined(level.special_group[cmd.group]))
 		return self isVIP() >= level.special_group[cmd.group];
 	return false;
+}
+
+isGroup(name)
+{
+	return self.admin_group >= level.admin_group[name];
 }
 
 getGroupString()
@@ -110,7 +129,7 @@ getGroupString()
 
 isVIP()
 {
-	return true;
+	return self.admin_vip;
 }
 
 isBanned()

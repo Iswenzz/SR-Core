@@ -3,8 +3,10 @@
 
 main()
 {
-	level.file.map = fmt("sr/data/maps/%s.txt", getDvar("mapname"));
-	level.file.chicken = fmt("sr/data/chickens/%s.txt", getDvar("mapname"));
+	level.files["map"] = fmt("sr/data/maps/%s.txt", getDvar("mapname"));
+	level.files["chicken"] = fmt("sr/data/chickens/%s.txt", getDvar("mapname"));
+
+	precacheModel("chicken");
 
 	cmd("member", 	"chicken",		::cmd_Chicken);
 	cmd("owner", 	"chicken_save",	::cmd_ChickenSave);
@@ -25,7 +27,7 @@ cmd_ChickenSave()
 {
 	index = 0;
 	models = getEntArray("script_model", "classname");
-	file = FILE_OpenMod(level.file.chicken, "w+");
+	file = FILE_OpenMod(level.files["chicken"], "w+");
 
 	for (i = 0; i < models.size; i++)
 	{
@@ -45,7 +47,7 @@ cmd_MapSave()
 {
 	index = 0;
 	brushes = getEntArray("script_brushmodel", "classname");
-	file = FILE_OpenMod(level.file.map, "w+");
+	file = FILE_OpenMod(level.files["map"], "w+");
 
 	for (i = 0; i < brushes.size; i++)
 	{
@@ -69,7 +71,7 @@ cmd_MapSave()
 spawnBrushes()
 {
 	chickens = [];
-	file = FILE_OpenMod(level.file.map, "r+");
+	file = FILE_OpenMod(level.files["map"], "r+");
 
 	while (true)
 	{
@@ -97,7 +99,7 @@ spawnBrushes()
 spawnChickens()
 {
 	chickens = [];
-	file = FILE_OpenMod(level.file.chicken, "r+");
+	file = FILE_OpenMod(level.files["chicken"], "r+");
 
 	while (true)
 	{

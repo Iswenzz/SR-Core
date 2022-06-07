@@ -44,7 +44,7 @@ cmd_Clone()
 
 cmd_Damage()
 {
-	self.canDamage = Ternary(!isDefined(self.canDamage), true, undefined);
+	self.teamKill = !self.teamKill;
 }
 
 cmd_Dance()

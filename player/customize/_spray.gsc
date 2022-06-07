@@ -11,8 +11,6 @@ init()
 precache()
 {
 	level.assets["spray"] = [];
-	level.numSprays = 0;
-
 	tableName = "mp/sprayTable.csv";
 
 	for (idx = 1; isDefined(tableLookup(tableName, 0, idx, 0)) && tableLookup(tableName, 0, idx, 0) != ""; idx++)
@@ -25,8 +23,6 @@ precache()
 		level.assets["spray"][id]["model"] = "";
 		level.assets["spray"][id]["callback"] = sr\player\customize\_spray::pick;
 		level.assets["spray"][id]["unlock"] = sr\game\_rank::isSprayUnlocked;
-
-		level.numSprays++;
 	}
 }
 

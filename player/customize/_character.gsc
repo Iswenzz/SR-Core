@@ -11,8 +11,6 @@ init()
 precache()
 {
 	level.assets["character"] = [];
-	level.numCharacters = 0;
-
 	tableName = "mp/characterTable.csv";
 
 	for (idx = 1; isDefined(tableLookup(tableName, 0, idx, 0)) && tableLookup(tableName, 0, idx, 0) != ""; idx++)
@@ -29,7 +27,6 @@ precache()
 
 		precacheModel(level.assets["character"][id]["model"]);
 		precacheModel(level.assets["character"][id]["handsModel"]);
-		level.numCharacters++;
 	}
 }
 

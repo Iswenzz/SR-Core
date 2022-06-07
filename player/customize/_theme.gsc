@@ -11,8 +11,6 @@ init()
 precache()
 {
 	level.assets["theme"] = [];
-	level.numTheme = 0;
-
 	tableName = "mp/themeTable.csv";
 
 	for (idx = 1; isDefined(tableLookup(tableName, 0, idx, 0)) && tableLookup(tableName, 0, idx, 0) != ""; idx++)
@@ -26,8 +24,6 @@ precache()
 		level.assets["theme"][id]["model"] = "";
 		level.assets["theme"][id]["callback"] = sr\player\customize\_theme::pick;
 		level.assets["theme"][id]["unlock"] = sr\game\_rank::isThemeUnlocked;
-
-		level.numTheme++;
 	}
 }
 

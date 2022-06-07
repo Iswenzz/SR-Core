@@ -366,7 +366,7 @@ damageEnt(eAttacker, iDamage, sMeansOfDeath, sWeapon, vPoint, vDir)
 
 	iDamage = int(iDamage);
 
-	if (isplayer(eAttacker) && ((isDefined(self.candamage) && self.candamage) || isplayer(self)))
+	if (isplayer(eAttacker) && ((isDefined(self.teamKill) && self.teamKill) || isplayer(self)))
 		eAttacker maps\mp\gametypes\_damagefeedback::updateDamageFeedback(false);
 
 	if (isplayer(self))

@@ -1,8 +1,11 @@
 #include sr\sys\_file;
+#include sr\sys\_events;
 
 initId()
 {
-	level.file.playerIds = "sr/data/speedrun/admin/player_ids.txt";
+	level.files["playerIds"] = "sr/data/speedrun/admin/player_ids.txt";
+
+	event("connect", ::load);
 }
 
 load()
@@ -19,7 +22,7 @@ load()
 
 createId()
 {
-	file = FILE_OpenMod(level.file.playerIds, "a+");
+	file = FILE_OpenMod(level.files["playerIds"], "a+");
 	lines = FILE_ReadLines(file);
 
 	id = [];

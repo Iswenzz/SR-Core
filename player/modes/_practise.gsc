@@ -1,7 +1,28 @@
+#include sr\sys\_events;
+
+main()
+{
+	event("spawn", ::init);
+}
+
 init()
 {
-	self thread watchLoad();
+	self endon("disconnect");
+	self endon("death");
+
+	if (!isDefined(self.sr_practise))
+		self.sr_practise = false;
+	if (!self.sr_practise)
+		return;
+
+	if (!isDefined(self.practise))
+		self.practise = [];
+
+	self.runId = "Practise";
+	self.huds["speedrun"]["name"] setText("^1Practise");
+
 	self thread watchSave();
+	self thread watchLoad();
 }
 
 watchSave()
@@ -11,12 +32,12 @@ watchSave()
 
 	while (true)
 	{
-		if (self meleeButtonPressed() && self.sr_cheatmode)
+		if (self meleeButtonPressed())
 		{
 			if (self isOnGround() && !self isMantling() && !self isOnLadder())
 			{
-				self.sr_savePos["origin"] = self getOrigin();
-				self.sr_savePos["angle"] = self getPlayerAngles();
+				self.practise["origin"] = self getOrigin();
+				self.practise["angle"] = self getPlayerAngles();
 				self iPrintLn("^2Position saved");
 				wait 0.2;
 			}
@@ -32,9 +53,9 @@ watchLoad()
 
 	while (true)
 	{
-		if (self useButtonPressed() && self.sr_cheatmode)
+		if (self useButtonPressed())
 		{
-			if (!isDefined(self.sr_savePos["origin"]) || !isDefined(self.sr_savePos["angle"]))
+			if (!isDefined(self.practise["origin"]) || !isDefined(self.practise["angle"]))
 			{
 				self iPrintLn("^1No position saved");
 				wait 0.2;
@@ -42,8 +63,8 @@ watchLoad()
 			}
 
 			self freezeControls(1);
-			self SetOrigin(self.sr_savePos["origin"]);
-			self SetPlayerAngles(self.sr_savePos["angle"]);
+			self SetOrigin(self.practise["origin"]);
+			self SetPlayerAngles(self.practise["angle"]);
 			self iPrintLn("^5Position loaded");
 			wait 0.05;
 			self freezeControls(0);

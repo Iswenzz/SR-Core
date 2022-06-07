@@ -11,8 +11,6 @@ init()
 precache()
 {
 	level.assets["glove"] = [];
-	level.numGlove = 0;
-
 	tableName = "mp/gloveTable.csv";
 
 	for (idx = 1; isDefined(tableLookup(tableName, 0, idx, 0)) && tableLookup(tableName, 0, idx, 0) != ""; idx++)
@@ -26,7 +24,6 @@ precache()
 		level.assets["glove"][id]["unlock"] = sr\game\_rank::isGloveUnlocked;
 
 		precacheModel(level.assets["glove"][id]["model"]);
-		level.numGlove++;
 	}
 }
 

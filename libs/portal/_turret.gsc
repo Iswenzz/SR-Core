@@ -92,7 +92,7 @@ turretSpawn(pos, angles)
 	turret.shouttimeover = true;
 	turret.shotat = false;
 	turret.health = 500;
-	turret.candamage = true;
+	turret.teamKill = true;
 
 	turret thread damagelistener(turret);
 	turret.wings[0] thread damagelistener(turret);

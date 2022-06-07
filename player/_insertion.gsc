@@ -1,0 +1,58 @@
+#include sr\sys\_events;
+
+main()
+{
+	event("spawn", ::insertion);
+}
+
+insertion()
+{
+	if (!level.dvar["insertion"])
+		return;
+
+	self endon("spawned_player");
+	self endon("disconnect");
+
+	insertionItem = "claymore_mp";
+	self giveWeapon(insertionItem);
+	self giveMaxAmmo(insertionItem);
+
+	while (self isReallyAlive())
+	{
+		self waittill("grenade_fire", entity, weapName);
+
+		if (weapName != insertionItem)
+			continue;
+
+		self giveMaxAmmo(insertionItem);
+
+		entity.flareloop = false;
+		entity stopLoopSound();
+		entity waitTillNotMoving();
+		pos = entity.origin;
+		angle = entity.angles;
+
+		if (!self isOnGround() || distance(self.origin, pos) > 48)
+		{
+			self iPrintln("^1You can't use insertion here");
+			entity delete();
+			continue;
+		}
+
+		entity.flareloop = true;
+		entity thread flareFx();
+
+		self iPrintln("^2Insertion at " + pos);
+	}
+}
+
+flareFx()
+{
+	self endon("disconnect");
+
+	while (isDefined(self))
+	{
+		playFxOnTag(level.fx["startnstop"], self, "tag_fx");
+		wait 0.2;
+	}
+}

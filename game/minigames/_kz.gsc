@@ -5,7 +5,7 @@
 
 init()
 {
-	level.file.kz = fmt("sr/data/kz/%s.txt", getDvar("mapname"));
+	level.files["kz"] = fmt("sr/data/kz/%s.txt", getDvar("mapname"));
 
 	createMinigame("kz");
 	event("killed", ::onPlayerKilled);
@@ -17,6 +17,8 @@ init()
 	level.kzWeaponMode = "rng";
 	level.kzWeaponList = strTok("m40a3_mp,g3_reflex_mp,m1014_mp,m14_mp,ak47_mp,mp5_acog_mp,ak47_gl_mp,g36c_silencer_mp,m1014_grip_mp,mp5_mp,gl_m14_mp,m60e4_mp,dragunov_mp,p90_acog_mp,rpg_mp", ",");
 	level.kzStarted = false;
+
+	event("spawn", ::hud);
 
 	kz();
 }
@@ -49,9 +51,18 @@ kz()
 	}
 }
 
+hud()
+{
+	if (!isInQueue("kz"))
+		return;
+
+	self.runId = "KillZone";
+	self.huds["speedrun"]["name"] setText("^6KillZone");
+}
+
 load()
 {
-	file = FILE_OpenMod(level.file.kz, "r+");
+	file = FILE_OpenMod(level.files["kz"], "r+");
 
 	while (true)
 	{
@@ -77,8 +88,8 @@ join()
 	self endon("disconnect");
 
 	self addToQueue("kz");
-	self.sr_cheatmode = true;
-	self.canDamage = true;
+	self.sr_cheat = true;
+	self.teamKill = true;
 	self spawnPlayerInSpec();
 
 	self sr\sys\_admins::message("%s ^7joined the killzone! [^6!kz^7] [^1%s^7]",
@@ -94,8 +105,8 @@ leave()
 	self.kzWon = false;
 	self sr\game\_teams::setTeam("allies");
 	self unlink();
-	self.sr_cheatmode = false;
-	self.canDamage = undefined;
+	self.sr_cheat = false;
+	self.teamKill = undefined;
 	self setClientDvar("cg_drawFriendlyNames", 1);
 	self suicide();
 }

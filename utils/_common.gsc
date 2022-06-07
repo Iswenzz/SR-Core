@@ -233,6 +233,11 @@ randomColorDark()
 	return (randomint(50) / 100, randomint(50) / 100, randomint(50) / 100);
 }
 
+respawn()
+{
+	self notify("spawned");
+}
+
 range(variable, min, max)
 {
 	if (variable < min)

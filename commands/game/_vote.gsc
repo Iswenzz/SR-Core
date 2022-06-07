@@ -18,10 +18,13 @@ main()
 
 	menu("-1", 			"cjvoteyes",	::menu_playerVote);
 	menu("-1", 			"cjvoteno",		::menu_playerVote);
+
+	event("connect", ::onConnect);
 }
 
-eventMapVote()
+onConnect()
 {
+	self.vote_cd = getTime();
 	self.vote_page = 0;
 	self display();
 }
@@ -226,14 +229,14 @@ vote(vote, value)
 		case "add10":
 			time = level.time;
 			time += 600;
-			level.huds.time setTimer(time);
+			level.huds["time"] setTimer(time);
 			level notify("time_update");
 			break;
 
 		case "add20":
 			time = level.time;
 			time += 1200;
-			level.huds.time setTimer(time);
+			level.huds["time"] setTimer(time);
 			level notify("time_update");
 			break;
 	}

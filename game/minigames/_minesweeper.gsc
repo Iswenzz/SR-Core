@@ -1,10 +1,25 @@
 #include maps\mp\_utility;
 #include common_scripts\utility;
+
 #include sr\sys\_events;
 
 main()
 {
+	precache();
+
 	menu("minesweeper", "open", ::menu_Open);
+}
+
+precache()
+{
+	precacheShader("minesweeper_square");
+	precacheShader("minesweeper_smile");
+	precacheShader("minesweeper_minered");
+	precacheShader("minesweeper_mine");
+	precacheShader("minesweeper_glasses");
+	precacheShader("minesweeper_flag");
+	precacheShader("minesweeper_dead");
+	precacheShader("minesweeper_board");
 }
 
 menu_Open(arg)
