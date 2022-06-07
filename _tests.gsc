@@ -14,10 +14,6 @@ setup()
 {
 	gscunitEnv();
 
-	if (!level.gscunit.enabled)
-		return;
-
-	spawnBots(5);
 	level.tests = spawnStruct();
 	level.tests.ftp = true;
 	level.tests.sftp = true;

@@ -27,7 +27,7 @@ eventMenu()
 	{
 		self waittill("menuresponse", menu, response);
 
-		if (!isDefined(level.menus[menu]))
+		if (!isDefined(menu) || !isDefined(level.menus[menu]))
 			continue;
 
 		for (i = 0; i < level.menus[menu].size; i++)
@@ -57,21 +57,18 @@ _menu(name, response, callback)
 	level.menus[name][index].name = name;
 	level.menus[name][index].response = response;
 	level.menus[name][index].callback = callback;
+	return index;
 }
 
 menu(name, response, callback)
 {
-	_menu(name, response, callback);
-	index = level.menus[name].size;
-
+	index = _menu(name, response, callback);
 	level.menus[name][index].type = "response";
 }
 
 menu_multiple(name, response, callback)
 {
-	_menu(name, response, callback);
-	index = level.menus[name].size;
-
+	index = _menu(name, response, callback);
 	level.menus[name][index].type = "multiple";
 }
 
