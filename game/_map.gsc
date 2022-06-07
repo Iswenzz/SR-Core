@@ -1,3 +1,5 @@
+#include sr\utils\_common;
+
 main()
 {
 	level.spawn = [];
@@ -78,7 +80,7 @@ end(map)
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		players[i] spawnSpectator(level.spawn["spectator"].origin, level.spawn["spectator"].angles);
+		players[i] spawnSpectator();
 		players[i] allowSpectateTeam("allies", false);
 		players[i] allowSpectateTeam("axis", false);
 		players[i] allowSpectateTeam("freelook", false);
@@ -93,13 +95,13 @@ end(map)
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		players[i] spawnSpectator(level.spawn["spectator"].origin, level.spawn["spectator"].angles);
+		players[i] spawnSpectator();
 		players[i].sessionstate = "intermission";
 	}
 	wait 15;
 
 	// Next map
-	maps = sr\commands\game\_vote::load(false);
+	maps = sr\commands\_vote::load(false);
 	picked = IfUndef(map, maps[randomInt(maps.size)]);
 	setDvar("sv_maprotationcurrent", "gametype deathrun map " + picked);
 	exitLevel(false);
@@ -120,4 +122,14 @@ endEarthquake()
 		earthquake(0.05, 0.05, level.spawn["spectator"].origin, 20000);
 		wait 0.05;
 	}
+}
+
+spawnSpectator()
+{
+	self cleanUp();
+	self.sessionstate = "spectator";
+	self.spectatorclient = -1;
+	self.statusicon = "";
+	self spawn(level.spawn["spectator"].origin, level.spawn["spectator"].angles);
+	self sr\game\_teams::setSpectatePermissions();
 }

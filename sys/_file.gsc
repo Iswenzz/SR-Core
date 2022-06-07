@@ -1,4 +1,4 @@
-initFile()
+initFiles()
 {
 	level.files = [];
 }

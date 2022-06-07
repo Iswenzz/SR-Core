@@ -15,14 +15,53 @@ main()
 	thread maps\mp\gametypes\_quickmessages::init();
 	thread maps\mp\_weapons::init();
 
-	sr\sys\_events::initEvents();
-	sr\sys\_file::initFile();
-    sr\sys\_mysql::initMySQL();
 	sr\sys\_dvar::initDvars();
+	sr\sys\_events::initEvents();
+	sr\sys\_file::initFiles();
+    sr\sys\_mysql::initMySQL();
+	sr\sys\_discord::initDiscord();
+	sr\sys\_admins::initAdmins();
+
+	sr\commands\_admin::main();
+	sr\commands\_graphics::main();
+	sr\commands\_misc::main();
+	sr\commands\_music::main();
+	sr\commands\_player::main();
+	sr\commands\_vote::main();
+	sr\commands\game\_kz::main();
+	sr\commands\game\_minesweeper::main();
+	sr\commands\game\_portal::main();
+	sr\commands\game\_race::main();
+	sr\commands\map\_edit::main();
 
 	sr\game\_rank::initRank();
-	sr\player\_id::initId();
+	sr\game\_cheat::main();
+	sr\game\_credits::main();
+	sr\game\_demo::main();
+	sr\game\_hitmarker::main();
+	sr\game\_killcam::main();
+	sr\game\_map::main();
+	sr\game\_match::main();
+	sr\game\_menus::main();
+	sr\game\fx\_trail::main();
+	sr\game\fx\_trigger::main();
+	sr\game\menus\_main::initMenus();
+	sr\game\menus\_owner::main();
+	sr\game\minigames\_main::initMinigames();
+	sr\game\minigames\_kz::initKz();
+	sr\game\minigames\_minesweeper::initMinesweeper();
+	sr\game\minigames\_race::initRace();
+	sr\game\weapons\_main::main();
+
+	sr\player\_id::main();
+	sr\player\_insertion::main();
+	sr\player\_settings::main();
 	sr\player\customize\_main::initCustomize();
+	sr\player\fx\_spray::main();
+	sr\player\huds\_player::main();
+	sr\player\modes\_noclip::main();
+	sr\player\modes\_pickup::main();
+	sr\player\modes\_practise::main();
 
     sr\_tests::runTests();
 }

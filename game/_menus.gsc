@@ -15,5 +15,5 @@ menu_WelcomeMessage(arg)
 	group = self sr\sys\_admins::getGroupString();
 	geo = self getGeoLocation(2);
 
-	sy\sys\_admins::message(fmt("^2Welcome ^7%s ^7%s ^7from ^1%s", group, self.name, geo));
+	sr\sys\_admins::message(fmt("^2Welcome ^7%s ^7%s ^7from ^1%s", group, self.name, geo));
 }

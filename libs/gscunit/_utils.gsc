@@ -52,10 +52,13 @@ logVariableType(var)
 
 spawnBots(number)
 {
+	bots = [];
 	for (i = 0; i < number; i++)
 	{
 		bot = addTestClient();
 		wait 0.05;
-		bot notify("menuresponse", level.menus["team"], "autoassign");
+		bot notify("menuresponse", game["menu_team"], "autoassign");
+		bots[bots.size] = bot;
 	}
+	return bots;
 }

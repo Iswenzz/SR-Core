@@ -3,6 +3,7 @@
 gscunitEnv()
 {
 	level.gscunit = spawnStruct();
+	level.gscunit.bots = spawnBots(5);
 	level.gscunit.enabled = getDvarInt("gscunit");
 	level.gscunit.debug = getDvarInt("gscunit_debug");
 	level.gscunit.clock = undefined;

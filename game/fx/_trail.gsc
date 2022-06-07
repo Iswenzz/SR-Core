@@ -1,7 +1,17 @@
+#include sr\sys\_events;
+
+main()
+{
+	event("spawn", ::trail);
+}
+
 trail()
 {
 	self endon("death");
 	self endon("disconnect");
+
+	if (!self sr\sys\_admins::isVIP())
+		return;
 
 	while (true)
 	{

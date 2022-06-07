@@ -1,4 +1,4 @@
-initMenu()
+initMenus()
 {
 	level.sr_menu = [];
 
@@ -71,7 +71,7 @@ close()
 	self giveWeapon("shop_mp");
 }
 
-option(section, name, script, arg)
+menuOption(section, name, script, arg)
 {
 	id = section.id;
 	menu = section.name;
@@ -84,7 +84,7 @@ option(section, name, script, arg)
 	level.sr_menu[id][menu] = predator;
 }
 
-menu(name, id, script)
+menuElement(name, id, script)
 {
 	menu = "main";
 
@@ -93,7 +93,7 @@ menu(name, id, script)
 	section.id = id;
 	section.script = script;
 
-	option(name, id, menu, script);
+	menuOption(name, id, menu, script);
 	return section;
 }
 

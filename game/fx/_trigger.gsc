@@ -1,16 +1,9 @@
-#include maps\mp\_utility;
-#include common_scripts\utility;
-
-init()
+main()
 {
-	wait 2;
 	trig = getEntArray("endmap_trig", "targetname");
-
-	if (!trig.size || trig.size > 1)
-	{
-		iPrintln("^1Error: endmap_trig not found");
+	if (!trig.size)
 		return;
-	}
+
 	createTrigFx(trig[0], "endtrig");
 }
 

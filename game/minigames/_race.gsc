@@ -1,12 +1,10 @@
-#include maps\mp\_utility;
-
 #include sr\sys\_file;
 #include sr\sys\_events;
 #include sr\game\minigames\_main;
 #include sr\utils\_common;
 #include sr\utils\_hud;
 
-init()
+initRace()
 {
 	level.files["race"] = fmt("sr/data/race/%s.txt", getDvar("mapname"));
 
@@ -168,7 +166,7 @@ spawnPlayer()
 	self.raceDead = false;
 	self.raceFinish = false;
 	self suicide();
-	self respawn();
+	self eventSpawn();
 	self freezeControls(true);
 
 	wait 0.3;
@@ -202,7 +200,7 @@ updateScoreHud()
 			level.raceScoreboard[i]["score"], level.raceScoreboard[i]["name"]);
 	}
 	for (i = 0; i < players.size; i++)
-		players[i].raceScoreHud setText(string);
+		players[i].huds["race_score"] setText(string);
 }
 
 sortScores(array)
@@ -225,17 +223,17 @@ sortScores(array)
 
 raceHud()
 {
-	self.raceHud = addHud(self, 18, -15, 1, "left", "bottom", 4);
-	if (!isDefined(self.raceScoreHud))
-		self.raceScoreHud = addHud(self, -2, -20, 1, "right", "middle", 1.4);
+	self.huds["race"] = addHud(self, 18, -15, 1, "left", "bottom", 4);
+	if (!isDefined(self.huds["race_score"]))
+		self.huds["race_score"] = addHud(self, -2, -20, 1, "right", "middle", 1.4);
 }
 
 cleanRaceHud()
 {
-	if (isDefined(self.raceHud))
-		self.raceHud destroy();
-	if (isDefined(self.raceScoreHud))
-		self.raceScoreHud destroy();
+	if (isDefined(self.huds["race"]))
+		self.huds["race"] destroy();
+	if (isDefined(self.huds["race_score"]))
+		self.huds["race_score"] destroy();
 }
 
 addToScoreboard()
@@ -329,8 +327,8 @@ playerFinish()
 	placement = level.racePlayersFinished.size + 1;
 
 	self.raceFinish = true;
-	if (isDefined(self.raceHud))
-		self.raceHud destroy();
+	if (isDefined(self.huds["race"]))
+		self.huds["race"] destroy();
 	self linkTo(level.tempEntity);
 
 	if (self IsInArray(level.racePlayersFinished))
@@ -338,16 +336,16 @@ playerFinish()
 	level.racePlayersFinished[level.racePlayersFinished.size] = self;
 
 	self.time = sr\utils\_common::originToTime(getTime() - self.raceTime.origin);
-	self thread speedrun\player\huds\_speedrun::updateHud();
+	self speedrun\player\huds\_speedrun::updateTime();
 
-	message(fmt("%s ^7finished %s ^7in ^2%d:%d.%d", self.name, getPlacementString(placement),
+	playerMessage(fmt("%s ^7finished %s ^7in ^2%d:%d.%d", self.name, getPlacementString(placement),
 		self.time.min, self.time.sec, self.time.milsed));
 
 	if (placement == 1)
 		self updateScoreHud();
 }
 
-message(string)
+playerMessage(string)
 {
 	players = level.minigames["race"].queue;
 	for (i = 0; i < players.size; i++)
@@ -486,7 +484,7 @@ watchRace()
 
 updateRaceHud(player, index)
 {
-	player.raceHud setText(getPlacementString(index + 1));
+	player.huds["race"] setText(getPlacementString(index + 1));
 }
 
 getPlacementString(index)

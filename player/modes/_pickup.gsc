@@ -12,6 +12,9 @@ pickup()
 	self endon("disconnect");
 	self.pickupMode = 0;
 
+	if (!self sr\sys\_admins::isGroup("masteradmin"))
+		return;
+
 	while (true)
 	{
 		while (!self secondaryOffHandButtonPressed())
@@ -86,15 +89,15 @@ rotate(ent, direction)
 	if (angles[direction] == Ternary(forward, -180, 180))
 		angles[direction] = Ternary(forward, 180, -180);
 
-	angles[direction] += Ternary(forward, -speed, speed);
+	angles[direction] += Ternary(forward, speed * -1, speed);
 
 	ent rotateTo(angles, 0.05);
 }
 
-move()
+move(ent)
 {
 	speed = 15;
-	ent.distance += Ternary(self MeleeButtonPressed(), speed, -speed);
+	ent.distance += Ternary(self MeleeButtonPressed(), speed, speed * -1);
 }
 
 reset(ent)

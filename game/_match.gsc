@@ -1,3 +1,6 @@
+#include maps\mp\gametypes\_hud_util;
+#include sr\utils\_common;
+
 main()
 {
 	huds();
@@ -26,7 +29,22 @@ start()
 	game["roundStarted"] = true;
 
 	matchStartPlayers();
-	sr\game\_map::timer(level.dvar["time"], sr\game\_map::end);
+	timer(level.dvar["time"], sr\game\_map::end);
+}
+
+canStartGame(min)
+{
+	count = 0;
+	players = getAllPlayers();
+
+	for (i = 0; i < players.size; i++)
+	{
+		if (players[i] isPlaying())
+			count++;
+	}
+	if (count >= min)
+		return true;
+	return false;
 }
 
 timer(time, callbackEnd)

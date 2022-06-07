@@ -5,7 +5,7 @@ main()
 {
 	cmd("owner", 	"detonate",			::cmd_Detonate);
     cmd("owner", 	"turret",			::cmd_Turret);
-	cmd("owner", 	"turret_delete"		::cmd_TurretDelete);
+	cmd("owner", 	"turret_delete",	::cmd_TurretDelete);
 }
 
 cmd_Detonate()
@@ -17,7 +17,7 @@ cmd_Turret()
 {
 	self clientCmd("centerview");
 	wait 0.2;
-	thread sr\libs\portal\_turret::spawn_turret(self.origin, self getPlayerAngles());
+	thread sr\libs\portal\_turret::turretSpawn(self.origin, self getPlayerAngles());
 }
 
 cmd_TurretDelete()
@@ -26,6 +26,6 @@ cmd_TurretDelete()
 	{
 		level.portal_turrets[i] sr\libs\portal\_turret::explode("MOD_EXPLOSIVE");
 		wait 1;
-		level.portal_turrets[i] sr\libs\portal\_turret::delete_turret();
+		level.portal_turrets[i] sr\libs\portal\_turret::turretDelete();
 	}
 }

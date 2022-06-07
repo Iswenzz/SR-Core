@@ -1,6 +1,7 @@
 #include sr\libs\portal\_portal;
 #include sr\libs\portal\_general;
 #include sr\utils\_math;
+#include sr\utils\_common;
 
 trackGrenade(grenade, weaponName, cookTime)
 {

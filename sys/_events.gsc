@@ -88,6 +88,32 @@ eventHud()
 	self.huds = spawnStruct();
 }
 
+eventSpawn(origin, angles)
+{
+	if (isDefined(origin) && isDefined(angles))
+	{
+		self.spawnPoint = spawnStruct();
+		self.spawnPoint.origin = origin;
+		self.spawnPoint.origin = angles;
+	}
+	self notify("spawned_player");
+}
+
+eventSpectator()
+{
+	self notify("joined_spectators");
+}
+
+eventTeam()
+{
+	self notify("joined_team");
+}
+
+eventConnect()
+{
+	level notify("connected", self);
+}
+
 mutex_acquire(id)
 {
 	if (!isDefined(level.mutex[id]))

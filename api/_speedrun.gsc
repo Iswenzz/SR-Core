@@ -31,7 +31,7 @@ changeWay(way)
 finishWay(way)
 {
 	if (self.sr_way == way)
-		self thread braxi\_mod::endTimer();
+		self thread speedrun\game\_leaderboards::endTimer();
 }
 
 createEndMap(origin, width, height, way)

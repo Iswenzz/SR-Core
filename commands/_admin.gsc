@@ -1,4 +1,5 @@
 #include sr\sys\_admins;
+#include sr\sys\_events;
 #include sr\utils\_common;
 
 main()
@@ -19,12 +20,12 @@ main()
 	cmd("admin",        "rename",		::cmd_Rename);
 	cmd("member",       "report_player",::cmd_ReportPlayer);
 	cmd("member",       "report_bug",	::cmd_ReportBug);
-	cmd("member",       "timeplayed"	::cmd_TimePlayed);
-	cmd("admin",        "sr_kick"		::cmd_Kick);
-	cmd("owner",        "sr_group"		::cmd_Group);
-	cmd("owner",        "sr_vip"		::cmd_VIP);
-	cmd("owner",        "sr_id"			::cmd_ID);
-	cmd("masteradmin",  "sr_ban"		::cmd_Ban);
+	cmd("member",       "timeplayed",	::cmd_TimePlayed);
+	cmd("admin",        "sr_kick",		::cmd_Kick);
+	cmd("owner",        "sr_group",		::cmd_Group);
+	cmd("owner",        "sr_vip",		::cmd_VIP);
+	cmd("owner",        "sr_id",		::cmd_ID);
+	cmd("masteradmin",  "sr_ban",		::cmd_Ban);
 }
 
 cmd_Command(args)
@@ -91,9 +92,9 @@ cmd_Msg(args)
 
 cmd_MyID()
 {
-	self self pm(fmt("Your ID is ^2%s", self.id));
+	self pm(fmt("Your ID is ^2%s", self.id));
 	wait 0.5;
-	self self pm("Please make a note of your ID");
+	self pm("Please make a note of your ID");
 }
 
 cmd_Online()
@@ -103,7 +104,7 @@ cmd_Online()
 
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
-		strings[strings.size] = fmt("%s[%s]", player.name, player getGroupString());
+		strings[strings.size] = fmt("%s[%s]", players[i].name, players[i] getGroupString());
 	strings = Chunk(strings, 6);
 
 	for (i = 0; i < strings.size; i++)
@@ -131,7 +132,7 @@ cmd_PID()
 	}
 }
 
-cmd_Rank()
+cmd_Rank(args)
 {
 	if (args.size < 3)
 		return self pm("Usage: rank <playerName> <rank> <?prestige>");

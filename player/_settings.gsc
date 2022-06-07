@@ -1,8 +1,11 @@
 #include sr\sys\_events;
+#include sr\utils\_common;
 
-initSettings()
+main()
 {
 	menu_multiple("sr_settings", "setting", ::menu_setting);
+
+	event("connect", ::onConnect);
 }
 
 onConnect()
@@ -235,7 +238,7 @@ hidePlayers()
 {
     while (true)
     {
-        players = braxi\_common::getAllPlayers();
+        players = getAllPlayers();
         for (i = 0; i < players.size; i++)
         {
             if (!isDefined(players[i].pers["team"]))

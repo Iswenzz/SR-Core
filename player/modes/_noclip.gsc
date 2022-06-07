@@ -8,10 +8,14 @@ main()
 noclip()
 {
 	self endon("disconnect");
+	self.noclip = false;
+
+	if (!self sr\sys\_admins::isGroup("masteradmin"))
+		return;
 
 	while (true)
 	{
-		while (!isDefined(self.noclip))
+		while (!self.noclip)
 			wait 1;
 
 		while (self fragButtonPressed())

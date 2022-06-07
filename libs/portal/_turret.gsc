@@ -1,4 +1,5 @@
 #include sr\utils\_math;
+#include sr\utils\_common;
 
 main()
 {
@@ -40,16 +41,16 @@ turretSpawn(pos, angles)
 		return;
 
 	turret = sr\libs\portal\_portal::portalSpawn("turret", (pos[0], pos[1], pos[2]), angles, "cylinder", 10, 0.3, 0.25, true, 0.1, 20);
-	turret.physics["pickup_script"] = portal\_turret::pickup;
+	turret.physics["pickup_script"] = ::pickup;
 
 	if (isDefined(self))
 		turret.owner = self;
 
 	turret.forward = anglestoforward(angles);
 	turret.up = anglestoup(angles);
-	turret.center = pos + turret.forward*5 + turret.up*34;
+	turret.center = pos + turret.forward * 5 + turret.up * 34;
 	turret.speed = 0.15;
-	turret.swayspeed = turret.speed*8;
+	turret.swayspeed = turret.speed * 8;
 	turret.searchtime = 4.5;
 	turret.shootspeed = 0.1;
 	turret.damage = 3;

@@ -1,9 +1,7 @@
-#include maps\mp\gametypes\_hud_util;
-
 #include sr\sys\_dvar;
 #include sr\sys\_events;
 
-init(version)
+main()
 {
 	addDvar("pi_kc", "plugin_killcam_enable", 1, 0, 1, "int");
 	addDvar("pi_kc_show", "plugin_killcam_show", 2, 0, 2, "int");
@@ -84,7 +82,7 @@ killcam(
 		postdelay = 2;
 	else
 	{
-		postdelay = getdvarfloat("scr_killcam_posttime");
+		postdelay = getDvarFloat("scr_killcam_posttime");
 		if (postdelay < 0.05)
 			postdelay = 0.05;
 	}
@@ -112,7 +110,7 @@ killcam(
 	}
 	killcamoffset = camtime + predelay;
 
-	self notify ("begin_killcam", getTime());
+	self notify("begin_killcam", getTime());
 
 	self.sessionstate = "spectator";
 	self.spectatorclient = attackerNum;

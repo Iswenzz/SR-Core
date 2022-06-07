@@ -1,4 +1,6 @@
+#include sr\sys\_file;
 #include sr\sys\_admins;
+#include sr\game\minigames\_main;
 #include sr\game\minigames\_race;
 
 main()
@@ -24,7 +26,7 @@ cmd_RaceTrig(args)
 {
 	radius = IfUndef(ToInt(args[0]), 120);
 
-	if (arg == "reset")
+	if (args[0] == "reset")
 	{
 		level.raceEndTrig = getEnt("endmap_trig", "targetname");
 		self pm("Reset race end trigger");
@@ -51,7 +53,7 @@ cmd_RaceSpawn(args)
 	spawn = spawnStruct();
 	spawn.origin = self getOrigin();
 	spawn.angles = self getPlayerAngles();
-	setSpawn(spawn);
+	level.raceSpawn = spawn;
 }
 
 cmd_RaceMk()

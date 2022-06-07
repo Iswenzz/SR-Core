@@ -1,7 +1,7 @@
 #include sr\sys\_events;
 #include sr\utils\_common;
 
-main()
+initMinigames()
 {
 	level.minigames = [];
 

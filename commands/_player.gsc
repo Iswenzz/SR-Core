@@ -5,14 +5,14 @@ main()
 {
 	cmd("masteradmin", 	"bounce",		::cmd_Bounce);
 	cmd("owner", 		"clone",		::cmd_Clone);
-	cmd("owner", 		"damage"		::cmd_Damage);
+	cmd("owner", 		"damage",		::cmd_Damage);
 	cmd("admin", 		"dance",		::cmd_Dance);
 	cmd("adminplus", 	"drop",			::cmd_Drop);
 	cmd("adminplus", 	"flash",		::cmd_Flash);
 	cmd("owner", 		"g_gravity",	::cmd_G_Gravity);
 	cmd("owner", 		"g_speed",		::cmd_G_Speed);
 	cmd("owner", 		"god",			::cmd_God);
-	cmd("admin",        "kill"			::cmd_Kill);
+	cmd("admin",        "kill",			::cmd_Kill);
 	cmd("owner", 		"knockback",	::cmd_Knockback);
 	cmd("owner", 		"model",		::cmd_Model);
 	cmd("owner", 		"noclip",		::cmd_NoClip);
@@ -21,7 +21,7 @@ main()
 	cmd("masteradmin", 	"sr_unfreeze",	::cmd_UnFreeze);
 	cmd("adminplus", 	"shock",		::cmd_Shock);
 	cmd("masteradmin", 	"shovel",		::cmd_Shovel);
-	cmd("adminplus", 	"takeall"		::cmd_TakeAll);
+	cmd("adminplus", 	"takeall",		::cmd_TakeAll);
 	cmd("owner", 		"trooper",		::cmd_Trooper);
 	cmd("owner", 		"uammo",		::cmd_UAmmo);
 	cmd("adminplus", 	"weapon",		::cmd_Weapon);
@@ -154,7 +154,7 @@ cmd_Model(args)
 
 cmd_NoClip()
 {
-	self.noclip = Ternary(!isDefined(self.noclip), true, undefined);
+	self.noclip = !self.noclip;
 	self sr\api\_player::antiElevator(!self.noclip);
 }
 
@@ -216,7 +216,7 @@ cmd_Shock(args)
 cmd_Shovel()
 {
 	self giveWeapon("shovel_mp");
-	self giveMaxaAmmo("shovel_mp");
+	self giveMaxAmmo("shovel_mp");
 	self switchToWeapon("shovel_mp");
 }
 

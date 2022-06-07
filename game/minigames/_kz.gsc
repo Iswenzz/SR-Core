@@ -2,8 +2,9 @@
 #include sr\sys\_events;
 #include sr\game\minigames\_main;
 #include sr\utils\_common;
+#include sr\utils\_hud;
 
-init()
+initKz()
 {
 	level.files["kz"] = fmt("sr/data/kz/%s.txt", getDvar("mapname"));
 
@@ -156,7 +157,7 @@ spawnPlayerInRoom(spawnIndex)
 	self suicide();
 
 	self endon("death");
-	self braxi\_mod::spawnPlayer(level.kzRandomPoints[spawnIndex].origin, level.kzRandomPoints[spawnIndex].angles);
+	self eventSpawn(level.kzRandomPoints[spawnIndex].origin, level.kzRandomPoints[spawnIndex].angles);
 	self takeAllWeapons();
 	self giveWeapon(level.kzWeapon);
 	self giveMaxAmmo(level.kzWeapon);
@@ -197,7 +198,7 @@ watchGame()
 			level.kzStarted = false;
 			winner.kzWonCount++;
 			winner.time = sr\utils\_common::originToTime(getTime() - winner.time.origin);
-			winner thread speedrun\player\huds\_speedrun::updateHud();
+			winner speedrun\player\huds\_speedrun::updateTime();
 			wait 3;
 			winner spawnPlayerInSpec();
 		}
@@ -248,7 +249,7 @@ spawnPlayerInSpec()
 {
 	self endon("disconnect");
 	self sr\game\_teams::setTeam("spectator");
-	self braxi\_mod::spawnSpectator(level.spawn["spectator"].origin, level.spawn["spectator"].angles);
+	self sr\game\_map::spawnSpectator(level.spawn["spectator"].origin, level.spawn["spectator"].angles);
 }
 
 showPlayerCard(attacker, victim)
@@ -271,49 +272,46 @@ showPlayerCard(attacker, victim)
 	if (victim.pers["prestige"] > 0)
 		logo2 = "rank_prestige" + victim.pers["prestige"];
 
-	self.playerCard[0] = newClientHudElem(self);
-	self.playerCard[0].x = 170;
-	self.playerCard[0].y = 390;
-	self.playerCard[0].alpha = 0;
-	self.playerCard[0] setShader("black", 300, 64);
-	self.playerCard[0].sort = 990;
+	self.huds["kz_card"] = [];
+	self.huds["kz_card"]["background"] = newClientHudElem(self);
+	self.huds["kz_card"]["background"].x = 170;
+	self.huds["kz_card"]["background"].y = 390;
+	self.huds["kz_card"]["background"].alpha = 0;
+	self.huds["kz_card"]["background"] setShader("black", 300, 64);
+	self.huds["kz_card"]["background"].sort = 990;
 
-	self.playerCard[1] = braxi\_mod::addTextHud(self, 0, 390, 0, "left", "top", 1.8);
-	self.playerCard[1] setShader(logo1, 64, 64);
-	self.playerCard[1].sort = 998;
+	self.huds["kz_card"]["rank_left"] = addHud(self, 0, 390, 0, "left", "top", 1.8);
+	self.huds["kz_card"]["rank_left"] setShader(logo1, 64, 64);
+	self.huds["kz_card"]["rank_left"].sort = 998;
+	self.huds["kz_card"]["rank_left"] moveOverTime(0.44);
+	self.huds["kz_card"]["rank_left"].x = 170;
 
-	self.playerCard[2] = braxi\_mod::addTextHud(self, 640, 390, 0, "left", "top", 1.8);
-	self.playerCard[2] setShader(logo2, 64, 64);
-	self.playerCard[2].sort = 998;
+	self.huds["kz_card"]["rank_right"] = addHud(self, 640, 390, 0, "left", "top", 1.8);
+	self.huds["kz_card"]["rank_right"] setShader(logo2, 64, 64);
+	self.huds["kz_card"]["rank_right"].sort = 998;
+	self.huds["kz_card"]["rank_right"] moveOverTime(0.44);
+	self.huds["kz_card"]["rank_right"].x = 170 + 300 - 64;
 
-	self.playerCard[4] = braxi\_mod::addTextHud(self, 320, 420, 0, "center", "top", 1.5);
-	self.playerCard[4] setText(attacker.name + " ^7 VS ^7 " + victim.name);
-	self.playerCard[4].sort = 999;
+	self.huds["kz_card"]["title"] = addHud(self, 320, 420, 0, "center", "top", 1.5);
+	self.huds["kz_card"]["title"] setText(attacker.name + " ^7 VS ^7 " + victim.name);
+	self.huds["kz_card"]["title"].sort = 999;
+	self.huds["kz_card"]["title"].color = (0.8,0.8,0.8);
+	self.huds["kz_card"]["title"].glowColor = (0.6,0.6,0.6);
+	self.huds["kz_card"]["title"] setPulseFX(30, 100000, 700);
+	self.huds["kz_card"]["title"].glowAlpha = 0.8;
 
-	for (i = 3; i < 5; i++)
+	keys = getArrayKeys(self.huds["kz_card"]);
+	for (i = 0; i < keys.size; i++)
 	{
-		self.playerCard[i].color = (0.8,0.8,0.8);
-		self.playerCard[i].glowColor = (0.6,0.6,0.6);
-		self.playerCard[i] SetPulseFX(30, 100000, 700);
-		self.playerCard[i].glowAlpha = 0.8;
-	}
-
-	self.playerCard[1] moveOverTime(0.44);
-	self.playerCard[1].x = 170;
-	self.playerCard[2] moveOverTime(0.44);
-	self.playerCard[2].x = 170 + 300 - 64;
-
-	for (i = 0; i < self.playerCard.size; i++)
-	{
-		self.playerCard[i] fadeOverTime(0.3);
-		self.playerCard[i].alpha = Ternary(i == 0, 0.5, 1.0);
+		self.huds["kz_card"][keys[i]] fadeOverTime(0.3);
+		self.huds["kz_card"][keys[i]].alpha = Ternary(i == 0, 0.5, 1.0);
 	}
 	wait 3;
 
-	for (i = 0; i < self.playerCard.size; i++)
+	for (i = 0; i < keys.size; i++)
 	{
-		self.playerCard[i] fadeOverTime(0.8);
-		self.playerCard[i].alpha = 0;
+		self.huds["kz_card"][keys[i]] fadeOverTime(0.8);
+		self.huds["kz_card"][keys[i]].alpha = 0;
 	}
 	wait 0.8;
 
@@ -331,10 +329,11 @@ playerCards()
 
 destroyPlayerCard()
 {
-	if (!isDefined(self.playerCard) || !self.playerCard.size)
+	if (!isDefined(self.huds["kz_card"]))
 		return;
 
-	for (i = 0; i < self.playerCard.size; i++)
-		self.playerCard[i] destroy();
-	self.playerCard = [];
+	keys = getArrayKeys(self.huds["kz_card"]);
+	for (i = 0; i < keys.size; i++)
+		self.huds["kz_card"][keys[i]] destroy();
+	self.huds["kz_card"] = [];
 }

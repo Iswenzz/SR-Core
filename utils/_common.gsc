@@ -56,6 +56,17 @@ getPlayingPlayers()
 	return array;
 }
 
+canSpawn()
+{
+	if (level.freeRun || self.pers["lifes"])
+		return true;
+	if (!level.allowSpawn)
+		return false;
+	if (self.died)
+		return false;
+	return true;
+}
+
 playSoundOnPosition(soundAlias, pos, local)
 {
 	soundObj = spawn("script_model", pos);
@@ -223,6 +234,18 @@ waittill_any(a, b, c, d, e)
 	self waittill(a);
 }
 
+waitTillNotMoving()
+{
+	prevorigin = self.origin;
+	while (isDefined(self))
+	{
+		wait .15;
+		if (self.origin == prevorigin)
+			break;
+		prevorigin = self.origin;
+	}
+}
+
 randomColor()
 {
 	return (randomint(100) / 100, randomint(100) / 100, randomint(100) / 100);
@@ -231,11 +254,6 @@ randomColor()
 randomColorDark()
 {
 	return (randomint(50) / 100, randomint(50) / 100, randomint(50) / 100);
-}
-
-respawn()
-{
-	self notify("spawned");
 }
 
 range(variable, min, max)
@@ -307,4 +325,80 @@ traceArrayRaw(start, end, hit_players, ignore_array, ignore_ent, fraction_add)
 			return traceArrayRaw(trace["position"], end, hit_players, ignore_array, trace["entity"], trace["fraction"]);
 	}
 	return trace;
+}
+
+triggerOff()
+{
+	if (!isDefined(self.realOrigin))
+		self.realOrigin = self.origin;
+	if (self.origin == self.realorigin)
+		self.origin += (0, 0, -10000);
+}
+
+triggerOn()
+{
+	if (isDefined(self.realOrigin))
+		self.origin = self.realOrigin;
+}
+
+setLowerMessage(text, time)
+{
+	if (!isDefined(self.lowerMessage))
+		return;
+
+	if (isDefined(self.lowerMessageOverride) && text != &"")
+	{
+		text = self.lowerMessageOverride;
+		time = undefined;
+	}
+
+	self notify("lower_message_set");
+	self.lowerMessage setText(text);
+	self.lowerTimer setTimer(Ternary(isDefined(time) && time > 0, time, ""));
+	self.lowerMessage fadeOverTime(0.05);
+	self.lowerMessage.alpha = 1;
+	self.lowerTimer fadeOverTime(0.05);
+	self.lowerTimer.alpha = 1;
+}
+
+clearLowerMessage(fadetime)
+{
+	if (!isDefined(self.lowerMessage))
+		return;
+
+	self notify("lower_message_set");
+
+	if (!isDefined(fadetime) || fadetime == 0)
+	{
+		setLowerMessage(&"");
+		return;
+	}
+
+	self endon("disconnect");
+	self endon("lower_message_set");
+
+	self.lowerMessage fadeOverTime(fadetime);
+	self.lowerMessage.alpha = 0;
+	self.lowerTimer fadeOverTime(fadetime);
+	self.lowerTimer.alpha = 0;
+
+	wait fadetime;
+
+	self setLowerMessage("");
+}
+
+cleanUp()
+{
+	self setClientDvar("cg_thirdperson", 0);
+	self setClientDvar("cg_thirdpersonrange", 80);
+	self setClientDvar("r_blur", 0);
+	self setClientDvar("ui_healthbar", 1);
+	self setClientDvar("bg_viewKickMax", 90);
+	self setClientDvar("bg_viewKickMin", 5);
+	self setClientDvar("bg_viewKickRandom", 0.4);
+	self setClientDvar("bg_viewKickScale", 0.2);
+
+	self clearLowerMessage();
+	self unLink();
+	self enableWeapons();
 }

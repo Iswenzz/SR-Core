@@ -1,3 +1,4 @@
+#include sr\sys\_file;
 #include sr\sys\_events;
 
 main()
@@ -19,7 +20,7 @@ record()
 
 	mapname = getDvar("mapname");
 	self.demoPath = PathJoin(PATH_Mod("sr/data/demos"), self.id, mapname, self.runId, ".dm_1");
-	exec(fmt("record %d %s", self getEntityNumber(), path));
+	exec(fmt("record %d %s", self getEntityNumber(), self.demoPath));
 }
 
 recordTimeout()
@@ -39,5 +40,5 @@ recordSave()
 recordDelete()
 {
 	if (FILE_Exists(self.demoPath))
-		FILE_Remove(self.demoPath);
+		FILE_Delete(self.demoPath);
 }

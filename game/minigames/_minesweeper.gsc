@@ -1,16 +1,6 @@
-#include maps\mp\_utility;
-#include common_scripts\utility;
-
 #include sr\sys\_events;
 
-main()
-{
-	precache();
-
-	menu("minesweeper", "open", ::menu_Open);
-}
-
-precache()
+initMinesweeper()
 {
 	precacheShader("minesweeper_square");
 	precacheShader("minesweeper_smile");
@@ -20,11 +10,18 @@ precache()
 	precacheShader("minesweeper_flag");
 	precacheShader("minesweeper_dead");
 	precacheShader("minesweeper_board");
+
+	menu("minesweeper", "open", ::menu_Open);
 }
 
 menu_Open(arg)
 {
-	self.mines = IfUndef(ToInt(arg), 10);
+	open(arg);
+}
+
+open(mines)
+{
+	self.mines = IfUndef(ToInt(mines), 10);
 
 	self notify("minesweep_gameover");
 	self openMenu("minesweeper");
@@ -46,17 +43,17 @@ setClientDvars()
 	self.type = [];
 	self.hidden = [];
 
-	self SetClientDvar("minesweeper_face", "minesweeper_smile");
-	self SetClientDvar("minesweeper_numofmines", self.mines);
-	self SetClientDvar("minesweeper_timer", "000");
+	self setClientDvar("minesweeper_face", "minesweeper_smile");
+	self setClientDvar("minesweeper_numofmines", self.mines);
+	self setClientDvar("minesweeper_timer", "000");
 
 	for (i = 0; i < x; i++)
 	{
 		for (z = 0; z < y; z++)
 		{
-			self SetClientDvar("minesweeper_cellshader" + i + "_" + z, "minesweeper_square");
-			self SetClientDvar("minesweep_" + i + "_" + z, "");
-			self SetClientDvar("hideminebutton" + i + "_" + z, "false");
+			self setClientDvar("minesweeper_cellshader" + i + "_" + z, "minesweeper_square");
+			self setClientDvar("minesweep_" + i + "_" + z, "");
+			self setClientDvar("hideminebutton" + i + "_" + z, "false");
 			self.hidden[i][z] = false;
 			self.type[i][z] = "x";
 		}
@@ -75,7 +72,7 @@ placeMines()
 		if (self.type[rndX][rndy] == "mine")
 			continue;
 
-		self SetClientDvar("minesweep_" + rndX + "_" + rndY, "M");
+		self setClientDvar("minesweep_" + rndX + "_" + rndY, "M");
 		self.type[rndX][rndy] = "mine";
 		x++;
 	}
@@ -90,7 +87,7 @@ placeNumbers()
 			if (self.type[x][y] == "mine")
 				continue;
 
-			self SetClientDvar("minesweep_" + x + "_" + y, setStringColour(getSurroundingMines(x, y)));
+			self setClientDvar("minesweep_" + x + "_" + y, setStringColour(getSurroundingMines(x, y)));
 			self.type[x][y] = "" + getSurroundingMines(x,y);
 		}
 	}
@@ -105,52 +102,51 @@ menu_Close()
 
 menu_Restart()
 {
-	self thread menu_Open();
+	self thread open();
 }
 
 menu_Button(args)
 {
 	self.mode = args[1];
-	self SetClientDvar("minesweeper_mode", "Mode: " + self.mode);
+	self setClientDvar("minesweeper_mode", "Mode: " + self.mode);
 }
 
-menu_Mine()
+menu_Mine(args)
 {
 	if (!self.ms_timestarted)
 		self thread startTimer();
 
-	x = token[0];
-	y = token[1];
+	x = args[0];
+	y = args[1];
 
-	self SetClientDvar("hideminebutton" + x + "_" + y, "true");
+	self setClientDvar("hideminebutton" + x + "_" + y, "true");
 
 	self.hidden[int(x)][int(y)] = true;
 	if (self.type[int(x)][int(y)] == "mine")
 	{
 		if (self.numOfClicks == 0)
-			self thread menu_Open();
-		self SetClientDvar("hideminebutton" + x + "_" + y, "false");
+			self thread open();
+		self setClientDvar("hideminebutton" + x + "_" + y, "false");
 		self revealBoard(int(x), int(y));
-		self SetClientDvar("minesweeper_face", "minesweeper_dead");
-		self watchRestart();
+		self setClientDvar("minesweeper_face", "minesweeper_dead");
 	}
 	if (self.type[int(x)][int(y)] == "0")
 		self openSurroundingMines(int(x),int(y));
 
 	self.numOfClicks++;
-	self SetClientDvar("minesweeper_numofmines", self.minesLeft);
+	self setClientDvar("minesweeper_numofmines", self.minesLeft);
 	checkIfWon();
 }
 
-menu_Flag()
+menu_Flag(args)
 {
 	if (!self.ms_timestarted)
 		self thread startTimer();
 
-	x = token[0];
-	y = token[1];
+	x = args[0];
+	y = args[1];
 
-	self SetClientDvar("hideminebutton" + x + "_" + y, "true");
+	self setClientDvar("hideminebutton" + x + "_" + y, "true");
 
 	if (self.hidden[int(x)][int(y)])
 		return;
@@ -163,27 +159,27 @@ menu_Flag()
 			self.type[int(x)][int(y)] = self.oldtype[int(x)][int(y)];
 
 			if (self.oldtype[int(x)][int(y)] == "mine")
-				self SetClientDvar("minesweep_" + x + "_" + y, "M");
+				self setClientDvar("minesweep_" + x + "_" + y, "M");
 			else if (self.oldtype[int(x)][int(y)] == "0")
-				self SetClientDvar("minesweep_" + x + "_" + y, "");
+				self setClientDvar("minesweep_" + x + "_" + y, "");
 			else
-				self SetClientDvar("minesweep_" + x + "_" + y, setStringColour(int(self.oldtype[int(x)][int(y)])));
+				self setClientDvar("minesweep_" + x + "_" + y, setStringColour(int(self.oldtype[int(x)][int(y)])));
 		}
 
-		self SetClientDvar("hideminebutton" + x + "_" + y, "false");
-		self SetClientDvar("minesweeper_cellshader" + x + "_" + y, "minesweeper_square");
+		self setClientDvar("hideminebutton" + x + "_" + y, "false");
+		self setClientDvar("minesweeper_cellshader" + x + "_" + y, "minesweeper_square");
 		self.minesLeft++;
 	}
 	else
 	{
 		self.oldtype[int(x)][int(y)] = self.type[int(x)][int(y)];
 		self.type[int(x)][int(y)] = "flag";
-		self SetClientDvar("hideminebutton" + x + "_" + y, "false");
-		self SetClientDvar("minesweeper_cellshader" + x + "_" + y, "minesweeper_flag");
+		self setClientDvar("hideminebutton" + x + "_" + y, "false");
+		self setClientDvar("minesweeper_cellshader" + x + "_" + y, "minesweeper_flag");
 		self.minesLeft--;
 	}
 	self.numOfClicks++;
-	self SetClientDvar("minesweeper_numofmines", self.minesLeft);
+	self setClientDvar("minesweeper_numofmines", self.minesLeft);
 	checkIfWon();
 }
 
@@ -197,7 +193,7 @@ setup()
 	self.mode = "mine";
 	self.ms_timestarted = false;
 
-	self SetClientDvar("minesweeper_mode", "Mode: " + self.mode);
+	self setClientDvar("minesweeper_mode", "Mode: " + self.mode);
 }
 
 startTimer()
@@ -220,7 +216,7 @@ startTimer()
 		else
 			string = "" + self.ms_time;
 
-		self SetClientDvar("minesweeper_timer", string);
+		self setClientDvar("minesweeper_timer", string);
 		wait 1;
 	}
 }
@@ -234,9 +230,9 @@ revealBoard(xpos, ypos)
 			if (self.type[x][y] == "mine")
 			{
 				if (x == xpos && y == ypos)
-					self SetClientDvar("minesweeper_cellshader" + x + "_" + y, "minesweeper_minered");
+					self setClientDvar("minesweeper_cellshader" + x + "_" + y, "minesweeper_minered");
 				else
-					self SetClientDvar("minesweeper_cellshader" + x + "_" + y, "minesweeper_mine");
+					self setClientDvar("minesweeper_cellshader" + x + "_" + y, "minesweeper_mine");
 			}
 		}
 	}
@@ -260,7 +256,7 @@ checkIfWon()
 	}
 	if (count  == 81 - self.mines)
 	{
-		self SetClientDvar("minesweeper_face", "minesweeper_glasses");
+		self setClientDvar("minesweeper_face", "minesweeper_glasses");
 		self updateScore();
 	}
 }
@@ -284,7 +280,7 @@ updateScore()
 
 	pb = "^2Person Best:\n^7" + self.ms_personalbest["name"] + "\n" + self.ms_personalbest["time"] + " Seconds\n" + self.ms_personalbest["clicks"] + " Clicks";
 
-	self SetClientDvar("minesweeper_stats", current + "\n \n \n" + pb);
+	self setClientDvar("minesweeper_stats", current + "\n \n \n" + pb);
 }
 
 openSurroundingMines(x, y)
@@ -304,7 +300,7 @@ openSurroundingMines(x, y)
 	        y = j + oldY;
 	        if (x > -1 && x < 9 && y < 9 && y > -1 && self.type[x][y] != "mine" && !self.hidden[int(x)][int(y)])
 			{
-				self SetClientDvar("hideminebutton" + x + "_" + y, "true");
+				self setClientDvar("hideminebutton" + x + "_" + y, "true");
 				self.hidden[int(x)][int(y)] = true;
 				if (self.type[x][y] == "0")
 					thread openSurroundingMines(x,y);

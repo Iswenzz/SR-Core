@@ -2,10 +2,10 @@
 
 main()
 {
-	event("spawn", ::init);
+	event("spawn", ::practise);
 }
 
-init()
+practise()
 {
 	self endon("disconnect");
 	self endon("death");

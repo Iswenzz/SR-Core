@@ -5,16 +5,16 @@ initCustomize()
 	level.assets = [];
 	level.customize_max_entries = 10;
 
-	precache();
+	precacheCustomize();
 
-	sr\player\customize\_character::init();
-	sr\player\customize\_fx::init();
-	sr\player\customize\_glove::init();
-	sr\player\customize\_knife_skin::init();
-	sr\player\customize\_knife::init();
-	sr\player\customize\_spray::init();
-	sr\player\customize\_theme::init();
-	sr\player\customize\_weapon::init();
+	sr\player\customize\_character::main();
+	sr\player\customize\_fx::main();
+	sr\player\customize\_glove::main();
+	sr\player\customize\_knife_skin::main();
+	sr\player\customize\_knife::main();
+	sr\player\customize\_spray::main();
+	sr\player\customize\_theme::main();
+	sr\player\customize\_weapon::main();
 
 	menu_multiple("sr_customize_category", "pick", ::menu_Pick);
 	menu("sr_customize_category", "open", ::menu_Open);
@@ -23,7 +23,7 @@ initCustomize()
 	menu("sr_customize_category", "prev", ::menu_PrevPage);
 }
 
-precache()
+precacheCustomize()
 {
 	precacheMenu("sr_customize");
 	precacheMenu("sr_customize_category");

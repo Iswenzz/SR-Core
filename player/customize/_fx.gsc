@@ -1,7 +1,7 @@
 #include sr\sys\_events;
 #include sr\player\customize\_main;
 
-init()
+main()
 {
 	precache();
 

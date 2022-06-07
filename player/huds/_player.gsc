@@ -42,6 +42,7 @@ hud()
 
 hudFps()
 {
+	self.huds["fps"] = [];
 	self.huds["fps"] = addHud(self, -15, -26, 1, "right", "bottom", 1.8);
 	self.huds["fps"].archived = false;
 	self.huds["fps"].horzAlign = "right";
@@ -50,6 +51,7 @@ hudFps()
 
 	if (self.settings["hud_velocity"])
 	{
+		self.huds["velocity"] = [];
 		self.huds["velocity"] = addHud(self, 0, 0, 1,
 			getHorizontal(self.settings["hud_velocity"]),
 			getVertical(self.settings["hud_velocity"]), 1.6);
@@ -91,14 +93,4 @@ clear()
 		self.huds["fps"] destroy();
 	if (isDefined(self.huds["velocity"]))
 		self.huds["velocity"] destroy();
-
-	self.huds["fps"] = undefined;
-	self.huds["velocity"] = undefined;
-}
-
-getPlayerVelocity()
-{
-    velocity = self getVelocity();
-    self.velocity = velocity;
-    return int(sqrt((velocity[0]*velocity[0])+(velocity[1]*velocity[1])));
 }

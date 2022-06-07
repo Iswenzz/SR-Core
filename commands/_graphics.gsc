@@ -1,3 +1,5 @@
+#include sr\sys\_admins;
+
 main()
 {
     cmd("player", 	"fov",		::cmd_FOV);
@@ -14,9 +16,9 @@ cmd_FOV(args)
 
 	value = ToFloat(args[0]);
 	f3 = fmt("%.3f", value);
-	normalized = ToInt(Replace(f3, ".", ""));
+	normalized = ToInt(StrReplace(f3, ".", ""));
 
-	if (normalized > 2000 || normalized < 200))
+	if (normalized > 2000 || normalized < 200)
 		return;
 
 	self.fovscale = normalized;

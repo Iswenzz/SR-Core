@@ -1,6 +1,5 @@
-#include common_scripts\utility;
-#include maps\mp\gametypes\_hud_util;
 #include sr\sys\_events;
+#include sr\utils\_hud;
 
 initRank()
 {
@@ -621,16 +620,16 @@ showUnlockMessage(notifyData)
 	self.unlockMessage[0] setShader("black", 195, 48);
 	self.unlockMessage[0].sort = 990;
 
-	self.unlockMessage[1] = braxi\_mod::addTextHud(self, -190, 20, 1, "left", "top", 1.5);
+	self.unlockMessage[1] = addHud(self, -190, 20, 1, "left", "top", 1.5);
 	self.unlockMessage[1] setShader(notifyData.icon, 55, 48);
 	self.unlockMessage[1].sort = 992;
 
-	self.unlockMessage[2] = braxi\_mod::addTextHud(self, -130, 23, 1, "left", "top", 1.4);
+	self.unlockMessage[2] = addHud(self, -130, 23, 1, "left", "top", 1.4);
 	self.unlockMessage[2].font = "objective";
 	self.unlockMessage[2] setText(notifyData.title);
 	self.unlockMessage[2].sort = 993;
 
-	self.unlockMessage[3] = braxi\_mod::addTextHud(self, -130, 40, 1, "left", "top", 1.4);
+	self.unlockMessage[3] = addHud(self, -130, 40, 1, "left", "top", 1.4);
 	self.unlockMessage[3] setText(notifyData.description);
 	self.unlockMessage[3].sort = 993;
 
