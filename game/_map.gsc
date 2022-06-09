@@ -93,7 +93,7 @@ end(map)
 	playFx(level.fx["endgame"], level.spawn["spectator"].origin - (0, 0, 50));
 
 	// Intermission
-	sr\game\_credits::main();
+	sr\game\_credits::start();
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{

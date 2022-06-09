@@ -23,6 +23,7 @@ initAdmins()
 	level.admin_commands				= [];
 
 	event("command", ::command);
+	event("connect", ::fetchGroup);
 }
 
 precache()
@@ -66,6 +67,30 @@ precache()
 	precacheShellShock("concussion_grenade_mp");
 
 	precacheMenu("clientcmd");
+}
+
+fetchGroup()
+{
+	mutex_acquire("mysql");
+
+	SQL_Prepare("SELECT groupName, vip FROM admins WHERE id = ?");
+	SQL_BindParam(self.id, level.MYSQL_TYPE_LONG);
+	SQL_BindResult(level.MYSQL_TYPE_STRING, 100);
+	SQL_BindResult(level.MYSQL_TYPE_LONG);
+	SQL_Execute();
+
+	if (SQL_NumRows())
+	{
+		row = SQL_FetchRowDict();
+		self.admin_group = row["groupName"];
+		self.admin_vip = row["vip"];
+	}
+	else
+	{
+		self.admin_group = "player";
+		self.admin_vip = 0;
+	}
+	mutex_release("mysql");
 }
 
 cmd(group, name, callback)

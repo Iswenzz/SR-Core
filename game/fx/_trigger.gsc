@@ -1,12 +1,3 @@
-main()
-{
-	trig = getEntArray("endmap_trig", "targetname");
-	if (!trig.size)
-		return;
-
-	createTrigFx(trig[0], "endtrig");
-}
-
 createTrigFx(trigger, fx)
 {
 	if (!isDefined(trigger) || !isDefined(fx))

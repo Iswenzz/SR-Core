@@ -4,64 +4,54 @@ main()
 	precacheText();
 	precacheFx();
 
-	thread maps\mp\gametypes\_hud::init();
-	thread maps\mp\gametypes\_hud_message::init();
-	thread maps\mp\gametypes\_damagefeedback::init();
-	thread maps\mp\gametypes\_clientids::init();
-	thread maps\mp\gametypes\_gameobjects::init();
-	thread maps\mp\gametypes\_spawnlogic::init();
-	thread maps\mp\gametypes\_oldschool::deletePickups();
-	thread maps\mp\gametypes\_hud::init();
-	thread maps\mp\gametypes\_quickmessages::init();
-	thread maps\mp\_weapons::init();
+	maps\mp\gametypes\_hud::init();
+	maps\mp\gametypes\_hud_message::init();
+	maps\mp\gametypes\_damagefeedback::init();
+	maps\mp\gametypes\_clientids::init();
+	maps\mp\gametypes\_gameobjects::init();
+	maps\mp\gametypes\_spawnlogic::init();
+	maps\mp\gametypes\_oldschool::deletePickups();
+	maps\mp\gametypes\_hud::init();
+	maps\mp\gametypes\_quickmessages::init();
+	maps\mp\_weapons::init();
 
-	thread sr\sys\_dvar::initDvars();
-	thread sr\sys\_events::initEvents();
-	thread sr\sys\_file::initFiles();
-    thread sr\sys\_mysql::initMySQL();
-	thread sr\sys\_discord::initDiscord();
-	thread sr\sys\_admins::initAdmins();
+	sr\sys\_dvar::initDvars();
+	sr\sys\_events::initEvents();
+	sr\sys\_file::initFiles();
+	sr\sys\_ids::initIds();
+    sr\sys\_mysql::initMySQL();
+	sr\sys\_discord::initDiscord();
+	sr\sys\_admins::initAdmins();
 
-	thread sr\commands\_admin::main();
-	thread sr\commands\_graphics::main();
-	thread sr\commands\_misc::main();
-	thread sr\commands\_music::main();
-	thread sr\commands\_player::main();
-	thread sr\commands\_vote::main();
-	thread sr\commands\game\_kz::main();
-	thread sr\commands\game\_minesweeper::main();
-	thread sr\commands\game\_portal::main();
-	thread sr\commands\game\_race::main();
-	thread sr\commands\map\_edit::main();
+	sr\commands\_admin::main();
+	sr\commands\_graphics::main();
+	sr\commands\_misc::main();
+	sr\commands\_music::main();
+	sr\commands\_player::main();
+	sr\commands\_vote::main();
+	sr\commands\game\_portal::main();
+	sr\commands\map\_edit::main();
 
-	thread sr\game\_rank::initRank();
-	thread sr\game\_cheat::main();
-	thread sr\game\_credits::main();
-	// thread sr\game\_demo::main();
-	thread sr\game\_hitmarker::main();
-	thread sr\game\_killcam::main();
-	thread sr\game\_map::main();
-	thread sr\game\_menus::main();
-	thread sr\game\fx\_trail::main();
-	thread sr\game\fx\_trigger::main();
-	// thread sr\game\menus\_main::initMenus();
-	// thread sr\game\menus\_owner::main();
-	thread sr\game\minigames\_main::initMinigames();
-	// thread sr\game\minigames\_kz::initKz();
-	// thread sr\game\minigames\_minesweeper::initMinesweeper();
-	// thread sr\game\minigames\_race::initRace();
-	thread sr\game\weapons\_main::main();
+	sr\game\_rank::initRank();
+	sr\game\_cheat::main();
+	// sr\game\_demo::main();
+	sr\game\_map::main();
+	sr\game\_menus::main();
+	sr\game\fx\_trail::main();
+	// sr\game\menus\_main::initMenus();
+	// sr\game\menus\_owner::main();
+	sr\game\minigames\_main::initMinigames();
+	sr\game\weapons\_main::main();
 
-	thread sr\player\_id::main();
-	thread sr\player\_insertion::main();
-	thread sr\player\_settings::main();
-	thread sr\player\fx\_spray::main();
-	thread sr\player\huds\_player::main();
-	// thread sr\player\modes\_noclip::main();
-	// thread sr\player\modes\_pickup::main();
-	thread sr\player\modes\_practise::main();
+	sr\player\_insertion::main();
+	sr\player\_settings::main();
+	sr\player\fx\_spray::main();
+	sr\player\huds\_player::main();
+	// sr\player\modes\_noclip::main();
+	// sr\player\modes\_pickup::main();
+	sr\player\modes\_practise::main();
 
-    thread sr\_tests::runTests();
+    // sr\_tests::runTests();
 }
 
 precache()

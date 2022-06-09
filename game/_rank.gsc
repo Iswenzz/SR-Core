@@ -31,6 +31,8 @@ initRank()
 	buildRanksIcon();
 
 	menu("-1", "prestige", ::prestige);
+
+	event("connect", ::onConnect);
 }
 
 buildRanks()
@@ -139,9 +141,6 @@ getRankInfoIcon(rankId, prestigeId)
 
 onConnect()
 {
-	if (self.isBot)
-		return;
-
 	data = self databaseGetRank();
 
 	self.pers["rankxp"] = data.rankxp;
@@ -274,12 +273,9 @@ databaseGetRank()
 	if (SQL_NumRows())
 	{
 		row = SQL_FetchRowDict();
-		if (isDefined(row))
-		{
-			data.rankxp = row["xp"];
-			data.rank = row["rank"] - 1;
-			data.prestige = row["prestige"];
-		}
+		data.rankxp = row["xp"];
+		data.rank = row["rank"] - 1;
+		data.prestige = row["prestige"];
 	}
 	// Default
 	if (!isDefined(data.rankxp))

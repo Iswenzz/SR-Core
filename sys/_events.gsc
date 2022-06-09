@@ -103,18 +103,30 @@ eventConnect()
 	level notify("connected", self);
 }
 
+mutex(id, before, after)
+{
+	level.mutex[id] = spawnStruct();
+	level.mutex[id].id = id;
+	level.mutex[id].locked = false;
+	level.mutex[id].before = before;
+	level.mutex[id].after = after;
+}
+
 mutex_acquire(id)
 {
-	if (!isDefined(level.mutex[id]))
-		level.mutex[id] = false;
+	if (isDefined(level.mutex[id].before))
+		[[level.mutex[id].before]]();
 
-	if (level.mutex[id])
+	if (level.mutex[id].locked)
 		level waittill(fmt("mutex_%s", id));
-	level.mutex[id] = true;
+	level.mutex[id].locked = true;
 }
 
 mutex_release(id)
 {
-	level.mutex[id] = false;
+	if (isDefined(level.mutex[id].after))
+		[[level.mutex[id].after]]();
+
+	level.mutex[id].locked = false;
 	level notify(fmt("mutex_%s", id));
 }

@@ -1,6 +1,6 @@
 #include sr\utils\_common;
 
-main()
+start()
 {
 	level.creditTime = 0;
 

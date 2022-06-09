@@ -3,7 +3,8 @@
 
 runTests()
 {
-    setup();
+    if (!setup())
+		return;
 
     sr\libs\gsclib\__test__\_suite::gsclib();
 
@@ -18,4 +19,6 @@ setup()
 	level.tests.ftp = true;
 	level.tests.sftp = true;
 	level.tests.mysql = true;
+
+	return level.gscunit.enabled;
 }

@@ -20,7 +20,7 @@ initRace()
 
 	event("spawn", ::hud);
 
-	race();
+	thread race();
 }
 
 race()

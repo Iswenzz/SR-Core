@@ -1,7 +1,7 @@
 #include sr\sys\_file;
 #include sr\sys\_events;
 
-main()
+initIds()
 {
 	level.files["playerIds"] = "sr/data/admin/speedrun_player_ids.txt";
 

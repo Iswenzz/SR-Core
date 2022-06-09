@@ -278,14 +278,14 @@ cmd_Group(args)
 
 	mutex_acquire("mysql");
 
-	SQL_Prepare("UPDATE admins SET group = ? WHERE id = ?");
+	SQL_Prepare("UPDATE admins SET groupName = ? WHERE id = ?");
 	SQL_BindParam(group, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
 	SQL_Execute();
 
 	if (!SQL_AffectedRows())
 	{
-		SQL_Prepare("INSERT INTO admins (name, id, group) VALUES (?, ?, ?)");
+		SQL_Prepare("INSERT INTO admins (name, id, groupName) VALUES (?, ?, ?)");
 		SQL_BindParam(player.name, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
 		SQL_BindParam(group, level.MYSQL_TYPE_STRING);

@@ -21,7 +21,7 @@ initKz()
 
 	event("spawn", ::hud);
 
-	kz();
+	thread kz();
 }
 
 kz()
