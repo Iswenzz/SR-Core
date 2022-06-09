@@ -19,24 +19,24 @@ main()
 
 showCredit(text, scale, y, time)
 {
-	text = newHudElem();
-	text.font = "objective";
-	text.fontScale = scale;
-	text SetText(text);
-	text.alignX = "center";
-	text.alignY = "top";
-	text.horzAlign = "center";
-	text.vertAlign = "top";
-	text.x = 0;
-	text.y = y;
-	text.sort = -1;
-	text.glowColor = (119 / 255, 0 / 255, 255 / 255);
-	text.glowAlpha = 1;
-	text.alpha = 0;
-	text fadeOverTime(1);
-	text.alpha = 1;
-	text.foreground = true;
-	text thread fadeCredit();
+	hud = newHudElem();
+	hud.font = "objective";
+	hud.fontScale = scale;
+	hud SetText(text);
+	hud.alignX = "center";
+	hud.alignY = "top";
+	hud.horzAlign = "center";
+	hud.vertAlign = "top";
+	hud.x = 0;
+	hud.y = y;
+	hud.sort = -1;
+	hud.glowColor = (119 / 255, 0 / 255, 255 / 255);
+	hud.glowAlpha = 1;
+	hud.alpha = 0;
+	hud fadeOverTime(1);
+	hud.alpha = 1;
+	hud.foreground = true;
+	hud thread fadeCredit();
 
 	level.creditTime += time;
 	wait time;

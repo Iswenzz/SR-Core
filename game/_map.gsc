@@ -5,6 +5,8 @@ main()
 	level.spawn = [];
 	level.colliders = [];
 	level.tempEntity = spawn("script_model", (0, 0, 0));
+
+	placeSpawns();
 }
 
 placeSpawns()

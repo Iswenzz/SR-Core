@@ -13,13 +13,14 @@ trail()
 	if (!self sr\sys\_admins::isVIP())
 		return;
 
-	while (true)
+	while (isDefined(self.vip_trail) && self.vip_trail)
 	{
 		self.trail = spawn("script_model", self.origin);
 		self.trail setModel("tag_origin");
 		self.trail linkTo(self);
 
-		if (self.vip_trail != 0)
+		if (self.vip_trail)
 			playFXOnTag(level.fx["viptrail" + self.vip_trail], self.trail, "tag_origin");
+		wait 0.05;
 	}
 }

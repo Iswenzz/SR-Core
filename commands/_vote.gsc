@@ -3,8 +3,8 @@
 
 main()
 {
-	level.vote_maps = load(false);
 	level.vote_max_entries = 24;
+	level.vote_maps = load(false);
 
 	cmd("adminplus", 	"vote", 		::cmd_Vote);
 	cmd("masteradmin", 	"vote_cancel", 	::cmd_VoteCancel);

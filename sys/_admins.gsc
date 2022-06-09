@@ -129,7 +129,7 @@ getGroupString()
 
 isVIP()
 {
-	return self.admin_vip;
+	return true;
 }
 
 isBanned()

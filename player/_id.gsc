@@ -3,7 +3,7 @@
 
 main()
 {
-	level.files["playerIds"] = "sr/data/speedrun/admin/player_ids.txt";
+	level.files["playerIds"] = "sr/data/admin/speedrun_player_ids.txt";
 
 	event("connect", ::load);
 }
@@ -16,6 +16,7 @@ load()
 		self setStat(995, id[0]);
 		self setStat(996, id[1]);
 		self setStat(997, id[2]);
+		self.new = true;
 	}
 	self.id = fmt("%d%d%d", self getStat(995), self getStat(996), self getStat(997));
 }

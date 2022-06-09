@@ -3,11 +3,9 @@ initEvents()
 	level.events = [];
 	level.menus = [];
 	level.huds = [];
-	level.dvar = [];
 	level.mutex = [];
 
-	event("connect", ::eventHud);
-	event("connect", ::eventMenu);
+	event("connect", ::connect);
 }
 
 event(name, callback)
@@ -19,9 +17,10 @@ event(name, callback)
 	level.events[name][index] = callback;
 }
 
-eventMenu()
+connect()
 {
 	self endon("disconnect");
+	self.huds = [];
 
 	while (true)
 	{
@@ -74,15 +73,8 @@ menu_multiple(name, response, callback)
 
 menu_callback(name, callback)
 {
-	_menu(name, undefined, callback);
-	index = level.menus[name].size;
-
+	index = _menu(name, undefined, callback);
 	level.menus[name][index].type = "callback";
-}
-
-eventHud()
-{
-	self.huds = spawnStruct();
 }
 
 eventSpawn(origin, angles)

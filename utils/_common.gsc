@@ -56,10 +56,17 @@ getPlayingPlayers()
 	return array;
 }
 
+getFPS()
+{
+	return self getCountedFPS();
+}
+
 canSpawn()
 {
-	if (level.freeRun || self.pers["lifes"])
-		return true;
+	if (game["state"] == "endmap" || game["state"] == "round ended")
+		return false;
+	if (self.sessionstate == "playing")
+		return false;
 	if (!level.allowSpawn)
 		return false;
 	if (self.died)
@@ -354,7 +361,8 @@ setLowerMessage(text, time)
 
 	self notify("lower_message_set");
 	self.lowerMessage setText(text);
-	self.lowerTimer setTimer(Ternary(isDefined(time) && time > 0, time, ""));
+	if (isDefined(time) && time > 0)
+		self.lowerTimer setTimer(time);
 	self.lowerMessage fadeOverTime(0.05);
 	self.lowerMessage.alpha = 1;
 	self.lowerTimer fadeOverTime(0.05);

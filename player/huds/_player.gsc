@@ -24,8 +24,6 @@ hud()
 	self endon("disconnect");
 	self endon("joined_spectators");
 
-	self.fps = 125;
-
 	if (self.isBot)
 		return;
 
@@ -64,9 +62,9 @@ hudFps()
 
 updateFps()
 {
-	self.fps = ToInt(self getUserInfo("com_maxfps"));
+	fps = self getFPS();
 
-	switch (self.fps)
+	switch (fps)
 	{
 		case 20:
 		case 30:
@@ -77,7 +75,7 @@ updateFps()
 		case 333:
 		case 500:
 		case 1000:
-			self.huds["fps"] setShader("fps_" + self.fps, 90, 60);
+			self.huds["fps"] setShader("fps_" + fps, 90, 60);
 			break;
 	}
 }

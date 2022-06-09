@@ -10,7 +10,7 @@ main()
 
 onConnect()
 {
-	if (self.new) self reset();
+	if (isDefined(self.new)) self reset();
 	self load();
 
 	self setClientDvar("cg_drawSpectatorMessages", "1");
@@ -148,7 +148,7 @@ update_playerKnife()
 
 update_gfxFOV()
 {
-	value = self.settings["gfx_fov"] / 1000;
+	value = int(self.settings["gfx_fov"] / 1000);
 	self setClientDvar("cg_fovscale", value);
 	updateHud(6, value, fmt("^2%f", value));
 }

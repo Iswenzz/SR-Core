@@ -12,7 +12,7 @@ main()
 	//1 = When Activator killed jumper
 	//2 = Every Kill
 
-	if (!level.dvar["pi_kc"] || game["roundsplayed"] >= level.dvar[ "round_limit" ])
+	if (!level.dvar["pi_kc"])
 		return;
 
 	setArchive(true);

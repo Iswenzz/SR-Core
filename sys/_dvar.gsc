@@ -1,9 +1,13 @@
 initDvars()
 {
+	level.dvar = [];
+
 	setDvar("jump_slowdownEnable", 0);
 	setDvar("bullet_penetrationEnabled", 0);
 	setDvar("mod_author", "SuX Lolz");
 	makeDvarServerInfo("mod_author", "SuX Lolz");
+
+	addDvar("spawn_time", "dr_spawn_time", 4, 1, 30, "int");
 }
 
 addDvar(scriptName, varname, vardefault, min, max, type)

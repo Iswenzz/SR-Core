@@ -48,7 +48,7 @@ setTeam(team)
 	self.team = team;
 	self.sessionteam = team;
 
-	menu = level.menus["team"];
+	menu = "team_select";
 	if (team == "allies")
 		self.pers["weapon"] = "colt45_mp";
 	else if (team == "axis")

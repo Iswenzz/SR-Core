@@ -76,12 +76,13 @@ menuOption(section, name, script, arg)
 	id = section.id;
 	menu = section.name;
 
-	predator = IfUndef(level.sr_menu[id][menu], []);
-	predator[predator.size] = name;
-	predator[predator.size] = script;
-	predator[predator.size] = arg;
+	option = IfUndef(level.sr_menu[id][menu], []);
+	index = option.size;
+	option[index] = name;
+	option[index] = script;
+	option[index] = arg;
 
-	level.sr_menu[id][menu] = predator;
+	level.sr_menu[id][menu] = option;
 }
 
 menuElement(name, id, script)
@@ -93,7 +94,7 @@ menuElement(name, id, script)
 	section.id = id;
 	section.script = script;
 
-	menuOption(name, id, menu, script);
+	menuOption(section, id, menu, script);
 	return section;
 }
 
