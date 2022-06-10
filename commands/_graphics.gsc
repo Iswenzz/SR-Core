@@ -28,7 +28,7 @@ cmd_FOV(args)
 	self thread sr\player\_settings::update();
 }
 
-cmd_FPS()
+cmd_FPS(args)
 {
 	self.settings["gfx_fullbright"] = !self.settings["gfx_fullbright"];
 	msg = Ternary(self.settings["gfx_fullbright"], "^2Fullbright On", "^1Fullbright Off");
@@ -38,7 +38,7 @@ cmd_FPS()
 	self thread sr\player\_settings::update();
 }
 
-cmd_Sheep()
+cmd_Sheep(args)
 {
 	for (i = 0; i < 25; i++)
 	{
@@ -49,7 +49,7 @@ cmd_Sheep()
 	self setClientDvar("r_specularmap", 2);
 }
 
-cmd_FX()
+cmd_FX(args)
 {
 	self.settings["gfx_fx"] = !self.settings["gfx_fx"];
 	msg = Ternary(self.settings["gfx_fx"], "^2FX On", "^1FX Off");

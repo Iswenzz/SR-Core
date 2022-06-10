@@ -22,7 +22,7 @@ main()
 	cmd("member",       "report_bug",	::cmd_ReportBug);
 	cmd("member",       "timeplayed",	::cmd_TimePlayed);
 	cmd("admin",        "sr_kick",		::cmd_Kick);
-	cmd("owner",        "sr_group",		::cmd_Group);
+	cmd("owner",        "sr_role",		::cmd_Role);
 	cmd("owner",        "sr_vip",		::cmd_VIP);
 	cmd("owner",        "sr_id",		::cmd_ID);
 	cmd("masteradmin",  "sr_ban",		::cmd_Ban);
@@ -68,15 +68,22 @@ cmd_GetDvar(args)
 	self pm("%s: %s", dvar, value);
 }
 
-cmd_Help()
+cmd_Help(args)
 {
+	valid = [];
 	keys = getArrayKeys(level.admin_commands);
-	chunks = Chunk(Where(keys, ::canExecuteCommand), 10);
+	for (i = 0; i < keys.size; i++)
+	{
+		if (!self canExecuteCommand(level.admin_commands[keys[i]]))
+			continue;
+		valid[valid.size] = keys[i];
+	}
+	chunks = Chunk(valid, 10);
 
-	self pm(fmt("%s commands:", self.admin_group));
+	self pm(fmt("%s ^7commands:", self getRoleName()));
 	for (i = 0; i < chunks.size; i++)
 	{
-		string = StrJoin(chunks[i].name, ",");
+		string = StrJoin(chunks[i], ", ");
 		self pm(string);
 	}
 }
@@ -90,37 +97,37 @@ cmd_Msg(args)
 	iPrintLnBold(msg);
 }
 
-cmd_MyID()
+cmd_MyID(args)
 {
 	self pm(fmt("Your ID is ^2%s", self.id));
 	wait 0.5;
 	self pm("Please make a note of your ID");
 }
 
-cmd_Online()
+cmd_Online(args)
 {
 	strings = [];
 	index = 0;
 
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
-		strings[strings.size] = fmt("%s[%s]", players[i].name, players[i] getGroupString());
+		strings[strings.size] = fmt("%s^7[%s^7]", players[i].name, players[i] getRoleName());
 	strings = Chunk(strings, 6);
 
 	for (i = 0; i < strings.size; i++)
 	{
-		message = StrJoin(strings[i], ",");
+		message = StrJoin(strings[i], ", ");
 		message(message);
 	}
 }
 
-cmd_Owner()
+cmd_Owner(args)
 {
 	self giveWeapon("shop_mp");
 	self switchToWeapon("shop_mp");
 }
 
-cmd_PID()
+cmd_PID(args)
 {
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
@@ -264,13 +271,13 @@ cmd_Kick(args)
 	kick(player getEntityNumber());
 }
 
-cmd_Group(args)
+cmd_Role(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: sr_group <playerNum> <group>");
+		return self pm("Usage: sr_role <playerNum> <role>");
 
 	player = getPlayerByNum(args[0]);
-	group = args[1];
+	role = args[1];
 
 	self log();
 	if (!isDefined(player))
@@ -278,17 +285,17 @@ cmd_Group(args)
 
 	mutex_acquire("mysql");
 
-	SQL_Prepare("UPDATE admins SET groupName = ? WHERE id = ?");
-	SQL_BindParam(group, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
+	SQL_Prepare("UPDATE admins SET role = ? WHERE player = ?");
+	SQL_BindParam(role, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(player.id, level.MYSQL_TYPE_STRING);
 	SQL_Execute();
 
 	if (!SQL_AffectedRows())
 	{
-		SQL_Prepare("INSERT INTO admins (name, id, groupName) VALUES (?, ?, ?)");
+		SQL_Prepare("INSERT INTO admins (name, player, role) VALUES (?, ?, ?)");
 		SQL_BindParam(player.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
-		SQL_BindParam(group, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(player.id, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(role, level.MYSQL_TYPE_STRING);
 		SQL_Execute();
 	}
 	mutex_release("mysql");
@@ -308,17 +315,17 @@ cmd_VIP(args)
 
 	mutex_acquire("mysql");
 
-	SQL_Prepare("UPDATE admins SET vip = ? WHERE id = ?");
+	SQL_Prepare("UPDATE admins SET vip = ? WHERE player = ?");
 	SQL_BindParam(vip, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(player.id, level.MYSQL_TYPE_STRING);
 	SQL_Execute();
 
 	if (!SQL_AffectedRows())
 	{
-		SQL_Prepare("INSERT INTO admins (name, id, group, vip) VALUES (?, ?, ?, ?)");
+		SQL_Prepare("INSERT INTO admins (name, player, role, vip) VALUES (?, ?, ?, ?)");
 		SQL_BindParam(player.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(player.id, level.MYSQL_TYPE_LONG);
-		SQL_BindParam(player.admin_group, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(player.id, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(player.admin_role, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(vip, level.MYSQL_TYPE_LONG);
 		SQL_Execute();
 	}
@@ -347,21 +354,21 @@ cmd_ID(args)
 cmd_Ban(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: sr_ban <name> <guid> <pid> <steamid> <ip>");
+		return self pm("Usage: sr_ban <name> <guid> <id> <steamid> <ip>");
 
 	name = args[0];
 	guid = args[1];
-	pid = args[2];
-	steamid = args[3];
+	id = args[2];
+	steamId = args[3];
 	ip = args[4];
 
 	mutex_acquire("mysql");
 
-	SQL_Prepare("INSERT INTO bans (name, guid, pid, steamid, ip) VALUES (?, ?, ?, ?, ?)");
+	SQL_Prepare("INSERT INTO bans (name, guid, player, steamId, ip) VALUES (?, ?, ?, ?, ?)");
 	SQL_BindParam(name, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(guid, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(pid, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(steamid, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(id, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(steamId, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(ip, level.MYSQL_TYPE_STRING);
 	SQL_Execute();
 

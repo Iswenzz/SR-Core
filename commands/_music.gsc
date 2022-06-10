@@ -42,7 +42,7 @@ cmd_Music(args)
 	play(name);
 }
 
-cmd_MusicHelp()
+cmd_MusicHelp(args)
 {
 	aliases = getArrayKeys(level.sr_music);
 	string = StrJoin(aliases, ",");
@@ -50,7 +50,7 @@ cmd_MusicHelp()
 	self pm(string);
 }
 
-cmd_MusicStop()
+cmd_MusicStop(args)
 {
 	self clientcmd("snd_stopambient");
 }

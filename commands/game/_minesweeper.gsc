@@ -7,7 +7,7 @@ main()
     cmd("player", "mine", ::cmd_Minesweeper);
 }
 
-cmd_Minesweeper()
+cmd_Minesweeper(args)
 {
     open();
 }

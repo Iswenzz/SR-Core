@@ -8,19 +8,19 @@ main()
 	cmd("owner", 	"turret_delete",	::cmd_TurretDelete);
 }
 
-cmd_Detonate()
+cmd_Detonate(args)
 {
 	self.detonate = true;
 }
 
-cmd_Turret()
+cmd_Turret(args)
 {
 	self clientCmd("centerview");
 	wait 0.2;
 	thread sr\libs\portal\_turret::turretSpawn(self.origin, self getPlayerAngles());
 }
 
-cmd_TurretDelete()
+cmd_TurretDelete(args)
 {
 	for (i = 0; i < level.portal_turrets.size; i++)
 	{

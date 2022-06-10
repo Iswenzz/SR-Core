@@ -12,7 +12,7 @@ main()
 	cmd("owner", 	"race_save",	::cmd_RaceSave);
 }
 
-cmd_Race()
+cmd_Race(args)
 {
 	if (self isInOtherQueue("race"))
 	{
@@ -56,13 +56,13 @@ cmd_RaceSpawn(args)
 	level.raceSpawn = spawn;
 }
 
-cmd_RaceMk()
+cmd_RaceMk(args)
 {
 	level.racePoints[level.racePoints.size] = self GetOrigin();
 	self pm("Points placed " + level.racePoints.size);
 }
 
-cmd_RaceSave()
+cmd_RaceSave(args)
 {
 	file = FILE_OpenMod(level.files["race"], "w+");
 	for (i = 0; i < level.racePoints.size; i++)

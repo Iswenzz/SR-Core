@@ -37,17 +37,17 @@ cmd_Bounce(args)
 	player bounce(vectorNormalize(player.origin - (player.origin - (0, 0, 20))), 400);
 }
 
-cmd_Clone()
+cmd_Clone(args)
 {
 	Ternary(!isDefined(self.clone), clone(), cloneDespawn());
 }
 
-cmd_Damage()
+cmd_Damage(args)
 {
 	self.teamKill = !self.teamKill;
 }
 
-cmd_Dance()
+cmd_Dance(args)
 {
 	self thread fortniteDance();
 }
@@ -152,7 +152,7 @@ cmd_Model(args)
 	player setModel(model);
 }
 
-cmd_NoClip()
+cmd_NoClip(args)
 {
 	self.noclip = !self.noclip;
 	self sr\api\_player::antiElevator(!self.noclip);
@@ -213,7 +213,7 @@ cmd_Shock(args)
 	player shellShock(shock, 5);
 }
 
-cmd_Shovel()
+cmd_Shovel(args)
 {
 	self giveWeapon("shovel_mp");
 	self giveMaxAmmo("shovel_mp");
@@ -233,12 +233,12 @@ cmd_TakeAll(args)
 	player takeAllWeapons();
 }
 
-cmd_Trooper()
+cmd_Trooper(args)
 {
 	self thread trooper();
 }
 
-cmd_UAmmo()
+cmd_UAmmo(args)
 {
 	self thread unlimitedAmmo();
 }

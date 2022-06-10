@@ -11,7 +11,7 @@ main()
 	cmd("admin", 	"kz_weapon",	::cmd_KzWeapon);
 }
 
-cmd_Kz()
+cmd_Kz(args)
 {
 	if (self isInOtherQueue("kz"))
 	{
@@ -21,7 +21,7 @@ cmd_Kz()
 	Ternary(!self isInQueue("kz"), join(), leave());
 }
 
-cmd_KzSpawn()
+cmd_KzSpawn(args)
 {
 	point = spawnStruct();
 	point.origin = self getOrigin();
@@ -31,7 +31,7 @@ cmd_KzSpawn()
 	self pm("Points placed " + level.kzPoints.size);
 }
 
-cmd_KzSave()
+cmd_KzSave(args)
 {
 	if (level.kzPoints.size % 2 == 1)
 	{

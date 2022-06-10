@@ -16,14 +16,14 @@ main()
 	spawnBrushes();
 }
 
-cmd_Chicken()
+cmd_Chicken(args)
 {
 	ent = spawn("script_model", self.origin);
 	ent setModel("chicken");
 	ent.chicken = true;
 }
 
-cmd_ChickenSave()
+cmd_ChickenSave(args)
 {
 	index = 0;
 	models = getEntArray("script_model", "classname");
@@ -43,7 +43,7 @@ cmd_ChickenSave()
 	FILE_Close(file);
 }
 
-cmd_MapSave()
+cmd_MapSave(args)
 {
 	index = 0;
 	brushes = getEntArray("script_brushmodel", "classname");

@@ -41,20 +41,20 @@ cmd_Vote(args)
 	vote(type, value);
 }
 
-cmd_VoteCancel()
+cmd_VoteCancel(args)
 {
 	level notify("vote_ended");
 	level.vote_no = 9999;
 	level.vote_timer = 0;
 }
 
-cmd_VoteCooldown()
+cmd_VoteCooldown(args)
 {
 	self.vote_cd = -1000000;
 	self pm("^6Vote CD cleared");
 }
 
-cmd_VoteForce()
+cmd_VoteForce(args)
 {
 	level notify("vote_ended");
 	level.vote_yes = 9999;
