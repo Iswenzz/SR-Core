@@ -46,7 +46,7 @@ spray()
 		self playSound("sprayer");
 
 		self notify("spray", sprayNum, position, forward, up);
-		delay = Ternary(self sr\sys\_admins::isGroup("owner"), 0.05, level.dvar["sprays_delay"]);
+		delay = Ternary(self sr\sys\_admins::isRole("owner"), 0.05, level.dvar["sprays_delay"]);
 		wait delay;
 	}
 }

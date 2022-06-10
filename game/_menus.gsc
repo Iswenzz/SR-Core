@@ -12,8 +12,8 @@ menu_WelcomeMessage(arg)
 	if (self.pers["team"] != "allies")
 		return;
 
-	group = self sr\sys\_admins::getGroupString();
+	role = self sr\sys\_admins::getRoleName();
 	geo = self getGeoLocation(2);
 
-	sr\sys\_admins::message(fmt("^2Welcome ^7%s ^7%s ^7from ^1%s", group, self.name, geo));
+	sr\sys\_admins::message(fmt("^2Welcome ^7%s ^7%s ^7from ^1%s", role, self.name, geo));
 }

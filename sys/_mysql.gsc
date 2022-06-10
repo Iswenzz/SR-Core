@@ -3,7 +3,7 @@
 initMySQL()
 {
 	SQL_Connect("192.168.1.86", 3306, "root", "rootpassword");
-	SQL_SelectDB("sr");
+	SQL_SelectDB("speedrun");
 
 	mutex("mysql");
 
@@ -41,6 +41,6 @@ variables()
 	level.MYSQL_TYPE_LONG_BLOB    = 251;
 	level.MYSQL_TYPE_BLOB         = 252;
 	level.MYSQL_TYPE_STRING       = 253;
-	level.MYSQL_TYPE_STRING       = 254;
+	level.MYSQL_TYPE_TEXT         = 254;
 	level.MYSQL_TYPE_GEOMETRY     = 255;
 }

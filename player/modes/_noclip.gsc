@@ -10,7 +10,7 @@ noclip()
 	self endon("disconnect");
 	self.noclip = false;
 
-	if (!self sr\sys\_admins::isGroup("masteradmin"))
+	if (!self sr\sys\_admins::isRole("masteradmin"))
 		return;
 
 	while (true)

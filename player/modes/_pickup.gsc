@@ -12,7 +12,7 @@ pickup()
 	self endon("disconnect");
 	self.pickupMode = 0;
 
-	if (!self sr\sys\_admins::isGroup("masteradmin"))
+	if (!self sr\sys\_admins::isRole("masteradmin"))
 		return;
 
 	while (true)

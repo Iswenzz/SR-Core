@@ -84,7 +84,7 @@ btShoot(weapon)
 {
 	wait weapon["predelay"];
 
-	if (weapon["item"] == "plasma_mp" && self.sr_group != "owner")
+	if (weapon["item"] == "plasma_mp" && !self sr\sys\_admins::isRole("owner"))
 		return;
 
 	eye = self eyepos();

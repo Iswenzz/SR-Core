@@ -6,24 +6,24 @@ initAdmins()
 {
 	precache();
 
-	// Groups
-	level.admin_group 					= [];
-	level.admin_group["player"] 		= 1;
-	level.admin_group["member"] 		= 10;
-	level.admin_group["admin"] 			= 30;
-	level.admin_group["adminplus"] 		= 50;
-	level.admin_group["masteradmin"] 	= 60;
-	level.admin_group["owner"] 			= 100;
+	// Roles
+	level.admin_roles 					= [];
+	level.admin_roles["player"] 		= 1;
+	level.admin_roles["member"] 		= 10;
+	level.admin_roles["admin"] 			= 30;
+	level.admin_roles["adminplus"] 		= 50;
+	level.admin_roles["masteradmin"] 	= 60;
+	level.admin_roles["owner"] 			= 100;
 
 	// Special
-	level.special_group["vip"] 			= 1;
-	level.special_group["donator"] 		= 2;
+	level.special_roles["vip"] 			= 1;
+	level.special_roles["donator"] 		= 2;
 
 	// Commands
 	level.admin_commands				= [];
 
 	event("command", ::command);
-	event("connect", ::fetchGroup);
+	event("connect", ::fetch);
 }
 
 precache()
@@ -69,35 +69,35 @@ precache()
 	precacheMenu("clientcmd");
 }
 
-fetchGroup()
+fetch()
 {
 	mutex_acquire("mysql");
 
-	SQL_Prepare("SELECT groupName, vip FROM admins WHERE id = ?");
-	SQL_BindParam(self.id, level.MYSQL_TYPE_LONG);
-	SQL_BindResult(level.MYSQL_TYPE_STRING, 100);
+	SQL_Prepare("SELECT role, vip FROM admins WHERE player = ?");
+	SQL_BindParam(self.id, level.MYSQL_TYPE_STRING);
+	SQL_BindResult(level.MYSQL_TYPE_STRING, 50);
 	SQL_BindResult(level.MYSQL_TYPE_LONG);
 	SQL_Execute();
 
 	if (SQL_NumRows())
 	{
 		row = SQL_FetchRowDict();
-		self.admin_group = row["groupName"];
+		self.admin_role = row["role"];
 		self.admin_vip = row["vip"];
 	}
 	else
 	{
-		self.admin_group = "player";
+		self.admin_role = "player";
 		self.admin_vip = 0;
 	}
 	mutex_release("mysql");
 }
 
-cmd(group, name, callback)
+cmd(role, name, callback)
 {
 	level.admin_commands[name] = spawnStruct();
 	level.admin_commands[name].name = name;
-	level.admin_commands[name].group = group;
+	level.admin_commands[name].role = role;
 	level.admin_commands[name].callback = callback;
 
 	addScriptCommand(name, 1);
@@ -114,42 +114,42 @@ command(name, arg)
 	self thread [[cmd.callback]](args);
 }
 
-canExecuteCommand(cmd)
+canExecuteCommand(cmd, index)
 {
-	if (isDefined(level.admin_group[cmd.group]))
-		return self isGroup(cmd.group);
-	else if (isDefined(level.special_group[cmd.group]))
-		return self isVIP() >= level.special_group[cmd.group];
+	if (isDefined(level.admin_roles[cmd.role]))
+		return self isRole(cmd.role);
+	else if (isDefined(level.special_roles[cmd.role]))
+		return self isVIP() >= level.special_roles[cmd.role];
 	return false;
 }
 
-isGroup(name)
+isRole(name)
 {
-	return self.admin_group >= level.admin_group[name];
+	return level.admin_roles[self.admin_role] >= level.admin_roles[name];
 }
 
-getGroupString()
+getRoleName()
 {
-	group = Ternary(!self.isBot, "^7Player", "^8Speedrun Bot");
-	switch (self.admin_group)
+	role = Ternary(!self.isBot, "^7Player", "^8Speedrun Bot");
+	switch (self.admin_role)
 	{
 		case "owner":
-			group = "^5Owner";
+			role = "^5Owner";
 			break;
 		case "masteradmin":
-			group = "^9Master Admin";
+			role = "^9Master Admin";
 			break;
 		case "adminplus":
-			group = "^1Admin+";
+			role = "^1Admin+";
 			break;
 		case "admin":
-			group = "^6Admin";
+			role = "^6Admin";
 			break;
 		case "member":
-			group = "^3Member";
+			role = "^3Member";
 			break;
 	}
-	return group;
+	return role;
 }
 
 isVIP()
