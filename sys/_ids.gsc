@@ -10,6 +10,9 @@ initIds()
 
 load()
 {
+	if (self.isBot)
+		return;
+
 	if (self getStat(995) == 0 || self getStat(996) == 0 || self getStat(997) == 0)
 	{
 		id = createId();

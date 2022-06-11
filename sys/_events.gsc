@@ -34,11 +34,11 @@ connect()
 			script = level.menus[menu][i];
 
 			if (script.type == "response" && script.response == response)
-				[[script.callback]](response);
+				self thread [[script.callback]](response);
 			if (script.type == "callback")
-				[[script.callback]](response);
-			if (script.type == "multiple" && StartsWith(script.response, response))
-				[[script.callback]](strTok(response, ":"));
+				self thread [[script.callback]](response);
+			if (script.type == "multiple" && StartsWith(response, script.response))
+				self thread [[script.callback]](strTok(response, ":"));
 		}
 	}
 }
@@ -47,7 +47,7 @@ _menu(name, response, callback)
 {
 	if (!isDefined(level.menus[name]))
 	{
-		preCacheMenu(name);
+		precacheMenu(name);
 		level.menus[name] = [];
 	}
 	index = level.menus[name].size;
@@ -83,7 +83,7 @@ eventSpawn(origin, angles)
 	{
 		self.spawnPoint = spawnStruct();
 		self.spawnPoint.origin = origin;
-		self.spawnPoint.origin = angles;
+		self.spawnPoint.angles = angles;
 	}
 	self notify("spawned_player");
 }
