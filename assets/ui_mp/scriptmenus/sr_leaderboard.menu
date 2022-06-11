@@ -1,6 +1,5 @@
 #include "ui/menudef.h"
 #include "ui_mp/menustyle.inc"
-#include "ui/choicesetup_common.menu"
 #include "ui_mp/sr_common.inc"
 
 #define DR_LEADERBOARD_BUTTON( id, x, y, w, h, itemName, itemAction, visArg ) \
@@ -74,6 +73,7 @@ itemDef \
 
 		onOpen
 		{
+			close team_select;
 			scriptMenuResponse "open";
 		}
 		onEsc
@@ -278,12 +278,29 @@ itemDef \
 			decoration
 		}
 
+		itemdef
+		{
+			name			"leaderboardName"
+			rect			200 47 449 50 1 0
+			style			0
+			backcolor			0 0 0 0.7
+			visible			1
+			bordersize			3
+			bordercolor			0 0 0 0.7
+			type			0
+			exp			    text(dvarString("leaderboard_name"))
+			textscale			0.35
+			textstyle			3
+			textalign			1
+			decoration
+		}
+
 		itemDef
 		{
 			visible			1
 			rect 			295 65 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("leaderboard_numbers"))
+			exp             text( dvarString("leaderboard_numbers_0"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -295,7 +312,7 @@ itemDef \
 			visible			1
 			rect 			320 65 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("leaderboard_names"))
+			exp             text( dvarString("leaderboard_names_0"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -307,7 +324,7 @@ itemDef \
 			visible			1
 			rect 			410 65 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		0 1 1 1
-			exp             text( dvarString("leaderboard_values"))
+			exp             text( dvarString("leaderboard_values_0"))
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
@@ -320,7 +337,7 @@ itemDef \
 			visible			1
 			rect 			295 209 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("leaderboard_numbers"))
+			exp             text( dvarString("leaderboard_numbers_1"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -332,7 +349,7 @@ itemDef \
 			visible			1
 			rect 			320 209 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("leaderboard_names"))
+			exp             text( dvarString("leaderboard_names_1"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -344,7 +361,7 @@ itemDef \
 			visible			1
 			rect 			410 209 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		0 1 1 1
-			exp             text( dvarString("leaderboard_values"))
+			exp             text( dvarString("leaderboard_values_1"))
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
@@ -357,7 +374,7 @@ itemDef \
 			visible			1
 			rect 			295 353 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("leaderboard_numbers"))
+			exp             text( dvarString("leaderboard_numbers_2"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -369,7 +386,7 @@ itemDef \
 			visible			1
 			rect 			320 353 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("leaderboard_names"))
+			exp             text( dvarString("leaderboard_names_2"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -381,7 +398,7 @@ itemDef \
 			visible			1
 			rect 			410 353 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		0 1 1 1
-			exp             text( dvarString("leaderboard_values"))
+			exp             text( dvarString("leaderboard_values_2"))
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
@@ -390,18 +407,18 @@ itemDef \
 		}
 
 		// Leaderboards
-		DR_LEADERBOARD_BUTTON( "13", 547, (80 + (30 * 0)), 102, 30, dvarString("normal_0_name"), scriptMenuResponse "way:ns0";, when(dvarString("normal_0")=="1") )
-		DR_LEADERBOARD_BUTTON( "14", 547, (80 + (30 * 1)), 102, 30, dvarString("normal_1_name"), scriptMenuResponse "way:ns1";, when(dvarString("normal_1")=="1") )
-		DR_LEADERBOARD_BUTTON( "15", 547, (80 + (30 * 2)), 102, 30, dvarString("normal_2_name"), scriptMenuResponse "way:ns2";, when(dvarString("normal_2")=="1") )
-		DR_LEADERBOARD_BUTTON( "16", 547, (80 + (30 * 3)), 102, 30, dvarString("normal_3_name"), scriptMenuResponse "way:ns3";, when(dvarString("normal_3")=="1") )
-		DR_LEADERBOARD_BUTTON( "17", 547, (80 + (30 * 4)), 102, 30, dvarString("normal_4_name"), scriptMenuResponse "way:ns4";, when(dvarString("normal_4")=="1") )
-		DR_LEADERBOARD_BUTTON( "18", 547, (80 + (30 * 5)), 102, 30, dvarString("normal_5_name"), scriptMenuResponse "way:ns5";, when(dvarString("normal_5")=="1") )
-		DR_LEADERBOARD_BUTTON( "19", 547, (80 + (30 * 7)), 102, 30, dvarString("secret_0_name"), scriptMenuResponse "way:s0";, when(dvarString("secret_0")=="1") )
-		DR_LEADERBOARD_BUTTON( "20", 547, (80 + (30 * 8)), 102, 30, dvarString("secret_1_name"), scriptMenuResponse "way:s1";, when(dvarString("secret_1")=="1") )
-		DR_LEADERBOARD_BUTTON( "21", 547, (80 + (30 * 9)), 102, 30, dvarString("secret_2_name"), scriptMenuResponse "way:s2";, when(dvarString("secret_2")=="1") )
-		DR_LEADERBOARD_BUTTON( "22", 547, (80 + (30 * 10)), 102, 30, dvarString("secret_3_name"), scriptMenuResponse "way:s3";, when(dvarString("secret_3")=="1") )
-		DR_LEADERBOARD_BUTTON( "23", 547, (80 + (30 * 11)), 102, 30, dvarString("secret_4_name"), scriptMenuResponse "way:s4";, when(dvarString("secret_4")=="1") )
-		DR_LEADERBOARD_BUTTON( "24", 547, (80 + (30 * 12)), 102, 30, dvarString("secret_5_name"), scriptMenuResponse "way:s5";, when(dvarString("secret_5")=="1") )
+		DR_LEADERBOARD_BUTTON( "13", 547, (80 + (30 * 0)), 102, 30, dvarString("normal_0_name"), scriptMenuResponse "way:normal_0";, when(dvarString("normal_0")=="1") )
+		DR_LEADERBOARD_BUTTON( "14", 547, (80 + (30 * 1)), 102, 30, dvarString("normal_1_name"), scriptMenuResponse "way:normal_1";, when(dvarString("normal_1")=="1") )
+		DR_LEADERBOARD_BUTTON( "15", 547, (80 + (30 * 2)), 102, 30, dvarString("normal_2_name"), scriptMenuResponse "way:normal_2";, when(dvarString("normal_2")=="1") )
+		DR_LEADERBOARD_BUTTON( "16", 547, (80 + (30 * 3)), 102, 30, dvarString("normal_3_name"), scriptMenuResponse "way:normal_3";, when(dvarString("normal_3")=="1") )
+		DR_LEADERBOARD_BUTTON( "17", 547, (80 + (30 * 4)), 102, 30, dvarString("normal_4_name"), scriptMenuResponse "way:normal_4";, when(dvarString("normal_4")=="1") )
+		DR_LEADERBOARD_BUTTON( "18", 547, (80 + (30 * 5)), 102, 30, dvarString("normal_5_name"), scriptMenuResponse "way:normal_5";, when(dvarString("normal_5")=="1") )
+		DR_LEADERBOARD_BUTTON( "19", 547, (80 + (30 * 7)), 102, 30, dvarString("secret_0_name"), scriptMenuResponse "way:secret_0";, when(dvarString("secret_0")=="1") )
+		DR_LEADERBOARD_BUTTON( "20", 547, (80 + (30 * 8)), 102, 30, dvarString("secret_1_name"), scriptMenuResponse "way:secret_1";, when(dvarString("secret_1")=="1") )
+		DR_LEADERBOARD_BUTTON( "21", 547, (80 + (30 * 9)), 102, 30, dvarString("secret_2_name"), scriptMenuResponse "way:secret_2";, when(dvarString("secret_2")=="1") )
+		DR_LEADERBOARD_BUTTON( "22", 547, (80 + (30 * 10)), 102, 30, dvarString("secret_3_name"), scriptMenuResponse "way:secret_3";, when(dvarString("secret_3")=="1") )
+		DR_LEADERBOARD_BUTTON( "23", 547, (80 + (30 * 11)), 102, 30, dvarString("secret_4_name"), scriptMenuResponse "way:secret_4";, when(dvarString("secret_4")=="1") )
+		DR_LEADERBOARD_BUTTON( "24", 547, (80 + (30 * 12)), 102, 30, dvarString("secret_5_name"), scriptMenuResponse "way:secret_5";, when(dvarString("secret_5")=="1") )
 
 		// Modes
 		DR_LEADERBOARD_BUTTON( "25", 215, 230, 60, 20, "190", scriptMenuResponse "mode:190";, 1 )

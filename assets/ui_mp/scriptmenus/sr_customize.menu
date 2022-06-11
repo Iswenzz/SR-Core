@@ -144,11 +144,8 @@ itemDef \
 
 		onOpen
 		{
-			execNow "set menuName Customize";
-		}
-		onClose
-		{
-
+			close team_select;
+			scriptMenuResponse "open";
 		}
 		onESC
 		{
@@ -218,16 +215,17 @@ itemDef \
 
 		onOpen
 		{
+			close sr_customize;
 			scriptMenuResponse "open";
 		}
 		onClose
 		{
 			scriptMenuResponse "close";
+			open "sr_customize";
 		}
 		onEsc
 		{
 			close self;
-			open "sr_customize";
 		}
 
 		#define theme (stat(984))

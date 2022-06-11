@@ -25,9 +25,6 @@ initCustomize()
 
 precacheCustomize()
 {
-	precacheMenu("sr_customize");
-	precacheMenu("sr_customize_category");
-
 	precacheItem("fortnite_mp");
 	precacheItem("colt45_mp");
 	precacheItem("tomahawk_mp");

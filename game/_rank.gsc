@@ -37,7 +37,7 @@ initRank()
 
 buildRanks()
 {
-	tableName = "mp/ranks.csv";
+	tableName = "mp/rankTable.csv";
 
 	rankId = 0;
 	rankName = tableLookup(tableName, 0, rankId, 1);

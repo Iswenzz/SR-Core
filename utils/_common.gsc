@@ -173,11 +173,11 @@ originToTime(origin)
 	time = SpawnStruct();
 
 	time.origin = origin;
-	time.milsec = origin;
-	time.min = int(time.milsec / 60000);
-	time.milsec = time.milsec % 60000;
-	time.sec = int(time.milsec / 1000);
-	time.milsec = time.milsec % 1000;
+	time.ms = origin;
+	time.min = int(time.ms / 60000);
+	time.ms = time.ms % 60000;
+	time.sec = int(time.ms / 1000);
+	time.ms = time.ms % 1000;
 
 	return time;
 }

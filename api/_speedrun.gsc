@@ -18,14 +18,15 @@ createSecretWays(token)
 
 createWay(name, index, section)
 {
-	id = fmt("%s_%d", section, index);
-	addWay(id, name);
+	way = fmt("%s_%d", section, index);
+	addWay(way, name);
 }
 
 changeWay(way)
 {
 	self.sr_way = way;
 	self playLocalSound("change_way");
+	self thread speedrun\player\huds\_speedrun::updateWay();
 }
 
 finishWay(way)
