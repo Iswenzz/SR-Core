@@ -58,18 +58,22 @@ getPlayingPlayers()
 
 getFPS()
 {
-	return self getCountedFPS();
+	fps = self getUserInfo("com_maxfps");
+
+	if (IsNullOrEmpty(fps))
+		return 0;
+	return ToInt(fps);
 }
 
 canSpawn()
 {
 	if (game["state"] == "endmap" || game["state"] == "round ended")
 		return false;
-	if (self.sessionstate == "playing")
+	if (self.sessionstate == "playing" && self.died)
 		return false;
+	if (level.freeRun)
+		return true;
 	if (!level.allowSpawn)
-		return false;
-	if (self.died)
 		return false;
 	return true;
 }

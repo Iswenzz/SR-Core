@@ -21,8 +21,8 @@ itemDef \
 	rect			x y w h SR_ALIGN_BOTTOM_RIGHT \
 	style			WINDOW_STYLE_FILLED \
 	border			1 \
-	bordercolor		DR_BUTTON_BORDERCOLOR_SR \ 
-	forecolor		DR_BUTTON_FORECOLOR \ 
+	bordercolor		DR_BUTTON_BORDERCOLOR_SR \
+	forecolor		DR_BUTTON_FORECOLOR \
 	backcolor		DR_BUTTON_BACKCOLOR \
 } \
 itemDef \
@@ -32,8 +32,8 @@ itemDef \
 	rect			x y w h SR_ALIGN_BOTTOM_RIGHT \
 	style			WINDOW_STYLE_FILLED \
 	border			1 \
-	bordercolor		DR_BUTTON_BORDERCOLOR_SR \ 
-	forecolor		DR_BUTTON_FORECOLOR \ 
+	bordercolor		DR_BUTTON_BORDERCOLOR_SR \
+	forecolor		DR_BUTTON_FORECOLOR \
 	backcolor		DR_BUTTON_BACKCOLOR_FOCUSED \
 } \
 itemDef \
@@ -72,34 +72,29 @@ itemDef \
 	{ \
 		itemAction \
 	} \
-} 
+}
 
 {
 	menuDef
 	{
 		name			"sr_welcome"
-		rect			-128 -20 894 515 
+		rect			-128 -20 894 515
 		blurworld		0
 		border			1
 		bordersize		10
 		fullscreen		0
 		focuscolor		COLOR_FOCUSED
 		style			WINDOW_STYLE_EMPTY
-		
-		onOpen
+
+		onEsc
 		{
-		}
-		
-		onEsc			
-		{ 
 			close self;
 		}
-		
-		onClose			
+		onClose
 		{
-			scriptMenuResponse "connectmessage";
+			scriptMenuResponse "message";
 		}
-		
+
 		// #define theme (stat(984))
 		// itemDef
 		// {
@@ -114,7 +109,7 @@ itemDef \
 		itemdef
 		{
 			name			"theme"
-			rect			0 0 1000 500 0 0 
+			rect			0 0 1000 500 0 0
 			style			3
 			visible			1
 			exp				material("sr_menu_bg_" + (theme + 1))
@@ -167,7 +162,7 @@ itemDef \
 			decoration
 		}
 
-	
+
 	}
 }
 

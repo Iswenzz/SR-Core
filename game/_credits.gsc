@@ -30,7 +30,7 @@ showCredit(text, scale, y, time)
 	hud.x = 0;
 	hud.y = y;
 	hud.sort = -1;
-	hud.glowColor = (119 / 255, 0 / 255, 255 / 255);
+	hud.glowColor = ToRGB(120, 0, 255);
 	hud.glowAlpha = 1;
 	hud.alpha = 0;
 	hud fadeOverTime(1);

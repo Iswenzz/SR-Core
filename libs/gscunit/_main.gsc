@@ -6,7 +6,7 @@ gscunitEnv()
 	level.gscunit.enabled = getDvarInt("gscunit");
 
 	if (!level.gscunit.enabled)
-		return;
+		return false;
 
 	level.gscunit.bots = spawnBots(5);
 	level.gscunit.debug = getDvarInt("gscunit_debug");
@@ -14,6 +14,8 @@ gscunitEnv()
 	level.gscunit.fail = false;
 	level.gscunit.count_pass = 0;
 	level.gscunit.count_fail = 0;
+
+	return true;
 }
 
 it(callback, name, beforeCallback, afterCallback)

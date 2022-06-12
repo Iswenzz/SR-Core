@@ -249,7 +249,7 @@ spawnPlayerInSpec()
 {
 	self endon("disconnect");
 	self sr\game\_teams::setTeam("spectator");
-	self sr\game\_map::spawnSpectator(level.spawn["spectator"].origin, level.spawn["spectator"].angles);
+	self eventSpectator();
 }
 
 showPlayerCard(attacker, victim)

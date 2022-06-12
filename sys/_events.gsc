@@ -88,8 +88,14 @@ eventSpawn(origin, angles)
 	self notify("spawned_player");
 }
 
-eventSpectator()
+eventSpectator(origin, angles)
 {
+	if (isDefined(origin) && isDefined(angles))
+	{
+		self.spawnPoint = spawnStruct();
+		self.spawnPoint.origin = origin;
+		self.spawnPoint.angles = angles;
+	}
 	self notify("joined_spectators");
 }
 

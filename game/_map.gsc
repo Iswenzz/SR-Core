@@ -1,3 +1,4 @@
+#include sr\sys\_events;
 #include sr\utils\_common;
 
 main()
@@ -82,7 +83,7 @@ end(map)
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		players[i] spawnSpectator();
+		players[i] eventSpectator();
 		players[i] allowSpectateTeam("allies", false);
 		players[i] allowSpectateTeam("axis", false);
 		players[i] allowSpectateTeam("freelook", false);
@@ -97,7 +98,7 @@ end(map)
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		players[i] spawnSpectator();
+		players[i] eventSpectator();
 		players[i].sessionstate = "intermission";
 	}
 	wait 15;
@@ -124,14 +125,4 @@ endEarthquake()
 		earthquake(0.05, 0.05, level.spawn["spectator"].origin, 20000);
 		wait 0.05;
 	}
-}
-
-spawnSpectator()
-{
-	self cleanUp();
-	self.sessionstate = "spectator";
-	self.spectatorclient = -1;
-	self.statusicon = "";
-	self spawn(level.spawn["spectator"].origin, level.spawn["spectator"].angles);
-	self sr\game\_teams::setSpectatePermissions();
 }

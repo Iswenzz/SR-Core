@@ -40,20 +40,15 @@ setTeam(team)
 	if (self.pers["team"] == team)
 		return;
 
-	if (isAlive(self))
-		self suicide();
-
 	self.pers["weapon"] = "none";
 	self.pers["team"] = team;
 	self.team = team;
 	self.sessionteam = team;
 
-	menu = "team_select";
-	if (team == "allies")
-		self.pers["weapon"] = "colt45_mp";
-	else if (team == "axis")
-		self.pers["weapon"] = "knife_mp";
-	self setClientDvars("g_scriptMainMenu", menu);
+	if (isAlive(self))
+		self suicide();
+
+	self setClientDvars("g_scriptMainMenu", "team_select");
 }
 
 setSpectatePermissions()
