@@ -133,6 +133,6 @@ mutex_release(id)
 	if (isDefined(level.mutex[id].after))
 		[[level.mutex[id].after]]();
 
-	level.mutex[id].locked = false;
 	level notify(fmt("mutex_%s", id));
+	level.mutex[id].locked = false;
 }

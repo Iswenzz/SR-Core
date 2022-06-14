@@ -3,8 +3,8 @@
 
 main()
 {
-	level.files["map"] = fmt("sr/data/maps/%s.txt", getDvar("mapname"));
-	level.files["chicken"] = fmt("sr/data/chickens/%s.txt", getDvar("mapname"));
+	level.files["map"] = fmt("sr/data/maps/%s.txt", level.map);
+	level.files["chicken"] = fmt("sr/data/chickens/%s.txt", level.map);
 
 	precacheModel("chicken");
 

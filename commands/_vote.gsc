@@ -64,7 +64,7 @@ cmd_VoteForce(args)
 load(includeCurrent)
 {
 	list = [];
-	currentMap = getDvar("mapname");
+	currentMap = level.map;
 	maps = StrTok(getDvar("sv_maprotation"), " ");
 
 	for (i = 0; i < maps.size; i++)

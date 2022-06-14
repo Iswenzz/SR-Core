@@ -145,6 +145,7 @@ getRankInfoIcon(rankId, prestigeId)
 onConnect()
 {
 	self databaseGetRank();
+	self.guid = getSubStr(self getGuid(), 24, 32);
 	self.pers["participation"] = 0;
 	self.rankUpdateTotal = 0;
 
@@ -214,7 +215,7 @@ databaseSetRank(xp, rank, prestige)
 	SQL_BindParam(xp, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(rank + 1, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(prestige, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(getSubStr(self getGuid(), 24, 32), level.MYSQL_TYPE_STRING);
+	SQL_BindParam(self.guid, level.MYSQL_TYPE_STRING);
 	SQL_Execute();
 
 	// Insert new rank
@@ -222,7 +223,7 @@ databaseSetRank(xp, rank, prestige)
 	{
 		SQL_Prepare("INSERT INTO ranks (name, player, xp, rank, prestige) VALUES (?, ?, ?, ?, ?)");
 		SQL_BindParam(self.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(getSubStr(self getGuid(), 24, 32), level.MYSQL_TYPE_STRING);
+		SQL_BindParam(self.guid, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(xp, level.MYSQL_TYPE_LONG);
 		SQL_BindParam(rank + 1, level.MYSQL_TYPE_LONG);
 		SQL_BindParam(prestige, level.MYSQL_TYPE_LONG);

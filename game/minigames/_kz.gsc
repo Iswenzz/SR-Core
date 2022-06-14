@@ -6,7 +6,7 @@
 
 initKz()
 {
-	level.files["kz"] = fmt("sr/data/kz/%s.txt", getDvar("mapname"));
+	level.files["kz"] = fmt("sr/data/kz/%s.txt", level.map);
 
 	createMinigame("kz");
 	event("killed", ::onPlayerKilled);

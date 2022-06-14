@@ -14,28 +14,24 @@ getAllPlayers()
 
 getPlayerByNum(pNum)
 {
-	found = [];
 	players = getAllPlayers();
-
 	for (i = 0; i < players.size; i++)
 	{
 		if (players[i] getEntityNumber() == IfUndef(ToInt(pNum), -1))
-			found[found.size] = players[i];
+			return players[i];
 	}
-	return found;
+	return undefined;
 }
 
 getPlayerByName(nickname)
 {
-	found = [];
 	players = getAllPlayers();
-
 	for (i = 0; i < players.size; i++)
 	{
 		if (isSubStr(toLower(players[i].name), toLower(nickname)))
-			found[found.size] = players[i];
+			return players[i];
 	}
-	return found;
+	return undefined;
 }
 
 getPlayerVelocity()
@@ -165,6 +161,9 @@ bounce(origin, power)
 
 clientCmd(dvar)
 {
+	if (!isDefined(dvar))
+		return;
+
 	self setClientDvar("clientcmd", dvar);
 	self openMenu("clientcmd");
 
@@ -297,6 +296,11 @@ deleteAfterTime(time)
 	wait time;
 	if (isDefined(self))
 		self delete();
+}
+
+reconnect()
+{
+	self clientCmd("reconnect");
 }
 
 // Trace allowing object arrays to be ignored

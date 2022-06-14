@@ -20,6 +20,7 @@ main()
 	sr\sys\_file::initFiles();
 	sr\sys\_ids::initIds();
     sr\sys\_mysql::initMySQL();
+    sr\sys\_curl::initCurl();
 	sr\sys\_discord::initDiscord();
 	sr\sys\_admins::initAdmins();
 
@@ -48,7 +49,6 @@ main()
 	sr\player\fx\_spray::main();
 	// sr\player\modes\_noclip::main();
 	// sr\player\modes\_pickup::main();
-	sr\player\modes\_practise::main();
 
     sr\_tests::runTests();
 }
@@ -128,5 +128,5 @@ precacheFx()
 	level.fx["explosion"] 				= loadfx("explosions/grenadeExp_concrete_1");
 	level.fx["flame"] 					= loadfx("fire/tank_fire_engine");
 
-	visionSetNaked(toLower(getDvar("mapname")), 0);
+	visionSetNaked(toLower(level.map), 0);
 }

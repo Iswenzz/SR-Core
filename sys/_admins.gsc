@@ -23,6 +23,7 @@ initAdmins()
 	level.admin_commands				= [];
 
 	event("command", ::command);
+	// event("connect", ::banned);
 	event("connect", ::fetch);
 }
 
@@ -154,21 +155,32 @@ getRoleName()
 
 isVIP()
 {
-	return true;
-}
-
-isBanned()
-{
-	return false;
+	return self.admin_vip;
 }
 
 banned()
 {
+	self.guid = getSubStr(self getGuid(), 24, 32);
+
+	mutex_acquire("mysql");
+
+	SQL_Prepare("SELECT 1 FROM bans WHERE guid = ? OR player = ? OR steamId = ? OR ip = ?");
+	SQL_BindParam(self.guid, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(self.id, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(self getSteamID(), level.MYSQL_TYPE_STRING);
+	SQL_BindParam(self getIP(), level.MYSQL_TYPE_STRING);
+	isBanned = SQL_NumRows();
+
+	mutex_release("mysql");
+
+	if (!isBanned)
+		return;
+
 	self setClientDvar("ui_dr_info", "^4You have been banned.");
 	self setClientDvar("ui_dr_info2", "^5More info at https://discord.gg/76aHfGF");
 
 	// Use this instead of kick() to get the ui_dr_info menu
-	exec("kick " + self getEntityNumber() + " banned.");
+	exec(fmt("kick %d banned.", self getEntityNumber()));
 }
 
 log()

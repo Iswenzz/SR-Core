@@ -25,7 +25,6 @@ webhookEmbed(webhook, title, message)
 
 	mutex_acquire("curl");
 
-	CURL_AddOpt(41, 1);
 	sr\sys\_curl::json();
 	response = HTTPS_PostString(json, hook.url);
 

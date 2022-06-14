@@ -6,7 +6,7 @@
 
 initRace()
 {
-	level.files["race"] = fmt("sr/data/race/%s.txt", getDvar("mapname"));
+	level.files["race"] = fmt("sr/data/race/%s.txt", level.map);
 
 	createMinigame("race");
 

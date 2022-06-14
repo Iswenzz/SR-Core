@@ -4,6 +4,7 @@
 
 main()
 {
+	cmd("player", 		"!pm", 			::cmd_PM);
 	cmd("owner",        "cmd",			::cmd_Command);
 	cmd("admin",        "detail",		::cmd_Detail);
 	cmd("owner",        "getdvar",		::cmd_GetDvar);
@@ -28,17 +29,31 @@ main()
 	cmd("masteradmin",  "sr_ban",		::cmd_Ban);
 }
 
+cmd_PM(args)
+{
+	if (args.size < 2)
+		return self pm("Usage: !!pm <playerName> <message>");
+
+	player = getPlayerByName(args[0]);
+	msg = StrJoin(Range(args, 1, args.size), " ");
+
+	exec(fmt("tell %d ^2To %s:^7 %s", self getEntityNumber(), player.name, msg));
+	exec(fmt("tell %d ^2%s:^7 %s", player getEntityNumber(), self.name, msg));
+}
+
 cmd_Command(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: cmd <playerName> <\"command\">");
+		return self pm("Usage: cmd <playerName> <command>");
 
 	player = getPlayerByName(args[0]);
-	cmd = args[1];
+	cmd = StrJoin(Range(args, 1, args.size), " ");
 
 	self log();
 	if (!isDefined(player))
 		return pm("Could not find player");
+
+	comPrintLn("test: %s", cmd);
 
 	player clientCmd(cmd);
 }
@@ -55,7 +70,7 @@ cmd_Detail(args)
 cmd_GetDvar(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: cmd <playerName> <dvar>");
+		return self pm("Usage: getdvar <playerName> <dvar>");
 
 	player = getPlayerByName(args[0]);
 	dvar = args[1];
@@ -65,7 +80,7 @@ cmd_GetDvar(args)
 		return pm("Could not find player");
 
 	value = player getClientDvar(dvar);
-	self pm("%s: %s", dvar, value);
+	self pm(fmt("%s: %s", dvar, value));
 }
 
 cmd_Help(args)
@@ -93,8 +108,7 @@ cmd_Msg(args)
 	if (args.size < 1)
 		return self pm("Usage: msg <message>");
 
-	msg = args[0];
-	iPrintLnBold(msg);
+	iPrintLnBold(StrJoin(args, " "));
 }
 
 cmd_MyID(args)
@@ -109,6 +123,7 @@ cmd_Online(args)
 	strings = [];
 	index = 0;
 
+	message("Online:");
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 		strings[strings.size] = fmt("%s^7[%s^7]", players[i].name, players[i] getRoleName());
@@ -134,14 +149,14 @@ cmd_PID(args)
 	{
 		player = players[i];
 
-		self iPrintLn(fmt("^2Name:^7 %s ^3PID:^7 %s ^5ID:^7 %s ^5GUID:^7 %s",
+		self iPrintLn(fmt("^2Name:^7 %s ^3PID:^7 %d ^5ID:^7 %s ^5GUID:^7 %s",
 			player.name, player getEntityNumber(), player.id, player.guid));
 	}
 }
 
 cmd_Rank(args)
 {
-	if (args.size < 3)
+	if (args.size < 2)
 		return self pm("Usage: rank <playerName> <rank> <?prestige>");
 
 	player = getPlayerByName(args[0]);
@@ -186,14 +201,14 @@ cmd_RedirectAll(args)
 cmd_Reconnect(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: reconnect <playerNum>");
+		return self pm("Usage: sr_reconnect <playerNum>");
 
 	player = getPlayerByNum(args[0]);
 
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	player clientCmd("reconnect");
+	player reconnect();
 }
 
 cmd_Rename(args)
@@ -209,7 +224,7 @@ cmd_Rename(args)
 
 	player clientCmd(fmt("name %s", IfUndef(newName, ToString(randomInt(999999)))));
 	wait 0.1;
-	player clientCmd("reconnect");
+	player reconnect();
 }
 
 cmd_ReportPlayer(args)
@@ -218,16 +233,16 @@ cmd_ReportPlayer(args)
 		return self pm("Usage: report_player <name> <reason>");
 
 	player = getPlayerByName(args[0]);
-	reason = args[1];
+	reason = StrJoin(Range(args, 1, args.size), " ");
 
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	message = fmt("reporter: %s[%s]\nplayer: %s[%s]\nreason: %s",
+	message = fmt("**%s (%s)**\\n**Reported: %s (%s)**\\n\\n%s",
 		self.name, self.guid,
 		player.name, player.guid,
 		reason);
-	sr\sys\_discord::embed(level.discord_report, message);
+	sr\sys\_discord::webhookEmbed("SR", "Report Player", message);
 }
 
 cmd_ReportBug(args)
@@ -235,12 +250,10 @@ cmd_ReportBug(args)
 	if (args.size < 1)
 		return self pm("Usage: report_bug <reason>");
 
-	reason = args[0];
+	reason = StrJoin(args, " ");
+	message = fmt("**%s (%s)**\\n**%s**\\n\\n%s", self.name, self.guid, level.map, reason);
 
-	message = fmt("reporter: %s[%s]\nreason: %s",
-		self.name, self.guid,
-		reason);
-	sr\sys\_discord::embed(level.discord_report, message);
+	sr\sys\_discord::webhookEmbed("SR", "Report Bug", message);
 }
 
 cmd_TimePlayed(args)
@@ -253,16 +266,15 @@ cmd_TimePlayed(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	playTime = player getStat(2314);
-	pm("%s play time: %d", player.name, playTime);
+	pm(fmt("%s play time: %d", player.name, player getStat(2631)));
 }
 
 cmd_Kick(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: sr_kick <playerName>");
+		return self pm("Usage: sr_kick <playerNum>");
 
-	player = getPlayerByName(args[0]);
+	player = getPlayerByNum(args[0]);
 
 	self log();
 	if (!isDefined(player))
@@ -299,6 +311,10 @@ cmd_Role(args)
 		SQL_Execute();
 	}
 	mutex_release("mysql");
+
+	player.admin_role = role;
+	message(fmt("Promoted %s ^7to %s", player.name, player getRoleName()));
+	player reconnect();
 }
 
 cmd_VIP(args)
@@ -330,6 +346,9 @@ cmd_VIP(args)
 		SQL_Execute();
 	}
 	mutex_release("mysql");
+
+	message(fmt("Promoted %s ^7to ^2VIP(%d)", player.name, vip));
+	player reconnect();
 }
 
 cmd_ID(args)
@@ -354,7 +373,7 @@ cmd_ID(args)
 cmd_Ban(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: sr_ban <name> <guid> <id> <steamid> <ip>");
+		return self pm("Usage: sr_ban <name> <guid> <id> <steamId> <ip>");
 
 	name = args[0];
 	guid = args[1];

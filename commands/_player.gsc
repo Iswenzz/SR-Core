@@ -16,7 +16,6 @@ main()
 	cmd("owner", 		"knockback",	::cmd_Knockback);
 	cmd("owner", 		"model",		::cmd_Model);
 	cmd("owner", 		"noclip",		::cmd_NoClip);
-	cmd("player", 		"pm", 			::cmd_PM);
 	cmd("masteradmin", 	"sr_freeze",	::cmd_Freeze);
 	cmd("masteradmin", 	"sr_unfreeze",	::cmd_UnFreeze);
 	cmd("adminplus", 	"shock",		::cmd_Shock);
@@ -156,18 +155,6 @@ cmd_NoClip(args)
 {
 	self.noclip = !self.noclip;
 	self sr\api\_player::antiElevator(!self.noclip);
-}
-
-cmd_PM(args)
-{
-	if (args.size < 2)
-		return self pm("Usage: !!pm <playerName> <message>");
-
-	player = getPlayerByName(args[0]);
-	msg = args[1];
-
-	exec(fmt("tell %d ^5%s PM You:^7 %s", player getEntityNumber(), self.name, msg));
-	exec(fmt("tell %d ^5You PM to %s:^7 %s", self getEntityNumber(), player.name, msg));
 }
 
 cmd_Freeze(args)
