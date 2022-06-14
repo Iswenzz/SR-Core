@@ -11,7 +11,6 @@ main()
 record()
 {
 	self endon("death");
-	self endon("disconnect");
 
 	if (self.isBot)
 		return;

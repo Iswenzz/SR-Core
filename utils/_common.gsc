@@ -61,7 +61,7 @@ getFPS()
 	fps = self getUserInfo("com_maxfps");
 
 	if (IsNullOrEmpty(fps))
-		return 0;
+		return 125;
 	return ToInt(fps);
 }
 

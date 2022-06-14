@@ -7,8 +7,6 @@ main()
 
 menu_WelcomeMessage(arg)
 {
-	self endon("disconnect");
-
 	if (self.pers["team"] != "allies")
 		return;
 
