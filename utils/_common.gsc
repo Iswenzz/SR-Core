@@ -14,6 +14,9 @@ getAllPlayers()
 
 getPlayerByNum(pNum)
 {
+	if (!isDefined(pNum))
+		return undefined;
+
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
@@ -25,6 +28,9 @@ getPlayerByNum(pNum)
 
 getPlayerByName(nickname)
 {
+	if (!isDefined(nickname))
+		return undefined;
+
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{

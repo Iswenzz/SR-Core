@@ -47,6 +47,7 @@ cmd_MusicHelp(args)
 	aliases = getArrayKeys(level.sr_music);
 	strings = Chunk(aliases, 6);
 
+	self pm("Music aliases:");
 	for (i = 0; i < strings.size; i++)
 		self pm(StrJoin(strings[i], ", "));
 }

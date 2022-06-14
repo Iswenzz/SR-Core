@@ -19,7 +19,10 @@ cmd_Race(args)
 		self pm("^1Already in a different mode.");
 		return;
 	}
-	Ternary(!self isInQueue("race"), join(), leave());
+	if (!self isInQueue("race"))
+		join();
+	else
+		leave();
 }
 
 cmd_RaceTrig(args)

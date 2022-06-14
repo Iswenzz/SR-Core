@@ -33,12 +33,16 @@ cmd_Bounce(args)
 	self log();
 	player = IfUndef(getPlayerByName(args[0]), self);
 
-	player bounce(vectorNormalize(player.origin - (player.origin - (0, 0, 20))), 400);
+	for (i = 0; i < 2; i++)
+		player bounce(vectorNormalize((0, 0, 20)), 400);
 }
 
 cmd_Clone(args)
 {
-	Ternary(!isDefined(self.clone), clone(), cloneDespawn());
+	if (!isDefined(self.clone))
+		clone();
+	else
+		cloneDespawn();
 }
 
 cmd_Damage(args)
@@ -209,7 +213,7 @@ cmd_Shovel(args)
 
 cmd_TakeAll(args)
 {
-	if (args.size < 2)
+	if (args.size < 1)
 		return self pm("Usage: takeall <playerName>");
 
 	player = getPlayerByName(args[0]);
@@ -295,14 +299,11 @@ clone()
 	self endon("disconnect");
 	self endon("clone");
 
-	while (true)
+	while (isDefined(self))
 	{
-		if (isDefined(self))
-		{
-			self.clone = self clonePlayer(10);
-        	self.clone.origin = self.origin;
-        	self.clone.angles = self.angles;
-		}
+		self.clone = self clonePlayer(10);
+		self.clone.origin = self.origin;
+		self.clone.angles = self.angles;
         wait 0.05;
     }
 }

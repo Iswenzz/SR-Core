@@ -55,3 +55,57 @@ getHorizontal(int)
 			return "left";
 	}
 }
+
+fadeOut(time, direction, speed)
+{
+	if (!isDefined(self))
+		return;
+	if (isDefined(direction))
+	{
+		self moveOverTime(IfUndef(speed, 0.2));
+
+		switch (direction)
+		{
+			case "top": 	self.y -= 600; 	break;
+			case "left": 	self.x -= 600; 	break;
+			case "bottom": 	self.y += 600; 	break;
+			case "right": 	self.x += 600; 	break;
+		}
+	}
+	self fadeOverTime(time);
+	self.alpha = 0;
+
+	wait time;
+	if (isDefined(self))
+		self destroy();
+}
+
+fadeIn(time, direction, speed)
+{
+	if (!isDefined(self))
+		return;
+	if (isDefined(direction))
+	{
+		switch (direction)
+		{
+			case "top": 	self.y += 600; 	break;
+			case "left": 	self.x += 600; 	break;
+			case "bottom": 	self.y -= 600; 	break;
+			case "right": 	self.x -= 600; 	break;
+		}
+
+		self moveOverTime(IfUndef(speed, 0.2));
+
+		switch (direction)
+		{
+			case "top": 	self.y -= 600; 	break;
+			case "left": 	self.x -= 600; 	break;
+			case "bottom": 	self.y += 600; 	break;
+			case "right": 	self.x += 600; 	break;
+		}
+	}
+	alpha = self.alpha;
+	self.alpha = 0;
+	self fadeOverTime(time);
+	self.alpha = alpha;
+}

@@ -18,7 +18,10 @@ cmd_Kz(args)
 		self pm("^1Already in a different mode.");
 		return;
 	}
-	Ternary(!self isInQueue("kz"), join(), leave());
+	if (!self isInQueue("kz"))
+		join();
+	else
+		leave();
 }
 
 cmd_KzSpawn(args)

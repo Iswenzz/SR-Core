@@ -4,7 +4,6 @@
 main()
 {
 	level.vote_max_entries = 24;
-	level.vote_maps = load(false);
 
 	cmd("adminplus", 	"vote", 		::cmd_Vote);
 	cmd("masteradmin", 	"vote_cancel", 	::cmd_VoteCancel);
@@ -61,24 +60,9 @@ cmd_VoteForce(args)
 	level.vote_timer = 0;
 }
 
-load(includeCurrent)
-{
-	list = [];
-	currentMap = level.map;
-	maps = StrTok(getDvar("sv_maprotation"), " ");
-
-	for (i = 0; i < maps.size; i++)
-	{
-		if (currentMap == maps[i] && !includeCurrent)
-			continue;
-		list[list.size] = maps[i];
-	}
-	return Chunk(list, level.vote_max_entries);
-}
-
 display()
 {
-	maps = level.vote_maps;
+	maps = level.rotation;
 	page = self.vote_page;
 	maxPage = maps.size / level.vote_max_entries;
 
@@ -97,7 +81,7 @@ displayClear()
 menu_pageNext()
 {
 	page = self.vote_page;
-	maxPage = level.vote_maps.size / level.vote_max_entries;
+	maxPage = level.rotation.size / level.vote_max_entries;
 
 	if (page >= maxPage - 1)
 		return;
@@ -123,10 +107,10 @@ menu_select(arg)
 	value = args[1];
 
 	page = self.vote_page;
-	maxPage = level.vote_maps.size / level.vote_max_entries;
+	maxPage = level.rotation.size / level.vote_max_entries;
 
 	self.vote_selected = ToInt(value) + (page * level.vote_max_entries);
-	selected = level.vote_maps[self.vote_selected];
+	selected = level.rotation[self.vote_selected];
 	self setClientDvar("sr_vote_selected", selected);
 	self setClientDvar("sr_vote_selected_material", "loadscreen_" + selected);
 }
@@ -136,7 +120,7 @@ menu_vote(arg)
 	args = strTok(arg, ":");
 
 	value = args[0];
-	selected = level.vote_maps[self.vote_selected];
+	selected = level.rotation[self.vote_selected];
 
 	if ((getTime() - self.vote_cd) < 300000)
 		self IPrintLnBold("You cannot vote yet");
