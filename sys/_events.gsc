@@ -96,6 +96,7 @@ eventSpectator(origin, angles)
 		self.spawnPoint.origin = origin;
 		self.spawnPoint.angles = angles;
 	}
+	self sr\game\_map::spawnSpectator(origin, angles);
 	self notify("joined_spectators");
 }
 

@@ -8,6 +8,8 @@ initDvars()
 	makeDvarServerInfo("mod_author", "SuX Lolz");
 
 	addDvar("spawn_time", "dr_spawn_time", 4, 1, 30, "int");
+	addDvar("map_vote", "sr_map_vote", 1, 0, 1, "int");
+	addDvar("match_need_players", "sr_match_need_players", 0, 0, 10, "int");
 }
 
 addDvar(scriptName, varname, vardefault, min, max, type)

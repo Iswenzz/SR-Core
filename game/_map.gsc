@@ -1,4 +1,5 @@
 #include sr\sys\_events;
+#include sr\sys\_file;
 #include sr\utils\_common;
 
 main()
@@ -6,6 +7,8 @@ main()
 	level.spawn = [];
 	level.colliders = [];
 	level.tempEntity = spawn("script_model", (0, 0, 0));
+	level.files["rotation"] = "sr/data/match/rotation.txt";
+	level.rotation = getRotation(false);
 
 	placeSpawns();
 }
@@ -61,6 +64,7 @@ end(map)
 	level notify("game over");
 
 	// FX
+	playFx(level.fx["endgame"], level.spawn["spectator"].origin - (0, 0, 50));
 	setDvar("g_deadChat", 1);
 	ambientStop(2);
 	visionSetNaked("mp_dr_sm64", 4);
@@ -79,35 +83,45 @@ end(map)
 	}
 	wait .05;
 
-	// Spectator
+	// Credits
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		players[i] eventSpectator();
+		players[i] spawnSpectator();
 		players[i] allowSpectateTeam("allies", false);
 		players[i] allowSpectateTeam("axis", false);
 		players[i] allowSpectateTeam("freelook", false);
 		players[i] allowSpectateTeam("none", true);
 	}
+	wait 3;
+	sr\game\_credits::start();
 	wait 5;
 
-	playFx(level.fx["endgame"], level.spawn["spectator"].origin - (0, 0, 50));
-
-	// Intermission
-	sr\game\_credits::start();
+	// Voting
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		players[i] eventSpectator();
+		players[i] spawnSpectator();
 		players[i].sessionstate = "intermission";
 	}
 	wait 15;
 
-	// Next map
-	maps = sr\commands\_vote::load(false);
-	picked = IfUndef(map, maps[randomInt(maps.size)]);
-	setDvar("sv_maprotationcurrent", "gametype deathrun map " + picked);
-	exitLevel(false);
+	map = "";
+	// maps = randomizeMaps(5);
+
+	// if (level.dvar["map_vote"])
+	// 	map = menuVote(maps);
+	// else
+	// 	map = maps[randomInt(maps.size)];
+
+	// // Next map
+	// setDvar("sv_maprotationcurrent", "gametype deathrun map " + map);
+	// exitLevel(false);
+}
+
+menuVote(maps)
+{
+
 }
 
 endMusic()
@@ -125,4 +139,63 @@ endEarthquake()
 		earthquake(0.05, 0.05, level.spawn["spectator"].origin, 20000);
 		wait 0.05;
 	}
+}
+
+randomizeMaps(amount)
+{
+	maps = [];
+	rotation = getRotation(false);
+	file = FILE_OpenMod(level.files["rotation"], "a+");
+	playedMaps = FILE_ReadLines(file);
+
+	while (maps.size != amount)
+	{
+		picked = rotation[randomInt(rotation.size)];
+		rotation = picked removeFromArray(rotation);
+
+		// No more new maps found
+		if (rotation.size < amount)
+		{
+			FILE_Close(file);
+			FILE_Delete(level.files["rotation"]);
+			return randomizeMaps(amount);
+		}
+
+		// Found map
+		if (IndexOf(playedMaps, picked) < 0)
+		{
+			maps[maps.size] = picked;
+			FILE_WriteLine(file, picked);
+		}
+	}
+	FILE_Close(file);
+	return maps;
+}
+
+getRotation(includeCurrent)
+{
+	list = [];
+	currentMap = level.map;
+	maps = StrTok(getDvar("sv_maprotation"), " ");
+
+	for (i = 0; i < maps.size; i++)
+	{
+		if (currentMap == maps[i] && !includeCurrent)
+			continue;
+		list[list.size] = maps[i];
+	}
+	return Chunk(list, level.vote_max_entries);
+}
+
+spawnSpectator(origin, angles)
+{
+	self endon("disconnect");
+
+	self cleanUp();
+	self.sessionstate = "spectator";
+	self.spectatorclient = -1;
+	self.statusicon = "";
+	spawn = IfUndef(self.spawnPoint, level.spawn["spectator"]);
+	self spawn(spawn.origin, spawn.angles);
+	self sr\game\_teams::setSpectatePermissions();
 }

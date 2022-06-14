@@ -1,23 +1,24 @@
 #include sr\utils\_common;
+#include sr\utils\_hud;
 
 start()
 {
-	level.creditTime = 0;
-
+	level.creditTime = 20;
 	cleanScreen();
 
-	showCredit("SR Mod (c) 2016-2022", 2, 80, 0.5);
-	showCredit("SuX Lolz", 1.8, 120, 1);
-	showCredit("Additional Help", 2, 160, 0.5);
-	showCredit("Sheep Wizard", 1.7, 200, 0.5);
-	showCredit("IzNoGod", 1.7, 240, 0.5);
-	showCredit("Vc' Blade", 1.7, 280, 0.5);
-	showCredit("3xP' Noob", 1.7, 320, 1);
+	thread showCredit("SR Mod (c) 2016-2022", 2, 40, 18.5, 0);
+	thread showCredit("SuX Lolz", 1.8, 80, 18, 2);
+	thread showCredit("Additional Help", 2, 140, 14, 3);
+	thread showCredit("Sheep Wizard", 1.6, 180, 14.5, 3.5);
+	thread showCredit("BraXi", 1.6, 220, 15, 4);
+	thread showCredit("IzNoGod", 1.6, 260, 15.5, 4.5);
+	thread showCredit("Vc' Blade", 1.6, 300, 16, 5);
+	thread showCredit("3xP' Noob", 1.6, 340, 16.5, 5.5);
 
-	wait 2;
+	wait level.creditTime;
 }
 
-showCredit(text, scale, y, time)
+showCredit(text, scale, y, duration, startTime)
 {
 	hud = newHudElem();
 	hud.font = "objective";
@@ -32,54 +33,16 @@ showCredit(text, scale, y, time)
 	hud.sort = -1;
 	hud.glowColor = ToRGB(120, 0, 255);
 	hud.glowAlpha = 1;
-	hud.alpha = 0;
-	hud fadeOverTime(1);
-	hud.alpha = 1;
-	hud.foreground = true;
-	hud thread fadeCredit();
-
-	level.creditTime += time;
-	wait time;
+	hud fade(duration, startTime);
 }
 
-fadeCredit()
+fade(duration, startTime)
 {
-	wait level.creditTime;
-	self fadeOverTime(1);
 	self.alpha = 0;
-	wait 1;
-	self destroy();
-}
+	wait startTime;
+	self.alpha = 1;
 
-neon()
-{
-	neon = addNeon("", 1.4);
-	while (true)
-	{
-		neon moveOverTime(12);
-		neon.x = 800;
-		wait 15;
-
-		neon moveOverTime(12);
-		neon.x = -800;
-		wait 15;
-	}
-}
-
-addNeon(text, scale)
-{
-	text = newHudElem();
-	text.font = "objective";
-	text.fontScale = scale;
-	text SetText(text);
-	text.alignX = "center";
-	text.alignY = "top";
-	text.horzAlign = "center";
-	text.vertAlign = "top";
-	text.x = -200;
-	text.y = 8;
-	text.sort = -1;
-	text.alpha = 1;
-	text.foreground = true;
-	return text;
+	self fadeIn(1, "right", 2);
+	wait duration - startTime;
+	self fadeOut(1, "right", 2);
 }

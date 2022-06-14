@@ -1,3 +1,5 @@
+#include sr\utils\_hud;
+
 initMenus()
 {
 	level.sr_menu = [];
@@ -55,7 +57,7 @@ close()
 	for (i = 0; i < self.sr_menu.size; i++)
 	{
 		if (isDefined(self.sr_menu[i]))
-			self.sr_menu[i] thread fadeOut(1, true, "right");
+			self.sr_menu[i] thread fadeOut(1, "right");
 	}
 
 	self.sr_menu_open = false;
@@ -117,27 +119,27 @@ open(id)
 
 	self.sr_menu[0] = addTextHud(self, -200, 0, .6, "left", "top", "right",0, 101);
 	self.sr_menu[0] setShader("nightvision_overlay_goggles", 400, 650);
-	self.sr_menu[0] thread fadeIn(.5, true, "right");
+	self.sr_menu[0] thread fadeIn(.5, "right");
 
 	self.sr_menu[1] = addTextHud(self, -200, 0, .5, "left", "top", "right", 0, 101);
 	self.sr_menu[1] setShader("black", 400, 650);
-	self.sr_menu[1] thread fadeIn(.5, true, "right");
+	self.sr_menu[1] thread fadeIn(.5, "right");
 
 	self.sr_menu[2] = addTextHud(self, -200, 89, .5, "left", "top", "right", 0, 102);
 	self.sr_menu[2] setShader("line_vertical", 600, 22);
-	self.sr_menu[2] thread fadeIn(.5, true, "right");
+	self.sr_menu[2] thread fadeIn(.5,"right");
 
 	self.sr_menu[3] = addTextHud(self, -190, 93, 1, "left", "top", "right", 0, 104);
 	self.sr_menu[3] setShader("ui_host", 14, 14);
-	self.sr_menu[3] thread fadeIn(.5, true, "right");
+	self.sr_menu[3] thread fadeIn(.5, "right");
 
 	self.sr_menu[4] = addTextHud(self, -165, 100, 1, "left", "middle", "right", 1.4, 103);
 	self.sr_menu[4] setText(getMenuOptions(id, submenu));
-	self.sr_menu[4] thread fadeIn(.5, true, "right");
+	self.sr_menu[4] thread fadeIn(.5, "right");
 
 	self.sr_menu[5] = addTextHud(self, -170, 400, 1, "left", "middle", "right" ,1.4, 103);
 	self.sr_menu[5] setText("Select: [Right or Left Mouse]\nUse: [[{+activate}]]\nLeave: [[{+melee}]]");
-	self.sr_menu[5] thread fadeIn(.5, true, "right");
+	self.sr_menu[5] thread fadeIn(.5, "right");
 
 	for (selected = 0; !self meleeButtonPressed(); wait .05)
 	{
@@ -180,19 +182,19 @@ open(id)
 
 				self.sr_menu[6] = addTextHud(self, -430, abstand + 50, .5, "left", "top", "right", 0, 101);
 				self.sr_menu[6] setShader("black", 200, 300);
-				self.sr_menu[6] thread fadeIn(.5, true, "left");
+				self.sr_menu[6] thread fadeIn(.5, "left");
 
 				self.sr_menu[7] = addTextHud(self, -430, abstand + 60, .5, "left", "top", "right", 0, 102);
 				self.sr_menu[7] setShader("line_vertical", 200, 22);
-				self.sr_menu[7] thread fadeIn(.5, true, "left");
+				self.sr_menu[7] thread fadeIn(.5, "left");
 
 				self.sr_menu[8] = addTextHud(self, -219, 93 + (16.8 * selected), 1, "left", "top", "right", 0, 104);
 				self.sr_menu[8] setShader("hud_arrow_left", 14, 14);
-				self.sr_menu[8] thread fadeIn(.5, true, "left");
+				self.sr_menu[8] thread fadeIn(.5, "left");
 
 				self.sr_menu[9] = addTextHud(self, -420, abstand + 71, 1, "left", "middle", "right", 1.4, 103);
 				self.sr_menu[9] setText(getMenuOptions(id, submenu));
-				self.sr_menu[9] thread fadeIn(.5, true, "left");
+				self.sr_menu[9] thread fadeIn(.5, "left");
 
 				selected = 0;
 				wait 0.2;
@@ -222,50 +224,6 @@ addTextHud(who, x, y, alpha, alignX, alignY, vert, fontScale, sort)
 	if (fontScale != 0)
 		hud.fontScale = fontScale;
 	return hud;
-}
-
-fadeOut(time, slide, dir)
-{
-	if (!isDefined(self))
-		return;
-	if (isDefined(slide) && slide)
-	{
-		self moveOverTime(0.2);
-		if (isDefined(dir) && dir == "right")
-			self.x += 600;
-		else
-			self.x -= 600;
-	}
-	self fadeOverTime(time);
-	self.alpha = 0;
-
-	wait time;
-	if (isDefined(self))
-		self destroy();
-}
-
-fadeIn(time, slide, dir)
-{
-	if (!isDefined(self))
-		return;
-	if (isDefined(slide) && slide)
-	{
-		if (isDefined(dir) && dir == "right")
-			self.x += 600;
-		else
-			self.x -= 600;
-
-		self moveOverTime(.2);
-
-		if (isDefined(dir) && dir == "right")
-			self.x -= 600;
-		else
-			self.x += 600;
-	}
-	alpha = self.alpha;
-	self.alpha = 0;
-	self fadeOverTime(time);
-	self.alpha = alpha;
 }
 
 blur(start, end)
