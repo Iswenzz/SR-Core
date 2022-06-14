@@ -75,8 +75,8 @@ pickup()
 
 mode()
 {
-	modes = strTok("Yaw;Pitch;Roll;Move;Reset", ";");
-	self.pickupMode = range(self.pickupMode + 1, 0, 4);
+	modes = strTok("Yaw;Pitch;Roll;Move;Reset;", ";");
+	self.pickupMode = intRange(self.pickupMode + 1, 0, 4);
 	self iPrintLn(modes[self.pickupMode]);
 }
 

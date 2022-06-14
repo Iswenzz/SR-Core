@@ -16,7 +16,7 @@ initKz()
 	level.kzRandomPoints = [];
 	level.kzWeapon = "m40a3_mp";
 	level.kzWeaponMode = "rng";
-	level.kzWeaponList = strTok("m40a3_mp,g3_reflex_mp,m1014_mp,m14_mp,ak47_mp,mp5_acog_mp,ak47_gl_mp,g36c_silencer_mp,m1014_grip_mp,mp5_mp,gl_m14_mp,m60e4_mp,dragunov_mp,p90_acog_mp,rpg_mp", ",");
+	level.kzWeaponList = strTok("m40a3_mp,g3_reflex_mp,m1014_mp,m14_mp,ak47_mp,mp5_acog_mp,ak47_gl_mp,g36c_silencer_mp,m1014_grip_mp,mp5_mp,gl_m14_mp,m60e4_mp,dragunov_mp,p90_acog_mp,rpg_mp,", ",");
 	level.kzStarted = false;
 
 	event("spawn", ::hud);

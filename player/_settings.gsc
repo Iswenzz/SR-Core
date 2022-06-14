@@ -1,5 +1,6 @@
 #include sr\sys\_events;
 #include sr\utils\_common;
+#include sr\utils\_hud;
 
 main()
 {
@@ -73,127 +74,136 @@ reset()
 	self.settings["hud_fps"] 		= true;
 	self.settings["hud_xp"] 		= false;
 	self.settings["hud_spectator"] 	= true;
-	self.settings["hud_velocity"] 	= 4;
-	self.settings["hud_compass"] 	= false;
+	self.settings["hud_velocity"] 	= 5;
+	self.settings["hud_compass"] 	= 5;
 	self.settings["hud_2D"] 		= true;
 	self.settings["player_hide"] 	= false;
 	self.settings["player_knife"] 	= false;
-	self.settings["gfx_distance"] 	= false;
+	self.settings["gfx_distance"] 	= 0;
 	self.settings["gfx_fov"] 		= 1000;
 	self.settings["gfx_fullbright"] = false;
 	self.settings["gfx_fx"] 		= true;
 	self save();
 }
 
-update_hudCrosshair()
+update_hudCrosshair(num)
 {
 	value = self.settings["hud_crosshair"];
 	self setClientDvar("cg_drawcrosshair", value);
-	updateHud(0, value);
+	self updateHud(num, value);
 }
 
-update_hudFPS()
+update_hudFPS(num)
 {
 	value = self.settings["hud_fps"];
 	self setClientDvar("cg_drawfps", value);
-	updateHud(1, value);
+	self updateHud(num, value);
 }
 
-update_hudXP()
+update_hudXP(num)
 {
 	value = self.settings["hud_xp"];
 	self setClientDvar("sr_xp_bar", value);
-	updateHud(3, value);
+	self updateHud(num, value);
 }
 
-update_hudSpectator()
+update_hudSpectator(num)
 {
 	value = self.settings["hud_spectator"];
-	updateHud(4, value);
+	self updateHud(num, value);
 }
 
-update_hudVelocity()
+update_hudVelocity(num)
 {
 	value = self.settings["hud_velocity"];
-	labels = strTok("^1OFF,^2Top-Left,^2Top-Center,^2Top-Right,^2Bottom-Left,^2Bottom-Center,^2Bottom-Right", ",");
-	updateHud(7, value, labels[value]);
+	labels = strTok("^1OFF;^2Top-Left;^2Top-Center;^2Top-Right;^2Bottom-Left;^2Bottom-Center;^2Bottom-Right;", ";");
+	self updateHud(num, value, labels[value]);
+
+	if (isDefined(self.huds["velocity"]))
+	{
+		self.huds["velocity"].alignX = getHorizontal(self.settings["hud_velocity"]);
+		self.huds["velocity"].horzAlign = getHorizontal(self.settings["hud_velocity"]);
+		self.huds["velocity"].alignY = getVertical(self.settings["hud_velocity"]);
+		self.huds["velocity"].vertAlign = getVertical(self.settings["hud_velocity"]);
+	}
 }
 
-update_hudCompass()
+update_hudCompass(num)
 {
 	value = self.settings["hud_compass"];
-	labels = strTok("^1OFF,^2Top-Left,^2Top-Center,^2Top-Right,^2Bottom-Left,^2Bottom-Center,^2Bottom-Right", ",");
-	updateHud(8, value, labels[value]);
+	labels = strTok("^1OFF;^2Top-Left;^2Top-Center;^2Top-Right;^2Bottom-Left;^2Bottom-Center;^2Bottom-Right;", ";");
+	self updateHud(num, value, labels[value]);
 }
 
-update_hud2D()
+update_hud2D(num)
 {
 	value = self.settings["hud_2D"];
 	self setClientDvar("cg_draw2D", value);
-	updateHud(10, value);
+	self updateHud(num, value);
 }
 
-update_playerHide()
+update_playerHide(num)
 {
 	value = self.settings["player_hide"];
-	labels = strTok("^1OFF,^3Near,^2All", ",");
-	updateHud(9, value, labels[value]);
+	labels = strTok("^1OFF;^3Near;^2All;", ";");
+	self updateHud(num, value, labels[value]);
 }
 
-update_playerKnife()
+update_playerKnife(num)
 {
 	value = self.settings["player_knife"];
-	updateHud(12, value);
+	self updateHud(num, value);
 }
 
-update_gfxFOV()
+update_gfxFOV(num)
 {
-	value = int(self.settings["gfx_fov"] / 1000);
+	value = float(self.settings["gfx_fov"] / 1000);
 	self setClientDvar("cg_fovscale", value);
-	updateHud(6, value, fmt("^2%f", value));
+	self updateHud(num, value > 0, fmt("^5%.3f", value));
 }
 
-update_gfxFullbright()
+update_gfxFullbright(num)
 {
 	value = self.settings["gfx_fullbright"];
 	self setClientDvar("r_fullbright", value);
-	updateHud(2, value);
+	self updateHud(num, value);
 }
 
-update_gfxDistance()
+update_gfxDistance(num)
 {
 	value = self.settings["gfx_distance"];
-	distances = Cast(strTok("0,5000,2500,1250", ","), "int");
-	labels = strTok("^3MAX,^25000,^22500,^21250", ",");
+	distances = Cast(strTok("0;5000;2500;1250;500;", ";"), "int");
+	labels = strTok("^3MAX;^25000;^22500;^21250;^2500;", ";");
 
 	distance = distances[value];
 	self setClientDvar("r_zfar", distance);
-	updateHud(5, value, labels[value]);
+	self updateHud(num, value, labels[value]);
 }
 
-update_gfxFX()
+update_gfxFX(num)
 {
 	value = self.settings["gfx_fx"];
 	self setClientDvar("fx_enable", value);
-	updateHud(2, value);
+	self updateHud(num, value);
 }
 
 update()
 {
 	self endon("disconnect");
 
-	self update_hudCrosshair();
-	self update_hudFPS();
-	self update_hudXP();
-	self update_hudSpectator();
-	self update_hudVelocity();
-	self update_hudCompass();
-	self update_hud2D();
-	self update_playerHide();
-	self update_playerKnife();
-	self update_gfxFOV();
-	self update_gfxFullbright();
-	self update_gfxDistance();
+	self update_hudCrosshair(0);
+	self update_hudFPS(1);
+	self update_hudXP(3);
+	self update_hudSpectator(4);
+	self update_hudVelocity(7);
+	self update_hudCompass(8);
+	self update_hud2D(10);
+	self update_playerHide(9);
+	self update_playerKnife(12);
+	self update_gfxFOV(6);
+	self update_gfxFullbright(2);
+	self update_gfxDistance(5);
+	self update_gfxFX(11);
 
 	self thread save();
 }
@@ -208,30 +218,30 @@ menu_setting(args)
 {
 	self endon("disconnect");
 
-	switch (args[1])
+	switch (ToInt(args[1]))
 	{
-		case "0": 	self.settings["hud_crosshair"] 	= !self.settings["hud_crosshair"]; 				break;
-		case "1": 	self.settings["hud_fps"] 		= !self.settings["hud_fps"]; 					break;
-		case "2": 	self.settings["gfx_fullbright"] = !self.settings["gfx_fullbright"]; 			break;
-		case "3": 	self.settings["hud_xp"] 		= !self.settings["hud_xp"]; 					break;
-		case "4": 	self.settings["hud_spectator"] 	= !self.settings["hud_spectator"]; 				break;
-		case "5": 	self.settings["gfx_distance"] 	= range(self.settings["gfx_distance"], 0, 3);	break;
-		case "6": 	self menu_FOV();																break;
-		case "7": 	self.settings["gfx_distance"] 	= range(self.settings["hud_velocity"], 0, 6);	break;
-		case "8": 	self.settings["hud_compass"] 	= range(self.settings["hud_velocity"], 0, 6);	break;
-		case "9": 	self.settings["player_hide"] 	= range(self.settings["hud_velocity"], 0, 2);	break;
-		case "10": 	self.settings["hud_2D"] 		= !self.settings["hud_2D"]; 					break;
-		case "11": 	self.settings["gfx_fx"] 		= !self.settings["gfx_fx"]; 					break;
-		case "12": 	self.settings["player_knife"] 	= !self.settings["player_knife"]; 				break;
+		case 0: 	self.settings["hud_crosshair"] 	= !self.settings["hud_crosshair"]; 					break;
+		case 1: 	self.settings["hud_fps"] 		= !self.settings["hud_fps"]; 						break;
+		case 2: 	self.settings["gfx_fullbright"] = !self.settings["gfx_fullbright"]; 				break;
+		case 3: 	self.settings["hud_xp"] 		= !self.settings["hud_xp"]; 						break;
+		case 4: 	self.settings["hud_spectator"] 	= !self.settings["hud_spectator"]; 					break;
+		case 5: 	self.settings["gfx_distance"] 	= intRange(self.settings["gfx_distance"], 0, 4);	break;
+		case 6: 	self menu_FOV();																	break;
+		case 7: 	self.settings["hud_velocity"] 	= intRange(self.settings["hud_velocity"], 0, 6);	break;
+		case 8: 	self.settings["hud_compass"] 	= intRange(self.settings["hud_compass"], 0, 6);		break;
+		case 9: 	self.settings["player_hide"] 	= intRange(self.settings["player_hide"], 0, 2);		break;
+		case 10: 	self.settings["hud_2D"] 		= !self.settings["hud_2D"]; 						break;
+		case 11: 	self.settings["gfx_fx"] 		= !self.settings["gfx_fx"]; 						break;
+		case 12: 	self.settings["player_knife"] 	= !self.settings["player_knife"]; 					break;
 	}
-	self thread update();
+	self update();
 }
 
 menu_FOV()
 {
 	self closeMenu();
 	self closeInGameMenu();
-	self iprintlnbold("Use ^2!fov ^7<1.0-2.0>");
+	self sr\commands\_graphics::cmd_FOV([]);
 }
 
 hidePlayers()

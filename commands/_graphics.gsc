@@ -21,11 +21,9 @@ cmd_FOV(args)
 	if (normalized > 2000 || normalized < 200)
 		return;
 
-	self.fovscale = normalized;
-	self setClientDvar("cg_fovscale", normalized);
-	self IPrintLnBold("^5FOV scale ^7" + normalized);
-	self.settings["gfx_fov"] = self.fovscale;
-	self thread sr\player\_settings::update();
+	self pm("FOV scale ^5" + value);
+	self.settings["gfx_fov"] = normalized;
+	self sr\player\_settings::update();
 }
 
 cmd_FPS(args)
@@ -33,16 +31,15 @@ cmd_FPS(args)
 	self.settings["gfx_fullbright"] = !self.settings["gfx_fullbright"];
 	msg = Ternary(self.settings["gfx_fullbright"], "^2Fullbright On", "^1Fullbright Off");
 
-	self setClientDvar("r_fullbright", self.settings["gfx_fullbright"]);
 	self pm(msg);
-	self thread sr\player\_settings::update();
+	self sr\player\_settings::update();
 }
 
 cmd_Sheep(args)
 {
 	for (i = 0; i < 25; i++)
 	{
-		self IPrintLnBold("^3S^2h^1e^4e^6p ^3w^2i^1z^4a^6r^5d");
+		self iPrintLnBold("^3S^2h^1e^4e^6p ^3w^2i^1z^4a^6r^5d");
 		wait 0.1;
 	}
 	self setClientDvar("r_specular", 1);
@@ -54,9 +51,8 @@ cmd_FX(args)
 	self.settings["gfx_fx"] = !self.settings["gfx_fx"];
 	msg = Ternary(self.settings["gfx_fx"], "^2FX On", "^1FX Off");
 
-	self setClientDvar("fx_enabled", self.settings["gfx_fx"]);
 	self pm(msg);
-	self thread sr\player\_settings::update();
+	self sr\player\_settings::update();
 }
 
 cmd_Color(args)

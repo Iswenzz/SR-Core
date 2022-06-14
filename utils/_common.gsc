@@ -266,8 +266,9 @@ randomColorDark()
 	return (randomint(50) / 100, randomint(50) / 100, randomint(50) / 100);
 }
 
-range(variable, min, max)
+intRange(variable, min, max)
 {
+	variable++;
 	if (variable < min)
 		return max;
 	if (variable > max)

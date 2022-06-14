@@ -41,7 +41,7 @@ spray()
 		forward = anglesToForward(angles);
 		up = anglesToUp(angles);
 
-		sprayNum = range(self getStat(979), 0, level.assets["spray"].size);
+		sprayNum = intRange(self getStat(979), 0, level.assets["spray"].size);
 		playFx(level.assets["spray"][sprayNum]["effect"], position, forward, up);
 		self playSound("sprayer");
 

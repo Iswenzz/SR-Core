@@ -13,7 +13,7 @@ itemDef \
 	name			"button_default"id \
 	rect			x y w h DR_BUTTON_ALIGN_LEFT \
 	style			WINDOW_STYLE_EMPTY \
-	forecolor		DR_BUTTON_FORECOLOR \ 
+	forecolor		DR_BUTTON_FORECOLOR \
 	backcolor		DR_BUTTON_BACKCOLOR \
 } \
 itemDef \
@@ -22,7 +22,7 @@ itemDef \
 	name			"button_over"id \
 	rect			x y w h DR_BUTTON_ALIGN_LEFT \
 	style			WINDOW_STYLE_EMPTY \
-	forecolor		DR_BUTTON_FORECOLOR \ 
+	forecolor		DR_BUTTON_FORECOLOR \
 	backcolor		DR_BUTTON_BACKCOLOR_FOCUSED \
 } \
 itemDef \
@@ -127,7 +127,7 @@ itemDef\
     menuDef
 	{
 	    name			"sr_settings"
-		rect			-128 -20 894 515 
+		rect			-128 -20 894 515
 		blurworld			0
 		border			1
 		bordersize			10
@@ -135,143 +135,140 @@ itemDef\
 		focuscolor		COLOR_FOCUSED
 		style			WINDOW_STYLE_EMPTY
 
-		onOpen
-		{
-		}
 		onEsc
 		{
 			close self;
 		}
-	
+
 		itemdef
 		{
 			name			"background"
-			rect			200 50 329 270 1 0 
+			rect			200 50 329 270 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.6 
+			backcolor			0.1 0.1 0.1 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"title"
-			rect			200 0 449 50 1 0 
+			rect			200 0 449 50 1 0
 			style			1
-			backcolor			0 0 0 0.7 
+			backcolor			0 0 0 0.7
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"panel"
-			rect			547 50 102 270 1 0 
+			rect			547 50 102 270 1 0
 			style			1
-			backcolor			0.2 0.2 0.2 0.6 
+			backcolor			0.2 0.2 0.2 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 80 102 30 1 0 
+			rect			547 80 102 30 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.5 
+			backcolor			0.1 0.1 0.1 0.5
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 110 102 30 1 0 
+			rect			547 110 102 30 1 0
 			style			1
-			backcolor			0.2 0.2 0.2 0.6 
+			backcolor			0.2 0.2 0.2 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 140 102 30 1 0 
+			rect			547 140 102 30 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.5 
+			backcolor			0.1 0.1 0.1 0.5
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 170 102 30 1 0 
+			rect			547 170 102 30 1 0
 			style			1
-			backcolor			0.2 0.2 0.2 0.6 
+			backcolor			0.2 0.2 0.2 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 200 102 30 1 0 
+			rect			547 200 102 30 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.5 
+			backcolor			0.1 0.1 0.1 0.5
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 230 102 30 1 0 
+			rect			547 230 102 30 1 0
 			style			1
-			backcolor			0.2 0.2 0.2 0.6 
+			backcolor			0.2 0.2 0.2 0.6
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"square"
-			rect			547 290 102 30 1 0 
+			rect			547 290 102 30 1 0
 			style			1
-			backcolor			0.1 0.1 0.1 0.5 
+			backcolor			0.1 0.1 0.1 0.5
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			decoration
 		}
 		itemdef
 		{
 			name			"titleText"
-			rect			200 36 449 50 1 0 
+			rect			200 36 449 50 1 0
 			style			0
-			backcolor			0 0 0 0.7 
+			backcolor			0 0 0 0.7
 			visible			1
 			bordersize			3
-			bordercolor			0 0 0 0.7 
+			bordercolor			0 0 0 0.7
 			type			0
 			text			"^8Settings"
 			textscale			0.4
@@ -329,58 +326,8 @@ itemDef\
 		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_21")), 400, 275)
 		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_22")), 400, 285)
 		SETTINGS_BUTTON_TEXT(text(dvarString("sr_setting_value_23")), 400, 295)
-		
+
 		DR_SETTINGS_BUTTON( "13", 547, (80 + (30 * 0)), 102, 30, "^8Options", close self; open main_options;, 1)
 		DR_SETTINGS_BUTTON( "14", 547, (80 + (30 * 1)), 102, 30, "^8Controls", close self; open main_controls;, 1)
-
-		// DR_SETTINGS_BUTTON( "19", 547, (80 + (30 * 6)), 102, 30, "^8Time +10", scriptMenuResponse "callvote:add10"; close self;, 1)
-		// DR_SETTINGS_BUTTON( "20", 547, (80 + (30 * 7)), 102, 30, "^8Time +20", scriptMenuResponse "callvote:add20"; close self;, 1)
-
-		// itemdef
-		// {
-		// 	name			"prev"
-		// 	rect			240 240 30 30 1 0 
-		// 	style			WINDOW_STYLE_SHADER
-		// 	background		"sr_prev"
-		// 	type			ITEM_TYPE_BUTTON
-		// 	textstyle		ITEM_TEXTSTYLE_SHADOWED 
-		// 	visible			1
-		// 	mouseEnter 
-		// 	{ 
-		// 		play "mouse_over"; 
-		// 	} 
-		// 	action 
-		// 	{ 
-		// 		scriptMenuResponse "page:prev";
-		// 	} 
-		// }
-		// itemdef
-		// {
-		// 	name			"next"
-		// 	rect			240 210 30 30 1 0 
-		// 	style			WINDOW_STYLE_SHADER
-		// 	background		"sr_next"
-		// 	type			ITEM_TYPE_BUTTON
-		// 	textstyle		ITEM_TEXTSTYLE_SHADOWED 
-		// 	visible			1
-		// 	mouseEnter 
-		// 	{ 
-		// 		play "mouse_over"; 
-		// 	} 
-		// 	action 
-		// 	{ 
-		// 		scriptMenuResponse "page:next";
-		// 	} 
-		// }
-		// itemdef
-		// {
-		// 	name			"pageindex"
-		// 	rect			240 315 20 20 1 0 
-		// 	style			WINDOW_STYLE_EMPTY
-		// 	textstyle		ITEM_TEXTSTYLE_SHADOWED 
-		// 	visible			1
-		// 	exp				text("^8" + dvarString("sr_votepage"))
-		// 	decoration
-		// }
 	}
 }
