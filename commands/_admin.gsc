@@ -7,6 +7,7 @@ main()
 	cmd("player", 		"!pm", 			::cmd_PM);
 	cmd("owner",        "cmd",			::cmd_Command);
 	cmd("admin",        "detail",		::cmd_Detail);
+	cmd("masteradmin",  "end",			::cmd_End);
 	cmd("owner",        "getdvar",		::cmd_GetDvar);
 	cmd("player", 		"help",			::cmd_Help);
 	cmd("member",       "msg",			::cmd_Msg);
@@ -27,6 +28,11 @@ main()
 	cmd("owner",        "sr_vip",		::cmd_VIP);
 	cmd("owner",        "sr_id",		::cmd_ID);
 	cmd("masteradmin",  "sr_ban",		::cmd_Ban);
+}
+
+cmd_End(args)
+{
+	thread sr\game\_map::end();
 }
 
 cmd_PM(args)

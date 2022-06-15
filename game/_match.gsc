@@ -34,8 +34,7 @@ start()
 	game["roundStarted"] = true;
 
 	matchStartPlayers();
-	// timer(level.dvar["time"]);
-	timer(15);
+	timer(level.dvar["time"]);
 	sr\game\_map::end();
 }
 
@@ -83,6 +82,7 @@ timer(time)
 			level.huds["time"].color = (1, 1, 1);
 	}
 	clock delete();
+	level.huds["time"] destroy();
 }
 
 huds()
