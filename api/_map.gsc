@@ -17,7 +17,7 @@ createTeleporter(triggerOrigin, width, height, origin, angles, state, color)
 	trigger.radius = width;
 
 	thread watchTeleporter(trigger, origin, angles, state);
-	thread sr\game\fx\_trigger::createTrigFx(trigger, IfUndef(color, "blue"));
+	thread sr\game\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
 }
 
 watchTeleporter(trigger, origin, angles, state)
@@ -51,6 +51,11 @@ createSpawn(origin, angles)
 {
 	level.masterSpawn = spawn("script_origin", (origin[0], origin[1], origin[2] - 60));
 	level.masterSpawn.angles = (0, angles, 0);
+}
+
+createTriggerFx(trigger, fx)
+{
+	thread sr\game\fx\_trigger::effect(trigger, fx);
 }
 
 createSpawnAuto()

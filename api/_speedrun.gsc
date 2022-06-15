@@ -47,7 +47,7 @@ createEndMap(origin, width, height, way)
 	trig.radius = width;
 
 	thread watchTriggerEndMap(trig, way);
-	thread sr\game\fx\_trigger::createTrigFx(trig, "red");
+	thread sr\game\fx\_trigger::effect(trig, "red");
 }
 
 watchTriggerEndMap(trig, way)
@@ -65,7 +65,7 @@ createTeleporter(triggerOrigin, width, height, origin, angles, state, color, way
 	trigger.radius = width;
 
 	thread watchTeleporter(trigger, origin, angles, state, way);
-	thread sr\game\fx\_trigger::createTrigFx(trigger, IfUndef(color, "blue"));
+	thread sr\game\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
 }
 
 watchTeleporter(trigger, origin, angles, state, way)

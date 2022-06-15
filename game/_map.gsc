@@ -195,7 +195,6 @@ randomizeMaps(amount)
 			maps[maps.size] = picked;
 			FILE_WriteLine(file, picked);
 		}
-		comPrintLn("%d", rotation.size);
 	}
 	FILE_Close(file);
 	level.randomizedMaps = maps;

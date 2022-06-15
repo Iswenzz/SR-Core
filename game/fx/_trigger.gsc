@@ -1,4 +1,4 @@
-createTrigFx(trigger, fx)
+effect(trigger, fx)
 {
 	if (!isDefined(trigger) || !isDefined(fx))
 		return;
