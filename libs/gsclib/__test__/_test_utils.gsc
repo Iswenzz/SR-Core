@@ -68,6 +68,7 @@ test_Fmt()
 	EXPECT_EQ(fmt("%d %d", 1, 2), "1 2");
 	EXPECT_EQ(fmt("%f %s", 1.4, "test"), "1.400000 test");
 	EXPECT_EQ(fmt("%s %s", "hello", "world"), "hello world");
+	EXPECT_EQ(fmt("%s", undefined), "<error>");
 }
 
 test_GetType()

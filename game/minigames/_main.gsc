@@ -56,7 +56,7 @@ addToQueue(minigame)
 
 removeFromQueue(minigame)
 {
-	queue = self removeFromArray(level.minigames[minigame].queue);
+	queue = Remove(level.minigames[minigame].queue, self);
 	level.minigame[minigame].queue = queue;
 }
 

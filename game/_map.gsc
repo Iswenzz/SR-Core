@@ -9,8 +9,10 @@ main()
 	level.tempEntity = spawn("script_model", (0, 0, 0));
 	level.files["rotation"] = "sr/data/match/rotation.txt";
 	level.rotation = getRotation(false);
+	level.randomizedMaps = [];
 
 	placeSpawns();
+	thread randomizeMaps(5);
 }
 
 placeSpawns()
@@ -63,15 +65,31 @@ end(map)
 	level notify("intermission");
 	level notify("game over");
 
-	// FX
+	// Sequence
+	endEffect();
+	endSpectate();
+	displayMapScores();
+	map = voteNextMap();
+	credits();
+	intermission();
+
+	// Next map
+	setDvar("sv_maprotationcurrent", "gametype deathrun map " + map);
+	exitLevel(false);
+}
+
+endEffect()
+{
 	playFx(level.fx["endgame"], level.spawn["spectator"].origin - (0, 0, 50));
 	setDvar("g_deadChat", 1);
 	ambientStop(2);
 	visionSetNaked("mp_dr_sm64", 4);
 	thread endMusic();
 	thread endEarthquake();
+}
 
-	// Clean
+endSpectate()
+{
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
@@ -83,7 +101,6 @@ end(map)
 	}
 	wait .05;
 
-	// Credits
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
@@ -94,29 +111,38 @@ end(map)
 		players[i] allowSpectateTeam("none", true);
 	}
 	wait 3;
-	sr\game\_credits::start();
-	wait 5;
+}
 
-	// Voting
+displayMapScores()
+{
+	if (!level.dvar["map_scores"])
+		return;
+}
+
+voteNextMap()
+{
+	maps = level.randomizedMaps;
+
+	if (level.dvar["map_vote"])
+		return menuVote(maps);
+	return maps[randomInt(maps.size)];
+}
+
+credits()
+{
+	sr\game\_credits::start();
+	wait 3;
+}
+
+intermission()
+{
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
 		players[i] spawnSpectator();
 		players[i].sessionstate = "intermission";
 	}
-	wait 15;
-
-	map = "";
-	// maps = randomizeMaps(5);
-
-	// if (level.dvar["map_vote"])
-	// 	map = menuVote(maps);
-	// else
-	// 	map = maps[randomInt(maps.size)];
-
-	// // Next map
-	// setDvar("sv_maprotationcurrent", "gametype deathrun map " + map);
-	// exitLevel(false);
+	wait 10;
 }
 
 menuVote(maps)
@@ -144,21 +170,23 @@ endEarthquake()
 randomizeMaps(amount)
 {
 	maps = [];
-	rotation = getRotation(false);
+	rotation = level.rotation;
 	file = FILE_OpenMod(level.files["rotation"], "a+");
 	playedMaps = FILE_ReadLines(file);
 
 	while (maps.size != amount)
 	{
+		wait 1;
 		picked = rotation[randomInt(rotation.size)];
-		rotation = picked removeFromArray(rotation);
+		rotation = Remove(rotation, picked);
 
 		// No more new maps found
 		if (rotation.size < amount)
 		{
 			FILE_Close(file);
 			FILE_Delete(level.files["rotation"]);
-			return randomizeMaps(amount);
+			thread randomizeMaps(amount);
+			return;
 		}
 
 		// Found map
@@ -167,9 +195,10 @@ randomizeMaps(amount)
 			maps[maps.size] = picked;
 			FILE_WriteLine(file, picked);
 		}
+		comPrintLn("%d", rotation.size);
 	}
 	FILE_Close(file);
-	return maps;
+	level.randomizedMaps = maps;
 }
 
 getRotation(includeCurrent)
@@ -177,6 +206,8 @@ getRotation(includeCurrent)
 	list = [];
 	currentMap = level.map;
 	maps = StrTok(getDvar("sv_maprotation"), " ");
+	maps = Remove(maps, "gametype");
+	maps = Remove(maps, "map");
 
 	for (i = 0; i < maps.size; i++)
 	{
@@ -184,7 +215,7 @@ getRotation(includeCurrent)
 			continue;
 		list[list.size] = maps[i];
 	}
-	return Chunk(list, level.vote_max_entries);
+	return list;
 }
 
 spawnSpectator(origin, angles)

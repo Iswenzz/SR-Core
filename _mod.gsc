@@ -24,6 +24,8 @@ main()
 	sr\sys\_discord::initDiscord();
 	sr\sys\_admins::initAdmins();
 
+	sr\game\_map::main();
+
 	sr\commands\_admin::main();
 	sr\commands\_graphics::main();
 	sr\commands\_misc::main();
@@ -36,7 +38,6 @@ main()
 	sr\game\_rank::initRank();
 	sr\game\_cheat::main();
 	// sr\game\_demo::main();
-	sr\game\_map::main();
 	sr\game\_menus::main();
 	sr\game\fx\_trail::main();
 	// sr\game\menus\_main::initMenus();
@@ -49,8 +50,6 @@ main()
 	sr\player\fx\_spray::main();
 	// sr\player\modes\_noclip::main();
 	// sr\player\modes\_pickup::main();
-
-    sr\_tests::runTests();
 }
 
 precache()

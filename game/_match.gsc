@@ -35,7 +35,7 @@ start()
 
 	matchStartPlayers();
 	// timer(level.dvar["time"]);
-	timer(20);
+	timer(15);
 	sr\game\_map::end();
 }
 

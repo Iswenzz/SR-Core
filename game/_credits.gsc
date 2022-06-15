@@ -6,8 +6,8 @@ start()
 	level.creditTime = 20;
 	cleanScreen();
 
-	thread showCredit("SR Mod (c) 2016-2022", 2, 40, 18.5, 0);
-	thread showCredit("SuX Lolz", 1.8, 80, 18, 2);
+	thread showCredit("SR Mod (c) 2016-2022", 2, 40, 17.5, 0);
+	thread showCredit("SuX Lolz", 1.8, 80, 17, 2);
 	thread showCredit("Additional Help", 2, 140, 14, 3);
 	thread showCredit("Sheep Wizard", 1.6, 180, 14.5, 3.5);
 	thread showCredit("BraXi", 1.6, 220, 15, 4);

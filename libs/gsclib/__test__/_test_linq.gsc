@@ -22,7 +22,10 @@ main()
 	it(::test_Repeat, "Repeat");
 	it(::test_Reverse, "Reverse");
 	it(::test_Concat, "Concat");
+	it(::test_Chunk, "Chunk");
 	it(::test_IndexOf, "IndexOf");
+	it(::test_Remove, "Remove");
+	it(::test_RemoveAt, "RemoveAt");
 
 	// linq/predicates
 	it(::test_All, "All");
@@ -50,6 +53,14 @@ test_Aggregate()
 test_Concat()
 {
 	EXPECT_EQ(Concat(level.tests.ints, level.tests.ints).size, 20);
+}
+
+test_Chunk()
+{
+	chunks = Chunk(level.tests.ints, 2);
+
+	EXPECT_EQ(chunks.size, 5);
+	EXPECT_EQ(chunks[0].size, 2);
 }
 
 test_Foreach()
@@ -226,4 +237,14 @@ test_Reverse()
 	EXPECT_EQ(Reverse(level.tests.ints)[0], 9);
 	EXPECT_EQ(Reverse(level.tests.strings)[0], "10");
 	EXPECT_EQ(Reverse(level.tests.vectors)[0], (9.45, 9.45, 9.45));
+}
+
+test_Remove()
+{
+	EXPECT_EQ(Remove(level.tests.ints, 0).size, 9);
+}
+
+test_RemoveAt()
+{
+	EXPECT_EQ(RemoveAt(level.tests.ints, 0).size, 9);
 }
