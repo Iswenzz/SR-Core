@@ -69,7 +69,10 @@ end(map)
 	endEffect();
 	endSpectate();
 	displayMapScores();
-	map = voteNextMap();
+
+	if (IsNullOrEmpty(map))
+		map = voteNextMap();
+
 	credits();
 	intermission();
 

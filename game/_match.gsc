@@ -55,7 +55,6 @@ canStartGame(min)
 
 timer(time)
 {
-    level endon("time_update");
 	level.time = time;
 	level.huds["time"] setTimer(time);
 

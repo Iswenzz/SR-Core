@@ -39,6 +39,7 @@ main()
 	sr\game\_cheat::main();
 	// sr\game\_demo::main();
 	sr\game\_menus::main();
+	sr\game\_vote::initVote();
 	sr\game\fx\_trail::main();
 	// sr\game\menus\_main::initMenus();
 	// sr\game\menus\_owner::main();

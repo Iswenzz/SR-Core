@@ -5,11 +5,11 @@
 
 main()
 {
-    cmd("member", 	"race",			::cmd_Race);
-    cmd("admin", 	"race_trig",	::cmd_RaceTrig);
-	cmd("admin", 	"race_spawn",	::cmd_RaceSpawn);
-	cmd("owner", 	"race_mk",		::cmd_RaceMk);
-	cmd("owner", 	"race_save",	::cmd_RaceSave);
+    cmd("player", 		"race",			::cmd_Race);
+    cmd("adminplus", 	"race_trig",	::cmd_RaceTrig);
+	cmd("adminplus", 	"race_spawn",	::cmd_RaceSpawn);
+	cmd("adminplus", 	"race_mk",		::cmd_RaceMk);
+	cmd("adminplus", 	"race_save",	::cmd_RaceSave);
 }
 
 cmd_Race(args)
