@@ -158,6 +158,7 @@ cmd_Model(args)
 cmd_NoClip(args)
 {
 	self.noclip = !self.noclip;
+	self pm(Ternary(self.noclip, "^2Noclip mode enabled!", "^1Noclip mode disabled!"));
 	self sr\api\_player::antiElevator(!self.noclip);
 }
 

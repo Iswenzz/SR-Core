@@ -102,7 +102,6 @@ leave()
 
 	self unlink();
 	self suicide();
-	self.sr_cheat = false;
 }
 
 countdown()

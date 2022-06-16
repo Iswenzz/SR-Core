@@ -106,7 +106,6 @@ leave()
 	self.kzWon = false;
 	self sr\game\_teams::setTeam("allies");
 	self unlink();
-	self.sr_cheat = false;
 	self.teamKill = undefined;
 	self setClientDvar("cg_drawFriendlyNames", 1);
 	self suicide();
