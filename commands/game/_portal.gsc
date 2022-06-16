@@ -3,9 +3,20 @@
 
 main()
 {
+	cmd("owner", 	"portal",			::cmd_Portal);
 	cmd("owner", 	"detonate",			::cmd_Detonate);
     cmd("owner", 	"turret",			::cmd_Turret);
 	cmd("owner", 	"turret_delete",	::cmd_TurretDelete);
+}
+
+cmd_Portal(args)
+{
+	self.modes["portal"] = !self.modes["portal"];
+	self suicide();
+
+	self pm(Ternary(self.modes["portal"], "^5Portal mode enabled!", "^1Portal mode disabled!"));
+	if (!self.modes["portal"])
+		self sr\libs\portal\_hud::updateHud("none");
 }
 
 cmd_Detonate(args)
@@ -15,9 +26,7 @@ cmd_Detonate(args)
 
 cmd_Turret(args)
 {
-	self clientCmd("centerview");
-	wait 0.2;
-	thread sr\libs\portal\_turret::turretSpawn(self.origin, self getPlayerAngles());
+	self thread sr\libs\portal\_turret::turret();
 }
 
 cmd_TurretDelete(args)

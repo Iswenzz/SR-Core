@@ -2,53 +2,31 @@
 #include sr\libs\portal\_hud;
 #include sr\libs\portal\_portal;
 #include sr\utils\_common;
+#include sr\utils\_math;
 #include sr\sys\_events;
+#include sr\sys\_dvar;
 
 main()
 {
-	menu("portal", "blue", ::menu_Portal);
-	menu("portal", "red", ::menu_Portal);
-	menu("portal", "pickup", ::menu_Pickup);
-	menu("portal", "turret", ::menu_Turret);
-}
+	level.portals = [];
+	level.portal_objects = [];
+	level.portal_width = 70;
+	level.portal_height = 110;
+	level.portal_options_num = 2000;
+	level.portal_check_dist = 700;
 
-menu_Portal(arg)
-{
-	if (self getCurrentWeapon() != level.portalgun)
-		return;
-	if (self isOnLadder() || self isMantling() || self.throwingGrenade)
-		return;
-
-	self thread fire();
-	self playLocalSound("portal_gun_shoot_" + response);
-	self thread portal(response);
-	wait 0.3;
-}
-
-menu_Pickup(arg)
-{
-	if (self getCurrentWeapon() != level.portalgun_bendi)
-		return;
-	if (self isOnLadder() || self isMantling() || self.throwingGrenade)
-		return;
-
-	self thread portal\_pickup::pickup_init();
-}
-
-menu_Turret(arg)
-{
-	if (self isOnLadder() || self isMantling() || self.throwingGrenade)
-		return;
-
-	self thread turret();
+	level.portalgun_w = "w_portalgun";
+	level.portalgun_v = "v_portalgun";
+	level.portalgun = "portalgun_mp";
+	level.portalgun_bendi = "portalgun_bendi_mp";
 }
 
 resetPortals()
 {
 	self notify("Deactivate_Portals");
 
-	self thread delete_portal("blue");
-	self thread delete_portal("red");
+	self thread portalDelete("blue");
+	self thread portalDelete("red");
 
 	self thread updatehud("default");
 }
@@ -59,15 +37,15 @@ stopAll(delete_portals, disconnected)
 	{
 		self notify("Deactivate_Portals");
 
-		self thread Delete_Portal("blue");
-		self thread Delete_Portal("red");
+		self thread portalDelete("blue");
+		self thread portalDelete("red");
 
 		self notify("place_turret");
 		if (isDefined(self.test_turret))
 			self.test_turret delete();
 
 		for (i = 0; i < self.turrets.size; i++)
-			self.turrets[i] portal\_turret::turretDelete();
+			self.turrets[i] sr\libs\portal\_turret::turretDelete();
 
 		self.turrets = [];
 	}
@@ -79,9 +57,9 @@ stopAll(delete_portals, disconnected)
 		return;
 
 	if (self getstat(level.portal_options_num) == 2)
-		self _exec("bind mouse1 +attack;bind mouse2 +speed_throw;");
+		self clientCmd("bind mouse1 +attack;bind mouse2 +speed_throw;");
 	else
-		self _exec("bind mouse1 +attack;bind mouse2 +toggleads_throw;");
+		self clientCmd("bind mouse1 +attack;bind mouse2 +toggleads_throw;");
 
 	if (self hasweapon(level.portalgun) && !delete_portals)
 		self setweaponammoclip(level.portalgun, 0);
@@ -101,77 +79,7 @@ fire()
 
 	weap = self getcurrentweapon();
 	self setweaponammoclip(weap, 1);
-	self _exec("-attack;+attack;-attack");
-}
-
-turret()
-{
-	if (!getdvarint("portal_allow_turrets"))
-	{
-		self iprintln("Turrets not allowed");
-		return;
-	}
-	if (self.turrets.size >= getdvarint("portal_max_turrets"))
-	{
-		self notify("place_turret");
-
-		if (isDefined(self.test_turret))
-			self.test_turret delete();
-
-		self iprintln("You cannot spawn any more turrets");
-		return;
-	}
-	if (!isDefined(self.test_turret))
-	{
-		eye = self eyepos();
-		angles = self getPlayerAngles();
-
-		pos = eye + anglestoforward(angles) * (15 + level.pickup_object_distance + 17) - (0, 0, 30);
-		self.test_turret = spawn("script_model", pos);
-		self.test_turret setmodel("turret");
-		self.test_turret hidepart("tag_eye");
-
-		self endon("death");
-		self endon("disconnect");
-		self endon("place_turret");
-
-		old_eye = (0, 0, 0);
-		old_ang = (0, 0, 0);
-
-		while (true)
-		{
-			eye = self eyepos();
-			angles = self getPlayerAngles();
-
-			if (eye!=old_eye || angles!=old_ang)
-			{
-				self.test_turret moveto(playerphysicstrace(eye, eye + anglestoforward(angles)
-					* (15 + level.pickup_object_distance + 17) - (0, 0, 30)), 0.1);
-				self.test_turret rotateto((0, angles[1], 0), 0.1);
-			}
-
-			old_eye = eye;
-			old_ang = angles;
-			wait 0.1;
-		}
-	}
-	else
-	{
-		for (i = 0; i < level.players.size; i++)
-		{
-			pos1 = level.players[i].origin;
-			pos2 = self.test_turret.origin;
-			if (distancesquared((pos1[0], pos1[1], 0), (pos2[0], pos2[1], 0)) < 37 * 37
-				&& pos2[2] - pos1[2] > -40 && pos2[2] - pos1[2] < 60)
-			{
-				self iprintln("turret too close to player");
-				return;
-			}
-		}
-		self notify("place_turret");
-		self.turrets[self.turrets.size] = self thread portal\_turret::turretSpawn(self.test_turret.origin, self.test_turret.angles);
-		self.test_turret delete();
-	}
+	self clientCmd("-attack;+attack;-attack");
 }
 
 portal(color)
@@ -180,20 +88,12 @@ portal(color)
 
 	eye = self eyepos();
 	forward = anglesToForward(self getPlayerAngles()) * level.maxdistance;
-	trace = traceArray(eye, eye + forward, false, level.portalobjects);
+	trace = traceArray(eye, eye + forward, false, level.portal_objects);
 
 	if (trace["fraction"] == 1)
 		portalfailed = true;
 	else
 		portalfailed = false;
-
-	if (!portalfailed)
-	{
-		portalfailed = true;
-		for (i = 0; i < level.portalSurfaces.size; i++)
-			if (trace["surfacetype"] == level.portalSurfaces[i])
-				portalfailed = false;
-	}
 
 	terrain = !getdvarint("portal_forbid_terrain");
 	oldpos = trace["position"];
@@ -207,7 +107,7 @@ portal(color)
 	if (abs(round(normal[2], 3 - terrain)) == 1)
 		on_ground = true;
 
-	if (on_ground )
+	if (on_ground)
 		angles = (angles[0], self getPlayerAngles()[1] - 180, 0);
 
 	right =	anglestoright(angles);
@@ -217,8 +117,8 @@ portal(color)
 	{
 		slope_increase = abs(normal[2])*3 * !on_ground;
 
-		width = level.portalwidth;
-		height = level.portalheight + slope_increase;
+		width = level.portal_width;
+		height = level.portal_height + slope_increase;
 
 		if (on_ground)
 			width = height * 0.8;
@@ -259,7 +159,7 @@ portal(color)
 					else
 						pos = p + a * trans[0] + b * height * sign(trans[1]);
 
-					if (traceArray(p + forward, pos + forward, false, level.portalobjects)["fraction"] != 1)
+					if (traceArray(p + forward, pos + forward, false, level.portal_objects)["fraction"] != 1)
 					{
 						portalfailed = true;
 						break;
@@ -307,13 +207,13 @@ portal(color)
 
 		for (i = 1; i < 9 && !portalfailed; i++)
 		{
-			hit = 1 - traceArray(pos + forward, pos + forward + vec[i], false, level.portalobjects)["fraction"];
+			hit = 1 - traceArray(pos + forward, pos + forward + vec[i], false, level.portal_objects)["fraction"];
 
 			if (!hit)
 			{
-				tmp_ground_trace = traceArray(pos + forward + vec[i], pos + backward + vec[i], false, level.portalobjects);
+				tmp_ground_trace = traceArray(pos + forward + vec[i], pos + backward + vec[i], false, level.portal_objects);
 				if (tmp_ground_trace["fraction"] == 1)
-					hit = traceArray(pos + backward + vec[i], pos + backward, false, level.portalobjects)["fraction"];
+					hit = traceArray(pos + backward + vec[i], pos + backward, false, level.portal_objects)["fraction"];
 				if (hit == 1)
 					portalfailed = true;
 
@@ -412,17 +312,17 @@ portal(color)
 		if (trace["fraction"] != 1)
 		{
 			self playSoundOnPosition("portal_invalid_surface", trace["position"], true);
-			if (!getdvarint("portal_disable_fancy_fx"))
-				playfx(level._effect[color + "portal_fail"], trace["position"] + trace["normal"]);
+			playfx(level.fx[color + "portal_fail"], trace["position"] + trace["normal"]);
 		}
 	}
 }
 
 portalDelete(color)
 {
-	for (i = 0; i < level.players.size; i++)
-		if (level.players[i].portal["inportal"])
-			level.players[i] freezecontrols(false);
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+		if (players[i].portal["inportal"])
+			players[i] freezecontrols(false);
 
 	if (!self.portal[color + "_exist"])
 		return;
@@ -434,8 +334,7 @@ portalDelete(color)
 	self.portal[color] playSound("portal_close_" + color);
 	self.portal[color] notify("stop_fx");
 
-	if (!getdvarint("portal_disable_fancy_fx"))
-		playfx(level._effect[color + "portal_close"], self.portal[color].trace["position"], self.portal[color].trace["normal"], self.portal[color].trace["up"]);
+	playfx(level.fx[color + "portal_close"], self.portal[color].trace["position"], self.portal[color].trace["normal"], self.portal[color].trace["up"]);
 
 	self.portal[color].dummy delete();
 	self.portal[color] delete();
@@ -446,9 +345,9 @@ portalDelete(color)
 
 portalCreate(color, trace)
 {
-	for (i = 0; i < level.players.size; i++)
-		level.players[i].portal["inportal"] = false;
-
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+		players[i].portal["inportal"] = false;
 
 	self updatehud(color);
 	self portalDelete(color);
@@ -493,7 +392,7 @@ portalFX()
 
 	wait 0.05;
 
-	playfxontag(level._effect["portalball"+self.color], self.bullet, "collision_sphere");
+	playfxontag(level.fx["portalball" + self.color], self.bullet, "collision_sphere");
 
 	angles = self.owner getplayerangles();
 
@@ -511,21 +410,8 @@ portalFX()
 	self.dummy hide();
 	self.dummy setmodel("portal_dummy_" + self.color);
 
-	if (!getdvarint("portal_disable_fancy_fx"))
-	{
-		playfx(level._effect[self.color + "portal_open"], fxpos, self.trace["normal"], self.trace["up"]);
-		wait 0.75;
-	}
-	if (getdvarint("portal_dummy_show_to_team") && isDefined(self.pers["team"]))
-	{
-		team = self.pers["team"];
-
-		for (i = 0; i < level.players.size; i++)
-			if (isDefined(level.players[i].pers["team"]) && (level.players[i].pers["team"] == team))
-				self.dummy showtoplayer(level.players[i]);
-	}
-	else
-		self.dummy showtoplayer(self.owner);
+	playfx(level.fx[self.color + "portal_open"], fxpos, self.trace["normal"], self.trace["up"]);
+	wait 0.75;
 
 	self show();
 	wait 0.6;
@@ -593,35 +479,37 @@ portalWait(color, othercolor)
 	self.portal[color].otherportal = self.portal[othercolor];
 
 	c = ((0, 0, level.gravity) + (0, 0, 15)) * -0.05;
+	players = getAllPlayers();
 
 	while (true)
 	{
-		for (i = 0; i < level.players.size; i++)
+		for (i = 0; i < players.size; i++)
 		{
 			if (getdvarint("portal_owner_walkthrough_only"))
-				if (level.players[i] != self)
+			{
+				if (players[i] != self)
 					continue;
-
-			if (level.players[i].portal["inportal"])
+			}
+			if (players[i].portal["inportal"])
 				continue;
 
-			player_on_ground = level.players[i] isonground();
-			vel = level.players[i] getvelocity() * 0.05;
+			player_on_ground = players[i] isonground();
+			vel = players[i] getvelocity() * 0.05;
 
-			check_dist = level.portalcheckdist;
+			check_dist = level.portal_check_dist;
 			if (player_on_ground)
 				check_dist *= 0.2;
 
 			else if (vectordot(vel,p1.trace["normal"]) > 60)
 				check_dist *= 1.5;
 
-			if (!(distancesquared(p1.trace["position"], level.players[i].origin) < check_dist * check_dist))
+			if (!(distancesquared(p1.trace["position"], players[i].origin) < check_dist * check_dist))
 				continue;
 
-			if (vectordot(vel,p1.trace["normal"]) > 0 || vectordot(level.players[i].origin-p1.trace["position"] + (0, 0, 5),p1.trace["normal"]) <= 0)	//player isn't coming at portal
+			if (vectordot(vel,p1.trace["normal"]) > 0 || vectordot(players[i].origin-p1.trace["position"] + (0, 0, 5),p1.trace["normal"]) <= 0)	//player isn't coming at portal
 				continue;
 
-			vec = level.players[i].origin + level.players[i] getcenter() - p1.trace["position"] + vel + c * (vel[2] < 0);
+			vec = players[i].origin + players[i] getcenter() - p1.trace["position"] + vel + c * (vel[2] < 0);
 			offset = (vectordot(vec, p1.trace["right"]), vectordot(vec, p1.trace["up"]), vectordot(vec, p1.trace["normal"]));
 
 			z = abs(p1.trace["normal"][2]);
@@ -630,7 +518,7 @@ portalWait(color, othercolor)
 			y_add = 0;
 
 			if (isInPortal(offset[0], offset[1], x_add,y_add) && offset[2] < (z * 40 + (1 - z) * 20))
-				level.players[i] portalKick(p1, p2, vel);
+				players[i] portalKick(p1, p2, vel);
 		}
 		wait 0.05;
 	}
@@ -641,6 +529,7 @@ portalKick(p1, p2, vel)
 	self endon("death");
 	self endon("disconnect");
 
+	self.sr_cheat = true;
 	self.portal["inportal"] = true;
 	strength = length(vel);
 
@@ -675,13 +564,13 @@ portalKick(p1, p2, vel)
 
 	vec = self.origin - p1.trace["position"];
 	offset = (vectordot(vec, p1.trace["right"]), vectordot(vec, p1.trace["up"]), 0);
-	if (abs(offset[0]) > (level.portalwidth / 2 - 16))
-		offset = ((level.portalwidth / 2 - 16) * sign(offset[0]), offset[1], 0);
+	if (abs(offset[0]) > (level.portal_width / 2 - 16))
+		offset = ((level.portal_width / 2 - 16) * sign(offset[0]), offset[1], 0);
 
-	if (offset[1] < (level.portalheight / -2))
-		offset = (offset[0], (level.portalheight / -2), 0);
-	if (offset[1] > (level.portalheight / 2 - 72))
-		offset = (offset[0], (level.portalheight / 2 - 72), 0);
+	if (offset[1] < (level.portal_height / -2))
+		offset = (offset[0], (level.portal_height / -2), 0);
+	if (offset[1] > (level.portal_height / 2 - 72))
+		offset = (offset[0], (level.portal_height / 2 - 72), 0);
 
 	position = p2.trace["portal_out"] + p2.trace["right"] * offset[0] * -1 + p2.trace["up"] * offset[1];
 	if (playerphysicstrace(position, position + p2.trace["normal"]) != position + p2.trace["normal"])
@@ -776,14 +665,14 @@ aimDownSight()
 portalZoomIn()
 {
 	self allowads(true);
-	self _exec("+toggleads_throw");
+	self clientCmd("+toggleads_throw");
 	self.portal["inzoom"] = true;
 }
 
 portalZoomOut()
 {
 	self allowads(false);
-	self _exec("-toggleads_throw");
+	self clientCmd("-toggleads_throw");
 	self.portal["inzoom"] = false;
 }
 

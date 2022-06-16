@@ -1,7 +1,28 @@
 #include sr\sys\_events;
+#include sr\sys\_dvar;
+#include sr\utils\_math;
 
 main()
 {
+	level.defaultknockback = 1000;
+	level.gravity = getDvarInt("g_gravity");
+	level.maxdistance =  4000;
+	level.object_gravity = 800;
+	level.throw_max_force = 30;
+
+	sr\libs\portal\_pickup::main();
+	sr\libs\portal\_portal_gun::main();
+	sr\libs\portal\_turret::main();
+
+	addDvar("portal_owner_walkthrough_only", 	"portal_owner_walkthrough_only", 	0, 0, 1, 	"int");
+	addDvar("portal_block_bullet", 				"portal_block_bullet", 				1, 0, 1, 	"int");
+	addDvar("portal_block_c4", 					"portal_block_c4", 					0, 0, 1, 	"int");
+	addDvar("portal_block_grenade", 			"portal_block_grenade", 			0, 0, 1, 	"int");
+	addDvar("portal_forbid_terrain", 			"portal_forbid_terrain", 			0, 0, 1, 	"int");
+	addDvar("portal_help_orientation", 			"portal_help_orientation", 			1, 0, 1, 	"int");
+	addDvar("portal_max_turrets", 				"portal_max_turrets", 				4, 0, 10, 	"int");
+	addDvar("portal_turret_target_owner", 		"portal_turret_target_owner", 		0, 0, 1, 	"int");
+
 	precache();
 
 	event("connect", ::onConnect);
@@ -9,8 +30,6 @@ main()
 
 onConnect()
 {
-	self thread portal\_portal_gun::main();
-
 	self setClientDvar("r_distortion", 1);
 
 	self.portal = [];
@@ -26,7 +45,10 @@ onConnect()
 	self.portal["saved_weapon"] = [];
 	self.portal["saved_ammoclip"] = [];
 	self.portal["saved_ammostock"] = [];
+	self.portal["inportal"] = false;
+	self.portal["first_enter"] = true;
 	self.portal["hud"] = newClientHudElem(self);
+	self.turrets = [];
 }
 
 precache()
@@ -34,7 +56,7 @@ precache()
 	cheapSinSetup();
 
 	preCacheItem(level.portalgun);
-	preCacheItem(level.portalgun_bendi);
+	// preCacheItem(level.portalgun_bendi);
 	preCacheModel("collision_wall_100x75");
 	preCacheModel("collision_sphere");
 	preCacheModel("cube");
@@ -49,53 +71,19 @@ precache()
 	preCacheShader("reticle_portal_red");
 	preCacheShader("reticle_portal_both");
 
-	level._effect["bullettest"]				= loadfx("portal/bullettest");
-	level._effect["blueportal"]				= loadfx("portal/portal_blue");
-	level._effect["redportal"]				= loadfx("portal/portal_red");
-	level._effect["blueportal_open"]		= loadfx("portal/portal_blue_open");
-	level._effect["redportal_open"]			= loadfx("portal/portal_red_open");
-	level._effect["blueportal_close"]		= loadfx("portal/portal_blue_close");
-	level._effect["redportal_close"]		= loadfx("portal/portal_red_close");
-	level._effect["blueportal_fail"]		= loadfx("portal/portal_blue_fail");
-	level._effect["redportal_fail"]			= loadfx("portal/portal_red_fail");
-	level._effect["portalballblue"]			= loadfx("portal/portal_ball_blue");
-	level._effect["portalballred"]			= loadfx("portal/portal_ball_red");
-	level._effect["projected_wall"]			= loadfx("portal/projected_wall");
-	level._effect["projected_wall_end"]		= loadfx("portal/projected_wall_end");
-	level._effect["projected_wall_start"]	= loadfx("portal/projected_wall_start");
-	level._effect["projected_wall_mask"]	= loadfx("portal/projected_wall_mask");
-	level._effect["redlaser"]				= loadfx("portal/redlaser");
-	level._effects["impact_bark"] 			= loadfx("impacts/large_woodhit");
-	level._effects["impact_brick"] 			= loadfx("impacts/small_brick");
-	level._effects["impact_carpet"]	 		= loadfx("impacts/default_hit");
-	level._effects["impact_cloth"] 			= loadfx("impacts/cloth_hit");
-	level._effects["impact_concrete"] 		= loadfx("impacts/small_concrete");
-	level._effects["impact_dirt"] 			= loadfx("impacts/small_dirt");
-	level._effects["impact_flesh"] 			= loadfx("impacts/flesh_hit");
-	level._effects["impact_foliage"] 		= loadfx("impacts/small_foliage");
-	level._effects["impact_glass"] 			= loadfx("impacts/small_glass");
-	level._effects["impact_grass"] 			= loadfx("impacts/small_grass");
-	level._effects["impact_gravel"] 		= loadfx("impacts/small_gravel");
-	level._effects["impact_ice"] 			= loadfx("impacts/small_snowhit");
-	level._effects["impact_metal"] 			= loadfx("impacts/small_metalhit");
-	level._effects["impact_mud"] 			= loadfx("impacts/small_mud");
-	level._effects["impact_paper"] 			= loadfx("impacts/default_hit");
-	level._effects["impact_plaster"] 		= loadfx("impacts/small_concrete");
-	level._effects["impact_rock"] 			= loadfx("impacts/small_rock");
-	level._effects["impact_sand"] 			= loadfx("impacts/small_dirt");
-	level._effects["impact_snow"] 			= loadfx("impacts/small_snowhit");
-	level._effects["impact_water"] 			= loadfx("impacts/small_waterhit");
-	level._effects["impact_wood"] 			= loadfx("impacts/large_woodhit");
-	level._effects["impact_asphalt"] 		= loadfx("impacts/small_concrete");
-	level._effects["impact_ceramic"] 		= loadfx("impacts/small_ceramic");
-	level._effects["impact_plastic"] 		= loadfx("impacts/large_plastic");
-	level._effects["impact_rubber"] 		= loadfx("impacts/default_hit");
-	level._effects["impact_cushion"] 		= loadfx("impacts/cushion_hit");
-	level._effects["impact_fruit"] 			= loadfx("impacts/default_hit");
-	level._effects["impact_paintedmetal"] 	= loadfx("impacts/large_metal_painted_hit");
-	level._effects["impact_default"] 		= loadfx("impacts/default_hit");
-
-	level._effects["impact_flesh_body_nonfatal"] 	= loadfx("impacts/flesh_hit_body_nonfatal");
-	level._effects["impact_flesh_body_fatal"] 		= loadfx("impacts/flesh_hit_body_fatal_exit");
-	level._effects["impact_flesh_head_nonfatal"] 	= loadfx("impacts/flesh_hit_body_nonfatal");
+	level.fx["blueportal"]				= loadfx("portal/portal_blue");
+	level.fx["redportal"]				= loadfx("portal/portal_red");
+	level.fx["blueportal_open"]			= loadfx("portal/portal_blue_open");
+	level.fx["redportal_open"]			= loadfx("portal/portal_red_open");
+	level.fx["blueportal_close"]		= loadfx("portal/portal_blue_close");
+	level.fx["redportal_close"]			= loadfx("portal/portal_red_close");
+	level.fx["blueportal_fail"]			= loadfx("portal/portal_blue_fail");
+	level.fx["redportal_fail"]			= loadfx("portal/portal_red_fail");
+	level.fx["portalballblue"]			= loadfx("portal/portal_ball_blue");
+	level.fx["portalballred"]			= loadfx("portal/portal_ball_red");
+	level.fx["projected_wall"]			= loadfx("portal/projected_wall");
+	level.fx["projected_wall_end"]		= loadfx("portal/projected_wall_end");
+	level.fx["projected_wall_start"]	= loadfx("portal/projected_wall_start");
+	level.fx["projected_wall_mask"]		= loadfx("portal/projected_wall_mask");
+	level.fx["redlaser"]				= loadfx("portal/redlaser");
 }

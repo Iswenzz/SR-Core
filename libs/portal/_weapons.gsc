@@ -307,6 +307,7 @@ playImpactFX(surfacetype, pos, vec)
 
 explosionRadiusDamageTurrets(pos, radius, max_dmg, min_dmg)
 {
+	players = getAllPlayers();
 	for (i = 0; i < level.portal_turrets.size; i++)
 	{
 		if (!level.portal_turrets[i].alive)
@@ -314,7 +315,7 @@ explosionRadiusDamageTurrets(pos, radius, max_dmg, min_dmg)
 		if (distancesquared(pos, level.portal_turrets[i].center) > radius*radius)
 			continue;
 
-		s = level.portal_turrets[i] sightconetrace(pos, level.players[0]);
+		s = level.portal_turrets[i] sightconetrace(pos, players[0]);
 		damage = max_dmg * s * calculateDamageFraction(distance(pos, level.portal_turrets[i].center), radius * 0.25, radius, min_dmg / max_dmg);
 
 		level.portal_turrets[i] notify("damage", int(damage), self, "MOD_EXPLOSIVE");
@@ -340,19 +341,20 @@ explosionRadiusDamage(pos, radius, max_dmg, min_dmg, ignore_ents)
 		damage = max_dmg * calculateDamageFraction(distance(pos,trace["position"]), radius * 0.25, radius, min_dmg / max_dmg);
 		ents[i] damageEnt(self, damage, "MOD_EXPLOSIVE", "", trace["position"], trace["position"] - pos);
 	}
-	for (i = 0; i < level.players.size; i++)
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
 	{
-		if (distancesquared(pos, level.players[i].origin) > radius * radius)
+		if (distancesquared(pos, players[i].origin) > radius * radius)
 			continue;
 
-		player_center = level.players[i].origin + level.players[i] getcenter();
+		player_center = players[i].origin + players[i] getcenter();
 		trace = traceArray(pos, player_center, false, ignore_ents);
 
 		if (distancesquared(pos, trace["position"]) < (distancesquared(pos, player_center) - 8 * 8))
 			continue;
 
 		damage = max_dmg * calculateDamageFraction(distance(pos, player_center), radius * 0.25, radius, min_dmg / max_dmg);
-		level.players[i] damageEnt(self, damage, "MOD_EXPLOSIVE", "", trace["position"], trace["position"] - pos);
+		players[i] damageEnt(self, damage, "MOD_EXPLOSIVE", "", trace["position"], trace["position"] - pos);
 	}
 }
 

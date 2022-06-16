@@ -66,6 +66,8 @@ precache()
 	precacheShellShock("flashbang");
 	precacheShellShock("death");
 	precacheShellShock("concussion_grenade_mp");
+	precacheShellShock("damage_mp");
+	precacheShellShock("frag_grenade_mp");
 
 	precacheMenu("clientcmd");
 }

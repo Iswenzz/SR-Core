@@ -35,8 +35,8 @@ portalAddIgnoreEnts()
 		for (i = 0; i < self.physics["model_parts"].size; i++)
 			ignore_ents[i + 1] = self.physics["model_parts"][i];
 	}
-	for (i = 0; i < level.portalobjects.size; i++)
-		ignore_ents[ignore_ents.size] = level.portalobjects[i];
+	for (i = 0; i < level.portal_objects.size; i++)
+		ignore_ents[ignore_ents.size] = level.portal_objects[i];
 
 	return ignore_ents;
 }
@@ -270,9 +270,10 @@ playerPortalObjectCollisionTrace(start, angles, distance)
 	updatedpos = pos;
 	playerheight = 25;
 
-	for (i = 0; i < level.players.size; i++)
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
 	{
-		vec = level.players[i].origin+(0,0,playerheight)-pos;
+		vec = players[i].origin+(0,0,playerheight)-pos;
 		obj_r = self givemaxcollisionradius();
 		if (lengthsquared((vec[0], vec[1], 0)) < exp(r + obj_r, 2) && abs(vec[2] - obj_r) < playerheight)
 		{
@@ -347,30 +348,30 @@ portalObjectCollisionTraceOnly(pos)
 	trace["hit_object"] = undefined;
 	trace["normal"] = undefined;
 
-	for (i = 0; i < level.portalobjects.size; i++)
+	for (i = 0; i < level.portal_objects.size; i++)
 	{
-		if (self == level.portalobjects[i])
+		if (self == level.portal_objects[i])
 			continue;
 		if (isDefined(self.physics["ignore_ents"]))
-			if (level.portalobjects isInArray(self.physics["ignore_ents"]))
+			if (level.portal_objects isInArray(self.physics["ignore_ents"]))
 				continue;
 
-		if (exp(self givemaxcollisionradius() + level.portalobjects[i] givemaxcollisionradius(), 2) > distancesquared(pos, level.portalobjects[i].origin))	//cheap guess if objects might collide
+		if (exp(self givemaxcollisionradius() + level.portal_objects[i] givemaxcollisionradius(), 2) > distancesquared(pos, level.portal_objects[i].origin))	//cheap guess if objects might collide
 		{
-			vec = pos - level.portalobjects[i].origin;
-			r1 = level.portalobjects[i] givecollisionradius(vec);
+			vec = pos - level.portal_objects[i].origin;
+			r1 = level.portal_objects[i] givecollisionradius(vec);
 			r2 = self givecollisionradius(vec*-1);
 
-			if (exp(r1 + r2, 2) > distancesquared(pos, level.portalobjects[i].origin))	//objects collide
+			if (exp(r1 + r2, 2) > distancesquared(pos, level.portal_objects[i].origin))	//objects collide
 			{
 				trace["hit"] = true;
-				trace["hit_object"] = level.portalobjects[i];
+				trace["hit_object"] = level.portal_objects[i];
 				trace["normal"] = vectornormalize(vec);
 				if (trace["normal"] == (0,0,0))
 					trace["normal"] = (0,0,1);
 
-				trace["fraction"] = 1 - level.portalobjects[i] givecollisionradius(vec) / length(vec);
-				trace["position"] = level.portalobjects[i].origin + vec*trace["fraction"];
+				trace["fraction"] = 1 - level.portal_objects[i] givecollisionradius(vec) / length(vec);
+				trace["position"] = level.portal_objects[i].origin + vec*trace["fraction"];
 				trace["surfacetype"] = "portal_object";
 				break;
 			}

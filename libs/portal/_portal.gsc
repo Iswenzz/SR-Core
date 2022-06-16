@@ -7,8 +7,8 @@ isInPortal(x, y, rx_add, ry_add)
 		rx_add = 0;
 	if (!isDefined(ry_add))
 		ry_add = 0;
-	rx = (level.portalwidth/2) + rx_add;
-	ry = (level.portalheight/2) + ry_add;
+	rx = (level.portal_width/2) + rx_add;
+	ry = (level.portal_height/2) + ry_add;
 	return ((x * x) / (rx * rx) + y * y / (ry * ry)) <= 1;
 }
 
@@ -60,13 +60,6 @@ _linkto_thread(ent)
 	}
 }
 
-_exec(string)
-{
-	self setclientdvar("_p0rtal_exec", string);
-	self openmenunomouse("_exec");
-	self closemenu("_exec");
-}
-
 portalSpawn(
 	name,		// String of the modelname
 	pos, 		// Positionvector
@@ -96,7 +89,7 @@ portalSpawn(
 	model.physics["sway_speed"] = 0.5;
 	model.physics["model_parts"] = [];
 
-	level.portalobjects[level.portalobjects.size] = model;
+	level.portal_objects[level.portal_objects.size] = model;
 
 	return model;
 }

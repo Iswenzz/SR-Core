@@ -159,8 +159,8 @@ bounce(origin, direction, power)
 	self finishPlayerDamage(self, self, power, 0, "MOD_PROJECTILE", "none", origin, direction, "none", 0);
 	self.maxhealth = previousMaxHealth;
 	self.health = previousHealth;
-	wait .05;
 
+	wait .05;
 	self setClientDvars(
 		"bg_viewKickMax", 90,
 		"bg_viewKickMin", 5,

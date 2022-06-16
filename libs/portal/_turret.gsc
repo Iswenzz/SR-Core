@@ -1,10 +1,14 @@
+#include sr\sys\_dvar;
+#include sr\sys\_events;
 #include sr\utils\_math;
 #include sr\utils\_common;
 
 main()
 {
-	precache();
+	level.turrets_allow = addDvar("portal_allow_turrets", "portal_allow_turrets", 1, 0, 1, "int");
 	level.portal_turrets = [];
+
+	precache();
 }
 
 precache()
@@ -16,14 +20,88 @@ precache()
 	preCacheModel("turret_wing0_broken");
 	preCacheModel("turret_wing1_broken");
 
-	level._effect["turret_flash"] = loadfx("portal/turret_flash");
-	level._effect["turret_light_flash"] = loadfx("portal/turret_light_flash");
-	level._effect["turret_explode"] = loadfx("portal/turret_explosion");
-	level._effect["turret_sparks_pop"] = loadfx("portal/turret_sparks_pop");
-	level._effect["turret_sparks"] = loadfx("portal/turret_sparks");
-	level._effect["turret_cookoff"] = loadfx("portal/turret_cookoff");
+	level.fx["turret_flash"] = loadfx("portal/turret_flash");
+	level.fx["turret_light_flash"] = loadfx("portal/turret_light_flash");
+	level.fx["turret_explode"] = loadfx("portal/turret_explosion");
+	level.fx["turret_sparks_pop"] = loadfx("portal/turret_sparks_pop");
+	level.fx["turret_sparks"] = loadfx("portal/turret_sparks");
+	level.fx["turret_cookoff"] = loadfx("portal/turret_cookoff");
 
 	level.turret_killed_player_this_frame = false;
+}
+
+turret()
+{
+	self endon("disconnect");
+	self endon("death");
+
+	if (!getdvarint("portal_allow_turrets"))
+	{
+		self iprintln("Turrets not allowed");
+		return;
+	}
+	if (self.turrets.size >= getdvarint("portal_max_turrets"))
+	{
+		self notify("place_turret");
+
+		if (isDefined(self.test_turret))
+			self.test_turret delete();
+
+		self iprintln("You cannot spawn any more turrets");
+		return;
+	}
+	if (!isDefined(self.test_turret))
+	{
+		eye = self eyepos();
+		angles = self getPlayerAngles();
+
+		pos = eye + anglestoforward(angles) * (15 + level.pickup_object_distance + 17) - (0, 0, 30);
+		self.test_turret = spawn("script_model", pos);
+		self.test_turret setmodel("turret");
+		self.test_turret hidepart("tag_eye");
+
+		self endon("death");
+		self endon("disconnect");
+		self endon("place_turret");
+
+		old_eye = (0, 0, 0);
+		old_ang = (0, 0, 0);
+
+		while (true)
+		{
+			eye = self eyepos();
+			angles = self getPlayerAngles();
+
+			if (eye!=old_eye || angles!=old_ang)
+			{
+				self.test_turret moveto(playerphysicstrace(eye, eye + anglestoforward(angles)
+					* (15 + level.pickup_object_distance + 17) - (0, 0, 30)), 0.1);
+				self.test_turret rotateto((0, angles[1], 0), 0.1);
+			}
+
+			old_eye = eye;
+			old_ang = angles;
+			wait 0.1;
+		}
+	}
+	else
+	{
+		players = getAllPlayers();
+		for (i = 0; i < players.size; i++)
+		{
+			pos1 = players[i].origin;
+			pos2 = self.test_turret.origin;
+			if (distancesquared((pos1[0], pos1[1], 0), (pos2[0], pos2[1], 0)) < 37 * 37
+				&& pos2[2] - pos1[2] > -40 && pos2[2] - pos1[2] < 60)
+			{
+				self iprintln("turret too close to player");
+				return;
+			}
+		}
+		self notify("place_turret");
+		self.turrets[self.turrets.size] = self thread turretSpawn(self.test_turret.origin, self.test_turret.angles);
+		self.test_turret delete();
+	}
 }
 
 turretSpawn(pos, angles)
@@ -132,7 +210,7 @@ damageListener(turret)
 				if (randomint(2))
 					turret thread shoutHurt();
 				if (!randomint(15))
-					playfx(level._effect["turret_sparks"], turret gettagorigin("tag_wing" + randomint(2)));
+					playfx(level.fx["turret_sparks"], turret gettagorigin("tag_wing" + randomint(2)));
 			}
 			if (turret.active)
 			{
@@ -194,7 +272,7 @@ explode(meansofdeath)
 
 	self notify("destroyed");
 	self playsound("turret_ignite");
-	playfx(level._effect["turret_explode"], self.center);
+	playfx(level.fx["turret_explode"], self.center);
 
 	wait 0.05;
 
@@ -214,14 +292,14 @@ explode(meansofdeath)
 		{
 			wait randomfloat(1.5);
 			self playsound("turret_sparks");
-			playfx(level._effect["turret_sparks_pop"], self gettagorigin("tag_wing0"));
-			playfx(level._effect["turret_sparks_pop"], self gettagorigin("tag_wing1"));
+			playfx(level.fx["turret_sparks_pop"], self gettagorigin("tag_wing0"));
+			playfx(level.fx["turret_sparks_pop"], self gettagorigin("tag_wing1"));
 		}
 		else
 		{
 			wait 0.05;
 			self playsound("turret_cookoff");
-			playfx(level._effect["turret_cookoff"], self.center);
+			playfx(level.fx["turret_cookoff"], self.center);
 			wait 0.1;
 			self playsound("turret_sparks");
 		}
@@ -282,26 +360,27 @@ turretsTaunt(turrets, idx)
 updateTargets()
 {
 	self.targets = [];
+	players = getAllPlayers();
 
-	for (i = 0; i < level.players.size; i++)
+	for (i = 0; i < players.size; i++)
 	{
-		if (!getdvarint("portal_turret_target_owner") && level.players[i] == self.owner)
+		if (!getdvarint("portal_turret_target_owner") && players[i] == self.owner)
 			continue;
 
-		d2 = distancesquared(level.players[i].origin, self.aim.origin);
-		if (d2 < self.maxdist*self.maxdist && level.players[i].health > 0)
+		d2 = distancesquared(players[i].origin, self.aim.origin);
+		if (d2 < self.maxdist * self.maxdist && players[i].health > 0)
 		{
 			if (d2 < 80 * 80)
-				aim_position = level.players[i] centerpos();
+				aim_position = players[i] centerpos();
 			else
-				aim_position = level.players[i] eyepos();
+				aim_position = players[i] eyepos();
 
 			angles = vectortoangles(aim_position - self.aim.origin);
 
 			if (abs(angleNormalize(self.defaultangles[0] - angles[0])) < self.degreex && abs(angleNormalize(self.defaultangles[1] - angles[1])) < self.degreey)
 			{
-				if (level.players[i] SightConeTrace(self.eyepos, self) || level.players[i].portal["forceturretshoot"])
-					self.targets[self.targets.size] = level.players[i];
+				if (players[i] SightConeTrace(self.eyepos, self) || players[i].portal["forceturretshoot"])
+					self.targets[self.targets.size] = players[i];
 			}
 		}
 	}
@@ -477,11 +556,11 @@ loopShoot(player)
 			for (i = 0; i < 2; i++)
 			{
 				pos = self.wings[n] gettagorigin("tag_flash" + i);
-				playfx(level._effect["turret_flash"], pos, dir + (vectorRandom(2) / 1000));
+				playfx(level.fx["turret_flash"], pos, dir + (vectorRandom(2) / 1000));
 			}
 		}
 		self playSound("turret_fire");
-		playfx(level._effect["turret_light_flash"], self.eyepos);
+		playfx(level.fx["turret_light_flash"], self.eyepos);
 
 		trace = traceArray(self.eyepos, self.eyepos + dir*self.maxdist, true, self.physics["ignore_ents"]);
 		killed_ent = false;

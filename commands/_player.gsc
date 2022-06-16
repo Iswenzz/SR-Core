@@ -32,9 +32,8 @@ cmd_Bounce(args)
 {
 	self log();
 	player = IfUndef(getPlayerByName(args[0]), self);
-
-	for (i = 0; i < 2; i++)
-		player bounce(player.origin, vectorNormalize((0, 0, 20)), 400);
+	player.sr_cheat = true;
+	player bounce(player.origin, vectorNormalize((0, 0, 20)), 800);
 }
 
 cmd_Clone(args)
@@ -88,6 +87,7 @@ cmd_G_Gravity(args)
 
 	value = ToInt(args[0]);
 	player = IfUndef(getPlayerByName(args[1]), self);
+	player.sr_cheat = true;
 
 	self log();
 	if (!isDefined(player))
@@ -103,6 +103,7 @@ cmd_G_Speed(args)
 
 	value = ToInt(args[0]);
 	player = IfUndef(getPlayerByName(args[1]), self);
+	player.sr_cheat = true;
 
 	self log();
 	if (!isDefined(player))
@@ -114,7 +115,7 @@ cmd_G_Speed(args)
 cmd_God(args)
 {
 	player = IfUndef(getPlayerByName(args[0]), self);
-
+	player.sr_cheat = true;
 	player.godmode = Ternary(!isDefined(player.godmode), true, undefined);
 	player pm(Ternary(isDefined(player.godmode), "^3God mode enabled!", "^1God mode disabled!"));
 }
@@ -136,6 +137,7 @@ cmd_Kill(args)
 cmd_Knockback(args)
 {
 	player = IfUndef(getPlayerByName(args[0]), self);
+	player.sr_cheat = true;
 	self log();
 
 	player.bt_knockback = Ternary(!isDefined(player.bt_knockback), true, undefined);
@@ -172,6 +174,7 @@ cmd_Freeze(args)
 		return self pm("Usage: sr_freeze <playerName>");
 
 	player = getPlayerByName(args[0]);
+	player.sr_cheat = true;
 
 	self log();
 	if (!isDefined(player))
@@ -186,6 +189,7 @@ cmd_UnFreeze(args)
 		return self pm("Usage: sr_unfreeze <playerName>");
 
 	player = getPlayerByName(args[0]);
+	player.sr_cheat = true;
 
 	self log();
 	if (!isDefined(player))
@@ -237,6 +241,7 @@ cmd_Trooper(args)
 cmd_UAmmo(args)
 {
 	self thread unlimitedAmmo();
+	self.sr_cheat = true;
 }
 
 cmd_Weapon(args)
@@ -245,6 +250,7 @@ cmd_Weapon(args)
 		return self pm("Usage: weapon <playerName> <weapon>");
 
 	player = getPlayerByName(args[0]);
+	player.sr_cheat = true;
 	weapon = args[1];
 
 	if (!isDefined(player))
@@ -265,6 +271,7 @@ cmd_WeaponAll(args)
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
+		players[i].sr_cheat = true;
 		players[i] giveWeapon(weapon);
 		players[i] switchToWeapon(weapon);
 		players[i] giveMaxAmmo(weapon);

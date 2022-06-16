@@ -32,4 +32,5 @@ addDvar(scriptName, varname, vardefault, min, max, type)
 		setDvar(varname, definition);
 
 	level.dvar[scriptName] = definition;
+	return definition;
 }

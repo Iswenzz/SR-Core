@@ -17,7 +17,7 @@ redlaserSpawn(start, angles)
 	if (distancesquared(start, end) > (maxdist * maxdist))
 		return;
 
-	self.laser = spawnfx(level._effect["redlaser"], start, forward);
+	self.laser = spawnfx(level.fx["redlaser"], start, forward);
 	triggerfx(self.laser, -100);
 
 	self.nextlaser = spawnstruct();
@@ -35,7 +35,7 @@ redlaserSpawn(start, angles)
 				if (!(round(trans[2], 2)))
 				{
 					// Laser in portal
-					if (abs(trans[0]) < level.portalwidth * 0.3 && abs(trans[1]) < level.portalheight * 0.3)
+					if (abs(trans[0]) < level.portal_width * 0.3 && abs(trans[1]) < level.portal_height * 0.3)
 						continue;
 				}
 			}
