@@ -317,7 +317,7 @@ playerPortalObjectCollisionTrace(start, angles, distance)
 
 		v = vectorprod((0, 0, 1), u);
 		w = vectorprod(u, v);
-		c = vectordot((q-start), w);
+		c = vectordot((q - start), w);
 		b = abs(vectordot(q - start, v));
 
 		touchingplayer = (a <= (r + object_radius) && b <= (r + object_radius) && c < h + object_radius);

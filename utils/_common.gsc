@@ -139,11 +139,15 @@ playSoundOnAllPlayers(soundAlias)
 		players[i] playLocalSound(soundAlias);
 }
 
-bounce(origin, power)
+bounce(origin, direction, power)
 {
 	self endon("disconnect");
+	self endon("death");
 
+	previousMaxHealth = self.maxhealth;
 	previousHealth = self.health;
+
+	self.maxhealth = self.maxhealth + power;
 	self.health = self.health + power;
 
 	self setClientDvars(
@@ -152,8 +156,8 @@ bounce(origin, power)
 		"bg_viewKickRandom", 0,
 		"bg_viewKickScale", 0
 	);
-	self finishPlayerDamage(self, self, power, 0, "MOD_PROJECTILE",
-		"none", undefined, origin, "none", 0);
+	self finishPlayerDamage(self, self, power, 0, "MOD_PROJECTILE", "none", origin, direction, "none", 0);
+	self.maxhealth = previousMaxHealth;
 	self.health = previousHealth;
 	wait .05;
 

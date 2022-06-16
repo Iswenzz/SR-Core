@@ -598,11 +598,9 @@ eye()
 {
 	switch (self getstance())
 	{
-		case "crouch":	height = (0, 0, 40);
-		break;
-		case "prone":	height = (0, 0, 11);
-		break;
-		default:		height = (0, 0, 60);
+		case "crouch":	height = (0, 0, 40);  break;
+		case "prone":	height = (0, 0, 11);  break;
+		default:		height = (0, 0, 60);  break;
 	}
 	return height;
 }

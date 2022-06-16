@@ -34,7 +34,7 @@ cmd_Bounce(args)
 	player = IfUndef(getPlayerByName(args[0]), self);
 
 	for (i = 0; i < 2; i++)
-		player bounce(vectorNormalize((0, 0, 20)), 400);
+		player bounce(player.origin, vectorNormalize((0, 0, 20)), 400);
 }
 
 cmd_Clone(args)
@@ -115,8 +115,8 @@ cmd_God(args)
 {
 	player = IfUndef(getPlayerByName(args[0]), self);
 
-	player.health = 999999999999999999;
-	player.maxhealth = 999999999999999999;
+	player.godmode = Ternary(!isDefined(player.godmode), true, undefined);
+	player pm(Ternary(isDefined(player.godmode), "^3God mode enabled!", "^1God mode disabled!"));
 }
 
 cmd_Kill(args)
@@ -139,6 +139,8 @@ cmd_Knockback(args)
 	self log();
 
 	player.bt_knockback = Ternary(!isDefined(player.bt_knockback), true, undefined);
+	player pm(Ternary(isDefined(player.bt_knockback), "^2Knockback enabled!", "^1Knockback disabled!"));
+	setDvar("g_knockback", 2000); // @TODO Disable this on map that requires scripted bounces
 }
 
 cmd_Model(args)
