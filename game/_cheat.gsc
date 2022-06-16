@@ -4,6 +4,7 @@
 main()
 {
 	event("connect", ::loop);
+	event("spawn", ::antiCheat);
 }
 
 loop()
@@ -27,6 +28,19 @@ loop()
 		self antiLowFps();
 		self antiElevator();
 	}
+}
+
+antiCheat()
+{
+	self endon("disconnect");
+	self endon("death");
+
+	cheat = false;
+	if (self sr\game\minigames\_main::isInAnyQueue())
+		cheat = true;
+	if (self sr\player\modes\_main::isInAnyMode())
+		cheat = true;
+	self.sr_cheat = cheat;
 }
 
 antiLowFps()

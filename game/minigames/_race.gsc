@@ -87,7 +87,6 @@ join()
 {
 	self addToQueue("race");
 	self addToScoreboard();
-	self.sr_cheat = true;
 
 	sr\sys\_admins::message("%s ^7joined the race! [^2!race^7] [^1%d^7]", self.name, level.minigames["race"].queue.size);
 }

@@ -89,7 +89,6 @@ join()
 	self endon("disconnect");
 
 	self addToQueue("kz");
-	self.sr_cheat = true;
 	self.teamKill = true;
 	self spawnPlayerInSpec();
 

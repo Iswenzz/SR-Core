@@ -1,23 +1,23 @@
 #include sr\sys\_events;
+#include sr\player\modes\_main;
 
 main()
 {
-	event("connect", ::noclip);
+	createMode("noclip");
+
+	event("spawn", ::noclip);
 }
 
 noclip()
 {
 	self endon("disconnect");
-	self.noclip = false;
+	self endon("death");
 
-	if (!self sr\sys\_admins::isRole("masteradmin"))
+	if (!self.modes["noclip"] || !self sr\sys\_admins::isRole("masteradmin"))
 		return;
 
 	while (true)
 	{
-		while (!self.noclip)
-			wait 1;
-
 		while (self fragButtonPressed())
 		{
 			if (!isDefined(self.noclipVelocity))

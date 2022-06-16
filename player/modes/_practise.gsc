@@ -1,7 +1,10 @@
 #include sr\sys\_events;
+#include sr\player\modes\_main;
 
 main()
 {
+	createMode("practise");
+
 	event("spawn", ::practise);
 }
 
@@ -10,16 +13,11 @@ practise()
 	self endon("disconnect");
 	self endon("death");
 
-	if (!isDefined(self.sr_practise))
-		self.sr_practise = false;
-	if (!self.sr_practise)
+	if (!self.modes["practise"])
 		return;
 
-	if (!isDefined(self.practise))
-		self.practise = [];
-
 	self.runId = "Practise";
-	self.huds["speedrun"]["name"] setText("^1Practise");
+	self.huds["speedrun"]["name"] setText("^1Practise Mode");
 
 	self thread watchSave();
 	self thread watchLoad();

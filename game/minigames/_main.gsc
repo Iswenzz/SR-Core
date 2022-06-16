@@ -50,6 +50,7 @@ addToQueue(minigame)
 	if (self isInQueue(minigame))
 		return;
 
+	self.sr_cheat = true;
 	index = level.minigames[minigame].queue.size;
 	level.minigames[minigame].queue[index] = self;
 }
