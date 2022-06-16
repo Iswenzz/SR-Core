@@ -17,27 +17,35 @@ pickup()
 
 	while (true)
 	{
+		wait 0.05;
+
 		while (!self secondaryOffHandButtonPressed())
 			wait 0.05;
 
 		start = self getEye();
 		end = start + vectorScale(anglesToForward(self getPlayerAngles()), 999999);
 		trace = bulletTrace(start, end, true, self);
-		ent = trace["entity"];
-		ent.distance = distance(start, trace["position"]);
 
+		ent = trace["entity"];
 		if (!isDefined(ent))
 			continue;
+		ent.distance = distance(start, trace["position"]);
+
 		if (!IsPlayer(ent))
 		{
-			if (!isDefined(ent.originalPlace))
-				ent.originalPlace = ent getOrigin();
+			if (!isDefined(ent.defaultOrigin))
+			{
+				ent.defaultOrigin = ent.origin;
+				ent.defaultAngles = ent.angles;
+			}
 		}
+		else iPrintLn(ent.name);
 		if (isDefined(ent.targetname))
 			self iPrintLn(ent.targetname);
+		wait 0.1;
 
 		// In use
-		while (!self secondaryOffHandButtonPressed() && isDefined(ent))
+		while (isDefined(ent))
 		{
 			wait 0.05;
 
@@ -49,49 +57,59 @@ pickup()
 			trace = bulletTrace(start, end, false, ent);
 			ent.distance = distance(start, trace["position"]);
 
+			if (!isDefined(ent.linker))
+			{
+				ent.linker = spawn("script_origin", trace["position"]);
+            	ent linkto(ent.linker);
+			}
+			ent.linker.origin = trace["position"];
+
+			if (self secondaryOffHandButtonPressed() || isDefined(ent.reset))
+			{
+				self reset(ent);
+				break;
+			}
 			if (!self fragButtonPressed())
 				continue;
 
 			switch (self.pickupMode)
 			{
-				case 0: 	self rotate(ent, 3); 	break;
-				case 1: 	self rotate(ent, 2); 	break;
-				case 2: 	self rotate(ent, 1); 	break;
+				case 0: 	self rotate(ent, 2); 	break;
+				case 1: 	self rotate(ent, 1); 	break;
+				case 2: 	self rotate(ent, 0); 	break;
 				case 3: 	self move(ent);			break;
-				case 4: 	self reset(ent); 		break;
+				case 4: 	ent.reset = true; 		break;
 			}
-			if (isDefined(ent.reset))
-			{
-				ent.reset = undefined;
-				break;
-			}
-
-			end = start + vectorScale(anglesToForward(self getPlayerAngles()), ent.distance);
-			trace = bulletTrace(start, end, false, ent);
-			ent.origin = trace["position"];
 		}
 	}
 }
 
 mode()
 {
-	modes = strTok("Yaw;Pitch;Roll;Move;Reset;", ";");
-	self.pickupMode = intRange(self.pickupMode + 1, 0, 4);
-	self iPrintLn(modes[self.pickupMode]);
+	modes = strTok("^3Yaw;^3Pitch;^3Roll;^5Move;^1Reset;", ";");
+	self.pickupMode = intRange(self.pickupMode, 0, 4);
+	self iPrintLn(fmt("Mode: %s", modes[self.pickupMode]));
+	wait 0.2;
 }
 
 rotate(ent, direction)
 {
 	speed = 2;
-	angles = ent.angles;
+	angles = ent.linker.angles;
 	forward = self meleeButtonPressed();
+	newAngle = angles[direction];
 
-	if (angles[direction] == Ternary(forward, -180, 180))
-		angles[direction] = Ternary(forward, 180, -180);
+	if (newAngle == Ternary(forward, -180, 180))
+		newAngle = Ternary(forward, 180, -180);
+	newAngle += Ternary(forward, speed * -1, speed);
 
-	angles[direction] += Ternary(forward, speed * -1, speed);
-
-	ent rotateTo(angles, 0.05);
+	switch (direction)
+	{
+		case 0: angles = (newAngle, angles[1], angles[2]); break;
+		case 1: angles = (angles[0], newAngle, angles[2]); break;
+		case 2: angles = (angles[0], angles[1], newAngle); break;
+	}
+	ent.linker rotateTo(angles, 0.05);
 }
 
 move(ent)
@@ -102,7 +120,15 @@ move(ent)
 
 reset(ent)
 {
-	ent moveTo(ent.originalPlace, 0.05);
-	ent rotateTo((0, 0, 0), 0.05);
-	ent.reset = true;
+	ent unlink();
+	ent.linker delete();
+
+	if (isDefined(ent.reset) && isDefined(ent.defaultOrigin))
+	{
+		ent.origin = ent.defaultOrigin;
+		ent.angles = ent.defaultAngles;
+	}
+	ent.reset = undefined;
+
+	wait 0.1;
 }

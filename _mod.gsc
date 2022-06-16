@@ -49,8 +49,8 @@ main()
 	sr\player\_insertion::main();
 	sr\player\_settings::main();
 	sr\player\fx\_spray::main();
-	// sr\player\modes\_noclip::main();
-	// sr\player\modes\_pickup::main();
+	sr\player\modes\_noclip::main();
+	sr\player\modes\_pickup::main();
 }
 
 precache()
