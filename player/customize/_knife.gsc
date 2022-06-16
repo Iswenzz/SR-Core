@@ -24,24 +24,25 @@ precache()
 		level.assets["knife"][id]["callback"] = sr\player\customize\_knife::pick;
 		level.assets["knife"][id]["unlock"] = sr\game\_rank::isKnifeUnlocked;
 
-		precacheModel(level.assets["knife"][id]["model"]);
 		precacheItem(level.assets["knife"][id]["item"]);
+		precacheModel(level.assets["knife"][id]["model"]);
 	}
 }
 
 menu_Knife(response)
 {
-	self closeMenu();
+	self closeInGameMenu();
 	self clean();
 	self openMenu("sr_customize_category");
 	self.customize_category = "knife";
-	self.customize_max_page = countPages(level.assets["knife"]);
-	self setClientDvar("menuName", "Knifes");
+	self.customize_max_page = self countPages();
+	self setClientDvar("sr_customize_name", "Knifes");
 	self setClientDvar("sr_customize_page", "1/" + self.customize_max_page);
-	self thread build(response);
+	self spawnPreview();
+	self thread build();
 }
 
-build(response)
+build()
 {
 	self endon("disconnect");
 
@@ -52,7 +53,7 @@ build(response)
     if (isDefined(self.customize_preview))
         self.customize_preview.origin = forward + right + eye;
 
-	buildButtons(level.assets["knife"]);
+	self buildButtons();
 }
 
 pick(id)

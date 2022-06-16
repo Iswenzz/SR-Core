@@ -58,6 +58,20 @@ precache()
 	level.texts = [];
 	level.fx = [];
 
+	precacheItem("shop_mp");
+	precacheItem("vip_mp");
+	precacheItem("tomahawk_mp");
+	precacheItem("fortnite_mp");
+	precacheItem("colt45_mp");
+	precacheItem("claymore_mp");
+	precacheItem("knife_mp");
+	precacheItem("dog_mp");
+	precacheItem("shovel_mp");
+	precacheItem("rpg_mp");
+	precacheItem("c4_mp");
+	precacheItem("rtd_mp");
+	precacheItem("frag_grenade_short_mp");
+
 	precacheShader("black");
 	precacheShader("white");
 	precacheShader("time_hud");

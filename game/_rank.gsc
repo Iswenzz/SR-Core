@@ -506,7 +506,7 @@ isSprayUnlocked(num)
 
 isKnifeSkinUnlocked(num)
 {
-	return isUnlocked(level.assets["knifeSkin"], num, 1);
+	return isUnlocked(level.assets["knife_skin"], num, 1);
 }
 
 isKnifeUnlocked(num)
@@ -537,7 +537,7 @@ isUnlocked(assets, num, vip)
 		return vip;
 	if (self.pers["prestige"] < assets[num]["prestige"])
 		return 0;
-	if (self.pers["rank"] < assets["fx"][num]["rank"])
+	if (self.pers["rank"] < assets[num]["rank"])
 		return 0;
 	return 1;
 }

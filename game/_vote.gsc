@@ -11,12 +11,12 @@ initVote()
 	level.vote_yes = 0;
 	level.vote_no = 0;
 
-	menu_multiple("sr_votemap", 	"select", 		::menu_Select);
-	menu_multiple("sr_votemap", 	"vote", 		::menu_Vote);
-	menu("sr_votemap", 				"next", 		::menu_PageNext);
-	menu("sr_votemap", 				"prev", 		::menu_PagePrev);
-	menu("-1", 						"cjvoteyes",	::menu_PlayerVote);
-	menu("-1", 						"cjvoteno",		::menu_PlayerVote);
+	menu_multiple("sr_votemap", "select", ::menu_Select);
+	menu_multiple("sr_votemap", "vote", ::menu_Vote);
+	menu("sr_votemap", "next", ::menu_PageNext);
+	menu("sr_votemap", "prev", ::menu_PagePrev);
+	menu("-1", "cjvoteyes", ::menu_PlayerVote);
+	menu("-1", "cjvoteno", ::menu_PlayerVote);
 
 	event("connect", ::onConnect);
 }

@@ -20,7 +20,6 @@ precache()
 		level.assets["spray"][id]["prestige"] = int(tableLookup(tableName, 0, idx, 3));
 		level.assets["spray"][id]["effect"] = loadFx(tableLookup(tableName, 0, idx, 4));
 		level.assets["spray"][id]["name"] = tableLookup(tableName, 0, idx, 5);
-		level.assets["spray"][id]["model"] = "";
 		level.assets["spray"][id]["callback"] = sr\player\customize\_spray::pick;
 		level.assets["spray"][id]["unlock"] = sr\game\_rank::isSprayUnlocked;
 	}
@@ -28,24 +27,25 @@ precache()
 
 menu_Spray(response)
 {
-	self closeMenu();
+	self closeInGameMenu();
 	self clean();
 	self openMenu("sr_customize_category");
 	self.customize_category = "spray";
-	self.customize_max_page = countPages(level.assets["spray"]);
-	self setClientDvar("menuName", "Sprays");
+	self.customize_max_page = self countPages();
+	self setClientDvar("sr_customize_name", "Sprays");
 	self setClientDvar("sr_customize_page", "1/" + self.customize_max_page);
-	self thread build(response);
+	self spawnPreview();
+	self thread build();
 }
 
-build(response)
+build()
 {
 	self endon("disconnect");
 
 	// angles = self getPlayerAngles();
 	// self setPlayerAngles((85, angles[1], 0));
 
-	buildButtons(level.assets["spray"]);
+	self buildButtons();
 }
 
 pick(id)

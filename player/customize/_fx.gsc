@@ -19,7 +19,6 @@ precache()
 		level.assets["fx"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
 		level.assets["fx"][id]["prestige"] = int(tableLookup(tableName, 0, idx, 3));
 		level.assets["fx"][id]["name"] = tableLookup(tableName, 0, idx, 4);
-		level.assets["fx"][id]["model"] = "";
 		level.assets["fx"][id]["callback"] = sr\player\customize\_fx::pick;
 		level.assets["fx"][id]["unlock"] = sr\game\_rank::isFxUnlocked;
 	}
@@ -27,21 +26,22 @@ precache()
 
 menu_FX(response)
 {
-	self closeMenu();
+	self closeInGameMenu();
 	self clean();
 	self openMenu("sr_customize_category");
 	self.customize_category = "fx";
-	self.customize_max_page = countPages(level.assets["fx"]);
-	self setClientDvar("menuName", "FX");
+	self.customize_max_page = self countPages();
+	self setClientDvar("sr_customize_name", "FX");
 	self setClientDvar("sr_customize_page", "1/" + self.customize_max_page);
-	self thread build(response);
+	self spawnPreview();
+	self thread build();
 }
 
-build(response)
+build()
 {
 	self endon("disconnect");
 
-	buildButtons(level.assets["fx"]);
+	self buildButtons();
 }
 
 pick(id)

@@ -5,42 +5,44 @@ main()
 {
 	precache();
 
-	menu("sr_customize", "knifeskin", ::menu_KnifeSkin);
+	menu("sr_customize", "knife_skin", ::menu_KnifeSkin);
 }
 
 precache()
 {
-	level.assets["knifeSkin"] = [];
+	level.assets["knife_skin"] = [];
 	tableName = "mp/knifeSkinTable.csv";
 
 	for (idx = 1; isDefined(tableLookup(tableName, 0, idx, 0)) && tableLookup(tableName, 0, idx, 0) != ""; idx++)
 	{
 		id = int(tableLookup(tableName, 0, idx, 1));
-		level.assets["knifeSkin"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
-		level.assets["knifeSkin"][id]["shader"] = tableLookup(tableName, 0, idx, 3);
-		level.assets["knifeSkin"][id]["item"] = tableLookup(tableName, 0, idx, 4);
-		level.assets["knifeSkin"][id]["name"] = tableLookup(tableName, 0, idx, 5);
-		level.assets["knifeSkin"][id]["model"] = tableLookup(tableName, 0, idx, 6);
-		level.assets["knifeSkin"][id]["callback"] = sr\player\customize\_knife_skin::pick;
-		level.assets["knifeSkin"][id]["unlock"] = sr\game\_rank::isKnifeSkinUnlocked;
+		level.assets["knife_skin"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
+		level.assets["knife_skin"][id]["prestige"] = 0;
+		level.assets["knife_skin"][id]["shader"] = tableLookup(tableName, 0, idx, 3);
+		level.assets["knife_skin"][id]["item"] = tableLookup(tableName, 0, idx, 4);
+		level.assets["knife_skin"][id]["name"] = tableLookup(tableName, 0, idx, 5);
+		level.assets["knife_skin"][id]["model"] = tableLookup(tableName, 0, idx, 6);
+		level.assets["knife_skin"][id]["callback"] = sr\player\customize\_knife_skin::pick;
+		level.assets["knife_skin"][id]["unlock"] = sr\game\_rank::isKnifeSkinUnlocked;
 
-		precacheModel(level.assets["knifeSkin"][id]["model"]);
+		precacheModel(level.assets["knife_skin"][id]["model"]);
 	}
 }
 
 menu_KnifeSkin(response)
 {
-	self closeMenu();
+	self closeInGameMenu();
 	self clean();
 	self openMenu("sr_customize_category");
-	self.customize_category = "knifeskin";
-	self.customize_max_page = countPages(level.assets["knifeSkin"]);
-	self setClientDvar("menuName", "Knife Skins");
+	self.customize_category = "knife_skin";
+	self.customize_max_page = self countPages();
+	self setClientDvar("sr_customize_name", "Knife Skins");
 	self setClientDvar("sr_customize_page", "1/" + self.customize_max_page);
-	self thread build(response);
+	self spawnPreview();
+	self thread build();
 }
 
-build(response)
+build()
 {
 	self endon("disconnect");
 
@@ -51,7 +53,7 @@ build(response)
     if (isDefined(self.customize_preview))
         self.customize_preview.origin = forward + right + eye;
 
-	buildButtons(level.assets["knifeSkin"]);
+	self buildButtons();
 }
 
 pick(id)
@@ -63,5 +65,5 @@ pick(id)
 	self setClientDvar("drui_knife_skin", id);
 
 	if (isDefined(self.customize_preview))
-		self.customize_preview setModel(level.assets["knifeSkin"][id]["model"]);
+		self.customize_preview setModel(level.assets["knife_skin"][id]["model"]);
 }

@@ -17,11 +17,11 @@ precache()
 	{
 		id = int(tableLookup(tableName, 0, idx, 1));
 		level.assets["theme"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
+		level.assets["theme"][id]["prestige"] = 0;
 		level.assets["theme"][id]["shader"] = tableLookup(tableName, 0, idx, 3);
 		level.assets["theme"][id]["item"] = tableLookup(tableName, 0, idx, 4);
 		level.assets["theme"][id]["name"] = tableLookup(tableName, 0, idx, 5);
 		level.assets["theme"][id]["desc"] = tableLookup(tableName, 0, idx, 6);
-		level.assets["theme"][id]["model"] = "";
 		level.assets["theme"][id]["callback"] = sr\player\customize\_theme::pick;
 		level.assets["theme"][id]["unlock"] = sr\game\_rank::isThemeUnlocked;
 	}
@@ -29,22 +29,23 @@ precache()
 
 menu_Theme(response)
 {
-	self closeMenu();
+	self closeInGameMenu();
 	self clean();
 	self openMenu("sr_customize_category");
 	self.customize_category = "theme";
-	self.customize_max_page = countPages(level.assets["theme"]);
-	self setClientDvar("menuName", "Themes");
+	self.customize_max_page = self countPages();
+	self setClientDvar("sr_customize_name", "Themes");
 	self setClientDvar("sr_customize_page", "1/" + self.customize_max_page);
-	self thread build(response);
+	self spawnPreview();
+	self thread build();
 }
 
-build(response)
+build()
 {
 	self endon("disconnect");
-	self setClientDvar("preview_theme", "1");
+	self setClientDvar("sr_customize_theme", "1");
 
-	buildButtons(level.assets["theme"]);
+	self buildButtons();
 }
 
 pick(id)

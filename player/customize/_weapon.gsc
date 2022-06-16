@@ -26,22 +26,24 @@ precache()
 		level.assets["weapon"][id]["unlock"] = sr\game\_rank::isWeaponUnlocked;
 
 		precacheItem(level.assets["weapon"][id]["item"]);
+		precacheModel(level.assets["weapon"][id]["model"]);
 	}
 }
 
 menu_Weapon(response)
 {
-	self closeMenu();
+	self closeInGameMenu();
 	self clean();
 	self openMenu("sr_customize_category");
 	self.customize_category = "weapon";
-	self.customize_max_page = countPages(level.assets["weapon"]);
-	self setClientDvar("menuName", "Weapons");
+	self.customize_max_page = self countPages();
+	self setClientDvar("sr_customize_name", "Weapons");
 	self setClientDvar("sr_customize_page", "1/" + self.customize_max_page);
-	self thread build(response);
+	self spawnPreview();
+	self thread build();
 }
 
-build(response)
+build()
 {
 	self endon("disconnect");
 
@@ -49,10 +51,12 @@ build(response)
     forward = anglesToForward(self getPlayerAngles()) * 45;
 	right = anglesToRight(self getPlayerAngles()) * 13;
 
+	comPrintLn("preview: %d %f", isDefined(self.customize_preview), forward[0]);
+
     if (isDefined(self.customize_preview))
         self.customize_preview.origin = forward + right + eye;
 
-	buildButtons(level.assets["weapon"]);
+	self buildButtons();
 }
 
 pick(id)

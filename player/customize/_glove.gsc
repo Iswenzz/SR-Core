@@ -29,17 +29,18 @@ precache()
 
 menu_Glove(response)
 {
-	self closeMenu();
+	self closeInGameMenu();
 	self clean();
 	self openMenu("sr_customize_category");
 	self.customize_category = "glove";
-	self.customize_max_page = countPages(level.assets["glove"]);
-	self setClientDvar("menuName", "Gloves");
+	self.customize_max_page = self countPages();
+	self setClientDvar("sr_customize_name", "Gloves");
 	self setClientDvar("sr_customize_page", "1/" + self.customize_max_page);
-	self thread build(response);
+	self spawnPreview();
+	self thread build();
 }
 
-build(response)
+build()
 {
 	self endon("disconnect");
 
@@ -51,7 +52,7 @@ build(response)
     if (isDefined(self.customize_preview))
         self.customize_preview.origin = forward + right + up + eye;
 
-	buildButtons(level.assets["glove"]);
+	self buildButtons();
 }
 
 pick(id)

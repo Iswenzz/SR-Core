@@ -145,7 +145,6 @@ itemDef \
 		onOpen
 		{
 			close team_select;
-			scriptMenuResponse "open";
 		}
 		onESC
 		{
@@ -186,7 +185,7 @@ itemDef \
 			bordersize		3
 			bordercolor		0 0 0 0.7
 			type			0
-			exp				text( dvarString(menuName))
+			text			"Customize"
 			textscale		0.4
 			textstyle		3
 			textalign		1
@@ -197,7 +196,7 @@ itemDef \
 		DR_STUFF_BUTTON( "2", 205, 120, 120, 25, "^8Characters", scriptMenuResponse "character";, 1 )
 		DR_STUFF_BUTTON( "3", 205, 150, 120, 25, "^8Sprays", scriptMenuResponse "spray";, 1 )
 		DR_STUFF_BUTTON( "4", 205, 180, 120, 25, "^8Knifes", scriptMenuResponse "knife";, 1 )
-		DR_STUFF_BUTTON( "5", 205, 210, 120, 25, "^8Knife Skins", scriptMenuResponse "knifeskin";, 1 )
+		DR_STUFF_BUTTON( "5", 205, 210, 120, 25, "^8Knife Skins", scriptMenuResponse "knife_skin";, 1 )
 		DR_STUFF_BUTTON( "6", 205, 240, 120, 25, "^8Gloves", scriptMenuResponse "glove";, 1 )
 		DR_STUFF_BUTTON( "7", 205, 270, 120, 25, "^8Effects", scriptMenuResponse "fx";, 1 )
 		DR_STUFF_BUTTON( "8", 205, 300, 120, 25, "^8Themes", scriptMenuResponse "theme";, 1 )
@@ -220,8 +219,8 @@ itemDef \
 		}
 		onClose
 		{
+			open sr_customize;
 			scriptMenuResponse "close";
-			open "sr_customize";
 		}
 		onEsc
 		{
@@ -234,7 +233,7 @@ itemDef \
 			name			"theme"
 			rect			0 146 890 217 0 0
 			style			3
-			visible			when(dvarString("preview_theme") == "1")
+			visible			when(dvarString("sr_customize_theme") == "1")
 			exp				material("sr_menu_bg_" + (theme + 1))
 			decoration
 		}
@@ -273,23 +272,23 @@ itemDef \
 			bordersize			3
 			bordercolor			0 0 0 0.7
 			type			0
-			exp				text("^8" + dvarString(menuName))
+			exp				text("^8" + dvarString("sr_customize_name"))
 			textscale			0.4
 			textstyle			3
 			textalign			1
 			decoration
 		}
 
-		STUFF_BUTTON( "1", 205, 90, 120, 25, dvarString("sr_customize_1"), scriptMenuResponse "pick:0";, 1 )
-		STUFF_BUTTON( "2", 205, 120, 120, 25, dvarString("sr_customize_2"), scriptMenuResponse "pick:1";, 1 )
-		STUFF_BUTTON( "3", 205, 150, 120, 25, dvarString("sr_customize_3"), scriptMenuResponse "pick:2";, 1 )
-		STUFF_BUTTON( "4", 205, 180, 120, 25, dvarString("sr_customize_4"), scriptMenuResponse "pick:3";, 1 )
-		STUFF_BUTTON( "5", 205, 210, 120, 25, dvarString("sr_customize_5"), scriptMenuResponse "pick:4";, 1 )
-		STUFF_BUTTON( "6", 205, 240, 120, 25, dvarString("sr_customize_6"), scriptMenuResponse "pick:5";, 1 )
-		STUFF_BUTTON( "7", 205, 270, 120, 25, dvarString("sr_customize_7"), scriptMenuResponse "pick:6";, 1 )
-		STUFF_BUTTON( "8", 205, 300, 120, 25, dvarString("sr_customize_8"), scriptMenuResponse "pick:7";, 1 )
-		STUFF_BUTTON( "9", 205, 330, 120, 25, dvarString("sr_customize_9"), scriptMenuResponse "pick:8";, 1 )
-		STUFF_BUTTON( "10", 205, 360, 120, 25, dvarString("sr_customize_10"), scriptMenuResponse "pick:9";, 1 )
+		STUFF_BUTTON( "1", 205, 90, 120, 25, dvarString("sr_customize_0"), scriptMenuResponse "pick:0";, 1 )
+		STUFF_BUTTON( "2", 205, 120, 120, 25, dvarString("sr_customize_1"), scriptMenuResponse "pick:1";, 1 )
+		STUFF_BUTTON( "3", 205, 150, 120, 25, dvarString("sr_customize_2"), scriptMenuResponse "pick:2";, 1 )
+		STUFF_BUTTON( "4", 205, 180, 120, 25, dvarString("sr_customize_3"), scriptMenuResponse "pick:3";, 1 )
+		STUFF_BUTTON( "5", 205, 210, 120, 25, dvarString("sr_customize_4"), scriptMenuResponse "pick:4";, 1 )
+		STUFF_BUTTON( "6", 205, 240, 120, 25, dvarString("sr_customize_5"), scriptMenuResponse "pick:5";, 1 )
+		STUFF_BUTTON( "7", 205, 270, 120, 25, dvarString("sr_customize_6"), scriptMenuResponse "pick:6";, 1 )
+		STUFF_BUTTON( "8", 205, 300, 120, 25, dvarString("sr_customize_7"), scriptMenuResponse "pick:7";, 1 )
+		STUFF_BUTTON( "9", 205, 330, 120, 25, dvarString("sr_customize_8"), scriptMenuResponse "pick:8";, 1 )
+		STUFF_BUTTON( "10", 205, 360, 120, 25, dvarString("sr_customize_9"), scriptMenuResponse "pick:9";, 1 )
 
 		itemdef
 		{
