@@ -41,8 +41,8 @@ main()
 	sr\game\_menus::main();
 	sr\game\_vote::initVote();
 	sr\game\fx\_trail::main();
-	// sr\game\menus\_main::initMenus();
-	// sr\game\menus\_owner::main();
+	sr\game\menus\_main::initMenus();
+	sr\game\menus\_owner::main();
 	sr\game\minigames\_main::initMinigames();
 	sr\game\weapons\_main::main();
 
@@ -75,6 +75,9 @@ precache()
 	precacheItem("c4_mp");
 	precacheItem("rtd_mp");
 	precacheItem("frag_grenade_short_mp");
+	precacheItem("frag_grenade_mp");
+	precacheItem("smoke_grenade_mp");
+	precacheItem("flash_grenade_mp");
 
 	precacheShader("black");
 	precacheShader("white");

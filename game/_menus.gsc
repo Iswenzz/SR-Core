@@ -7,9 +7,6 @@ main()
 
 menu_WelcomeMessage(arg)
 {
-	if (self.pers["team"] != "allies")
-		return;
-
 	role = self sr\sys\_admins::getRoleName();
 	geo = self getGeoLocation(2);
 

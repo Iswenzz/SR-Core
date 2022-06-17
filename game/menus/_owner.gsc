@@ -4,8 +4,6 @@
 
 main()
 {
-    level.sr_menu["owner"] = [];
-
 	event("connect", ::onConnect);
 
 	main = menuElement("Main", "owner", "main");
@@ -15,10 +13,11 @@ main()
     // Main
 	menuOption(main, "Message", 		::menu_Message);
 	menuOption(main, "God", 			::menu_God);
-	menuOption(main, "Epic Speed", 		::menu_Speed, 500);
-	menuOption(main, "Q3", 				::menu_Q3);
+	menuOption(main, "Epic Speed", 		::menu_Speed, "500");
+	menuOption(main, "Knockback", 		::menu_Knockback);
+	menuOption(main, "Portal", 			::menu_Portal);
 	menuOption(main, "Unlimited Ammo", 	::menu_UAmmo);
-	menuOption(main, "Can Damage", 		::menu_CanDamage);
+	menuOption(main, "Damage", 			::menu_Damage);
 
 	// Weapons
 	menuOption(weapons, "Frag", 		::menu_Weapon, "frag_grenade_mp");
@@ -53,41 +52,45 @@ menu_Speed(arg)
 	self sr\sys\_admins::command("g_speed", arg);
 }
 
-menu_Q3(arg)
+menu_Knockback(arg)
 {
 	self sr\sys\_admins::command("practise");
 	self sr\sys\_admins::command("knockback");
 
-	self takeAllWeapons();
-	self giveWeapon("gl_ak47_mp");
-	self giveWeapon("gl_g3_mp");
-	self switchToWeapon("gl_ak47_mp");
+	self close();
+}
+
+menu_Portal(arg)
+{
+	self sr\sys\_admins::command("portal");
 
 	self close();
-	self notify("sr_menu_close");
 }
 
 menu_Weapon(arg)
 {
 	self giveWeapon(arg);
+	self giveMaxAmmo(arg);
+	wait 0.05;
 	self switchToWeapon(arg);
 
-	self thread close();
-	self notify("sr_menu_close");
+	self close();
 }
 
 menu_UAmmo(arg)
 {
-	self sr\sys\_admins::command("uammo", "");
+	self sr\sys\_admins::command("uammo");
 }
 
-menu_CanDamage(arg)
+menu_Damage(arg)
 {
-	self sr\sys\_admins::command("candamage", "");
+	self sr\sys\_admins::command("damage");
 }
 
 menu_Message(arg)
 {
-	message = IfUndef(getDvar("message"), "XD");
+	message = getDvar("message");
+	if (IsNullOrEmpty(message))
+		message = "XD";
 	iPrintLnBold(message);
 }

@@ -1,4 +1,4 @@
-addHud(who, x, y, alpha, alignX, alignY, fontScale)
+addHud(who, x, y, alpha, alignX, alignY, fontScale, sort)
 {
 	if (isPlayer(who))
 		hud = newClientHudElem(who);
@@ -12,7 +12,8 @@ addHud(who, x, y, alpha, alignX, alignY, fontScale)
 	hud.alignY = alignY;
 	hud.horzAlign = alignX;
 	hud.vertAlign = alignY;
-	hud.fontScale = fontScale;
+	hud.fontScale = Ternary(fontScale < 1.4, 1.4, fontScale);
+	hud.sort = IfUndef(sort, 0);
 	return hud;
 }
 
