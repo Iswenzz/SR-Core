@@ -13,8 +13,15 @@ watch()
 	self endon("disconnect");
 	self endon("death");
 
+	self allowAds(true);
+
 	if (!self.modes["portal"])
 		return;
+
+	wait 0.05;
+	self giveWeapon(level.portalgun);
+	self giveMaxAmmo(level.portalgun);
+	self switchToWeapon(level.portalgun);
 
 	while (true)
 	{
@@ -24,18 +31,16 @@ watch()
 		{
 			wait 1;
 			self sr\libs\portal\_hud::updateHud("none");
+			self allowAds(true);
 			continue;
 		}
+		self allowAds(false);
 
 		color = undefined;
 		if (self attackButtonPressed())
 			color = "blue";
 		else if (self adsButtonPressed())
-		{
 			color = "red";
-			while (self adsButtonPressed())
-				wait 0.05;
-		}
 		else if (self fragButtonPressed())
 			self sr\libs\portal\_portal_gun::resetPortals();
 
@@ -45,6 +50,6 @@ watch()
 			self thread sr\libs\portal\_portal_gun::fire();
 			self thread sr\libs\portal\_portal_gun::portal(color);
 		}
-		wait 0.2;
+		wait 0.05;
 	}
 }

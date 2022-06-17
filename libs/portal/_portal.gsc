@@ -32,8 +32,8 @@ launch(sMeansOfDeath, sWeapon, vPoint, vDir, strength)
 	self FinishPlayerDamage(self, self, 100, 0, sMeansOfDeath, sWeapon, vPoint, vDir, "none", 0);
 
 	wait 0.05;
-
 	setDvar("g_knockback", level.defaultknockback);
+
 
 	self.maxhealth 	= maxhealth;
 	self.health 	= health;

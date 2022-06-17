@@ -14,7 +14,7 @@ main()
 
 	addWeapon("player", "FN RPG", "gl_g36c_mp", 0.51, 1.05, "projectile_rpg7",
 		"muzzleflashes/at4_flash", "explosions/grenadeExp_concrete_1", "smoke/smoke_geotrail_rpg",
-		"weap_rpg_fire_plr", "weap_rpg_loop", "weap_rpg_loop", 1500);
+		"weap_rpg_fire_plr", "weap_rpg_loop", "weap_rpg_loop", 1000);
 
 	addWeapon("player", "Q3 Rocket", "gl_ak47_mp", 0, 0.6, "quake_rocket_projectile",
 		"muzzleflashes/m203_flshview", "explosions/grenadeExp_concrete_1", "q3/rocket_trail",
