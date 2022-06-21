@@ -327,7 +327,7 @@ traceArray(start, end, hit_players, ignore_array)
 	{
 		if (isDefined(trace["entity"]))
 		{
-			if (IndexOf(ignore_array, trace["entity"]) >= 0)
+			if (Contains(ignore_array, trace["entity"]))
 				return traceArrayRaw(trace["position"], end, hit_players, ignore_array, trace["entity"], trace["fraction"]);
 		}
 	}
@@ -343,7 +343,7 @@ traceArrayRaw(start, end, hit_players, ignore_array, ignore_ent, fraction_add)
 
 	if (isDefined(trace["entity"]))
 	{
-		if (IndexOf(ignore_array, trace["entity"]) >= 0)
+		if (Contains(ignore_array, trace["entity"]))
 			return traceArrayRaw(trace["position"], end, hit_players, ignore_array, trace["entity"], trace["fraction"]);
 	}
 	return trace;

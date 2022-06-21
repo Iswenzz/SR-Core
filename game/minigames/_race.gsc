@@ -327,7 +327,7 @@ playerFinish()
 		self.huds["race"] destroy();
 	self linkTo(level.tempEntity);
 
-	if (IndexOf(level.racePlayersFinished, self) >= 0)
+	if (Contains(level.racePlayersFinished, self))
 		return;
 	level.racePlayersFinished[level.racePlayersFinished.size] = self;
 

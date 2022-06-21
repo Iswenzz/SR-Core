@@ -193,7 +193,7 @@ randomizeMaps(amount)
 		}
 
 		// Found map
-		if (IndexOf(playedMaps, picked) < 0)
+		if (!Contains(playedMaps, picked))
 		{
 			maps[maps.size] = picked;
 			FILE_WriteLine(file, picked);

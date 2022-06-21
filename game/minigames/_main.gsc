@@ -17,7 +17,7 @@ createMinigame(minigame)
 
 isInQueue(minigame)
 {
-	return IndexOf(level.minigames[minigame].queue, self) >= 0;
+	return Contains(level.minigames[minigame].queue, self);
 }
 
 isInOtherQueue(minigame)
@@ -79,7 +79,7 @@ pickRandomPlayers(minigame, amount)
 	while (players.size < amount)
 	{
 		picked = queue[randomIntRange(0, queue.size)];
-		if (IndexOf(players, picked) >= 0)
+		if (Contains(players, picked))
 			continue;
 		players[players.size] = picked;
 	}

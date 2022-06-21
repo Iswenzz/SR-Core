@@ -215,8 +215,10 @@ damageListener(turret)
 			if (turret.active)
 			{
 				if (isDefined(player))
-					if (IndexOf(turret.targets, player) >= 0)
+				{
+					if (Contains(turret.targets, player))
 						turret thread target(player);
+				}
 			}
 			else
 			{

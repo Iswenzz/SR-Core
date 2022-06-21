@@ -6,6 +6,7 @@ main()
 	level.allowSpawn = true;
 	level.huds["match"] = [];
 
+	game["roundStarted"] = false;
 	game["state"] = "readyup";
 
 	thread huds();
