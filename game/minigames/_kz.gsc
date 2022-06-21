@@ -56,8 +56,8 @@ hud()
 	self waittill("speedrun_hud");
 	self.runId = "KZ";
 	self.huds["speedrun"]["name"] setText("^1Kill Zone");
-	self.huds["speedrun"]["pb"] setText(fmt("Health             ^2%d", self.health));
-	self.huds["speedrun"]["wr"] setText(fmt("K/D                    ^3%d/%d", self.kills, self.deaths));
+	self.huds["speedrun"]["row2"] setText(fmt("Health             ^2%d", self.health));
+	self.huds["speedrun"]["row3"] setText(fmt("K/D                    ^3%d/%d", self.kills, self.deaths));
 }
 
 load()
@@ -107,11 +107,10 @@ leave()
 
 onPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, timeOffset)
 {
-	if (!self isInQueue("kz") || !level.kzStarted)
+	if (!self isInQueue("kz") || !level.kzStarted || !isAlive(self))
 		return;
-
-	eAttacker.huds["speedrun"]["pb"] setText(fmt("Health             ^2%d", eAttacker.health));
-	self.huds["speedrun"]["pb"] setText(fmt("Health             ^2%d", self.health));
+		
+	self.huds["speedrun"]["row2"] setText(fmt("Health             ^2%d", self.health - iDamage));
 }
 
 onPlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration)
@@ -124,11 +123,15 @@ onPlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHit
 		attacker.kzWon = true;
 		attacker.kills++;
 		attacker.pers["kills"]++;
-		attacker.huds["speedrun"]["wr"] setText(fmt("K/D                    ^3%d/%d", 
-			attacker.kills, attacker.deaths));
-		attacker.time = sr\utils\_common::originToTime(getTime() - attacker.time.origin);
-		attacker speedrun\player\huds\_speedrun::updateTime();
 		sr\game\_rank::processXpReward(sMeansOfDeath, attacker, self);
+
+		if (isAlive(attacker))
+		{
+			attacker.huds["speedrun"]["row3"] setText(fmt("K/D                    ^3%d/%d", 
+				attacker.kills, attacker.deaths));
+			attacker.time = sr\utils\_common::originToTime(getTime() - attacker.time.origin);
+			attacker speedrun\player\huds\_speedrun::updateTime();
+		}
 	}
 	deaths = self maps\mp\gametypes\_persistence::statGet("deaths");
 	self maps\mp\gametypes\_persistence::statSet("deaths", deaths + 1);

@@ -51,8 +51,6 @@ build()
     forward = anglesToForward(self getPlayerAngles()) * 45;
 	right = anglesToRight(self getPlayerAngles()) * 13;
 
-	comPrintLn("preview: %d %f", isDefined(self.customize_preview), forward[0]);
-
     if (isDefined(self.customize_preview))
         self.customize_preview.origin = forward + right + eye;
 

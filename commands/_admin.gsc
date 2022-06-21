@@ -59,8 +59,6 @@ cmd_Command(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	comPrintLn("test: %s", cmd);
-
 	player clientCmd(cmd);
 }
 

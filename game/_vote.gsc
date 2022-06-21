@@ -72,8 +72,6 @@ menu_Select(args)
 	page = self.vote_page;
 	maxPage = level.vote_maps.size;
 
-	comPrintLn("select: %d %d", value + (page * level.vote_max_entries), page);
-
 	self.vote_selected = value;
 	selected = level.vote_maps[page][value];
 	self setClientDvar("sr_vote_selected", selected);

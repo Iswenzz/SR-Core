@@ -133,7 +133,7 @@ go()
 	self unlink();
 	self clearLowerMessage();
 	self iPrintLnBold("^3GO!");
-	self.huds["speedrun"]["time"] setTenthsTimerUp(0.0001);
+	self.huds["speedrun"]["row1"] setTenthsTimerUp(0.0001);
 	self.raceTime = getTime();
 	self thread onDeath();
 }
@@ -166,7 +166,7 @@ spawnPlayer()
 	self freezeControls(true);
 
 	wait 0.3;
-	self.huds["speedrun"]["time"] setText("^50:00.0");
+	self.huds["speedrun"]["row1"] setText("^50:00.0");
 }
 
 updateScoreHud()
