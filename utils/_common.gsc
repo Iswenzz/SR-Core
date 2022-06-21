@@ -198,13 +198,23 @@ originToTime(origin)
 foreachThread(array, callback, args)
 {
 	for (i = 0; i < array.size; i++)
-		Ternary(isDefined(args), array[i] thread [[callback]](args), array[i] thread [[callback]]());
+	{
+		if (isDefined(args))
+			array[i] thread [[callback]](args);
+		else
+			array[i] thread [[callback]]();
+	}
 }
 
 foreachCall(array, callback, args)
 {
 	for (i = 0; i < array.size; i++)
-		Ternary(isDefined(args), array[i] [[callback]](args), array[i] [[callback]]());
+	{
+		if (isDefined(args))
+			array[i] [[callback]](args);
+		else
+			array[i] [[callback]]();
+	}
 }
 
 isInArray(array)
@@ -219,9 +229,7 @@ isInArray(array)
 
 isReallyAlive()
 {
-	if (self.sessionstate == "playing")
-		return true;
-	return false;
+	return self.sessionstate == "playing";
 }
 
 isPlaying()
@@ -319,7 +327,7 @@ traceArray(start, end, hit_players, ignore_array)
 	{
 		if (isDefined(trace["entity"]))
 		{
-			if (trace["entity"] isInArray(ignore_array))
+			if (IndexOf(ignore_array, trace["entity"]) >= 0)
 				return traceArrayRaw(trace["position"], end, hit_players, ignore_array, trace["entity"], trace["fraction"]);
 		}
 	}
@@ -335,7 +343,7 @@ traceArrayRaw(start, end, hit_players, ignore_array, ignore_ent, fraction_add)
 
 	if (isDefined(trace["entity"]))
 	{
-		if (trace["entity"] isInArray(ignore_array))
+		if (IndexOf(ignore_array, trace["entity"]) >= 0)
 			return traceArrayRaw(trace["position"], end, hit_players, ignore_array, trace["entity"], trace["fraction"]);
 	}
 	return trace;
@@ -416,4 +424,17 @@ cleanUp()
 	self clearLowerMessage();
 	self unLink();
 	self enableWeapons();
+}
+
+spawnBots(number)
+{
+	bots = [];
+	for (i = 0; i < number; i++)
+	{
+		bot = addTestClient();
+		wait 0.05;
+		bot notify("menuresponse", game["menu_team"], "autoassign");
+		bots[bots.size] = bot;
+	}
+	return bots;
 }

@@ -77,27 +77,25 @@ menu_callback(name, callback)
 	level.menus[name][index].type = "callback";
 }
 
-eventSpawn(origin, angles)
+eventSpawn(sync, spawn)
 {
-	if (isDefined(origin) && isDefined(angles))
-	{
-		self.spawnPoint = spawnStruct();
-		self.spawnPoint.origin = origin;
-		self.spawnPoint.angles = angles;
-	}
+	if (isDefined(spawn))
+		self.spawnPoint = spawn;
+
 	self notify("spawned_player");
+	if (isDefined(sync) && sync)
+		self waittill("end_spawned_player");
 }
 
-eventSpectator(origin, angles)
+eventSpectator(sync, spawn)
 {
-	if (isDefined(origin) && isDefined(angles))
-	{
-		self.spawnPoint = spawnStruct();
-		self.spawnPoint.origin = origin;
-		self.spawnPoint.angles = angles;
-	}
-	self sr\game\_map::spawnSpectator(origin, angles);
+	if (isDefined(spawn))
+		self.spawnPoint = spawn;
+	self sr\game\_map::spawnSpectator();
+
 	self notify("joined_spectators");
+	if (isDefined(sync) && sync)
+		self waittill("end_joined_spectators");
 }
 
 eventTeam()
