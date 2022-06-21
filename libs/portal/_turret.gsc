@@ -215,7 +215,7 @@ damageListener(turret)
 			if (turret.active)
 			{
 				if (isDefined(player))
-					if (player isInArray(turret.targets))
+					if (IndexOf(turret.targets, player) >= 0)
 						turret thread target(player);
 			}
 			else

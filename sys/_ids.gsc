@@ -11,8 +11,11 @@ initIds()
 load()
 {
 	if (self.isBot)
+	{
+		self.guid = "^5Speedrun";
+		self.id = "^8BOT";
 		return;
-
+	}
 	if (self getStat(995) == 0 || self getStat(996) == 0 || self getStat(997) == 0)
 	{
 		id = createId();

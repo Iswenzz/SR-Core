@@ -220,7 +220,7 @@ getRotation(includeCurrent)
 	return list;
 }
 
-spawnSpectator(origin, angles)
+spawnSpectator()
 {
 	self endon("disconnect");
 
@@ -231,4 +231,5 @@ spawnSpectator(origin, angles)
 	spawn = IfUndef(self.spawnPoint, level.spawn["spectator"]);
 	self spawn(spawn.origin, spawn.angles);
 	self sr\game\_teams::setSpectatePermissions();
+	self.spawnPoint = undefined;
 }

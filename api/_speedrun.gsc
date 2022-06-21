@@ -32,7 +32,7 @@ changeWay(way)
 finishWay(way)
 {
 	if (self.sr_way == way)
-		self thread speedrun\game\_leaderboards::endTimer();
+		self thread speedrun\game\_run::endTimer();
 }
 
 createEndMap(origin, width, height, way)

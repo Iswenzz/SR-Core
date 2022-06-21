@@ -1,3 +1,8 @@
+main()
+{
+	game["menu_team"] = "team_select";
+}
+
 setPlayerModel()
 {
 	if (self getStat(980) > level.assets["character"].size)
