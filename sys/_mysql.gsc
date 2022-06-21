@@ -2,7 +2,7 @@
 
 initMySQL()
 {
-	SQL_Connect("192.168.1.86", 3306, "root", "rootpassword");
+	SQL_Connect("127.0.0.1", 3306, "root", "rootpassword");
 	SQL_SelectDB("speedrun");
 
 	mutex("mysql");

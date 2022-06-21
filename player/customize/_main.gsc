@@ -2,7 +2,6 @@
 
 initCustomize()
 {
-	level.assets = [];
 	level.customize_max_entries = 10;
 
 	sr\player\customize\_character::main();

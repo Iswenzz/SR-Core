@@ -33,15 +33,13 @@ race()
 
 	while (true)
 	{
-		level.raceStarted = false;
-		ForEachThread(level.minigames["race"].queue, ::cleanRaceHud);
-
+		wait 1;
 		if (!canStart())
-		{
-			wait 1;
 			continue;
-		}
+
+		level.raceStarted = false;
 		sr\sys\_admins::message("^3Race start in 10sec! ^7[^2!race^7]");
+		ForEachThread(level.minigames["race"].queue, ::cleanRaceHud);
 		wait 10;
 
 		ForEachThread(level.minigames["race"].queue, ::spawnPlayer);
@@ -52,7 +50,6 @@ race()
 		watchRace();
 
 		sr\sys\_admins::message("^3Race lobby is open! ^7[^2!race^7]");
-		wait 1;
 	}
 }
 
@@ -61,6 +58,7 @@ hud()
 	if (!isInQueue("race"))
 		return;
 
+	self waittill("speedrun_hud");
 	self.runId = "Race";
 	self.huds["speedrun"]["name"] setText("^2Race");
 }
@@ -88,18 +86,17 @@ join()
 	self addToQueue("race");
 	self addToScoreboard();
 
-	sr\sys\_admins::message("%s ^7joined the race! [^2!race^7] [^1%d^7]", self.name, level.minigames["race"].queue.size);
+	sr\sys\_admins::message(fmt("%s ^7joined the race! [^2!race^7] [^1%d^7]", self.name, level.minigames["race"].queue.size));
 }
 
 leave()
 {
-	self endon("disconnect");
-
-	self.inRace = false;
 	self removeFromQueue("race");
 	self cleanRaceHud();
-
 	self unlink();
+	self.inRace = false;
+
+	self sr\sys\_admins::pm("You left the race!");
 	self suicide();
 }
 
@@ -163,8 +160,9 @@ spawnPlayer()
 	self.inRace = true;
 	self.raceDead = false;
 	self.raceFinish = false;
+	self sr\game\_teams::setTeam("axis");
 	self suicide();
-	self eventSpawn();
+	self eventSpawn(true);
 	self freezeControls(true);
 
 	wait 0.3;
@@ -179,7 +177,7 @@ updateScoreHud()
 	self.raceWon++;
 
 	// Update
-	players = level.minigame["race"].queue;
+	players = level.minigames["race"].queue;
 	for (p = 0; p < players.size; p++)
 	{
 		for (i = 0; i < level.raceScoreboard.size; i++)
@@ -251,6 +249,8 @@ addToScoreboard()
 
 canStart()
 {
+	if (level.minigames["race"].queue.size < 2)
+		return false;
 	if (!isDefined(level.raceEndTrig))
 	{
 		iPrintLn("^1RACE ERROR: Race end trig not found.");
@@ -265,8 +265,6 @@ canStart()
 		ForEachThread(level.minigames["race"].queue, ::leave);
 		return false;
 	}
-	if (level.minigames["race"].queue.size < 2)
-		return false;
 	return true;
 }
 
@@ -329,7 +327,7 @@ playerFinish()
 		self.huds["race"] destroy();
 	self linkTo(level.tempEntity);
 
-	if (self IsInArray(level.racePlayersFinished))
+	if (IndexOf(level.racePlayersFinished, self) >= 0)
 		return;
 	level.racePlayersFinished[level.racePlayersFinished.size] = self;
 

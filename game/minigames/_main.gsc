@@ -17,7 +17,7 @@ createMinigame(minigame)
 
 isInQueue(minigame)
 {
-	return self isInArray(level.minigames[minigame].queue);
+	return IndexOf(level.minigames[minigame].queue, self) >= 0;
 }
 
 isInOtherQueue(minigame)
@@ -58,14 +58,14 @@ addToQueue(minigame)
 removeFromQueue(minigame)
 {
 	queue = Remove(level.minigames[minigame].queue, self);
-	level.minigame[minigame].queue = queue;
+	level.minigames[minigame].queue = queue;
 }
 
 removeFromAllQueue()
 {
 	minigames = getArrayKeys(level.minigames);
-	for (i = 0; i < level.minigames.size; i++)
-		self removeFromQueue(level.minigames[minigames[i]]);
+	for (i = 0; i < minigames.size; i++)
+		self removeFromQueue(minigames[i]);
 }
 
 pickRandomPlayers(minigame, amount)
@@ -73,10 +73,13 @@ pickRandomPlayers(minigame, amount)
 	players = [];
 	queue = level.minigames[minigame].queue;
 
+	if (queue.size < amount)
+		return players;
+
 	while (players.size < amount)
 	{
 		picked = queue[randomIntRange(0, queue.size)];
-		if (picked isInArray())
+		if (IndexOf(players, picked) >= 0)
 			continue;
 		players[players.size] = picked;
 	}

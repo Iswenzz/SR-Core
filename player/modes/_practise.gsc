@@ -17,7 +17,7 @@ practise()
 		return;
 
 	self.runId = "Practise";
-	self.huds["speedrun"]["name"] setText("^1Practise Mode");
+	self.huds["speedrun"]["name"] setText("^5Practise Mode");
 	self.practise = [];
 
 	self thread watchSave();

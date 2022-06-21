@@ -5,7 +5,7 @@
 
 main()
 {
-	cmd("player", 		"kz",			::cmd_Kz);
+	cmd("player", 		"killzone",		::cmd_Kz);
     cmd("adminplus", 	"kz_spawn",		::cmd_KzSpawn);
 	cmd("adminplus", 	"kz_save",		::cmd_KzSave);
 	cmd("admin", 		"kz_weapon",	::cmd_KzWeapon);

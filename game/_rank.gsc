@@ -6,7 +6,7 @@ initRank()
 	level.scoreInfo = [];
 	level.ranks = [];
 
-	level.maxRank = int(tableLookup("mp/ranks.csv", 0, "maxrank", 1));
+	level.maxRank = int(tableLookup("mp/rankTable.csv", 0, "maxrank", 1));
 	level.maxPrestige = int(tableLookup("mp/rankIconTable.csv", 0, "maxprestige", 1));
 
 	precacheShader("white");
@@ -63,15 +63,19 @@ buildRanksIcon()
 {
 	tableName = "mp/rankIconTable.csv";
 	level.assets["rank"] = [];
+	level.assets["prestige"] = [];
 
+	for (rId = 0; rId <= level.maxRank; rId++)
+	{
+		icon = tableLookup(tableName, 0, rId, 1);
+		level.assets["rank"][rId] = icon;
+		precacheShader(icon);
+	}
 	for (pId = 0; pId <= level.maxPrestige; pId++)
 	{
-		for (rId = 0; rId <= level.maxRank; rId++)
-		{
-			icon = tableLookup(tableName, 0, rId, pId + 1);
-			level.assets["rank"][pId][rId] = icon;
-			precacheShader(icon);
-		}
+		icon = tableLookup(tableName, 0, 0, pId + 1);
+		level.assets["prestige"][pId] = icon;
+		precacheShader(icon);
 	}
 }
 
@@ -129,12 +133,12 @@ getRankInfoMaxXp(rankId)
 
 getRankInfoFull(rankId)
 {
-	return tableLookupIString("mp/ranks.csv", 0, rankId, 16);
+	return tableLookupIString("mp/rankTable.csv", 0, rankId, 16);
 }
 
 getRankInfoFullInt(rankId)
 {
-	return int(tableLookupIString("mp/ranks.csv", 0, rankId, 16));
+	return int(tableLookupIString("mp/rankTable.csv", 0, rankId, 16));
 }
 
 getRankInfoIcon(rankId, prestigeId)
