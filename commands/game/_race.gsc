@@ -29,7 +29,7 @@ cmd_RaceTrig(args)
 {
 	radius = IfUndef(ToInt(args[0]), 120);
 
-	if (args[0] == "reset")
+	if (args.size)
 	{
 		level.raceEndTrig = getEnt("endmap_trig", "targetname");
 		self pm("Reset race end trigger");
@@ -47,7 +47,7 @@ cmd_RaceTrig(args)
 
 cmd_RaceSpawn(args)
 {
-	if (args[0] == "reset")
+	if (args.size)
 	{
 		level.raceSpawn = level.masterspawn;
 		self pm("Reset race spawn point");
@@ -57,6 +57,7 @@ cmd_RaceSpawn(args)
 	spawn.origin = self getOrigin();
 	spawn.angles = self getPlayerAngles();
 	level.raceSpawn = spawn;
+	self pm("Placed race spawn point");
 }
 
 cmd_RaceMk(args)

@@ -34,11 +34,12 @@ kz()
 
 	while (true)
 	{
+		level.kzStarted = false;
+		
 		wait 1;
 		if (!canStart())
 			continue;
 
-		level.kzStarted = false;
 		level.kzPlayersInRoom = [];
 		level.kzRandomPoints = [];
 

@@ -19,6 +19,7 @@ initRace()
 	level.raceStarted = false;
 
 	event("spawn", ::hud);
+	event("death", ::death);
 
 	thread race();
 }
@@ -33,23 +34,20 @@ race()
 
 	while (true)
 	{
+		level.raceStarted = false;
+
 		wait 1;
 		if (!canStart())
 			continue;
 
-		level.raceStarted = false;
 		sr\sys\_admins::message("^3Race start in 10sec! ^7[^2!race^7]");
-		ForEachThread(level.minigames["race"].queue, ::cleanRaceHud);
-		wait 10;
-
+		ForEachCall(level.minigames["race"].queue, ::cleanRaceHud);
 		ForEachThread(level.minigames["race"].queue, ::spawnPlayer);
 		countdown();
 
 		level.raceStarted = true;
 		ForEachThread(level.minigames["race"].queue, ::raceHud);
 		watchRace();
-
-		sr\sys\_admins::message("^3Race lobby is open! ^7[^2!race^7]");
 	}
 }
 
@@ -83,8 +81,14 @@ load()
 
 join()
 {
+	if (level.raceStarted)
+	{
+		sr\sys\_admins::pm("^3Race already started!");
+		return;
+	}
 	self addToQueue("race");
 	self addToScoreboard();
+	self.raceWon = 0;
 
 	sr\sys\_admins::message(fmt("%s ^7joined the race! [^2!race^7] [^1%d^7]", self.name, level.minigames["race"].queue.size));
 }
@@ -94,6 +98,7 @@ leave()
 	self removeFromQueue("race");
 	self cleanRaceHud();
 	self unlink();
+	self sr\game\_teams::setTeam("allies");
 	self.inRace = false;
 
 	self sr\sys\_admins::pm("You left the race!");
@@ -109,11 +114,10 @@ countdown()
 	for (i = 10; i != 0; i--)
 	{
 		wait 1;
-		ForEachCall(level.minigames["race"].queue, ::setLowerMessage, i - 1);
+		ForEachCall(level.minigames["race"].queue, ::setLowerMessage, Ternary(i == 1, "^3GO", i - 1));
 		if (i == 7)
 			ForEachCall(level.minigames["race"].queue, ::playerFreeze);
 	}
-	wait 1;
 	ForEachThread(level.minigames["race"].queue, ::go);
 }
 
@@ -121,51 +125,40 @@ playerFreeze()
 {
 	self endon("disconnect");
 
-	self freezeControls(false);
 	self setVelocity((0, 0, 0));
 	self setOrigin(level.raceSpawn.origin);
 	self setPlayerAngles(level.raceSpawn.angles);
 	self linkTo(level.tempEntity);
+	self freezeControls(false);
 }
 
 go()
 {
 	self unlink();
 	self clearLowerMessage();
-	self iPrintLnBold("^3GO!");
 	self.huds["speedrun"]["row1"] setTenthsTimerUp(0.0001);
 	self.raceTime = getTime();
-	self thread onDeath();
 }
 
-onDeath()
+death()
 {
-	self endon("disconnect");
-	self notify("race die reset");
-	self endon("race die reset");
+	if (!self isInQueue("race") || !level.raceStarted)
+		return;
 
-	self waittill("death");
-	self iPrintLn("^1You died, wait till the race end.");
 	self.raceDead = true;
-	self setVelocity((0, 0, 0));
-	ori = self getOrigin();
-	self setOrigin((ori[0], ori[1], ori[2] + 100));
-	self linkTo(level.tempEntity);
 }
 
 spawnPlayer()
 {
 	self endon("disconnect");
 
-	self.inRace = true;
-	self.raceDead = false;
-	self.raceFinish = false;
 	self sr\game\_teams::setTeam("axis");
 	self suicide();
 	self eventSpawn(true);
-	self freezeControls(true);
 
-	wait 0.3;
+	self.inRace = true;
+	self.raceDead = false;
+	self.raceFinish = false;
 	self.huds["speedrun"]["row1"] setText("^50:00.0");
 }
 
@@ -201,20 +194,19 @@ updateScoreHud()
 
 sortScores(array)
 {
-	temp = 0;
 	for (i = 0; i < array.size; i++)
 	{
-		for (j = i + 1; j < array.size; j++)
+		for (z = 0; z < array.size - 1; z++)
 		{
-			if (array[j]["score"] < array[i]["score"])
+			if (array[z]["score"] < array[z + 1]["score"])
 			{
-				temp = array[i];
-				array[i] = array[j];
-				array[j] = temp;
+				swap = array[z + 1];
+				array[z + 1] = array[z];
+				array[z] = swap;
 			}
 		}
 	}
-	return Reverse(array);
+	return array;
 }
 
 raceHud()
@@ -290,7 +282,7 @@ watchAllDied()
 	level endon("intermission");
 	level endon("race ended");
 
-	while (Any(level.minigames["race"].queue, ::isRacing))
+	while (Count(level.minigames["race"].queue, ::isRacing) >= 2)
 		wait 1;
 
 	level notify("race ended");
@@ -331,11 +323,11 @@ playerFinish()
 		return;
 	level.racePlayersFinished[level.racePlayersFinished.size] = self;
 
-	self.time = sr\utils\_common::originToTime(getTime() - self.raceTime.origin);
+	self.time = sr\utils\_common::originToTime(getTime() - self.raceTime);
 	self speedrun\player\huds\_speedrun::updateTime();
 
 	playerMessage(fmt("%s ^7finished %s ^7in ^2%d:%d.%d", self.name, getPlacementString(placement),
-		self.time.min, self.time.sec, self.time.milsed));
+		self.time.min, self.time.sec, self.time.ms));
 
 	if (placement == 1)
 		self updateScoreHud();
@@ -380,12 +372,12 @@ watchLobbyCount()
 
 isInRace(player, index)
 {
-	return player.inRace;
+	return isDefined(player) && player.inRace;
 }
 
 isRacing(player, index)
 {
-	return !player.raceDead && !player.raceFinish;
+	return !player.raceDead;
 }
 
 watchTimer()
@@ -414,33 +406,36 @@ watchRace()
 	thread watchLobbyCount();
 	thread watchEnd();
 
-	queue = level.minigames["race"].queue;
-
 	while (true)
 	{
 		// Get players closest point
+		queue = level.minigames["race"].queue;
 		for (i = 0; i < queue.size; i++)
 		{
 			for (z = 0; z < level.racePoints.size; z++)
 			{
+				if (!isInRace(queue[i]))
+					continue;
+
 				newDist = distance2D(queue[i] getOrigin(), level.racePoints[z]);
-				oldDist = distance2D(queue[i] getOrigin(), level.racePoints[queue.closestPoint]);
+				oldDist = distance2D(queue[i] getOrigin(), level.racePoints[queue[i].closestPoint]);
 
 				if (newDist < oldDist)
-					queue.closestPoint = z;
+					queue[i].closestPoint = z;
 			}
 		}
 
 		// See who is closest to the highest point
 		idx = 0;
-		level.racePlayersOrder = [];
+		order = [];
+		queue = level.minigames["race"].queue;
 		for (z = level.racePoints.size; z >= 0; z--)
 		{
 			for (i = 0; i < queue.size; i++)
 			{
-				if (queue[i].closestPoint == z)
+				if (isInRace(queue[i]) && queue[i].closestPoint == z)
 				{
-					level.racePlayersOrder[idx] = queue[i];
+					order[idx] = queue[i];
 					idx++;
 				}
 			}
@@ -448,39 +443,40 @@ watchRace()
 
 		// Check if multiple players have the same highest point
 		temp = 0;
-		for (t = 0; t < level.racePlayersOrder.size; t++)
+		for (t = 0; t < order.size; t++)
 		{
-			for (i = 0; i < level.racePlayersOrder.size - 1; i++)
+			for (i = 0; i < order.size - 1; i++)
 			{
-				if (level.racePlayersOrder[i].closestPoint == level.racePlayersOrder[i + 1].closestPoint)
+				if (isInRace(order[i]) && order[i].closestPoint == order[i + 1].closestPoint)
 				{
 					dist1 = undefined;
 					dist2 = undefined;
 
-					if (isDefined(level.racePoints[level.racePlayersOrder[i].closestPoint + 1]))
-						dist1 = distance2D(level.racePlayersOrder[i] getOrigin(),
-							level.racePoints[level.racePlayersOrder[i].closestPoint + 1]);
-					if (isDefined(level.racePoints[level.racePlayersOrder[i + 1].closestPoint + 1]))
-						dist2 = distance2D(level.racePlayersOrder[i + 1] getOrigin(),
-							level.racePoints[level.racePlayersOrder[i + 1].closestPoint + 1]);
+					if (isDefined(level.racePoints[order[i].closestPoint + 1]))
+						dist1 = distance2D(order[i] getOrigin(),
+							level.racePoints[order[i].closestPoint + 1]);
+					if (isDefined(level.racePoints[order[i + 1].closestPoint + 1]))
+						dist2 = distance2D(order[i + 1] getOrigin(),
+							level.racePoints[order[i + 1].closestPoint + 1]);
 
 					if (isDefined(dist1) && isDefined(dist2) && dist1 > dist2)
 					{
-						temp = level.racePlayersOrder[i + 1];
-						level.racePlayersOrder[i + 1] = level.racePlayersOrder[i];
-						level.racePlayersOrder[i] = temp;
+						temp = order[i + 1];
+						order[i + 1] = order[i];
+						order[i] = temp;
 					}
 				}
 			}
 		}
-		ForEach(level.racePlayersOrder, ::updateRaceHud);
+		ForEach(order, ::updateRaceHud);
 		wait 0.1;
 	}
 }
 
 updateRaceHud(player, index)
 {
-	player.huds["race"] setText(getPlacementString(index + 1));
+	if (isDefined(player.huds["race"]))
+		player.huds["race"] setText(getPlacementString(index + 1));
 }
 
 getPlacementString(index)
