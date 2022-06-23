@@ -41,6 +41,8 @@ cmd_ChickenSave(args)
 		index++;
 	}
 	FILE_Close(file);
+
+	self pm("Chickens saved!");
 }
 
 cmd_MapSave(args)
@@ -52,6 +54,8 @@ cmd_MapSave(args)
 	for (i = 0; i < brushes.size; i++)
 	{
 		targetName = brushes[i].targetname;
+		if (!isDefined(targetName))
+			continue;
 		ents = getEntArray(targetName, "targetname");
 
 		for (j = 0; j < ents.size; j++)
@@ -66,6 +70,8 @@ cmd_MapSave(args)
 		}
 	}
 	FILE_Close(file);
+
+	self pm("Map saved!");
 }
 
 spawnBrushes()
