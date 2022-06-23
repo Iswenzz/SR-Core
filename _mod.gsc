@@ -147,7 +147,7 @@ precacheFx()
 	level.fx["viptrail5"] 				= loadFx("deathrun/vip_trail5");
 	level.fx["startnstop"] 				= loadFx("deathrun/flare_startnstop");
 	level.fx["jetpack"] 				= loadFx("smoke/jetpack");
-	level.fx["meteor"] 					= loadFX("fire/tank_fire_engine");
+	level.fx["meteor"] 					= loadFx("fire/tank_fire_engine");
 	level.fx["explosion"] 				= loadfx("explosions/grenadeExp_concrete_1");
 	level.fx["flame"] 					= loadfx("fire/tank_fire_engine");
 

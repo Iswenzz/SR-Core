@@ -54,8 +54,12 @@ placeSpawns()
 	y /= level.spawn["allies"].size;
 	z /= level.spawn["allies"].size;
 
+	angles = (0, 180, 0);
+	if (level.spawn["allies"].size)
+		angles = level.spawn["allies"][0].angles;
+
 	level.masterSpawn = spawn("script_origin", (x, y, z));
-	level.masterSpawn.angles = level.spawn["allies"][0].angles;
+	level.masterSpawn.angles = angles;
 	level.masterSpawn placeSpawnPoint();
 }
 

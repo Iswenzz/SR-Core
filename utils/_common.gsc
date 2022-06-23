@@ -410,6 +410,12 @@ clearLowerMessage(fadetime)
 	self setLowerMessage("");
 }
 
+waitMapLoad(extraTime)
+{
+	time = IfUndef(extraTime, 0) + 3;
+	wait time; // Spastic map loading
+}
+
 cleanUp()
 {
 	self setClientDvar("cg_thirdperson", 0);

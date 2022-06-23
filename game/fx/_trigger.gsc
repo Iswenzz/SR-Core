@@ -1,7 +1,11 @@
+#include sr\utils\_common;
+
 effect(trigger, fx)
 {
 	if (!isDefined(trigger) || !isDefined(fx))
 		return;
+	waitMapLoad();
+
 	type = trigger.classname;
 	z = getFloor(trigger)[2];
 

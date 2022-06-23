@@ -2,24 +2,28 @@
 
 createNormalWays(token)
 {
-	way = strTok(token, ";");
+	ways = [];
+	names = strTok(token, ";");
 
-	for (i = 0; i < way.size; i++)
-		createWay(way[i], i, "normal");
+	for (i = 0; i < names.size; i++)
+	{
+		way = fmt("normal_%d", i);
+		name = names[i];
+		addWay(way, name);
+	}
 }
 
 createSecretWays(token)
 {
-	way = strTok(token, ";");
+	ways = [];
+	names = strTok(token, ";");
 
-	for (i = 0; i < way.size; i++)
-		createWay(way[i], i, "secret");
-}
-
-createWay(name, index, section)
-{
-	way = fmt("%s_%d", section, index);
-	addWay(way, name);
+	for (i = 0; i < names.size; i++)
+	{
+		way = fmt("secret_%d", i);
+		name = names[i];
+		addWay(way, name);
+	}
 }
 
 changeWay(way)
