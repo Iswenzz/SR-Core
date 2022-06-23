@@ -35,6 +35,8 @@ antiCheat()
 	self endon("disconnect");
 	self endon("death");
 
+	self.runId = randomInt(999999999);
+
 	cheat = false;
 	if (self sr\game\minigames\_main::isInAnyQueue())
 		cheat = true;

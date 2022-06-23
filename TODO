@@ -28,7 +28,7 @@ SR-Core:
 	+ Maps
 	+ CJ
 	+ Slide
-	- Demos
+	+ Demos
 - Bug
 	+ New profiles gets timedout by server (commands overflow)
 	- Sussy memory leak
