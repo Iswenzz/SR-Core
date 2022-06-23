@@ -16,6 +16,7 @@ practise()
 	if (!self.modes["practise"])
 		return;
 
+	self waittill("speedrun_hud");
 	self.runId = "Practise";
 	self.huds["speedrun"]["name"] setText("^5Practise Mode");
 	self.practise = [];

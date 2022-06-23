@@ -25,16 +25,6 @@ main()
 	sr\sys\_admins::initAdmins();
 
 	sr\game\_map::main();
-
-	sr\commands\_admin::main();
-	sr\commands\_graphics::main();
-	sr\commands\_misc::main();
-	sr\commands\_music::main();
-	sr\commands\_player::main();
-	sr\commands\_vote::main();
-	sr\commands\game\_portal::main();
-	sr\commands\map\_edit::main();
-
 	sr\game\_rank::initRank();
 	sr\game\_cheat::main();
 	// sr\game\_demo::main();
@@ -46,6 +36,15 @@ main()
 	sr\game\menus\_owner::main();
 	sr\game\minigames\_main::initMinigames();
 	sr\game\weapons\_main::main();
+
+	sr\commands\_admin::main();
+	sr\commands\_graphics::main();
+	sr\commands\_misc::main();
+	sr\commands\_music::main();
+	sr\commands\_player::main();
+	sr\commands\_vote::main();
+	sr\commands\game\_portal::main();
+	sr\commands\map\_edit::main();
 
 	sr\libs\portal\_main::main();
 
