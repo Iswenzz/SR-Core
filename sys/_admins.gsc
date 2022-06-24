@@ -23,7 +23,7 @@ initAdmins()
 	level.admin_commands				= [];
 
 	event("command", ::command);
-	// event("connect", ::banned);
+	event("connect", ::banned);
 	event("connect", ::fetch);
 }
 
@@ -173,6 +173,7 @@ banned()
 	SQL_BindParam(self.id, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(self getSteamID(), level.MYSQL_TYPE_STRING);
 	SQL_BindParam(self getIP(), level.MYSQL_TYPE_STRING);
+	SQL_Execute();
 	isBanned = SQL_NumRows();
 
 	mutex_release("mysql");

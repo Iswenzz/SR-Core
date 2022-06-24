@@ -112,7 +112,7 @@ mutex(id, before, after)
 {
 	level.mutex[id] = spawnStruct();
 	level.mutex[id].id = id;
-	level.mutex[id].locked = false;
+	level.mutex[id].locked = 0;
 	level.mutex[id].before = before;
 	level.mutex[id].after = after;
 }
@@ -122,9 +122,11 @@ mutex_acquire(id)
 	if (isDefined(level.mutex[id].before))
 		[[level.mutex[id].before]]();
 
-	if (level.mutex[id].locked)
+	index = level.mutex[id].locked;
+	level.mutex[id].locked++;
+
+	while (index > 0 && level.mutex[id].locked != index)
 		level waittill(fmt("mutex_%s", id));
-	level.mutex[id].locked = true;
 }
 
 mutex_release(id)
@@ -132,6 +134,6 @@ mutex_release(id)
 	if (isDefined(level.mutex[id].after))
 		[[level.mutex[id].after]]();
 
+	level.mutex[id].locked--;
 	level notify(fmt("mutex_%s", id));
-	level.mutex[id].locked = false;
 }
