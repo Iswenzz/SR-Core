@@ -30,9 +30,24 @@ SR-Core:
 	+ Slide
 	+ Demos
 + Bug
-	+ New profiles gets timedout by server (commands overflow)
+	+ New profiles gets timed out by server (commands overflow)
 	+ Sussy memory leak
-	+ MySQL statement broken when more than one even with mutex (need to test mutex in a loop)
+	- MySQL stmt broken
+	- Load LB vars on connect and better display algo
+	- Pickup players
+	- Fov
+	- Random high minute runs
+	- Trace weapons on click before delay
+	- Rpg kills
+	- Hitmarkers
+	- Spray index fail
+	- Trails
+	- Clean huds on spawn
+	- Image not found on quickmenu
+	- Settings spectator hud
+	- Hide players
+	- Braxi DESC
+	- Old maps level.spawn
 - Test server
 - Refactor
 	- Menu files
