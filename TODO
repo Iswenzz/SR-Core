@@ -6,7 +6,7 @@ SR-Core:
 + Generic mod build
 + Restructure
 + Refactor
-- Working
++ Working
 	+ Menus
 	+ Spawn
 	+ Leaderboard
@@ -29,10 +29,11 @@ SR-Core:
 	+ CJ
 	+ Slide
 	+ Demos
-- Bug
++ Bug
 	+ New profiles gets timedout by server (commands overflow)
-	- Sussy memory leak
-	- MySQL statement broken when more than one even with mutex (need to test mutex in a loop)
+	+ Sussy memory leak
+	+ MySQL statement broken when more than one even with mutex (need to test mutex in a loop)
+- Test server
 - Refactor
 	- Menu files
 	- Git Attributes remove indexing for maps\mp

@@ -76,6 +76,8 @@ cmd_MapSave(args)
 
 spawnBrushes()
 {
+	if (!FILE_Exists(level.files["map"]))
+		return;
 	chickens = [];
 	file = FILE_OpenMod(level.files["map"], "r+");
 
@@ -104,6 +106,9 @@ spawnBrushes()
 
 spawnChickens()
 {
+	if (!FILE_Exists(level.files["chicken"]))
+		return;
+
 	chickens = [];
 	file = FILE_OpenMod(level.files["chicken"], "r+");
 

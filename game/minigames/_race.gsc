@@ -63,6 +63,9 @@ hud()
 
 load()
 {
+	if (!FILE_Exists(level.files["race"]))
+		return;
+
 	file = FILE_OpenMod(level.files["race"], "r+");
 
 	while (true)

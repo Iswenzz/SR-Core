@@ -78,7 +78,7 @@ fetch()
 
 	SQL_Prepare("SELECT role, vip FROM admins WHERE player = ?");
 	SQL_BindParam(self.id, level.MYSQL_TYPE_STRING);
-	SQL_BindResult(level.MYSQL_TYPE_STRING, 50);
+	SQL_BindResult(level.MYSQL_TYPE_STRING, 20);
 	SQL_BindResult(level.MYSQL_TYPE_LONG);
 	SQL_Execute();
 
