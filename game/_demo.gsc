@@ -23,7 +23,6 @@ record()
 
 	mapname = level.map;
 	self.demoPath = PathJoin(PATH_Mod("sr/data/demos"), self.id, mapname, ToString(self.runId));
-	comPrintLn("demo: %s", self.demoPath);
 	exec(fmt("record %d %s", self getEntityNumber(), self.demoPath));
 }
 
