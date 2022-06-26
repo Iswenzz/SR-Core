@@ -10,17 +10,10 @@ trail()
 	self endon("death");
 	self endon("disconnect");
 
-	if (!self sr\sys\_admins::isVIP())
+	self.vip_trail = self getStat(986);
+	
+	if (!self sr\sys\_admins::isVIP() || !isDefined(self.vip_trail) || self.vip_trail < 1)
 		return;
 
-	while (isDefined(self.vip_trail) && self.vip_trail)
-	{
-		self.trail = spawn("script_model", self.origin);
-		self.trail setModel("tag_origin");
-		self.trail linkTo(self);
-
-		if (self.vip_trail)
-			playFXOnTag(level.fx["viptrail" + self.vip_trail], self.trail, "tag_origin");
-		wait 0.05;
-	}
+	playFXOnTag(level.fx["viptrail" + self.vip_trail], self, "tag_origin");
 }

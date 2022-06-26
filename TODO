@@ -40,7 +40,7 @@ SR-Core:
 	+ Fov
 	+ Hitmarkers
 	+ Spray index fail
-	- Trails
+	+ Trails
 	- Clean huds on spawn
 	- Image not found on quickmenu
 	- Settings spectator hud

@@ -56,6 +56,7 @@ pick(id)
 		self.customize_fx delete();
 
 	self.vip_trail = id;
+	self setStat(986, id);
 	self setClientDvar("drui_fx", id);
 
 	if (self.vip_trail > 0)
