@@ -56,6 +56,13 @@ createSpawn(origin, angles)
 	level.masterSpawn.angles = (0, angles, 0);
 }
 
+createSpawnOrigin(origin, angles)
+{
+	waitMapLoad();
+	level.masterSpawn = spawn("script_origin", origin);
+	level.masterSpawn.angles = (0, angles, 0);
+}
+
 createTriggerFx(trigger, fx)
 {
 	thread sr\game\fx\_trigger::effect(trigger, fx);
