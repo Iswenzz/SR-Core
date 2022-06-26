@@ -10,7 +10,7 @@ hud(attacker, victim)
 	self notify("new emblem");
 	self endon("new emblem");
 
-    self clean();
+    self clear();
 
 	logo1 = level.assets["rank"][attacker.pers["rank"]];
 	logo2 = level.assets["rank"][victim.pers["rank"]];
@@ -52,10 +52,10 @@ hud(attacker, victim)
 	}
 	wait 0.8;
 
-    self clean();
+    self clear();
 }
 
-clean()
+clear()
 {
     if (!isDefined(self.huds["card"]))
 		return;
