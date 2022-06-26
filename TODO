@@ -49,7 +49,8 @@ SR-Core:
 	+ Old maps level.spawn
 	+ Old maps auto_spawn
 	+ File data loading
-- Test server
+	- Customize unlocking is wrong
++ Test server
 - Refactor
 	- Menu files
 	- Git Attributes remove indexing for maps\mp
