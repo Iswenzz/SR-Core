@@ -71,7 +71,7 @@ load()
 	while (true)
 	{
 		line = FILE_ReadLine(file);
-		tkn = strTok(line, ",");
+		tkn = strTok(line, "/");
 
 		if (IsNullOrEmpty(line) || tkn.size < 4)
 			break;

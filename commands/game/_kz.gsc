@@ -48,7 +48,7 @@ cmd_KzSave(args)
 		origin = level.kzPoints[i].origin;
 		angle = level.kzPoints[i].angles[1];
 
-		FILE_WriteLine(file, fmt("%f,%f,%f,%f", origin[0], origin[1], origin[2], angle));
+		FILE_WriteLine(file, fmt("%f/%f/%f/%f", origin[0], origin[1], origin[2], angle));
 	}
 	FILE_Close(file);
 	self pm("Points saved");

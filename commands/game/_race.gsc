@@ -73,7 +73,7 @@ cmd_RaceSave(args)
 	{
 		origin = level.racePoints[i];
 
-		FILE_WriteLine(file, fmt("%f,%f,%f", origin[0], origin[1], origin[2]));
+		FILE_WriteLine(file, fmt("%f/%f/%f", origin[0], origin[1], origin[2]));
 	}
 	FILE_Close(file);
 	self pm("Points saved");
