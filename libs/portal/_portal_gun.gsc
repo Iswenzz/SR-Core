@@ -585,7 +585,7 @@ portalKick(p1, p2, vel)
 	earthquake(0.5, 0.2, self eyepos(), 100);
 
 	self thread portalTurnZ();
-	self thread launch("MOD_UNKNOWN", "portal", self.origin, p2.trace["normal"], strength * multiplier);
+	self thread launch(self.origin, p2.trace["normal"], strength * multiplier);
 
 	wait 0.05;
 

@@ -20,11 +20,8 @@ noclip()
 	{
 		while (self fragButtonPressed())
 		{
-			if (!isDefined(self.noclipVelocity))
-				self.noclipVelocity = self getVelocity();
-
 			wait 0.05;
-			speed = Ternary(self useButtonPressed(), 300, 70);
+			speed = Ternary(self jumpButtonPressed(), 300, 70);
 			origin = self getOrigin() + (anglesToForward(self getPlayerAngles()) * speed);
 
 			if (!isDefined(self.linker))
@@ -34,12 +31,10 @@ noclip()
 			}
 			self.linker moveTo(origin, 0.05);
 		}
-		if (isDefined(self.linker))
+		if (isDefined(self.linker) && self jumpButtonPressed())
 		{
 			self unlink();
 			self.linker delete();
-			self setVelocity(self.noclipVelocity);
-			self.noclipVelocity = undefined;
 		}
 		wait 0.1;
 	}

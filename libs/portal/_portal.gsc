@@ -17,26 +17,31 @@ isPortalGun(weapon)
 	return issubstr(weapon, level.portalgun);
 }
 
-launch(sMeansOfDeath, sWeapon, vPoint, vDir, strength)
+launch(origin, direction, strength)
 {
 	self endon("death");
 	self endon("disconnect");
 
-	maxhealth = self.maxhealth;
-	health = self.health;
+	directionIndex = 0;
+	max = 0;
+	for (i = 0; i < 3; i++)
+	{
+		if (direction[i] > max)
+		{
+			max = direction[i];
+			directionIndex = i;
+		}
+	}
 
-	self.maxhealth += 1000000;
-	self.health += 1000000;
-
-	setDvar("g_knockback", strength);
-	self FinishPlayerDamage(self, self, 100, 0, sMeansOfDeath, sWeapon, vPoint, vDir, "none", 0);
-
-	wait 0.05;
-	setDvar("g_knockback", level.defaultknockback);
-
-
-	self.maxhealth 	= maxhealth;
-	self.health 	= health;
+	velocity = strength / 9;
+	switch (directionIndex)
+	{
+		case 0: direction = (velocity, direction[1], direction[2]); break;
+		case 1: direction = (direction[0], velocity, direction[2]); break;
+		case 2: direction = (direction[0], direction[1], velocity); break;
+	}
+	comPrintLn("velocity: %f %f %f", direction[0], direction[1], direction[2]);
+	self setVelocity(direction);
 }
 
 _linkto(ent)
@@ -92,35 +97,6 @@ portalSpawn(
 	level.portal_objects[level.portal_objects.size] = model;
 
 	return model;
-}
-
-portalGunSpawn(pos, angles)
-{
-	portalgun = spawn("script_model", pos);
-	portalgun setmodel(level.portalgun_w);
-
-	if (isDefined(angles))
-		portalgun.angles = angles;
-
-	portalgun.trigger = spawn("trigger_radius", pos, 0, 50, 40);
-
-	portalgun thread waitForPickup();
-	portalgun.trigger thread setTriggerUse();
-
-	return portalgun;
-}
-
-waitForPickup()
-{
-	self.trigger waittill("trigger_activate", player);
-	self notify("delete");
-	self.trigger delete();
-	self delete();
-	player dropitem(player getcurrentweapon());
-	player giveweapon(level.portalgun);
-	player switchtoweapon(level.portalgun);
-
-	level.hiddenportalgun = undefined;
 }
 
 setTriggerUse()

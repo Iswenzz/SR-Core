@@ -17,11 +17,8 @@ menuEvent(id, weapon)
 	self.huds["script_menu"] = [];
 	self.script_menu_open = false;
 
-	while (true)
+	while (isDefined(self))
 	{
-		if (!isDefined(self))
-			break;
-
 		if (!self.script_menu_open && self GetCurrentWeapon() == weapon)
 		{
 			if (self.sessionstate != "playing" || self.pers["team"] == "spectator")
@@ -40,7 +37,7 @@ menuEvent(id, weapon)
 			self allowSpectateTeam("none", false);
 			wait 1.3;
 		}
-		else if (self meleeButtonPressed())
+		else if (self.script_menu_open && self meleeButtonPressed())
 			self close();
 
 		wait 0.2;
