@@ -31,17 +31,19 @@ pickup()
 			continue;
 		ent.distance = distance(start, trace["position"]);
 
-		if (!IsPlayer(ent))
+		if (IsPlayer(ent))
 		{
-			if (!isDefined(ent.defaultOrigin))
-			{
-				ent.defaultOrigin = ent.origin;
-				ent.defaultAngles = ent.angles;
-			}
+			ent.sr_cheat = true;
+			ent sr\api\_player::antiElevator(false);
 		}
-		else self iPrintLn(ent.name);
-		if (isDefined(ent.targetname))
-			self iPrintLn(ent.targetname);
+		else if (!isDefined(ent.defaultOrigin))
+		{
+			ent.defaultOrigin = ent.origin;
+			ent.defaultAngles = ent.angles;
+
+			if (isDefined(ent.targetname))
+				self iPrintLn(ent.targetname);
+		}
 		wait 0.1;
 
 		// In use
@@ -62,10 +64,7 @@ pickup()
 				ent.linker = spawn("script_origin", trace["position"]);
             	ent linkto(ent.linker);
 			}
-			if (isPlayer(ent))
-				ent setOrigin(trace["position"]);
-			else
-				ent.linker.origin = trace["position"];
+			ent.linker.origin = trace["position"];
 
 			if (self secondaryOffHandButtonPressed() || isDefined(ent.reset))
 			{

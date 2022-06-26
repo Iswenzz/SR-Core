@@ -33,12 +33,12 @@ SR-Core:
 	+ New profiles gets timed out by server (commands overflow)
 	+ Sussy memory leak
 	- MySQL stmt broken
+	- Random high minute runs
+	- Rpg kills
 	+ Load LB vars on connect and better display algo
 	+ Pickup players
 	+ Fov
-	- Random high minute runs
 	- Trace weapons on click before delay
-	- Rpg kills
 	- Hitmarkers
 	- Spray index fail
 	- Trails
