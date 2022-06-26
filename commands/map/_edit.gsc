@@ -97,7 +97,7 @@ spawnBrushes()
 
 		if (isDefined(brushes) && isDefined(brushes[brush_index]))
 		{
-			brushes[brush_index].origin = origin;
+			brushes[brush_index] moveTo(origin, 0.05);
 			brushes[brush_index].angles = angles;
 		}
 	}

@@ -127,7 +127,7 @@ reset(ent)
 
 	if (isDefined(ent.reset) && isDefined(ent.defaultOrigin))
 	{
-		ent.origin = ent.defaultOrigin;
+		ent moveTo(ent.defaultOrigin, 0.05);
 		ent.angles = ent.defaultAngles;
 	}
 	ent.reset = undefined;
