@@ -157,7 +157,7 @@ onConnect()
 	self setStat(2326, self.pers["prestige"]);
 	self setStat(2350, self.pers["rank"]);
 	self setStat(2301, self.pers["rankxp"]);
-	self setRank(self.pers["rank"], int(self.pers["prestige"]));
+	self setRank(self.pers["rank"] - 1, int(self.pers["prestige"]));
 }
 
 onChangedTeam()
@@ -251,7 +251,7 @@ databaseGetRank()
 	{
 		row = SQL_FetchRowDict();
 		self.pers["rankxp"] = row["xp"];
-		self.pers["rank"] = row["rank"] - 1;
+		self.pers["rank"] = row["rank"];
 		self.pers["prestige"] = row["prestige"];
 	}
 	else
@@ -541,7 +541,7 @@ isUnlocked(assets, num, vip)
 		return vip;
 	if (self.pers["prestige"] < assets[num]["prestige"])
 		return 0;
-	if (self.pers["rank"] < assets[num]["rank"])
+	if (self.pers["rank"] < assets[num]["rank"] && self.pers["prestige"] <= assets[num]["prestige"])
 		return 0;
 	return 1;
 }

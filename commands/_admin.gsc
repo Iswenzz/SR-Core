@@ -168,7 +168,7 @@ cmd_Rank(args)
 		return self pm("Usage: rank <playerName> <rank> <?prestige>");
 
 	player = getPlayerByName(args[0]);
-	rank = ToInt(args[1]);
+	rank = ToInt(args[1]) - 1;
 	prestige = ToInt(args[2]);
 
 	self log();
@@ -177,8 +177,9 @@ cmd_Rank(args)
 
 	if (isDefined(prestige))
 		player.pers["prestige"] = prestige;
-	xp = int(TableLookup("mp/ranks.csv", 0, rank - 1, 2));
-	player sr\game\_rank::giveRankXP("setrank", xp);
+	xp = int(TableLookup("mp/ranks.csv", 0, rank, 2));
+	player sr\game\_rank::databaseSetRank(xp, rank, prestige);
+	player reconnect();
 }
 
 cmd_RankReset(args)
@@ -193,6 +194,7 @@ cmd_RankReset(args)
 		return pm("Could not find player");
 
 	player sr\game\_rank::reset();
+	player reconnect();
 }
 
 cmd_RedirectAll(args)

@@ -85,22 +85,24 @@ buildButtons()
 	for (i = 0; i < level.customize_max_entries; i++)
 	{
 		itemIndex = startIndex + i;
+		rank = assets[itemIndex];
 
-		if (!isDefined(assets[itemIndex]))
+		if (!isDefined(rank))
 		{
 			self setClientDvar("sr_customize_" + i, "");
 			continue;
 		}
 
-		switch ([[assets[itemIndex]["unlock"]]](itemIndex))
+		switch ([[rank["unlock"]]](itemIndex))
 		{
 			case 0:
-				self setClientDvar("sr_customize_" + i, fmt("^2LOCKED (%d)^3(%d)",
-					assets[itemIndex]["rank"] + 1,
-					assets[itemIndex]["prestige"]));
+				lock = fmt("^2LOCKED (%d)", rank["rank"] + 1);
+				if (rank["prestige"])
+					lock = fmt("^2LOCKED (%d)^3(%d)", rank["rank"] + 1, rank["prestige"]);
+				self setClientDvar("sr_customize_" + i, lock);
 				break;
 			case 1:
-				self setClientDvar("sr_customize_" + i, assets[itemIndex]["name"]);
+				self setClientDvar("sr_customize_" + i, rank["name"]);
 				break;
 			case 2:
 				self setClientDvar("sr_customize_" + i, "^3VIP");

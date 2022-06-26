@@ -50,7 +50,7 @@ SR-Core:
 	+ Old maps auto_spawn
 	+ File data loading
 	- Customize unlocking is wrong
-	- Portal velocity
+	+ Portal velocity
 	+ Make noclip stuck
 	+ GSC Menu close when not in menu
 + Test server
