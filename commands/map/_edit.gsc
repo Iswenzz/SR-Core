@@ -76,9 +76,9 @@ cmd_MapSave(args)
 
 spawnBrushes()
 {
-	if (!FILE_Exists(level.files["map"]))
+	if (!FILE_ExistsMod(level.files["map"]))
 		return;
-	chickens = [];
+
 	file = FILE_OpenMod(level.files["map"], "r+");
 
 	while (true)
@@ -93,9 +93,9 @@ spawnBrushes()
 		origin = (ToFloat(tkn[1]), ToFloat(tkn[2]), ToFloat(tkn[3]));
 		angles = (ToFloat(tkn[4]), ToFloat(tkn[5]), ToFloat(tkn[6]));
 		brushes = getEntArray(tkn[7], "targetname");
-		brush_index = ToInt(tkn[8]);
+		brush_index = Ternary(brushes.size > 1, ToInt(tkn[8]), 0);
 
-		if (isDefined(brushes[brush_index]))
+		if (isDefined(brushes) && isDefined(brushes[brush_index]))
 		{
 			brushes[brush_index].origin = origin;
 			brushes[brush_index].angles = angles;
@@ -106,7 +106,7 @@ spawnBrushes()
 
 spawnChickens()
 {
-	if (!FILE_Exists(level.files["chicken"]))
+	if (!FILE_ExistsMod(level.files["chicken"]))
 		return;
 
 	chickens = [];

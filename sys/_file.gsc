@@ -35,6 +35,11 @@ FILE_OpenMod(path, mode)
     return FILE_Open(path, mode);
 }
 
+FILE_ExistsMod(path)
+{
+	return FILE_Exists(PATH_Mod(path));
+}
+
 FILE_ReadLines(file)
 {
 	lines = [];

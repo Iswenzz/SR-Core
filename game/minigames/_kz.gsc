@@ -63,7 +63,7 @@ hud()
 
 load()
 {
-	if (!FILE_Exists(level.files["kz"]))
+	if (!FILE_ExistsMod(level.files["kz"]))
 		return;
 
 	file = FILE_OpenMod(level.files["kz"], "r+");

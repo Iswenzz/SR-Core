@@ -47,7 +47,8 @@ SR-Core:
 	+ Settings spectator hud
 	+ Hide players
 	+ Old maps level.spawn
-	- Old maps <check discord>
+	+ Old maps auto_spawn
+	+ File data loading
 - Test server
 - Refactor
 	- Menu files
