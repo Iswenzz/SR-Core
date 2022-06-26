@@ -38,7 +38,6 @@ SR-Core:
 	+ Load LB vars on connect and better display algo
 	+ Pickup players
 	+ Fov
-	- Trace weapons on click before delay
 	- Hitmarkers
 	- Spray index fail
 	- Trails

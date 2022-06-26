@@ -14,9 +14,9 @@ main()
 
 onDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, timeOffset)
 {
-	if (!isDefined(eInflictor) || !isPlayer(eInflictor) || !isDefined(eAttacker) || !isPlayer(eAttacker) || eAttacker == eInflictor)
+	if (!isPlayer(self) || !isPlayer(eAttacker) || self == eAttacker)
 		return;
 
-	armor = eInflictor hasPerk("specialty_armorvest") && level.dvar["pi_hm_av"];
+	armor = self hasPerk("specialty_armorvest") && level.dvar["pi_hm_av"];
 	eAttacker thread maps\mp\gametypes\_damagefeedback::updateDamageFeedback(armor);
 }

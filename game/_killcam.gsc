@@ -20,15 +20,15 @@ main()
 	event("killed", ::onKilled);
 }
 
-onKilled(who, eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration)
+onKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration)
 {
-	if (!isDefined(who) || !isDefined(attacker) || !isDefined(eInflictor)
-		|| !isPlayer(who) || !isPlayer(attacker) || who == attacker)
+	if (!isDefined(self) || !isDefined(attacker) || !isDefined(eInflictor)
+		|| !isPlayer(self) || !isPlayer(attacker) || self == attacker)
 		return;
 	if (getTeamPlayersAlive("axis") > 0 && getTeamPlayersAlive("allies") > 0)
 		return;
-	if ((level.dvar["pi_kc_show"] == 0 && (isDefined(level.activ) && who == level.activ) && attacker.pers["team"] == "allies")
-		|| (level.dvar["pi_kc_show"] == 1 && who.pers["team"] == "allies" && (isDefined(level.activ) && level.activ == attacker))
+	if ((level.dvar["pi_kc_show"] == 0 && (isDefined(level.activ) && self == level.activ) && attacker.pers["team"] == "allies")
+		|| (level.dvar["pi_kc_show"] == 1 && self.pers["team"] == "allies" && (isDefined(level.activ) && level.activ == attacker))
 		|| level.dvar["pi_kc_show"] == 2)
 	{
 		thread startKillcam(attacker, sWeapon);
