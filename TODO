@@ -35,18 +35,19 @@ SR-Core:
 	- MySQL stmt broken
 	- Random high minute runs
 	- Rpg kills
+	- Image not found on quickmenu
+	- Braxi DESC
 	+ Load LB vars on connect and better display algo
 	+ Pickup players
 	+ Fov
 	+ Hitmarkers
 	+ Spray index fail
 	+ Trails
-	- Clean huds on spawn
-	- Image not found on quickmenu
-	- Settings spectator hud
+	+ Clean huds on spawn
+	+ Settings spectator hud
 	- Hide players
-	- Braxi DESC
 	+ Old maps level.spawn
+	- Old maps <check discord>
 - Test server
 - Refactor
 	- Menu files

@@ -48,6 +48,7 @@ main()
 
 	sr\libs\portal\_main::main();
 
+	sr\player\_hide::main();
 	sr\player\_insertion::main();
 	sr\player\_settings::main();
 	sr\player\fx\_spray::main();

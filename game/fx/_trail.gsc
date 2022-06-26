@@ -10,6 +10,8 @@ trail()
 	self endon("death");
 	self endon("disconnect");
 
+	wait 0.05;
+
 	self.vip_trail = self getStat(986);
 	
 	if (!self sr\sys\_admins::isVIP() || !isDefined(self.vip_trail) || self.vip_trail < 1)
