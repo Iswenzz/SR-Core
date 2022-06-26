@@ -38,8 +38,8 @@ SR-Core:
 	+ Load LB vars on connect and better display algo
 	+ Pickup players
 	+ Fov
-	- Hitmarkers
-	- Spray index fail
+	+ Hitmarkers
+	+ Spray index fail
 	- Trails
 	- Clean huds on spawn
 	- Image not found on quickmenu
