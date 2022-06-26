@@ -130,7 +130,11 @@ cmd_Online(args)
 	message("Online:");
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
-		strings[strings.size] = fmt("%s^7[%s^7]", players[i].name, players[i] getRoleName());
+	{
+		role = players[i] getRoleName();
+		if (role != "Player")
+			strings[strings.size] = fmt("%s^7[%s^7]", players[i].name, players[i] getRoleName());
+	}
 	strings = Chunk(strings, 6);
 
 	for (i = 0; i < strings.size; i++)

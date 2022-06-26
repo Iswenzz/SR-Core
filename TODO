@@ -33,9 +33,9 @@ SR-Core:
 	+ New profiles gets timed out by server (commands overflow)
 	+ Sussy memory leak
 	- MySQL stmt broken
-	- Load LB vars on connect and better display algo
-	- Pickup players
-	- Fov
+	+ Load LB vars on connect and better display algo
+	+ Pickup players
+	+ Fov
 	- Random high minute runs
 	- Trace weapons on click before delay
 	- Rpg kills
@@ -47,7 +47,7 @@ SR-Core:
 	- Settings spectator hud
 	- Hide players
 	- Braxi DESC
-	- Old maps level.spawn
+	+ Old maps level.spawn
 - Test server
 - Refactor
 	- Menu files

@@ -39,7 +39,7 @@ pickup()
 				ent.defaultAngles = ent.angles;
 			}
 		}
-		else iPrintLn(ent.name);
+		else self iPrintLn(ent.name);
 		if (isDefined(ent.targetname))
 			self iPrintLn(ent.targetname);
 		wait 0.1;
@@ -62,7 +62,10 @@ pickup()
 				ent.linker = spawn("script_origin", trace["position"]);
             	ent linkto(ent.linker);
 			}
-			ent.linker.origin = trace["position"];
+			if (isPlayer(ent))
+				ent setOrigin(trace["position"]);
+			else
+				ent.linker.origin = trace["position"];
 
 			if (self secondaryOffHandButtonPressed() || isDefined(ent.reset))
 			{

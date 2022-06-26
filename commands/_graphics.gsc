@@ -16,7 +16,7 @@ cmd_FOV(args)
 
 	value = ToFloat(args[0]);
 	f3 = fmt("%.3f", value);
-	normalized = ToInt(StrReplace(f3, ".", ""));
+	normalized = ToInt(Replace(f3, ".", ""));
 
 	if (normalized > 2000 || normalized < 200)
 		return;

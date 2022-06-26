@@ -64,10 +64,7 @@ play(name)
 	if (name == "stop")
 		return;
 
-	wait 0.05;
-	srm = level.sr_music[name];
-	if (isDefined(srm))
-		AmbientPlay(srm, 2);
+	AmbientPlay(IfUndef(level.sr_music[name], name), 2);
 }
 
 stop()
