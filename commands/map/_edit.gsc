@@ -12,8 +12,8 @@ main()
 	cmd("owner", 	"chicken_save",	::cmd_ChickenSave);
 	cmd("owner",	"map_save", 	::cmd_MapSave);
 
-	spawnChickens();
-	spawnBrushes();
+	thread spawnChickens();
+	thread spawnBrushes();
 }
 
 cmd_Chicken(args)
@@ -78,6 +78,8 @@ spawnBrushes()
 {
 	if (!FILE_ExistsMod(level.files["map"]))
 		return;
+
+	sr\utils\_common::waitMapLoad();
 
 	file = FILE_OpenMod(level.files["map"], "r+");
 

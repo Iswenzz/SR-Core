@@ -227,7 +227,7 @@ cmd_Rename(args)
 		return self pm("Usage: rename <playerNum> <newName>");
 
 	player = getPlayerByNum(args[0]);
-	newName = args[1];
+	newName = StrJoin(args[1], " ");
 
 	if (!isDefined(player))
 		return pm("Could not find player");
