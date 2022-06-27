@@ -551,6 +551,22 @@ sign2(x)
 	return 0;
 }
 
+acos2(x)
+{
+	negate = float(x < 0);
+	x = abs(x);
+	ret = -0.0187293;
+	ret *= x;
+	ret += 0.0742610;
+	ret *= x;
+	ret -= 0.2121144;
+	ret *= x;
+	ret += 1.5707288;
+	ret *= sqrt(1.0 - x);
+	ret = ret - 2 * negate * ret;
+	return negate * pi() + ret;
+}
+
 atan2(x, y)
 {
 	if (x > 0)
@@ -616,4 +632,14 @@ swapScale(v, n, i)
 	w[i] = v[n];
 	w[3 - n - i] = v[3 - n - i];
 	return (w[0], w[1], w[2]);
+}
+
+neg(v)
+{
+	return v * -1;
+}
+
+pos(v)
+{
+	return abs(v);
 }
