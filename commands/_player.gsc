@@ -34,6 +34,7 @@ cmd_Bounce(args)
 	player = IfUndef(getPlayerByName(args[0]), self);
 	player.sr_cheat = true;
 	player bounce(player.origin, vectorNormalize((0, 0, 20)), 800);
+	player bounce(player.origin, vectorNormalize((0, 0, 20)), 800);
 }
 
 cmd_Clone(args)

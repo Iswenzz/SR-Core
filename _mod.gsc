@@ -56,6 +56,7 @@ main()
 	sr\player\modes\_noclip::main();
 	sr\player\modes\_pickup::main();
 	sr\player\modes\_portal::main();
+	// sr\player\huds\_cgaz::main();
 }
 
 precache()

@@ -82,7 +82,7 @@ buildRanksIcon()
 reset()
 {
 	self.pers["prestige"] = 0;
-	self.pers["rank"] = 0;
+	self.pers["rank"] = 1;
 	self.pers["rankxp"] = 0;
 
 	self setRank(self.pers["rank"], self.pers["prestige"]);
@@ -257,7 +257,7 @@ databaseGetRank()
 	else
 	{
 		self.pers["rankxp"] = 0;
-		self.pers["rank"] = 0;
+		self.pers["rank"] = 1;
 		self.pers["prestige"] = 0;
 	}
 	mutex_release("mysql");
@@ -273,7 +273,7 @@ prestige()
 		return;
 	}
 	self.pers["rankxp"] = 1;
-	self.pers["rank"] = 0;
+	self.pers["rank"] = 1;
 	self.pers["prestige"]++;
 	self setrank(0, self.pers["prestige"]);
 	self maps\mp\gametypes\_persistence::statset("rankxp", 1);

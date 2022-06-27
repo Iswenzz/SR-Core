@@ -5,6 +5,8 @@ addHud(who, x, y, alpha, alignX, alignY, fontScale, sort)
 	else
 		hud = newHudElem();
 
+	fontScale = IfUndef(fontScale, 1.4);
+
 	hud.x = x;
 	hud.y = y;
 	hud.alpha = alpha;
