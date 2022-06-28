@@ -22,23 +22,20 @@ launch(origin, direction, strength)
 	self endon("death");
 	self endon("disconnect");
 
-	directionIndex = 0;
-	max = 0;
-	for (i = 0; i < 3; i++)
-	{
-		if (direction[i] > max)
-		{
-			max = direction[i];
-			directionIndex = i;
-		}
-	}
+	dir = [];
+	dir[0] = abs(direction[0]);
+	dir[1] = abs(direction[1]);
+	dir[2] = abs(direction[2]);
+
+	max = GetMax(dir);
+	directionIndex = IndexOf(dir, max);
 
 	velocity = strength / 9;
 	switch (directionIndex)
 	{
-		case 0: direction = (velocity, direction[1], direction[2]); break;
-		case 1: direction = (direction[0], velocity, direction[2]); break;
-		case 2: direction = (direction[0], direction[1], velocity); break;
+		case 0: direction = (velocity, 0, 0); break;
+		case 1: direction = (0, velocity, 0); break;
+		case 2: direction = (0, 0, velocity); break;
 	}
 	self setVelocity(direction);
 }

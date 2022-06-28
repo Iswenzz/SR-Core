@@ -147,6 +147,7 @@ cmd_Online(args)
 cmd_Owner(args)
 {
 	self giveWeapon("shop_mp");
+	wait 0.05;
 	self switchToWeapon("shop_mp");
 }
 

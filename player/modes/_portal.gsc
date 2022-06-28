@@ -18,9 +18,14 @@ watch()
 	if (!isInMode("portal"))
 		return;
 
+	self waittill("speedrun_hud");
+	self.runId = "Portal";
+	self.huds["speedrun"]["name"] setText("^5Portal");
+
 	wait 0.05;
 	self giveWeapon(level.portalgun);
 	self giveMaxAmmo(level.portalgun);
+	wait 0.05;
 	self switchToWeapon(level.portalgun);
 
 	while (true)
@@ -29,17 +34,15 @@ watch()
 
 		if (self getCurrentWeapon() != level.portalgun || self isOnLadder() || self isMantling() || self.throwingGrenade)
 		{
-			wait 1;
 			self sr\libs\portal\_hud::updateHud("none");
-			self allowAds(true);
+			wait 1;
 			continue;
 		}
-		self allowAds(false);
 
 		color = undefined;
 		if (self attackButtonPressed())
 			color = "blue";
-		else if (self adsButtonPressed())
+		else if (self aimButtonPressed())
 			color = "red";
 		else if (self fragButtonPressed())
 			self sr\libs\portal\_portal_gun::resetPortals();
@@ -47,9 +50,9 @@ watch()
 		if (isDefined(color))
 		{
 			self playLocalSound("portal_gun_shoot_" + color);
-			self thread sr\libs\portal\_portal_gun::fire();
 			self thread sr\libs\portal\_portal_gun::portal(color);
 		}
-		wait 0.05;
+		while (self attackButtonPressed() || self aimButtonPressed() || self fragButtonPressed())
+			wait 0.05;
 	}
 }

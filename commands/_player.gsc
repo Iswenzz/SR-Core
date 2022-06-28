@@ -227,6 +227,7 @@ cmd_Shovel(args)
 {
 	self giveWeapon("shovel_mp");
 	self giveMaxAmmo("shovel_mp");
+	wait 0.05;
 	self switchToWeapon("shovel_mp");
 }
 
@@ -268,6 +269,7 @@ cmd_Weapon(args)
 
 	player giveWeapon(weapon);
 	player switchToWeapon(weapon);
+	wait 0.05;
 	player giveMaxAmmo(weapon);
 }
 
@@ -283,8 +285,9 @@ cmd_WeaponAll(args)
 	{
 		players[i].sr_cheat = true;
 		players[i] giveWeapon(weapon);
-		players[i] switchToWeapon(weapon);
 		players[i] giveMaxAmmo(weapon);
+		wait 0.05;
+		players[i] switchToWeapon(weapon);
 	}
 }
 
@@ -301,8 +304,9 @@ cmd_WeaponActi(args)
 		if (players[i].team == "axis")
 		{
 			players[i] giveWeapon(weapon);
-			players[i] switchToWeapon(weapon);
 			players[i] giveMaxAmmo(weapon);
+			wait 0.05;
+			players[i] switchToWeapon(weapon);
 		}
 	}
 }
@@ -337,6 +341,7 @@ fortniteDance()
 
 	weapon = self getCurrentWeapon();
 	self giveWeapon("fortnite_mp");
+	wait 0.05;
 	self switchToWeapon("fortnite_mp");
 
 	wait 0.2;

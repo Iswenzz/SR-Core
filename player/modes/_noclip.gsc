@@ -16,6 +16,10 @@ noclip()
 	if (!isInMode("noclip") || !self sr\sys\_admins::isRole("masteradmin"))
 		return;
 
+	self waittill("speedrun_hud");
+	self.runId = "Noclip";
+	self.huds["speedrun"]["name"] setText("^3Noclip");
+
 	while (true)
 	{
 		while (self fragButtonPressed())

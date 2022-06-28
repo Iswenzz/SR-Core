@@ -72,16 +72,6 @@ stopAll(delete_portals, disconnected)
 	self notify("stopAll");
 }
 
-fire()
-{
-	self endon("disconnect");
-	self endon("death");
-
-	weap = self getcurrentweapon();
-	self setweaponammoclip(weap, 1);
-	self clientCmd("-attack;+attack;-attack");
-}
-
 portal(color)
 {
 	othercolor = othercolor(color);
@@ -320,9 +310,6 @@ portal(color)
 portalDelete(color)
 {
 	players = getAllPlayers();
-	for (i = 0; i < players.size; i++)
-		if (players[i].portal["inportal"])
-			players[i] freezecontrols(false);
 
 	if (!self.portal[color + "_exist"])
 		return;
@@ -577,7 +564,7 @@ portalKick(p1, p2, vel)
 		position = p2.trace["safe_exit"];
 
 	p1 playsound("portal_enter");
-	self resetVelocity(position);
+	self setOrigin(position);
 
 	if (!(getdvarint("portal_help_orientation") && p1.trace["on_ground"] && p2.trace["on_ground"]))	//disable rotations completely if dvar is true and both portals on ground
 		self setplayerangles(playerPortalOutAngles(p1.trace["angles"], p2.trace["angles"], self getPlayerAngles()));
@@ -597,18 +584,6 @@ portalKick(p1, p2, vel)
 		wait 0.1;
 
 	self.portal["inportal"] = false;
-}
-
-resetVelocity(pos)
-{
-	self freezeControls(true);
-	wait 0.05;
-
-	if (!isDefined(self))
-		return;
-
-	self freezeControls(false);
-	self setOrigin(pos);
 }
 
 watchAirTime()
