@@ -11,7 +11,10 @@ main()
 
 cmd_Portal(args)
 {
-	self.modes["portal"] = !self.modes["portal"];
+	if (self sr\player\modes\_main::isInOtherMode("portal"))
+		return;
+
+	self sr\player\modes\_main::toggleMode("portal");
 	self suicide();
 
 	self pm(Ternary(self.modes["portal"], "^5Portal mode enabled!", "^1Portal mode disabled!"));

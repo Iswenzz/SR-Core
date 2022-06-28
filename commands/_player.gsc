@@ -138,7 +138,6 @@ cmd_Kill(args)
 cmd_Knockback(args)
 {
 	player = IfUndef(getPlayerByName(args[0]), self);
-	player suicide();
 	player.sr_cheat = true;
 	self log();
 
@@ -149,6 +148,7 @@ cmd_Knockback(args)
 	wait 0.05;
 	player giveWeapon("gl_ak47_mp");
 	player giveWeapon("gl_g3_mp");
+	wait 0.05;
 	player switchToWeapon("gl_ak47_mp");
 }
 
@@ -168,7 +168,10 @@ cmd_Model(args)
 
 cmd_NoClip(args)
 {
-	self.modes["noclip"] = !self.modes["noclip"];
+	if (self sr\player\modes\_main::isInOtherMode("noclip"))
+		return;
+
+	self sr\player\modes\_main::toggleMode("noclip");
 	self suicide();
 
 	self pm(Ternary(self.modes["noclip"], "^2Noclip mode enabled!", "^1Noclip mode disabled!"));

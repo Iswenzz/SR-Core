@@ -14,10 +14,7 @@ main()
 cmd_Kz(args)
 {
 	if (self isInOtherQueue("kz"))
-	{
-		self pm("^1Already in a different mode.");
 		return;
-	}
 	if (!self isInQueue("kz"))
 		join();
 	else

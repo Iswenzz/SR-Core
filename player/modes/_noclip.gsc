@@ -13,7 +13,7 @@ noclip()
 	self endon("disconnect");
 	self endon("death");
 
-	if (!self.modes["noclip"] || !self sr\sys\_admins::isRole("masteradmin"))
+	if (!isInMode("noclip") || !self sr\sys\_admins::isRole("masteradmin"))
 		return;
 
 	while (true)

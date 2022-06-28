@@ -116,6 +116,7 @@ command(name, arg)
 	if (!self canExecuteCommand(cmd))
 		return;
 
+	self.lastCommand = fmt("%s %s", name, arg);
 	self thread [[cmd.callback]](args);
 }
 

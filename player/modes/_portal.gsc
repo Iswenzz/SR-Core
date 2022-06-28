@@ -15,7 +15,7 @@ watch()
 
 	self allowAds(true);
 
-	if (!self.modes["portal"])
+	if (!isInMode("portal"))
 		return;
 
 	wait 0.05;

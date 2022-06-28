@@ -40,7 +40,6 @@ launch(origin, direction, strength)
 		case 1: direction = (direction[0], velocity, direction[2]); break;
 		case 2: direction = (direction[0], direction[1], velocity); break;
 	}
-	comPrintLn("velocity: %f %f %f", direction[0], direction[1], direction[2]);
 	self setVelocity(direction);
 }
 

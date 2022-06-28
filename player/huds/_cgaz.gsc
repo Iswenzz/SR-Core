@@ -22,17 +22,17 @@ hud()
         self.cgaz.previousVelocity = self getVelocity();
 
         wait 0.05;
-        if (!m_vector_length2(self getVelocity()))
-            continue;
-
-        self pmove();
-        self draw();
+        if (m_vector_length2(self getVelocity()) >= 1)
+        {
+            self pmove();
+            self draw();
+        }
     }
 }
 
 draw()
 {
-    size = (1, 10, 0);
+    size = (100, 12, 0);
     yaw = atan2(self.cgaz.wishvel[1], self.cgaz.wishvel[0]) - self.cgaz.d_vel;
 
     self.huds["cgaz"]["accel"] fillAngleYaw(neg(self.cgaz.d_min), pos(self.cgaz.d_min), yaw, size[0], size[1]);
@@ -52,38 +52,38 @@ cgazHud()
     self.cgaz.moveRight = 0;
     self.huds["cgaz"] = [];
 
-    self.huds["cgaz"]["accel"] = addHud(self, 0, 0, 0.75, "center", "middle");
-    self.huds["cgaz"]["accel"].color = ToRGB(0, 255, 0);
+    self.huds["cgaz"]["accel"] = addHud(self, 0, 0, 0.5, "right", "middle");
+    self.huds["cgaz"]["accel"].color = (0.25, 0.25, 0.25);
     self.huds["cgaz"]["accel"].archived = false;
     self.huds["cgaz"]["accel"].hidewheninmenu = true;
 
-    self.huds["cgaz"]["accelPartialPos"] = addHud(self, 0, 0, 0.75, "center", "middle");
-    self.huds["cgaz"]["accelPartialPos"].color = ToRGB(255, 255, 0);
+    self.huds["cgaz"]["accelPartialPos"] = addHud(self, 0, 0, 0.5, "left", "middle");
+    self.huds["cgaz"]["accelPartialPos"].color = (0, 1, 0);
     self.huds["cgaz"]["accelPartialPos"].archived = false;
     self.huds["cgaz"]["accelPartialPos"].hidewheninmenu = true;
 
-    self.huds["cgaz"]["accelPartialNeg"] = addHud(self, 0, 0, 0.75, "center", "middle");
-    self.huds["cgaz"]["accelPartialNeg"].color = ToRGB(255, 255, 0);
+    self.huds["cgaz"]["accelPartialNeg"] = addHud(self, 0, 0, 0.5, "right", "middle");
+    self.huds["cgaz"]["accelPartialNeg"].color = (0, 1, 0);
     self.huds["cgaz"]["accelPartialNeg"].archived = false;
     self.huds["cgaz"]["accelPartialNeg"].hidewheninmenu = true;
 
-    self.huds["cgaz"]["accelFullPos"] = addHud(self, 0, 0, 0.75, "center", "middle");
-    self.huds["cgaz"]["accelFullPos"].color = ToRGB(255, 0, 0);
+    self.huds["cgaz"]["accelFullPos"] = addHud(self, 0, 0, 0.5, "left", "middle");
+    self.huds["cgaz"]["accelFullPos"].color = (0, 0.25, 0.25);
     self.huds["cgaz"]["accelFullPos"].archived = false;
     self.huds["cgaz"]["accelFullPos"].hidewheninmenu = true;
 
-    self.huds["cgaz"]["accelFullNeg"] = addHud(self, 0, 0, 0.75, "center", "middle");
-    self.huds["cgaz"]["accelFullNeg"].color = ToRGB(255, 0, 0);
+    self.huds["cgaz"]["accelFullNeg"] = addHud(self, 0, 0, 0.5, "right", "middle");
+    self.huds["cgaz"]["accelFullNeg"].color = (0, 0.25, 0.25);
     self.huds["cgaz"]["accelFullNeg"].archived = false;
     self.huds["cgaz"]["accelFullNeg"].hidewheninmenu = true;
 
-    self.huds["cgaz"]["turnZonePos"] = addHud(self, 0, 0, 0.75, "center", "middle");
-    self.huds["cgaz"]["turnZonePos"].color = ToRGB(255, 255, 255);
+    self.huds["cgaz"]["turnZonePos"] = addHud(self, 0, 0, 0.5, "left", "middle");
+    self.huds["cgaz"]["turnZonePos"].color = (1, 1, 0);
     self.huds["cgaz"]["turnZonePos"].archived = false;
     self.huds["cgaz"]["turnZonePos"].hidewheninmenu = true;
 
-    self.huds["cgaz"]["turnZoneNeg"] = addHud(self, 0, 0, 0.75, "center", "middle");
-    self.huds["cgaz"]["turnZoneNeg"].color = ToRGB(255, 255, 255);
+    self.huds["cgaz"]["turnZoneNeg"] = addHud(self, 0, 0, 0.5, "right", "middle");
+    self.huds["cgaz"]["turnZoneNeg"].color = (1, 1, 0);
     self.huds["cgaz"]["turnZoneNeg"].archived = false;
     self.huds["cgaz"]["turnZoneNeg"].hidewheninmenu = true;
 }
@@ -97,6 +97,8 @@ pmove()
     self.cgaz.up = anglesToUp(self.cgaz.viewAngles);
     self.cgaz.frameTime = 1 / 125;
     self.cgaz.viewHeight = int(eye()[2]);
+
+    comPrintLn("forward: %f %f %f", self.cgaz.forward[0], self.cgaz.forward[1], self.cgaz.forward[2]);
 
     if (!self.cgaz.moveForward && !self.cgaz.moveRight)
         self.cgaz.moveForward = 127;
@@ -123,6 +125,8 @@ pm_walkMove()
 
     dmgScale = self pm_damageScaleWalk(1) * self pm_cmdScaleWalk();
     wishSpeed = dmgScale * m_vector_length2(self.cgaz.wishvel);
+
+    comPrintLn("speed: %f %f %f", float(dmgScale), float(wishSpeed), m_vector_length2(self.cgaz.wishvel));
 
     // @TODO knockback / slick
     if (false)
@@ -185,6 +189,7 @@ pm_cmdScaleWalk()
         scale *= 3;
     else
         scale *= self pm_cmdScaleForStance();
+    comPrintLn("scale: %f %f %f", self.moveSpeedScale, speed, scale);
     return scale * self.moveSpeedScale;
 }
 
@@ -252,6 +257,8 @@ update_d(wishspeed, accel, slickGravity)
     self.cgaz.wishspeed = wishspeed;
     self.cgaz.a = accel * self.cgaz.wishspeed * self.cgaz.frameTime;
     self.cgaz.a_squared = self.cgaz.a * self.cgaz.a;
+
+    comPrintLn("accel: %f %f %f", float(accel), float(self.cgaz.wishspeed), self.cgaz.frameTime);
 
     if (self.cgaz.v_squared - self.cgaz.vf_squared >= 2 * self.cgaz.a * self.cgaz.wishspeed - self.cgaz.a_squared)
         self.cgaz.v_squared = self.cgaz.vf_squared;
@@ -334,12 +341,14 @@ fillRect(x, y, w, h, color)
     w = int(abs(w));
     h = int(abs(h));
 
+    iPrintLnBold(fmt("%d %d %d %d", x, y, w, h));
+
     if (!w || !h)
         return;
     
     self setShader("white", w, h);
-    self.x = Ternary(wNeg, neg(w - x), x);
-    self.y = Ternary(hNeg, neg(h - y), y);
+    self.x = x;
+    self.y = y;
 }
 
 angleToRange(start, end, yaw)
@@ -375,8 +384,9 @@ angleToRange(start, end, yaw)
 
 angleScreenProjection(angle)
 {
-    tanHalfFovX = 60;
-    half_fov_x = atan(tanHalfFovX);
+    halfTanY = tan(80 * 0.01745329238474369 * 0.5) * 0.75;
+    halfTanX = halfTanY * (640 / 480);
+    half_fov_x = atan(halfTanX);
 
     if (angle >= half_fov_x)
         return 0;

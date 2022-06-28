@@ -22,6 +22,12 @@ isInQueue(minigame)
 
 isInOtherQueue(minigame)
 {
+	if (self sr\player\modes\_main::isInAnyMode())
+	{
+		self sr\sys\_admins::pm("^1Already in a different mode.");
+		return true;
+	}
+
 	keys = getArrayKeys(level.minigames);
 	for (i = 0; i < keys.size; i++)
 	{
@@ -29,7 +35,10 @@ isInOtherQueue(minigame)
 			continue;
 
 		if (self isInQueue(keys[i]))
+		{
+			self sr\sys\_admins::pm("^1Already in a different mode.");
 			return true;
+		}
 	}
 	return false;
 }

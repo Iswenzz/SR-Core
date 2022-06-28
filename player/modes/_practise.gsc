@@ -13,7 +13,7 @@ practise()
 	self endon("disconnect");
 	self endon("death");
 
-	if (!self.modes["practise"] || self sr\game\minigames\_main::isInAnyQueue())
+	if (!IsInMode("practise"))
 		return;
 
 	self waittill("speedrun_hud");

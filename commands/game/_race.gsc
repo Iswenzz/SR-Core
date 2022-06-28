@@ -15,10 +15,7 @@ main()
 cmd_Race(args)
 {
 	if (self isInOtherQueue("race"))
-	{
-		self pm("^1Already in a different mode.");
 		return;
-	}
 	if (!self isInQueue("race"))
 		join();
 	else

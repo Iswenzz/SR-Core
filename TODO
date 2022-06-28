@@ -13,6 +13,8 @@ SR-Core:
 	- Rpg kills
 	- Image not found on quickmenu
 	- Braxi DESC
+	- Make ppl can't join minigames in modes
+	- Shipment kz spawn broke ?
 - Refactor
 	- Menu files
 	- Git Attributes remove indexing for maps\mp
