@@ -88,14 +88,13 @@ spawnBrushes()
 		line = FILE_ReadLine(file);
 		tkn = strTok(line, "/");
 
-		if (IsNullOrEmpty(line) || tkn.size != 9)
+		if (IsNullOrEmpty(line) || tkn.size != 8)
 			break;
 
-		index = ToInt(tkn[0]);
-		origin = (ToFloat(tkn[1]), ToFloat(tkn[2]), ToFloat(tkn[3]));
-		angles = (ToFloat(tkn[4]), ToFloat(tkn[5]), ToFloat(tkn[6]));
-		brushes = getEntArray(tkn[7], "targetname");
-		brush_index = Ternary(brushes.size > 1, ToInt(tkn[8]), 0);
+		origin = (ToFloat(tkn[0]), ToFloat(tkn[1]), ToFloat(tkn[2]));
+		angles = (ToFloat(tkn[3]), ToFloat(tkn[4]), ToFloat(tkn[5]));
+		brushes = getEntArray(tkn[6], "targetname");
+		brush_index = Ternary(brushes.size > 1, ToInt(tkn[7]), 0);
 
 		if (isDefined(brushes) && isDefined(brushes[brush_index]))
 		{
@@ -119,12 +118,12 @@ spawnChickens()
 		line = FILE_ReadLine(file);
 		tkn = strTok(line, "/");
 
-		if (IsNullOrEmpty(line) || tkn.size != 4)
+		if (IsNullOrEmpty(line) || tkn.size != 3)
 			break;
 
-		index = ToInt(tkn[0]);
-		origin = (ToFloat(tkn[1]), ToFloat(tkn[2]), ToFloat(tkn[3]));
+		origin = (ToFloat(tkn[0]), ToFloat(tkn[1]), ToFloat(tkn[2]));
 
+		index = chickens.size;
 		chickens[index] = spawn("script_model", origin);
 		chickens[index] setModel("chicken");
 	}
