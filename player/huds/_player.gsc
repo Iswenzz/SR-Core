@@ -62,6 +62,7 @@ hudFps()
 {
 	self.huds["fps"] = addHud(self, -15, -26, 1, "right", "bottom", 1.8);
 	self.huds["fps"].hidewheninmenu = true;
+	self.huds["fps"].archived = true;
 }
 
 hudVelocity()
@@ -79,18 +80,21 @@ hudVelocity()
 	self.huds["velocity"] = [];
 	self.huds["velocity"]["value"] = addHud(self, 0, 0, 1, alignX, alignY, 1.6);
 	self.huds["velocity"]["value"].hidewheninmenu = true;
+	self.huds["velocity"]["value"].archived = false;
 
 	if (self.settings["hud_velocity_info"] >= 1)
 	{
 		self.huds["velocity"]["average"] = addHud(self, -50, 0, 1, alignX, alignY, 1.6);
 		self.huds["velocity"]["average"].color = ToRGB(0, 255, 255);
 		self.huds["velocity"]["average"].hidewheninmenu = true;
+		self.huds["velocity"]["average"].archived = false;
 	}
 	if (self.settings["hud_velocity_info"] >= 2)
 	{
 		self.huds["velocity"]["max"] = addHud(self, 50, 0, 1, alignX, alignY, 1.6);
 		self.huds["velocity"]["max"].color = ToRGB(0, 255, 0);
 		self.huds["velocity"]["max"].hidewheninmenu = true;
+		self.huds["velocity"]["max"].archived = false;
 	}
 }
 
