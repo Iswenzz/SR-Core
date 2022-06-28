@@ -98,12 +98,14 @@ updateFps(player)
         self.huds["fps_combo"] setText(player.fpsCombo);
         return;
     }
+
+	bounced = false;
     if (!self.isOnGround && !self.isFalling && self.prevIsFalling)
-    {
-        self.fpsCombo += "-";
-        self.huds["fps_combo"] setText(player.fpsCombo);
-    }
-    if (self.fps == self.prevFps && !self.prevIsOnGround)
+	{
+		self.fpsCombo += "-";
+		bounced = true;
+	}
+    if (!bounced && self.fps == self.prevFps && !self.prevIsOnGround)
         return;
 
 	switch (self.fps)
