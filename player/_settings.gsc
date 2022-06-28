@@ -29,6 +29,7 @@ onConnect()
 	self setClientDvar("sr_setting_11", "FX");
 	self setClientDvar("sr_setting_12", "Knife Only");
 	self setClientDvar("sr_setting_13", "Velocity Info");
+	self setClientDvar("sr_setting_14", "FPS Combo");
 
 	self update();
 }
@@ -39,6 +40,7 @@ save()
 
 	self setStat(1600, self.settings["hud_crosshair"]);
 	self setStat(1601, self.settings["hud_fps"]);
+	self setStat(1614, self.settings["hud_fps_combo"]);
 	self setStat(1605, self.settings["hud_xp"]);
 	self setStat(1606, self.settings["hud_spectator"]);
 	self setStat(1607, self.settings["hud_velocity"]);
@@ -57,6 +59,7 @@ load()
 {
 	self.settings["hud_crosshair"] 		= self getStat(1600);
 	self.settings["hud_fps"] 			= self getStat(1601);
+	self.settings["hud_fps_combo"] 		= self getStat(1614);
 	self.settings["hud_xp"] 			= self getStat(1605);
 	self.settings["hud_spectator"] 		= self getStat(1606);
 	self.settings["hud_velocity"] 		= self getStat(1607);
@@ -75,6 +78,7 @@ reset()
 {
 	self.settings["hud_crosshair"] 		= true;
 	self.settings["hud_fps"] 			= true;
+	self.settings["hud_fps_combo"] 		= false;
 	self.settings["hud_xp"] 			= false;
 	self.settings["hud_spectator"] 		= true;
 	self.settings["hud_velocity"] 		= 5;
@@ -122,14 +126,6 @@ update_hudVelocity(num)
 	value = self.settings["hud_velocity"];
 	labels = strTok("^1OFF;^2Top-Left;^2Top-Center;^2Top-Right;^2Bottom-Left;^2Bottom-Center;^2Bottom-Right;", ";");
 	self updateHud(num, value, labels[value]);
-
-	if (isDefined(self.huds["velocity"]))
-	{
-		self.huds["velocity"].alignX = getHorizontal(self.settings["hud_velocity"]);
-		self.huds["velocity"].horzAlign = getHorizontal(self.settings["hud_velocity"]);
-		self.huds["velocity"].alignY = getVertical(self.settings["hud_velocity"]);
-		self.huds["velocity"].vertAlign = getVertical(self.settings["hud_velocity"]);
-	}
 }
 
 update_hudCompass(num)
@@ -198,6 +194,12 @@ update_hudVelocityInfo(num)
 	self updateHud(num, value, labels[value]);
 }
 
+update_hudFPSCombo(num)
+{
+	value = self.settings["hud_fps_combo"];
+	self updateHud(num, value);
+}
+
 update()
 {
 	self endon("disconnect");
@@ -216,6 +218,7 @@ update()
 	self update_gfxDistance(5);
 	self update_gfxFX(11);
 	self update_hudVelocityInfo(13);
+	self update_hudFPSCombo(14);
 
 	self thread save();
 }
@@ -246,6 +249,7 @@ menu_setting(args)
 		case 11: 	self.settings["gfx_fx"] 			= !self.settings["gfx_fx"]; 								break;
 		case 12: 	self.settings["player_knife"] 		= !self.settings["player_knife"]; 							break;
 		case 13: 	self.settings["hud_velocity_info"] 	= intRange(self.settings["hud_velocity_info"], 0, 2); 		break;
+		case 14: 	self.settings["hud_fps_combo"] 		= !self.settings["hud_fps_combo"]; 							break;
 	}
 	self update();
 }

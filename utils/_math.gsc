@@ -551,37 +551,6 @@ sign2(x)
 	return 0;
 }
 
-acos2(x)
-{
-	negate = float(x < 0);
-	x = abs(x);
-	ret = -0.0187293;
-	ret *= x;
-	ret += 0.0742610;
-	ret *= x;
-	ret -= 0.2121144;
-	ret *= x;
-	ret += 1.5707288;
-	ret *= sqrt(1.0 - x);
-	ret = ret - 2 * negate * ret;
-	return negate * pi() + ret;
-}
-
-atan2(x, y)
-{
-	if (x > 0)
-		return atan(y / x);
-	if (y >= 0 && x < 0)
-		return atan(y / x) + 90;
-	if (y < 0 && x < 0)
-		return atan(y / x) - 90;
-	if (y > 0 && x == 0)
-		return 90;
-	if (y < 0 && x == 0)
-		return -90;
-	return 0;
-}
-
 pi()
 {
 	return 3.14159265;

@@ -32,16 +32,18 @@ hud()
 
 draw()
 {
-    size = (100, 12, 0);
     yaw = atan2(self.cgaz.wishvel[1], self.cgaz.wishvel[0]) - self.cgaz.d_vel;
+    
+    y = 100;
+    h = 12;
 
-    self.huds["cgaz"]["accel"] fillAngleYaw(neg(self.cgaz.d_min), pos(self.cgaz.d_min), yaw, size[0], size[1]);
-    self.huds["cgaz"]["accelPartialPos"] fillAngleYaw(pos(self.cgaz.d_min), pos(self.cgaz.d_opt), yaw, size[0], size[1]);
-    self.huds["cgaz"]["accelPartialNeg"] fillAngleYaw(neg(self.cgaz.d_opt), neg(self.cgaz.d_min), yaw, size[0], size[1]);
-    self.huds["cgaz"]["accelFullPos"] fillAngleYaw(pos(self.cgaz.d_opt), pos(self.cgaz.d_max_cos), yaw, size[0], size[1]);
-    self.huds["cgaz"]["accelFullNeg"] fillAngleYaw(neg(self.cgaz.d_max_cos), neg(self.cgaz.d_opt), yaw, size[0], size[1]);
-    self.huds["cgaz"]["turnZonePos"] fillAngleYaw(pos(self.cgaz.d_max_cos), pos(self.cgaz.d_max), yaw, size[0], size[1]);
-    self.huds["cgaz"]["turnZoneNeg"] fillAngleYaw(neg(self.cgaz.d_max), neg(self.cgaz.d_max_cos), yaw, size[0], size[1]);
+    self.huds["cgaz"]["accel"] fillAngleYaw(neg(self.cgaz.d_min), pos(self.cgaz.d_min), yaw, y, h);
+    self.huds["cgaz"]["accelPartialPos"] fillAngleYaw(pos(self.cgaz.d_min), pos(self.cgaz.d_opt), yaw, y, h);
+    self.huds["cgaz"]["accelPartialNeg"] fillAngleYaw(neg(self.cgaz.d_opt), neg(self.cgaz.d_min), yaw, y, h);
+    self.huds["cgaz"]["accelFullPos"] fillAngleYaw(pos(self.cgaz.d_opt), pos(self.cgaz.d_max_cos), yaw, y, h);
+    self.huds["cgaz"]["accelFullNeg"] fillAngleYaw(neg(self.cgaz.d_max_cos), neg(self.cgaz.d_opt), yaw, y, h);
+    self.huds["cgaz"]["turnZonePos"] fillAngleYaw(pos(self.cgaz.d_max_cos), pos(self.cgaz.d_max), yaw, y, h);
+    self.huds["cgaz"]["turnZoneNeg"] fillAngleYaw(neg(self.cgaz.d_max), neg(self.cgaz.d_max_cos), yaw, y, h);
 }
 
 cgazHud()
@@ -50,8 +52,8 @@ cgazHud()
     self.cgaz.wishvel = [];
     self.cgaz.moveForward = 0;
     self.cgaz.moveRight = 0;
-    self.huds["cgaz"] = [];
 
+    self.huds["cgaz"] = [];
     self.huds["cgaz"]["accel"] = addHud(self, 0, 0, 0.5, "right", "middle");
     self.huds["cgaz"]["accel"].color = (0.25, 0.25, 0.25);
     self.huds["cgaz"]["accel"].archived = false;
@@ -95,10 +97,10 @@ pmove()
     self.cgaz.forward = anglesToForward(self.cgaz.viewAngles);
     self.cgaz.right = anglesToRight(self.cgaz.viewAngles);
     self.cgaz.up = anglesToUp(self.cgaz.viewAngles);
-    self.cgaz.frameTime = 1 / 125;
+    self.cgaz.frameTime = 1 / 125; // @TODO use fps
     self.cgaz.viewHeight = int(eye()[2]);
 
-    comPrintLn("forward: %f %f %f", self.cgaz.forward[0], self.cgaz.forward[1], self.cgaz.forward[2]);
+    // comPrintLn("forward: %f %f %f", self.cgaz.forward[0], self.cgaz.forward[1], self.cgaz.forward[2]);
 
     if (!self.cgaz.moveForward && !self.cgaz.moveRight)
         self.cgaz.moveForward = 127;
@@ -126,10 +128,9 @@ pm_walkMove()
     dmgScale = self pm_damageScaleWalk(1) * self pm_cmdScaleWalk();
     wishSpeed = dmgScale * m_vector_length2(self.cgaz.wishvel);
 
-    comPrintLn("speed: %f %f %f", float(dmgScale), float(wishSpeed), m_vector_length2(self.cgaz.wishvel));
+    // comPrintLn("speed: %f %f %f", float(dmgScale), float(wishSpeed), m_vector_length2(self.cgaz.wishvel));
 
-    // @TODO knockback / slick
-    if (false)
+    if (false) // @TODO knockback / slick
         self pm_slickAccelerate(wishSpeed, 9);
     
     accel = 0;
@@ -189,7 +190,7 @@ pm_cmdScaleWalk()
         scale *= 3;
     else
         scale *= self pm_cmdScaleForStance();
-    comPrintLn("scale: %f %f %f", self.moveSpeedScale, speed, scale);
+    // comPrintLn("scale: %f %f %f", self.moveSpeedScale, speed, scale);
     return scale * self.moveSpeedScale;
 }
 
@@ -258,7 +259,7 @@ update_d(wishspeed, accel, slickGravity)
     self.cgaz.a = accel * self.cgaz.wishspeed * self.cgaz.frameTime;
     self.cgaz.a_squared = self.cgaz.a * self.cgaz.a;
 
-    comPrintLn("accel: %f %f %f", float(accel), float(self.cgaz.wishspeed), self.cgaz.frameTime);
+    // comPrintLn("accel: %f %f %f", float(accel), float(self.cgaz.wishspeed), self.cgaz.frameTime);
 
     if (self.cgaz.v_squared - self.cgaz.vf_squared >= 2 * self.cgaz.a * self.cgaz.wishspeed - self.cgaz.a_squared)
         self.cgaz.v_squared = self.cgaz.vf_squared;
@@ -280,20 +281,20 @@ update_d_min()
         self.cgaz.vf_squared + self.cgaz.g_squared;
     num = sqrt(num_squared);
 
-    return Ternary(num >= self.cgaz.vf, 0, acos2(num / self.cgaz.vf));
+    return Ternary(num >= self.cgaz.vf, 0, acos1(num / self.cgaz.vf));
 }
 
 update_d_opt()
 {
     num = self.cgaz.wishspeed - self.cgaz.a;
 
-    return Ternary(num >= self.cgaz.vf, 0, acos2(num / self.cgaz.vf));
+    return Ternary(num >= self.cgaz.vf, 0, acos1(num / self.cgaz.vf));
 }
 
 update_d_max_cos(d_opt)
 {
     num = sqrt(self.cgaz.v_squared - self.cgaz.g_squared) - self.cgaz.vf;
-    d_max_cos = Ternary(num >= self.cgaz.a, 0, acos2(num / self.cgaz.a));
+    d_max_cos = Ternary(num >= self.cgaz.a, 0, acos1(num / self.cgaz.a));
     
     if (d_max_cos < d_opt)
         d_max_cos = d_opt;
@@ -311,7 +312,7 @@ update_d_max(d_max_cos)
     if (neg(num) >= den)
         return pi();
 
-    d_max = acos2(num / den);
+    d_max = acos1(num / den);
 
     if (d_max < d_max_cos)
         d_max = d_max_cos;
@@ -341,7 +342,7 @@ fillRect(x, y, w, h, color)
     w = int(abs(w));
     h = int(abs(h));
 
-    iPrintLnBold(fmt("%d %d %d %d", x, y, w, h));
+    // iPrintLnBold(fmt("%d %d %d %d", x, y, w, h));
 
     if (!w || !h)
         return;
@@ -384,17 +385,18 @@ angleToRange(start, end, yaw)
 
 angleScreenProjection(angle)
 {
-    halfTanY = tan(80 * 0.01745329238474369 * 0.5) * 0.75;
+    playerFov = 80;
+    halfTanY = tan(playerFov * 0.01745329238474369 * 0.5) * 0.75;
     halfTanX = halfTanY * (640 / 480);
-    half_fov_x = atan(halfTanX);
+    halfFovX = atan(halfTanX);
 
-    if (angle >= half_fov_x)
+    if (angle >= halfFovX)
         return 0;
         
-    if (angle <= neg(half_fov_x))
+    if (angle <= neg(halfFovX))
         return 640;
         
-    return 640 / 2 * (1 - tan(angle) / tan(half_fov_x));
+    return 640 / 2 * (1 - tan(angle) / tan(halfFovX));
 }
 
 angle_normalize_pi(angle)
