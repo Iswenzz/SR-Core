@@ -9,14 +9,16 @@ initModes()
 
 createMode(name)
 {
-	level.modes[level.modes.size] = name;
+	level.modes[name] = name;
 }
 
 onConnect()
 {
 	self.modes = [];
+	
+	keys = getArrayKeys(level.modes);
 	for (i = 0; i < level.modes.size; i++)
-		self.modes[level.modes[i]] = false;
+		self.modes[keys[i]] = false;
 }
 
 toggleMode(name)
@@ -37,7 +39,7 @@ isInOtherMode(name)
 		return true;
 	}
 
-	keys = getArrayKeys(self.modes);
+	keys = getArrayKeys(level.modes);
 	for (i = 0; i < keys.size; i++)
 	{
 		if (keys[i] == name)
@@ -54,9 +56,10 @@ isInOtherMode(name)
 
 isInAnyMode()
 {
-	for (i = 0; i < level.modes.size; i++)
+	keys = getArrayKeys(level.modes);
+	for (i = 0; i < keys.size; i++)
 	{
-		if (self.modes[level.modes[i]])
+		if (self isInMode(keys[i]))
 			return true;
 	}
 	return false;
