@@ -25,27 +25,24 @@ hud()
 	self endon("disconnect");
 	self endon("joined_spectators");
 
-    if (!self.settings["hud_spectator"])
-        return;
-
 	self clear();
 	self hudFps();
-
-	self.fpsCombo = "";
-    self.prevFps = 0;
-    self.prevIsOnGround = self isOnGround();
-    self.prevIsFalling = false;
+	self vars();
 
 	while (true)
 	{
 		player = IfUndef(self getSpectatorClient(), self);
 
-        self.fps = self getFPS();
-        self.velocity = self getVelocity();
-        self.isOnGround = self isOnGround();
-        self.isFalling = self isFalling();
+		if (isDefined(self.spectate) && player != self.spectate)
+			self vars();
 
-		self updateFps(player);
+		self.spectate = player;
+        self.fps = player getFPS();
+        self.velocity = player getVelocity();
+        self.isOnGround = player isOnGround();
+        self.isFalling = player isFalling();
+
+		self updateFps();
 		
 		wait 0.05;
 
@@ -53,6 +50,14 @@ hud()
         self.prevIsOnGround = self.isOnGround;
         self.prevIsFalling = self.isFalling;
 	}
+}
+
+vars()
+{
+	self.fpsCombo = "";
+    self.prevFps = 0;
+    self.prevIsOnGround = true;
+    self.prevIsFalling = false;
 }
 
 hudFps()
@@ -69,12 +74,12 @@ hudFps()
     }
 }
 
-updateFps(player)
+updateFps()
 {
 	if (!isDefined(self.huds["fps"]))
 		return;
 
-	switch (player.fps)
+	switch (self.fps)
 	{
 		case 20:
 		case 30:
@@ -85,7 +90,7 @@ updateFps(player)
 		case 333:
 		case 500:
 		case 1000:
-			self.huds["fps"] setShader("fps_" + player.fps, 90, 60);
+			self.huds["fps"] setShader("fps_" + self.fps, 90, 60);
 			break;
 	}
     if (!isDefined(self.huds["fps_combo"]))
@@ -94,7 +99,7 @@ updateFps(player)
     if (self.isOnGround)
     {
         self.fpsCombo = "";
-        self.huds["fps_combo"] setText(player.fpsCombo);
+        self.huds["fps_combo"] setText(self.fpsCombo);
         return;
     }
 
@@ -119,7 +124,7 @@ updateFps(player)
 		case 500:	self.fpsCombo += "5";		break;
 		case 1000: 	self.fpsCombo += "0";		break;
 	}
-	self.huds["fps_combo"] setText(player.fpsCombo);
+	self.huds["fps_combo"] setText(self.fpsCombo);
 }
 
 isFalling()

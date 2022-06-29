@@ -15,26 +15,24 @@ hud()
 	self endon("disconnect");
 	self endon("joined_spectators");
 
-    if (!self.settings["hud_spectator"] || !self.settings["hud_velocity"])
+    if (!self.settings["hud_velocity"])
         return;
 
 	wait 0.05;
 
 	self clear();
 	self hudVelocity();
-
-	self.vels = [];
-	self.groundTime = 0;
-	self.groundTimes = [];
-    self.prevVelocityDist = 0;
-    self.prevOnGround = true;
+	self vars();
 
 	while (true)
 	{
 		player = IfUndef(self getSpectatorClient(), self);
 
-        self.velocityDist = self getPlayerVelocity();
-        self.onGround = self isOnGround();
+		if (isDefined(self.spectate) && player != self.spectate)
+			self vars();
+
+        self.velocityDist = player getPlayerVelocity();
+        self.onGround = player isOnGround();
 
         if (self.onGround && !self.prevOnGround)
         {
@@ -45,13 +43,22 @@ hud()
 		if (self.onGround)
 			self.groundTime += 50;
 
-		self updateVelocity(player);
+		self updateVelocity();
 
 		wait 0.05;
 
         self.prevVelocityDist = self.velocityDist;
         self.prevOnGround = self.onGround;
 	}
+}
+
+vars()
+{
+	self.vels = [];
+	self.groundTime = 0;
+	self.groundTimes = [];
+    self.prevVelocityDist = 0;
+    self.prevOnGround = true;
 }
 
 hudVelocity()
@@ -91,27 +98,27 @@ hudVelocity()
 	}
 }
 
-updateVelocity(player)
+updateVelocity()
 {
 	if (!isDefined(self.huds["velocity"]))
 		return;
 
-	self.huds["velocity"]["value"] setValue(player.velocityDist);
+	self.huds["velocity"]["value"] setValue(self.velocityDist);
 
 	if (self.settings["hud_velocity_ground"] == 1)
-		self.huds["velocity"]["ground"] setValue(player.groundTime);
+		self.huds["velocity"]["ground"] setValue(self.groundTime);
 
-	if (isDefined(player.vels) && player.vels.size)
+	if (isDefined(self.vels) && self.vels.size)
 	{
 		if (self.settings["hud_velocity_info"] >= 1)
-		self.huds["velocity"]["average"] setValue(int(Average(player.vels)));
+			self.huds["velocity"]["average"] setValue(int(Average(self.vels)));
 		if (self.settings["hud_velocity_info"] >= 2)
-			self.huds["velocity"]["max"] setValue(int(GetMax(player.vels)));
+			self.huds["velocity"]["max"] setValue(int(GetMax(self.vels)));
 	}
-	if (isDefined(player.groundTimes) && player.groundTimes.size)
+	if (isDefined(self.groundTimes) && self.groundTimes.size)
 	{
 		if (self.settings["hud_velocity_ground"] == 2)
-			self.huds["velocity"]["ground"] setValue(int(Average(player.groundTimes)));
+			self.huds["velocity"]["ground"] setValue(int(Average(self.groundTimes)));
 	}
 }
 

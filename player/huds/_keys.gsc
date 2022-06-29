@@ -37,7 +37,7 @@ hud()
 
 shouldRender()
 {
-    if (!self.settings["hud_spectator"] || self.sessionstate != "spectator")
+    if (self.sessionstate != "spectator" && !self.settings["hud_keys"])
     {
         self clear();
         return false;

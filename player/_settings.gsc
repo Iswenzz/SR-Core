@@ -19,7 +19,7 @@ onConnect()
 	self setClientDvar("sr_setting_1", "Draw FPS");
 	self setClientDvar("sr_setting_2", "Fullbright");
 	self setClientDvar("sr_setting_3", "XP Bar");
-	self setClientDvar("sr_setting_4", "Spectator HUD");
+	self setClientDvar("sr_setting_4", "Keys");
 	self setClientDvar("sr_setting_5", "Draw Distance");
 	self setClientDvar("sr_setting_6", "FOV Scale");
 	self setClientDvar("sr_setting_7", "Velocity Metter");
@@ -43,7 +43,7 @@ save()
 	self setStat(1601, self.settings["hud_fps"]);
 	self setStat(1614, self.settings["hud_fps_combo"]);
 	self setStat(1605, self.settings["hud_xp"]);
-	self setStat(1606, self.settings["hud_spectator"]);
+	self setStat(1615, self.settings["hud_keys"]);
 	self setStat(1607, self.settings["hud_velocity"]);
 	self setStat(1613, self.settings["hud_velocity_info"]);
 	self setStat(1614, self.settings["hud_velocity_ground"]);
@@ -63,7 +63,7 @@ load()
 	self.settings["hud_fps"] 				= self getStat(1601);
 	self.settings["hud_fps_combo"] 			= self getStat(1614);
 	self.settings["hud_xp"] 				= self getStat(1605);
-	self.settings["hud_spectator"] 			= self getStat(1606);
+	self.settings["hud_keys"] 				= self getStat(1615);
 	self.settings["hud_velocity"] 			= self getStat(1607);
 	self.settings["hud_velocity_info"] 		= self getStat(1613);
 	self.settings["hud_velocity_ground"] 	= self getStat(1614);
@@ -83,7 +83,7 @@ reset()
 	self.settings["hud_fps"] 				= true;
 	self.settings["hud_fps_combo"] 			= false;
 	self.settings["hud_xp"] 				= false;
-	self.settings["hud_spectator"] 			= true;
+	self.settings["hud_keys"] 				= false;
 	self.settings["hud_velocity"] 			= 5;
 	self.settings["hud_velocity_info"] 		= 0;
 	self.settings["hud_velocity_ground"]	= 0;
@@ -119,9 +119,9 @@ update_hudXP(num)
 	self updateHud(num, value);
 }
 
-update_hudSpectator(num)
+update_hudKeys(num)
 {
-	value = self.settings["hud_spectator"];
+	value = self.settings["hud_keys"];
 	self updateHud(num, value);
 }
 
@@ -219,7 +219,7 @@ update()
 	self update_hudFPS(1);
 	self update_hudFPSCombo(14);
 	self update_hudXP(3);
-	self update_hudSpectator(4);
+	self update_hudKeys(4);
 	self update_hudVelocity(7);
 	self update_hudVelocityInfo(13);
 	self update_hudVelocityGround(15);
@@ -251,7 +251,7 @@ menu_setting(args)
 		case 1: 	self.settings["hud_fps"] 				= !self.settings["hud_fps"]; 								break;
 		case 2: 	self.settings["gfx_fullbright"] 		= !self.settings["gfx_fullbright"]; 						break;
 		case 3: 	self.settings["hud_xp"] 				= !self.settings["hud_xp"]; 								break;
-		case 4: 	self.settings["hud_spectator"] 			= !self.settings["hud_spectator"]; 							break;
+		case 4: 	self.settings["hud_keys"] 				= !self.settings["hud_keys"]; 							break;
 		case 5: 	self.settings["gfx_distance"] 			= intRange(self.settings["gfx_distance"], 0, 4);			break;
 		case 6: 	self menu_FOV();																					break;
 		case 7: 	self.settings["hud_velocity"] 			= intRange(self.settings["hud_velocity"], 0, 6);			break;
