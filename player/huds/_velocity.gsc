@@ -15,16 +15,19 @@ hud()
 	self endon("disconnect");
 	self endon("joined_spectators");
 
-	self clear();
-	
     if (!self.settings["hud_spectator"] || !self.settings["hud_velocity"])
         return;
 
+	wait 0.05;
+
+	self clear();
 	self hudVelocity();
 
-    self.vels = [];
-    self.prevVelocityDist = self getPlayerVelocity();
-    self.prevOnGround = self isOnGround();
+	self.vels = [];
+	self.groundTime = 0;
+	self.groundTimes = [];
+    self.prevVelocityDist = 0;
+    self.prevOnGround = true;
 
 	while (true)
 	{
@@ -34,7 +37,13 @@ hud()
         self.onGround = self isOnGround();
 
         if (self.onGround && !self.prevOnGround)
-            self.vels[self.vels.size] = self.prevVelocityDist;
+        {
+			self.vels[self.vels.size] = self.prevVelocityDist;
+			self.groundTimes[self.groundTimes.size] = self.groundTime;
+			self.groundTime = 0;
+		}
+		if (self.onGround)
+			self.groundTime += 50;
 
 		self updateVelocity(player);
 
@@ -54,20 +63,31 @@ hudVelocity()
 	self.huds["velocity"]["value"] = addHud(self, 0, 0, 1, alignX, alignY, 1.6);
 	self.huds["velocity"]["value"].hidewheninmenu = true;
 	self.huds["velocity"]["value"].archived = false;
+	self.huds["velocity"]["value"].label = &"^5V ^7&&1";
 
+	if (self.settings["hud_velocity_ground"])
+	{
+		self.huds["velocity"]["ground"] = addHud(self, -50, 0, 1, alignX, alignY, 1.6);
+		self.huds["velocity"]["ground"].hidewheninmenu = true;
+		self.huds["velocity"]["ground"].archived = false;
+		self.huds["velocity"]["ground"].label = &"^2G ^7&&1";
+		self.huds["velocity"]["ground"] setValue(0);
+	}
 	if (self.settings["hud_velocity_info"] >= 1)
 	{
-		self.huds["velocity"]["average"] = addHud(self, -50, 0, 1, alignX, alignY, 1.6);
-		self.huds["velocity"]["average"].color = ToRGB(0, 255, 255);
+		self.huds["velocity"]["average"] = addHud(self, 50, 0, 1, alignX, alignY, 1.6);
 		self.huds["velocity"]["average"].hidewheninmenu = true;
 		self.huds["velocity"]["average"].archived = false;
+		self.huds["velocity"]["average"].label = &"^3A ^7&&1";
+		self.huds["velocity"]["average"] setValue(0);
 	}
 	if (self.settings["hud_velocity_info"] >= 2)
 	{
-		self.huds["velocity"]["max"] = addHud(self, 50, 0, 1, alignX, alignY, 1.6);
-		self.huds["velocity"]["max"].color = ToRGB(0, 255, 0);
+		self.huds["velocity"]["max"] = addHud(self, 100, 0, 1, alignX, alignY, 1.6);
 		self.huds["velocity"]["max"].hidewheninmenu = true;
 		self.huds["velocity"]["max"].archived = false;
+		self.huds["velocity"]["max"].label = &"^1M ^7&&1";
+		self.huds["velocity"]["max"] setValue(0);
 	}
 }
 
@@ -78,13 +98,21 @@ updateVelocity(player)
 
 	self.huds["velocity"]["value"] setValue(player.velocityDist);
 
-	if (!isDefined(player.vels) || !player.vels.size)
-		return;
+	if (self.settings["hud_velocity_ground"] == 1)
+		self.huds["velocity"]["ground"] setValue(player.groundTime);
 
-	if (self.settings["hud_velocity_info"] >= 1)
+	if (isDefined(player.vels) && player.vels.size)
+	{
+		if (self.settings["hud_velocity_info"] >= 1)
 		self.huds["velocity"]["average"] setValue(int(Average(player.vels)));
-	if (self.settings["hud_velocity_info"] >= 2)
-		self.huds["velocity"]["max"] setValue(int(GetMax(player.vels)));
+		if (self.settings["hud_velocity_info"] >= 2)
+			self.huds["velocity"]["max"] setValue(int(GetMax(player.vels)));
+	}
+	if (isDefined(player.groundTimes) && player.groundTimes.size)
+	{
+		if (self.settings["hud_velocity_ground"] == 2)
+			self.huds["velocity"]["ground"] setValue(int(Average(player.groundTimes)));
+	}
 }
 
 clear()

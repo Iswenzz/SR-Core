@@ -25,14 +25,13 @@ hud()
 	self endon("disconnect");
 	self endon("joined_spectators");
 
-	self clear();
-
     if (!self.settings["hud_spectator"])
         return;
 
+	self clear();
 	self hudFps();
 
-    self.fpsCombo = "";
+	self.fpsCombo = "";
     self.prevFps = 0;
     self.prevIsOnGround = self isOnGround();
     self.prevIsFalling = false;
