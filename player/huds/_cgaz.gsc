@@ -19,14 +19,14 @@ hud()
 
     while (true)
     {
-        self.cgaz.previousVelocity = self getVelocity();
-
-        wait 0.05;
         if (m_vector_length2(self getVelocity()) >= 1)
         {
             self pmove();
             self draw();
         }
+        wait 0.05;
+
+        self.cgaz.previousVelocity = self.cgaz.velocity;
     }
 }
 
@@ -34,8 +34,8 @@ draw()
 {
     yaw = atan2(self.cgaz.wishvel[1], self.cgaz.wishvel[0]) - self.cgaz.d_vel;
     
-    y = 100;
-    h = 12;
+    y = 10;
+    h = 5;
 
     self.huds["cgaz"]["accel"] fillAngleYaw(neg(self.cgaz.d_min), pos(self.cgaz.d_min), yaw, y, h);
     self.huds["cgaz"]["accelPartialPos"] fillAngleYaw(pos(self.cgaz.d_min), pos(self.cgaz.d_opt), yaw, y, h);
@@ -50,11 +50,13 @@ cgazHud()
 {
     self.cgaz = spawnStruct();
     self.cgaz.wishvel = [];
-    self.cgaz.moveForward = 0;
-    self.cgaz.moveRight = 0;
+    self.cgaz.forwardMove = 0;
+    self.cgaz.rightMove = 0;
+    self.cgaz.velocity = self getVelocity();
+    self.cgaz.previousVelocity = (0, 0, 0);
 
     self.huds["cgaz"] = [];
-    self.huds["cgaz"]["accel"] = addHud(self, 0, 0, 0.5, "right", "middle");
+    self.huds["cgaz"]["accel"] = addHud(self, 0, 0, 0.5, "left", "middle");
     self.huds["cgaz"]["accel"].color = (0.25, 0.25, 0.25);
     self.huds["cgaz"]["accel"].archived = false;
     self.huds["cgaz"]["accel"].hidewheninmenu = true;
@@ -64,7 +66,7 @@ cgazHud()
     self.huds["cgaz"]["accelPartialPos"].archived = false;
     self.huds["cgaz"]["accelPartialPos"].hidewheninmenu = true;
 
-    self.huds["cgaz"]["accelPartialNeg"] = addHud(self, 0, 0, 0.5, "right", "middle");
+    self.huds["cgaz"]["accelPartialNeg"] = addHud(self, 0, 0, 0.5, "left", "middle");
     self.huds["cgaz"]["accelPartialNeg"].color = (0, 1, 0);
     self.huds["cgaz"]["accelPartialNeg"].archived = false;
     self.huds["cgaz"]["accelPartialNeg"].hidewheninmenu = true;
@@ -74,7 +76,7 @@ cgazHud()
     self.huds["cgaz"]["accelFullPos"].archived = false;
     self.huds["cgaz"]["accelFullPos"].hidewheninmenu = true;
 
-    self.huds["cgaz"]["accelFullNeg"] = addHud(self, 0, 0, 0.5, "right", "middle");
+    self.huds["cgaz"]["accelFullNeg"] = addHud(self, 0, 0, 0.5, "left", "middle");
     self.huds["cgaz"]["accelFullNeg"].color = (0, 0.25, 0.25);
     self.huds["cgaz"]["accelFullNeg"].archived = false;
     self.huds["cgaz"]["accelFullNeg"].hidewheninmenu = true;
@@ -84,7 +86,7 @@ cgazHud()
     self.huds["cgaz"]["turnZonePos"].archived = false;
     self.huds["cgaz"]["turnZonePos"].hidewheninmenu = true;
 
-    self.huds["cgaz"]["turnZoneNeg"] = addHud(self, 0, 0, 0.5, "right", "middle");
+    self.huds["cgaz"]["turnZoneNeg"] = addHud(self, 0, 0, 0.5, "left", "middle");
     self.huds["cgaz"]["turnZoneNeg"].color = (1, 1, 0);
     self.huds["cgaz"]["turnZoneNeg"].archived = false;
     self.huds["cgaz"]["turnZoneNeg"].hidewheninmenu = true;
@@ -102,8 +104,8 @@ pmove()
 
     // comPrintLn("forward: %f %f %f", self.cgaz.forward[0], self.cgaz.forward[1], self.cgaz.forward[2]);
 
-    if (!self.cgaz.moveForward && !self.cgaz.moveRight)
-        self.cgaz.moveForward = 127;
+    if (!self.cgaz.forwardMove && !self.cgaz.rightMove)
+        self.cgaz.forwardMove = 127;
 
     if (self isOnGround())
         self pm_walkMove();
@@ -118,11 +120,11 @@ pm_walkMove()
 
     for (i = 0; i < 2; i++)
     {
-        self.cgaz.moveForward = Ternary(self forwardButtonPressed(), 127, 0);
-        self.cgaz.moveRight = Ternary(self moveRightButtonPressed(), 127, 0);
+        self.cgaz.forwardMove = self getForwardMove();
+        self.cgaz.rightMove = self getRightMove();
 
-        self.cgaz.wishvel[i] = self.cgaz.moveForward * self.cgaz.forward[i] + 
-            self.cgaz.moveRight * self.cgaz.right[i];
+        self.cgaz.wishvel[i] = self.cgaz.forwardMove * self.cgaz.forward[i] + 
+            self.cgaz.rightMove * self.cgaz.right[i];
     }
 
     dmgScale = self pm_damageScaleWalk(1) * self pm_cmdScaleWalk();
@@ -149,14 +151,14 @@ pm_cmdScale()
     scale = 0;
     spectateSpeedScale = 1;
 
-    max = abs(self.cgaz.moveForward);
-    if (abs(self.cgaz.moveRight) > max)
-        max = abs(self.cgaz.moveRight);
+    max = abs(self.cgaz.forwardMove);
+    if (abs(self.cgaz.rightMove) > max)
+        max = abs(self.cgaz.rightMove);
     if (!max)
         return 0;
 
-    total = sqrt(self.cgaz.moveRight * self.cgaz.moveRight + 
-        self.cgaz.moveForward * self.cgaz.moveForward);
+    total = sqrt(self.cgaz.rightMove * self.cgaz.rightMove + 
+        self.cgaz.forwardMove * self.cgaz.forwardMove);
 
     scale = self.speed * max / (total * 127);
     if (self.modes["noclip"])
@@ -168,16 +170,16 @@ pm_cmdScale()
 
 pm_cmdScaleWalk()
 {
-    total = sqrt(self.cgaz.moveRight * self.cgaz.moveRight + 
-        self.cgaz.moveForward * self.cgaz.moveForward);
+    total = sqrt(self.cgaz.rightMove * self.cgaz.rightMove + 
+        self.cgaz.forwardMove * self.cgaz.forwardMove);
 
     speed = 0;
-    if (self.cgaz.moveForward >= 0)
-        speed = abs(self.cgaz.moveForward);
+    if (self.cgaz.forwardMove >= 0)
+        speed = abs(self.cgaz.forwardMove);
     else
-        speed = abs(self.cgaz.moveForward * 1);
-    if (speed - abs(self.cgaz.moveRight * 1) < 0)
-        speed = abs(self.cgaz.moveRight * 1);
+        speed = abs(self.cgaz.forwardMove * 1);
+    if (speed - abs(self.cgaz.rightMove * 1) < 0)
+        speed = abs(self.cgaz.rightMove * 1);
     if (speed == 0)
         return 0;
 
@@ -238,11 +240,11 @@ pm_airMove()
 
     for (i = 0; i < 2; i++)
     {
-        self.cgaz.moveForward = Ternary(self forwardButtonPressed(), 127, 0);
-        self.cgaz.moveRight = Ternary(self moveRightButtonPressed(), 127, 0);
+        self.cgaz.forwardMove = self getForwardMove();
+        self.cgaz.rightMove = self getRightMove();
 
-        self.cgaz.wishvel[i] = self.cgaz.moveForward * self.cgaz.forward[i] + 
-            self.cgaz.moveRight * self.cgaz.right[i];
+        self.cgaz.wishvel[i] = self.cgaz.forwardMove * self.cgaz.forward[i] + 
+            self.cgaz.rightMove * self.cgaz.right[i];
     }
 
     scale = self pm_cmdScale();
@@ -281,20 +283,27 @@ update_d_min()
         self.cgaz.vf_squared + self.cgaz.g_squared;
     num = sqrt(num_squared);
 
-    return Ternary(num >= self.cgaz.vf, 0, acos1(num / self.cgaz.vf));
+    if (num >= self.cgaz.vf)
+        return 0;
+    return acos1(num / self.cgaz.vf);
 }
 
 update_d_opt()
 {
     num = self.cgaz.wishspeed - self.cgaz.a;
 
-    return Ternary(num >= self.cgaz.vf, 0, acos1(num / self.cgaz.vf));
+    if (num >= self.cgaz.vf)
+        return 0;
+    return acos1(num / self.cgaz.vf);
 }
 
 update_d_max_cos(d_opt)
 {
     num = sqrt(self.cgaz.v_squared - self.cgaz.g_squared) - self.cgaz.vf;
-    d_max_cos = Ternary(num >= self.cgaz.a, 0, acos1(num / self.cgaz.a));
+
+    d_max_cos = 0;
+    if (!(num >= self.cgaz.a))
+        d_max_cos = acos1(num / self.cgaz.a);
     
     if (d_max_cos < d_opt)
         d_max_cos = d_opt;
@@ -319,37 +328,54 @@ update_d_max(d_max_cos)
     return d_max;
 }
 
-fillAngleYaw(start, end, yaw, y, h, color)
+fillAngleYaw(start, end, yaw, y, h)
 {
     range = angleToRange(start, end, yaw);
 
     if (!range.split)
-        self fillRect(range.x1, y, range.x2 - range.x1, h, color);
+        self fillRect(range.x1, y, range.x2 - range.x1, h);
     else
     {
-        self fillRect(0, y, range.x1, h, color);
-        self fillRect(range.x2, y, 640 - range.x2, h, color);
+        self fillRect(0, y, range.x1, h);
+        self fillRect(range.x2, y, 640 - range.x2, h);
     }
 }
 
-fillRect(x, y, w, h, color)
+fillRect(x, y, w, h)
 {
-    wNeg = w < 0;
-    hNeg = h < 0;
+    adjust = adjustFrom640(x, y, w, h);
+
+    x = adjust.x;
+    y = adjust.y;
+    w = adjust.w;
+    h = adjust.h;
+
+    wSign = w >= 0;
 
     x = int(x);
     y = int(y);
     w = int(abs(w));
     h = int(abs(h));
 
-    // iPrintLnBold(fmt("%d %d %d %d", x, y, w, h));
-
     if (!w || !h)
         return;
     
     self setShader("white", w, h);
-    self.x = x;
+    self.x = Ternary(wSign, x, x - w);
     self.y = y;
+}
+
+adjustFrom640(x, y, w, h)
+{
+    adjust = spawnStruct();
+    scale = 1280 / 640;
+
+    adjust.x = x * scale;
+    adjust.y = y * scale;
+    adjust.w = w * scale;
+    adjust.h = h * scale;
+
+    return adjust;
 }
 
 angleToRange(start, end, yaw)
@@ -402,7 +428,10 @@ angleScreenProjection(angle)
 angle_normalize_pi(angle)
 {
     t_angle = fmod(angle + pi(), 2 * pi());
-    return Ternary(t_angle < 0, t_angle + pi(), t_angle - pi());
+
+    if (t_angle < 0)
+        return t_angle + pi();
+    return t_angle - pi();
 }
 
 length_squared2(vec)

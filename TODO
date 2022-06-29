@@ -13,8 +13,6 @@ SR-Core:
 	- Rpg kills
 	- Image not found on quickmenu
 	- Braxi DESC
-	+ Make ppl can't join minigames in modes
-	+ Portal gun shooting broke and velocity
 - Refactor
 	- Menu files
 	- Git Attributes remove indexing for maps\mp
@@ -62,15 +60,16 @@ SR-Core:
 	- Add validated maps
 	- Anti LowFPS
 	- Anti Elevator
-	- HUD average + max velocity
+	+ HUD average + max velocity
+	+ HUD ground time
 	- HUD player wr count + vip logo
-	- HUD FPS combo with bounce
+	+ HUD FPS combo with bounce
 	- HUD CGAZ
 	- HUD OB/Wallclip
 	- Unlock notification
 	- Leaderboard XP
 	- Prestige Master
-	- SR mode setting
+	- Save mode in stats
 	- Practise mode RPG and noclip and teleport command
 	- Trusted player role for map vote
 	- Backrooms
