@@ -7,7 +7,7 @@ SR-Core:
 + Restructure
 + Refactor
 + Working
-+ Bug
++ Bugs
 	- MySQL stmt broken
 	- Random high minute runs
 	- Rpg kills
