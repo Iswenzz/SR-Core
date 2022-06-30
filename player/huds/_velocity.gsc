@@ -65,7 +65,7 @@ hudVelocity()
 {
 	alignX = getHorizontal(self.settings["hud_velocity"]);
 	alignY = getVertical(self.settings["hud_velocity"]);
-	
+
 	self.huds["velocity"] = [];
 	self.huds["velocity"]["value"] = addHud(self, 0, 0, 1, alignX, alignY, 1.6);
 	self.huds["velocity"]["value"].hidewheninmenu = true;
@@ -100,24 +100,22 @@ hudVelocity()
 
 updateVelocity()
 {
-	if (!isDefined(self.huds["velocity"]))
-		return;
+	if (isDefined(self.huds["velocity"]))
+		self.huds["velocity"]["value"] setValue(self.velocityDist);
 
-	self.huds["velocity"]["value"] setValue(self.velocityDist);
-
-	if (self.settings["hud_velocity_ground"] == 1)
+	if (isDefined(self.huds["velocity"]["ground"]) && self.settings["hud_velocity_ground"] == 1)
 		self.huds["velocity"]["ground"] setValue(self.groundTime);
 
 	if (isDefined(self.vels) && self.vels.size)
 	{
-		if (self.settings["hud_velocity_info"] >= 1)
+		if (isDefined(self.huds["velocity"]["average"]) && self.settings["hud_velocity_info"] >= 1)
 			self.huds["velocity"]["average"] setValue(int(Average(self.vels)));
-		if (self.settings["hud_velocity_info"] >= 2)
+		if (isDefined(self.huds["velocity"]["max"]) && self.settings["hud_velocity_info"] >= 2)
 			self.huds["velocity"]["max"] setValue(int(GetMax(self.vels)));
 	}
 	if (isDefined(self.groundTimes) && self.groundTimes.size)
 	{
-		if (self.settings["hud_velocity_ground"] == 2)
+		if (isDefined(self.huds["velocity"]["ground"]) && self.settings["hud_velocity_ground"] == 2)
 			self.huds["velocity"]["ground"] setValue(int(Average(self.groundTimes)));
 	}
 }

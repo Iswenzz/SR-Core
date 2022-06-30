@@ -71,7 +71,7 @@ hudKeys()
 
 updateKeys(player)
 {
-	if (!isDefined(self.huds["keys"]))
+	if (!isDefined(self.huds["keys"]) || !self.huds["keys"].size)
 		return;
 
 	self.huds["keys"][0].alpha = Ternary(player forwardButtonPressed(), 1, 0.6);
