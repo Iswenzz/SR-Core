@@ -19,7 +19,7 @@ hud()
 
     while (true)
     {
-        if (m_vector_length2(self getVelocity()))
+        if (self getPlayerVelocity() >= 1)
         {
             self pmove();
             self draw();
@@ -35,17 +35,17 @@ hud()
 draw()
 {
     yaw = atan2(self.cgaz.wishvel[1], self.cgaz.wishvel[0]) - self.cgaz.d_vel;
-    
+
     y = 10;
     h = 5;
 
-    self.huds["cgaz"]["accel"] fillAngleYaw(self.screen, neg(self.cgaz.d_min), pos(self.cgaz.d_min), yaw, y, h);
-    self.huds["cgaz"]["accelPartialPos"] fillAngleYaw(self.screen, pos(self.cgaz.d_min), pos(self.cgaz.d_opt), yaw, y, h);
-    self.huds["cgaz"]["accelPartialNeg"] fillAngleYaw(self.screen, neg(self.cgaz.d_opt), neg(self.cgaz.d_min), yaw, y, h);
-    self.huds["cgaz"]["accelFullPos"] fillAngleYaw(self.screen, pos(self.cgaz.d_opt), pos(self.cgaz.d_max_cos), yaw, y, h);
-    self.huds["cgaz"]["accelFullNeg"] fillAngleYaw(self.screen, neg(self.cgaz.d_max_cos), neg(self.cgaz.d_opt), yaw, y, h);
-    self.huds["cgaz"]["turnZonePos"] fillAngleYaw(self.screen, pos(self.cgaz.d_max_cos), pos(self.cgaz.d_max), yaw, y, h);
-    self.huds["cgaz"]["turnZoneNeg"] fillAngleYaw(self.screen, neg(self.cgaz.d_max), neg(self.cgaz.d_max_cos), yaw, y, h);
+    self.huds["cgaz"]["accel"] fillAngleYaw(self, neg(self.cgaz.d_min), pos(self.cgaz.d_min), yaw, y, h);
+    self.huds["cgaz"]["accelPartialPos"] fillAngleYaw(self, pos(self.cgaz.d_min), pos(self.cgaz.d_opt), yaw, y, h);
+    self.huds["cgaz"]["accelPartialNeg"] fillAngleYaw(self, neg(self.cgaz.d_opt), neg(self.cgaz.d_min), yaw, y, h);
+    self.huds["cgaz"]["accelFullPos"] fillAngleYaw(self, pos(self.cgaz.d_opt), pos(self.cgaz.d_max_cos), yaw, y, h);
+    self.huds["cgaz"]["accelFullNeg"] fillAngleYaw(self, neg(self.cgaz.d_max_cos), neg(self.cgaz.d_opt), yaw, y, h);
+    self.huds["cgaz"]["turnZonePos"] fillAngleYaw(self, pos(self.cgaz.d_max_cos), pos(self.cgaz.d_max), yaw, y, h);
+    self.huds["cgaz"]["turnZoneNeg"] fillAngleYaw(self, neg(self.cgaz.d_max), neg(self.cgaz.d_max_cos), yaw, y, h);
 }
 
 hide()
@@ -68,42 +68,45 @@ cgazHud()
     self.cgaz.velocity = self getVelocity();
     self.cgaz.previousVelocity = (0, 0, 0);
 
-    self.screen = spawnStruct(); // @TODO get player screen size
-    self.screen.width = 1280;
-    self.screen.height = 720;
-
     self.huds["cgaz"] = [];
     self.huds["cgaz"]["accel"] = addHud(self, 0, 0, 0.5, "left", "middle");
+	self.huds["cgaz"]["accel"].horzAlign = "fullscreen";
     self.huds["cgaz"]["accel"].color = (0.25, 0.25, 0.25);
     self.huds["cgaz"]["accel"].archived = false;
     self.huds["cgaz"]["accel"].hidewheninmenu = true;
 
     self.huds["cgaz"]["accelPartialPos"] = addHud(self, 0, 0, 0.5, "left", "middle");
+	self.huds["cgaz"]["accelPartialPos"].horzAlign = "fullscreen";
     self.huds["cgaz"]["accelPartialPos"].color = (0, 1, 0);
     self.huds["cgaz"]["accelPartialPos"].archived = false;
     self.huds["cgaz"]["accelPartialPos"].hidewheninmenu = true;
 
     self.huds["cgaz"]["accelPartialNeg"] = addHud(self, 0, 0, 0.5, "left", "middle");
+	self.huds["cgaz"]["accelPartialNeg"].horzAlign = "fullscreen";
     self.huds["cgaz"]["accelPartialNeg"].color = (0, 1, 0);
     self.huds["cgaz"]["accelPartialNeg"].archived = false;
     self.huds["cgaz"]["accelPartialNeg"].hidewheninmenu = true;
 
     self.huds["cgaz"]["accelFullPos"] = addHud(self, 0, 0, 0.5, "left", "middle");
+	self.huds["cgaz"]["accelFullPos"].horzAlign = "fullscreen";
     self.huds["cgaz"]["accelFullPos"].color = (0, 0.25, 0.25);
     self.huds["cgaz"]["accelFullPos"].archived = false;
     self.huds["cgaz"]["accelFullPos"].hidewheninmenu = true;
 
     self.huds["cgaz"]["accelFullNeg"] = addHud(self, 0, 0, 0.5, "left", "middle");
+	self.huds["cgaz"]["accelFullNeg"].horzAlign = "fullscreen";
     self.huds["cgaz"]["accelFullNeg"].color = (0, 0.25, 0.25);
     self.huds["cgaz"]["accelFullNeg"].archived = false;
     self.huds["cgaz"]["accelFullNeg"].hidewheninmenu = true;
 
     self.huds["cgaz"]["turnZonePos"] = addHud(self, 0, 0, 0.5, "left", "middle");
+	self.huds["cgaz"]["turnZonePos"].horzAlign = "fullscreen";
     self.huds["cgaz"]["turnZonePos"].color = (1, 1, 0);
     self.huds["cgaz"]["turnZonePos"].archived = false;
     self.huds["cgaz"]["turnZonePos"].hidewheninmenu = true;
 
     self.huds["cgaz"]["turnZoneNeg"] = addHud(self, 0, 0, 0.5, "left", "middle");
+    self.huds["cgaz"]["turnZoneNeg"].horzAlign = "fullscreen";
     self.huds["cgaz"]["turnZoneNeg"].color = (1, 1, 0);
     self.huds["cgaz"]["turnZoneNeg"].archived = false;
     self.huds["cgaz"]["turnZoneNeg"].hidewheninmenu = true;
@@ -138,7 +141,7 @@ pm_walkMove()
         self.cgaz.forwardMove = self getForwardMove();
         self.cgaz.rightMove = self getRightMove();
 
-        self.cgaz.wishvel[i] = self.cgaz.forwardMove * self.cgaz.forward[i] + 
+        self.cgaz.wishvel[i] = self.cgaz.forwardMove * self.cgaz.forward[i] +
             self.cgaz.rightMove * self.cgaz.right[i];
     }
 
@@ -147,7 +150,7 @@ pm_walkMove()
 
     if (false) // @TODO knockback / slick
         self pm_slickAccelerate(wishSpeed, 9);
-    
+
     accel = 0;
     switch (self.cgaz.viewHeight)
     {
@@ -170,7 +173,7 @@ pm_cmdScale()
     if (!max)
         return 0;
 
-    total = sqrt(self.cgaz.rightMove * self.cgaz.rightMove + 
+    total = sqrt(self.cgaz.rightMove * self.cgaz.rightMove +
         self.cgaz.forwardMove * self.cgaz.forwardMove);
 
     scale = self.speed * max / (total * 127);
@@ -183,7 +186,7 @@ pm_cmdScale()
 
 pm_cmdScaleWalk()
 {
-    total = sqrt(self.cgaz.rightMove * self.cgaz.rightMove + 
+    total = sqrt(self.cgaz.rightMove * self.cgaz.rightMove +
         self.cgaz.forwardMove * self.cgaz.forwardMove);
 
     speed = 0;
@@ -213,7 +216,7 @@ pm_cmdScaleForStance()
     lerpFrac = self pm_getViewHeightLerp(40, 11);
     if (lerpFrac != 0)
         return 0.15000001 * lerpFrac + (1 - lerpFrac) * 0.64999998;
-        
+
     lerpFrac = self pm_getViewHeightLerp(11, 40);
     if (lerpFrac != 0)
         return 0.64999998 * lerpFrac + (1 - lerpFrac) * 0.15000001;
@@ -255,7 +258,7 @@ pm_airMove()
         self.cgaz.forwardMove = self getForwardMove();
         self.cgaz.rightMove = self getRightMove();
 
-        self.cgaz.wishvel[i] = self.cgaz.forwardMove * self.cgaz.forward[i] + 
+        self.cgaz.wishvel[i] = self.cgaz.forwardMove * self.cgaz.forward[i] +
             self.cgaz.rightMove * self.cgaz.right[i];
     }
 
@@ -289,7 +292,7 @@ update_d(wishspeed, accel, slickGravity)
 
 update_d_min()
 {
-    num_squared = self.cgaz.wishspeed * self.cgaz.wishspeed - self.cgaz.v_squared + 
+    num_squared = self.cgaz.wishspeed * self.cgaz.wishspeed - self.cgaz.v_squared +
         self.cgaz.vf_squared + self.cgaz.g_squared;
     num = sqrt(num_squared);
 
@@ -312,9 +315,9 @@ update_d_max_cos(d_opt)
     num = sqrt(self.cgaz.v_squared - self.cgaz.g_squared) - self.cgaz.vf;
 
     d_max_cos = 0;
-    if (!(num >= self.cgaz.a))
+    if (!(num >= self.cgaz.a) && self.cgaz.a != 0)
         d_max_cos = acos1(num / self.cgaz.a);
-    
+
     if (d_max_cos < d_opt)
         d_max_cos = d_opt;
     return d_max_cos;
@@ -324,7 +327,7 @@ update_d_max(d_max_cos)
 {
     num = self.cgaz.v_squared - self.cgaz.vf_squared - self.cgaz.a_squared - self.cgaz.g_squared;
     den = 2 * self.cgaz.a * self.cgaz.vf;
-    
+
     if (num >= den)
         return 0;
 
@@ -338,28 +341,21 @@ update_d_max(d_max_cos)
     return d_max;
 }
 
-fillAngleYaw(screen, start, end, yaw, y, h)
+fillAngleYaw(player, start, end, yaw, y, h)
 {
-    range = angleToRange(screen, start, end, yaw);
+    range = angleToRange(player, start, end, yaw);
 
     if (!range.split)
-        self fillRect(screen, range.x1, y, range.x2 - range.x1, h);
+        self fillRect(range.x1, y, range.x2 - range.x1, h);
     else
     {
-        self fillRect(screen, 0, y, range.x1, h);
-        self fillRect(screen, range.x2, y, 640 - range.x2, h);
+        self fillRect(0, y, range.x1, h);
+        self fillRect(range.x2, y, 640 - range.x2, h);
     }
 }
 
-fillRect(screen, x, y, w, h)
+fillRect(x, y, w, h)
 {
-    adjust = screen adjustFrom640(x, y, w, h);
-
-    x = adjust.x;
-    y = adjust.y;
-    w = adjust.w;
-    h = adjust.h;
-
     wSign = w >= 0;
 
     x = int(x);
@@ -372,27 +368,14 @@ fillRect(screen, x, y, w, h)
         self.alpha = 0;
         return;
     }
-    
+
     self setShader("white", w, h);
     self.alpha = 0.5;
     self.x = x;
     self.y = y;
 }
 
-adjustFrom640(x, y, w, h)
-{
-    adjust = spawnStruct();
-    scale = self.width / 640;
-
-    adjust.x = x * scale;
-    adjust.y = y * scale;
-    adjust.w = w * scale;
-    adjust.h = h * scale;
-
-    return adjust;
-}
-
-angleToRange(screen, start, end, yaw)
+angleToRange(player, start, end, yaw)
 {
     range = spawnStruct();
 
@@ -417,8 +400,8 @@ angleToRange(screen, start, end, yaw)
         end	= tmp;
     }
 
-    range.x1 = screen angleScreenProjection(start);
-    range.x2 = screen angleScreenProjection(end);
+    range.x1 = player angleScreenProjection(start);
+    range.x2 = player angleScreenProjection(end);
     range.split = split;
     return range;
 }
@@ -427,15 +410,15 @@ angleScreenProjection(angle)
 {
     playerFov = 80;
     halfTanY = tan(playerFov * 0.01745329238474369 * 0.5) * 0.75;
-    halfTanX = halfTanY * (self.width / self.height);
+    halfTanX = halfTanY * (640 / 480);
     halfFovX = atan(halfTanX); // @TODO wrong fov
 
     if (angle >= halfFovX)
         return 0;
-        
+
     if (angle <= neg(halfFovX))
         return 640;
-        
+
     return 640 / 2 * (1 - tan(angle) / tan(halfFovX));
 }
 

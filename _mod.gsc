@@ -56,7 +56,7 @@ main()
 	sr\player\modes\_noclip::main();
 	sr\player\modes\_pickup::main();
 	sr\player\modes\_portal::main();
-	// sr\player\huds\_cgaz::main();
+	sr\player\huds\_cgaz::main();
 	sr\player\huds\_fps::main();
 	sr\player\huds\_keys::main();
 	sr\player\huds\_velocity::main();
