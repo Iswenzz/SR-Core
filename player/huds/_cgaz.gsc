@@ -230,7 +230,7 @@ pm_cmdScaleForStance()
 
 pm_getViewHeightLerp(fromHeight, toHeight)
 {
-    return 0;
+    return 0; // Disable lerp animation
 }
 
 pm_damageScaleWalk(damageTimer)
@@ -356,8 +356,6 @@ fillAngleYaw(player, start, end, yaw, y, h)
 
 fillRect(x, y, w, h)
 {
-    wSign = w >= 0;
-
     x = int(x);
     y = int(y);
     w = int(abs(w));
@@ -388,8 +386,8 @@ angleToRange(player, start, end, yaw)
     }
 
     split = end > start;
-    start = angle_normalize_pi(start - yaw);
-    end	= angle_normalize_pi(end - yaw);
+    start = angleNormalizePi(start - yaw);
+    end	= angleNormalizePi(end - yaw);
 
     if (end > start)
     {
@@ -409,9 +407,15 @@ angleToRange(player, start, end, yaw)
 angleScreenProjection(angle)
 {
     playerFov = 80;
-    halfTanY = tan(playerFov * 0.01745329238474369 * 0.5) * 0.75;
-    halfTanX = halfTanY * (640 / 480);
-    halfFovX = atan(halfTanX); // @TODO wrong fov
+	playerFovScale = 1.2;
+	fov = playerFov * playerFovScale;
+
+    wFov = tan1(fov * 0.01745329238474369 * 0.5) * 0.75;
+    tanHalfFovX = wFov * (1920 / 1080);
+    tanHalfFovY = wFov;
+    halfFovX = atan1(tanHalfFovX);
+
+	// comPrintLn("fov: %f", halfFovX);
 
     if (angle >= halfFovX)
         return 0;
@@ -419,10 +423,10 @@ angleScreenProjection(angle)
     if (angle <= neg(halfFovX))
         return 640;
 
-    return 640 / 2 * (1 - tan(angle) / tan(halfFovX));
+    return 640 / 2 * (1 - tan1(angle) / tan1(halfFovX));
 }
 
-angle_normalize_pi(angle)
+angleNormalizePi(angle)
 {
     t_angle = fmod(angle + pi(), 2 * pi());
 
