@@ -14,6 +14,9 @@ hud()
     self endon("death");
     self endon("disconnect");
 
+	if (!self.settings["hud_cgaz"])
+		return;
+
     self clear();
     self cgazHud();
 
@@ -37,15 +40,15 @@ draw()
     yaw = atan2(self.cgaz.wishvel[1], self.cgaz.wishvel[0]) - self.cgaz.d_vel;
 
     y = 10;
-    h = 5;
+    h = 10;
 
     self.huds["cgaz"]["accel"] fillAngleYaw(self, neg(self.cgaz.d_min), pos(self.cgaz.d_min), yaw, y, h);
     self.huds["cgaz"]["accelPartialPos"] fillAngleYaw(self, pos(self.cgaz.d_min), pos(self.cgaz.d_opt), yaw, y, h);
     self.huds["cgaz"]["accelPartialNeg"] fillAngleYaw(self, neg(self.cgaz.d_opt), neg(self.cgaz.d_min), yaw, y, h);
-    self.huds["cgaz"]["accelFullPos"] fillAngleYaw(self, pos(self.cgaz.d_opt), pos(self.cgaz.d_max_cos), yaw, y, h);
-    self.huds["cgaz"]["accelFullNeg"] fillAngleYaw(self, neg(self.cgaz.d_max_cos), neg(self.cgaz.d_opt), yaw, y, h);
-    self.huds["cgaz"]["turnZonePos"] fillAngleYaw(self, pos(self.cgaz.d_max_cos), pos(self.cgaz.d_max), yaw, y, h);
-    self.huds["cgaz"]["turnZoneNeg"] fillAngleYaw(self, neg(self.cgaz.d_max), neg(self.cgaz.d_max_cos), yaw, y, h);
+    // self.huds["cgaz"]["accelFullPos"] fillAngleYaw(self, pos(self.cgaz.d_opt), pos(self.cgaz.d_max_cos), yaw, y, h);
+    // self.huds["cgaz"]["accelFullNeg"] fillAngleYaw(self, neg(self.cgaz.d_max_cos), neg(self.cgaz.d_opt), yaw, y, h);
+    // self.huds["cgaz"]["turnZonePos"] fillAngleYaw(self, pos(self.cgaz.d_max_cos), pos(self.cgaz.d_max), yaw, y, h);
+    // self.huds["cgaz"]["turnZoneNeg"] fillAngleYaw(self, neg(self.cgaz.d_max), neg(self.cgaz.d_max_cos), yaw, y, h);
 }
 
 hide()
@@ -173,8 +176,7 @@ pm_cmdScale()
     if (!max)
         return 0;
 
-    total = sqrt(self.cgaz.rightMove * self.cgaz.rightMove +
-        self.cgaz.forwardMove * self.cgaz.forwardMove);
+    total = sqrt(self.cgaz.rightMove * self.cgaz.rightMove + self.cgaz.forwardMove * self.cgaz.forwardMove);
 
     scale = self.speed * max / (total * 127);
     if (self.modes["noclip"])
@@ -186,8 +188,7 @@ pm_cmdScale()
 
 pm_cmdScaleWalk()
 {
-    total = sqrt(self.cgaz.rightMove * self.cgaz.rightMove +
-        self.cgaz.forwardMove * self.cgaz.forwardMove);
+    total = sqrt(self.cgaz.rightMove * self.cgaz.rightMove + self.cgaz.forwardMove * self.cgaz.forwardMove);
 
     speed = 0;
     if (self.cgaz.forwardMove >= 0)
@@ -264,7 +265,8 @@ pm_airMove()
 
     scale = self pm_cmdScale();
     wishspeed = scale * m_vector_length2(self.cgaz.wishvel);
-	self pm_accelerate(wishspeed, 9);
+
+	self pm_accelerate(wishspeed, 1);
 }
 
 update_d(wishspeed, accel, slickGravity)
@@ -276,9 +278,6 @@ update_d(wishspeed, accel, slickGravity)
     self.cgaz.a = accel * self.cgaz.wishspeed * self.cgaz.frameTime;
     self.cgaz.a_squared = self.cgaz.a * self.cgaz.a;
 
-    if (self.cgaz.v_squared - self.cgaz.vf_squared >= 2 * self.cgaz.a * self.cgaz.wishspeed - self.cgaz.a_squared)
-        self.cgaz.v_squared = self.cgaz.vf_squared;
-
     self.cgaz.v = sqrt(self.cgaz.v_squared);
     self.cgaz.vf = sqrt(self.cgaz.vf_squared);
 
@@ -288,6 +287,8 @@ update_d(wishspeed, accel, slickGravity)
     self.cgaz.d_max = self update_d_max(self.cgaz.d_max_cos);
 
     self.cgaz.d_vel = atan2(self.cgaz.velocity[1], self.cgaz.velocity[0]);
+
+	// comPrintLn("d: %f %f", self.cgaz.d_max_cos, self.cgaz.d_max);
 }
 
 update_d_min()
@@ -356,8 +357,6 @@ fillAngleYaw(player, start, end, yaw, y, h)
 
 fillRect(x, y, w, h)
 {
-    x = int(x);
-    y = int(y);
     w = int(abs(w));
     h = int(abs(h));
 
@@ -404,18 +403,26 @@ angleToRange(player, start, end, yaw)
     return range;
 }
 
+calculateFov()
+{
+	playerFov = Ternary(self getStat(2402), self getStat(2402), 80);
+	playerFovScale = float(self.settings["gfx_fov"] / 1000);
+	screenWidth = Ternary(self getStat(2400), self getStat(2400), 1920);
+	screenHeight = Ternary(self getStat(2401), self getStat(2401), 1080);
+
+	fov = playerFov * playerFovScale;
+    wFov = tan1(fov * 0.01745329238474369 * 0.5) * 0.75;
+
+    tanHalfFovX = wFov * (screenWidth / screenHeight);
+    tanHalfFovY = wFov;
+
+	return tanHalfFovX;
+}
+
 angleScreenProjection(angle)
 {
-    playerFov = 80;
-	playerFovScale = 1.2;
-	fov = playerFov * playerFovScale;
-
-    wFov = tan1(fov * 0.01745329238474369 * 0.5) * 0.75;
-    tanHalfFovX = wFov * (1920 / 1080);
-    tanHalfFovY = wFov;
+    tanHalfFovX = self calculateFov();
     halfFovX = atan1(tanHalfFovX);
-
-	// comPrintLn("fov: %f", halfFovX);
 
     if (angle >= halfFovX)
         return 0;

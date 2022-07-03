@@ -31,6 +31,7 @@ onConnect()
 	self setClientDvar("sr_setting_13", "Velocity Info");
 	self setClientDvar("sr_setting_14", "FPS Combo");
 	self setClientDvar("sr_setting_15", "Ground Time");
+	self setClientDvar("sr_setting_16", "CGAZ HUD");
 
 	self update();
 }
@@ -48,6 +49,7 @@ save()
 	self setStat(1613, self.settings["hud_velocity_info"]);
 	self setStat(1614, self.settings["hud_velocity_ground"]);
 	self setStat(1608, self.settings["hud_compass"]);
+	self setStat(1616, self.settings["hud_cgaz"]);
 	self setStat(1610, self.settings["hud_2D"]);
 	self setStat(1609, self.settings["player_hide"]);
 	self setStat(1612, self.settings["player_knife"]);
@@ -68,6 +70,7 @@ load()
 	self.settings["hud_velocity_info"] 		= self getStat(1613);
 	self.settings["hud_velocity_ground"] 	= self getStat(1614);
 	self.settings["hud_compass"] 			= self getStat(1608);
+	self.settings["hud_cgaz"] 				= self getStat(1616);
 	self.settings["hud_2D"] 				= self getStat(1610);
 	self.settings["player_hide"] 			= self getStat(1609);
 	self.settings["player_knife"] 			= self getStat(1612);
@@ -88,6 +91,7 @@ reset()
 	self.settings["hud_velocity_info"] 		= 0;
 	self.settings["hud_velocity_ground"]	= 0;
 	self.settings["hud_compass"] 			= 5;
+	self.settings["hud_cgaz"] 				= false;
 	self.settings["hud_2D"] 				= true;
 	self.settings["player_hide"] 			= false;
 	self.settings["player_knife"] 			= false;
@@ -211,6 +215,17 @@ update_hudVelocityGround(num)
 	self updateHud(num, value, labels[value]);
 }
 
+update_hudCgaz(num)
+{
+	value = self.settings["hud_cgaz"];
+	self updateHud(num, value);
+
+	if (value && !self getStat(2400) && !self getStat(2401))
+		self sr\sys\_admins::pm("^3CGAZ: Please set your screen resolution using ^7!cgaz_res <1920x1080>");
+	if (value && !self getStat(2402))
+		self sr\sys\_admins::pm("^3CGAZ: Please set your fov using ^7!cgaz_fov <65-80>");
+}
+
 update()
 {
 	self endon("disconnect");
@@ -224,6 +239,7 @@ update()
 	self update_hudVelocityInfo(13);
 	self update_hudVelocityGround(15);
 	self update_hudCompass(8);
+	self update_hudCgaz(16);
 	self update_hud2D(10);
 	self update_playerHide(9);
 	self update_playerKnife(12);
@@ -251,7 +267,7 @@ menu_setting(args)
 		case 1: 	self.settings["hud_fps"] 				= !self.settings["hud_fps"]; 								break;
 		case 2: 	self.settings["gfx_fullbright"] 		= !self.settings["gfx_fullbright"]; 						break;
 		case 3: 	self.settings["hud_xp"] 				= !self.settings["hud_xp"]; 								break;
-		case 4: 	self.settings["hud_keys"] 				= !self.settings["hud_keys"]; 							break;
+		case 4: 	self.settings["hud_keys"] 				= !self.settings["hud_keys"]; 								break;
 		case 5: 	self.settings["gfx_distance"] 			= intRange(self.settings["gfx_distance"], 0, 4);			break;
 		case 6: 	self menu_FOV();																					break;
 		case 7: 	self.settings["hud_velocity"] 			= intRange(self.settings["hud_velocity"], 0, 6);			break;
@@ -263,6 +279,7 @@ menu_setting(args)
 		case 13: 	self.settings["hud_velocity_info"] 		= intRange(self.settings["hud_velocity_info"], 0, 2); 		break;
 		case 14: 	self.settings["hud_fps_combo"] 			= !self.settings["hud_fps_combo"]; 							break;
 		case 15: 	self.settings["hud_velocity_ground"] 	= intRange(self.settings["hud_velocity_ground"], 0, 2); 	break;
+		case 16: 	self.settings["hud_cgaz"] 				= !self.settings["hud_cgaz"]; 								break;
 	}
 	self update();
 }

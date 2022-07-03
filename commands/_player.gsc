@@ -4,6 +4,8 @@
 main()
 {
 	cmd("masteradmin", 	"bounce",		::cmd_Bounce);
+	cmd("player", 		"cgaz_res",		::cmd_CgazResolution);
+	cmd("player", 		"cgaz_fov",		::cmd_CgazFov);
 	cmd("owner", 		"clone",		::cmd_Clone);
 	cmd("owner", 		"damage",		::cmd_Damage);
 	cmd("admin", 		"dance",		::cmd_Dance);
@@ -26,6 +28,35 @@ main()
 	cmd("adminplus", 	"weapon",		::cmd_Weapon);
 	cmd("adminplus", 	"weapon_all",	::cmd_WeaponAll);
 	cmd("adminplus", 	"weapon_acti",	::cmd_WeaponActi);
+}
+
+cmd_CgazResolution(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: cgaz_res <1920x1080>");
+
+	res = strTok(args[0], "x");
+	if (res.size != 2)
+		return self pm("Usage: cgaz_res <1920x1080>");
+
+	width = ToInt(res[0]);
+	height = ToInt(res[1]);
+
+	self setStat(2400, width);
+	self setStat(2401, height);
+
+	self pm(fmt("^3CGAZ: ^7Resolution %dx%d", width, height));
+}
+
+cmd_CgazFov(args)
+{
+	if (args.size < 1 || !IsStringInt(args[0]))
+		return self pm("Usage: cgaz_fov <65-80>");
+
+	fov = ToInt(args[0]);
+
+	self setStat(2402, fov);
+	self pm(fmt("^3CGAZ: ^7FOV %d", fov));
 }
 
 cmd_Bounce(args)
