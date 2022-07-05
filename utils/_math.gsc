@@ -608,11 +608,6 @@ neg(v)
 	return v * -1;
 }
 
-pos(v)
-{
-	return abs(v);
-}
-
 calculateFov()
 {
 	playerFov = Ternary(self getStat(2402), self getStat(2402), 80);

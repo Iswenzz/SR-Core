@@ -42,13 +42,13 @@ draw()
 	y = 14;
 	h = 8;
 
-	self.huds["cgaz"]["accel"] fillAngleYaw(self, neg(self.cgaz.d_min), pos(self.cgaz.d_min), yaw, y, h);
-	self.huds["cgaz"]["accelPartialPos"] fillAngleYaw(self, pos(self.cgaz.d_min), pos(self.cgaz.d_opt), yaw, y, h);
+	self.huds["cgaz"]["accel"] fillAngleYaw(self, neg(self.cgaz.d_min), self.cgaz.d_min, yaw, y, h);
+	self.huds["cgaz"]["accelPartialPos"] fillAngleYaw(self, self.cgaz.d_min, self.cgaz.d_opt, yaw, y, h);
 	self.huds["cgaz"]["accelPartialNeg"] fillAngleYaw(self, neg(self.cgaz.d_opt), neg(self.cgaz.d_min), yaw, y, h);
-	// self.huds["cgaz"]["accelFullPos"] fillAngleYaw(self, pos(self.cgaz.d_opt), pos(self.cgaz.d_max_cos), yaw, y, h);
-	// self.huds["cgaz"]["accelFullNeg"] fillAngleYaw(self, neg(self.cgaz.d_max_cos), neg(self.cgaz.d_opt), yaw, y, h);
-	// self.huds["cgaz"]["turnZonePos"] fillAngleYaw(self, pos(self.cgaz.d_max_cos), pos(self.cgaz.d_max), yaw, y, h);
-	// self.huds["cgaz"]["turnZoneNeg"] fillAngleYaw(self, neg(self.cgaz.d_max), neg(self.cgaz.d_max_cos), yaw, y, h);
+	self.huds["cgaz"]["accelFullPos"] fillAngleYaw(self, self.cgaz.d_opt, self.cgaz.d_max_cos, yaw, y, h);
+	self.huds["cgaz"]["accelFullNeg"] fillAngleYaw(self, neg(self.cgaz.d_max_cos), neg(self.cgaz.d_opt), yaw, y, h);
+	self.huds["cgaz"]["turnZonePos"] fillAngleYaw(self, self.cgaz.d_max_cos, self.cgaz.d_max, yaw, y, h);
+	self.huds["cgaz"]["turnZoneNeg"] fillAngleYaw(self, neg(self.cgaz.d_max), neg(self.cgaz.d_max_cos), yaw, y, h);
 }
 
 hide()
@@ -346,6 +346,7 @@ update_d(wishspeed, accel, slickGravity)
 	self.cgaz.wishspeed = wishspeed;
 	self.cgaz.a = accel * self.cgaz.wishspeed * self.cgaz.frameTime;
 	self.cgaz.a_squared = self.cgaz.a * self.cgaz.a;
+	self.cgaz.v_squared = self.cgaz.vf_squared;
 
 	self.cgaz.v = sqrt(self.cgaz.v_squared);
 	self.cgaz.vf = sqrt(self.cgaz.vf_squared);
