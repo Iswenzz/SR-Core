@@ -233,7 +233,7 @@ update_hudCgaz(num)
 update_hudSnap(num)
 {
 	value = self.settings["hud_snap"];
-	labels = strTok("^1OFF;^5Normal;^345;^2All;", ";");
+	labels = strTok("^1OFF;^5Normal;^645;^9Height;", ";");
 	self updateHud(num, value, labels[value]);
 
 	if (value && !self getStat(2400) && !self getStat(2401))

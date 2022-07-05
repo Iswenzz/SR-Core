@@ -13,7 +13,7 @@ main()
 
 	level.snap_max_huds = 10;
 	level.snap_colors = [];
-	level.snap_colors[level.snap_colors.size] = (0.9, 0.5, 0.7);
+	level.snap_colors[level.snap_colors.size] = (0, 0.9, 0.9);
 	level.snap_colors[level.snap_colors.size] = (0.05, 0.05, 0.05);
 	level.snap_colors[level.snap_colors.size] = (0.5, 0.6, 0.9);
 	level.snap_colors[level.snap_colors.size] = (0.5, 0.7, 0.9);
@@ -65,6 +65,8 @@ oneSnapDraw(yaw)
 	y = 6;
 	h = 4;
 
+	hlActive = self.snapFlags & level.SNAP_HL_ACTIVE;
+
 	if (self.snapFlags & level.SNAP_BLUERED)
 	{
 		diffAbsAccel = self.snap.maxAbsAccel - self.snap.minAbsAccel;
@@ -78,7 +80,7 @@ oneSnapDraw(yaw)
 			{
 				bSnap = self.snap.zones[i] + 1 + j;
 				eSnap = self.snap.zones[i + 1] + 0 + j;
-				self oneZoneDraw(bSnap, eSnap, yaw, y, h, 0, 0, self.snapFlags & level.SNAP_HL_ACTIVE, color);
+				self oneZoneDraw(bSnap, eSnap, yaw, y, h, 0, 0, hlActive, color);
 			}
 		}
 	}
@@ -105,7 +107,7 @@ oneSnapDraw(yaw)
 			{
 				bSnap = self.snap.zones[i] + 1 + j;
 				eSnap = self.snap.zones[i + 1] + 0 + j;
-				self oneZoneDraw(bSnap, eSnap, yaw, y, h, 0, alt_color, self.snapFlags & level.SNAP_HL_ACTIVE);
+				self oneZoneDraw(bSnap, eSnap, yaw, y, h, 0, alt_color, hlActive);
 			}
 			alt_color ^= 1;
 		}
@@ -120,14 +122,14 @@ oneSnapDraw(yaw)
 			gain = (self.snap.absAccel[i + 1] - self.snap.minAbsAccel) / diffAbsAccel;
 			gain *= 0.8 + 0.2;
 
-			h = gain;
-			y *= 1 - gain;
+			_h = gain;
+			_y = y * (1 - gain);
 
 			for (j = 0; j < 65536; j += 16384)
 			{
 				bSnap = self.snap.zones[i] + 1 + j;
 				eSnap = self.snap.zones[i + 1] + 0 + j;
-				self oneZoneDraw(bSnap, eSnap, yaw, y, h, 0, 0, self.snapFlags & level.SNAP_HL_ACTIVE);
+				self oneZoneDraw(bSnap, eSnap, yaw, _y, _h, 0, 0, hlActive);
 			}
 		}
 	}
@@ -163,17 +165,13 @@ snapHud()
 
 getSnapFlags(mode)
 {
-	if (!mode)
-		return 0;
-
-	snapFlags = 0;
-	if (mode >= 1)
-		snapFlags |= level.SNAP_NORMAL | level.SNAP_HL_ACTIVE;
-	if (mode >= 2)
-		snapFlags |= level.SNAP_45 | level.SNAP_BLUERED;
-	if (mode >= 3)
-		snapFlags |= level.SNAP_HEIGHT;
-	return snapFlags;
+	if (mode == 1)
+		return level.SNAP_NORMAL;
+	if (mode == 2)
+		return level.SNAP_BLUERED | level.SNAP_45;
+	if (mode == 3)
+		return level.SNAP_HEIGHT | level.SNAP_HL_ACTIVE;
+	return 0;
 }
 
 pmove()
