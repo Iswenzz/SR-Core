@@ -4,8 +4,8 @@
 main()
 {
 	cmd("masteradmin", 	"bounce",		::cmd_Bounce);
-	cmd("player", 		"cgaz_res",		::cmd_CgazResolution);
-	cmd("player", 		"cgaz_fov",		::cmd_CgazFov);
+	cmd("player", 		"hud_res",		::cmd_HudResolution);
+	cmd("player", 		"hud_fov",		::cmd_HudFov);
 	cmd("owner", 		"clone",		::cmd_Clone);
 	cmd("owner", 		"damage",		::cmd_Damage);
 	cmd("admin", 		"dance",		::cmd_Dance);
@@ -30,14 +30,14 @@ main()
 	cmd("adminplus", 	"weapon_acti",	::cmd_WeaponActi);
 }
 
-cmd_CgazResolution(args)
+cmd_HudResolution(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: cgaz_res <1920x1080>");
+		return self pm("Usage: hud_res <1920x1080>");
 
 	res = strTok(args[0], "x");
 	if (res.size != 2)
-		return self pm("Usage: cgaz_res <1920x1080>");
+		return self pm("Usage: hud_res <1920x1080>");
 
 	width = ToInt(res[0]);
 	height = ToInt(res[1]);
@@ -48,10 +48,10 @@ cmd_CgazResolution(args)
 	self pm(fmt("^3CGAZ: ^7Resolution %dx%d", width, height));
 }
 
-cmd_CgazFov(args)
+cmd_HudFov(args)
 {
 	if (args.size < 1 || !IsStringInt(args[0]))
-		return self pm("Usage: cgaz_fov <65-80>");
+		return self pm("Usage: hud_fov <65-80>");
 
 	fov = ToInt(args[0]);
 

@@ -612,3 +612,67 @@ pos(v)
 {
 	return abs(v);
 }
+
+calculateFov()
+{
+	playerFov = Ternary(self getStat(2402), self getStat(2402), 80);
+	playerFovScale = float(self.settings["gfx_fov"] / 1000);
+	screenWidth = Ternary(self getStat(2400), self getStat(2400), 1920);
+	screenHeight = Ternary(self getStat(2401), self getStat(2401), 1080);
+
+	fov = playerFov * playerFovScale;
+	wFov = tan1(fov * 0.01745329238474369 * 0.5) * 0.75;
+
+	tanHalfFovX = wFov * (screenWidth / screenHeight);
+	tanHalfFovY = wFov;
+
+	return tanHalfFovX;
+}
+
+angleScreenProjection(angle)
+{
+	tanHalfFovX = self calculateFov();
+	halfFovX = atan1(tanHalfFovX);
+
+	if (angle >= halfFovX)
+		return 0;
+
+	if (angle <= neg(halfFovX))
+		return 640;
+
+	return 640 / 2 * (1 - tan1(angle) / tan1(halfFovX));
+}
+
+angleNormalizePi(angle)
+{
+	t_angle = fmod(angle + pi(), 2 * pi());
+
+	if (t_angle < 0)
+		return t_angle + pi();
+	return t_angle - pi();
+}
+
+vectorLengthSquared2(vec)
+{
+	return vec[0] * vec[0] + vec[1] * vec[1];
+}
+
+vectorLength2(vec)
+{
+	return sqrt(vec[0] * vec[0] + vec[1] * vec[1]);
+}
+
+short2rad(x)
+{
+	return x * (pi() / 32768);
+}
+
+rad2short(x)
+{
+	return x * (32768 / pi());
+}
+
+angleNormalize65536(angle)
+{
+	return angle & 65535;
+}

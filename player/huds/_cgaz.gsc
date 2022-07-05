@@ -39,8 +39,8 @@ draw()
 {
 	yaw = atan2(self.cgaz.wishvel[1], self.cgaz.wishvel[0]) - self.cgaz.d_vel;
 
-	y = 10;
-	h = 10;
+	y = 14;
+	h = 8;
 
 	self.huds["cgaz"]["accel"] fillAngleYaw(self, neg(self.cgaz.d_min), pos(self.cgaz.d_min), yaw, y, h);
 	self.huds["cgaz"]["accelPartialPos"] fillAngleYaw(self, pos(self.cgaz.d_min), pos(self.cgaz.d_opt), yaw, y, h);
@@ -123,7 +123,7 @@ pmove()
 	self.cgaz.right = anglesToRight(self.cgaz.viewAngles);
 	self.cgaz.up = anglesToUp(self.cgaz.viewAngles);
 	self.cgaz.frameTime = 1 / self getFPS();
-	self.cgaz.viewHeight = int(eye()[2]);
+	self.cgaz.viewHeight = int(self eye()[2]);
 
 	if (!self.cgaz.forwardMove && !self.cgaz.rightMove)
 		self.cgaz.forwardMove = 127;
@@ -151,7 +151,7 @@ pm_walkMove()
 	}
 
 	dmgScale = self pm_damageScaleWalk(1) * self pm_cmdScaleWalk();
-	wishSpeed = dmgScale * m_vector_length2(self.cgaz.wishvel);
+	wishSpeed = dmgScale * vectorLength2(self.cgaz.wishvel);
 
 	if (false) // @TODO knockback / slick
 		self pm_slickAccelerate(wishSpeed, 9);
@@ -333,7 +333,7 @@ pm_airMove()
 	}
 
 	scale = self pm_cmdScale();
-	wishspeed = scale * m_vector_length2(self.cgaz.wishvel);
+	wishspeed = scale * vectorLength2(self.cgaz.wishvel);
 
 	self pm_accelerate(wishspeed, 1);
 }
@@ -341,8 +341,8 @@ pm_airMove()
 update_d(wishspeed, accel, slickGravity)
 {
 	self.cgaz.g_squared = slickGravity * slickGravity;
-	self.cgaz.v_squared = length_squared2(self.cgaz.previousVelocity);
-	self.cgaz.vf_squared = length_squared2(self.cgaz.velocity);
+	self.cgaz.v_squared = vectorLengthSquared2(self.cgaz.previousVelocity);
+	self.cgaz.vf_squared = vectorLengthSquared2(self.cgaz.velocity);
 	self.cgaz.wishspeed = wishspeed;
 	self.cgaz.a = accel * self.cgaz.wishspeed * self.cgaz.frameTime;
 	self.cgaz.a_squared = self.cgaz.a * self.cgaz.a;
@@ -409,116 +409,6 @@ update_d_max(d_max_cos)
 	if (d_max < d_max_cos)
 		d_max = d_max_cos;
 	return d_max;
-}
-
-fillAngleYaw(player, start, end, yaw, y, h)
-{
-	range = angleToRange(player, start, end, yaw);
-
-	if (!range.split)
-		self fillRect(range.x1, y, range.x2 - range.x1, h);
-	else
-	{
-		self fillRect(0, y, range.x1, h);
-		self fillRect(range.x2, y, 640 - range.x2, h);
-	}
-}
-
-fillRect(x, y, w, h)
-{
-	w = int(abs(w));
-	h = int(abs(h));
-
-	if (!w || !h)
-	{
-		self.alpha = 0;
-		return;
-	}
-
-	self setShader("white", w, h);
-	self.alpha = 0.5;
-	self.x = x;
-	self.y = y;
-}
-
-angleToRange(player, start, end, yaw)
-{
-	range = spawnStruct();
-
-	if (abs(end - start) > 2 * pi())
-	{
-		range.x1 = 0;
-		range.x2 = 640;
-		range.split = false;
-		return range;
-	}
-
-	split = end > start;
-	start = angleNormalizePi(start - yaw);
-	end	= angleNormalizePi(end - yaw);
-
-	if (end > start)
-	{
-		split = !split;
-
-		tmp = start;
-		start = end;
-		end	= tmp;
-	}
-
-	range.x1 = player angleScreenProjection(start);
-	range.x2 = player angleScreenProjection(end);
-	range.split = split;
-	return range;
-}
-
-calculateFov()
-{
-	playerFov = Ternary(self getStat(2402), self getStat(2402), 80);
-	playerFovScale = float(self.settings["gfx_fov"] / 1000);
-	screenWidth = Ternary(self getStat(2400), self getStat(2400), 1920);
-	screenHeight = Ternary(self getStat(2401), self getStat(2401), 1080);
-
-	fov = playerFov * playerFovScale;
-	wFov = tan1(fov * 0.01745329238474369 * 0.5) * 0.75;
-
-	tanHalfFovX = wFov * (screenWidth / screenHeight);
-	tanHalfFovY = wFov;
-
-	return tanHalfFovX;
-}
-
-angleScreenProjection(angle)
-{
-	tanHalfFovX = self calculateFov();
-	halfFovX = atan1(tanHalfFovX);
-
-	if (angle >= halfFovX)
-		return 0;
-
-	if (angle <= neg(halfFovX))
-		return 640;
-
-	return 640 / 2 * (1 - tan1(angle) / tan1(halfFovX));
-}
-
-angleNormalizePi(angle)
-{
-	t_angle = fmod(angle + pi(), 2 * pi());
-
-	if (t_angle < 0)
-		return t_angle + pi();
-	return t_angle - pi();
-}
-
-length_squared2(vec)
-{
-	return vec[0] * vec[0] + vec[1] * vec[1];
-}
-
-m_vector_length2(vec)
-{
-	return sqrt(vec[0] * vec[0] + vec[1] * vec[1]);
 }
 
 clear()

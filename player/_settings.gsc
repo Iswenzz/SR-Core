@@ -32,6 +32,7 @@ onConnect()
 	self setClientDvar("sr_setting_14", "FPS Combo");
 	self setClientDvar("sr_setting_15", "Ground Time");
 	self setClientDvar("sr_setting_16", "CGAZ HUD");
+	self setClientDvar("sr_setting_17", "Snap HUD");
 
 	self update();
 }
@@ -50,6 +51,7 @@ save()
 	self setStat(1614, self.settings["hud_velocity_ground"]);
 	self setStat(1608, self.settings["hud_compass"]);
 	self setStat(1616, self.settings["hud_cgaz"]);
+	self setStat(1617, self.settings["hud_snap"]);
 	self setStat(1610, self.settings["hud_2D"]);
 	self setStat(1609, self.settings["player_hide"]);
 	self setStat(1612, self.settings["player_knife"]);
@@ -71,6 +73,7 @@ load()
 	self.settings["hud_velocity_ground"] 	= self getStat(1614);
 	self.settings["hud_compass"] 			= self getStat(1608);
 	self.settings["hud_cgaz"] 				= self getStat(1616);
+	self.settings["hud_snap"] 				= self getStat(1617);
 	self.settings["hud_2D"] 				= self getStat(1610);
 	self.settings["player_hide"] 			= self getStat(1609);
 	self.settings["player_knife"] 			= self getStat(1612);
@@ -92,6 +95,7 @@ reset()
 	self.settings["hud_velocity_ground"]	= 0;
 	self.settings["hud_compass"] 			= 5;
 	self.settings["hud_cgaz"] 				= false;
+	self.settings["hud_snap"] 				= false;
 	self.settings["hud_2D"] 				= true;
 	self.settings["player_hide"] 			= false;
 	self.settings["player_knife"] 			= false;
@@ -198,7 +202,7 @@ update_gfxFX(num)
 update_hudVelocityInfo(num)
 {
 	value = self.settings["hud_velocity_info"];
-	labels = strTok("^5Default;^3Average;^1Max;", ";");
+	labels = strTok("^5Default;^3Average;^2Max;", ";");
 	self updateHud(num, value, labels[value]);
 }
 
@@ -221,9 +225,21 @@ update_hudCgaz(num)
 	self updateHud(num, value);
 
 	if (value && !self getStat(2400) && !self getStat(2401))
-		self sr\sys\_admins::pm("^3CGAZ: Please set your screen resolution using ^7!cgaz_res <1920x1080>");
+		self sr\sys\_admins::pm("^3CGAZ: Please set your screen resolution using ^7!hud_res <1920x1080>");
 	if (value && !self getStat(2402))
-		self sr\sys\_admins::pm("^3CGAZ: Please set your fov using ^7!cgaz_fov <65-80>");
+		self sr\sys\_admins::pm("^3CGAZ: Please set your fov using ^7!hud_fov <65-80>");
+}
+
+update_hudSnap(num)
+{
+	value = self.settings["hud_snap"];
+	labels = strTok("^1OFF;^5Normal;^345;^2All;", ";");
+	self updateHud(num, value, labels[value]);
+
+	if (value && !self getStat(2400) && !self getStat(2401))
+		self sr\sys\_admins::pm("^3CGAZ: Please set your screen resolution using ^7!hud_res <1920x1080>");
+	if (value && !self getStat(2402))
+		self sr\sys\_admins::pm("^3CGAZ: Please set your fov using ^7!hud_fov <65-80>");
 }
 
 update()
@@ -240,6 +256,7 @@ update()
 	self update_hudVelocityGround(15);
 	self update_hudCompass(8);
 	self update_hudCgaz(16);
+	self update_hudSnap(17);
 	self update_hud2D(10);
 	self update_playerHide(9);
 	self update_playerKnife(12);
@@ -280,6 +297,7 @@ menu_setting(args)
 		case 14: 	self.settings["hud_fps_combo"] 			= !self.settings["hud_fps_combo"]; 							break;
 		case 15: 	self.settings["hud_velocity_ground"] 	= intRange(self.settings["hud_velocity_ground"], 0, 2); 	break;
 		case 16: 	self.settings["hud_cgaz"] 				= !self.settings["hud_cgaz"]; 								break;
+		case 17: 	self.settings["hud_snap"] 				= intRange(self.settings["hud_snap"], 0, 3);				break;
 	}
 	self update();
 }
