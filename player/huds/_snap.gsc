@@ -37,10 +37,20 @@ hud()
 
 	while (true)
 	{
-		self pmove();
-
 		wait 0.05;
-		self.snap.previousVelocity = self.snap.velocity;
+
+		self pmove();
+		self resetGraph();
+	}
+}
+
+resetGraph()
+{
+	for (i = 0; i < level.snap_max_huds; i++)
+	{
+		if (!self.huds["snap"][i].rendered)
+			self.huds["snap"][i].alpha = 0;
+		self.huds["snap"][i].rendered = false;
 	}
 }
 
@@ -56,6 +66,7 @@ oneZoneDraw(start, end, yaw, y, h, defColor, altColor, hlColor, overrideColor)
 	if (hlColor && angleNormalize65536(yaw - start) <= angleNormalize65536(end - start))
 		color = level.snap_colors[2 + altColor];
 
+	self.huds["snap"][index].rendered = true;
 	self.huds["snap"][index].color = color;
 	self.huds["snap"][index] fillAngleYaw(self, short2rad(start), short2rad(end), short2rad(yaw), y, h);
 }
@@ -71,6 +82,7 @@ oneSnapDraw(yaw)
 	{
 		diffAbsAccel = self.snap.maxAbsAccel - self.snap.minAbsAccel;
 
+		alt_color = 0;
 		for (i = 0; i < 2 * self.snap.maxAccel; i++)
 		{
 			color = ((self.snap.absAccel[i + 1] - self.snap.minAbsAccel) / diffAbsAccel, 0,
@@ -78,10 +90,14 @@ oneSnapDraw(yaw)
 
 			for (j = 0; j < 65536; j += 16384)
 			{
+				if (alt_color)
+					continue;
+
 				bSnap = self.snap.zones[i] + 1 + j;
 				eSnap = self.snap.zones[i + 1] + 0 + j;
 				self oneZoneDraw(bSnap, eSnap, yaw, y, h, 0, 0, hlActive, color);
 			}
+			alt_color ^= 1;
 		}
 	}
 	if (self.snapFlags & level.SNAP_45)
@@ -91,6 +107,9 @@ oneSnapDraw(yaw)
 		{
 			for (j = 0; j < 65536; j += 16384)
 			{
+				if (alt_color)
+					continue;
+
 				bSnap = self.snap.zones[i] + 1 + j;
 				eSnap = self.snap.zones[i + 1] + 0 + j;
 				self oneZoneDraw(bSnap, eSnap, yaw + 8192, y, h, 4, alt_color, false);
@@ -105,6 +124,9 @@ oneSnapDraw(yaw)
 		{
 			for (j = 0; j < 65536; j += 16384)
 			{
+				if (alt_color)
+					continue;
+
 				bSnap = self.snap.zones[i] + 1 + j;
 				eSnap = self.snap.zones[i + 1] + 0 + j;
 				self oneZoneDraw(bSnap, eSnap, yaw, y, h, 0, alt_color, hlActive);
@@ -114,6 +136,7 @@ oneSnapDraw(yaw)
 	}
 	if (self.snapFlags & level.SNAP_HEIGHT)
 	{
+		alt_color = 0;
 		gain = 0;
 		diffAbsAccel = self.snap.maxAbsAccel - self.snap.minAbsAccel;
 
@@ -127,10 +150,14 @@ oneSnapDraw(yaw)
 
 			for (j = 0; j < 65536; j += 16384)
 			{
+				if (alt_color)
+					continue;
+
 				bSnap = self.snap.zones[i] + 1 + j;
 				eSnap = self.snap.zones[i + 1] + 0 + j;
 				self oneZoneDraw(bSnap, eSnap, yaw, _y, _h, 0, 0, hlActive);
 			}
+			alt_color ^= 1;
 		}
 	}
 }
@@ -142,7 +169,6 @@ snapHud()
 	self.snap.forwardMove = 0;
 	self.snap.rightMove = 0;
 	self.snap.velocity = self getVelocity();
-	self.snap.previousVelocity = (0, 0, 0);
 	self.snap.a = 0;
 	self.snap.maxAccel = 0;
 	self.snap.minAbsAccel = 0;
@@ -187,16 +213,14 @@ pmove()
 	self.snap.viewHeight = int(self eye()[2]);
 	self.snap.hudIndex = 0;
 
-	if (!self.snap.forwardMove && !self.snap.rightMove)
-		self.snap.forwardMove = 127;
-
 	if (self isOnGround())
 		self pm_walkMove();
 	else
 		self pm_airMove();
 
 	yaw = rad2short(atan2(self.snap.wishvel[1], self.snap.wishvel[0]));
-  	self oneSnapDraw(angleNormalize65536(int(ceil(yaw))));
+	yaw = Ternary(!yaw, 8, angleNormalize65536(int(ceil(yaw))));
+  	self oneSnapDraw(yaw);
 }
 
 pm_walkMove()
@@ -210,6 +234,9 @@ pm_walkMove()
 	{
 		self.snap.forwardMove = self getForwardMove();
 		self.snap.rightMove = self getRightMove();
+
+		if (!self.snap.forwardMove && !self.snap.rightMove)
+			self.snap.forwardMove = 127;
 
 		self.snap.wishvel[i] = self.snap.forwardMove * self.snap.forward[i] +
 			self.snap.rightMove * self.snap.right[i];
@@ -242,6 +269,9 @@ pm_airMove()
 	{
 		self.snap.forwardMove = self getForwardMove();
 		self.snap.rightMove = self getRightMove();
+
+		if (!self.snap.forwardMove && !self.snap.rightMove)
+			self.snap.forwardMove = 127;
 
 		self.snap.wishvel[i] = self.snap.forwardMove * self.snap.forward[i] +
 			self.snap.rightMove * self.snap.right[i];

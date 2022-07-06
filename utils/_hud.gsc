@@ -130,8 +130,8 @@ fillAngleYaw(player, start, end, yaw, y, h)
 
 fillRect(x, y, w, h)
 {
-	w = int(abs(w));
-	h = int(abs(h));
+	w = int(abs(ceil(w)));
+	h = int(abs(ceil(h)));
 
 	if (!w || !h)
 	{

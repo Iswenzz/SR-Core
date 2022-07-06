@@ -125,9 +125,6 @@ pmove()
 	self.cgaz.frameTime = 1 / self getFPS();
 	self.cgaz.viewHeight = int(self eye()[2]);
 
-	if (!self.cgaz.forwardMove && !self.cgaz.rightMove)
-		self.cgaz.forwardMove = 127;
-
 	if (self isOnGround())
 		self pm_walkMove();
 	else
@@ -145,6 +142,9 @@ pm_walkMove()
 	{
 		self.cgaz.forwardMove = self getForwardMove();
 		self.cgaz.rightMove = self getRightMove();
+
+		if (!self.snap.forwardMove && !self.snap.rightMove)
+			self.snap.forwardMove = 127;
 
 		self.cgaz.wishvel[i] = self.cgaz.forwardMove * self.cgaz.forward[i] +
 			self.cgaz.rightMove * self.cgaz.right[i];
@@ -164,6 +164,31 @@ pm_walkMove()
 		default: accel = 9; break;
 	}
 	self pm_accelerate(wishspeed, accel);
+}
+
+pm_airMove()
+{
+	self pm_friction();
+
+	self.cgaz.forward = vectorNormalize((self.cgaz.forward[0], self.cgaz.forward[1], 0));
+	self.cgaz.right = vectorNormalize((self.cgaz.right[0], self.cgaz.right[1], 0));
+
+	for (i = 0; i < 2; i++)
+	{
+		self.cgaz.forwardMove = self getForwardMove();
+		self.cgaz.rightMove = self getRightMove();
+
+		if (!self.snap.forwardMove && !self.snap.rightMove)
+			self.snap.forwardMove = 127;
+
+		self.cgaz.wishvel[i] = self.cgaz.forwardMove * self.cgaz.forward[i] +
+			self.cgaz.rightMove * self.cgaz.right[i];
+	}
+
+	scale = self pm_cmdScale();
+	wishspeed = scale * vectorLength2(self.cgaz.wishvel);
+
+	self pm_accelerate(wishspeed, 1);
 }
 
 pm_jumpReduceFriction()
@@ -316,28 +341,6 @@ pm_slickAccelerate(wishspeed, accel)
 	self update_d(wishspeed, accel, self.gravity * self.cgaz.frameTime);
 }
 
-pm_airMove()
-{
-	self pm_friction();
-
-	self.cgaz.forward = vectorNormalize((self.cgaz.forward[0], self.cgaz.forward[1], 0));
-	self.cgaz.right = vectorNormalize((self.cgaz.right[0], self.cgaz.right[1], 0));
-
-	for (i = 0; i < 2; i++)
-	{
-		self.cgaz.forwardMove = self getForwardMove();
-		self.cgaz.rightMove = self getRightMove();
-
-		self.cgaz.wishvel[i] = self.cgaz.forwardMove * self.cgaz.forward[i] +
-			self.cgaz.rightMove * self.cgaz.right[i];
-	}
-
-	scale = self pm_cmdScale();
-	wishspeed = scale * vectorLength2(self.cgaz.wishvel);
-
-	self pm_accelerate(wishspeed, 1);
-}
-
 update_d(wishspeed, accel, slickGravity)
 {
 	self.cgaz.g_squared = slickGravity * slickGravity;
@@ -357,8 +360,6 @@ update_d(wishspeed, accel, slickGravity)
 	self.cgaz.d_max = self update_d_max(self.cgaz.d_max_cos);
 
 	self.cgaz.d_vel = atan2(self.cgaz.velocity[1], self.cgaz.velocity[0]);
-
-	// comPrintLn("d: %f %f", self.cgaz.d_max_cos, self.cgaz.d_max);
 }
 
 update_d_min()

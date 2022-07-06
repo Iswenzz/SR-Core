@@ -30,30 +30,11 @@ initAdmins()
 precache()
 {
 	precacheModel("chicken");
-	precacheModel("ad_sodamachine");
-	precacheModel("afr_steel_ladder");
-	precacheModel("ap_airbus_seat_1");
-	precacheModel("axis");
-	precacheModel("bathroom_toilet");
 	precacheModel("bc_militarytent_draped");
-	precacheModel("ch_apartment_9story_noentry_02");
-	precacheModel("ch_banner_large");
-	precacheModel("ch_crate64x64");
-	precacheModel("ch_dead_cow");
-	precacheModel("ch_piano_light");
 	precacheModel("ch_roadrock_06");
 	precacheModel("ch_russian_table");
-	precacheModel("ch_street_light_02_off");
-	precacheModel("cobra_town_brown_car");
-	precacheModel("com_barrel_biohazard");
-	precacheModel("com_bookshelves1");
-	precacheModel("com_computer_monitor");
-	precacheModel("com_widescreen_monitor_on_2");
-	precacheModel("projectile_sidewinder_missile");
 	precacheModel("prop_flag_russian");
 	precacheModel("prop_flag_neutral");
-	precacheModel("vehicle_blackhawk");
-	precacheModel("vehicle_bm21_mobile_cover");
 
 	precacheStatusIcon("vip_status");
 	precacheShader("vip_status");
