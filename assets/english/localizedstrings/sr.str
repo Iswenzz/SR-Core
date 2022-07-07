@@ -1,0 +1,47 @@
+VERSION             "1"
+CONFIG              "C:\trees\cod3\cod3\bin\StringEd.cfg"
+FILENOTES           ""
+
+REFERENCE           MODNAME
+LANG_ENGLISH        "SR Mod"
+
+REFERENCE           SPEEDRUN_DESC
+LANG_ENGLISH        "^5Welcome to SR-Speedrun\nThis is a mod where players try to complete the map in the fastest time possible and\n compete for the top spot on the leaderboard. \n^5How to play:\n^7Simply run through the map as fast as you can. To achieve a fast time you will need to do 3 things,\n strafing, FPS changes, and exploiting maps to find hidden shortcuts. Lots of maps also have alternative routes, these will be recorded on a separate leaderboard. \nYou are also able to run maps on two speed, 190 and 210, use !speed in chat.\n^5How to level up:\n^7Getting a time on the leaderboard will give you XP. You get more XP depending on how high up your time is and how many times have already been set.\n^5Contact:\n^7You can visit our discord server for updates and help:\n^8https://discord.gg/76aHfGF"
+
+REFERENCE           MOTD
+LANG_ENGLISH        ""
+
+REFERENCE           NOTICE
+LANG_ENGLISH        ""
+
+REFERENCE           WAIT4VOTES
+LANG_ENGLISH        "Waiting for votes..."
+
+REFERENCE           PRESSFIRE
+LANG_ENGLISH        "Press FIRE to start voting"
+
+REFERENCE           GAME_EXPERIENCE_CHANGED
+LANG_ENGLISH        "SR-Mod\ndiscord.gg/76aHfGF"
+
+REFERENCE           ABOUT
+LANG_ENGLISH        "About the Mod"
+
+REFERENCE           ABOUT_HEADER
+LANG_ENGLISH        "About the Mod..."
+
+REFERENCE           CALL_FREEROUND
+LANG_ENGLISH        ""
+
+REFERENCE           ALIVE_JUMPERS
+LANG_ENGLISH        ""
+
+REFERENCE           ROUND_BEGINS_IN
+LANG_ENGLISH        "Begins in..."
+
+REFERENCE           WAITING_FOR_PLAYERS
+LANG_ENGLISH        "Waiting for more players to start..."
+
+REFERENCE			GRAPHICS_WARNING
+LANG_ENGLISH		""
+
+ENDMARKER

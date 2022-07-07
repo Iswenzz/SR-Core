@@ -148,12 +148,12 @@ itemDef \
 		itemDef
 		{
 			visible			1
-			rect			150 105 450 270 SR_ALIGN_TOP_LEFT
+			rect			150 105 500 270 SR_ALIGN_TOP_LEFT
 			style			WINDOW_STYLE_FILLED
 			backcolor		0 0 0 0.3
 			forecolor		1 1 1 1
 			autowrapped
-			exp 			text("@BRAXI_SERV_DESC")
+			exp 			text("@SR_SPEEDRUN_DESC")
 			textfont		UI_FONT_NORMAL
 			textscale		.30
 			textalignx		8

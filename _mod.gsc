@@ -112,10 +112,10 @@ precache()
 
 precacheText()
 {
-	level.texts["round_begins_in"] 		= &"BRAXI_ROUND_BEGINS_IN";
-	level.texts["waiting_for_players"] 	= &"BRAXI_WAITING_FOR_PLAYERS";
-	level.texts["jumpers_count"] 		= &"BRAXI_ALIVE_JUMPERS";
-	level.texts["call_freeround"] 		= &"BRAXI_CALL_FREEROUND";
+	level.texts["round_begins_in"] 		= &"SR_ROUND_BEGINS_IN";
+	level.texts["waiting_for_players"] 	= &"SR_WAITING_FOR_PLAYERS";
+	level.texts["jumpers_count"] 		= &"SR_ALIVE_JUMPERS";
+	level.texts["call_freeround"] 		= &"SR_CALL_FREEROUND";
 	level.texts["time"] 				= &"^2&&1";
 	level.texts["ended_game"]			= &"MP_HOST_ENDED_GAME";
 	level.texts["endgame"]				= &"MP_HOST_ENDGAME_RESPONSE";
