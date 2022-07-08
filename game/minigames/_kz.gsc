@@ -35,7 +35,7 @@ kz()
 	while (true)
 	{
 		level.kzStarted = false;
-		
+
 		wait 1;
 		if (!canStart())
 			continue;
@@ -55,7 +55,7 @@ hud()
 		return;
 
 	self waittill("speedrun_hud");
-	self.runId = "KZ";
+	self.run = "KZ";
 	self.huds["speedrun"]["name"] setText("^1Kill Zone");
 	self.huds["speedrun"]["row2"] setText(fmt("Health             ^2%d", self.health));
 	self.huds["speedrun"]["row3"] setText(fmt("K/D                    ^3%d/%d", self.kills, self.deaths));
@@ -113,7 +113,7 @@ onPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, 
 {
 	if (!self isInQueue("kz") || !level.kzStarted || !isAlive(self))
 		return;
-		
+
 	self.huds["speedrun"]["row2"] setText(fmt("Health             ^2%d", self.health - iDamage));
 }
 
@@ -131,7 +131,7 @@ onPlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHit
 
 		if (isAlive(attacker))
 		{
-			attacker.huds["speedrun"]["row3"] setText(fmt("K/D                    ^3%d/%d", 
+			attacker.huds["speedrun"]["row3"] setText(fmt("K/D                    ^3%d/%d",
 				attacker.kills, attacker.deaths));
 			attacker.time = sr\utils\_common::originToTime(getTime() - attacker.time.origin);
 			attacker speedrun\player\huds\_speedrun::updateTime();
@@ -198,7 +198,7 @@ watchGame()
 	level endon("intermission");
 	level notify("kz ended");
 	level endon("kz ended");
-	
+
 	level.kzStarted = true;
 	thread watchGameTimer();
 

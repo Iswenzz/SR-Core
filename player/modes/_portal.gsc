@@ -19,7 +19,7 @@ watch()
 		return;
 
 	self waittill("speedrun_hud");
-	self.runId = "Portal";
+	self.run = "Portal";
 	self.huds["speedrun"]["name"] setText("^5Portal");
 
 	wait 0.05;

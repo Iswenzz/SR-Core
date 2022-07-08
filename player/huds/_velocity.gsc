@@ -28,9 +28,10 @@ hud()
 	{
 		player = IfUndef(self getSpectatorClient(), self);
 
-		if (isDefined(self.spectate) && player != self.spectate || !player isReallyAlive())
+		if (player isNewRun(self.run))
 			self vars();
 
+		self.run = player.run;
         self.velocityDist = player getPlayerVelocity();
         self.onGround = player isOnGround();
 

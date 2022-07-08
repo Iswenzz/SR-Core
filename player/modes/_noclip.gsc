@@ -17,7 +17,7 @@ noclip()
 		return;
 
 	self waittill("speedrun_hud");
-	self.runId = "Noclip";
+	self.run = "Noclip";
 	self.huds["speedrun"]["name"] setText("^3Noclip");
 
 	while (true)

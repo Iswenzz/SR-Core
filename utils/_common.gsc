@@ -80,6 +80,11 @@ canSpawn()
 	return true;
 }
 
+isNewRun(run)
+{
+	return self.run != run;
+}
+
 playSoundOnPosition(soundAlias, pos, local)
 {
 	soundObj = spawn("script_model", pos);

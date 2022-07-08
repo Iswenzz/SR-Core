@@ -10,6 +10,7 @@ main()
 loop()
 {
 	self endon("disconnect");
+	self.run = 0;
 	self.sr_cheat = false;
 	self.antiLowFps = true;
 	self.antiElevator = true;
@@ -35,7 +36,7 @@ antiCheat()
 	self endon("disconnect");
 	self endon("death");
 
-	self.runId = randomInt(999999999);
+	self.run = randomInt(999999999);
 
 	cheat = false;
 	if (self sr\game\minigames\_main::isInAnyQueue())

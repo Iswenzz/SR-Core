@@ -57,7 +57,7 @@ hud()
 		return;
 
 	self waittill("speedrun_hud");
-	self.runId = "Race";
+	self.run = "Race";
 	self.huds["speedrun"]["name"] setText("^2Race");
 }
 

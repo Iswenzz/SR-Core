@@ -48,6 +48,9 @@ resetGraph()
 {
 	for (i = 0; i < level.snap_max_huds; i++)
 	{
+		if (!isDefined(self.huds["snap"][i]))
+			continue;
+
 		if (!self.huds["snap"][i].rendered)
 			self.huds["snap"][i].alpha = 0;
 		self.huds["snap"][i].rendered = false;
