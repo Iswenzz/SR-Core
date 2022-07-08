@@ -33,11 +33,14 @@ getVertical(int)
 		case 4:
 		case 5:
 		case 6:
-			return "bottom";
+			return "middle";
 
-		default:
+		case 7:
+		case 8:
+		case 9:
 			return "bottom";
 	}
+	return "top";
 }
 
 getHorizontal(int)
@@ -46,19 +49,20 @@ getHorizontal(int)
 	{
 		case 1:
 		case 4:
+		case 7:
 			return "left";
 
 		case 2:
 		case 5:
+		case 8:
 			return "center";
 
 		case 3:
 		case 6:
+		case 9:
 			return "right";
-
-		default:
-			return "left";
 	}
+	return "left";
 }
 
 fadeOut(time, direction, speed)

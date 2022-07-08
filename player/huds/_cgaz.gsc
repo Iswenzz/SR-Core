@@ -143,8 +143,8 @@ pm_walkMove()
 		self.cgaz.forwardMove = self getForwardMove();
 		self.cgaz.rightMove = self getRightMove();
 
-		if (!self.snap.forwardMove && !self.snap.rightMove)
-			self.snap.forwardMove = 127;
+		if (!self.cgaz.forwardMove && !self.cgaz.rightMove)
+			self.cgaz.forwardMove = 127;
 
 		self.cgaz.wishvel[i] = self.cgaz.forwardMove * self.cgaz.forward[i] +
 			self.cgaz.rightMove * self.cgaz.right[i];
@@ -178,8 +178,8 @@ pm_airMove()
 		self.cgaz.forwardMove = self getForwardMove();
 		self.cgaz.rightMove = self getRightMove();
 
-		if (!self.snap.forwardMove && !self.snap.rightMove)
-			self.snap.forwardMove = 127;
+		if (!self.cgaz.forwardMove && !self.cgaz.rightMove)
+			self.cgaz.forwardMove = 127;
 
 		self.cgaz.wishvel[i] = self.cgaz.forwardMove * self.cgaz.forward[i] +
 			self.cgaz.rightMove * self.cgaz.right[i];

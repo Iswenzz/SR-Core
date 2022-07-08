@@ -90,7 +90,7 @@ reset()
 	self.settings["hud_fps_combo"] 			= false;
 	self.settings["hud_xp"] 				= false;
 	self.settings["hud_keys"] 				= false;
-	self.settings["hud_velocity"] 			= 5;
+	self.settings["hud_velocity"] 			= 8;
 	self.settings["hud_velocity_info"] 		= 0;
 	self.settings["hud_velocity_ground"]	= 0;
 	self.settings["hud_compass"] 			= 5;
@@ -136,7 +136,7 @@ update_hudKeys(num)
 update_hudVelocity(num)
 {
 	value = self.settings["hud_velocity"];
-	labels = strTok("^1OFF;^2Top-Left;^2Top-Center;^2Top-Right;^2Bottom-Left;^2Bottom-Center;^2Bottom-Right;", ";");
+	labels = strTok("^1OFF;^2Top-Left;^2Top-Center;^2Top-Right;^2Middle-Left;^2Middle-Center;^2Middle-Right;^2Bottom-Left;^2Bottom-Center;^2Bottom-Right;", ";");
 	self updateHud(num, value, labels[value]);
 }
 
@@ -157,7 +157,7 @@ update_hud2D(num)
 update_playerHide(num)
 {
 	value = self.settings["player_hide"];
-	labels = strTok("^1OFF;^3Near;^2All;", ";");
+	labels = strTok("^1OFF;^3Near;^6All;", ";");
 	self updateHud(num, value, labels[value]);
 }
 
@@ -202,7 +202,7 @@ update_gfxFX(num)
 update_hudVelocityInfo(num)
 {
 	value = self.settings["hud_velocity_info"];
-	labels = strTok("^5Default;^3Average;^2Max;", ";");
+	labels = strTok("^5Default;^3Average;^6Max;", ";");
 	self updateHud(num, value, labels[value]);
 }
 
@@ -287,7 +287,7 @@ menu_setting(args)
 		case 4: 	self.settings["hud_keys"] 				= !self.settings["hud_keys"]; 								break;
 		case 5: 	self.settings["gfx_distance"] 			= intRange(self.settings["gfx_distance"], 0, 4);			break;
 		case 6: 	self menu_FOV();																					break;
-		case 7: 	self.settings["hud_velocity"] 			= intRange(self.settings["hud_velocity"], 0, 6);			break;
+		case 7: 	self.settings["hud_velocity"] 			= intRange(self.settings["hud_velocity"], 0, 9);			break;
 		case 8: 	self.settings["hud_compass"] 			= intRange(self.settings["hud_compass"], 0, 6);				break;
 		case 9: 	self.settings["player_hide"] 			= intRange(self.settings["player_hide"], 0, 2);				break;
 		case 10: 	self.settings["hud_2D"] 				= !self.settings["hud_2D"]; 								break;

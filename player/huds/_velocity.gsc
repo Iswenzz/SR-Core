@@ -61,8 +61,37 @@ vars()
     self.prevOnGround = true;
 }
 
+getPosition()
+{
+	position = spawnStruct();
+	position.x = 0;
+	position.y = 0;
+
+	horizontal = getHorizontal(self.settings["hud_velocity"]);
+	vertical = getVertical(self.settings["hud_velocity"]);
+
+	if (horizontal == "left")
+	{
+		position.x = 50;
+		if (vertical == "top")
+			position.y = 100;
+	}
+	if (horizontal == "right")
+	{
+		position.x = -100;
+		if (vertical == "top")
+			position.y = 35;
+		if (vertical == "bottom")
+			position.y = -15;
+	}
+	if (vertical == "middle")
+		position.y = 30;
+	return position;
+}
+
 hudVelocity()
 {
+	position = self getPosition();
 	alignX = getHorizontal(self.settings["hud_velocity"]);
 	alignY = getVertical(self.settings["hud_velocity"]);
 
@@ -71,6 +100,8 @@ hudVelocity()
 	self.huds["velocity"]["value"].hidewheninmenu = true;
 	self.huds["velocity"]["value"].archived = false;
 	self.huds["velocity"]["value"].label = &"^5V ^7&&1";
+	self.huds["velocity"]["value"].x += position.x;
+	self.huds["velocity"]["value"].y += position.y;
 
 	if (self.settings["hud_velocity_ground"])
 	{
@@ -79,6 +110,8 @@ hudVelocity()
 		self.huds["velocity"]["ground"].archived = false;
 		self.huds["velocity"]["ground"].label = &"^2G ^7&&1";
 		self.huds["velocity"]["ground"] setValue(0);
+		self.huds["velocity"]["ground"].x += position.x;
+		self.huds["velocity"]["ground"].y += position.y;
 	}
 	if (self.settings["hud_velocity_info"] >= 1)
 	{
@@ -87,6 +120,8 @@ hudVelocity()
 		self.huds["velocity"]["average"].archived = false;
 		self.huds["velocity"]["average"].label = &"^3A ^7&&1";
 		self.huds["velocity"]["average"] setValue(0);
+		self.huds["velocity"]["average"].x += position.x;
+		self.huds["velocity"]["average"].y += position.y;
 	}
 	if (self.settings["hud_velocity_info"] >= 2)
 	{
@@ -95,6 +130,8 @@ hudVelocity()
 		self.huds["velocity"]["max"].archived = false;
 		self.huds["velocity"]["max"].label = &"^1M ^7&&1";
 		self.huds["velocity"]["max"] setValue(0);
+		self.huds["velocity"]["max"].x += position.x;
+		self.huds["velocity"]["max"].y += position.y;
 	}
 }
 
