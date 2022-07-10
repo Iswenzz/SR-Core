@@ -63,15 +63,9 @@ vars()
 hudFps()
 {
 	self.huds["fps"] = addHud(self, -15, -26, 1, "right", "bottom", 1.8);
-	self.huds["fps"].hidewheninmenu = true;
-	self.huds["fps"].archived = false;
 
     if (self.settings["hud_fps_combo"])
-    {
         self.huds["fps_combo"] = addHud(self, 150, 80, 0.8, "center", "middle", 1.4);
-        self.huds["fps_combo"].hidewheninmenu = true;
-        self.huds["fps_combo"].archived = false;
-    }
 }
 
 updateFps()

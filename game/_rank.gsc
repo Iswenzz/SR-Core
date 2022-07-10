@@ -584,32 +584,24 @@ showUnlockMessage(notifyData)
 	self.doingUnlockMessage = true;
 	self.unlockMessage = [];
 
-	self.unlockMessage[0] = newClientHudElem(self);
-	self.unlockMessage[0].x = -180;
-	self.unlockMessage[0].y = 20;
-	self.unlockMessage[0].alpha = 0.76;
+	self.unlockMessage[0] = addHud(self, -180, 20, 0.76, "left", "top", 1.4, 990);
 	self.unlockMessage[0] setShader("black", 195, 48);
-	self.unlockMessage[0].sort = 990;
 
-	self.unlockMessage[1] = addHud(self, -190, 20, 1, "left", "top", 1.5);
+	self.unlockMessage[1] = addHud(self, -190, 20, 1, "left", "top", 1.5, 992);
 	self.unlockMessage[1] setShader(notifyData.icon, 55, 48);
-	self.unlockMessage[1].sort = 992;
 
-	self.unlockMessage[2] = addHud(self, -130, 23, 1, "left", "top", 1.4);
+	self.unlockMessage[2] = addHud(self, -130, 23, 1, "left", "top", 1.4, 993);
 	self.unlockMessage[2].font = "objective";
 	self.unlockMessage[2] setText(notifyData.title);
-	self.unlockMessage[2].sort = 993;
 
-	self.unlockMessage[3] = addHud(self, -130, 40, 1, "left", "top", 1.4);
+	self.unlockMessage[3] = addHud(self, -130, 40, 1, "left", "top", 1.4, 993);
 	self.unlockMessage[3] setText(notifyData.description);
-	self.unlockMessage[3].sort = 993;
 
 	for (i = 0; i < self.unlockMessage.size; i++)
 	{
 		self.unlockMessage[i].horzAlign = "fullscreen";
 		self.unlockMessage[i].vertAlign = "fullscreen";
 		self.unlockMessage[i].hideWhenInMenu = true;
-
 		self.unlockMessage[i] moveOverTime(notifyData.duration / 4);
 
 		if (i == 1)

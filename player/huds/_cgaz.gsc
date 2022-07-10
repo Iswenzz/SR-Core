@@ -39,7 +39,7 @@ draw()
 {
 	yaw = atan2(self.cgaz.wishvel[1], self.cgaz.wishvel[0]) - self.cgaz.d_vel;
 
-	y = 14;
+	y = 2;
 	h = 8;
 
 	self.huds["cgaz"]["accel"] fillAngleYaw(self, neg(self.cgaz.d_min), self.cgaz.d_min, yaw, y, h);
@@ -72,47 +72,33 @@ cgazHud()
 	self.cgaz.previousVelocity = (0, 0, 0);
 
 	self.huds["cgaz"] = [];
-	self.huds["cgaz"]["accel"] = addHud(self, 0, 0, 0.5, "left", "middle");
+	self.huds["cgaz"]["accel"] = addHud(self, 0, 0, 0.5, "left", "middle", 1.4, 90);
 	self.huds["cgaz"]["accel"].horzAlign = "fullscreen";
 	self.huds["cgaz"]["accel"].color = (0.25, 0.25, 0.25);
-	self.huds["cgaz"]["accel"].archived = false;
-	self.huds["cgaz"]["accel"].hidewheninmenu = true;
 
-	self.huds["cgaz"]["accelPartialPos"] = addHud(self, 0, 0, 0.5, "left", "middle");
+	self.huds["cgaz"]["accelPartialPos"] = addHud(self, 0, 0, 0.5, "left", "middle", 1.4, 90);
 	self.huds["cgaz"]["accelPartialPos"].horzAlign = "fullscreen";
 	self.huds["cgaz"]["accelPartialPos"].color = (0, 1, 0);
-	self.huds["cgaz"]["accelPartialPos"].archived = false;
-	self.huds["cgaz"]["accelPartialPos"].hidewheninmenu = true;
 
-	self.huds["cgaz"]["accelPartialNeg"] = addHud(self, 0, 0, 0.5, "left", "middle");
+	self.huds["cgaz"]["accelPartialNeg"] = addHud(self, 0, 0, 0.5, "left", "middle", 1.4, 90);
 	self.huds["cgaz"]["accelPartialNeg"].horzAlign = "fullscreen";
 	self.huds["cgaz"]["accelPartialNeg"].color = (0, 1, 0);
-	self.huds["cgaz"]["accelPartialNeg"].archived = false;
-	self.huds["cgaz"]["accelPartialNeg"].hidewheninmenu = true;
 
-	self.huds["cgaz"]["accelFullPos"] = addHud(self, 0, 0, 0.5, "left", "middle");
+	self.huds["cgaz"]["accelFullPos"] = addHud(self, 0, 0, 0.5, "left", "middle", 1.4, 90);
 	self.huds["cgaz"]["accelFullPos"].horzAlign = "fullscreen";
 	self.huds["cgaz"]["accelFullPos"].color = (0, 0.25, 0.25);
-	self.huds["cgaz"]["accelFullPos"].archived = false;
-	self.huds["cgaz"]["accelFullPos"].hidewheninmenu = true;
 
-	self.huds["cgaz"]["accelFullNeg"] = addHud(self, 0, 0, 0.5, "left", "middle");
+	self.huds["cgaz"]["accelFullNeg"] = addHud(self, 0, 0, 0.5, "left", "middle", 1.4, 90);
 	self.huds["cgaz"]["accelFullNeg"].horzAlign = "fullscreen";
 	self.huds["cgaz"]["accelFullNeg"].color = (0, 0.25, 0.25);
-	self.huds["cgaz"]["accelFullNeg"].archived = false;
-	self.huds["cgaz"]["accelFullNeg"].hidewheninmenu = true;
 
-	self.huds["cgaz"]["turnZonePos"] = addHud(self, 0, 0, 0.5, "left", "middle");
+	self.huds["cgaz"]["turnZonePos"] = addHud(self, 0, 0, 0.5, "left", "middle", 1.4, 90);
 	self.huds["cgaz"]["turnZonePos"].horzAlign = "fullscreen";
 	self.huds["cgaz"]["turnZonePos"].color = (1, 1, 0);
-	self.huds["cgaz"]["turnZonePos"].archived = false;
-	self.huds["cgaz"]["turnZonePos"].hidewheninmenu = true;
 
-	self.huds["cgaz"]["turnZoneNeg"] = addHud(self, 0, 0, 0.5, "left", "middle");
+	self.huds["cgaz"]["turnZoneNeg"] = addHud(self, 0, 0, 0.5, "left", "middle", 1.4, 90);
 	self.huds["cgaz"]["turnZoneNeg"].horzAlign = "fullscreen";
 	self.huds["cgaz"]["turnZoneNeg"].color = (1, 1, 0);
-	self.huds["cgaz"]["turnZoneNeg"].archived = false;
-	self.huds["cgaz"]["turnZoneNeg"].hidewheninmenu = true;
 }
 
 pmove()

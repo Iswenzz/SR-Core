@@ -85,7 +85,7 @@ load()
 
 reset()
 {
-	self.settings["hud_crosshair"] 			= true;
+	self.settings["hud_crosshair"] 			= 2;
 	self.settings["hud_fps"] 				= true;
 	self.settings["hud_fps_combo"] 			= false;
 	self.settings["hud_xp"] 				= false;
@@ -109,8 +109,9 @@ reset()
 update_hudCrosshair(num)
 {
 	value = self.settings["hud_crosshair"];
-	self setClientDvar("cg_drawcrosshair", value);
-	self updateHud(num, value);
+	labels = strTok("^1OFF;^2Stock;^5Quake;", ";");
+	self setClientDvar("cg_drawCrosshair", value == 1);
+	self updateHud(num, value, labels[value]);
 }
 
 update_hudFPS(num)
@@ -280,7 +281,7 @@ menu_setting(args)
 
 	switch (ToInt(args[1]))
 	{
-		case 0: 	self.settings["hud_crosshair"] 			= !self.settings["hud_crosshair"]; 							break;
+		case 0: 	self.settings["hud_crosshair"] 			= intRange(self.settings["hud_crosshair"], 0, 2); 			break;
 		case 1: 	self.settings["hud_fps"] 				= !self.settings["hud_fps"]; 								break;
 		case 2: 	self.settings["gfx_fullbright"] 		= !self.settings["gfx_fullbright"]; 						break;
 		case 3: 	self.settings["hud_xp"] 				= !self.settings["hud_xp"]; 								break;

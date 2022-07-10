@@ -207,26 +207,18 @@ hud(message)
     self.vote_hud[2] = addHud(self, -10, -40, 0.9, "left", "bottom", 1.8);
     self.vote_hud[2] setShader("black", 180, 20);
 
-    self.vote_hud[3] = addHud(self, 25, -20, 1, "left", "bottom", 1.4);
+    self.vote_hud[3] = addHud(self, 25, -20, 1, "left", "bottom", 1.4, 96);
     self.vote_hud[3] setText("Yes:(^2[{openscriptmenu cjvote cjvoteyes}]^7)");
-    self.vote_hud[3].sort = 96;
 
-    self.vote_hud[4] = addHud(self, 95, -20, 1, "left", "bottom", 1.4);
+    self.vote_hud[4] = addHud(self, 95, -20, 1, "left", "bottom", 1.4, 96);
     self.vote_hud[4] setText("No:(^1[{openscriptmenu cjvote cjvoteno}]^7)");
-    self.vote_hud[4].sort = 96;
 
-    self.vote_hud[5] = addHud(self, 35, 0, 1, "left", "bottom", 1.4);
-    self.vote_hud[5].sort = 96;
-
-    self.vote_hud[6] = addHud(self, 105, 0, 1, "left", "bottom", 1.4);
-    self.vote_hud[6].sort = 96;
-
-    self.vote_hud[7] = addHud(self, 5, -42, 1, "left", "bottom", 1.4);
+    self.vote_hud[5] = addHud(self, 35, 0, 1, "left", "bottom", 1.4, 96);
+    self.vote_hud[6] = addHud(self, 105, 0, 1, "left", "bottom", 1.4, 96);
+    self.vote_hud[7] = addHud(self, 5, -42, 1, "left", "bottom", 1.4, 96);
     self.vote_hud[7] setText(message);
-    self.vote_hud[7].sort = 96;
 
-    self.vote_hud[8] = addHud(self, 135, -42, 1, "left", "bottom", 1.4);
-    self.vote_hud[8].sort = 96;
+    self.vote_hud[8] = addHud(self, 135, -42, 1, "left", "bottom", 1.4, 96);
     self hudUpdate();
 }
 

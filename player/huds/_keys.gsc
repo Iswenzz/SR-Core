@@ -4,10 +4,10 @@
 
 main()
 {
-	precacheShader("key_w");
-	precacheShader("key_a");
-	precacheShader("key_s");
-	precacheShader("key_d");
+	precacheShader("arrow_w");
+	precacheShader("arrow_a");
+	precacheShader("arrow_s");
+	precacheShader("arrow_d");
 
 	event("spawn", ::hud);
 	event("spectator", ::hud);
@@ -48,25 +48,14 @@ shouldRender()
 hudKeys()
 {
 	self.huds["keys"] = [];
-	self.huds["keys"][0] = addHud(self, 0, -120, 0.6, "center", "bottom", 1.8);
-	self.huds["keys"][0] setShader("key_w", 30, 30);
-	self.huds["keys"][0].archived = false;
-	self.huds["keys"][0].hidewheninmenu = true;
-
-	self.huds["keys"][1] = addHud(self, -35, -85, 0.6, "center", "bottom", 1.8);
-	self.huds["keys"][1] setShader("key_a", 30, 30);
-	self.huds["keys"][1].archived = false;
-	self.huds["keys"][1].hidewheninmenu = true;
-
-	self.huds["keys"][2] = addHud(self, 0, -85, 0.6, "center", "bottom", 1.8);
-	self.huds["keys"][2] setShader("key_s", 30, 30);
-	self.huds["keys"][2].archived = false;
-	self.huds["keys"][2].hidewheninmenu = true;
-
-	self.huds["keys"][3] = addHud(self, 35, -85, 0.6, "center", "bottom", 1.8);
-	self.huds["keys"][3] setShader("key_d", 30, 30);
-	self.huds["keys"][3].archived = false;
-	self.huds["keys"][3].hidewheninmenu = true;
+	self.huds["keys"][0] = addHud(self, 0, -20, 0, "center", "middle");
+	self.huds["keys"][0] setShader("arrow_w", 10, 10);
+	self.huds["keys"][1] = addHud(self, -12, -10, 0, "center", "middle");
+	self.huds["keys"][1] setShader("arrow_a", 12, 8);
+	self.huds["keys"][2] = addHud(self, 0, -9, 0, "center", "middle");
+	self.huds["keys"][2] setShader("arrow_s", 10, 10);
+	self.huds["keys"][3] = addHud(self, 12, -10, 0, "center", "middle");
+	self.huds["keys"][3] setShader("arrow_d", 12, 8);
 }
 
 updateKeys(player)
@@ -74,10 +63,10 @@ updateKeys(player)
 	if (!isDefined(self.huds["keys"]) || !self.huds["keys"].size)
 		return;
 
-	self.huds["keys"][0].alpha = Ternary(player forwardButtonPressed(), 1, 0.6);
-	self.huds["keys"][1].alpha = Ternary(player moveLeftButtonPressed(), 1, 0.6);
-	self.huds["keys"][2].alpha = Ternary(player backButtonPressed(), 1, 0.6);
-	self.huds["keys"][3].alpha = Ternary(player moveRightButtonPressed(), 1, 0.6);
+	self.huds["keys"][0].alpha = Ternary(player forwardButtonPressed(), 1, 0);
+	self.huds["keys"][1].alpha = Ternary(player moveLeftButtonPressed(), 1, 0);
+	self.huds["keys"][2].alpha = Ternary(player backButtonPressed(), 1, 0);
+	self.huds["keys"][3].alpha = Ternary(player moveRightButtonPressed(), 1, 0);
 }
 
 clear()

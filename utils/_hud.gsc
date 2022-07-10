@@ -11,6 +11,7 @@ addHud(who, x, y, alpha, alignX, alignY, fontScale, sort)
 
 	hud.x = x;
 	hud.y = y;
+	hud.originalAlpha = alpha;
 	hud.alpha = alpha;
 	hud.alignX = alignX;
 	hud.alignY = alignY;
@@ -18,6 +19,8 @@ addHud(who, x, y, alpha, alignX, alignY, fontScale, sort)
 	hud.vertAlign = alignY;
 	hud.fontScale = Ternary(fontScale < 1.4, 1.4, fontScale);
 	hud.sort = IfUndef(sort, 0);
+	hud.archive = false;
+	hud.hidewheninmenu = true;
 	return hud;
 }
 
@@ -144,7 +147,7 @@ fillRect(x, y, w, h)
 	}
 
 	self setShader("white", w, h);
-	self.alpha = 0.5;
+	self.alpha = self.originalAlpha;
 	self.x = x;
 	self.y = y;
 }

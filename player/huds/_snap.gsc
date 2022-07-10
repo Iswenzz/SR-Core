@@ -76,7 +76,7 @@ oneZoneDraw(start, end, yaw, y, h, defColor, altColor, hlColor, overrideColor)
 
 oneSnapDraw(yaw)
 {
-	y = 6;
+	y = 0;
 	h = 4;
 
 	hlActive = self.snapFlags & level.SNAP_HL_ACTIVE;
@@ -185,10 +185,8 @@ snapHud()
 	self.huds["snap"] = [];
 	for (i = 0; i < level.snap_max_huds; i++)
 	{
-		self.huds["snap"][i] = addHud(self, 0, 0, 0, "left", "middle");
+		self.huds["snap"][i] = addHud(self, 0, 0, 1, "left", "middle", 1.4, 100);
 		self.huds["snap"][i].horzAlign = "fullscreen";
-		self.huds["snap"][i].archived = false;
-		self.huds["snap"][i].hidewheninmenu = true;
 	}
 }
 
