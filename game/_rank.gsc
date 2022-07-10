@@ -1,5 +1,4 @@
 #include sr\sys\_events;
-#include sr\utils\_hud;
 
 initRank()
 {
@@ -193,7 +192,7 @@ giveRankXP(type, value)
 	self endon("disconnect");
 
 	if (!isDefined(value))
-		return;
+		value = getScoreInfoValue(type);
 
 	self.score += value;
 	self.pers["score"] = self.score;
@@ -415,7 +414,6 @@ updateRankStats(player, rankId)
 	player maps\mp\gametypes\_persistence::statSet("minxp", getRankInfoMinXp(rankId));
 	player maps\mp\gametypes\_persistence::statSet("maxxp", getRankInfoMaxXp(rankId));
 	player maps\mp\gametypes\_persistence::statSet("plevel", player.pers["prestige"]);
-
 	player maps\mp\gametypes\_persistence::statSet("vip", rankId);
 	player maps\mp\gametypes\_persistence::statSet("vipplus", player.pers["prestige"]);
 
@@ -446,7 +444,30 @@ updateRankAnnounceHUD()
 	notifyData.sound = "mp_level_up";
 	notifyData.duration = 4.0;
 	notifyData.notifyText = self.pers["rankstring"];
+
 	thread maps\mp\gametypes\_hud_message::notifyMessage(notifyData);
+	self thread notifyUnlockNewItems();
+}
+
+notifyUnlockNewItems()
+{
+	self endon("disconnect");
+
+	keys = getArrayKeys(level.assets);
+	for (i = 0; i < keys.size; i++)
+	{
+		assets = level.assets[keys[i]];
+
+		for (j = 0; j < assets.size; j++)
+		{
+			asset = assets[j];
+			if (GetType(asset) != "ARRAY")
+				continue;
+
+			if (self.pers["rank"] == asset["rank"] && self.pers["prestige"] != asset["prestige"])
+				sr\sys\_notifications::message(fmt("^5Unlocked ^7%s", asset["name"]));
+		}
+	}
 }
 
 processXpReward(sMeansOfDeath, attacker, victim)
@@ -544,96 +565,4 @@ isUnlocked(assets, num, vip)
 	if (self.pers["rank"] < assets[num]["rank"] && self.pers["prestige"] <= assets[num]["prestige"])
 		return 0;
 	return 1;
-}
-
-destroyUnlockMessage()
-{
-	if (!isDefined(self.unlockMessage))
-		return;
-
-	for (i = 0; i < self.unlockMessage.size; i++)
-		self.unlockMessage[i] destroy();
-
-	self.unlockMessage = undefined;
-	self.doingUnlockMessage = false;
-}
-
-unlockMessage(notifyData)
-{
-	self endon("death");
-	self endon("disconnect");
-
-	self.doingUnlockMessage = false;
-	self.unlockMessageQueue = [];
-
-	if (!self.doingUnlockMessage)
-	{
-		self thread showUnlockMessage(notifyData);
-		return;
-	}
-
-	self.unlockMessageQueue[self.unlockMessageQueue.size] = notifyData;
-}
-
-showUnlockMessage(notifyData)
-{
-	self endon("disconnect");
-
-	self playLocalSound("mp_ingame_summary");
-
-	self.doingUnlockMessage = true;
-	self.unlockMessage = [];
-
-	self.unlockMessage[0] = addHud(self, -180, 20, 0.76, "left", "top", 1.4, 990);
-	self.unlockMessage[0] setShader("black", 195, 48);
-
-	self.unlockMessage[1] = addHud(self, -190, 20, 1, "left", "top", 1.5, 992);
-	self.unlockMessage[1] setShader(notifyData.icon, 55, 48);
-
-	self.unlockMessage[2] = addHud(self, -130, 23, 1, "left", "top", 1.4, 993);
-	self.unlockMessage[2].font = "objective";
-	self.unlockMessage[2] setText(notifyData.title);
-
-	self.unlockMessage[3] = addHud(self, -130, 40, 1, "left", "top", 1.4, 993);
-	self.unlockMessage[3] setText(notifyData.description);
-
-	for (i = 0; i < self.unlockMessage.size; i++)
-	{
-		self.unlockMessage[i].horzAlign = "fullscreen";
-		self.unlockMessage[i].vertAlign = "fullscreen";
-		self.unlockMessage[i].hideWhenInMenu = true;
-		self.unlockMessage[i] moveOverTime(notifyData.duration / 4);
-
-		if (i == 1)
-			self.unlockMessage[i].x = 11.5;
-		else if (i >= 2)
-			self.unlockMessage[i].x = 71;
-		else
-			self.unlockMessage[i].x = 10;
-	}
-
-	wait notifyData.duration * 0.8;
-
-	for (i = 0; i < self.unlockMessage.size; i++)
-	{
-		self.unlockMessage[i] fadeOverTime(notifyData.duration * 0.2);
-		self.unlockMessage[i].alpha = 0;
-	}
-
-	wait notifyData.duration * 0.2;
-
-	self destroyUnlockMessage();
-	self notify("unlockMessageDone");
-
-	if (self.unlockMessageQueue.size > 0)
-	{
-		nextUnlockMessageData = self.unlockMessageQueue[0];
-
-		newQueue = [];
-		for (i = 1; i < self.unlockMessageQueue.size; i++)
-			self.unlockMessageQueue[i - 1] = self.unlockMessageQueue[i];
-		self.unlockMessageQueue[i - 1] = undefined;
-
-		self thread showUnlockMessage(nextUnlockMessageData);
-	}
 }

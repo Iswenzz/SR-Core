@@ -23,6 +23,7 @@ main()
     sr\sys\_curl::initCurl();
 	sr\sys\_discord::initDiscord();
 	sr\sys\_admins::initAdmins();
+	sr\sys\_notifications::initNotifications();
 
 	sr\game\_map::main();
 	sr\game\_rank::initRank();

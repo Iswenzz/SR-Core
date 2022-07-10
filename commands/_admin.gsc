@@ -8,10 +8,12 @@ main()
 	cmd("owner",        "cmd",			::cmd_Command);
 	cmd("admin",        "detail",		::cmd_Detail);
 	cmd("masteradmin",  "end",			::cmd_End);
+	cmd("owner",        "givexp",		::cmd_GiveXp);
 	cmd("owner",        "getdvar",		::cmd_GetDvar);
 	cmd("player", 		"help",			::cmd_Help);
 	cmd("member",       "msg",			::cmd_Msg);
     cmd("player",       "myid",			::cmd_MyID);
+    cmd("owner",		"notification",	::cmd_Notification);
 	cmd("member",       "online",		::cmd_Online);
 	cmd("owner",       	"owner",		::cmd_Owner);
 	cmd("admin",        "pid",			::cmd_PID);
@@ -71,6 +73,21 @@ cmd_Detail(args)
 	self clientCmd(fmt("sr_admin_detail %d", value));
 }
 
+cmd_GiveXp(args)
+{
+	if (args.size < 2)
+		return self pm("Usage: givexp <playerName> <xp>");
+
+	player = getPlayerByName(args[0]);
+	xp = ToInt(args[1]);
+
+	self log();
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	player sr\game\_rank::giveRankXP("", xp);
+}
+
 cmd_GetDvar(args)
 {
 	if (args.size < 2)
@@ -120,6 +137,14 @@ cmd_MyID(args)
 	self pm(fmt("Your ID is ^2%s", self.id));
 	wait 0.5;
 	self pm("Please make a note of your ID");
+}
+
+cmd_Notification(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: notification <message>");
+
+	sr\sys\_notifications::message(StrJoin(args, " "));
 }
 
 cmd_Online(args)
