@@ -1,6 +1,6 @@
 #include sr\utils\_math;
 
-addHud(who, x, y, alpha, alignX, alignY, fontScale, sort)
+addHud(who, x, y, alpha, alignX, alignY, fontScale, sort, archived)
 {
 	if (isPlayer(who))
 		hud = newClientHudElem(who);
@@ -19,7 +19,7 @@ addHud(who, x, y, alpha, alignX, alignY, fontScale, sort)
 	hud.vertAlign = alignY;
 	hud.fontScale = Ternary(fontScale < 1.4, 1.4, fontScale);
 	hud.sort = IfUndef(sort, 0);
-	hud.archive = false;
+	hud.archived = IfUndef(archived, false);
 	hud.hidewheninmenu = true;
 	return hud;
 }
