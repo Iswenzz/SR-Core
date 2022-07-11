@@ -10,7 +10,6 @@ main()
 loop()
 {
 	self endon("disconnect");
-	self.run = 0;
 	self.sr_cheat = false;
 	self.antiLowFps = true;
 	self.antiElevator = true;
