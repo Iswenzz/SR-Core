@@ -26,14 +26,14 @@ hud()
 
 	while (true)
 	{
-		player = IfUndef(self getSpectatorClient(), self);
+		self.player = IfUndef(self getSpectatorClient(), self);
 
-		if (player isNewRun(self.run))
+		if (self.player isNewRun(self.run))
 			self vars();
 
-		self.run = player.run;
-        self.velocityDist = player getPlayerVelocity();
-        self.onGround = player isOnGround();
+		self.run = self.player.run;
+        self.velocityDist = self.player getPlayerVelocity();
+        self.onGround = self.player isOnGround();
 
         if (self.onGround && !self.prevOnGround)
         {

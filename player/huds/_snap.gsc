@@ -39,6 +39,8 @@ hud()
 	{
 		wait 0.05;
 
+		self.player = IfUndef(self getSpectatorClient(), self);
+
 		self pmove();
 		self resetGraph();
 	}
@@ -171,7 +173,7 @@ snapHud()
 	self.snap.wishvel = [];
 	self.snap.forwardMove = 0;
 	self.snap.rightMove = 0;
-	self.snap.velocity = self getVelocity();
+	self.snap.velocity = (0, 0, 0);
 	self.snap.a = 0;
 	self.snap.maxAccel = 0;
 	self.snap.minAbsAccel = 0;
@@ -205,15 +207,15 @@ pmove()
 {
 	self.snapFlags = self getSnapFlags(self.settings["hud_snap"]);
 
-	self.snap.velocity = self getVelocity();
-	self.snap.viewAngles = self getPlayerAngles();
+	self.snap.velocity = self.player getVelocity();
+	self.snap.viewAngles = self.player getPlayerAngles();
 	self.snap.forward = anglesToForward(self.snap.viewAngles);
 	self.snap.right = anglesToRight(self.snap.viewAngles);
 	self.snap.up = anglesToUp(self.snap.viewAngles);
-	self.snap.forwardMove = self getForwardMove();
-	self.snap.rightMove = self getRightMove();
-	self.snap.frameTime = 1 / self getFPS();
-	self.snap.viewHeight = int(self eye()[2]);
+	self.snap.forwardMove = self.player getForwardMove();
+	self.snap.rightMove = self.player getRightMove();
+	self.snap.frameTime = 1 / self.player getFPS();
+	self.snap.viewHeight = int(self.player eye()[2]);
 	self.snap.hudIndex = 0;
 
 	if (self isOnGround())
@@ -300,7 +302,7 @@ pm_slickAccelerate(wishspeed, accel)
 
 pm_jumpReduceFriction()
 {
-	if (self PmTime() > 1800)
+	if (self.player PmTime() > 1800)
 		return 1;
 	return self pm_jumpGetSlowdownFriction();
 }
@@ -309,8 +311,8 @@ pm_jumpGetSlowdownFriction()
 {
 	if (!getDvarInt("jump_slowdownEnable"))
 		return 1.0;
-	if (self PmTime() < 1700)
-		return self PmTime() * 1.5 * 0.00058823527 + 1;
+	if (self.player PmTime() < 1700)
+		return self.player PmTime() * 1.5 * 0.00058823527 + 1;
 	return 2.5;
 }
 
@@ -321,7 +323,7 @@ pm_friction()
 	vec[1] = self.snap.velocity[1];
 	vec[2] = self.snap.velocity[2];
 
-	if (self isOnGround())
+	if (self.player isOnGround())
 		vec[2] = 0;
 
 	speed = abs(vec[0]);
@@ -333,12 +335,12 @@ pm_friction()
 
 	drop = 0;
 	surfaceSlick = false; // @TODO slick
-	if (self isOnGround() && !surfaceSlick && !(self PmFlags() & 256))
+	if (self.player isOnGround() && !surfaceSlick && !(self.player PmFlags() & 256))
 	{
 		control = Ternary(100 <= speed, speed, 100);
-		if (self PmFlags() & 128)
+		if (self.player PmFlags() & 128)
 			control = control * 0.30000001;
-		else if (self PmFlags() & 16384)
+		else if (self.player PmFlags() & 16384)
 			control = self pm_jumpReduceFriction() * control;
 
 		drop = ((control * 5.5) * self.snap.frameTime) + drop;
@@ -348,7 +350,7 @@ pm_friction()
 		player_sliding_friction = 1;
 		drop = ((speed * player_sliding_friction) * self.snap.frameTime) + drop;
 	}
-	if (self PmType() == 4)
+	if (self.player PmType() == 4)
 		drop = ((speed * 5.0) * self.snap.frameTime) + drop;
 
 	newspeed = speed - drop;
@@ -377,7 +379,7 @@ pm_cmdScale()
 
 	total = sqrt(self.snap.rightMove * self.snap.rightMove + self.snap.forwardMove * self.snap.forwardMove);
 
-	scale = self.speed * max / (total * 127);
+	scale = self.player.speed * max / (total * 127);
 	if (self.modes["noclip"])
 		scale *= 3;
 	if (self.sessionstate == "spectator")
@@ -399,16 +401,16 @@ pm_cmdScaleWalk()
 	if (speed == 0)
 		return 0;
 
-	scale = (self.speed * speed) / (127 * total);
-	if (self getStance() == "prone")
+	scale = (self.player.speed * speed) / (127 * total);
+	if (self.player getStance() == "prone")
 		scale *= 0.40000001;
-	if (self sprintButtonPressed() && self.snap.viewHeight == 60)
+	if (self.player sprintButtonPressed() && self.snap.viewHeight == 60)
 		scale *= 1;
 	if (self.modes["noclip"])
 		scale *= 3;
 	else
 		scale *= self pm_cmdScaleForStance();
-	return scale * self.moveSpeedScale;
+	return scale * self.player.moveSpeedScale;
 }
 
 pm_cmdScaleForStance()

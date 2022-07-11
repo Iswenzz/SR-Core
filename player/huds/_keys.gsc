@@ -28,9 +28,9 @@ hud()
 
 	while (self shouldRender())
 	{
-		player = IfUndef(self getSpectatorClient(), self);
+		self.player = IfUndef(self getSpectatorClient(), self);
 
-		self updateKeys(player);
+		self updateKeys();
 		wait 0.05;
 	}
 }
@@ -58,15 +58,15 @@ hudKeys()
 	self.huds["keys"][3] setShader("arrow_d", 12, 8);
 }
 
-updateKeys(player)
+updateKeys()
 {
 	if (!isDefined(self.huds["keys"]) || !self.huds["keys"].size)
 		return;
 
-	self.huds["keys"][0].alpha = Ternary(player forwardButtonPressed(), 1, 0);
-	self.huds["keys"][1].alpha = Ternary(player moveLeftButtonPressed(), 1, 0);
-	self.huds["keys"][2].alpha = Ternary(player backButtonPressed(), 1, 0);
-	self.huds["keys"][3].alpha = Ternary(player moveRightButtonPressed(), 1, 0);
+	self.huds["keys"][0].alpha = Ternary(self.player forwardButtonPressed(), 1, 0);
+	self.huds["keys"][1].alpha = Ternary(self.player moveLeftButtonPressed(), 1, 0);
+	self.huds["keys"][2].alpha = Ternary(self.player backButtonPressed(), 1, 0);
+	self.huds["keys"][3].alpha = Ternary(self.player moveRightButtonPressed(), 1, 0);
 }
 
 clear()
