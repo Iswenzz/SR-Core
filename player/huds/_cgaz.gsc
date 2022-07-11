@@ -115,6 +115,8 @@ pmove()
 	self.cgaz.rightMove = self.player getRightMove();
 	self.cgaz.frameTime = 1 / self.player getFPS();
 	self.cgaz.viewHeight = int(self.player eye()[2]);
+	self.cgaz.speed = IfUndef(self.player.speed, 190);
+	self.cgaz.moveSpeedScale = IfUndef(self.player.moveSpeedScale, 1.05);
 
 	if (self isOnGround())
 		self pm_walkMove();
@@ -255,7 +257,7 @@ pm_cmdScale()
 
 	total = sqrt(self.cgaz.rightMove * self.cgaz.rightMove + self.cgaz.forwardMove * self.cgaz.forwardMove);
 
-	scale = self.player.speed * max / (total * 127);
+	scale = self.cgaz.speed * max / (total * 127);
 	if (self.modes["noclip"])
 		scale *= 3;
 	if (self.sessionstate == "spectator")
@@ -277,7 +279,7 @@ pm_cmdScaleWalk()
 	if (speed == 0)
 		return 0;
 
-	scale = (self.player.speed * speed) / (127 * total);
+	scale = (self.cgaz.speed * speed) / (127 * total);
 	if (self.player getStance() == "prone")
 		scale *= 0.40000001;
 	if (self.player sprintButtonPressed() && self.cgaz.viewHeight == 60)
@@ -286,7 +288,7 @@ pm_cmdScaleWalk()
 		scale *= 3;
 	else
 		scale *= self pm_cmdScaleForStance();
-	return scale * self.player.moveSpeedScale;
+	return scale * self.cgaz.moveSpeedScale;
 }
 
 pm_cmdScaleForStance()

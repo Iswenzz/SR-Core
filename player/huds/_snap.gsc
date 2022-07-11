@@ -218,6 +218,8 @@ pmove()
 	self.snap.frameTime = 1 / self.player getFPS();
 	self.snap.viewHeight = int(self.player eye()[2]);
 	self.snap.hudIndex = 0;
+	self.snap.speed = IfUndef(self.player.speed, 190);
+	self.snap.moveSpeedScale = IfUndef(self.player.moveSpeedScale, 1.05);
 
 	if (self isOnGround())
 		self pm_walkMove();
@@ -380,7 +382,7 @@ pm_cmdScale()
 
 	total = sqrt(self.snap.rightMove * self.snap.rightMove + self.snap.forwardMove * self.snap.forwardMove);
 
-	scale = self.player.speed * max / (total * 127);
+	scale = self.snap.speed * max / (total * 127);
 	if (self.modes["noclip"])
 		scale *= 3;
 	if (self.sessionstate == "spectator")
@@ -402,7 +404,7 @@ pm_cmdScaleWalk()
 	if (speed == 0)
 		return 0;
 
-	scale = (self.player.speed * speed) / (127 * total);
+	scale = (self.snap.speed * speed) / (127 * total);
 	if (self.player getStance() == "prone")
 		scale *= 0.40000001;
 	if (self.player sprintButtonPressed() && self.snap.viewHeight == 60)
@@ -411,7 +413,7 @@ pm_cmdScaleWalk()
 		scale *= 3;
 	else
 		scale *= self pm_cmdScaleForStance();
-	return scale * self.player.moveSpeedScale;
+	return scale * self.snap.moveSpeedScale;
 }
 
 pm_cmdScaleForStance()
