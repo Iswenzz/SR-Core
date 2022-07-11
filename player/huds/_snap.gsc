@@ -210,6 +210,8 @@ pmove()
 	self.snap.forward = anglesToForward(self.snap.viewAngles);
 	self.snap.right = anglesToRight(self.snap.viewAngles);
 	self.snap.up = anglesToUp(self.snap.viewAngles);
+	self.snap.forwardMove = self getForwardMove();
+	self.snap.rightMove = self getRightMove();
 	self.snap.frameTime = 1 / self getFPS();
 	self.snap.viewHeight = int(self eye()[2]);
 	self.snap.hudIndex = 0;
@@ -233,9 +235,6 @@ pm_walkMove()
 
 	for (i = 0; i < 2; i++)
 	{
-		self.snap.forwardMove = self getForwardMove();
-		self.snap.rightMove = self getRightMove();
-
 		if (!self.snap.forwardMove && !self.snap.rightMove)
 			self.snap.forwardMove = 127;
 
@@ -268,9 +267,6 @@ pm_airMove()
 
 	for (i = 0; i < 2; i++)
 	{
-		self.snap.forwardMove = self getForwardMove();
-		self.snap.rightMove = self getRightMove();
-
 		if (!self.snap.forwardMove && !self.snap.rightMove)
 			self.snap.forwardMove = 127;
 

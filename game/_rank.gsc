@@ -279,7 +279,7 @@ prestige()
 
 	updaterankstats(self, 0);
 
-	iPrintLn(fmt("%s has entered prestige %d of %d", self.name, self.pers["prestige"], level.maxPrestige));
+	iPrintLn(fmt("%s has entered prestige %d", self.name, self.pers["prestige"]));
 
 	self setStat(979, 0);
 	self setStat(980, 0);
@@ -465,7 +465,7 @@ notifyUnlockNewItems()
 				continue;
 
 			if (self.pers["rank"] == asset["rank"] && self.pers["prestige"] != asset["prestige"])
-				sr\sys\_notifications::message(fmt("^5Unlocked ^7%s", asset["name"]));
+				self sr\sys\_notifications::message(fmt("^5Unlocked ^7%s", asset["name"]));
 		}
 	}
 }

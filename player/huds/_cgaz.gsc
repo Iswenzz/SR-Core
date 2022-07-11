@@ -108,6 +108,8 @@ pmove()
 	self.cgaz.forward = anglesToForward(self.cgaz.viewAngles);
 	self.cgaz.right = anglesToRight(self.cgaz.viewAngles);
 	self.cgaz.up = anglesToUp(self.cgaz.viewAngles);
+	self.cgaz.forwardMove = self getForwardMove();
+	self.cgaz.rightMove = self getRightMove();
 	self.cgaz.frameTime = 1 / self getFPS();
 	self.cgaz.viewHeight = int(self eye()[2]);
 
@@ -126,9 +128,6 @@ pm_walkMove()
 
 	for (i = 0; i < 2; i++)
 	{
-		self.cgaz.forwardMove = self getForwardMove();
-		self.cgaz.rightMove = self getRightMove();
-
 		if (!self.cgaz.forwardMove && !self.cgaz.rightMove)
 			self.cgaz.forwardMove = 127;
 
@@ -161,9 +160,6 @@ pm_airMove()
 
 	for (i = 0; i < 2; i++)
 	{
-		self.cgaz.forwardMove = self getForwardMove();
-		self.cgaz.rightMove = self getRightMove();
-
 		if (!self.cgaz.forwardMove && !self.cgaz.rightMove)
 			self.cgaz.forwardMove = 127;
 

@@ -144,7 +144,7 @@ cmd_Notification(args)
 	if (args.size < 1)
 		return self pm("Usage: notification <message>");
 
-	sr\sys\_notifications::message(StrJoin(args, " "));
+	level sr\sys\_notifications::message(StrJoin(args, " "));
 }
 
 cmd_Online(args)
