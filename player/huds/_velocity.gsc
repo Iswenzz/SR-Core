@@ -28,7 +28,7 @@ hud()
 	{
 		self.player = IfUndef(self getSpectatorClient(), self);
 
-		if (self.player isNewRun(self.run))
+		if (isDefined(self.run) && self.player isNewRun(self.run))
 			self vars();
 
 		self.run = self.player.run;

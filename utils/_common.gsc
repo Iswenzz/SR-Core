@@ -82,7 +82,7 @@ canSpawn()
 
 isNewRun(run)
 {
-	return self.run != run;
+	return ToString(self.run) != ToString(run);
 }
 
 playSoundOnPosition(soundAlias, pos, local)
