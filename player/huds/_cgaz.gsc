@@ -6,6 +6,7 @@
 main()
 {
 	event("spawn", ::hud);
+	event("spectator", ::hud);
 	event("death", ::clear);
 }
 

@@ -21,6 +21,7 @@ main()
 	level.snap_colors[level.snap_colors.size] = (0.05, 0.05, 0.05);
 
 	event("spawn", ::hud);
+	event("spectator", ::hud);
 	event("death", ::clear);
 }
 
