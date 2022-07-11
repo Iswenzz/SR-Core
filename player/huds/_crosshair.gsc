@@ -27,8 +27,6 @@ hudCrosshair()
 {
 	self.huds["crosshair"] = addHud(self, 0, 0, 1, "center", "middle", 1.4, 999);
 	self.huds["crosshair"] setShader("crosshair", 2, 2);
-
-	comPrintLn("crosshair");
 }
 
 clear()
