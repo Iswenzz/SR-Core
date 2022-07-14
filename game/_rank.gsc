@@ -191,6 +191,7 @@ giveRankXP(type, value)
 {
 	self endon("disconnect");
 
+	value = int(value);
 	if (!isDefined(value))
 		value = getScoreInfoValue(type);
 
