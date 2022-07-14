@@ -16,18 +16,3 @@ PATH_Mod(path)
 {
 	return PathJoin(getDvar("fs_game"), path);
 }
-
-FILE_ReadLines(file)
-{
-	lines = [];
-	while (true)
-	{
-		line = FILE_ReadLine(file);
-
-		if (IsNullOrEmpty(line))
-			break;
-
-		lines[lines.size] = line;
-	}
-	return lines;
-}
