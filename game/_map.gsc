@@ -62,8 +62,8 @@ placeSpawns()
 	{
 		level.masterSpawn = spawn("script_origin", (x, y, z));
 		level.masterSpawn.angles = angles;
-		level.masterSpawn placeSpawnPoint();
 	}
+	level.masterSpawn placeSpawnPoint();
 }
 
 end(map)
