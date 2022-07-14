@@ -81,7 +81,7 @@ buildRanksIcon()
 reset()
 {
 	self.pers["prestige"] = 0;
-	self.pers["rank"] = 1;
+	self.pers["rank"] = 0;
 	self.pers["rankxp"] = 0;
 
 	self setRank(self.pers["rank"], self.pers["prestige"]);
@@ -156,7 +156,7 @@ onConnect()
 	self setStat(2326, self.pers["prestige"]);
 	self setStat(2350, self.pers["rank"]);
 	self setStat(2301, self.pers["rankxp"]);
-	self setRank(self.pers["rank"] - 1, int(self.pers["prestige"]));
+	self setRank(self.pers["rank"], int(self.pers["prestige"]));
 }
 
 onChangedTeam()
@@ -250,13 +250,13 @@ databaseGetRank()
 	{
 		row = SQL_FetchRowDict();
 		self.pers["rankxp"] = row["xp"];
-		self.pers["rank"] = row["rank"];
+		self.pers["rank"] = row["rank"] - 1;
 		self.pers["prestige"] = row["prestige"];
 	}
 	else
 	{
 		self.pers["rankxp"] = 0;
-		self.pers["rank"] = 1;
+		self.pers["rank"] = 0;
 		self.pers["prestige"] = 0;
 	}
 	mutex_release("mysql");
@@ -272,7 +272,7 @@ prestige()
 		return;
 	}
 	self.pers["rankxp"] = 1;
-	self.pers["rank"] = 1;
+	self.pers["rank"] = 0;
 	self.pers["prestige"]++;
 	self setrank(0, self.pers["prestige"]);
 	self maps\mp\gametypes\_persistence::statset("rankxp", 1);
