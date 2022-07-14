@@ -39,7 +39,7 @@ cmd_KzSave(args)
 		return;
 	}
 
-	file = FILE_OpenMod(level.files["kz"], "w+");
+	file = FILE_Open(level.files["kz"], "w+");
 	for (i = 0; i < level.kzPoints.size; i++)
 	{
 		origin = level.kzPoints[i].origin;

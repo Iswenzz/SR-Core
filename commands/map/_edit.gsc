@@ -3,8 +3,8 @@
 
 main()
 {
-	level.files["map"] = fmt("sr/data/maps/%s.txt", level.map);
-	level.files["chicken"] = fmt("sr/data/chickens/%s.txt", level.map);
+	level.files["map"] = fmt(PATH_Mod("sr/data/maps/%s.txt"), level.map);
+	level.files["chicken"] = fmt(PATH_Mod("sr/data/chickens/%s.txt"), level.map);
 
 	precacheModel("chicken");
 
@@ -27,7 +27,7 @@ cmd_ChickenSave(args)
 {
 	index = 0;
 	models = getEntArray("script_model", "classname");
-	file = FILE_OpenMod(level.files["chicken"], "w+");
+	file = FILE_Open(level.files["chicken"], "w+");
 
 	for (i = 0; i < models.size; i++)
 	{
@@ -49,7 +49,7 @@ cmd_MapSave(args)
 {
 	index = 0;
 	brushes = getEntArray("script_brushmodel", "classname");
-	file = FILE_OpenMod(level.files["map"], "w+");
+	file = FILE_Open(level.files["map"], "w+");
 
 	for (i = 0; i < brushes.size; i++)
 	{
@@ -76,12 +76,12 @@ cmd_MapSave(args)
 
 spawnBrushes()
 {
-	if (!FILE_ExistsMod(level.files["map"]))
+	if (!FILE_Exists(level.files["map"]))
 		return;
 
 	sr\utils\_common::waitMapLoad();
 
-	file = FILE_OpenMod(level.files["map"], "r+");
+	file = FILE_Open(level.files["map"], "r+");
 
 	while (true)
 	{
@@ -107,11 +107,11 @@ spawnBrushes()
 
 spawnChickens()
 {
-	if (!FILE_ExistsMod(level.files["chicken"]))
+	if (!FILE_Exists(level.files["chicken"]))
 		return;
 
 	chickens = [];
-	file = FILE_OpenMod(level.files["chicken"], "r+");
+	file = FILE_Open(level.files["chicken"], "r+");
 
 	while (true)
 	{

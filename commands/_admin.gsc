@@ -11,9 +11,9 @@ main()
 	cmd("owner",        "givexp",		::cmd_GiveXp);
 	cmd("owner",        "getdvar",		::cmd_GetDvar);
 	cmd("player", 		"help",			::cmd_Help);
-	cmd("member",       "msg",			::cmd_Msg);
-    cmd("player",       "myid",			::cmd_MyID);
-    cmd("owner",		"notification",	::cmd_Notification);
+	cmd("member", 		"msg",			::cmd_Msg);
+	cmd("player",       "myid",			::cmd_MyID);
+	cmd("owner",		"notification",	::cmd_Notification);
 	cmd("member",       "online",		::cmd_Online);
 	cmd("owner",       	"owner",		::cmd_Owner);
 	cmd("admin",        "pid",			::cmd_PID);
@@ -24,12 +24,18 @@ main()
 	cmd("admin",        "rename",		::cmd_Rename);
 	cmd("member",       "report_player",::cmd_ReportPlayer);
 	cmd("member",       "report_bug",	::cmd_ReportBug);
+	cmd("owner",		"test",			::cmd_Test);
 	cmd("member",       "timeplayed",	::cmd_TimePlayed);
 	cmd("admin",        "sr_kick",		::cmd_Kick);
 	cmd("owner",        "sr_role",		::cmd_Role);
 	cmd("owner",        "sr_vip",		::cmd_VIP);
 	cmd("owner",        "sr_id",		::cmd_ID);
 	cmd("masteradmin",  "sr_ban",		::cmd_Ban);
+}
+
+cmd_Test(args)
+{
+	comPrintLn("map: %d", level.randomizedMaps.size);
 }
 
 cmd_End(args)

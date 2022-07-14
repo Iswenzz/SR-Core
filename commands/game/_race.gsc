@@ -65,7 +65,7 @@ cmd_RaceMk(args)
 
 cmd_RaceSave(args)
 {
-	file = FILE_OpenMod(level.files["race"], "w+");
+	file = FILE_Open(level.files["race"], "w+");
 	for (i = 0; i < level.racePoints.size; i++)
 	{
 		origin = level.racePoints[i];

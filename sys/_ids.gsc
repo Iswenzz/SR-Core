@@ -3,7 +3,7 @@
 
 initIds()
 {
-	level.files["playerIds"] = "sr/data/admin/speedrun_player_ids.txt";
+	level.files["playerIds"] = PATH_Mod("sr/data/admin/speedrun_player_ids.txt");
 
 	event("connect", ::load);
 }
@@ -29,7 +29,7 @@ load()
 
 createId()
 {
-	file = FILE_OpenMod(level.files["playerIds"], "a+");
+	file = FILE_Open(level.files["playerIds"], "a+");
 	lines = FILE_ReadLines(file);
 
 	id = [];

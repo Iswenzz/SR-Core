@@ -5,7 +5,7 @@
 
 initKz()
 {
-	level.files["kz"] = fmt("sr/data/kz/%s.txt", level.map);
+	level.files["kz"] = fmt(PATH_Mod("sr/data/kz/%s.txt"), level.map);
 
 	createMinigame("kz");
 
@@ -63,10 +63,10 @@ hud()
 
 load()
 {
-	if (!FILE_ExistsMod(level.files["kz"]))
+	if (!FILE_Exists(level.files["kz"]))
 		return;
 
-	file = FILE_OpenMod(level.files["kz"], "r+");
+	file = FILE_Open(level.files["kz"], "r+");
 
 	while (true)
 	{

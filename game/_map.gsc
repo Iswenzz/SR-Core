@@ -7,7 +7,7 @@ main()
 	level.spawn = [];
 	level.colliders = [];
 	level.tempEntity = spawn("script_model", (0, 0, 0));
-	level.files["rotation"] = "sr/data/match/rotation.txt";
+	level.files["rotation"] = PATH_Mod("sr/data/match/rotation.txt");
 	level.rotation = getRotation(false);
 	level.randomizedMaps = [];
 
@@ -181,23 +181,21 @@ randomizeMaps(amount)
 {
 	maps = [];
 	rotation = level.rotation;
-	file = FILE_OpenMod(level.files["rotation"], "a+");
+	file = FILE_Open(level.files["rotation"], "a+");
 	playedMaps = FILE_ReadLines(file);
+
+	// No more new maps found
+	if (playedMaps.size >= rotation.size - amount)
+	{
+		FILE_Close(file);
+		FILE_Delete(level.files["rotation"]);
+		return thread randomizeMaps(amount);
+	}
 
 	while (maps.size != amount)
 	{
-		wait 1;
 		picked = rotation[randomInt(rotation.size)];
 		rotation = Remove(rotation, picked);
-
-		// No more new maps found
-		if (rotation.size < amount)
-		{
-			FILE_Close(file);
-			FILE_Delete(level.files["rotation"]);
-			thread randomizeMaps(amount);
-			return;
-		}
 
 		// Found map
 		if (!Contains(playedMaps, picked))

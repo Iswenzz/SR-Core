@@ -4,6 +4,8 @@
 
 initAdmins()
 {
+	level.files["commands"] = PATH_Mod("sr/data/admin/commands.txt");
+
 	precache();
 
 	// Roles
@@ -21,6 +23,7 @@ initAdmins()
 
 	// Commands
 	level.admin_commands				= [];
+	level.admin_role					= "owner";
 
 	event("command", ::command);
 	event("connect", ::banned);
@@ -172,9 +175,12 @@ banned()
 
 log()
 {
+	if (!isPlayer(self))
+		return;
+
 	line = fmt("%s %s\t%s", self.guid, self.name, self.lastCommand);
 
-	file = FILE_OpenMod("sr/data/admin/commands.txt", "a+");
+	file = FILE_Open(level.files["commands"], "a+");
 	FILE_WriteLine(file, line);
 	FILE_Close(file);
 }

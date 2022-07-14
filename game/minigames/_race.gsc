@@ -6,7 +6,7 @@
 
 initRace()
 {
-	level.files["race"] = fmt("sr/data/race/%s.txt", level.map);
+	level.files["race"] = fmt(PATH_Mod("sr/data/race/%s.txt"), level.map);
 
 	createMinigame("race");
 
@@ -63,10 +63,10 @@ hud()
 
 load()
 {
-	if (!FILE_ExistsMod(level.files["race"]))
+	if (!FILE_Exists(level.files["race"]))
 		return;
 
-	file = FILE_OpenMod(level.files["race"], "r+");
+	file = FILE_Open(level.files["race"], "r+");
 
 	while (true)
 	{

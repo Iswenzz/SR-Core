@@ -472,6 +472,8 @@ portalWait(color, othercolor)
 	{
 		for (i = 0; i < players.size; i++)
 		{
+			if (!isDefined(players[i]))
+				continue;
 			if (getdvarint("portal_owner_walkthrough_only"))
 			{
 				if (players[i] != self)
