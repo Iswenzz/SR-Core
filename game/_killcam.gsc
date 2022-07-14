@@ -16,28 +16,20 @@ main()
 		return;
 
 	setArchive(true);
-
-	event("killed", ::onKilled);
 }
 
-onKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration)
+start(eInflictor, attacker, sWeapon)
 {
 	if (!isDefined(self) || !isDefined(attacker) || !isDefined(eInflictor)
 		|| !isPlayer(self) || !isPlayer(attacker) || self == attacker)
 		return;
 	if (getTeamPlayersAlive("axis") > 0 && getTeamPlayersAlive("allies") > 0)
 		return;
-	if ((level.dvar["pi_kc_show"] == 0 && (isDefined(level.activ) && self == level.activ) && attacker.pers["team"] == "allies")
+	if (!((level.dvar["pi_kc_show"] == 0 && (isDefined(level.activ) && self == level.activ) && attacker.pers["team"] == "allies")
 		|| (level.dvar["pi_kc_show"] == 1 && self.pers["team"] == "allies" && (isDefined(level.activ) && level.activ == attacker))
-		|| level.dvar["pi_kc_show"] == 2)
-	{
-		thread startKillcam(attacker, sWeapon);
+		|| level.dvar["pi_kc_show"] == 2))
 		return;
-	}
-}
 
-startKillcam(attacker, sWeapon)
-{
 	wait 2;
 	players = getEntArray("player", "classname");
 
