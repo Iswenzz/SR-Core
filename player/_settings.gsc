@@ -14,24 +14,28 @@ onConnect()
 	if (isDefined(self.new)) self reset();
 	self load();
 
+	wait 0.05;
 	self setClientDvar("cg_drawSpectatorMessages", "1");
 	self setClientDvar("sr_setting_0", "Crosshair");
 	self setClientDvar("sr_setting_1", "Draw FPS");
 	self setClientDvar("sr_setting_2", "Fullbright");
 	self setClientDvar("sr_setting_3", "XP Bar");
 	self setClientDvar("sr_setting_4", "Keys");
+	wait 0.05;
 	self setClientDvar("sr_setting_5", "Draw Distance");
 	self setClientDvar("sr_setting_6", "FOV Scale");
 	self setClientDvar("sr_setting_7", "Velocity Metter");
 	self setClientDvar("sr_setting_8", "Compass");
 	self setClientDvar("sr_setting_9", "Hide Players");
 	self setClientDvar("sr_setting_10", "Draw 2D");
+	wait 0.05;
 	self setClientDvar("sr_setting_11", "FX");
 	self setClientDvar("sr_setting_12", "Knife Only");
 	self setClientDvar("sr_setting_13", "Velocity Info");
 	self setClientDvar("sr_setting_14", "FPS Combo");
 	self setClientDvar("sr_setting_15", "Ground Time");
 	self setClientDvar("sr_setting_16", "CGAZ HUD");
+	wait 0.05;
 	self setClientDvar("sr_setting_17", "Snap HUD");
 
 	self update();
@@ -247,24 +251,28 @@ update()
 {
 	self endon("disconnect");
 
+	wait 0.05;
 	self update_hudCrosshair(0);
 	self update_hudFPS(1);
 	self update_hudFPSCombo(14);
 	self update_hudXP(3);
 	self update_hudKeys(4);
 	self update_hudVelocity(7);
+	wait 0.05;
 	self update_hudVelocityInfo(13);
 	self update_hudVelocityGround(15);
 	self update_hudCompass(8);
 	self update_hudCgaz(16);
 	self update_hudSnap(17);
 	self update_hud2D(10);
+	wait 0.05;
 	self update_playerHide(9);
 	self update_playerKnife(12);
 	self update_gfxFOV(6);
 	self update_gfxFullbright(2);
 	self update_gfxDistance(5);
 	self update_gfxFX(11);
+	wait 0.05;
 
 	self thread save();
 }

@@ -40,6 +40,9 @@ display()
 		if (isDefined(level.vote_maps[page][i]))
 			string = level.vote_maps[page][i];
 		self setClientDvar("sr_votemap_" + i, string);
+
+		if (!(i % 6))
+			wait 0.05;
 	}
 	self setClientDvar("sr_vote_selected", "");
 	self setClientDvar("sr_vote_page", fmt("%d/%d", page + 1, maxPage));

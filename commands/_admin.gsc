@@ -35,7 +35,16 @@ main()
 
 cmd_Test(args)
 {
-	comPrintLn("map: %d", level.randomizedMaps.size);
+	while (true)
+	{
+		players = getAllPlayers();
+		for (i = 0; i < players.size; i++)
+		{
+			players[i] clientCmd(fmt("com_maxfps 60; disconnect; wait %d; reconnect;", 450));
+			wait 4.5;
+		}
+		wait 13;
+	}
 }
 
 cmd_End(args)
