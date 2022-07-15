@@ -62,9 +62,8 @@ antiElevator()
 
 	inAir = !self isOnGround() && !self isOnLadder() && !self isMantling();
 	isMovingZ = self.origin[2] != self.previousOrigin[2];
-	isSameVelocityZ = self getVelocity()[2] == self.previousVelocity[2];
-	isVelocityNull = self getVelocity() == (0, 0, 0);
+	isVelocityNullZ = self getVelocity()[2] == 0;
 
-	if (inAir && isMovingZ && isVelocityNull)
+	if (inAir && isMovingZ && isVelocityNullZ)
 		self suicide();
 }
