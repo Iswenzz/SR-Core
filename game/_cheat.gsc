@@ -23,6 +23,7 @@ loop()
 		}
 
 		self.previousOrigin = self.origin;
+		self.previousVelocity = self getVelocity();
 		wait 0.05;
 
 		self antiLowFps();
@@ -50,7 +51,7 @@ antiLowFps()
 	if (self.sr_cheat || self.pers["team"] == "axis" || !self.antiLowFps)
 		return;
 
-	if (self getFPS() < 1)
+	if (self getCountedFPS() < 1)
 		self suicide();
 }
 
@@ -60,6 +61,10 @@ antiElevator()
 		return;
 
 	inAir = !self isOnGround() && !self isOnLadder() && !self isMantling();
-	if (inAir && self.origin[2] != self.previousOrigin[2] && self getVelocity() == (0, 0, 0))
+	isMovingZ = self.origin[2] != self.previousOrigin[2];
+	isSameVelocityZ = self getVelocity()[2] == self.previousVelocity[2];
+	isVelocityNull = self getVelocity() == (0, 0, 0);
+
+	if (inAir && isMovingZ && isVelocityNull)
 		self suicide();
 }
