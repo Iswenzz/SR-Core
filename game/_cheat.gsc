@@ -52,7 +52,10 @@ antiLowFps()
 		return;
 
 	if (self getCountedFPS() < 1)
+	{
+		self iPrintLn("^5ANTI-LAG");
 		self suicide();
+	}
 }
 
 antiElevator()
@@ -62,8 +65,11 @@ antiElevator()
 
 	inAir = !self isOnGround() && !self isOnLadder() && !self isMantling();
 	isMovingZ = self.origin[2] != self.previousOrigin[2];
-	isVelocityNullZ = self getVelocity()[2] == 0;
+	isVelocityNullZ = self getVelocity()[2] == 0 && self.previousVelocity[2] == 0;
 
 	if (inAir && isMovingZ && isVelocityNullZ)
+	{
+		self iPrintLn("^3ANTI-ELE");
 		self suicide();
+	}
 }
