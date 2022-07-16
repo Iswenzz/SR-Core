@@ -8,6 +8,8 @@ initRank()
 	level.maxRank = int(tableLookup("mp/rankTable.csv", 0, "maxrank", 1));
 	level.maxPrestige = int(tableLookup("mp/rankIconTable.csv", 0, "maxprestige", 1));
 
+	comPrintLn("ranks: %d", level.maxRank);
+
 	precacheShader("white");
 
 	precacheString(&"RANK_PLAYER_WAS_PROMOTED_N");
@@ -51,7 +53,7 @@ buildRanks()
 		level.ranks[rankId][3] = tableLookup(tableName, 0, rankId, 3);
 		level.ranks[rankId][7] = tableLookup(tableName, 0, rankId, 7);
 
-		precacheString(tableLookupIString(tableName, 0, rankId, 16));
+		// precacheString(tableLookupIString(tableName, 0, rankId, 16));
 
 		rankId++;
 		rankName = tableLookup(tableName, 0, rankId, 1);
@@ -68,13 +70,13 @@ buildRanksIcon()
 	{
 		icon = tableLookup(tableName, 0, rId, 1);
 		level.assets["rank"][rId] = icon;
-		precacheShader(icon);
+		// precacheShader(icon);
 	}
 	for (pId = 0; pId <= level.maxPrestige; pId++)
 	{
 		icon = tableLookup(tableName, 0, 0, pId + 1);
 		level.assets["prestige"][pId] = icon;
-		precacheShader(icon);
+		// precacheShader(icon);
 	}
 }
 
