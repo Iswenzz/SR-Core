@@ -3,31 +3,82 @@
 
 main()
 {
-	cmd("masteradmin", 	"bounce",		::cmd_Bounce);
-	cmd("player", 		"hud_res",		::cmd_HudResolution);
-	cmd("player", 		"hud_fov",		::cmd_HudFov);
-	cmd("owner", 		"clone",		::cmd_Clone);
-	cmd("owner", 		"damage",		::cmd_Damage);
-	cmd("admin", 		"dance",		::cmd_Dance);
-	cmd("adminplus", 	"drop",			::cmd_Drop);
-	cmd("adminplus", 	"flash",		::cmd_Flash);
-	cmd("owner", 		"g_gravity",	::cmd_G_Gravity);
-	cmd("owner", 		"g_speed",		::cmd_G_Speed);
-	cmd("owner", 		"god",			::cmd_God);
-	cmd("admin",        "kill",			::cmd_Kill);
-	cmd("owner", 		"knockback",	::cmd_Knockback);
-	cmd("owner", 		"model",		::cmd_Model);
-	cmd("owner", 		"noclip",		::cmd_NoClip);
-	cmd("masteradmin", 	"sr_freeze",	::cmd_Freeze);
-	cmd("masteradmin", 	"sr_unfreeze",	::cmd_UnFreeze);
-	cmd("adminplus", 	"shock",		::cmd_Shock);
-	cmd("masteradmin", 	"shovel",		::cmd_Shovel);
-	cmd("adminplus", 	"takeall",		::cmd_TakeAll);
-	cmd("owner", 		"trooper",		::cmd_Trooper);
-	cmd("owner", 		"uammo",		::cmd_UAmmo);
-	cmd("adminplus", 	"weapon",		::cmd_Weapon);
-	cmd("adminplus", 	"weapon_all",	::cmd_WeaponAll);
-	cmd("adminplus", 	"weapon_acti",	::cmd_WeaponActi);
+	cmd("masteradmin", 	"bounce",			::cmd_Bounce);
+	cmd("player", 		"hud_res",			::cmd_HudResolution);
+	cmd("player", 		"hud_fov",			::cmd_HudFov);
+	cmd("owner", 		"clone",			::cmd_Clone);
+	cmd("owner", 		"damage",			::cmd_Damage);
+	cmd("admin", 		"dance",			::cmd_Dance);
+	cmd("adminplus", 	"drop",				::cmd_Drop);
+	cmd("adminplus", 	"flash",			::cmd_Flash);
+	cmd("owner", 		"g_gravity",		::cmd_G_Gravity);
+	cmd("owner", 		"g_speed",			::cmd_G_Speed);
+	cmd("owner", 		"god",				::cmd_God);
+	cmd("owner",		"jump_height",		::cmd_JumpHeight);
+	cmd("admin",        "kill",				::cmd_Kill);
+	cmd("owner", 		"knockback",		::cmd_Knockback);
+	cmd("owner", 		"model",			::cmd_Model);
+	cmd("owner", 		"noclip",			::cmd_NoClip);
+	cmd("masteradmin", 	"sr_freeze",		::cmd_Freeze);
+	cmd("masteradmin", 	"sr_unfreeze",		::cmd_UnFreeze);
+	cmd("adminplus", 	"shock",			::cmd_Shock);
+	cmd("masteradmin", 	"shovel",			::cmd_Shovel);
+	cmd("adminplus", 	"takeall",			::cmd_TakeAll);
+	cmd("owner", 		"trooper",			::cmd_Trooper);
+	cmd("player", 		"teleport",			::cmd_Teleport);
+	cmd("admin", 		"teleport_player",	::cmd_TeleportPlayer);
+	cmd("admin", 		"teleport_at",		::cmd_TeleportAt);
+	cmd("owner", 		"uammo",			::cmd_UAmmo);
+	cmd("adminplus", 	"weapon",			::cmd_Weapon);
+	cmd("adminplus", 	"weapon_all",		::cmd_WeaponAll);
+	cmd("adminplus", 	"weapon_acti",		::cmd_WeaponActi);
+}
+
+cmd_Teleport(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: teleport <playerName>");
+	if (!self sr\player\modes\_main::isInMode("practise"))
+		return self pm("^1Player need to be in practise mode");
+
+	player = getPlayerByName(args[0]);
+
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	self.sr_cheat = true;
+	self setOrigin(player.origin);
+}
+
+cmd_TeleportPlayer(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: teleport_player <playerName>");
+
+	player = getPlayerByName(args[0]);
+
+	if (!isDefined(player))
+		return pm("Could not find player");
+	if (!player sr\player\modes\_main::isInMode("practise"))
+		return self pm("^1Player need to be in practise mode");
+
+	player.sr_cheat = true;
+	player setOrigin(self.origin);
+}
+
+cmd_TeleportAt(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: teleport_at <X> <Y> <Z>");
+	if (!self sr\player\modes\_main::isInMode("practise"))
+		return self pm("^1Player need to be in practise mode");
+
+	x = ToFloat(args[0]);
+	y = ToFloat(args[1]);
+	z = ToFloat(args[2]);
+
+	self.sr_cheat = true;
+	self setOrigin((x, y, z));
 }
 
 cmd_HudResolution(args)
@@ -150,6 +201,22 @@ cmd_God(args)
 	player.sr_cheat = true;
 	player.godmode = Ternary(!isDefined(player.godmode), true, undefined);
 	player pm(Ternary(isDefined(player.godmode), "^3God mode enabled!", "^1God mode disabled!"));
+}
+
+cmd_JumpHeight(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: jump_height <value> <playerName>");
+
+	value = ToInt(args[0]);
+	player = IfUndef(getPlayerByName(args[1]), self);
+	player.sr_cheat = true;
+
+	self log();
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	player setJumpHeight(value);
 }
 
 cmd_Kill(args)
