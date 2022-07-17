@@ -22,8 +22,8 @@ main()
 	cmd("owner",        "redirect_all",	::cmd_RedirectAll);
 	cmd("masteradmin",  "reconnect",	::cmd_Reconnect);
 	cmd("admin",        "rename",		::cmd_Rename);
-	cmd("member",       "report_player",::cmd_ReportPlayer);
-	cmd("member",       "report_bug",	::cmd_ReportBug);
+	cmd("player",       "report_player",::cmd_ReportPlayer); // @todo
+	cmd("player",       "report_bug",	::cmd_ReportBug);
 	cmd("owner",		"test",			::cmd_Test);
 	cmd("member",       "timeplayed",	::cmd_TimePlayed);
 	cmd("admin",        "sr_kick",		::cmd_Kick);
