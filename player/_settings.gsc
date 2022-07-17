@@ -11,6 +11,8 @@ main()
 
 onConnect()
 {
+	self endon("disconnect");
+
 	if (isDefined(self.new)) self reset();
 	self load();
 
