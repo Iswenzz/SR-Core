@@ -449,3 +449,79 @@ spawnBots(number)
 	}
 	return bots;
 }
+
+getHitLocHeight(sHitLoc)
+{
+	switch (sHitLoc)
+	{
+		case "helmet":
+		case "object":
+		case "neck":
+			return 60;
+
+		case "torso_upper":
+		case "right_arm_upper":
+		case "left_arm_upper":
+		case "right_arm_lower":
+		case "left_arm_lower":
+		case "right_hand":
+		case "left_hand":
+		case "gun":
+			return 48;
+
+		case "torso_lower":
+			return 40;
+
+		case "right_leg_upper":
+		case "left_leg_upper":
+			return 32;
+
+		case "right_leg_lower":
+		case "left_leg_lower":
+			return 10;
+
+		case "right_foot":
+		case "left_foot":
+			return 5;
+	}
+	return 48;
+}
+
+ragdoll(sHitLoc, vDir, sWeapon, eInflictor, sMeansOfDeath, deathAnimDuration)
+{
+	body = self clonePlayer(deathAnimDuration);
+	body.targetname = "ragdoll";
+
+	if (isDefined(body))
+	{
+		if (self isOnLadder() || self isMantling())
+			body startRagdoll();
+
+		deathAnim = body getCorpseAnim();
+		if (animHasNotetrack(deathAnim, "ignore_ragdoll"))
+			return;
+	}
+	wait 0.2;
+
+	if (!isDefined(vDir))
+		vDir = (0, 0, 0);
+
+	explosionPos = body.origin + (0, 0, getHitLocHeight(sHitLoc));
+	explosionPos -= vDir * 20;
+	explosionRadius = 40;
+	explosionForce = .75;
+
+	if (sMeansOfDeath == "MOD_IMPACT" || sMeansOfDeath == "MOD_EXPLOSIVE" ||
+		isSubStr(sMeansOfDeath, "MOD_GRENADE") || isSubStr(sMeansOfDeath, "MOD_PROJECTILE") ||
+		sHitLoc == "object" || sHitLoc == "helmet")
+		explosionForce = 2.9;
+
+	body startRagdoll(1);
+
+	wait 0.05;
+
+	if (!isDefined(body))
+		return;
+
+	physicsExplosionSphere(explosionPos, explosionRadius, explosionRadius / 2, explosionForce);
+}

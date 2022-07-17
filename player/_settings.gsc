@@ -39,6 +39,7 @@ onConnect()
 	self setClientDvar("sr_setting_16", "CGAZ HUD");
 	wait 0.05;
 	self setClientDvar("sr_setting_17", "Snap HUD");
+	self setClientDvar("sr_setting_18", "Ragdoll");
 
 	self update();
 }
@@ -65,6 +66,7 @@ save()
 	self setStat(1602, self.settings["gfx_fullbright"]);
 	self setStat(1603, self.settings["gfx_distance"]);
 	self setStat(1611, self.settings["gfx_fx"]);
+	self setStat(1618, self.settings["gfx_ragdoll"]);
 }
 
 load()
@@ -87,6 +89,7 @@ load()
 	self.settings["gfx_fullbright"] 		= self getStat(1602);
 	self.settings["gfx_distance"] 			= self getStat(1603);
 	self.settings["gfx_fx"] 				= self getStat(1611);
+	self.settings["gfx_ragdoll"] 			= self getStat(1618);
 }
 
 reset()
@@ -109,6 +112,7 @@ reset()
 	self.settings["gfx_fov"] 				= 1000;
 	self.settings["gfx_fullbright"] 		= false;
 	self.settings["gfx_fx"] 				= true;
+	self.settings["gfx_ragdoll"] 			= false;
 	self save();
 }
 
@@ -206,6 +210,13 @@ update_gfxFX(num)
 	self updateHud(num, value);
 }
 
+update_gfxRagdoll(num)
+{
+	value = self.settings["gfx_ragdoll"];
+	self setClientDvar("ragdoll_enable", value);
+	self updateHud(num, value);
+}
+
 update_hudVelocityInfo(num)
 {
 	value = self.settings["hud_velocity_info"];
@@ -275,6 +286,7 @@ update()
 	self update_gfxDistance(5);
 	self update_gfxFX(11);
 	wait 0.05;
+	self update_gfxRagdoll(18);
 
 	self thread save();
 }
@@ -309,6 +321,7 @@ menu_setting(args)
 		case 15: 	self.settings["hud_velocity_ground"] 	= intRange(self.settings["hud_velocity_ground"], 0, 2); 	break;
 		case 16: 	self.settings["hud_cgaz"] 				= !self.settings["hud_cgaz"]; 								break;
 		case 17: 	self.settings["hud_snap"] 				= intRange(self.settings["hud_snap"], 0, 3);				break;
+		case 18: 	self.settings["gfx_ragdoll"] 			= !self.settings["gfx_ragdoll"];							break;
 	}
 	self update();
 }
