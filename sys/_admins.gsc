@@ -192,5 +192,6 @@ message(msg)
 
 pm(msg)
 {
-	exec(fmt("tell %d %s", self getEntityNumber(), msg));
+	if (isPlayer(self))
+		exec(fmt("tell %d %s", self getEntityNumber(), msg));
 }

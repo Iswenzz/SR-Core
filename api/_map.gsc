@@ -85,3 +85,23 @@ createSpawnAuto()
 	level.masterSpawn = spawn("script_origin", origin);
 	level.masterSpawn.angles = (0, angle, 0);
 }
+
+getSpeed(speed)
+{
+	return int(ceil(getDvarInt("g_speed") * (speed / 190)));
+}
+
+getMoveSpeedScale(moveSpeedScale)
+{
+	return getDvarFloat("dr_jumpers_speed") * (moveSpeedScale / 1.05);
+}
+
+getGravity(gravity)
+{
+	return int(ceil(getDvarFloat("g_gravity") * (gravity / 800)));
+}
+
+getJumpHeight(jumpHeight)
+{
+	return int(ceil(getDvarFloat("jump_height") * (jumpHeight / 39)));
+}

@@ -5,7 +5,6 @@
 main()
 {
 	level.defaultknockback = 1000;
-	level.gravity = getDvarInt("g_gravity");
 	level.maxdistance =  99999999999;
 	level.object_gravity = 800;
 	level.throw_max_force = 30;

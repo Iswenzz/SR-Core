@@ -35,16 +35,8 @@ main()
 
 cmd_Test(args)
 {
-	while (true)
-	{
-		players = getAllPlayers();
-		for (i = 0; i < players.size; i++)
-		{
-			players[i] clientCmd(fmt("com_maxfps 60; disconnect; wait %d; reconnect;", 450));
-			wait 4.5;
-		}
-		wait 13;
-	}
+	self sr\api\_player::setPlayerSpeed(600);
+	self iPrintLnBold(fmt("speed: %d %f %d %d", self.speed, self.moveSpeedScale, self.gravity, self.jumpHeight));
 }
 
 cmd_End(args)

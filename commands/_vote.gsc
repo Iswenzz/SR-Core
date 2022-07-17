@@ -3,9 +3,9 @@
 
 main()
 {
-	cmd("adminplus", 	"vote", 		::cmd_Vote);
+	cmd("admin", 		"vote", 		::cmd_Vote);
 	cmd("masteradmin", 	"vote_cancel", 	::cmd_VoteCancel);
-	cmd("adminplus", 	"vote_cd", 		::cmd_VoteCooldown);
+	cmd("admin", 		"vote_cd", 		::cmd_VoteCooldown);
 	cmd("masteradmin", 	"vote_force", 	::cmd_VoteForce);
 }
 
