@@ -3,8 +3,6 @@
 
 main()
 {
-	createMode("noclip");
-
 	event("spawn", ::noclip);
 }
 
@@ -13,12 +11,8 @@ noclip()
 	self endon("disconnect");
 	self endon("death");
 
-	if (!isInMode("noclip") || !self sr\sys\_admins::isRole("masteradmin"))
+	if (!isInMode("practise"))
 		return;
-
-	self waittill("speedrun_hud");
-	self.run = "Noclip";
-	self.huds["speedrun"]["name"] setText("^3Noclip");
 
 	while (true)
 	{

@@ -383,8 +383,6 @@ pm_cmdScale()
 	total = sqrt(self.snap.rightMove * self.snap.rightMove + self.snap.forwardMove * self.snap.forwardMove);
 
 	scale = self.snap.speed * max / (total * 127);
-	if (self.modes["noclip"])
-		scale *= 3;
 	if (self.sessionstate == "spectator")
 		scale *= spectateSpeedScale;
 	return scale;
@@ -409,8 +407,6 @@ pm_cmdScaleWalk()
 		scale *= 0.40000001;
 	if (self.player sprintButtonPressed() && self.snap.viewHeight == 60)
 		scale *= 1;
-	if (self.modes["noclip"])
-		scale *= 3;
 	else
 		scale *= self pm_cmdScaleForStance();
 	return scale * self.snap.moveSpeedScale;

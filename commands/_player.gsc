@@ -18,7 +18,6 @@ main()
 	cmd("admin",        "kill",				::cmd_Kill);
 	cmd("owner", 		"knockback",		::cmd_Knockback);
 	cmd("owner", 		"model",			::cmd_Model);
-	cmd("owner", 		"noclip",			::cmd_NoClip);
 	cmd("masteradmin", 	"sr_freeze",		::cmd_Freeze);
 	cmd("masteradmin", 	"sr_unfreeze",		::cmd_UnFreeze);
 	cmd("adminplus", 	"shock",			::cmd_Shock);
@@ -262,18 +261,6 @@ cmd_Model(args)
 		return pm("Could not find player");
 
 	player setModel(model);
-}
-
-cmd_NoClip(args)
-{
-	if (self sr\player\modes\_main::isInOtherMode("noclip"))
-		return;
-
-	self sr\player\modes\_main::toggleMode("noclip");
-	self suicide();
-
-	self pm(Ternary(self.modes["noclip"], "^2Noclip mode enabled!", "^1Noclip mode disabled!"));
-	self sr\api\_player::antiElevator(!self.modes["noclip"]);
 }
 
 cmd_Freeze(args)
