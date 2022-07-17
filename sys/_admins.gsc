@@ -11,6 +11,7 @@ initAdmins()
 	// Roles
 	level.admin_roles 					= [];
 	level.admin_roles["player"] 		= 1;
+	level.admin_roles["trusted"] 		= 2;
 	level.admin_roles["member"] 		= 10;
 	level.admin_roles["admin"] 			= 30;
 	level.admin_roles["adminplus"] 		= 50;
@@ -19,7 +20,7 @@ initAdmins()
 
 	// Special
 	level.special_roles["vip"] 			= 1;
-	level.special_roles["donator"] 		= 2;
+	level.special_roles["donator"] 		= 3;
 
 	// Commands
 	level.admin_commands				= [];
@@ -137,6 +138,9 @@ getRoleName()
 			break;
 		case "member":
 			role = "^3Member";
+			break;
+		case "trusted":
+			role = "^8Trusted role omg finaly you can spam !vote"; // @todo
 			break;
 	}
 	return role;
