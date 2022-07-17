@@ -37,7 +37,10 @@ playerTeleport(origin, angles, state)
 	self endon("disconnect");
 
 	if (state == "freeze")
+	{
+		self sr\api\_player::antiElevator(false);
 		self freezeControls(true);
+	}
 
 	self setOrigin(origin);
 	self setPlayerAngles((0, angles, 0));
@@ -46,6 +49,7 @@ playerTeleport(origin, angles, state)
 	{
 		wait 0.05;
 		self freezeControls(false);
+		self sr\api\_player::antiElevator(true);
 	}
 }
 
