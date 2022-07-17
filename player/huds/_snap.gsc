@@ -247,10 +247,10 @@ pm_walkMove()
 			self.snap.rightMove * self.snap.right[i];
 	}
 
-	dmgScale = pm_damageScaleWalk(1) * pm_cmdScaleWalk();
+	dmgScale = pm_damageScaleWalk(self getDamageTimer()) * pm_cmdScaleWalk();
 	wishSpeed = dmgScale * vectorLength2(self.snap.wishvel);
 
-	if (false) // @TODO knockback / slick
+	if (self SurfaceFlags() & 2 || self PmFlags() & 256)
 		self pm_slickAccelerate(wishSpeed, 9);
 
 	accel = 0;
@@ -337,7 +337,7 @@ pm_friction()
 	}
 
 	drop = 0;
-	surfaceSlick = false; // @TODO slick
+	surfaceSlick = self SurfaceFlags() & 2;
 	if (self.player isOnGround() && !surfaceSlick && !(self.player PmFlags() & 256))
 	{
 		control = Ternary(100 <= speed, speed, 100);
@@ -348,7 +348,7 @@ pm_friction()
 
 		drop = ((control * 5.5) * self.snap.frameTime) + drop;
 	}
-	if (surfaceSlick) // @TODO slick
+	if (surfaceSlick)
 	{
 		player_sliding_friction = 1;
 		drop = ((speed * player_sliding_friction) * self.snap.frameTime) + drop;
@@ -435,12 +435,51 @@ pm_cmdScaleForStance()
 
 pm_getViewHeightLerp(fromHeight, toHeight)
 {
-	return 0; // Disable lerp animation
+	viewHeightLerpTime = self getViewHeightLerpTime();
+	viewHeightLerpTarget = self getViewHeightLerpTarget();
+	viewHeightLerpDown = self getViewHeightLerpDown();
+
+	if (!viewHeightLerpTime)
+		return 0;
+
+	if (fromHeight != -1 && toHeight != -1
+		&& (toHeight != viewHeightLerpTarget || toHeight == 40
+		&& (fromHeight != 11 || viewHeightLerpDown)
+		&& (fromHeight != 60 || !viewHeightLerpDown)))
+		return 0;
+
+	flerpFrac = float((getTime() - viewHeightLerpTime)) / pm_getViewHeightLerpTime(viewHeightLerpTarget, viewHeightLerpDown);
+	if (flerpFrac >= 0)
+	{
+		if (flerpFrac > 1)
+			flerpFrac = 1;
+	}
+	else
+		flerpFrac = 0;
+
+	return flerpFrac;
+}
+
+pm_getViewHeightLerpTime(iTarget, bDown)
+{
+	if (iTarget == 11)
+		return 400;
+	if (iTarget != 40)
+		return 200;
+	if (bDown)
+		return 200;
+	return 400;
 }
 
 pm_damageScaleWalk(damageTimer)
 {
-	return 1;
+	player_dmgtimer_maxTime = 750;
+	player_dmgtimer_minScale = 0;
+
+	if (!damageTimer || player_dmgtimer_maxTime == 0)
+		return 1;
+
+	return ((neg(player_dmgtimer_minScale) / player_dmgtimer_maxTime) * damageTimer + 1);
 }
 
 updateSnapState()

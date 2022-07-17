@@ -140,10 +140,10 @@ pm_walkMove()
 			self.cgaz.rightMove * self.cgaz.right[i];
 	}
 
-	dmgScale = self pm_damageScaleWalk(1) * self pm_cmdScaleWalk();
+	dmgScale = self pm_damageScaleWalk(self getDamageTimer()) * self pm_cmdScaleWalk();
 	wishSpeed = dmgScale * vectorLength2(self.cgaz.wishvel);
 
-	if (false) // @TODO knockback / slick
+	if (self SurfaceFlags() & 2 || self PmFlags() & 256)
 		self pm_slickAccelerate(wishSpeed, 9);
 
 	accel = 0;
@@ -212,7 +212,7 @@ pm_friction()
 	}
 
 	drop = 0;
-	surfaceSlick = false; // @TODO slick
+	surfaceSlick = self SurfaceFlags() & 2;
 	if (self.player isOnGround() && !surfaceSlick && !(self.player PmFlags() & 256))
 	{
 		control = Ternary(100 <= speed, speed, 100);
@@ -223,7 +223,7 @@ pm_friction()
 
 		drop = ((control * 5.5) * self.cgaz.frameTime) + drop;
 	}
-	if (surfaceSlick) // @TODO slick
+	if (surfaceSlick)
 	{
 		player_sliding_friction = 1;
 		drop = ((speed * player_sliding_friction) * self.cgaz.frameTime) + drop;
@@ -258,8 +258,6 @@ pm_cmdScale()
 	total = sqrt(self.cgaz.rightMove * self.cgaz.rightMove + self.cgaz.forwardMove * self.cgaz.forwardMove);
 
 	scale = self.cgaz.speed * max / (total * 127);
-	if (self.modes["noclip"])
-		scale *= 3;
 	if (self.sessionstate == "spectator")
 		scale *= spectateSpeedScale;
 	return scale;
@@ -284,8 +282,6 @@ pm_cmdScaleWalk()
 		scale *= 0.40000001;
 	if (self.player sprintButtonPressed() && self.cgaz.viewHeight == 60)
 		scale *= 1;
-	if (self.modes["noclip"])
-		scale *= 3;
 	else
 		scale *= self pm_cmdScaleForStance();
 	return scale * self.cgaz.moveSpeedScale;
@@ -310,12 +306,51 @@ pm_cmdScaleForStance()
 
 pm_getViewHeightLerp(fromHeight, toHeight)
 {
-	return 0; // Disable lerp animation
+	viewHeightLerpTime = self getViewHeightLerpTime();
+	viewHeightLerpTarget = self getViewHeightLerpTarget();
+	viewHeightLerpDown = self getViewHeightLerpDown();
+
+	if (!viewHeightLerpTime)
+		return 0;
+
+	if (fromHeight != -1 && toHeight != -1
+		&& (toHeight != viewHeightLerpTarget || toHeight == 40
+		&& (fromHeight != 11 || viewHeightLerpDown)
+		&& (fromHeight != 60 || !viewHeightLerpDown)))
+		return 0;
+
+	flerpFrac = float((getTime() - viewHeightLerpTime)) / pm_getViewHeightLerpTime(viewHeightLerpTarget, viewHeightLerpDown);
+	if (flerpFrac >= 0)
+	{
+		if (flerpFrac > 1)
+			flerpFrac = 1;
+	}
+	else
+		flerpFrac = 0;
+
+	return flerpFrac;
+}
+
+pm_getViewHeightLerpTime(iTarget, bDown)
+{
+	if (iTarget == 11)
+		return 400;
+	if (iTarget != 40)
+		return 200;
+	if (bDown)
+		return 200;
+	return 400;
 }
 
 pm_damageScaleWalk(damageTimer)
 {
-	return 1;
+	player_dmgtimer_maxTime = 750;
+	player_dmgtimer_minScale = 0;
+
+	if (!damageTimer || player_dmgtimer_maxTime == 0)
+		return 1;
+
+	return ((neg(player_dmgtimer_minScale) / player_dmgtimer_maxTime) * damageTimer + 1);
 }
 
 pm_accelerate(wishspeed, accel)
