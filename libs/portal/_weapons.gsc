@@ -341,6 +341,7 @@ explosionRadiusDamage(pos, radius, max_dmg, min_dmg, ignore_ents)
 		damage = max_dmg * calculateDamageFraction(distance(pos,trace["position"]), radius * 0.25, radius, min_dmg / max_dmg);
 		ents[i] damageEnt(self, damage, "MOD_EXPLOSIVE", "", trace["position"], trace["position"] - pos);
 	}
+
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{

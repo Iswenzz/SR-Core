@@ -35,7 +35,7 @@ main()
 
 cmd_Test(args)
 {
-	self sr\api\_player::setPlayerSpeed(600);
+	self iPrintLnBold(self getVelocity());
 	self iPrintLnBold(fmt("speed: %d %f %d %d", self.speed, self.moveSpeedScale, self.gravity, self.jumpHeight));
 }
 

@@ -3,7 +3,7 @@
 
 main()
 {
-	cmd("owner", 	"portal",			::cmd_Portal);
+	cmd("owner", 	"portal_mode",		::cmd_Portal);
 	cmd("owner", 	"detonate",			::cmd_Detonate);
     cmd("owner", 	"turret",			::cmd_Turret);
 	cmd("owner", 	"turret_delete",	::cmd_TurretDelete);

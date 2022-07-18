@@ -273,7 +273,7 @@ playerPortalObjectCollisionTrace(start, angles, distance)
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		vec = players[i].origin+(0,0,playerheight)-pos;
+		vec = players[i].origin + (0, 0, playerheight) - pos;
 		obj_r = self givemaxcollisionradius();
 		if (lengthsquared((vec[0], vec[1], 0)) < exp(r + obj_r, 2) && abs(vec[2] - obj_r) < playerheight)
 		{

@@ -29,6 +29,7 @@ launch(origin, direction, strength)
 
 	max = GetMax(dir);
 	directionIndex = IndexOf(dir, max);
+	sign = Ternary(direction[directionIndex] > 0, 1, -1);
 
 	velocity = strength / 9;
 	switch (directionIndex)
@@ -37,6 +38,10 @@ launch(origin, direction, strength)
 		case 1: direction = (0, velocity, 0); break;
 		case 2: direction = (0, 0, velocity); break;
 	}
+	direction *= sign;
+
+	iPrintLnBold(direction);
+
 	self setVelocity(direction);
 }
 

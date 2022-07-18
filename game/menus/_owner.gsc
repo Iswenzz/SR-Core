@@ -62,7 +62,7 @@ menu_Knockback(arg)
 
 menu_Portal(arg)
 {
-	self sr\sys\_admins::command("portal");
+	self sr\sys\_admins::command("portal_mode");
 
 	self close();
 }

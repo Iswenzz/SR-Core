@@ -36,7 +36,7 @@ changeWay(way)
 finishWay(way)
 {
 	if (self.sr_way == way)
-		self thread speedrun\game\_run::endTimer();
+		self thread speedrun\player\run\_main::endTimer();
 }
 
 createEndMap(origin, width, height, way)

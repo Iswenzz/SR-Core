@@ -1,19 +1,19 @@
 #include sr\utils\_math;
 
-// calculate the angles after travelling through a portal
+// Calculate the angles after travelling through a portal
 portalOutAngles(angles1, angles2, angles3)
 {
-	return (angleNormalize(angles2[0] + angles3[0] + angles1[0]) , angles2[1] - angles1[1] + angles3[1] - 180,  angleNormalize(angleNormalize(angles3[1] - angles1[1] - 180) * (angleMax(angleNormalize(abs(angles1[0] + angleNormalize(180 - angles2[0])))) / 90)));
+	return (angleNormalize(angles2[0] + angles3[0] + angles1[0]),angles2[1] - angles1[1] + angles3[1] - 180, 0);
 }
 
-// calculate player angles after travelling through a portal
+// Calculate player angles after travelling through a portal
 playerPortalOutAngles(angles1, angles2, angles3)
 {
 	angles = portalOutAngles(angles1, angles2, angles3);
 
-	// if the x-Angle is going over 120 degrees player will be flipped (max player angle is 85)
+	// If the x-Angle is going over 120 degrees player will be flipped (max player angle is 85)
 	while (abs(angles[0]) > 120)
-		angles = (angleMax(angles[0]) , angles[1] + 180, angleNormalize(angles[2] + 180));
+		angles = (angleMax(angles[0]) , angles[1] + 180, 0);
 
 	return angles;
 }
