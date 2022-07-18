@@ -27,7 +27,7 @@ loop()
 		self.previousVelocity = self getVelocity();
 		wait 0.05;
 
-		self antiLowFps();
+		// self antiLowFps();
 		self antiElevator();
 	}
 }
