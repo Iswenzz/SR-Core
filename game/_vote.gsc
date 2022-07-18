@@ -168,10 +168,10 @@ vote(vote, value)
 	level.vote_progress = false;
 	if (level.vote_yes <= level.vote_no)
 	{
-		IPrintLnBold("^1Vote Failed");
+		level sr\sys\_notifications::message("^1Vote Failed");
 		return;
 	}
-	IPrintLnBold("^2Vote Passed");
+	level sr\sys\_notifications::message("^2Vote Passed");
 	wait 2;
 
 	// Action

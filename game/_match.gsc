@@ -67,7 +67,7 @@ timer(time)
 		level.time--;
 
 		if (level.time == 180)
-			iprintlnbold("^1Map will end in 3 minutes!");
+			level sr\sys\_notifications::message("^1Map will end in 3 minutes!");
 		else if (level.time <= 60 && level.time > 10 && level.time % 2 == 0)
 		{
 			clock playSound("ui_mp_timer_countdown");
