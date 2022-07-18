@@ -548,7 +548,6 @@ portalKick(p1, p2, vel)
 	self endon("death");
 	self endon("disconnect");
 
-	self.sr_cheat = true;
 	self.portal["inportal"] = true;
 	strength = length(vel);
 
