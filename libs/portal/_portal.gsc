@@ -40,8 +40,6 @@ launch(origin, direction, strength)
 	}
 	direction *= sign;
 
-	iPrintLnBold(direction);
-
 	self setVelocity(direction);
 }
 

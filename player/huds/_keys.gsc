@@ -48,13 +48,13 @@ shouldRender()
 hudKeys()
 {
 	self.huds["keys"] = [];
-	self.huds["keys"][0] = addHud(self, 0, -20, 0, "center", "middle");
+	self.huds["keys"][0] = addHud(self, 0, -20, 0, "center", "middle", 1.4, 2000);
 	self.huds["keys"][0] setShader("arrow_w", 10, 10);
-	self.huds["keys"][1] = addHud(self, -12, -10, 0, "center", "middle");
+	self.huds["keys"][1] = addHud(self, -12, -10, 0, "center", "middle", 1.4, 2000);
 	self.huds["keys"][1] setShader("arrow_a", 12, 8);
-	self.huds["keys"][2] = addHud(self, 0, -9, 0, "center", "middle");
+	self.huds["keys"][2] = addHud(self, 0, -9, 0, "center", "middle", 1.4, 2000);
 	self.huds["keys"][2] setShader("arrow_s", 10, 10);
-	self.huds["keys"][3] = addHud(self, 12, -10, 0, "center", "middle");
+	self.huds["keys"][3] = addHud(self, 12, -10, 0, "center", "middle", 1.4, 2000);
 	self.huds["keys"][3] setShader("arrow_d", 12, 8);
 }
 
