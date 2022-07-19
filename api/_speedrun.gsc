@@ -28,6 +28,8 @@ createSecretWays(token)
 
 changeWay(way)
 {
+	self thread sr\libs\portal\_portal_gun::resetPortals();
+
 	self.sr_way = way;
 	self playLocalSound("change_way");
 	self thread speedrun\player\huds\_speedrun::updateWay();

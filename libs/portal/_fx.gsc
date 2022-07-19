@@ -25,12 +25,12 @@ redlaserSpawn(start, angles)
 
 	while (true)
 	{
-		for (i = 0; i < level.portals.size; i++)
+		for (i = 0; i < self.portals.size; i++)
 		{
-			if (level.portals[i].activated)
+			if (self.portals[i].activated)
 			{
-				trans = pointTranslation(level.portals[i].trace["position"], end,
-					level.portals[i].trace["normal"], level.portals[i].trace["right"], level.portals[i].trace["up"]);
+				trans = pointTranslation(self.portals[i].trace["position"], end,
+					self.portals[i].trace["normal"], self.portals[i].trace["right"], self.portals[i].trace["up"]);
 
 				if (!(round(trans[2], 2)))
 				{

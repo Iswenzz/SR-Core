@@ -34,6 +34,9 @@ main()
 
 onConnect()
 {
+	if (!self sr\sys\_admins::isRole("owner"))
+		return;
+
     self menuEvent("owner", "shop_mp");
 }
 

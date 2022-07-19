@@ -60,20 +60,20 @@ trackGrenade(grenade, weaponName, cookTime)
 
 	for (i = int(restTime * 20); i > 0 && isDefined(original_grenade) && isDefined(grenade); i--)
 	{
-		if (level.portals.size >= 2)
+		if (self.portals.size >= 2)
 		{
 			if (firstloop)
 				firstloop = false;
 			else
 				vel = grenade.origin - old_pos - (0, 0, 2);
 
-			for (n = 0; n < level.portals.size; n++)
+			for (n = 0; n < self.portals.size; n++)
 			{
-				if (!level.portals[n].active)
+				if (!self.portals[n].active)
 					continue;
 
-				p1 = level.portals[n].trace;
-				if (vectordot(vel,p1["normal"]) >= 0 || vectordot(grenade.origin - level.portals[n].trace["position"], p1["normal"]) <= 0)
+				p1 = self.portals[n].trace;
+				if (vectordot(vel,p1["normal"]) >= 0 || vectordot(grenade.origin - self.portals[n].trace["position"], p1["normal"]) <= 0)
 					continue;
 
 				vec = grenade.origin - p1["position"] - p1["normal"] * _info["radius"];
@@ -88,7 +88,7 @@ trackGrenade(grenade, weaponName, cookTime)
 					grenade.origin = grenade.origin + vel;
 					old_grenade = grenade;
 
-					p2 = level.portals[n].otherportal.trace;
+					p2 = self.portals[n].otherportal.trace;
 					pos = p2["fx_position"] + x * p2["right"] * -1 + y * p2["up"];
 					vel_out = vectordot(vel, p1["right"] * -1) * p2["right"] + vectordot(vel, p1["up"]) * p2["up"] + vectordot(vel, p1["normal"] * -1) * p2["normal"];
 
@@ -224,12 +224,12 @@ watchCurrentFiringForPortals()
 			}
 		}
 	}
-	for (n = 0; n < level.portals.size; n++)
+	for (n = 0; n < self.portals.size; n++)
 	{
-		if (!level.portals[n].active)
+		if (!self.portals[n].active)
 			continue;
 
-		p1 = level.portals[n].trace;
+		p1 = self.portals[n].trace;
 
 		eyepos = self eyepos();
 		vec = eyepos - p1["position"];
@@ -256,7 +256,7 @@ watchCurrentFiringForPortals()
 				if (physicstrace(eyepos, wallpos + w_normal * 2) != (wallpos + w_normal * 2))
 					continue;
 
-				p2 = level.portals[n].otherportal.trace;
+				p2 = self.portals[n].otherportal.trace;
 
 				pos = p2["fx_position"] + x * p2["right"] * -1 + y * p2["up"];
 				forward = vectordot(angle_vec, r * -1) * p2["right"] + vectordot(angle_vec, u) * p2["up"] + vectordot(angle_vec, w_normal * -1) * p2["normal"];

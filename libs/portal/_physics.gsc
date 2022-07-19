@@ -358,13 +358,13 @@ portalObjectCollisionTraceOnly(pos)
 				continue;
 		}
 
-		if (exp(self givemaxcollisionradius() + level.portal_objects[i] givemaxcollisionradius(), 2) > distancesquared(pos, level.portal_objects[i].origin))	//cheap guess if objects might collide
+		if (exp(self givemaxcollisionradius() + level.portal_objects[i] givemaxcollisionradius(), 2) > distancesquared(pos, level.portal_objects[i].origin)) // cheap guess if objects might collide
 		{
 			vec = pos - level.portal_objects[i].origin;
 			r1 = level.portal_objects[i] givecollisionradius(vec);
 			r2 = self givecollisionradius(vec*-1);
 
-			if (exp(r1 + r2, 2) > distancesquared(pos, level.portal_objects[i].origin))	//objects collide
+			if (exp(r1 + r2, 2) > distancesquared(pos, level.portal_objects[i].origin))	// objects collide
 			{
 				trace["hit"] = true;
 				trace["hit_object"] = level.portal_objects[i];
@@ -373,7 +373,7 @@ portalObjectCollisionTraceOnly(pos)
 					trace["normal"] = (0,0,1);
 
 				trace["fraction"] = 1 - level.portal_objects[i] givecollisionradius(vec) / length(vec);
-				trace["position"] = level.portal_objects[i].origin + vec*trace["fraction"];
+				trace["position"] = level.portal_objects[i].origin + vec * trace["fraction"];
 				trace["surfacetype"] = "portal_object";
 				break;
 			}

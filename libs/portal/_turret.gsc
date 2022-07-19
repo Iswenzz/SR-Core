@@ -118,7 +118,7 @@ turretSpawn(pos, angles)
 	if (!isDefined(pos))
 		return;
 
-	turret = sr\libs\portal\_portal::portalSpawn("turret", (pos[0], pos[1], pos[2]), angles, "cylinder", 10, 0.3, 0.25, true, 0.1, 20);
+	turret = sr\libs\portal\_portal::spawnObject("turret", (pos[0], pos[1], pos[2]), angles, "cylinder", 10, 0.3, 0.25, true, 0.1, 20);
 	turret.physics["pickup_script"] = ::pickup;
 
 	if (isDefined(self))

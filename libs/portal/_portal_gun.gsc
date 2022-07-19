@@ -8,7 +8,6 @@
 
 main()
 {
-	level.portals = [];
 	level.portal_objects = [];
 	level.portal_width = 70;
 	level.portal_height = 110;
@@ -26,6 +25,9 @@ watch()
 {
 	self endon("disconnect");
 	self endon("death");
+
+	if (!isDefined(self.portals))
+		self.portals = [];
 
 	self resetPortals();
 
@@ -147,7 +149,7 @@ portal(color)
 
 	if (!portalfailed)
 	{
-		slope_increase = abs(normal[2])*3 * !on_ground;
+		slope_increase = abs(normal[2]) * 3 * !on_ground;
 
 		width = level.portal_width;
 		height = level.portal_height + slope_increase;
@@ -155,25 +157,25 @@ portal(color)
 		if (on_ground)
 			width = height * 0.8;
 
-		forward = normal * (1 + terrain*5*on_ground);
+		forward = normal * (1 + terrain * 5 * on_ground);
 		backward = forward * -1;
 
 		portals = [];
 
-		for (i = 0; i < level.portals.size; i++)
+		for (i = 0; i < self.portals.size; i++)
 		{
 			if (isDefined(self.portal[color]))
-				if (self.portal[color] == level.portals[i])
+				if (self.portal[color] == self.portals[i])
 					continue;
 
-			p = level.portals[i].trace["position"];
+			p = self.portals[i].trace["position"];
 			q = pos;
 
-			vec = pos - level.portals[i].trace["position"];
+			vec = pos - self.portals[i].trace["position"];
 
-			a = level.portals[i].trace["right"];
-			b = level.portals[i].trace["up"];
-			c = level.portals[i].trace["normal"];
+			a = self.portals[i].trace["right"];
+			b = self.portals[i].trace["up"];
+			c = self.portals[i].trace["normal"];
 
 			trans = (vectordot(vec, a), vectordot(vec, b), vectordot(vec, c));
 
@@ -182,7 +184,7 @@ portal(color)
 				x = abs(trans[0]);
 				y = abs(trans[1]);
 				if (x < 2 * width && y < 2 * height)
-					portals[portals.size] = level.portals[i];
+					portals[portals.size] = self.portals[i];
 
 				if (x < width && y < height)
 				{
@@ -202,9 +204,9 @@ portal(color)
 		}
 
 		vec = [];
-		vec[1] = up*(1+(height/2));
+		vec[1] = up * (1 + (height / 2));
 		vec[2] = vec[1] * -1;
-		vec[3] = right*(1+(width/2))*-1;
+		vec[3] = right * (1 + (width / 2)) * -1;
 		vec[4] = vec[3] * -1;
 
 		a = 0.8;
@@ -363,6 +365,8 @@ portalDelete(color)
 
 	playfx(level.fx[color + "portal_close"], self.portal[color].trace["position"], self.portal[color].trace["normal"], self.portal[color].trace["up"]);
 
+	if (isDefined(self.portal[color].bullet))
+		self.portal[color].bullet delete();
 	self.portal[color].dummy delete();
 	self.portal[color] delete();
 	self.portal[color + "_exist"] = false;
@@ -389,7 +393,7 @@ portalCreate(color, trace)
 	portal[color].owner = self;
 
 	self.portal[color] = portal[color];
-	level.portals[level.portals.size] = self.portal[color];
+	self.portals[self.portals.size] = self.portal[color];
 	self.portal[color + "_exist"] = true;
 
 	if (self.portal["blue_exist"] && self.portal["red_exist"])
@@ -438,7 +442,7 @@ portalFX()
 	playfx(level.fx[self.color + "portal_open"], fxpos, self.trace["normal"], self.trace["up"]);
 	wait 0.75;
 
-	self show();
+	self showToPlayer(self.owner);
 	wait 0.6;
 	self playloopSound("portal_ambient_loop");
 }
@@ -489,15 +493,19 @@ moveCurve(p, q1, q2, t)
 deleteFXAfterTime(t)
 {
 	wait t;
-	self moveto((0, 0, 100000), 0.05);
+	if (isDefined(self))
+		self moveto((0, 0, 100000), 0.05);
+
 	wait 0.1;
-	self delete();
+	if (isDefined(self))
+		self delete();
 }
 
 portalWait(color, othercolor)
 {
 	self endon("Deactivate_Portals");
 	self endon("disconnect");
+	self endon("death");
 
 	p1 = self.portal[color];
 	p2 = self.portal[othercolor];
@@ -665,11 +673,11 @@ portalActivate()
 portalCleanArray(portal)
 {
 	newarray = [];
-	for (i = 0; i < level.portals.size; i ++)
+	for (i = 0; i < self.portals.size; i ++)
 	{
-		if (level.portals[i] == portal)
+		if (self.portals[i] == portal)
 			continue;
-		newarray[newarray.size] = level.portals[i];
+		newarray[newarray.size] = self.portals[i];
 	}
-	level.portals = newarray;
+	self.portals = newarray;
 }

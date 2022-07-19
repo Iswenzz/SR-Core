@@ -64,7 +64,7 @@ _linkto_thread(ent)
 	}
 }
 
-portalSpawn(
+spawnObject(
 	name,		// String of the modelname
 	pos, 		// Positionvector
 	angles, 	// Anglevector

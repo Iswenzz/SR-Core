@@ -12,8 +12,8 @@ playerPortalOutAngles(angles1, angles2, angles3)
 	angles = portalOutAngles(angles1, angles2, angles3);
 
 	// If the x-Angle is going over 120 degrees player will be flipped (max player angle is 85)
-	while (abs(angles[0]) > 120)
-		angles = (angleMax(angles[0]) , angles[1] + 180, 0);
+	// while (abs(angles[0]) > 120)
+	// 	angles = (angleMax(angles[0]) , angles[1] + 180, 0);
 
 	return angles;
 }
