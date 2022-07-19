@@ -39,6 +39,7 @@ main()
 	sr\game\weapons\_main::main();
 
 	sr\commands\_admin::main();
+	sr\commands\_debug::main();
 	sr\commands\_graphics::main();
 	sr\commands\_misc::main();
 	sr\commands\_music::main();

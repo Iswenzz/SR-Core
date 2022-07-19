@@ -13,7 +13,7 @@ main()
 	level.portal_height = 110;
 	level.portal_options_num = 2000;
 	level.portal_check_dist = 700;
-	level.portal_surfaces = strTok("concrete,carpet,brick,asphalt,glass,plaster,gravel,ice,wood,grass,mud,dirt,metal,paper,rock,sand,snow,wood,paintedmetal", ",");
+	level.portal_surfaces = strTok("concrete,carpet,brick,asphalt,glass,plaster,plastic,gravel,ice,wood,grass,mud,dirt,metal,paper,rock,sand,snow,wood,paintedmetal", ",");
 
 	level.portalgun_w = "w_portalgun";
 	level.portalgun_v = "v_portalgun";

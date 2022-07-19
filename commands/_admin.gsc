@@ -8,7 +8,6 @@ main()
 	cmd("owner",        "cmd",			::cmd_Command);
 	cmd("admin",        "detail",		::cmd_Detail);
 	cmd("masteradmin",  "end",			::cmd_End);
-	cmd("owner",  		"ents",			::cmd_Ents);
 	cmd("owner",        "givexp",		::cmd_GiveXp);
 	cmd("owner",        "getdvar",		::cmd_GetDvar);
 	cmd("player", 		"help",			::cmd_Help);
@@ -25,40 +24,12 @@ main()
 	cmd("admin",        "rename",		::cmd_Rename);
 	cmd("player",       "report_player",::cmd_ReportPlayer); // @todo
 	cmd("player",       "report_bug",	::cmd_ReportBug);
-	cmd("owner",		"test",			::cmd_Test);
 	cmd("member",       "timeplayed",	::cmd_TimePlayed);
 	cmd("admin",        "sr_kick",		::cmd_Kick);
 	cmd("owner",        "sr_role",		::cmd_Role);
 	cmd("owner",        "sr_vip",		::cmd_VIP);
 	cmd("owner",        "sr_id",		::cmd_ID);
 	cmd("masteradmin",  "sr_ban",		::cmd_Ban);
-}
-
-cmd_Ents(args)
-{
-	models = getEntArray("script_model", "classname").size;
-	origins = getEntArray("script_origin", "classname").size;
-	brushes = getEntArray("script_brushmodel", "classname").size;
-
-	triggers = getEntArray("trigger_radius", "classname").size
-		+  getEntArray("trigger_damage", "classname").size
-		+  getEntArray("trigger_disk", "classname").size
-		+  getEntArray("trigger_hurt", "classname").size
-		+  getEntArray("trigger_multiple", "classname").size
-		+  getEntArray("trigger_once", "classname").size
-		+  getEntArray("trigger_use", "classname").size
-		+  getEntArray("trigger_use_touch", "classname").size;
-
-	self iPrintLn(fmt("^3Models: ^7%d", models));
-	self iPrintLn(fmt("^5Origins: ^7%d", origins));
-	self iPrintLn(fmt("^2Brushes: ^7%d", brushes));
-	self iPrintLn(fmt("^1Triggers: ^7%d", triggers));
-}
-
-cmd_Test(args)
-{
-	self iPrintLnBold(self getVelocity());
-	self iPrintLnBold(fmt("speed: %d %f %d %d", self.speed, self.moveSpeedScale, self.gravity, self.jumpHeight));
 }
 
 cmd_End(args)
