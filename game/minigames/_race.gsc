@@ -326,7 +326,7 @@ playerFinish()
 		return;
 	level.racePlayersFinished[level.racePlayersFinished.size] = self;
 
-	self.time = sr\utils\_common::originToTime(getTime() - self.raceTime);
+	self.time = originToTime(getTime() - self.raceTime);
 	self speedrun\player\huds\_speedrun::updateTime();
 
 	playerMessage(fmt("%s ^7finished %s ^7in ^2%d:%d.%d", self.name, getPlacementString(placement),
