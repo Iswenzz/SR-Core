@@ -2,6 +2,12 @@ initDvars()
 {
 	level.dvar = [];
 
+	setDvar("g_speed", 190);
+	setDvar("g_gravity", 800);
+	setDvar("jump_height", 39);
+	setDvar("dr_jumpers_speed", 1.05);
+	setDvar("dr_activators_speed", 1.05);
+
 	setDvar("jump_slowdownEnable", 0);
 	setDvar("bullet_penetrationEnabled", 0);
 	setDvar("mod_author", "SuX Lolz");

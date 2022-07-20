@@ -10,7 +10,7 @@ start()
 	thread showCredit("SuX Lolz", 1.8, 80, 17, 2);
 	thread showCredit("Additional Help", 2, 140, 14, 3);
 	thread showCredit("Sheep Wizard   BraXi   Phelix", 1.6, 180, 14.5, 3.5);
-	thread showCredit("IzNoGod   3xP'Noob   xoxor4d", 1.6, 220, 15, 4);
+	thread showCredit("IzNoGod   3xP'Noob   xoxor4d   Neko", 1.6, 220, 15, 4);
 	thread showCredit("Vc' Blade   n1kjs   Mist", 1.6, 260, 15.5, 4.5);
 	thread showCredit("kLeiN   stu   Death", 1.6, 300, 15.5, 4.5);
 

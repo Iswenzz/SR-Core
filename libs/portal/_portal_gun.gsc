@@ -67,7 +67,8 @@ resetPortals()
 	self thread portalDelete("blue");
 	self thread portalDelete("red");
 
-	self thread updatehud("default");
+	if (self.sr_mode == "Portal")
+		self thread updatehud("default");
 }
 
 stopAll(delete_portals, disconnected)

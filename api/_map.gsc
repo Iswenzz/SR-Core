@@ -86,6 +86,21 @@ createSpawnAuto()
 	level.masterSpawn.angles = (0, angle, 0);
 }
 
+deleteUnsupportedWeapons()
+{
+	weapons = strTok("knife_mp,m16_gl_mp,ak74u_reflex_mp,ak74u_acog_mp,ak74u_silencer_mp,dog_mp,shovel_mp", ",");
+
+	for (i = 0; i < weapons.size; i++)
+	{
+		ents = getEntArray("weapon_" + weapons[i], "classname");
+		if (!isDefined(ents) || !ents.size)
+			continue;
+
+		for (j = 0; j < ents.size; j++)
+			ents[j] delete();
+	}
+}
+
 getSpeed(speed)
 {
 	return int(ceil(getDvarInt("g_speed") * (speed / 190)));

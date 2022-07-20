@@ -490,8 +490,16 @@ getHitLocHeight(sHitLoc)
 ragdoll(sHitLoc, vDir, sWeapon, eInflictor, sMeansOfDeath, deathAnimDuration)
 {
 	body = self clonePlayer(deathAnimDuration);
+	body setContents(0);
+	body hide();
 	body.targetname = "ragdoll";
 
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+	{
+		if (players[i].settings["gfx_ragdoll"])
+			body showToPlayer(players[i]);
+	}
 	if (isDefined(body))
 	{
 		if (self isOnLadder() || self isMantling())

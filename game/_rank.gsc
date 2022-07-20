@@ -8,8 +8,6 @@ initRank()
 	level.maxRank = int(tableLookup("mp/rankTable.csv", 0, "maxrank", 1));
 	level.maxPrestige = int(tableLookup("mp/rankIconTable.csv", 0, "maxprestige", 1));
 
-	comPrintLn("ranks: %d", level.maxRank);
-
 	precacheShader("white");
 
 	precacheString(&"RANK_PLAYER_WAS_PROMOTED_N");
