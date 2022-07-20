@@ -47,7 +47,7 @@ placeSpawns()
 	{
 		x += level.spawn["allies"][i].origin[0];
 		y += level.spawn["allies"][i].origin[1];
-		x += level.spawn["allies"][i].origin[2];
+		x += level.spawn["allies"][i].origin[2]; // Nice fail sheep wizard
 	}
 
 	x /= level.spawn["allies"].size;
@@ -62,8 +62,8 @@ placeSpawns()
 	{
 		level.masterSpawn = spawn("script_origin", (x, y, z));
 		level.masterSpawn.angles = angles;
+		level.masterSpawn placeSpawnPoint();
 	}
-	level.masterSpawn placeSpawnPoint();
 }
 
 end(map)
