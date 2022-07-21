@@ -8,7 +8,12 @@ main()
 	cmd("owner",  		"debug_ents",		::cmd_DebugEnts);
 	cmd("owner",  		"debug_speed",		::cmd_DebugSpeed);
 	cmd("owner",  		"debug_surface",	::cmd_DebugSurface);
+	cmd("owner",  		"debug_save_spawn",	::cmd_DebugSaveSpawn);
+	cmd("owner",  		"debug_rotation",	::cmd_DebugRotation);
 	cmd("owner",  		"test",				::cmd_Test);
+
+	if (getDvarInt("auto"))
+		thread cmd_DebugRotation();
 }
 
 cmd_DebugSurface(args)
@@ -47,16 +52,46 @@ cmd_DebugSpeed(args)
 	self pm(fmt("^5Speed: ^7%d %f %d %d", self.speed, self.moveSpeedScale, self.gravity, self.jumpHeight));
 }
 
-cmd_Test(args)
+cmd_DebugRotation(args)
 {
+	// Setup next map
 	rotation = sr\game\_map::getRotation(true);
 	index = IndexOf(rotation, level.map);
 	map = rotation[index + 1];
+	setDvar("sv_maprotationcurrent", "gametype deathrun map " + IfUndef(map, ""));
 
+	// Next map
 	if (isDefined(map))
-		setDvar("sv_maprotationcurrent", "gametype deathrun map " + rotation[index + 1]);
+		exitLevel(false);
 	else
 		exit(0);
+}
 
-	exitLevel(false);
+cmd_DebugSaveSpawn(args)
+{
+	// Setup next map
+	rotation = sr\game\_map::getRotation(true);
+	index = IndexOf(rotation, level.map);
+	map = rotation[index + 1];
+	setDvar("sv_maprotationcurrent", "gametype deathrun map " + IfUndef(map, ""));
+
+	// Write map spawn
+	waitMapLoad(1);
+	origin = level.masterSpawn.origin;
+	angle = int(level.masterSpawn.angles[1]);
+	file = FILE_Open(sr\sys\_file::PATH_Mod("spawns.txt"), "a+");
+	FILE_WriteLine(file, fmt("case %s\nthread sr\\api\\_map::createSpawn((%.3f, %.3f, %.3f), %d);\nbreak;",
+		level.map, origin[0], origin[1], origin[2], angle));
+	FILE_Close(file);
+
+	// Next map
+	if (isDefined(map))
+		exitLevel(false);
+	else
+		exit(0);
+}
+
+cmd_Test(args)
+{
+	self pm("test");
 }

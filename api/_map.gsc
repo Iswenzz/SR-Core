@@ -56,13 +56,6 @@ playerTeleport(origin, angles, state)
 createSpawn(origin, angles)
 {
 	waitMapLoad();
-	level.masterSpawn = spawn("script_origin", (origin[0], origin[1], origin[2] - 60));
-	level.masterSpawn.angles = (0, angles, 0);
-}
-
-createSpawnOrigin(origin, angles)
-{
-	waitMapLoad();
 	level.masterSpawn = spawn("script_origin", origin);
 	level.masterSpawn.angles = (0, angles, 0);
 }
@@ -70,20 +63,6 @@ createSpawnOrigin(origin, angles)
 createTriggerFx(trigger, fx)
 {
 	thread sr\game\fx\_trigger::effect(trigger, fx);
-}
-
-createSpawnAuto()
-{
-	spawns = getEntArray("mp_jumper_spawn", "classname");
-
-	if (!spawns.size)
-		return;
-
-	origin = spawns[int(spawns.size / 2)].origin;
-	angle = spawns[int(spawns.size / 2)].angles[1];
-
-	level.masterSpawn = spawn("script_origin", origin);
-	level.masterSpawn.angles = (0, angle, 0);
 }
 
 deleteUnsupportedWeapons()

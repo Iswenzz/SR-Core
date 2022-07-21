@@ -35,7 +35,6 @@ placeSpawns()
 
 	for (i = 0; i < level.spawn["allies"].size; i++)
 		level.spawn["allies"][i] placeSpawnPoint();
-
 	for (i = 0; i < level.spawn["axis"].size; i++)
 		level.spawn["axis"][i] placeSpawnPoint();
 
@@ -43,27 +42,25 @@ placeSpawns()
 	y = 0;
 	z = 0;
 
+	angles = (0, 180, 0);
+
 	for (i = 0; i < level.spawn["allies"].size; i++)
 	{
 		x += level.spawn["allies"][i].origin[0];
 		y += level.spawn["allies"][i].origin[1];
-		x += level.spawn["allies"][i].origin[2]; // Nice fail sheep wizard
 	}
-
-	x /= level.spawn["allies"].size;
-	y /= level.spawn["allies"].size;
-	z /= level.spawn["allies"].size;
-
-	angles = (0, 180, 0);
 	if (level.spawn["allies"].size)
-		angles = level.spawn["allies"][0].angles;
-
-	if (!isDefined(level.masterSpawn))
 	{
-		level.masterSpawn = spawn("script_origin", (x, y, z));
-		level.masterSpawn.angles = angles;
-		level.masterSpawn placeSpawnPoint();
+		x /= level.spawn["allies"].size;
+		y /= level.spawn["allies"].size;
+		z = level.spawn["allies"][0].origin[2];
+
+		angles = level.spawn["allies"][0].angles;
 	}
+
+	level.masterSpawn = spawn("script_origin", (x, y, z));
+	level.masterSpawn.angles = angles;
+	level.masterSpawn placeSpawnPoint();
 }
 
 end(map)
@@ -183,6 +180,9 @@ randomizeMaps(amount)
 	rotation = level.rotation;
 	file = FILE_Open(level.files["rotation"], "a+");
 	playedMaps = FILE_ReadLines(file);
+
+	if (rotation.size < amount)
+		return;
 
 	// No more new maps found
 	if (playedMaps.size >= rotation.size - amount)
