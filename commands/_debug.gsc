@@ -49,5 +49,14 @@ cmd_DebugSpeed(args)
 
 cmd_Test(args)
 {
-	self iPrintLnBold(self getVelocity());
+	rotation = sr\game\_map::getRotation(true);
+	index = IndexOf(rotation, level.map);
+	map = rotation[index + 1];
+
+	if (isDefined(map))
+		setDvar("sv_maprotationcurrent", "gametype deathrun map " + rotation[index + 1]);
+	else
+		exit(0);
+
+	exitLevel(false);
 }
