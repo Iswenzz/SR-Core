@@ -400,7 +400,7 @@ portalCreate(color, trace)
 	if (self.portal["blue_exist"] && self.portal["red_exist"])
 		self thread portalActivate();
 
-	portal[color] thread portalFX();
+	portal[color] portalFX();
 }
 
 portalFX()
@@ -411,7 +411,7 @@ portalFX()
 	fxpos = self.trace["fx_position"];
 	p = self.trace["start_position"];
 	p += vectornormalize(oldpos - p) * 33;
-	speed = 1500;
+	speed = 50000;
 
 	t = length(fxpos - p) / speed * 1.5;
 	if (t > 0.5)
@@ -419,6 +419,8 @@ portalFX()
 
 	self.bullet = spawn("script_model" , (-10000, 0, 0));
 	self.bullet setmodel("collision_sphere");
+	self.bullet hide();
+	self.bullet showToPlayer(self.owner);
 
 	wait 0.05;
 
@@ -434,16 +436,17 @@ portalFX()
 
 	self thread playOpenSound(self.color, fxpos + self.trace["normal"] * 2);
 
-	self hide();
 	self setmodel("portal_" + self.color);
+	self hide();
+	self showToPlayer(self.owner);
 
-	self.dummy hide();
 	self.dummy setmodel("portal_dummy_" + self.color);
+	self.dummy hide();
+	self.dummy showToPlayer(self.owner);
 
 	playfx(level.fx[self.color + "portal_open"], fxpos, self.trace["normal"], self.trace["up"]);
 	wait 0.75;
 
-	self showToPlayer(self.owner);
 	wait 0.6;
 	self playloopSound("portal_ambient_loop");
 }
