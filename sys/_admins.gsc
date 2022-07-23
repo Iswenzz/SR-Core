@@ -33,6 +33,7 @@ initAdmins()
 
 precache()
 {
+	precacheModel("axis");
 	precacheModel("chicken");
 	precacheModel("bc_militarytent_draped");
 	precacheModel("ch_roadrock_06");

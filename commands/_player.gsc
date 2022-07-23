@@ -238,10 +238,6 @@ cmd_Knockback(args)
 	player.sr_cheat = true;
 	self log();
 
-	player.bt_knockback = Ternary(!isDefined(player.bt_knockback), true, undefined);
-	player pm(Ternary(isDefined(player.bt_knockback), "^2Knockback enabled!", "^1Knockback disabled!"));
-	setDvar("g_knockback", 2000); // @TODO Disable this on map that requires scripted bounces
-
 	wait 0.05;
 	player giveWeapon("gl_ak47_mp");
 	player giveWeapon("gl_g3_mp");
