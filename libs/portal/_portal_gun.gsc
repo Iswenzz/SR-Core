@@ -359,12 +359,10 @@ portalDelete(color)
 
 	level notify("portal_rearange");
 
-	self.portal[color] stoploopSound();
 	self.portal[color] playSound("portal_close");
 	self.portal[color] playSound("portal_close_" + color);
 	self.portal[color] notify("stop_fx");
-
-	playfx(level.fx[color + "portal_close"], self.portal[color].trace["position"], self.portal[color].trace["normal"], self.portal[color].trace["up"]);
+	self.portal[color] thread portalDeleteFX(color);
 
 	if (isDefined(self.portal[color].bullet))
 		self.portal[color].bullet delete();
@@ -375,6 +373,17 @@ portalDelete(color)
 	portalCleanArray(self.portal[color]);
 }
 
+portalDeleteFX(color)
+{
+	fx = self.close;
+	if (isDefined(fx))
+		playFXOnTag(level.fx[color + "portal_close"], fx, "tag_origin");
+
+	wait 0.3;
+	if (isDefined(fx))
+		fx delete();
+}
+
 portalCreate(color, trace)
 {
 	self.portal["inportal"] = false;
@@ -383,15 +392,33 @@ portalCreate(color, trace)
 	self portalDelete(color);
 
 	portal[color] = spawn("script_model", trace["fx_position"]);
-	portal[color] setcontents(0);
+	portal[color] setContents(0);
+	portal[color] hide();
+	portal[color] showToPlayer(self);
 	portal[color].angles = trace["angles"] + (180, 0, 0);
 	portal[color].trace = trace;
 	portal[color].color = color;
 	portal[color].active = false;
+	portal[color].owner = self;
+
 	portal[color].dummy = spawn("script_model", trace["fx_position"]);
 	portal[color].dummy.angles = trace["angles"];
-	portal[color].dummy setcontents(0);
-	portal[color].owner = self;
+	portal[color].dummy setContents(0);
+	portal[color].dummy hide();
+	portal[color].dummy showToPlayer(self);
+
+	portal[color].bullet = spawn("script_model" , (-10000, 0, 0));
+	portal[color].bullet setContents(0);
+	portal[color].bullet setModel("collision_sphere");
+	portal[color].bullet hide();
+	portal[color].bullet showToPlayer(self);
+
+	portal[color].close = spawn("script_model", trace["fx_position"]);
+	portal[color].close.angles = trace["angles"];
+	portal[color].close setContents(0);
+	portal[color].close setModel("tag_origin");
+	portal[color].close hide();
+	portal[color].close showToPlayer(self);
 
 	self.portal[color] = portal[color];
 	self.portals[self.portals.size] = self.portal[color];
@@ -400,12 +427,13 @@ portalCreate(color, trace)
 	if (self.portal["blue_exist"] && self.portal["red_exist"])
 		self thread portalActivate();
 
-	portal[color] portalFX();
+	portal[color] thread portalFX();
 }
 
 portalFX()
 {
 	self endon("stop_fx");
+	wait 0.05;
 
 	oldpos = self.trace["old_position"];
 	fxpos = self.trace["fx_position"];
@@ -417,14 +445,7 @@ portalFX()
 	if (t > 0.5)
 		t = 0.5;
 
-	self.bullet = spawn("script_model" , (-10000, 0, 0));
-	self.bullet setmodel("collision_sphere");
-	self.bullet hide();
-	self.bullet showToPlayer(self.owner);
-
-	wait 0.05;
-
-	playfxontag(level.fx["portalball" + self.color], self.bullet, "collision_sphere");
+	playFXOnTag(level.fx["portalball" + self.color], self.bullet, "collision_sphere");
 
 	angles = self.owner getplayerangles();
 
@@ -433,22 +454,14 @@ portalFX()
 	r = vectorprod(f,u);
 
 	self.bullet moveCurve(self.owner eyepos() + f * 22 + u * -6 + r, oldpos, self.trace["position"], t);
-
 	self thread playOpenSound(self.color, fxpos + self.trace["normal"] * 2);
 
-	self setmodel("portal_" + self.color);
-	self hide();
-	self showToPlayer(self.owner);
+	self setModel("portal_" + self.color);
+	self.dummy setModel("portal_dummy_" + self.color);
 
-	self.dummy setmodel("portal_dummy_" + self.color);
-	self.dummy hide();
-	self.dummy showToPlayer(self.owner);
+	wait 0.05;
 
-	playfx(level.fx[self.color + "portal_open"], fxpos, self.trace["normal"], self.trace["up"]);
-	wait 0.75;
-
-	wait 0.6;
-	self playloopSound("portal_ambient_loop");
+	playFXOnTag(level.fx[self.color + "portal_open"], self, "tag_origin");
 }
 
 playOpenSound(color, soundPos)
