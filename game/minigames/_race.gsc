@@ -18,7 +18,7 @@ initRace()
 	level.racePoints = [];
 	level.raceStarted = false;
 
-	event("spawn", ::hud);
+	event("spawn", ::onSpawn);
 	event("death", ::death);
 
 	thread race();
@@ -51,7 +51,7 @@ race()
 	}
 }
 
-hud()
+onSpawn()
 {
 	if (!isInQueue("race"))
 		return;

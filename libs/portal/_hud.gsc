@@ -1,6 +1,6 @@
 updateHud(color)
 {
-	NewShader = "";
+	shader = "";
 	img = "reticle_portal";
 
 	if (color == "none")
@@ -9,30 +9,30 @@ updateHud(color)
 		return;
 	}
 	else if (color == "default")
-		NewShader = img;
+		shader = img;
 	else if (color == "red" || color == "blue")
 	{
 		if (self.portal[othercolor(color) + "_exist"])
-			newShader = img + "_both";
+			shader = img + "_both";
 		else
-			newShader = img + "_" + color;
+			shader = img + "_" + color;
 	}
 	else
 		return;
 
 	size = 64;
-	self.portal["hud"] setShader(NewShader, size, size);
-	self.portal["hud"].AlignX = "center";
-	self.portal["hud"].AlignY = "middle";
-	self.portal["hud"].horzAlign = "center_safearea";
-	self.portal["hud"].vertAlign = "center_safearea";
-	self.portal["hud"].alpha = 1;
+	if (isDefined(self.portal["hud"]))
+	{
+		self.portal["hud"] setShader(shader, size, size);
+		self.portal["hud"].AlignX = "center";
+		self.portal["hud"].AlignY = "middle";
+		self.portal["hud"].horzAlign = "center_safearea";
+		self.portal["hud"].vertAlign = "center_safearea";
+		self.portal["hud"].alpha = 1;
+	}
 }
 
 otherColor(color)
 {
-	if (color == "red")
-		return "blue";
-	else
-		return "red";
+	return Ternary(color == "red", "blue", "red");
 }

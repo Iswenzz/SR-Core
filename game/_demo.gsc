@@ -16,7 +16,7 @@ record()
 	self endon("death");
 	self endon("disconnect");
 
-	if (self.isBot)
+	if (self.isBot || self.sr_cheat)
 		return;
 
 	thread recordTimeout();

@@ -19,7 +19,7 @@ initKz()
 
 	event("killed", ::onPlayerKilled);
 	event("damage", ::onPlayerDamage);
-	event("spawn", ::hud);
+	event("spawn", ::onSpawn);
 
 	thread kz();
 }
@@ -49,7 +49,7 @@ kz()
 	}
 }
 
-hud()
+onSpawn()
 {
 	if (!isInQueue("kz"))
 		return;

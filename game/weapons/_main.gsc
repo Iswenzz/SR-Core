@@ -139,7 +139,7 @@ impact(time)
 	self.model stopLoopSound();
 	self.model playSound(self.weapon["sfx_impact"]);
 
-	if (self.weapon["knockback"] && (self.player.sr_mode == "Defrag" || self sr\player\modes\_main::isInMode("defrag")))
+	if (self.weapon["knockback"] && (self.player.sr_mode == "Defrag" || self.player sr\player\modes\_main::isInMode("defrag")))
 		self thread knockback();
 
 	playFX(self.weapon["impact"], self.trace["fx_position"], self.trace["normal"], self.trace["up"]);

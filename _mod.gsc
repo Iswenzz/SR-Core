@@ -28,6 +28,7 @@ main()
 	sr\game\_map::main();
 	sr\game\_rank::initRank();
 	sr\game\_cheat::main();
+	sr\game\_defrag::main();
 	sr\game\_demo::main();
 	sr\game\_menus::main();
 	sr\game\_teams::main();
@@ -135,6 +136,7 @@ precacheText()
 
 precacheFx()
 {
+	level.fx["pickup"]					= loadfx("misc/ui_pickup_available");
 	level.fx["endgame"] 				= loadFx("deathrun/endgame_fx");
 	level.fx["gib_splat"] 				= loadFx("deathrun/gib_splat");
 	level.fx["light_blink"] 			= loadFx("misc/light_c4_blink");
