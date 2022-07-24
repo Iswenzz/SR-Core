@@ -33,6 +33,8 @@ hud()
 	if (!self.settings["hud_snap"])
 		return;
 
+	wait 0.05;
+
 	self clear();
 	self snapHud();
 

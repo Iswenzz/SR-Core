@@ -32,7 +32,6 @@ initRank()
 	menu("-1", "prestige", ::prestige);
 
 	event("connect", ::onConnect);
-	event("spawn", ::onSpawned);
 	event("team", ::onChangedTeam);
 	event("spectator", ::onChangedTeam);
 }
@@ -157,6 +156,19 @@ onConnect()
 	self setStat(2350, self.pers["rank"]);
 	self setStat(2301, self.pers["rankxp"]);
 	self setRank(self.pers["rank"], int(self.pers["prestige"]));
+
+	self.huds["xp"] = newClientHudElem(self);
+	self.huds["xp"].horzAlign = "center";
+	self.huds["xp"].vertAlign = "middle";
+	self.huds["xp"].alignX = "center";
+	self.huds["xp"].alignY = "middle";
+	self.huds["xp"].x = 0;
+	self.huds["xp"].y = -60;
+	self.huds["xp"].font = "default";
+	self.huds["xp"].fontscale = 2.0;
+	self.huds["xp"].archived = false;
+	self.huds["xp"].color = (0.5, 0.5, 0.5);
+	self.huds["xp"] maps\mp\gametypes\_hud::fontPulseInit();
 }
 
 onChangedTeam()
@@ -164,27 +176,6 @@ onChangedTeam()
 	self endon("disconnect");
 
 	self thread removeRankHUD();
-}
-
-onSpawned()
-{
-	self endon("disconnect");
-
-	if (!isDefined(self.huds["xp"]))
-	{
-		self.huds["xp"] = newClientHudElem(self);
-		self.huds["xp"].horzAlign = "center";
-		self.huds["xp"].vertAlign = "middle";
-		self.huds["xp"].alignX = "center";
-		self.huds["xp"].alignY = "middle";
-		self.huds["xp"].x = 0;
-		self.huds["xp"].y = -60;
-		self.huds["xp"].font = "default";
-		self.huds["xp"].fontscale = 2.0;
-		self.huds["xp"].archived = false;
-		self.huds["xp"].color = (0.5, 0.5, 0.5);
-		self.huds["xp"] maps\mp\gametypes\_hud::fontPulseInit();
-	}
 }
 
 giveRankXP(type, value)

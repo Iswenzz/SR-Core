@@ -55,6 +55,8 @@ loop()
 {
 	self endon("disconnect");
 
+	wait 0.05;
+
 	while (true)
 	{
 		if (!self isReallyAlive() || !self hasWeaponBT())

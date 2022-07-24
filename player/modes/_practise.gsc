@@ -22,6 +22,8 @@ practise()
 	if (!isDefined(self.practise))
 		self.practise = [];
 
+	wait 0.05;
+
 	self thread watchSave();
 	self thread watchLoad();
 }

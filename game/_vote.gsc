@@ -25,6 +25,8 @@ onConnect()
 {
 	self endon("disconnect");
 
+	wait 0.05;
+
 	self.vote_cd = getTime();
 	self.vote_page = 0;
 	self.vote_selected = 0;

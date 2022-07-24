@@ -29,6 +29,8 @@ hud()
 	self hudFps();
 	self vars();
 
+	wait 0.05;
+
 	while (true)
 	{
 		self.player = IfUndef(self getSpectatorClient(), self);

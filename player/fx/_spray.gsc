@@ -17,8 +17,7 @@ spray()
 	if (!level.dvar["sprays"])
 		return;
 
-	while (game["state"] != "playing")
-		wait 0.05;
+	wait 0.1;
 
 	while (self isReallyAlive())
 	{

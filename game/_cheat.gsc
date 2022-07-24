@@ -15,6 +15,8 @@ loop()
 	self.antiLowFps = true;
 	self.antiElevator = true;
 
+	wait 0.05;
+
 	while (true)
 	{
 		if (!self isPlaying())

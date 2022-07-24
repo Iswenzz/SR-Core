@@ -18,6 +18,8 @@ hud()
 	if (!self.settings["hud_cgaz"])
 		return;
 
+	wait 0.05;
+
 	self clear();
 	self cgazHud();
 
