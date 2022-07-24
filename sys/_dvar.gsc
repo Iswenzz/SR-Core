@@ -11,7 +11,7 @@ initDvars()
 
 reset()
 {
-	setDvar("g_knockback", 2000);
+	setDvar("g_knockback", 1000);
 	setDvar("g_speed", 190);
 	setDvar("g_gravity", 800);
 	setDvar("jump_height", 39);

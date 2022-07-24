@@ -22,7 +22,7 @@ main()
 
 	addWeapon("owner", "Q3 Plasma", "gl_g3_mp", 0, 0.05, "tag_origin",
 		"muzzleflashes/mist_mk2_flashview", "q3/plasma_explode", "q3/plasma_fire",
-		"weap_quake_plasma_shoot", "", "weap_quake_plasma_explode", 30, true, 40);
+		"weap_quake_plasma_shoot", "", "weap_quake_plasma_explode", 30, true, 60);
 }
 
 addWeapon(admin, name, item, predelay, delay, model,
@@ -128,18 +128,31 @@ shoot(weapon)
 
 impact(time)
 {
+	self.player endon("disconnect");
+	self.player endon("death");
+	self thread impactDelete();
+
 	wait time;
 
 	self.model stopLoopSound();
 	self.model playSound(self.weapon["sfx_impact"]);
 
-	if (self.weapon["knockback"] && self.player.sr_mode == "210")
+	if (self.weapon["knockback"] && (self.player.sr_mode == "Defrag" || self sr\player\modes\_main::isInMode("defrag")))
 		self thread knockback();
 
 	playFX(self.weapon["impact"], self.trace["fx_position"], self.trace["normal"], self.trace["up"]);
 
 	wait 0.05;
-	self.model delete();
+	if (isDefined(self.model))
+		self.model delete();
+}
+
+impactDelete()
+{
+	self.player waittill_any("disconnect", "death");
+
+	if (isDefined(self.model))
+		self.model delete();
 }
 
 knockback()
@@ -151,15 +164,18 @@ knockback()
 	if (int(n) > self.weapon["knockback_distance"])
 		return;
 
-	self.player bounce(position, direction, self.weapon["power"]);
+	self.player bounce(position, direction, self.weapon["power"], 2);
 }
 
 trailFX()
 {
 	wait 0.05;
 
-	playfxontag(self.weapon["muzzle"], self.model, "TAG_ORIGIN");
-	playfxontag(self.weapon["trail"], self.model, "TAG_ORIGIN");
+	if (isDefined(self.model))
+	{
+		playFXOnTag(self.weapon["muzzle"], self.model, "TAG_ORIGIN");
+		playFXOnTag(self.weapon["trail"], self.model, "TAG_ORIGIN");
+	}
 }
 
 hasWeaponBT()

@@ -4,19 +4,19 @@
 main()
 {
 	cmd("masteradmin", 	"bounce",			::cmd_Bounce);
-	cmd("player", 		"hud_res",			::cmd_HudResolution);
-	cmd("player", 		"hud_fov",			::cmd_HudFov);
 	cmd("owner", 		"clone",			::cmd_Clone);
 	cmd("owner", 		"damage",			::cmd_Damage);
 	cmd("admin", 		"dance",			::cmd_Dance);
+	cmd("owner", 		"defrag_mode",		::cmd_DefragMode);
 	cmd("adminplus", 	"drop",				::cmd_Drop);
 	cmd("adminplus", 	"flash",			::cmd_Flash);
 	cmd("owner", 		"g_gravity",		::cmd_G_Gravity);
 	cmd("owner", 		"g_speed",			::cmd_G_Speed);
 	cmd("owner", 		"god",				::cmd_God);
+	cmd("player", 		"hud_res",			::cmd_HudResolution);
+	cmd("player", 		"hud_fov",			::cmd_HudFov);
 	cmd("owner",		"jump_height",		::cmd_JumpHeight);
 	cmd("admin",        "kill",				::cmd_Kill);
-	cmd("owner", 		"knockback",		::cmd_Knockback);
 	cmd("owner", 		"model",			::cmd_Model);
 	cmd("masteradmin", 	"sr_freeze",		::cmd_Freeze);
 	cmd("masteradmin", 	"sr_unfreeze",		::cmd_UnFreeze);
@@ -31,6 +31,17 @@ main()
 	cmd("adminplus", 	"weapon",			::cmd_Weapon);
 	cmd("adminplus", 	"weapon_all",		::cmd_WeaponAll);
 	cmd("adminplus", 	"weapon_acti",		::cmd_WeaponActi);
+}
+
+cmd_DefragMode(args)
+{
+	if (self sr\player\modes\_main::isInOtherMode("defrag") || self.sr_mode == "Defrag")
+		return;
+
+	self sr\player\modes\_main::toggleMode("defrag");
+	self suicide();
+
+	self pm(Ternary(self.modes["defrag"], "^3Defrag mode enabled!", "^1Defrag mode disabled!"));
 }
 
 cmd_Teleport(args)
@@ -230,19 +241,6 @@ cmd_Kill(args)
 		return pm("Could not find player");
 
 	player suicide();
-}
-
-cmd_Knockback(args)
-{
-	player = IfUndef(getPlayerByName(args[0]), self);
-	player.sr_cheat = true;
-	self log();
-
-	wait 0.05;
-	player giveWeapon("gl_ak47_mp");
-	player giveWeapon("gl_g3_mp");
-	wait 0.05;
-	player switchToWeapon("gl_ak47_mp");
 }
 
 cmd_Model(args)

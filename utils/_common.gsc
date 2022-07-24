@@ -144,16 +144,12 @@ playSoundOnAllPlayers(soundAlias)
 		players[i] playLocalSound(soundAlias);
 }
 
-bounce(origin, direction, power)
+bounce(origin, direction, power, repeat)
 {
 	self endon("disconnect");
 	self endon("death");
 
-	previousMaxHealth = self.maxhealth;
-	previousHealth = self.health;
-
-	self.maxhealth = self.maxhealth + power;
-	self.health = self.health + power;
+	repeat = IfUndef(repeat, 1);
 
 	self setClientDvars(
 		"bg_viewKickMax", 0,
@@ -161,9 +157,19 @@ bounce(origin, direction, power)
 		"bg_viewKickRandom", 0,
 		"bg_viewKickScale", 0
 	);
-	self finishPlayerDamage(self, self, power, 0, "MOD_PROJECTILE", "none", origin, direction, "none", 0);
-	self.maxhealth = previousMaxHealth;
-	self.health = previousHealth;
+
+	for (i = 0; i < repeat; i++)
+	{
+		previousMaxHealth = self.maxhealth;
+		previousHealth = self.health;
+
+		self.maxhealth = self.maxhealth + power;
+		self.health = self.health + power;
+
+		self finishPlayerDamage(self, self, power, 0, "MOD_PROJECTILE", "none", origin, direction, "none", 0);
+		self.maxhealth = previousMaxHealth;
+		self.health = previousHealth;
+	}
 
 	wait .05;
 	self setClientDvars(

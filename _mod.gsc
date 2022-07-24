@@ -55,6 +55,7 @@ main()
 	sr\player\_settings::main();
 	sr\player\fx\_spray::main();
 	sr\player\modes\_main::initModes();
+	sr\player\modes\_defrag::main();
 	sr\player\modes\_noclip::main();
 	sr\player\modes\_pickup::main();
 	sr\player\modes\_portal::main();
