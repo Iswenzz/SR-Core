@@ -125,7 +125,11 @@ shoot(weapon)
 	bullet.model moveTo(trace["position"], time);
 	bullet thread impact(time);
 
-	wait weapon["delay"];
+	delay = weapon["delay"];
+	if (self sr\game\_perks::playerHasPerk("haste"))
+		delay /= 1.5;
+	if (delay >= 0.05)
+		wait delay;
 }
 
 impact(time)
@@ -139,7 +143,8 @@ impact(time)
 	self.model stopLoopSound();
 	self.model playSound(self.weapon["sfx_impact"]);
 
-	if (self.weapon["knockback"] && (self.player.sr_mode == "Defrag" || self.player sr\player\modes\_main::isInMode("defrag")))
+	if (self.weapon["knockback"] &&
+		(self.player.sr_mode == "Defrag" || self.player sr\player\modes\_main::isInMode("defrag")))
 		self thread knockback();
 
 	playFX(self.weapon["impact"], self.trace["fx_position"], self.trace["normal"], self.trace["up"]);

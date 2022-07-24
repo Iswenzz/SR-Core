@@ -28,9 +28,10 @@ main()
 	sr\game\_map::main();
 	sr\game\_rank::initRank();
 	sr\game\_cheat::main();
-	sr\game\_defrag::main();
 	sr\game\_demo::main();
 	sr\game\_menus::main();
+	sr\game\_perks::initPerks();
+	sr\game\_defrag::main();
 	sr\game\_teams::main();
 	sr\game\_vote::initVote();
 	sr\game\fx\_trail::main();
