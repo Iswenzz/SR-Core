@@ -45,7 +45,8 @@ onSpawn()
 
 defaultWeapons()
 {
-	level.defragStartWeapons = getArrayKeys(level.defragWeapons);
+	level.defragStartWeapons[level.defragStartWeapons.size] = "rl";
+	level.defragStartWeapons[level.defragStartWeapons.size] = "pl";
 }
 
 addWeapon(name, item)
