@@ -47,8 +47,7 @@ main()
 	sr\commands\_music::main();
 	sr\commands\_player::main();
 	sr\commands\_vote::main();
-	sr\commands\game\_portal::main();
-	sr\commands\map\_edit::main();
+	sr\commands\_map::main();
 
 	sr\libs\portal\_main::main();
 

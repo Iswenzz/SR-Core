@@ -16,11 +16,26 @@ main()
 	defaultWeapons();
 
 	thread visuals();
-	thread triggersSection();
-	thread triggersWeapon();
-	thread triggersPerk();
+	thread triggers();
 
 	event("spawn", ::onSpawn);
+}
+
+triggers()
+{
+	waitMapLoad();
+
+	sections = getEntArray("defrag_section", "targetname");
+	for (i = 0; i < sections.size; i++)
+		sections[i] thread triggerSection();
+
+	weapons = getEntArray("defrag_weapon", "targetname");
+	for (i = 0; i < weapons.size; i++)
+		weapons[i] thread triggerWeapon();
+
+	perks = getEntArray("defrag_perk", "targetname");
+	for (i = 0; i < perks.size; i++)
+		perks[i] thread triggerPerk();
 }
 
 onSpawn()
@@ -60,11 +75,9 @@ visuals()
 
 visualLoop(model)
 {
-	if (!isDefined(model))
-		return;
-
 	self.preview = spawn("script_model", self.origin - (0, 0, 30));
-	self.preview setModel(model);
+	if (isDefined(model))
+		self.preview setModel(model);
 
 	level.defragVisuals[level.defragVisuals.size] = self.preview;
 	wait 0.05;
@@ -77,13 +90,9 @@ visualLoop(model)
 	}
 }
 
-triggersSection()
+triggerSection()
 {
-	waitMapLoad();
-
-	triggers = getEntArray("defrag_section", "targetname");
-	for (i = 0; i < triggers.size; i++)
-		triggers[i] thread triggerSectionLoop();
+	self thread triggerSectionLoop();
 }
 
 triggerSectionLoop()
@@ -105,19 +114,11 @@ playerSection(trigger)
 	self removeCooldown(trigger);
 }
 
-triggersWeapon()
+triggerWeapon()
 {
-	waitMapLoad();
-
-	triggers = getEntArray("defrag_weapon", "targetname");
-	for (i = 0; i < triggers.size; i++)
-	{
-		trigger = triggers[i];
-
-		weapon = getWeaponModel(level.defragWeapons[trigger.weapon]);
-		trigger thread visualLoop(weapon);
-		trigger thread triggerWeaponLoop();
-	}
+	weapon = getWeaponModel(level.defragWeapons[self.weapon]);
+	self thread visualLoop(weapon);
+	self thread triggerWeaponLoop();
 }
 
 triggerWeaponLoop()
@@ -139,23 +140,18 @@ playerWeapon(trigger)
 
 	self giveWeapon(weapon);
 	self switchToWeapon(weapon);
-	self setWeaponAmmoClip(weapon, trigger.ammo);
+
+	if (trigger.ammo > 0)
+		self setWeaponAmmoClip(weapon, trigger.ammo);
+
 	self removeCooldown(trigger);
 }
 
-triggersPerk()
+triggerPerk()
 {
-	waitMapLoad();
-
-	triggers = getEntArray("defrag_perk", "targetname");
-	for (i = 0; i < triggers.size; i++)
-	{
-		trigger = triggers[i];
-
-		perk = level.perks[trigger.perk];
-		trigger thread visualLoop(perk.model);
-		trigger thread triggerPerkLoop();
-	}
+	perk = level.perks[self.perk];
+	self thread visualLoop(perk.model);
+	self thread triggerPerkLoop();
 }
 
 triggerPerkLoop()
@@ -174,6 +170,13 @@ triggerPerkLoop()
 playerPerk(trigger)
 {
 	self playerSetPerk(trigger.perk);
+
+	if (trigger.time > 0)
+	{
+		wait trigger.time;
+		self playerRemovePerk(trigger.perk);
+	}
+
 	self removeCooldown(trigger);
 }
 

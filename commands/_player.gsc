@@ -7,7 +7,6 @@ main()
 	cmd("owner", 		"clone",			::cmd_Clone);
 	cmd("owner", 		"damage",			::cmd_Damage);
 	cmd("admin", 		"dance",			::cmd_Dance);
-	cmd("owner", 		"defrag_mode",		::cmd_DefragMode);
 	cmd("adminplus", 	"drop",				::cmd_Drop);
 	cmd("adminplus", 	"flash",			::cmd_Flash);
 	cmd("owner", 		"g_gravity",		::cmd_G_Gravity);
@@ -31,17 +30,6 @@ main()
 	cmd("adminplus", 	"weapon",			::cmd_Weapon);
 	cmd("adminplus", 	"weapon_all",		::cmd_WeaponAll);
 	cmd("adminplus", 	"weapon_acti",		::cmd_WeaponActi);
-}
-
-cmd_DefragMode(args)
-{
-	if (self sr\player\modes\_main::isInOtherMode("defrag") || self.sr_mode == "Defrag")
-		return;
-
-	self sr\player\modes\_main::toggleMode("defrag");
-	self suicide();
-
-	self pm(Ternary(self.modes["defrag"], "^3Defrag mode enabled!", "^1Defrag mode disabled!"));
 }
 
 cmd_Teleport(args)
