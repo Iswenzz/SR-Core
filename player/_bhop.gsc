@@ -10,6 +10,8 @@ loop()
 
 	while (true)
 	{
+		wait 0.05;
+
 		if (!isDefined(self.isBhopping))
 			self.isBhopping = false;
 
@@ -25,6 +27,5 @@ loop()
 			velocity = self.previousAirVelocity - self getVelocity();
 			self setVelocity(self getVelocity() + (velocity[0], velocity[1], 200));
 		}
-		wait 0.05;
 	}
 }

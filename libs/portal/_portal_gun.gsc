@@ -37,6 +37,8 @@ watch()
 	if (!isDefined(self.portals))
 		self.portals = [];
 
+	self thread updatehud("default");
+
 	while (true)
 	{
 		wait 0.05;

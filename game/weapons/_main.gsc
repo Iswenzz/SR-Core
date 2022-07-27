@@ -17,12 +17,12 @@ main()
 		"weap_rpg_fire_plr", "weap_rpg_loop", "weap_rpg_loop", 1000, true, 140);
 
 	addWeapon("player", "Q3 Rocket", "gl_ak47_mp", 0, 0.6, "quake_rocket_projectile",
-		"muzzleflashes/m203_flshview", "", "q3/rocket_trail",
+		"muzzleflashes/m203_flshview", undefined, "q3/rocket_trail",
 		"weap_quake_rocket_shoot", "weap_quake_rocket_loop", "weap_quake_rocket_explode", 500, true, 140);
 
 	addWeapon("owner", "Q3 Plasma", "gl_g3_mp", 0, 0.05, "tag_origin",
 		"muzzleflashes/mist_mk2_flashview", "q3/plasma_explode", "q3/plasma_fire",
-		"weap_quake_plasma_shoot", "", "weap_quake_plasma_explode", 30, true, 60);
+		"weap_quake_plasma_shoot", undefined, "weap_quake_plasma_explode", 30, true, 60);
 }
 
 addWeapon(admin, name, item, predelay, delay, model,
@@ -38,9 +38,6 @@ addWeapon(admin, name, item, predelay, delay, model,
 	level.weapons[index]["predelay"]			= predelay;
 	level.weapons[index]["delay"]				= delay;
 	level.weapons[index]["model"]				= model;
-	level.weapons[index]["muzzle"]				= loadFx(muzzle);
-	level.weapons[index]["impact"]				= loadFx(impact);
-	level.weapons[index]["trail"]				= loadFx(trail);
 	level.weapons[index]["sfx_shoot"]			= sfx_shoot;
 	level.weapons[index]["sfx_trail"]			= sfx_trail;
 	level.weapons[index]["sfx_impact"]			= sfx_impact;
@@ -48,6 +45,12 @@ addWeapon(admin, name, item, predelay, delay, model,
 	level.weapons[index]["knockback"] 			= knockback;
 	level.weapons[index]["knockback_distance"] 	= knockback_distance;
 
+	if (isDefined(muzzle))
+		level.weapons[index]["muzzle"]			= loadFx(muzzle);
+	if (isDefined(impact))
+		level.weapons[index]["impact"]			= loadFx(impact);
+	if (isDefined(trail))
+		level.weapons[index]["trail"]			= loadFx(trail);
 	precacheModel(model);
 }
 
@@ -89,6 +92,12 @@ shoot(weapon)
 	bullet.model = spawn("script_model", eye);
 	bullet.model setModel(weapon["model"]);
 
+	if (self.sr_mode == "Defrag")
+	{
+		bullet.model hide();
+		bullet.model showToPlayer(self);
+	}
+
 	ignore = [];
 	ignore[ignore.size] = self;
 	trace = traceArray(eye, eye + forward, false, ignore);
@@ -116,8 +125,10 @@ shoot(weapon)
 	time = length(fxpos - p) / speed * 1.5;
 
 	// Shoot
-	self playSoundToPlayer(weapon["sfx_shoot"], self);
-	bullet.model playLoopSound(weapon["sfx_trail"]);
+	if (isDefined(weapon["sfx_shoot"]))
+		self playSoundToPlayer(weapon["sfx_shoot"], self);
+	if (isDefined(weapon["sfx_trail"]))
+		bullet.model playLoopSound(weapon["sfx_trail"]);
 	bullet.model.angles = self getPlayerAngles();
 	bullet thread trailFX();
 
@@ -127,7 +138,7 @@ shoot(weapon)
 
 	delay = weapon["delay"];
 	if (self sr\game\_perks::playerHasPerk("haste"))
-		delay /= 1.5;
+		delay /= 1.2;
 	if (delay >= 0.05)
 		wait delay;
 }
@@ -141,13 +152,15 @@ impact(time)
 	wait time;
 
 	self.model stopLoopSound();
-	self.model playSound(self.weapon["sfx_impact"]);
+	if (isDefined(self.weapon["sfx_impact"]))
+		self.model playSound(self.weapon["sfx_impact"]);
 
 	if (self.weapon["knockback"] &&
 		(self.player.sr_mode == "Defrag" || self.player sr\player\modes\_main::isInMode("defrag")))
 		self thread knockback();
 
-	playFX(self.weapon["impact"], self.trace["fx_position"], self.trace["normal"], self.trace["up"]);
+	if (isDefined(self.weapon["impact"]))
+		playFXOnTag(self.weapon["impact"], self.model, "tag_origin");
 
 	wait 0.05;
 	if (isDefined(self.model))
@@ -180,8 +193,10 @@ trailFX()
 
 	if (isDefined(self.model))
 	{
-		playFXOnTag(self.weapon["muzzle"], self.model, "TAG_ORIGIN");
-		playFXOnTag(self.weapon["trail"], self.model, "TAG_ORIGIN");
+		if (isDefined(self.weapon["muzzle"]))
+			playFXOnTag(self.weapon["muzzle"], self.model, "TAG_ORIGIN");
+		if (isDefined(self.weapon["trail"]))
+			playFXOnTag(self.weapon["trail"], self.model, "TAG_ORIGIN");
 	}
 }
 

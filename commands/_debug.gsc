@@ -93,5 +93,5 @@ cmd_DebugSaveSpawn(args)
 
 cmd_Test(args)
 {
-	self pm("test");
+
 }
