@@ -6,26 +6,27 @@ loop()
 	self endon("disconnect");
 	self endon("death");
 
-	self.previousAirVelocity = (0, 0, 0);
+	self.bhopPrevAirVelocity = (0, 0, 0);
+	self.bhopPrevOnGround = true;
+
+	wait 0.05;
 
 	while (true)
 	{
+		self.bhopAirVelocity = self getVelocity();
+		self.bhopOnGround = self isOnGround();
+		self.bhopHeight = sqrt((self.jumpHeight * 2) * self.gravity);
+
+		if (self.bhopOnGround && !self.bhopPrevOnGround && self jumpButtonPressed() && self getStance() != "prone")
+		{
+			velocity = self.bhopPrevAirVelocity - self.bhopAirVelocity;
+			self setVelocity((self.bhopAirVelocity[0], self.bhopAirVelocity[1], 0)
+				+ (velocity[0], velocity[1], self.bhopHeight));
+		}
+
 		wait 0.05;
 
-		if (!isDefined(self.isBhopping))
-			self.isBhopping = false;
-
-		if (!self isOnGround() && self jumpButtonPressed())
-		{
-			self.isBhopping = true;
-			self.previousAirVelocity = self getVelocity();
-		}
-		if (self.isBhopping && !self jumpButtonPressed() || self getStance() == "prone")
-			self.isBhopping = false;
-		if (self.isBhopping && self isOnGround())
-		{
-			velocity = self.previousAirVelocity - self getVelocity();
-			self setVelocity(self getVelocity() + (velocity[0], velocity[1], 200));
-		}
+		self.bhopPrevAirVelocity = self.bhopAirVelocity;
+		self.bhopPrevOnGround = self.bhopOnGround;
 	}
 }

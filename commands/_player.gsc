@@ -174,7 +174,8 @@ cmd_G_Gravity(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	player setGravity(value);
+	player.gravity = value;
+	player setGravity(player.gravity);
 }
 
 cmd_G_Speed(args)
@@ -190,7 +191,8 @@ cmd_G_Speed(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	player setMoveSpeed(value);
+	player.moveSpeed = value;
+	player setMoveSpeed(player.moveSpeed);
 }
 
 cmd_God(args)
@@ -214,7 +216,8 @@ cmd_JumpHeight(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	player setJumpHeight(value);
+	player.jumpHeight = value;
+	player setJumpHeight(player.jumpHeight);
 }
 
 cmd_Kill(args)
