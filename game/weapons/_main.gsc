@@ -192,7 +192,6 @@ knockback()
 trailFX()
 {
 	wait 0.05;
-	self.model.angles = self.trace["angles"];
 
 	if (isDefined(self.model))
 	{

@@ -26,6 +26,9 @@ main()
 
 onReset()
 {
+	if (!isDefined(self.portals))
+		return;
+
 	self thread resetPortals();
 }
 
