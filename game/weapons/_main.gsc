@@ -139,7 +139,7 @@ shoot(weapon)
 
 	delay = weapon["delay"];
 	if (self sr\game\_perks::playerHasPerk("haste"))
-		delay *= 0.3;
+		delay /= 1.3;
 	if (delay >= 0.05)
 		wait delay;
 }
