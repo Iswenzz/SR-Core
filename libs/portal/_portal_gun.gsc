@@ -43,7 +43,7 @@ watch()
 	{
 		wait 0.05;
 
-		if (self getCurrentWeapon() != level.portalgun || self isOnLadder() || self isMantling() || self.throwingGrenade)
+		if (self getCurrentWeapon() != level.portalgun)
 		{
 			self sr\libs\portal\_hud::updateHud("none");
 			wait 1;

@@ -16,13 +16,13 @@ main()
 		"muzzleflashes/at4_flash", "explosions/grenadeExp_concrete_1", "smoke/smoke_geotrail_rpg",
 		"weap_rpg_fire_plr", "weap_rpg_loop", "weap_rpg_loop", 1000, true, 140);
 
-	addWeapon("player", "Q3 Rocket", "gl_ak47_mp", 0, 0.6, "quake_rocket_projectile",
+	addWeapon("player", "Q3 Rocket", "gl_ak47_mp", 0, 0.8, "quake_rocket_projectile",
 		"muzzleflashes/m203_flshview", undefined, "q3/rocket_trail",
-		"weap_quake_rocket_shoot", "weap_quake_rocket_loop", "weap_quake_rocket_explode", 500, true, 140);
+		"weap_quake_rocket_shoot", "weap_quake_rocket_loop", "weap_quake_rocket_explode", 500, true, 120);
 
 	addWeapon("owner", "Q3 Plasma", "gl_g3_mp", 0, 0.05, "tag_origin",
-		"muzzleflashes/mist_mk2_flashview", "q3/plasma_explode", "q3/plasma_fire",
-		"weap_quake_plasma_shoot", undefined, "weap_quake_plasma_explode", 30, true, 60);
+		"muzzleflashes/mist_mk2_flashview", undefined, "q3/plasma_fire",
+		"weap_quake_plasma_shoot", undefined, "weap_quake_plasma_explode", 30, true, 40);
 }
 
 addWeapon(admin, name, item, predelay, delay, model,
@@ -91,6 +91,7 @@ shoot(weapon)
 	forward = anglesToForward(self getPlayerAngles()) * 999999;
 	bullet.model = spawn("script_model", eye);
 	bullet.model setModel(weapon["model"]);
+	bullet.model setContents(0);
 
 	if (self.sr_mode == "Defrag")
 	{
@@ -138,7 +139,7 @@ shoot(weapon)
 
 	delay = weapon["delay"];
 	if (self sr\game\_perks::playerHasPerk("haste"))
-		delay /= 1.2;
+		delay *= 0.3;
 	if (delay >= 0.05)
 		wait delay;
 }
@@ -159,6 +160,7 @@ impact(time)
 		(self.player.sr_mode == "Defrag" || self.player sr\player\modes\_main::isInMode("defrag")))
 		self thread knockback();
 
+	self.model.angles = self.trace["angles"];
 	if (isDefined(self.weapon["impact"]))
 		playFXOnTag(self.weapon["impact"], self.model, "tag_origin");
 
@@ -190,13 +192,14 @@ knockback()
 trailFX()
 {
 	wait 0.05;
+	self.model.angles = self.trace["angles"];
 
 	if (isDefined(self.model))
 	{
 		if (isDefined(self.weapon["muzzle"]))
-			playFXOnTag(self.weapon["muzzle"], self.model, "TAG_ORIGIN");
+			playFXOnTag(self.weapon["muzzle"], self.model, "tag_origin");
 		if (isDefined(self.weapon["trail"]))
-			playFXOnTag(self.weapon["trail"], self.model, "TAG_ORIGIN");
+			playFXOnTag(self.weapon["trail"], self.model, "tag_origin");
 	}
 }
 
