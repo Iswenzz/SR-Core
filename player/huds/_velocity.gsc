@@ -18,7 +18,7 @@ hud()
     if (!self.settings["hud_velocity"])
         return;
 
-	wait 0.05;
+	wait 0.1;
 
 	self clear();
 	self hudVelocity();
@@ -101,6 +101,7 @@ hudVelocity()
 	self.huds["velocity"].y += position.y;
 }
 
+// @TODO
 updateVelocity()
 {
 	if (!isDefined(self.huds["velocity"]))

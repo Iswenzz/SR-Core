@@ -23,7 +23,7 @@ hud()
     if (!self shouldRender())
 		return;
 
-	wait 0.05;
+	wait 0.1;
 
 	self clear();
 	self hudKeys();

@@ -29,7 +29,7 @@ hud()
 	self hudFps();
 	self vars();
 
-	wait 0.05;
+	wait 0.1;
 
 	while (true)
 	{

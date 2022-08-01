@@ -19,7 +19,7 @@ hud()
     if (self.settings["hud_crosshair"] < 2)
 		return;
 
-	wait 0.05;
+	wait 0.1;
 
 	self clear();
 	self hudCrosshair();
