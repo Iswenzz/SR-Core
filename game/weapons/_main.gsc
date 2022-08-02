@@ -90,8 +90,8 @@ shoot(weapon)
 	eye = self eyepos();
 	forward = anglesToForward(self getPlayerAngles()) * 999999;
 	bullet.model = spawn("script_model", eye);
-	bullet.model setModel(weapon["model"]);
 	bullet.model setContents(0);
+	bullet.model setModel(weapon["model"]);
 
 	if (self.sr_mode == "Defrag")
 	{
@@ -128,7 +128,7 @@ shoot(weapon)
 	// Shoot
 	if (isDefined(weapon["sfx_shoot"]))
 		self playSoundToPlayer(weapon["sfx_shoot"], self);
-	if (isDefined(weapon["sfx_trail"]))
+	if (isDefined(weapon["sfx_trail"]) && self.sr_mode != "Defrag")
 		bullet.model playLoopSound(weapon["sfx_trail"]);
 	bullet.model.angles = self getPlayerAngles();
 	bullet thread trailFX();
@@ -164,7 +164,7 @@ impact(time)
 	if (isDefined(self.weapon["impact"]))
 		playFXOnTag(self.weapon["impact"], self.model, "tag_origin");
 
-	wait 0.05;
+	wait 0.1;
 	if (isDefined(self.model))
 		self.model delete();
 }
