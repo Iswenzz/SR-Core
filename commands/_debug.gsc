@@ -93,5 +93,17 @@ cmd_DebugSaveSpawn(args)
 
 cmd_Test(args)
 {
+	ents = getEntArray("debug_ent", "targetname");
+	for (i = 0; i < ents.size; i++)
+		ents[i] delete();
 
+	amount = ToInt(args[0]);
+
+	for (i = 0; i < amount; i++)
+	{
+		ent = spawn("script_model", self.origin);
+		ent.targetname = "debug_ent";
+		ent setModel("chicken");
+	}
+	self pm(fmt("Spawned %d chicken", amount));
 }

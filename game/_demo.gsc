@@ -19,6 +19,8 @@ record()
 	if (self.isBot || self.sr_cheat)
 		return;
 
+	wait 0.5;
+
 	thread recordTimeout();
 
 	mapname = level.map;
