@@ -35,11 +35,11 @@ loop()
 }
 
 antiCheat()
-{
+	{
 	self endon("disconnect");
 	self endon("death");
 
-	self.run = randomInt(999999999);
+	self.run = fmt("%d%d", randomInt(99999), randomInt(99999));
 
 	cheat = false;
 	if (self sr\game\minigames\_main::isInAnyQueue())
