@@ -106,22 +106,19 @@ cmd_GetDvar(args)
 
 cmd_Help(args)
 {
-	valid = [];
+	valids = [];
 	keys = getArrayKeys(level.admin_commands);
 	for (i = 0; i < keys.size; i++)
 	{
 		if (!self canExecuteCommand(level.admin_commands[keys[i]]))
 			continue;
-		valid[valid.size] = keys[i];
+		valids[valids.size] = keys[i];
 	}
-	chunks = Chunk(valid, 10);
+	strings = strTokByPixLen(StrJoin(valids, ", "), 500);
 
 	self pm(fmt("%s ^7commands:", self getRoleName()));
-	for (i = 0; i < chunks.size; i++)
-	{
-		string = StrJoin(chunks[i], ", ");
-		self pm(string);
-	}
+	for (i = 0; i < strings.size; i++)
+		self pm(strings[i]);
 }
 
 cmd_Msg(args)
@@ -149,24 +146,21 @@ cmd_Notification(args)
 
 cmd_Online(args)
 {
-	strings = [];
+	onlines = [];
 	index = 0;
 
-	message("Online:");
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
 		role = players[i] getRoleName();
 		if (role != "Player")
-			strings[strings.size] = fmt("%s^7[%s^7]", players[i].name, players[i] getRoleName());
+			onlines[onlines.size] = fmt("%s^7[%s^7]", players[i].name, players[i] getRoleName());
 	}
-	strings = Chunk(strings, 6);
+	strings = strTokByPixLen(StrJoin(onlines, ", "), 500);
 
+	message("Online:");
 	for (i = 0; i < strings.size; i++)
-	{
-		message = StrJoin(strings[i], ", ");
-		message(message);
-	}
+		message(strings[i]);
 }
 
 cmd_Owner(args)
