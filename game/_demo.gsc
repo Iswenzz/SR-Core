@@ -19,7 +19,7 @@ record()
 	if (self.isBot || self.sr_cheat)
 		return;
 
-	wait 0.5;
+	wait 1;
 
 	thread recordTimeout();
 
