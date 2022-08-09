@@ -206,27 +206,24 @@ vote(vote, value)
 hud(message)
 {
 	self.vote_hud = [];
-    self.vote_hud[0] = addHud(self, -10, 0, 0.7, "left", "bottom", 1.8);
-    self.vote_hud[0] setShader("black", 180, 20);
+    self.vote_hud["time"] = addHud(self, 160, -42, 1, "left", "bottom", 1.4, 96);
+    self.vote_hud["title"] = addHud(self, 5, -42, 1, "left", "bottom", 1.4, 96);
+	self.vote_hud["title"] setText(message);
 
-    self.vote_hud[1] = addHud(self, -10, -20, 0.7, "left", "bottom", 1.8);
-    self.vote_hud[1] setShader("black", 180, 20);
+    self.vote_hud["background"] = addHud(self, -10, 0, 0.7, "left", "bottom", 1.8);
+    self.vote_hud["background"] setShader("black", 200, 40);
 
-    self.vote_hud[2] = addHud(self, -10, -40, 0.9, "left", "bottom", 1.8);
-    self.vote_hud[2] setShader("black", 180, 20);
+    self.vote_hud["header"] = addHud(self, -10, -40, 0.9, "left", "bottom", 1.8);
+    self.vote_hud["header"] setShader("black", 200, 20);
 
-    self.vote_hud[3] = addHud(self, 25, -20, 1, "left", "bottom", 1.4, 96);
-    self.vote_hud[3] setText("Yes:(^2[{openscriptmenu cjvote cjvoteyes}]^7)");
+    self.vote_hud["yes"] = addHud(self, 40, 0, 1, "left", "bottom", 1.4, 96);
+    self.vote_hud["yes_label"] = addHud(self, 25, -20, 1, "left", "bottom", 1.4, 96);
+    self.vote_hud["yes_label"] setText("Yes: (^2[{openscriptmenu cjvote cjvoteyes}]^7)");
 
-    self.vote_hud[4] = addHud(self, 95, -20, 1, "left", "bottom", 1.4, 96);
-    self.vote_hud[4] setText("No:(^1[{openscriptmenu cjvote cjvoteno}]^7)");
+    self.vote_hud["no"] = addHud(self, 125, 0, 1, "left", "bottom", 1.4, 96);
+    self.vote_hud["no_label"] = addHud(self, 110, -20, 1, "left", "bottom", 1.4, 96);
+    self.vote_hud["no_label"] setText("No: (^1[{openscriptmenu cjvote cjvoteno}]^7)");
 
-    self.vote_hud[5] = addHud(self, 35, 0, 1, "left", "bottom", 1.4, 96);
-    self.vote_hud[6] = addHud(self, 105, 0, 1, "left", "bottom", 1.4, 96);
-    self.vote_hud[7] = addHud(self, 5, -42, 1, "left", "bottom", 1.4, 96);
-    self.vote_hud[7] setText(message);
-
-    self.vote_hud[8] = addHud(self, 135, -42, 1, "left", "bottom", 1.4, 96);
     self hudUpdate();
 }
 
@@ -237,9 +234,9 @@ hudUpdate()
 
 	while (true)
 	{
-		self.vote_hud[5] setText(level.vote_yes);
-		self.vote_hud[6] setText(level.vote_no);
-		self.vote_hud[8] setText("" + level.vote_timer);
+		self.vote_hud["yes"] setValue(level.vote_yes);
+		self.vote_hud["no"] setValue(level.vote_no);
+		self.vote_hud["time"] setValue(level.vote_timer);
 		wait 0.1;
 	}
 }
@@ -248,7 +245,11 @@ hudDestroy()
 {
 	if (isDefined(self.vote_hud))
 	{
-		for (i = 0; i < self.vote_hud.size; i++)
-			self.vote_hud[i] destroy();
+		keys = getArrayKeys(self.vote_hud);
+		for (i = 0; i < keys.size; i++)
+		{
+			if (isDefined(self.vote_hud[keys[i]]))
+				self.vote_hud[keys[i]] destroy();
+		}
 	}
 }

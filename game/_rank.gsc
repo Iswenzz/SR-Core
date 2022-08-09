@@ -453,7 +453,7 @@ notifyUnlockNewItems()
 		for (j = 0; j < assets.size; j++)
 		{
 			asset = assets[j];
-			if (GetType(asset) != "ARRAY")
+			if (!isArray(asset))
 				continue;
 
 			if (self.pers["rank"] == asset["rank"] && self.pers["prestige"] != asset["prestige"])

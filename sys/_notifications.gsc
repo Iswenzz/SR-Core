@@ -26,16 +26,20 @@ animate(notification)
 	else
 		self playLocalSound("mp_ingame_summary");
 
+	fontSize = 1.4;
+	text = splitTextByWidth(notification.message, 150);
+	width = getTextWidth(text, fontSize);
+	height = getTextHeight(text, fontSize);
 	y = level.notifications * 30;
 
 	notification.huds = [];
-	notification.huds[0] = addHud(self, 0, 100, 0.7, "left", "top", 1.4, 990);
-	notification.huds[0] setShader("black", 195, 20);
+	notification.huds[0] = addHud(self, 0, 100, 0.7, "left", "top", fontSize, 990);
+	notification.huds[0] setShader("black", width, height);
 	notification.huds[0].y += y;
 
-	notification.huds[1] = addHud(self, 2, 102, 1, "left", "top", 1.4, 993);
+	notification.huds[1] = addHud(self, 2, 102, 1, "left", "top", fontSize, 993);
 	notification.huds[1].font = "objective";
-	notification.huds[1] setText(notification.message);
+	notification.huds[1] setText(text);
 	notification.huds[1].y += y;
 
 	for (i = 0; i < notification.huds.size; i++)

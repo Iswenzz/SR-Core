@@ -182,3 +182,35 @@ angleToRange(player, start, end, yaw)
 	range.split = split;
 	return range;
 }
+
+getTextWidth(string, fontSize)
+{
+	texts = strTok(string, "\n");
+	chars = 0;
+	biggestIndex = 0;
+
+	for (i = 0; i < texts.size; i++)
+	{
+		if (texts[i].size > chars)
+		{
+			chars = texts[i].size;
+			biggestIndex = i;
+		}
+	}
+	text = texts[biggestIndex];
+
+	return int((strPixLen(text) * (fontSize / 1.4)) * 2);
+}
+
+getTextHeight(text, fontSize)
+{
+	breaks = strTok(text, "\n").size;
+	if (!breaks) breaks = 1;
+
+	return int(20 * (fontSize / 1.4) * (breaks * 0.9));
+}
+
+splitTextByWidth(text, maxWidth)
+{
+	return StrJoin(strTokByPixLen(text, maxWidth), "\n");
+}
