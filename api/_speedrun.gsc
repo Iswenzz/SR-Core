@@ -65,6 +65,26 @@ watchTriggerEndMap(trig, way)
 	}
 }
 
+createWay(triggerOrigin, width, height, color, way)
+{
+	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
+	trigger.radius = width;
+
+	thread watchWay(trigger, way);
+	thread sr\game\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
+}
+
+watchWay(trigger, way)
+{
+	while (true)
+	{
+		trigger waittill("trigger", player);
+
+		if (isDefined(way))
+			player changeWay(way);
+	}
+}
+
 createTeleporter(triggerOrigin, width, height, origin, angles, state, color, way)
 {
 	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
