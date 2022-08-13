@@ -1,0 +1,25 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage
+
+null,,null.wav,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+#User Interface,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+mission_unlock_cheat,,voiceovers/US/ICBM/icbm_grg_3_30.wav,0.3,,interface,,,,,menu,,,,,menu,,,,,,,nowetlevel fulldrylevel,,,,,,,
+game_save,,null.wav,0.35,,interface,,,,,local,,,,,,,,,,,,nowetlevel fulldrylevel,,,,,,,
+
+#Weapons Non-Player,,,,,,,,,,,,,,,,,,,,
+weap_c4detpack_trigger_npc,,weapons/c4_detpack/weap_detpack_trigger.wav,0.85,0.9,,1,1,35,2500,weapon,,,,0.9,,,,,weapon4,
+weap_c4detpack_safety_npc,,weapons/c4_detpack/weap_detpack_safety.wav,0.95,1,,1,1,35,2500,weapon,,,,0.9,,,,,weapon4,
+weap_c4detpack_safetyoff_npc,,weapons/c4_detpack/weap_detpack_safety.wav,0.95,1,,1,1,35,2500,weapon,,,,0.9,,,,,weapon4,200
+
+#Detpack C4 Explosions,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+detpack_explo_default,1,explosions/explo_detpack_main1.wav,0.95,1,explosion,1.7,1.9,200,6000,effects1,,,,,,,,detpack_explo_layer1,,,,,0.5,,,100,500,0.65
+detpack_explo_default,2,explosions/explo_detpack_main2.wav,0.95,1,explosion,1.7,1.9,200,6000,effects1,,,,,,,,detpack_explo_layer1,,,,,0.5,,,100,500,0.65
+detpack_explo_default,3,explosions/explo_detpack_main3.wav,0.95,1,explosion,1.7,1.9,200,6000,effects1,,,,,,,,detpack_explo_layer1,,,,,0.5,,,100,500,0.65
+
+#Rocket Explosions,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+rocket_explode_default,1,explosions/grenade_explo01.wav,0.88,0.93,explosion,0.8,1.2,300,7800,voice,,,,0.5,,,,,,,,,0.5,,,100,500,0.65
+rocket_explode_default,2,explosions/grenade_explo02.wav,0.88,0.93,explosion,0.8,1.2,300,7800,voice,,,,0.5,,,,,,,,,0.5,,,100,500,0.65
+
+#New pulse text,,,,,,,,,,,,,,,,,,,,,,,,,
+ui_pulse_text_type,,user_interface/ui_computer_text_blip1x.wav,0.17,0.26,,0.93,0.96,500000,,local
+ui_pulse_text_delete,,user_interface/ui_computer_text_delete1.wav,0.75,0.75,,0.95,1.05,500000,,local
