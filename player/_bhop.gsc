@@ -20,10 +20,16 @@ loop()
 		if (self.bhopOnGround && !self.bhopPrevOnGround && self jumpButtonPressed() && self getStance() != "prone")
 		{
 			velocity = self.bhopPrevAirVelocity - self.bhopAirVelocity;
+
+			flags = self PmFlags();
+			flags &= 4294966911;
+  			flags |= 16384;
+			self SetPmFlags(flags);
+			self SetPmTime(0);
+
 			self setVelocity((self.bhopAirVelocity[0], self.bhopAirVelocity[1], 0)
 				+ (velocity[0], velocity[1], self.bhopHeight));
 		}
-
 		wait 0.05;
 
 		self.bhopPrevAirVelocity = self.bhopAirVelocity;
