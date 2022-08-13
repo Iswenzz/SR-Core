@@ -139,7 +139,6 @@ precacheFx()
 {
 	level.fx["pickup"]					= loadfx("misc/ui_pickup_available");
 	level.fx["endgame"] 				= loadFx("deathrun/endgame_fx");
-	level.fx["gib_splat"] 				= loadFx("deathrun/gib_splat");
 	level.fx["light_blink"] 			= loadFx("misc/light_c4_blink");
 	level.fx["endtrig_fx"] 				= loadFx("deathrun/endtrig_fx");
 	level.fx["endtrigcircle_fx"] 		= loadFx("deathrun/endtrigcircle_fx");
@@ -160,7 +159,7 @@ precacheFx()
 	level.fx["startnstop"] 				= loadFx("deathrun/flare_startnstop");
 	level.fx["jetpack"] 				= loadFx("smoke/jetpack");
 	level.fx["meteor"] 					= loadFx("fire/tank_fire_engine");
-	level.fx["explosion"] 				= loadfx("explosions/grenadeExp_concrete_1");
+	level.fx["explosion"] 				= loadfx("explosions/grenadeExp_default");
 	level.fx["flame"] 					= loadfx("fire/tank_fire_engine");
 
 	visionSetNaked(toLower(level.map), 0);

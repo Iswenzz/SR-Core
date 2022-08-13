@@ -57,8 +57,6 @@ precache()
 	cheapSinSetup();
 
 	preCacheItem(level.portalgun);
-	// preCacheItem(level.portalgun_bendi);
-	preCacheModel("collision_wall_100x75");
 	preCacheModel("collision_sphere");
 	preCacheModel("cube");
 	preCacheModel("companion_cube");
@@ -82,9 +80,5 @@ precache()
 	level.fx["redportal_fail"]			= loadfx("portal/portal_red_fail");
 	level.fx["portalballblue"]			= loadfx("portal/portal_ball_blue");
 	level.fx["portalballred"]			= loadfx("portal/portal_ball_red");
-	level.fx["projected_wall"]			= loadfx("portal/projected_wall");
-	level.fx["projected_wall_end"]		= loadfx("portal/projected_wall_end");
-	level.fx["projected_wall_start"]	= loadfx("portal/projected_wall_start");
-	level.fx["projected_wall_mask"]		= loadfx("portal/projected_wall_mask");
 	level.fx["redlaser"]				= loadfx("portal/redlaser");
 }

@@ -67,13 +67,11 @@ buildRanksIcon()
 	{
 		icon = tableLookup(tableName, 0, rId, 1);
 		level.assets["rank"][rId] = icon;
-		// precacheShader(icon);
 	}
 	for (pId = 0; pId <= level.maxPrestige; pId++)
 	{
 		icon = tableLookup(tableName, 0, 0, pId + 1);
 		level.assets["prestige"][pId] = icon;
-		// precacheShader(icon);
 	}
 }
 

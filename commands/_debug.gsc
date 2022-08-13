@@ -5,6 +5,7 @@
 
 main()
 {
+	cmd("owner",  		"bots",				::cmd_Bots);
 	cmd("owner",  		"debug_ents",		::cmd_DebugEnts);
 	cmd("owner",  		"debug_speed",		::cmd_DebugSpeed);
 	cmd("owner",  		"debug_surface",	::cmd_DebugSurface);
@@ -14,6 +15,16 @@ main()
 
 	if (getDvarInt("auto"))
 		thread cmd_DebugRotation();
+}
+
+cmd_Bots(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: bots <amount>");
+
+	amount = ToInt(args[0]);
+
+	sr\utils\_common::spawnBots(amount);
 }
 
 cmd_DebugSurface(args)

@@ -437,11 +437,6 @@ waitMapLoad(extraTime)
 
 cleanUp()
 {
-	self setClientDvar("cg_thirdperson", 0);
-	self setClientDvar("cg_thirdpersonrange", 80);
-	self setClientDvar("r_blur", 0);
-	self setClientDvar("ui_healthbar", 1);
-
 	self clearLowerMessage();
 	self unLink();
 	self enableWeapons();

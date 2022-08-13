@@ -9,15 +9,15 @@ main()
 	event("connect", ::loop);
 
 	addWeapon("player", "RPG", "bt_rpg_mp", 0.51, 1.05, "projectile_rpg7",
-		"muzzleflashes/at4_flash", "explosions/grenadeExp_concrete_1", "smoke/smoke_geotrail_rpg",
+		"muzzleflashes/at4_flash", "explosions/grenadeExp_default", "smoke/smoke_geotrail_rpg",
 		"weap_rpg_fire_plr", "weap_rpg_loop", "weap_rpg_loop", 500, true, 140);
 
 	addWeapon("player", "FN RPG", "gl_g36c_mp", 0.51, 1.05, "projectile_rpg7",
-		"muzzleflashes/at4_flash", "explosions/grenadeExp_concrete_1", "smoke/smoke_geotrail_rpg",
+		"muzzleflashes/at4_flash", "explosions/grenadeExp_default", "smoke/smoke_geotrail_rpg",
 		"weap_rpg_fire_plr", "weap_rpg_loop", "weap_rpg_loop", 1000, true, 140);
 
 	addWeapon("player", "Q3 Rocket", "gl_ak47_mp", 0, 0.8, "quake_rocket_projectile",
-		"muzzleflashes/m203_flshview", undefined, "q3/rocket_trail",
+		"muzzleflashes/m203_flshview", "explosions/grenadeExp_default", "q3/rocket_trail",
 		"weap_quake_rocket_shoot", "weap_quake_rocket_loop", "weap_quake_rocket_explode", 500, true, 120);
 
 	addWeapon("owner", "Q3 Plasma", "gl_g3_mp", 0, 0.05, "tag_origin",

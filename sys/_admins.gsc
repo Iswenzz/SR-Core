@@ -49,11 +49,12 @@ precache()
 	precacheStatusIcon("hud_status_dead");
 	precacheHeadIcon("headicon_admin");
 
+	precacheShellShock("default");
 	precacheShellShock("flashbang");
-	precacheShellShock("death");
 	precacheShellShock("concussion_grenade_mp");
 	precacheShellShock("damage_mp");
 	precacheShellShock("frag_grenade_mp");
+	precacheShellShock("radiation_high");
 
 	precacheMenu("clientcmd");
 }
@@ -141,7 +142,7 @@ getRoleName()
 			role = "^3Member";
 			break;
 		case "trusted":
-			role = "^8Trusted role omg finaly you can spam !vote"; // @todo
+			role = "^8Trusted";
 			break;
 	}
 	return role;

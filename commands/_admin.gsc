@@ -22,7 +22,7 @@ main()
 	cmd("owner",        "redirect_all",	::cmd_RedirectAll);
 	cmd("masteradmin",  "reconnect",	::cmd_Reconnect);
 	cmd("admin",        "rename",		::cmd_Rename);
-	cmd("player",       "report_player",::cmd_ReportPlayer); // @todo
+	cmd("player",       "report_player",::cmd_ReportPlayer); // @todo - Change role to member
 	cmd("player",       "report_bug",	::cmd_ReportBug);
 	cmd("member",       "timeplayed",	::cmd_TimePlayed);
 	cmd("admin",        "sr_kick",		::cmd_Kick);

@@ -134,6 +134,7 @@ killcam(
 	self thread waitKillcamTime();
 	self waittill("end_killcam");
 	self endKillcam();
+	self setClientDvar("r_blur", "0");
 
 	self.sessionstate = "dead";
 	self.spectatorclient = -1;

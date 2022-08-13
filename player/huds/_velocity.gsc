@@ -101,7 +101,6 @@ hudVelocity()
 	self.huds["velocity"].y += position.y;
 }
 
-// @TODO
 updateVelocity()
 {
 	if (!isDefined(self.huds["velocity"]))
