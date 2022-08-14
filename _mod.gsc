@@ -67,6 +67,7 @@ main()
 	sr\player\huds\_keys::main();
 	sr\player\huds\_velocity::main();
 	sr\player\huds\_viewkick::main();
+	sr\player\huds\_shaders::main();
 }
 
 precache()
