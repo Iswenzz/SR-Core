@@ -4,8 +4,45 @@
 main()
 {
 	precacheShader("sr_shake");
+	precacheShader("sr_zoom");
+	precacheShader("sr_edge");
+	precacheShader("sr_vhs");
 
-	event("connect", ::shake);
+	event("connect", ::shaders);
+}
+
+shaders()
+{
+	self thread shake();
+	self thread zoom();
+	self thread edge();
+	self thread vhs();
+}
+
+vhs()
+{
+	range = 1;
+	noiseIntensity = 0.000088;
+	offsetIntensity = 0.0002;
+
+	self.huds["shaders"]["vhs"] = addShader(self, "sr_vhs");
+	self.huds["shaders"]["vhs"].color = (range, noiseIntensity, offsetIntensity);
+}
+
+edge()
+{
+	color = (1, 0, 0);
+
+	self.huds["shaders"]["edge"] = addShader(self, "sr_edge");
+	self.huds["shaders"]["edge"].color = color;
+}
+
+zoom()
+{
+	zoomAmount = 0.5;
+
+	self.huds["shaders"]["zoom"] = addShader(self, "sr_zoom");
+	self.huds["shaders"]["zoom"].color = (zoomAmount, 0, 0);
 }
 
 shake()
@@ -14,10 +51,15 @@ shake()
 	shakeSpeedY = 3.0;
 	intensity = 0.05;
 
-	self.huds["shaders"]["shake"] = addHud(self, 0, 0, 1, "left", "top", 1.4, 1, true);
-	self.huds["shaders"]["shake"].horzAlign = "fullscreen";
-	self.huds["shaders"]["shake"].vertAlign = "fullscreen";
-	self.huds["shaders"]["shake"] setShader("sr_shake", 640, 480);
+	self.huds["shaders"]["shake"] = addShader(self, "sr_shake");
 	self.huds["shaders"]["shake"].color = (shakeSpeedX, shakeSpeedY, intensity);
-	self.huds["shaders"]["shake"].color = (0, 0, 0);
+}
+
+addShader(who, name)
+{
+	shader = addHud(who, 0, 0, 0, "left", "top", 1.4, 1, true);
+	shader.horzAlign = "fullscreen";
+	shader.vertAlign = "fullscreen";
+	shader setShader(name, 640, 480);
+	return shader;
 }

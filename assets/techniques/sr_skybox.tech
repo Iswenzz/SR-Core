@@ -1,17 +1,16 @@
 {
-	stateMap "default2d";
+	stateMap "default";
 
-	vertexShader 3.0 "sr_grain"
+	vertexShader 3.0 "sr_skybox"
     {
 
 	}
 
-	pixelShader 3.0 "sr_grain"
+	pixelShader 3.0 "sr_skybox"
 	{
 		colorMapSampler = sampler.resolvedPostSun;
 	}
 
 	vertex.position = code.position;
-	vertex.color[0] = code.color;
 	vertex.texcoord[0] = code.texcoord[0];
 }

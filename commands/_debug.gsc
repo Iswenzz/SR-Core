@@ -13,9 +13,20 @@ main()
 	cmd("owner",  		"debug_rotation",	::cmd_DebugRotation);
 	cmd("owner",  		"test",				::cmd_Test);
 	cmd("owner",  		"shader",			::cmd_Shader);
+	cmd("owner",  		"mirror",			::cmd_Mirror);
+
+	precacheModel("x_mirror");
+	precacheModel("x_ball");
 
 	if (getDvarInt("auto"))
 		thread cmd_DebugRotation();
+}
+
+cmd_Mirror(args)
+{
+	mirror = spawn("script_model", self.origin + (0, 0, 30));
+	mirror.angles = (0, 90, 0);
+	mirror setModel("x_mirror");
 }
 
 cmd_Shader(args)
@@ -23,13 +34,45 @@ cmd_Shader(args)
 	if (args.size < 1)
 		return self pm("Usage: shader <name> <...props>");
 
-	if (args[0] == "shake")
+	shader = args[0];
+
+	if (shader == "shake")
 	{
-		screenShakeX = ToFloat(args[0]);
-		screenShakeY = ToFloat(args[1]);
-		intensity = ToFloat(args[2]);
+		screenShakeX = ToFloat(args[1]);
+		screenShakeY = ToFloat(args[2]);
+		intensity = ToFloat(args[3]);
+		alpha = ToFloat(args[4]);
 
 		self.huds["shaders"]["shake"].color = (screenShakeX, screenShakeY, intensity);
+		self.huds["shaders"]["shake"].alpha = alpha;
+	}
+	if (shader == "zoom")
+	{
+		zoomAmount = ToFloat(args[1]);
+		alpha = ToFloat(args[2]);
+
+		self.huds["shaders"]["zoom"].color = (zoomAmount, 0, 0);
+		self.huds["shaders"]["zoom"].alpha = alpha;
+	}
+	if (shader == "edge")
+	{
+		r = ToFloat(args[1]);
+		g = ToFloat(args[2]);
+		b = ToFloat(args[3]);
+		alpha = ToFloat(args[4]);
+
+		self.huds["shaders"]["edge"].color = (r, g, b);
+		self.huds["shaders"]["edge"].alpha = alpha;
+	}
+	if (shader == "vhs")
+	{
+		range = ToFloat(args[1]);
+		noiseIntensity = ToFloat(args[2]);
+		offsetIntensity = ToFloat(args[3]);
+		alpha = ToFloat(args[4]);
+
+		self.huds["shaders"]["vhs"].color = (range, noiseIntensity, offsetIntensity);
+		self.huds["shaders"]["vhs"].alpha = alpha;
 	}
 }
 

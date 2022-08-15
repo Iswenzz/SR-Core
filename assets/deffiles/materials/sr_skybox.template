@@ -1,4 +1,4 @@
 #include "commonsetup.template"
-techniqueSet("sr_grain");
+techniqueSet("sr_skybox");
 
 refImage("$white");
