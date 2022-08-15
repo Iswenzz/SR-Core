@@ -1,17 +1,16 @@
 {
 	stateMap "default2d";
 
-	vertexShader 3.0 "sr_shake"
+	vertexShader 3.0 "sr_vhs"
     {
 
 	}
 
-	pixelShader 3.0 "sr_shake"
+	pixelShader 3.0 "sr_vhs"
 	{
 		colorMapSampler = sampler.resolvedPostSun;
 	}
 
 	vertex.position = code.position;
-	vertex.color[0] = code.color;
 	vertex.texcoord[0] = code.texcoord[0];
 }

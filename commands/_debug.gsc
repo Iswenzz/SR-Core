@@ -12,9 +12,25 @@ main()
 	cmd("owner",  		"debug_save_spawn",	::cmd_DebugSaveSpawn);
 	cmd("owner",  		"debug_rotation",	::cmd_DebugRotation);
 	cmd("owner",  		"test",				::cmd_Test);
+	cmd("owner",  		"shader",			::cmd_Shader);
 
 	if (getDvarInt("auto"))
 		thread cmd_DebugRotation();
+}
+
+cmd_Shader(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: shader <name> <...props>");
+
+	if (args[0] == "shake")
+	{
+		screenShakeX = ToFloat(args[0]);
+		screenShakeY = ToFloat(args[1]);
+		intensity = ToFloat(args[2]);
+
+		self.huds["shaders"]["shake"].color = (screenShakeX, screenShakeY, intensity);
+	}
 }
 
 cmd_Bots(args)

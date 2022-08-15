@@ -1,0 +1,4 @@
+#include "commonsetup.template"
+techniqueSet("sr_motion_blur");
+
+refImage("$white");
