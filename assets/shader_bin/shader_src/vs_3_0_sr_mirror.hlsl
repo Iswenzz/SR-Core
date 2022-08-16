@@ -6,21 +6,20 @@
 struct VertexShaderInput
 {
 	float4 position : POSITION;
-	float4 uv : TEXCOORD0;
+	float2 uv : TEXCOORD0;
 };
 
 struct PixelShaderInput
 {
 	float4 position : POSITION;
-	float4 uv : TEXCOORD0;
+	float2 uv : TEXCOORD0;
 };
 
 PixelShaderInput vs_main(VertexShaderInput input)
 {
 	PixelShaderInput output;
 
-	output.position = mul(float4(input.position.xyz, 1.0f), worldMatrix);
-    output.position = mul(output.position, viewProjectionMatrix);
+	output.position = mul(float4(input.position.xyz, 1.0f), worldViewProjectionMatrix);
 	output.uv = input.uv;
 
 	return output;

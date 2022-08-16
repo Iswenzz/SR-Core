@@ -7,13 +7,13 @@ struct VertexShaderInput
 {
 	float4 position : POSITION;
 	float4 color : COLOR;
-	float4 uv : TEXCOORD0;
+	float2 uv : TEXCOORD0;
 };
 
 struct PixelShaderInput
 {
 	float4 position : POSITION;
-	float4 uv : TEXCOORD0;
+	float2 uv : TEXCOORD0;
 };
 
 float rand(float2 co)
@@ -43,7 +43,7 @@ PixelShaderInput vs_main(VertexShaderInput input)
 	const float noiseIntensity = input.color.y;
 	const float offsetIntensity = input.color.z;
 
-	float2 uv = output.uv.xy / 1;
+	float2 uv = output.uv / 1;
 
     for (float i = 0.0; i < 0.71; i += 0.1313)
     {
@@ -60,7 +60,7 @@ PixelShaderInput vs_main(VertexShaderInput input)
     float noise = rand(vec2(gameTime.x * 0.00001, uvY));
     uv.x += noise * noiseIntensity;
 	uv.y = uvY;
-	output.uv.xy = uv;
+	output.uv = uv;
 
 	return output;
 }

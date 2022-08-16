@@ -15,6 +15,7 @@ struct PixelShaderInput
 	float4 position : POSITION;
 	float4 color : COLOR;
 	float2 uv : TEXCOORD0;
+	float2 motionBlurUV : TEXCOORD1;
 };
 
 PixelShaderInput vs_main(VertexShaderInput input)
@@ -24,6 +25,12 @@ PixelShaderInput vs_main(VertexShaderInput input)
 	output.position = mul(float4(input.position.xyz, 1.0f), worldViewProjectionMatrix);
 	output.uv = input.uv;
 	output.color = input.color;
+	output.motionBlurUV = input.uv;
+
+	const float motionBlurZoom = 0;
+
+	float2 center = { 0.5, 0.5 };
+	output.motionBlurUV = lerp(input.uv, center, 2 - 2 / (motionBlurZoom + 1));
 
 	return output;
 }

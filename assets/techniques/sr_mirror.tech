@@ -8,7 +8,7 @@
 
 	pixelShader 3.0 "sr_mirror"
 	{
-		colorMapSampler = sampler.resolvedPostSun;
+		colorMapSampler = material.colorMap;
 	}
 
 	vertex.position = code.position;

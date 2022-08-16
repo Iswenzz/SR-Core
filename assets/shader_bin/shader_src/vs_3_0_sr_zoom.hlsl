@@ -7,13 +7,13 @@ struct VertexShaderInput
 {
 	float4 position : POSITION;
 	float4 color : COLOR;
-	float4 uv : TEXCOORD0;
+	float2 uv : TEXCOORD0;
 };
 
 struct PixelShaderInput
 {
 	float4 position : POSITION;
-	float4 uv : TEXCOORD0;
+	float2 uv : TEXCOORD0;
 };
 
 PixelShaderInput vs_main(VertexShaderInput input)
@@ -24,8 +24,8 @@ PixelShaderInput vs_main(VertexShaderInput input)
 	output.uv = input.uv;
 
 	const float zoomAmount = input.color.x;
-	const float2 center = {0, 0}; // @todo
-	output.uv.xy = lerp(input.uv.xy, center, 2 - 2 / (zoomAmount + 1));
+	const float2 center = { 0.5, 0.5 };
+	output.uv = lerp(input.uv, center, 2 - 2 / (zoomAmount + 1));
 
 	return output;
 }

@@ -7,7 +7,7 @@ struct PixelShaderInput
 {
 	float4 position : POSITION;
 	float4 color : COLOR;
-	float4 uv : TEXCOORD0;
+	float2 uv : TEXCOORD0;
 };
 
 inline float edgeGlow(sampler2D t, float2 uv, float2 d, float p)
@@ -44,7 +44,7 @@ float4 ps_main(PixelShaderInput input) : COLOR
 	const float4 edgeGlowColor = (input.color.x, input.color.y, input.color.z, 1.0f);
 
 	color *= input.color;
-	color += edgeGlow(colorMapSampler, input.uv.xy, edgeGlowOffset * 0.001, edgeGlowPower) * edgeGlowColor;
+	color += edgeGlow(colorMapSampler, input.uv, edgeGlowOffset * 0.001, edgeGlowPower) * edgeGlowColor;
 
 	return color;
 }

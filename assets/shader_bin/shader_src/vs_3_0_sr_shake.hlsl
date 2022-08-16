@@ -13,7 +13,7 @@ struct VertexShaderInput
 struct PixelShaderInput
 {
 	float4 position : POSITION;
-	float4 uv : TEXCOORD0;
+	float2 uv : TEXCOORD0;
 };
 
 PixelShaderInput vs_main(VertexShaderInput input)
@@ -27,10 +27,8 @@ PixelShaderInput vs_main(VertexShaderInput input)
 	const float shakeSpeedY = input.color.y;
 	const float shakeIntensity = input.color.z;
 
-	float2 uv = output.uv.xy / output.uv.w;
-	uv.x += sin(shakeSpeedX * gameTime.x) * shakeIntensity;
-	uv.y += sin(shakeSpeedY * gameTime.x) * shakeIntensity;
-	output.uv.xy = uv;
+	output.uv.x += sin(shakeSpeedX * gameTime.x) * shakeIntensity;
+	output.uv.y += sin(shakeSpeedY * gameTime.x) * shakeIntensity;
 
 	return output;
 }

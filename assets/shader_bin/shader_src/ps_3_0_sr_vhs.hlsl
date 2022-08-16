@@ -6,7 +6,7 @@
 struct PixelShaderInput
 {
 	float4 position : POSITION;
-	float4 uv : TEXCOORD0;
+	float2 uv : TEXCOORD0;
 };
 
 float hash(float2 p)
@@ -21,9 +21,9 @@ float4 ps_main(PixelShaderInput input) : COLOR
     float2 offsetR = vec2(0.006 * sin(gameTime.x), 0.0) * colorOffsetIntensity;
     float2 offsetG = vec2(0.0073 * (cos(gameTime.x * 0.97)), 0.0) * colorOffsetIntensity;
 
-    float r = tex2D(colorMapSampler, input.uv.xy + offsetR).r;
-    float g = tex2D(colorMapSampler, input.uv.xy + offsetG).g;
-    float b = tex2D(colorMapSampler, input.uv.xy).b;
+    float r = tex2D(colorMapSampler, input.uv + offsetR).r;
+    float g = tex2D(colorMapSampler, input.uv + offsetG).g;
+    float b = tex2D(colorMapSampler, input.uv).b;
 
     return vec4(r, g, b, 1.0);
 }
