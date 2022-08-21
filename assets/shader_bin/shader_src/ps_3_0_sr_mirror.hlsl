@@ -11,6 +11,5 @@ struct PixelShaderInput
 
 float4 ps_main(PixelShaderInput input) : COLOR
 {
-	float newX = input.uv.x + gameTime.w;
-	return tex2D(colorMapSampler, float2(newX, input.uv.y));
+	return tex2D(colorMapSampler, input.uv);
 }

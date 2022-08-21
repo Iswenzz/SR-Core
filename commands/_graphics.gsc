@@ -1,4 +1,5 @@
 #include sr\sys\_admins;
+#include sr\player\fx\_shaders;
 
 main()
 {
@@ -7,6 +8,35 @@ main()
 	cmd("player", 	"sheep",	::cmd_Sheep);
 	cmd("player", 	"fxenable",	::cmd_FX);
 	cmd("vip", 		"color",	::cmd_Color);
+	cmd("owner", 	"shader",	::cmd_Shader);
+}
+
+cmd_Shader(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: shader <name> <...props>");
+
+	switch (args[0])
+	{
+		case "shake":
+			self shake(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]));
+			break;
+		case "zoom":
+			self zoom(ToFloat(args[1]));
+			break;
+		case "edge":
+			self edge((ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3])), ToFloat(args[4]));
+			break;
+		case "vhs":
+			self vhs(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]));
+			break;
+		case "motion_blur":
+			self zoom(ToFloat(args[1]));
+			break;
+		default:
+			self removeShaders();
+			break;
+	}
 }
 
 cmd_FOV(args)

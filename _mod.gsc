@@ -55,6 +55,7 @@ main()
 	sr\player\_insertion::main();
 	sr\player\_settings::main();
 	sr\player\fx\_spray::main();
+	sr\player\fx\_shaders::initShaders();
 	sr\player\modes\_main::initModes();
 	sr\player\modes\_defrag::main();
 	sr\player\modes\_noclip::main();
@@ -67,7 +68,6 @@ main()
 	sr\player\huds\_keys::main();
 	sr\player\huds\_velocity::main();
 	sr\player\huds\_viewkick::main();
-	sr\player\huds\_shaders::main();
 }
 
 precache()

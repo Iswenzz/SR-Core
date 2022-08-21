@@ -7,14 +7,17 @@ struct PixelShaderInput
 {
 	float4 position : POSITION;
 	float2 uv : TEXCOORD0;
+	float4 color : COLOR;
 	float2 motionBlurUV : TEXCOORD1;
 };
 
 float4 ps_main(PixelShaderInput input) : COLOR
 {
-	const float motionBlurAlpha = 0;
+	const float motionBlurAlpha = input.color.x;
 
 	float4 motionBlur = tex2D(colorMapSampler, input.motionBlurUV);
 	float4 color = tex2D(colorMapSampler, input.uv);
-	return lerp(color, motionBlur, motionBlurAlpha);
+
+	float4 fix = float4(input.motionBlurUV, 0, 0) * 0.00001f;
+	return lerp(color, motionBlur, motionBlurAlpha) + fix;
 }

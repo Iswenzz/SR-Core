@@ -6,7 +6,7 @@
 struct VertexShaderInput
 {
 	float4 position : POSITION;
-	float2 uv : TEXCOORD0;
+	float4 uv : TEXCOORD0;
 };
 
 struct PixelShaderInput
@@ -20,7 +20,7 @@ PixelShaderInput vs_main(VertexShaderInput input)
 	PixelShaderInput output;
 
 	output.position = mul(float4(input.position.xyz, 1.0f), worldViewProjectionMatrix);
-	output.uv = input.uv;
+	output.uv = computeTextureUV(input.uv);
 
 	return output;
 }
