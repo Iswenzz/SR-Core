@@ -18,8 +18,11 @@ cmd_Shader(args)
 
 	switch (args[0])
 	{
+		case "translate":
+			self translate(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]));
+			break;
 		case "shake":
-			self shake(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]));
+			self shake(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
 		case "zoom":
 			self zoom(ToFloat(args[1]));

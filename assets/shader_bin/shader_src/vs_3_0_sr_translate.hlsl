@@ -23,16 +23,12 @@ PixelShaderInput vs_main(VertexShaderInput input)
 	output.position = mul(float4(input.position.xyz, 1.0f), worldViewProjectionMatrix);
 	output.uv = input.uv;
 
-	const float shakeSpeedX = input.color.x;
-	const float shakeSpeedY = input.color.y;
-	const float zoomAmount = input.color.z;
-	const float shakeIntensity = input.color.w;
+	const float translateSpeedX = input.color.x;
+	const float translateSpeedY = input.color.y;
+	const float intensity = input.color.z;
 
-	const float2 center = { 0.5, 0.5 };
-
-	output.uv = lerp(output.uv, center, 2 - 2 / ((zoomAmount * gameTime.x) + 1));
-	output.uv.x += sin(shakeSpeedX * (gameTime.x * 2)) * shakeIntensity;
-	output.uv.y += sin(shakeSpeedY * (gameTime.x * 2)) * shakeIntensity;
+	output.uv.x += (translateSpeedX * gameTime.w) * (intensity * 5);
+	output.uv.y += (translateSpeedY * gameTime.w) * (intensity * 5);
 
 	return output;
 }

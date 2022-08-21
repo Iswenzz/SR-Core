@@ -11,5 +11,5 @@ struct PixelShaderInput
 
 float4 ps_main(PixelShaderInput input) : COLOR
 {
-	return tex2D(colorMapSampler,  mirrorTexCoords(input.uv));
+	return tex2D(colorMapSampler,  mirrorUV(input.uv));
 }

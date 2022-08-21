@@ -3,6 +3,7 @@
 
 initShaders()
 {
+	precacheShader("sr_translate");
 	precacheShader("sr_shake");
 	precacheShader("sr_zoom");
 	precacheShader("sr_edge");
@@ -15,6 +16,21 @@ initShaders()
 shaders()
 {
 	self.huds["shaders"] = [];
+}
+
+translate(translateSpeedX, translateSpeedY, intensity)
+{
+	self clearShaders();
+
+	translateSpeedX = IfUndef(translateSpeedX, 6);
+	translateSpeedY = IfUndef(translateSpeedY, 0);
+	intensity = IfUndef(intensity, 0.05);
+
+	if (!isDefined(self.huds["shaders"]["translate"]))
+		self.huds["shaders"]["translate"] = addShader(self, "sr_translate");
+
+	self.huds["shaders"]["translate"].color = (translateSpeedX, translateSpeedY, intensity);
+	self.huds["shaders"]["translate"].alpha = 1;
 }
 
 motionBlur(blurAmount)
@@ -71,19 +87,20 @@ zoom(zoomAmount)
 	self.huds["shaders"]["zoom"].alpha = 1;
 }
 
-shake(shakeSpeedX, shakeSpeedY, intensity)
+shake(shakeSpeedX, shakeSpeedY, intensity, zoomAmount)
 {
 	self clearShaders();
 
 	shakeSpeedX = IfUndef(shakeSpeedX, 6.0);
 	shakeSpeedY = IfUndef(shakeSpeedY, 3.0);
+	zoomAmount = IfUndef(zoomAmount, 0);
 	intensity = IfUndef(intensity, 0.05);
 
 	if (!isDefined(self.huds["shaders"]["shake"]))
 		self.huds["shaders"]["shake"] = addShader(self, "sr_shake");
 
-	self.huds["shaders"]["shake"].color = (shakeSpeedX, shakeSpeedY, intensity);
-	self.huds["shaders"]["shake"].alpha = 1;
+	self.huds["shaders"]["shake"].color = (shakeSpeedX, shakeSpeedY, zoomAmount);
+	self.huds["shaders"]["shake"].alpha = intensity;
 }
 
 clearShaders()
