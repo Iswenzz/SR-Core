@@ -45,19 +45,20 @@ motionBlur(blurAmount)
 	self.huds["shaders"]["motion_blur"].alpha = blurAmount;
 }
 
-vhs(range, noiseIntensity, offsetIntensity)
+vhs(letterBox, range, noiseIntensity, offsetIntensity)
 {
 	self clearShaders();
 
-	range = IfUndef(range, 1);
-	noiseIntensity = IfUndef(noiseIntensity, 0.000088);
-	offsetIntensity = IfUndef(offsetIntensity, 0.0002);
+	range = IfUndef(range, 0.1);
+	noiseIntensity = IfUndef(noiseIntensity, 0.00088);
+	offsetIntensity = IfUndef(offsetIntensity, 0.004);
+	letterBox = IfUndef(letterBox, 0.5); // I.E 0.375, 0.875
 
 	if (!isDefined(self.huds["shaders"]["vhs"]))
 		self.huds["shaders"]["vhs"] = addShader(self, "sr_vhs");
 
 	self.huds["shaders"]["vhs"].color = (range, noiseIntensity, offsetIntensity);
-	self.huds["shaders"]["vhs"].alpha = 1;
+	self.huds["shaders"]["vhs"].alpha = letterBox;
 }
 
 edge(color, alpha)

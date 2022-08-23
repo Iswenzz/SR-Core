@@ -31,7 +31,7 @@ cmd_Shader(args)
 			self edge((ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3])), ToFloat(args[4]));
 			break;
 		case "vhs":
-			self vhs(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]));
+			self vhs(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
 		case "motion_blur":
 			self zoom(ToFloat(args[1]));

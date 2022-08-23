@@ -1,7 +1,7 @@
 #define PC
 #define IS_VERTEX_SHADER 0
 #define IS_PIXEL_SHADER 1
-#include <common.h>
+#include <common.hlsl>
 
 struct PixelShaderInput
 {
@@ -18,6 +18,5 @@ float4 ps_main(PixelShaderInput input) : COLOR
 	float4 motionBlur = tex2D(colorMapSampler, input.motionBlurUV);
 	float4 color = tex2D(colorMapSampler, input.uv);
 
-	float4 fix = float4(input.motionBlurUV, 0, 0) * 0.00001f;
-	return lerp(color, motionBlur, motionBlurAlpha) + fix;
+	return lerp(color, motionBlur, motionBlurAlpha);
 }

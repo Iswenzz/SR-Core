@@ -1,4 +1,19 @@
-#include <shader.h>
+#include <shader.hlsl>
+
+float cubicSmoothstep(float edge0, float edge1, float x)
+{
+	if (x < edge0)
+		x = 0;
+	if (x >= edge1)
+		x = 1;
+
+	if (x != 0 && x != 1)
+	{
+		x = (x - edge0) / (edge1 - edge0);
+		x *= x * (3 - 2 * x);
+	}
+	return x;
+}
 
 float2 mirrorUV(float2 uv)
 {
@@ -50,4 +65,10 @@ float computeFog(const float4 worldPosition)
     float fog = sqrt(dot(worldPosition.xyz, worldPosition.xyz)) * fogConsts.z + fogConsts.w;
     fog *= 1.442695f;
     return exp2(saturate(fog));
+}
+
+// Fix shader compiler error from unused input variables.
+float fix(float input)
+{
+	return input * 0.00000001;
 }

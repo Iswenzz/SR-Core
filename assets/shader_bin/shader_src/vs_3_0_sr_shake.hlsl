@@ -1,7 +1,7 @@
 #define PC
 #define IS_VERTEX_SHADER 1
 #define IS_PIXEL_SHADER 0
-#include <common.h>
+#include <common.hlsl>
 
 struct VertexShaderInput
 {
