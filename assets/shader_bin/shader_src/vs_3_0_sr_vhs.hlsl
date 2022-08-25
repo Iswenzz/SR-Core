@@ -47,7 +47,7 @@ PixelShaderInput vs_main(VertexShaderInput input)
 	const float noiseIntensity = input.color.y;
 	const float offsetIntensity = input.color.z;
 
-	float2 uv = output.uv / 1.0;
+	float2 uv = output.uv;
 
     for (float i = 0.0; i < 0.71; i += 0.1313)
     {
