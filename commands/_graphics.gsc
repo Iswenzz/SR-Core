@@ -25,7 +25,7 @@ cmd_Shader(args)
 			self shake(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
 		case "zoom":
-			self zoom(ToFloat(args[1]));
+			self zoom(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]));
 			break;
 		case "edge":
 			self edge((ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3])), ToFloat(args[4]));
@@ -33,8 +33,8 @@ cmd_Shader(args)
 		case "vhs":
 			self vhs(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
-		case "motion_blur":
-			self zoom(ToFloat(args[1]));
+		case "blur":
+			self blur(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]));
 			break;
 		default:
 			self removeShaders();

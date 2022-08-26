@@ -1,4 +1,0 @@
-#include "commonsetup.template"
-techniqueSet("sr_rotation");
-
-refImage("$white");

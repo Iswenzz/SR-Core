@@ -8,7 +8,7 @@ initShaders()
 	precacheShader("sr_zoom");
 	precacheShader("sr_edge");
 	precacheShader("sr_vhs");
-	precacheShader("sr_motion_blur");
+	precacheShader("sr_blur");
 
 	event("connect", ::shaders);
 }
@@ -16,6 +16,21 @@ initShaders()
 shaders()
 {
 	self.huds["shaders"] = [];
+}
+
+blur(blurMode, blurAmount, blurSpeed)
+{
+	self clearShaders();
+
+	blurMode = IfUndef(blurMode, 0);
+	blurAmount = IfUndef(blurAmount, 0.5);
+	blurSpeed = IfUndef(blurSpeed, 1);
+
+	if (!isDefined(self.huds["shaders"]["blur"]))
+		self.huds["shaders"]["blur"] = addShader(self, "sr_blur");
+
+	self.huds["shaders"]["blur"].color = (blurMode, blurAmount, blurSpeed);
+	self.huds["shaders"]["blur"].alpha = 1;
 }
 
 translate(translateSpeedX, translateSpeedY, intensity)
@@ -31,18 +46,6 @@ translate(translateSpeedX, translateSpeedY, intensity)
 
 	self.huds["shaders"]["translate"].color = (translateSpeedX, translateSpeedY, intensity);
 	self.huds["shaders"]["translate"].alpha = 1;
-}
-
-motionBlur(blurAmount)
-{
-	self clearShaders();
-
-	blurAmount = IfUndef(blurAmount, 0.6);
-
-	if (!isDefined(self.huds["shaders"]["motion_blur"]))
-		self.huds["shaders"]["motion_blur"] = addShader(self, "sr_motion_blur");
-
-	self.huds["shaders"]["motion_blur"].alpha = blurAmount;
 }
 
 vhs(letterBox, range, noiseIntensity, offsetIntensity)
@@ -75,16 +78,18 @@ edge(color, alpha)
 	self.huds["shaders"]["edge"].alpha = alpha;
 }
 
-zoom(zoomAmount)
+zoom(zoomMode, zoomAmount, zoomSpeed)
 {
 	self clearShaders();
 
+	zoomMode = IfUndef(zoomMode, 0);
 	zoomAmount = IfUndef(zoomAmount, 0.5);
+	zoomSpeed = IfUndef(zoomSpeed, 0);
 
 	if (!isDefined(self.huds["shaders"]["zoom"]))
 		self.huds["shaders"]["zoom"] = addShader(self, "sr_zoom");
 
-	self.huds["shaders"]["zoom"].color = (zoomAmount, 0, 0);
+	self.huds["shaders"]["zoom"].color = (zoomMode, zoomAmount, zoomSpeed);
 	self.huds["shaders"]["zoom"].alpha = 1;
 }
 
