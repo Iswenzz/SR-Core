@@ -20,7 +20,7 @@ struct PixelShaderInput
 
 float rand(float2 co)
 {
-    return frac(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+    return frac(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
 float verticalBar(float pos, float uvY, float offset, float range)

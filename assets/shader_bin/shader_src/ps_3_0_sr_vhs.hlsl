@@ -23,7 +23,6 @@ float4 hash42(float2 p)
     return fract(float4(p4.x * p4.y, p4.x * p4.z, p4.y * p4.w, p4.x * p4.w));
 }
 
-
 float tapeHash(float n)
 {
     return fract(sin(n) * 43758.5453123);
@@ -37,21 +36,24 @@ float tapeNoise3D(in float3 x)
     f = f * f * (2.0 * f);
 
     float n = p.x + p.y * 57.0 + 113.0 * p.z;
-    return mix(tapeHash(n), tapeHash(n),f.x);
+    return mix(tapeHash(n), tapeHash(n), f.x);
 }
 
 float tapeNoise(float2 p)
 {
     float y = p.y;
-    float s = iTime * 0.01;
+    float s = iTime * 0.1;
+    float v = (tapeNoise3D(float3(y * 1.5 + s, 1.0, 1.0))) * 0.78;
 
-    float v = (tapeNoise3D(float3(y * 0.1 + s, 1.0, 1.0)))
-          	 *(tapeNoise3D(float3(y * 0.1 + 1000.0 + s, 2.0, 1.0)))
-          	 *(tapeNoise3D(float3(y * 0.5 + 420.0 + s, 2.0, 1.0)));
+    if (fmod(s, 2.0) > 1.0)
+         v = 0.0;
 
-   	v *= hash42(float2(p.x + iTime * 0.01, p.y)).x + 0.3 ;
+    if (v < 0.776)
+        v = 0.0;
 
-	if (v < 0.9999)
+   	v *= hash42(float2(p.x + iTime * 0.1, p.y)).x + 0.28 ;
+
+	if (v < 0.99)
         v = 0.0;
     return v;
 }
@@ -64,6 +66,31 @@ float3 rgb2yiq(float3 rgb)
 float3 yiq2rgb(float3 yiq)
 {
 	return mul(mat3(1.000, 1.000, 1.000, 0.956, -0.272, -1.106, 0.621, -0.647, 1.703), yiq);
+}
+
+float edge(sampler2D t, float2 uv, float2 d, float p)
+{
+    float2 a = float2(0, 0), b = float2(0, 0);
+
+    a += tex2D(t, uv + d * float2(0, 1)).xy;
+    a += tex2D(t, uv + d * float2(-1, 0)).xy;
+    a += tex2D(t, uv + d * float2(-1, 1)).xy;
+    a += tex2D(t, uv + d * float2(-1, -1)).xy;
+    a -= tex2D(t, uv + d * float2(1, 0)).xy;
+    a -= tex2D(t, uv + d * float2(0, -1)).xy;
+    a -= tex2D(t, uv + d * float2(1, -1)).xy;
+    a -= tex2D(t, uv + d * float2(1, 1)).xy;
+
+    b += tex2D(t, uv + d * float2(1, 1)).yz;
+    b += tex2D(t, uv + d * float2(0, 1)).yz;
+    b += tex2D(t, uv + d * float2(1, 0)).yz;
+    b += tex2D(t, uv + d * float2(-1, 1)).yz;
+    b -= tex2D(t, uv + d * float2(-1, -1)).yz;
+    b -= tex2D(t, uv + d * float2(0, -1)).yz;
+    b -= tex2D(t, uv + d * float2(-1, 0)).yz;
+    b -= tex2D(t, uv + d * float2(1, -1)).yz;
+
+    return (float)((a * a + b * b) * p);
 }
 
 float4 ps_main(PixelShaderInput input) : COLOR
@@ -90,32 +117,37 @@ float4 ps_main(PixelShaderInput input) : COLOR
 	// Tape
     color += tapeNoise(floor(uv * float2(640, 480)));
 
-	// LetterBox
-	float letterBoxDistance = input.color.w;
-    const float letterBoxAlpha = 1.0;
-    const float4 letterBoxColor = (float4)0.0;
-    const float2 center = { 0.5, 0.5 };
-
-    if (letterBoxDistance <= 0.5)
-	{
-		float leftColor = cubicSmoothstep(letterBoxDistance, letterBoxDistance, center.x - input.letterBoxUV.x) * letterBoxAlpha;
-		color = lerp(float4(color.rgb, 1.0), lerp(float4(color.rgb, 1.0), letterBoxColor, leftColor * letterBoxAlpha * 10.0), letterBoxDistance);
-		float rightColor = cubicSmoothstep(letterBoxDistance, letterBoxDistance, -center.x + input.letterBoxUV.x) * letterBoxAlpha;
-		color = lerp(float4(color.rgb, 1.0), lerp(float4(color.rgb, 1.0), letterBoxColor, rightColor * letterBoxAlpha * 10.0), letterBoxDistance);
-	}
-	else
-	{
-		letterBoxDistance -= 0.5;
-		float topColor = cubicSmoothstep(letterBoxDistance, letterBoxDistance, center.y - input.letterBoxUV.y) * letterBoxAlpha;
-		color = lerp(float4(color.rgb, 1.0), lerp(float4(color.rgb, 1.0), letterBoxColor, topColor * letterBoxAlpha * 10.0), letterBoxDistance);
-		float bottomColor = cubicSmoothstep(letterBoxDistance, letterBoxDistance, -center.y + input.letterBoxUV.y) * letterBoxAlpha;
-		color = lerp(float4(color.rgb, 1.0), lerp(float4(color.rgb, 1.0), letterBoxColor, bottomColor * letterBoxAlpha * 10.0), letterBoxDistance);
-	}
+	// Edge
+    const float edgeOffset = 2.0f;
+	const float edgePower = 0.05;
+	const float4 edgeColor = float4(1.0, 1.0, 1.0, 1.0f);
+	color += edge(colorMapSampler, uv, (float2)(edgeOffset * 0.001), edgePower) * edgeColor;
 
 	// YIQ
 	color.rgb = rgb2yiq(color.rgb);
     color.rgb = float3(0.1, -0.1, 0.0) + float3(0.9, 1.1, 1.5) * color.rgb;
     color.rgb = yiq2rgb(color.rgb);
 
+	// LetterBox
+	float letterBoxDistance = input.color.w;
+    const float letterBoxAlpha = 1.0;
+    const float4 letterBoxColor = (float4)0.0;
+    const float2 center = { 0.5, 0.5 };
+
+    if (letterBoxDistance < 0.5)
+	{
+		float leftColor = cubicSmoothstep(letterBoxDistance, letterBoxDistance, center.x - input.letterBoxUV.x) * letterBoxAlpha;
+		color = clamp(mix(vec4(color.rgb, 1.0), letterBoxColor, leftColor * letterBoxAlpha), 0.0, 1.0);
+		float rightColor = cubicSmoothstep(letterBoxDistance, letterBoxDistance, -center.x + input.letterBoxUV.x) * letterBoxAlpha;
+		color = clamp(mix(vec4(color.rgb, 1.0), letterBoxColor, rightColor * letterBoxAlpha), 0.0, 1.0);
+	}
+	else if (letterBoxDistance > 0.5)
+	{
+		letterBoxDistance -= 0.5;
+		float topColor = cubicSmoothstep(letterBoxDistance, letterBoxDistance, center.y - input.letterBoxUV.y) * letterBoxAlpha;
+		color = clamp(mix(vec4(color.rgb, 1.0), letterBoxColor, topColor * letterBoxAlpha), 0.0, 1.0);
+		float bottomColor = cubicSmoothstep(letterBoxDistance, letterBoxDistance, -center.y + input.letterBoxUV.y) * letterBoxAlpha;
+		color = clamp(mix(vec4(color.rgb, 1.0), letterBoxColor, bottomColor * letterBoxAlpha), 0.0, 1.0);
+	}
     return color;
 }
