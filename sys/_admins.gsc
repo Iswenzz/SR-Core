@@ -41,8 +41,7 @@ precache()
 	precacheModel("prop_flag_russian");
 	precacheModel("prop_flag_neutral");
 	precacheModel("x_mirror");
-	precacheModel("x_ball");
-	precacheModel("x_skybox");
+	precacheModel("x_volumetric_clouds");
 
 	precacheStatusIcon("vip_status");
 	precacheShader("vip_status");

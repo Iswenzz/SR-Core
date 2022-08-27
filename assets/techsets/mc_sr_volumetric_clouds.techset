@@ -21,4 +21,4 @@
 "lit instanced spot shadow":
 "lit instanced omni":
 "lit instanced omni shadow":
-	sr_skybox;
+	sr_volumetric_clouds;
