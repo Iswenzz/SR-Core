@@ -1,16 +1,16 @@
 {
-	stateMap "default";
+	stateMap "color_only";
 
 	vertexShader 3.0 "sr_skybox"
-    {
+	{
 
 	}
 
 	pixelShader 3.0 "sr_skybox"
 	{
-		colorMapSampler = sampler.resolvedPostSun;
+        detailMapSampler = material.detailMap;
+		skyMapSampler = material.colorMap;
 	}
 
 	vertex.position = code.position;
-	vertex.texcoord[0] = code.texcoord[0];
 }

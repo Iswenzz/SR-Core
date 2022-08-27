@@ -3,12 +3,22 @@
 
 main()
 {
-    cmd("player", 	"fov",		::cmd_FOV);
-	cmd("player", 	"fps",		::cmd_FPS);
-	cmd("player", 	"sheep",	::cmd_Sheep);
-	cmd("player", 	"fxenable",	::cmd_FX);
-	cmd("vip", 		"color",	::cmd_Color);
-	cmd("owner", 	"shader",	::cmd_Shader);
+    cmd("player", 	"fov",			::cmd_FOV);
+	cmd("player", 	"fps",			::cmd_FPS);
+	cmd("player", 	"sheep",		::cmd_Sheep);
+	cmd("player", 	"fxenable",		::cmd_FX);
+	cmd("vip", 		"color",		::cmd_Color);
+	cmd("owner", 	"shader",		::cmd_Shader);
+	cmd("owner", 	"spawn_model",	::cmd_SpawnModel);
+}
+
+cmd_SpawnModel(args)
+{
+	name = args[0];
+
+	model = spawn("script_model", self.origin + (0, 0, 30));
+	model.angles = (0, 90, 0);
+	model setModel(name);
 }
 
 cmd_Shader(args)

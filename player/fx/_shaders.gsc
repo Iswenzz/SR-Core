@@ -55,7 +55,7 @@ vhs(letterBox, range, noiseIntensity, offsetIntensity)
 	range = IfUndef(range, 0.1);
 	noiseIntensity = IfUndef(noiseIntensity, 0.00088);
 	offsetIntensity = IfUndef(offsetIntensity, 0.004);
-	letterBox = IfUndef(letterBox, 0.5); // I.E 0.375, 0.875
+	letterBox = IfUndef(letterBox, 0.375); // I.E 0.375, 0.875
 
 	if (!isDefined(self.huds["shaders"]["vhs"]))
 		self.huds["shaders"]["vhs"] = addShader(self, "sr_vhs");
@@ -84,7 +84,7 @@ zoom(zoomMode, zoomAmount, zoomSpeed)
 
 	zoomMode = IfUndef(zoomMode, 0);
 	zoomAmount = IfUndef(zoomAmount, 0.5);
-	zoomSpeed = IfUndef(zoomSpeed, 0);
+	zoomSpeed = IfUndef(zoomSpeed, 0.05);
 
 	if (!isDefined(self.huds["shaders"]["zoom"]))
 		self.huds["shaders"]["zoom"] = addShader(self, "sr_zoom");
@@ -97,9 +97,9 @@ shake(shakeSpeedX, shakeSpeedY, intensity, zoomAmount)
 {
 	self clearShaders();
 
-	shakeSpeedX = IfUndef(shakeSpeedX, 6.0);
-	shakeSpeedY = IfUndef(shakeSpeedY, 3.0);
-	zoomAmount = IfUndef(zoomAmount, 0);
+	shakeSpeedX = IfUndef(shakeSpeedX, 0.2);
+	shakeSpeedY = IfUndef(shakeSpeedY, 0.1);
+	zoomAmount = IfUndef(zoomAmount, 0.05);
 	intensity = IfUndef(intensity, 0.05);
 
 	if (!isDefined(self.huds["shaders"]["shake"]))

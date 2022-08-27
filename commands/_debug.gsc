@@ -12,20 +12,9 @@ main()
 	cmd("owner",  		"debug_save_spawn",	::cmd_DebugSaveSpawn);
 	cmd("owner",  		"debug_rotation",	::cmd_DebugRotation);
 	cmd("owner",  		"test",				::cmd_Test);
-	cmd("owner",  		"mirror",			::cmd_Mirror);
-
-	precacheModel("x_mirror");
-	precacheModel("x_ball");
 
 	if (getDvarInt("auto"))
 		thread cmd_DebugRotation();
-}
-
-cmd_Mirror(args)
-{
-	mirror = spawn("script_model", self.origin + (0, 0, 30));
-	mirror.angles = (0, 90, 0);
-	mirror setModel("x_mirror");
 }
 
 cmd_Bots(args)

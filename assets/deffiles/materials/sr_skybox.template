@@ -1,4 +1,44 @@
-#include "commonsetup.template"
-techniqueSet("sr_skybox");
+forModel(0);
+forWorld(1);
+refBlend("Opaque");
 
-refImage("$white");
+#include "sort.template"
+#include "clamp.template"
+
+tessSize(0);
+
+#include "textureAtlas.template"
+
+hasEditorMaterial(@hasEditorMaterial@);
+allocLightmap(false);
+
+#include "statebits.template"
+
+#if "@customString@" != ""
+	techniqueSet("@customString@");
+#else
+    #error "<customString> cannot be empty! Define the techset (without prefix/extension) that you want to use for your material!"
+#endif
+
+textureTable
+{
+	#if "$colorMap$" != ""
+		"colorMap" = cubemap("no tile", "@filterColor@", "$colorMap$", @nopicmipColor@) "@formatColor@" : "colorMap";
+	#else
+		#error "<colorMap> cannot be empty! Define a colorMapUse or use template :: [shadergen_sky_no_image] instead!"
+	#endif
+
+    #if "$detailMap$" != ""
+        "detailMap" = streamable map("tile both", "@filterDetail@", "$detailMap$", @nopicmipDetail@) "@formatDetail@" : "colorMap";
+    #else
+		#error "<detailMap> needs to hold a noise texture"
+	#endif
+
+    #if "$specColorMap$" != ""
+		"specularMap" = map("@tileSpecular@", "@filterSpecular@", "$specColorMap$", @nopicmipSpecular@) "@formatSpecular@" : "specularMap";
+	#else
+        #error "<specularMap> cannot be empty! (Night sky background)"
+    #endif
+}
+
+refCubeImage("$colorMap$");

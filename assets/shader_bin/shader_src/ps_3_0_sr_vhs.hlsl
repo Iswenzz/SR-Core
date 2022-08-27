@@ -42,7 +42,7 @@ float tapeNoise3D(in float3 x)
 float tapeNoise(float2 p)
 {
     float y = p.y;
-    float s = iTime * 0.1;
+    float s = gameTime.w * 0.1;
     float v = (tapeNoise3D(float3(y * 1.5 + s, 1.0, 1.0))) * 0.78;
 
     if (fmod(s, 2.0) > 1.0)
@@ -51,7 +51,7 @@ float tapeNoise(float2 p)
     if (v < 0.776)
         v = 0.0;
 
-   	v *= hash42(float2(p.x + iTime * 0.1, p.y)).x + 0.28 ;
+   	v *= hash42(float2(p.x + gameTime.w * 0.1, p.y)).x + 0.28 ;
 
 	if (v < 0.99)
         v = 0.0;
