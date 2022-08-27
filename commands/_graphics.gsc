@@ -1,5 +1,6 @@
 #include sr\sys\_admins;
 #include sr\player\fx\_shaders;
+#include sr\utils\_common;
 
 main()
 {
@@ -16,38 +17,50 @@ cmd_SpawnModel(args)
 {
 	name = args[0];
 
+	if (name == "clear")
+	{
+		models = getEntArray("spawned_model", "targetname");
+		for (i = 0; i < models.size; i++)
+			models[i] delete();
+		return;
+	}
+
 	model = spawn("script_model", self.origin + (0, 0, 30));
+	model.targetname = "spawned_model";
 	model.angles = (0, 90, 0);
 	model setModel(name);
 }
 
 cmd_Shader(args)
 {
-	if (args.size < 1)
-		return self pm("Usage: shader <name> <...props>");
+	if (args.size < 2)
+		return self pm("Usage: shader <player> <name> <...props>");
 
-	switch (args[0])
+	player = IfUndef(getPlayerByName(args[0]), self);
+	name = args[1];
+
+	switch (name)
 	{
 		case "translate":
-			self translate(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]));
+			player translate(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
 		case "shake":
-			self shake(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
+			player shake(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]), ToFloat(args[5]));
 			break;
 		case "zoom":
-			self zoom(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]));
+			player zoom(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
 		case "edge":
-			self edge((ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3])), ToFloat(args[4]));
+			player edge((ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4])), ToFloat(args[5]));
 			break;
 		case "vhs":
-			self vhs(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
+			player vhs(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]), ToFloat(args[5]));
 			break;
 		case "blur":
-			self blur(ToFloat(args[1]), ToFloat(args[2]), ToFloat(args[3]));
+			player blur(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
 		default:
-			self removeShaders();
+			player removeShaders();
 			break;
 	}
 }

@@ -141,5 +141,6 @@ addShader(who, name)
 	shader.horzAlign = "fullscreen";
 	shader.vertAlign = "fullscreen";
 	shader setShader(name, 640, 480);
+	shader.archived = true;
 	return shader;
 }
