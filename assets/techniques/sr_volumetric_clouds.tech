@@ -8,8 +8,8 @@
 
 	pixelShader 3.0 "sr_volumetric_clouds"
 	{
-        //detailMapSampler = material.detailMap;
-		//skyMapSampler = material.colorMap;
+        detailMapSampler = material.detailMap;
+		skyMapSampler = material.colorMap;
 	}
 
 	vertex.position = code.position;
