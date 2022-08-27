@@ -35,7 +35,7 @@ float4 ps_main(PixelShaderInput input) : COLOR
 	{
 		float a = 1.0 / blurSamples * blurSpeed;
 		for (int i = 0; i < blurSamples; i++)
-			color.rgb += tex2D(colorMapSampler, lerp(uv, 0.5, blurAmount / 100 * float(i) * a));
+			color.rgb += tex2D(colorMapSampler, lerp(uv, 0.5, blurAmount / 100 * float(i) * a)).rgb;
 		color /= blurSamples + 1.0;
 	}
 	// Lens Blur
@@ -47,7 +47,7 @@ float4 ps_main(PixelShaderInput input) : COLOR
 			float s, c;
 			sincos(j * ls * twoPi, s, c);
 			c *= asp;
-			color.rgb += tex2D(colorMapSampler, uv + 1.0 * float2(s, c) * (blurAmount / 100) * 0.1);
+			color.rgb += tex2D(colorMapSampler, uv + 1.0 * float2(s, c) * (blurAmount / 100) * 0.1).rgb;
 		}
 		color.rgb /= (blurSamples + 1);
 	}

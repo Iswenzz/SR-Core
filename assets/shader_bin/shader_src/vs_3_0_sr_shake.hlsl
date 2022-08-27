@@ -7,7 +7,7 @@ struct VertexShaderInput
 {
 	float4 position : POSITION;
 	float4 color : COLOR;
-	float4 uv : TEXCOORD0;
+	float2 uv : TEXCOORD0;
 };
 
 struct PixelShaderInput

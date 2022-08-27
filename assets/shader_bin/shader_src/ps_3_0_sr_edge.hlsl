@@ -41,7 +41,7 @@ float4 ps_main(PixelShaderInput input) : COLOR
 
 	const float edgeGlowOffset = 3.0f;
 	const float edgeGlowPower = input.color.w;
-	const float4 edgeGlowColor = (input.color.x, input.color.y, input.color.z, 1.0f);
+	const float4 edgeGlowColor = float4(input.color.x, input.color.y, input.color.z, 1.0f);
 
 	color *= input.color;
 	color += edgeGlow(colorMapSampler, input.uv, edgeGlowOffset * 0.001, edgeGlowPower) * edgeGlowColor;

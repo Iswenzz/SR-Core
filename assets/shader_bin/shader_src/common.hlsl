@@ -3,14 +3,14 @@
 float cubicSmoothstep(float edge0, float edge1, float x)
 {
 	if (x < edge0)
-		x = 0;
+		x = 0.0;
 	if (x >= edge1)
-		x = 1;
+		x = 1.0;
 
-	if (x != 0 && x != 1)
+	if (x <= 0.0 && x >= 1.0)
 	{
 		x = (x - edge0) / (edge1 - edge0);
-		x *= x * (3 - 2 * x);
+		x *= x * (3.0 - 2.0 * x);
 	}
 	return x;
 }
@@ -53,8 +53,8 @@ float4 computeNormal(const float4 normal)
     unpackedNormal *= (normal.w * (1.0f / 255.0f) + (1.0f / 1.328f));
 
     // Return without fog (.w = 1.0)
-    float4 worldNormal = mul(unpackedNormal, worldMatrix);
-   	worldNormal.w  = 1.0f;
+    float4 worldNormal = mul(float4(unpackedNormal, 1.0), worldMatrix);
+   	worldNormal.w = 1.0f;
 
     return worldNormal;
 }
