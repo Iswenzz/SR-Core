@@ -70,7 +70,6 @@ end(map)
 	level notify("game over");
 
 	// Sequence
-	endEffect();
 	endSpectate();
 	displayMapScores();
 
@@ -85,18 +84,10 @@ end(map)
 	exitLevel(false);
 }
 
-endEffect()
-{
-	playFx(level.fx["endgame"], level.spawn["spectator"].origin - (0, 0, 50));
-	setDvar("g_deadChat", 1);
-	ambientStop(2);
-	visionSetNaked("mp_dr_sm64", 4);
-	thread endMusic();
-	thread endEarthquake();
-}
-
 endSpectate()
 {
+	setDvar("g_deadChat", 1);
+
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
@@ -138,7 +129,7 @@ voteNextMap()
 credits()
 {
 	sr\game\_credits::start();
-	wait 3;
+	wait 14;
 }
 
 intermission()
@@ -155,14 +146,6 @@ intermission()
 menuVote(maps)
 {
 
-}
-
-endMusic()
-{
-	wait 1;
-
-	music = fmt("end_map%d", RandomIntRange(2, 11));
-	ambientPlay(music, 1);
 }
 
 endEarthquake()

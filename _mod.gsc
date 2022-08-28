@@ -33,6 +33,7 @@ main()
 	sr\game\_perks::initPerks();
 	sr\game\_defrag::main();
 	sr\game\_teams::main();
+	sr\game\_music::main();
 	sr\game\_vote::initVote();
 	sr\game\fx\_trail::main();
 	sr\game\menus\_main::initMenus();

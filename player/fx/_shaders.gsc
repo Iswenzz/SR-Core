@@ -10,6 +10,8 @@ initShaders()
 	precacheShader("sr_vhs");
 	precacheShader("sr_blur");
 
+	level.huds["shaders"] = [];
+
 	event("connect", ::shaders);
 }
 
@@ -107,6 +109,12 @@ shake(shakeSpeedX, shakeSpeedY, intensity, zoomAmount)
 
 	self.huds["shaders"]["shake"].color = (shakeSpeedX, shakeSpeedY, zoomAmount);
 	self.huds["shaders"]["shake"].alpha = intensity;
+}
+
+clearShader(name)
+{
+	if (isDefined(self.huds["shaders"][name]))
+		self.huds["shaders"][name].alpha = 0;
 }
 
 clearShaders()

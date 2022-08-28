@@ -7,6 +7,8 @@ main()
 
 	// Commands
 	cmd("adminplus", 	"music", 		::cmd_Music);
+	cmd("masteradmin", 	"music_seq", 	::cmd_MusicSequence);
+	cmd("owner", 		"music_seqend", ::cmd_MusicSequenceEnd);
 	cmd("adminplus", 	"music_help", 	::cmd_MusicHelp);
 	cmd("player", 		"music_stop", 	::cmd_MusicStop);
 
@@ -31,6 +33,25 @@ main()
 	add("cow");
 	add("polish");
 	add("minion");
+}
+
+cmd_MusicSequenceEnd(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: music_seq <name>");
+
+	name = args[0];
+	thread sr\game\_map::end();
+	thread sr\game\_music::play(name);
+}
+
+cmd_MusicSequence(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: music_seq <name>");
+
+	name = args[0];
+	thread sr\game\_music::play(name);
 }
 
 cmd_Music(args)
