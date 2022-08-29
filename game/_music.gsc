@@ -5,7 +5,7 @@ main()
 {
 	level.music_sequence = [];
 
-	add("end_map2", ::promoThunderstorm, 51);
+	add("end_map2", ::promoThunderstorm, 50);
 }
 
 add(alias, sequence, time)
@@ -25,6 +25,8 @@ play(alias)
 		wait sequence.time;
 
 		ambientStop(0.2);
+		wait 0.2;
+
 		level notify("music_sequence_end");
 		level clearShaders();
 	}
@@ -37,17 +39,18 @@ promoThunderstorm(alias)
 
 	time = timeline(time, 11.2);
 	thread promoKick(13);
-	thread promoBlurRotate(4);
+	thread promoBlurRotate(4, true);
 
-	time = timeline(time, 19.9);
+	time = timeline(time, 20.1);
 	thread promoTranslateY();
 
 	time = timeline(time, 21.4);
-	thread promoKick2(16);
-	thread promoBlurRadial(16);
+	thread promoKick2(15);
+	thread promoBlurRadial(4, true);
 
 	time = timeline(time, 30.3);
 	thread promoTranslateY();
+	thread promoBlurRadial(7, false);
 }
 
 promoTranslateY()
@@ -57,35 +60,40 @@ promoTranslateY()
 	level clearShader("translate");
 }
 
-promoBlurRotate(amount)
+promoBlurRotate(amount, blackScreen)
 {
 	wait 2.5;
 
 	for (i = 0; i < amount; i++)
 	{
-		level edge((0.1, 0.1, 0.1), 1);
-		wait 0.1;
-		level clearShader("edge");
-
+		if (blackScreen)
+		{
+			level edge((0.1, 0.1, 0.1), 1);
+			wait 0.1;
+			level clearShader("edge");
+		}
 		level blur(0.8, 1, 1);
 		wait 2.4;
 		level clearShader("blur");
 	}
 }
 
-promoBlurRadial(amount)
+promoBlurRadial(amount, blackScreen)
 {
 	wait 2.5;
 
 	for (i = 0; i < amount; i++)
 	{
-		level edge((0.1, 0.1, 0.1), 1);
-		wait 0.1;
-		level clearShader("edge");
-
+		if (blackScreen)
+		{
+			level edge((0.1, 0.1, 0.1), 1);
+			wait 0.1;
+			level clearShader("edge");
+		}
 		level blur(0.4, 1, 1);
 		wait 2.4;
-		level clearShader("blur");
+		if (!blackScreen)
+			level clearShader("blur");
 	}
 }
 
@@ -110,7 +118,7 @@ promoKick2(amount)
 		wait 0.1;
 		level clearShader("edge");
 
-		level zoom(1, 1, 0.1);
+		level shake(0.3, 0.3, 0.2, 0);
 		wait 0.55;
 	}
 }
