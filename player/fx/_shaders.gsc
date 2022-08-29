@@ -111,6 +111,16 @@ shake(shakeSpeedX, shakeSpeedY, intensity, zoomAmount)
 	self.huds["shaders"]["shake"].alpha = intensity;
 }
 
+vision()
+{
+	if (!isDefined(self.huds["shaders"]["vision"]))
+		self.huds["shaders"]["vision"] = addShader(self, "sr_translate");
+
+	self.huds["shaders"]["vision"].color = (0, 0, 0);
+	self.huds["shaders"]["vision"].alpha = 1;
+	self.huds["shaders"]["vision"].sort = 999;
+}
+
 clearShader(name)
 {
 	if (isDefined(self.huds["shaders"][name]))
@@ -125,6 +135,8 @@ clearShaders()
 	keys = getArrayKeys(self.huds["shaders"]);
 	for (i = 0; i < keys.size; i++)
 	{
+		if (keys[i] == "vision")
+			continue;
 		if (isDefined(self.huds["shaders"][keys[i]]))
 			self.huds["shaders"][keys[i]].alpha = 0;
 	}
@@ -150,5 +162,6 @@ addShader(who, name)
 	shader.vertAlign = "fullscreen";
 	shader setShader(name, 640, 480);
 	shader.archived = true;
+	shader.sort = 1000;
 	return shader;
 }

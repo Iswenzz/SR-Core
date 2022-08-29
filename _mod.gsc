@@ -33,12 +33,12 @@ main()
 	sr\game\_perks::initPerks();
 	sr\game\_defrag::main();
 	sr\game\_teams::main();
-	sr\game\_music::main();
 	sr\game\_vote::initVote();
 	sr\game\fx\_trail::main();
 	sr\game\menus\_main::initMenus();
 	sr\game\menus\_owner::main();
 	sr\game\minigames\_main::initMinigames();
+	sr\game\music\_main::initMusics();
 	sr\game\weapons\_main::main();
 
 	sr\commands\_admin::main();

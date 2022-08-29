@@ -38,11 +38,17 @@ main()
 cmd_MusicSequenceEnd(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: music_seq <name>");
+		return self pm("Usage: music_seqend <name>");
 
 	name = args[0];
+
+	if (name == "stop")
+	{
+		thread sr\game\music\_main::stop();
+		return;
+	}
 	thread sr\game\_map::end();
-	thread sr\game\_music::play(name);
+	thread sr\game\music\_main::play(name);
 }
 
 cmd_MusicSequence(args)
@@ -51,7 +57,13 @@ cmd_MusicSequence(args)
 		return self pm("Usage: music_seq <name>");
 
 	name = args[0];
-	thread sr\game\_music::play(name);
+
+	if (name == "stop")
+	{
+		thread sr\game\music\_main::stop();
+		return;
+	}
+	thread sr\game\music\_main::play(name);
 }
 
 cmd_Music(args)

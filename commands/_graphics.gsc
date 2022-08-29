@@ -4,13 +4,24 @@
 
 main()
 {
-    cmd("player", 	"fov",			::cmd_FOV);
-	cmd("player", 	"fps",			::cmd_FPS);
-	cmd("player", 	"sheep",		::cmd_Sheep);
-	cmd("player", 	"fxenable",		::cmd_FX);
-	cmd("vip", 		"color",		::cmd_Color);
-	cmd("owner", 	"shader",		::cmd_Shader);
-	cmd("owner", 	"spawn_model",	::cmd_SpawnModel);
+    cmd("player", 		"fov",			::cmd_FOV);
+	cmd("player", 		"fps",			::cmd_FPS);
+	cmd("player", 		"sheep",		::cmd_Sheep);
+	cmd("player", 		"fxenable",		::cmd_FX);
+	cmd("vip", 			"color",		::cmd_Color);
+	cmd("owner", 		"shader",		::cmd_Shader);
+	cmd("owner", 		"spawn_model",	::cmd_SpawnModel);
+	cmd("masteradmin", 	"vision",		::cmd_Vision);
+}
+
+cmd_Vision(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: vision <name>");
+
+	vision = args[0];
+
+	visionSetNaked(vision, 0);
 }
 
 cmd_SpawnModel(args)
