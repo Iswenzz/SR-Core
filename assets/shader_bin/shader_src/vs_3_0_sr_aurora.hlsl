@@ -3,31 +3,24 @@
 #define IS_PIXEL_SHADER 0
 #include <common.hlsl>
 
-struct V_IN
+struct VertexShaderInput
 {
 	float4 position : POSITION;
-	//float3 worldPos : TEXCOORD;
 };
 
-struct V_OUT
+struct VertexShaderOutput
 {
 	float4 position : POSITION;
 	float3 worldPos : TEXCOORD;
 };
 
-V_OUT vs_main( V_IN input )
+VertexShaderOutput vs_main(VertexShaderInput input)
 {
-	V_OUT output = (V_OUT)0;
+	VertexShaderOutput output = (VertexShaderOutput)0;
 
-	float4 dir;
-	dir.xyz = input.position - eyePos;
-	dir.w = 0;
-
-
-		//output.position = mul(float4( dir.xyz, 1.0f), worldViewProjectionMatrix); // 1:1 scale
-		output.position = mul(float4( dir.xyz, 0.0f), worldViewProjectionMatrix); // infinite scale
-
+	float3 dir = input.position.xyz - eyePos.xyz;
+	output.position = mul(float4(dir, 0.0f), worldViewProjectionMatrix);
 	output.worldPos = dir;
 
-	return output; // send projected vertex to the rasterizer stage
+	return output;
 }

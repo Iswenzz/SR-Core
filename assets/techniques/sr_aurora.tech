@@ -1,0 +1,15 @@
+{
+	stateMap "color_only";
+
+	vertexShader 3.0 "sr_aurora"
+	{
+
+	}
+
+	pixelShader 3.0 "sr_aurora"
+	{
+		skyMapSampler = material.colorMap;
+	}
+
+	vertex.position = code.position;
+}

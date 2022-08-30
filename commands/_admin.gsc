@@ -25,6 +25,7 @@ main()
 	cmd("player",       "report_player",::cmd_ReportPlayer); // @todo - Change role to member
 	cmd("player",       "report_bug",	::cmd_ReportBug);
 	cmd("member",       "timeplayed",	::cmd_TimePlayed);
+	cmd("owner",        "setdvar",		::cmd_SetDvar);
 	cmd("admin",        "sr_kick",		::cmd_Kick);
 	cmd("owner",        "sr_role",		::cmd_Role);
 	cmd("owner",        "sr_vip",		::cmd_VIP);
@@ -86,6 +87,23 @@ cmd_GiveXp(args)
 		return pm("Could not find player");
 
 	player sr\game\_rank::giveRankXP("", xp);
+}
+
+cmd_SetDvar(args)
+{
+	if (args.size < 3)
+		return self pm("Usage: getdvar <playerName> <dvar> <value>");
+
+	player = getPlayerByName(args[0]);
+	dvar = args[1];
+	value = args[2];
+
+	self log();
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	player setClientDvar(dvar, value);
+	self pm(fmt("%s: %s", dvar, value));
 }
 
 cmd_GetDvar(args)

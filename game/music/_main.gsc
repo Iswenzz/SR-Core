@@ -3,8 +3,14 @@
 initMusics()
 {
 	level.music_sequence = [];
+	precache();
 
 	add("end_map2", "thunderstorm", 50, sr\game\music\_thunderstorm::sequence);
+}
+
+precache()
+{
+	level.fx["rain_heavy_mist"] = loadFX("weather/rain_mp_farm");
 }
 
 add(alias, name, time, sequence)

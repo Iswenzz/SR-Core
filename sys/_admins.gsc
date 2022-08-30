@@ -40,8 +40,6 @@ precache()
 	precacheModel("ch_russian_table");
 	precacheModel("prop_flag_russian");
 	precacheModel("prop_flag_neutral");
-	precacheModel("x_mirror");
-	precacheModel("x_volumetric_clouds");
 
 	precacheStatusIcon("vip_status");
 	precacheShader("vip_status");

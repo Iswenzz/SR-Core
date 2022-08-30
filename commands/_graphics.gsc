@@ -70,6 +70,12 @@ cmd_Shader(args)
 		case "blur":
 			player blur(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
+		case "psy_glass":
+			player psyGlass(ToFloat(args[2]), ToFloat(args[3]));
+			break;
+		case "psy_edge":
+			player psyEdge((ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4])));
+			break;
 		default:
 			player removeShaders();
 			break;

@@ -9,6 +9,12 @@ initShaders()
 	precacheShader("sr_edge");
 	precacheShader("sr_vhs");
 	precacheShader("sr_blur");
+	precacheShader("sr_psy_glass");
+	precacheShader("sr_psy_edge");
+
+	precacheModel("x_mirror");
+	precacheModel("x_volumetric_clouds");
+	precacheModel("x_aurora");
 
 	level.huds["shaders"] = [];
 
@@ -109,6 +115,30 @@ shake(shakeSpeedX, shakeSpeedY, intensity, zoomAmount)
 
 	self.huds["shaders"]["shake"].color = (shakeSpeedX, shakeSpeedY, zoomAmount);
 	self.huds["shaders"]["shake"].alpha = intensity;
+}
+
+psyEdge(color)
+{
+	self clearShaders();
+
+	if (!isDefined(self.huds["shaders"]["psy_edge"]))
+		self.huds["shaders"]["psy_edge"] = addShader(self, "sr_psy_edge");
+
+	self.huds["shaders"]["psy_edge"].color = color;
+	self.huds["shaders"]["psy_edge"].alpha = 1;
+}
+
+psyGlass(blend)
+{
+	self clearShaders();
+
+	blend = IfUndef(blend, 0.4);
+
+	if (!isDefined(self.huds["shaders"]["psy_glass"]))
+		self.huds["shaders"]["psy_glass"] = addShader(self, "sr_psy_glass");
+
+	self.huds["shaders"]["psy_glass"].color = (blend, 0, 0);
+	self.huds["shaders"]["psy_glass"].alpha = 1;
 }
 
 vision()
