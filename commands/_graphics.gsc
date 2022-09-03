@@ -53,28 +53,28 @@ cmd_Shader(args)
 	switch (name)
 	{
 		case "translate":
-			player translate(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
+			player translate("sr_translate", ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
 		case "shake":
-			player shake(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]), ToFloat(args[5]));
+			player shake("sr_shake", ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]), ToFloat(args[5]));
 			break;
 		case "zoom":
-			player zoom(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
+			player zoom("sr_zoom", ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
 		case "edge":
-			player edge((ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4])), ToFloat(args[5]));
+			player edge("sr_edge", (ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4])), ToFloat(args[5]));
 			break;
 		case "vhs":
-			player vhs(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]), ToFloat(args[5]));
+			player vhs("sr_vhs", ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]), ToFloat(args[5]));
 			break;
 		case "blur":
-			player blur(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
+			player blur("sr_blur", ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
 		case "psy_glass":
-			player psyGlass(ToFloat(args[2]), ToFloat(args[3]));
+			player psyGlass("sr_psy_glass", ToFloat(args[2]), ToFloat(args[3]));
 			break;
 		case "psy_edge":
-			player psyEdge((ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4])));
+			player psyEdge("sr_psy_edge", (ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4])));
 			break;
 		default:
 			player removeShaders();

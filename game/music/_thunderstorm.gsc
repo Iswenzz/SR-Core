@@ -25,9 +25,9 @@ translateY()
 {
 	level endon("music_sequence_end");
 
-	level translate(0, 1, 0.8);
+	level translate("translateY", 0, 1, 0.8);
 	wait 0.4;
-	level clearShader("translate");
+	level clearShader("translateY");
 }
 
 blurRotate(amount, blackScreen)
@@ -39,13 +39,13 @@ blurRotate(amount, blackScreen)
 	{
 		if (blackScreen)
 		{
-			level edge((0.1, 0.1, 0.1), 1);
+			level edge("blackscreen", (0.1, 0.1, 0.1), 1);
 			wait 0.1;
-			level clearShader("edge");
+			level clearShader("blackscreen");
 		}
-		level blur(0.8, 1, 1);
+		level blur("blurRotate", 0.8, 1, 1);
 		wait 2.4;
-		level clearShader("blur");
+		level clearShader("blurRotate");
 	}
 }
 
@@ -58,14 +58,14 @@ blurRadial(amount, blackScreen)
 	{
 		if (blackScreen)
 		{
-			level edge((0.1, 0.1, 0.1), 1);
+			level edge("blackscreen", (0.1, 0.1, 0.1), 1);
 			wait 0.1;
-			level clearShader("edge");
+			level clearShader("blackscreen");
 		}
-		level blur(0.4, 1, 1);
+		level blur("blurRadial", 0.4, 1, 1);
 		wait 2.4;
 		if (!blackScreen)
-			level clearShader("blur");
+			level clearShader("blurRadial");
 	}
 }
 
@@ -75,13 +75,14 @@ kick(amount)
 
 	for (i = 0; i < amount; i++)
 	{
-		level edge((0.1, 0.1, 0.1), 1);
+		level edge("blackscreen", (0.1, 0.1, 0.1), 1);
 		wait 0.1;
-		level clearShader("edge");
+		level clearShader("blackscreen");
 
-		level zoom(1, 0.8, 0.1);
+		level zoom("kick", 1, 0.8, 0.1);
 		wait 0.55;
 	}
+	level clearShader("kick");
 }
 
 kick2(amount)
@@ -90,11 +91,12 @@ kick2(amount)
 
 	for (i = 0; i < amount; i++)
 	{
-		level edge((0.1, 0.1, 0.1), 1);
+		level edge("blackscreen", (0.1, 0.1, 0.1), 1);
 		wait 0.1;
-		level clearShader("edge");
+		level clearShader("blackscreen");
 
-		level shake(0.3, 0.3, 0.2, 0);
+		level shake("kick2", 0.3, 0.3, 0.2, 0);
 		wait 0.55;
 	}
+	level clearShader("kick2");
 }

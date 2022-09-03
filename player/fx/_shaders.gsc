@@ -16,182 +16,165 @@ initShaders()
 	precacheModel("x_volumetric_clouds");
 	precacheModel("x_aurora");
 
-	level.huds["shaders"] = [];
+	level.shaders = [];
 
-	event("connect", ::shaders);
+	event("connect", ::onConnect);
 }
 
-shaders()
+onConnect()
 {
-	self.huds["shaders"] = [];
+	self.shaders = [];
 }
 
-blur(blurMode, blurAmount, blurSpeed)
+blur(id, blurMode, blurAmount, blurSpeed)
 {
-	self clearShaders();
-
 	blurMode = IfUndef(blurMode, 0);
 	blurAmount = IfUndef(blurAmount, 0.5);
 	blurSpeed = IfUndef(blurSpeed, 1);
 
-	if (!isDefined(self.huds["shaders"]["blur"]))
-		self.huds["shaders"]["blur"] = addShader(self, "sr_blur");
-
-	self.huds["shaders"]["blur"].color = (blurMode, blurAmount, blurSpeed);
-	self.huds["shaders"]["blur"].alpha = 1;
+	self.huds["shader"] = self addShader("sr_blur");
+	self.huds["shader"].color = (blurMode, blurAmount, blurSpeed);
+	self.huds["shader"].alpha = 1;
+	self updateStack(id, "sr_blur");
 }
 
-translate(translateSpeedX, translateSpeedY, intensity)
+translate(id, translateSpeedX, translateSpeedY, intensity)
 {
-	self clearShaders();
-
 	translateSpeedX = IfUndef(translateSpeedX, 6);
 	translateSpeedY = IfUndef(translateSpeedY, 0);
 	intensity = IfUndef(intensity, 0.05);
 
-	if (!isDefined(self.huds["shaders"]["translate"]))
-		self.huds["shaders"]["translate"] = addShader(self, "sr_translate");
-
-	self.huds["shaders"]["translate"].color = (translateSpeedX, translateSpeedY, intensity);
-	self.huds["shaders"]["translate"].alpha = 1;
+	self.huds["shader"] = self addShader("sr_translate");
+	self.huds["shader"].color = (translateSpeedX, translateSpeedY, intensity);
+	self.huds["shader"].alpha = 1;
+	self updateStack(id, "sr_translate");
 }
 
-vhs(letterBox, range, noiseIntensity, offsetIntensity)
+vhs(id, letterBox, range, noiseIntensity, offsetIntensity)
 {
-	self clearShaders();
-
 	range = IfUndef(range, 0.1);
 	noiseIntensity = IfUndef(noiseIntensity, 0.00088);
 	offsetIntensity = IfUndef(offsetIntensity, 0.004);
 	letterBox = IfUndef(letterBox, 0.375); // I.E 0.375, 0.875
 
-	if (!isDefined(self.huds["shaders"]["vhs"]))
-		self.huds["shaders"]["vhs"] = addShader(self, "sr_vhs");
-
-	self.huds["shaders"]["vhs"].color = (range, noiseIntensity, offsetIntensity);
-	self.huds["shaders"]["vhs"].alpha = letterBox;
+	self.huds["shader"] = self addShader("sr_vhs");
+	self.huds["shader"].color = (range, noiseIntensity, offsetIntensity);
+	self.huds["shader"].alpha = letterBox;
+	self updateStack(id, "sr_vhs");
 }
 
-edge(color, alpha)
+edge(id, color, alpha)
 {
-	self clearShaders();
-
 	color = IfUndef(color, (1, 1, 1));
 	alpha = IfUndef(alpha, 1);
 
-	if (!isDefined(self.huds["shaders"]["edge"]))
-		self.huds["shaders"]["edge"] = addShader(self, "sr_edge");
-
-	self.huds["shaders"]["edge"].color = color;
-	self.huds["shaders"]["edge"].alpha = alpha;
+	self.huds["shader"] = self addShader("sr_edge");
+	self.huds["shader"].color = color;
+	self.huds["shader"].alpha = alpha;
+	self updateStack(id, "sr_edge");
 }
 
-zoom(zoomMode, zoomAmount, zoomSpeed)
+zoom(id, zoomMode, zoomAmount, zoomSpeed)
 {
-	self clearShaders();
-
 	zoomMode = IfUndef(zoomMode, 0);
 	zoomAmount = IfUndef(zoomAmount, 0.5);
 	zoomSpeed = IfUndef(zoomSpeed, 0.05);
 
-	if (!isDefined(self.huds["shaders"]["zoom"]))
-		self.huds["shaders"]["zoom"] = addShader(self, "sr_zoom");
-
-	self.huds["shaders"]["zoom"].color = (zoomMode, zoomAmount, zoomSpeed);
-	self.huds["shaders"]["zoom"].alpha = 1;
+	self.huds["shader"] = self addShader("sr_zoom");
+	self.huds["shader"].color = (zoomMode, zoomAmount, zoomSpeed);
+	self.huds["shader"].alpha = 1;
+	self updateStack(id, "sr_zoom");
 }
 
-shake(shakeSpeedX, shakeSpeedY, intensity, zoomAmount)
+shake(id, shakeSpeedX, shakeSpeedY, intensity, zoomAmount)
 {
-	self clearShaders();
-
 	shakeSpeedX = IfUndef(shakeSpeedX, 0.2);
 	shakeSpeedY = IfUndef(shakeSpeedY, 0.1);
 	zoomAmount = IfUndef(zoomAmount, 0.05);
 	intensity = IfUndef(intensity, 0.05);
 
-	if (!isDefined(self.huds["shaders"]["shake"]))
-		self.huds["shaders"]["shake"] = addShader(self, "sr_shake");
-
-	self.huds["shaders"]["shake"].color = (shakeSpeedX, shakeSpeedY, zoomAmount);
-	self.huds["shaders"]["shake"].alpha = intensity;
+	self.huds["shader"] = self addShader("sr_shake");
+	self.huds["shader"].color = (shakeSpeedX, shakeSpeedY, zoomAmount);
+	self.huds["shader"].alpha = intensity;
+	self updateStack(id, "sr_shake");
 }
 
-psyEdge(color)
+psyEdge(id, color)
 {
-	self clearShaders();
-
-	if (!isDefined(self.huds["shaders"]["psy_edge"]))
-		self.huds["shaders"]["psy_edge"] = addShader(self, "sr_psy_edge");
-
-	self.huds["shaders"]["psy_edge"].color = color;
-	self.huds["shaders"]["psy_edge"].alpha = 1;
+	self.huds["shader"] = self addShader("sr_psy_edge");
+	self.huds["shader"].color = color;
+	self.huds["shader"].alpha = 1;
+	self updateStack(id, "sr_psy_edge");
 }
 
-psyGlass(blend)
+psyGlass(id, blend)
 {
-	self clearShaders();
-
 	blend = IfUndef(blend, 0.4);
 
-	if (!isDefined(self.huds["shaders"]["psy_glass"]))
-		self.huds["shaders"]["psy_glass"] = addShader(self, "sr_psy_glass");
-
-	self.huds["shaders"]["psy_glass"].color = (blend, 0, 0);
-	self.huds["shaders"]["psy_glass"].alpha = 1;
+	self.huds["shader"] = self addShader("sr_psy_glass");
+	self.huds["shader"].color = (blend, 0, 0);
+	self.huds["shader"].alpha = 1;
+	self updateStack(id, "sr_psy_glass");
 }
 
-vision()
+vision(id)
 {
-	if (!isDefined(self.huds["shaders"]["vision"]))
-		self.huds["shaders"]["vision"] = addShader(self, "sr_translate");
-
-	self.huds["shaders"]["vision"].color = (0, 0, 0);
-	self.huds["shaders"]["vision"].alpha = 1;
-	self.huds["shaders"]["vision"].sort = 999;
+	self.huds["shader"] = self addShader("sr_translate");
+	self.huds["shader"].color = (0, 0, 0);
+	self.huds["shader"].alpha = 1;
+	self updateStack(id, "sr_translate");
 }
 
-clearShader(name)
+clearShader(id)
 {
-	if (isDefined(self.huds["shaders"][name]))
-		self.huds["shaders"][name].alpha = 0;
-}
-
-clearShaders()
-{
-	if (!isDefined(self.huds["shaders"]))
-		return;
-
-	keys = getArrayKeys(self.huds["shaders"]);
-	for (i = 0; i < keys.size; i++)
+	shaders = [];
+	for (i = 0; i < self.shaders.size; i++)
 	{
-		if (keys[i] == "vision")
+		if (self.shaders[i].id == id)
 			continue;
-		if (isDefined(self.huds["shaders"][keys[i]]))
-			self.huds["shaders"][keys[i]].alpha = 0;
+		shaders[shaders.size] = self.shaders[i];
+	}
+	self.shaders = shaders;
+
+	// Execute the previous one
+	if (self.shaders.size > 0)
+	{
+		shader = self.shaders[self.shaders.size - 1];
+		self.huds["shader"] setShader(shader.name, 640, 480);
+		self.huds["shader"].color = shader.color;
+		self.huds["shader"].alpha = shader.alpha;
 	}
 }
 
 removeShaders()
 {
-	if (!isDefined(self.huds["shaders"]))
-		return;
-
-	keys = getArrayKeys(self.huds["shaders"]);
-	for (i = 0; i < keys.size; i++)
-	{
-		if (isDefined(self.huds["shaders"][keys[i]]))
-			self.huds["shaders"][keys[i]] destroy();
-	}
+	if (isDefined(self.huds["shader"]))
+		self.huds["shader"] destroy();
+	self.shaders = [];
 }
 
-addShader(who, name)
+addShader(name)
 {
-	shader = addHud(who, 0, 0, 0, "left", "top", 1.4, 1, true);
-	shader.horzAlign = "fullscreen";
-	shader.vertAlign = "fullscreen";
+	shader = self.huds["shader"];
+	if (!isDefined(shader))
+	{
+		shader = addHud(self, 0, 0, 0, "left", "top", 1.4, 1, true);
+		shader.horzAlign = "fullscreen";
+		shader.vertAlign = "fullscreen";
+		shader.archived = true;
+		shader.sort = 1001;
+	}
 	shader setShader(name, 640, 480);
-	shader.archived = true;
-	shader.sort = 1000;
+
 	return shader;
+}
+
+updateStack(id, name)
+{
+	index = self.shaders.size;
+	self.shaders[index] = spawnStruct();
+	self.shaders[index].id = id;
+	self.shaders[index].name = name;
+	self.shaders[index].color = self.huds["shader"].color;
+	self.shaders[index].alpha = self.huds["shader"].alpha;
 }

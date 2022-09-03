@@ -6,6 +6,27 @@ initMusics()
 	precache();
 
 	add("end_map2", "thunderstorm", 50, sr\game\music\_thunderstorm::sequence);
+
+	if (true) // @todo dvar
+		debug();
+}
+
+debug()
+{
+	level.huds["debug"] = newHudElem();
+	level.huds["debug"].foreground = true;
+	level.huds["debug"].alignX = "left";
+	level.huds["debug"].alignY = "top";
+	level.huds["debug"].horzAlign = "fullscreen";
+	level.huds["debug"].vertAlign = "fullscreen";
+	level.huds["debug"].x = -5;
+	level.huds["debug"].y = -5;
+	level.huds["debug"].sort = 1000;
+	level.huds["debug"].fontScale = 1.4;
+	level.huds["debug"].color = (1, 1, 1);
+	level.huds["debug"].hidewheninmenu = true;
+	level.huds["debug"].alpha = 1;
+	level.huds["debug"].archived = false;
 }
 
 precache()
@@ -42,7 +63,7 @@ play(alias)
 	{
 		ambientPlay(sequence.alias, 0.2);
 
-		level vision();
+		level vision("default");
 		level thread [[sequence.callback]]();
 
 		wait sequence.time;
