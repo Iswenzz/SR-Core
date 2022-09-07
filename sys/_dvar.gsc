@@ -19,6 +19,7 @@ reset()
 	setDvar("dr_activators_speed", 1.05);
 	setDvar("jump_slowdownEnable", 0);
 	setDvar("bullet_penetrationEnabled", 0);
+
 	makeDvarServerInfo("mod_author", "SuX Lolz");
 	setDvar("mod_author", "SuX Lolz");
 }

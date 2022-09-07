@@ -8,27 +8,8 @@ initMusics()
 
 	add("end_map2", "thunderstorm", 50, sr\game\music\_thunderstorm::sequence);
 
-	if (true) // @todo dvar
-		debug();
-}
-
-debug()
-{
-	level.huds["debug"] = newHudElem();
-	level.huds["debug"].foreground = true;
-	level.huds["debug"].alignX = "left";
-	level.huds["debug"].alignY = "top";
-	level.huds["debug"].horzAlign = "fullscreen";
-	level.huds["debug"].vertAlign = "fullscreen";
-	level.huds["debug"].x = 0;
-	level.huds["debug"].y = 0;
-	level.huds["debug"].sort = 1001;
-	level.huds["debug"].fontScale = 1.4;
-	level.huds["debug"].color = (1, 1, 1);
-	level.huds["debug"].hidewheninmenu = true;
-	level.huds["debug"].alpha = 1;
-	level.huds["debug"].archived = false;
-	level.huds["debug"] setShader("sr_translate", 640, 480);
+	if (getDvarInt("vegas"))
+		vegas();
 }
 
 precache()
@@ -146,4 +127,23 @@ timeline(total, time)
 {
 	wait time - total;
 	return time;
+}
+
+vegas()
+{
+	level.huds["vegas"] = newHudElem();
+	level.huds["vegas"].foreground = true;
+	level.huds["vegas"].alignX = "left";
+	level.huds["vegas"].alignY = "top";
+	level.huds["vegas"].horzAlign = "fullscreen";
+	level.huds["vegas"].vertAlign = "fullscreen";
+	level.huds["vegas"].x = 0;
+	level.huds["vegas"].y = 0;
+	level.huds["vegas"].sort = 1001;
+	level.huds["vegas"].fontScale = 1.4;
+	level.huds["vegas"].color = (1, 1, 1);
+	level.huds["vegas"].hidewheninmenu = true;
+	level.huds["vegas"].alpha = 1;
+	level.huds["vegas"].archived = false;
+	level.huds["vegas"] setShader("sr_translate", 640, 480);
 }
