@@ -4,17 +4,28 @@
 initMusics()
 {
 	level.music_sequence = [];
+	level.music_sequence_ents = [];
 	precache();
 
 	add("end_map2", "thunderstorm", 50, sr\game\music\_thunderstorm::sequence);
+	add("end_map3", "face_the_truth", 50, sr\game\music\_face_the_truth::sequence);
 
 	if (getDvarInt("vegas"))
 		vegas();
+
+	thread test();
+}
+
+// @todo debug
+test()
+{
+
 }
 
 precache()
 {
-	level.fx["rain_heavy_mist"] = loadFX("weather/rain_mp_farm");
+	level.fx["thunder"] = loadFX("weather/lightning_mp_farm");
+	level.fx["rain"] = loadFX("weather/rain_mp_farm");
 }
 
 add(alias, name, time, sequence)
@@ -27,10 +38,20 @@ add(alias, name, time, sequence)
 	level.music_sequence[alias].keyframes = load(name);
 }
 
+addEnt(ent)
+{
+	level.music_sequence_ents[level.music_sequence_ents.size] = ent;
+}
+
 load(name)
 {
+	path = fmt(PATH_Mod("sr/data/keyframes/%s.keyframes"), name);
+
+	if (!FILE_Exists(path))
+		return;
+
 	keyframes = [];
-	file = FILE_Open(fmt(PATH_Mod("sr/data/keyframes/%s.keyframes"), name), "r+");
+	file = FILE_Open(path, "r+");
 
 	while (true)
 	{
@@ -63,6 +84,8 @@ load(name)
 
 play(alias)
 {
+	level endon("music_sequence_end");
+
 	sequence = undefined;
 	keys = getArrayKeys(level.music_sequence);
 
@@ -81,6 +104,7 @@ play(alias)
 	{
 		ambientPlay(sequence.alias, 0.2);
 
+		visionSetNaked("null", 0);
 		level vision("default");
 		level thread [[sequence.callback]](sequence);
 
@@ -121,6 +145,14 @@ stop()
 	level notify("music_sequence_end");
 	wait 0.1;
 	level removeShaders();
+
+	ents = level.music_sequence_ents;
+	for (i = 0; i < ents.size; i++)
+	{
+		if (isDefined(ents[i]))
+			ents[i] delete();
+	}
+	level.music_sequence_ents = [];
 }
 
 timeline(total, time)
@@ -139,7 +171,7 @@ vegas()
 	level.huds["vegas"].vertAlign = "fullscreen";
 	level.huds["vegas"].x = 0;
 	level.huds["vegas"].y = 0;
-	level.huds["vegas"].sort = 1001;
+	level.huds["vegas"].sort = 899;
 	level.huds["vegas"].fontScale = 1.4;
 	level.huds["vegas"].color = (1, 1, 1);
 	level.huds["vegas"].hidewheninmenu = true;

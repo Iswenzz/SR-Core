@@ -10,7 +10,8 @@ initShaders()
 	precacheShader("sr_vhs");
 	precacheShader("sr_blur");
 	precacheShader("sr_psy_glass");
-	precacheShader("sr_psy_edge");
+	// precacheShader("sr_psy_edge");
+	precacheShader("sr_glitch");
 
 	precacheModel("x_mirror");
 	precacheModel("x_volumetric_clouds");
@@ -117,6 +118,17 @@ psyGlass(id, blend)
 	self updateStack(id, "sr_psy_glass");
 }
 
+glitch(id, amt, speed)
+{
+	amt = IfUndef(amt, 0.5);
+	speed = IfUndef(speed, 0.043);
+
+	self.huds["shader"] = self addShader("sr_glitch");
+	self.huds["shader"].color = (amt, speed, 0);
+	self.huds["shader"].alpha = 1;
+	self updateStack(id, "sr_glitch");
+}
+
 vision(id)
 {
 	self.huds["shader"] = self addShader("sr_translate");
@@ -162,7 +174,7 @@ addShader(name)
 		shader.horzAlign = "fullscreen";
 		shader.vertAlign = "fullscreen";
 		shader.archived = true;
-		shader.sort = 1001;
+		shader.sort = 900;
 	}
 	shader setShader(name, 640, 480);
 

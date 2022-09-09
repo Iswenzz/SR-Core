@@ -29,7 +29,7 @@ showCredit(text, scale, y, duration, startTime)
 	hud.vertAlign = "top";
 	hud.x = 0;
 	hud.y = y;
-	hud.sort = 900;
+	hud.sort = 1000;
 	hud.glowColor = ToRGB(120, 0, 255);
 	hud.glowAlpha = 1;
 	hud fade(duration, startTime);

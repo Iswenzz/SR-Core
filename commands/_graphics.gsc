@@ -76,6 +76,9 @@ cmd_Shader(args)
 		case "psy_edge":
 			player psyEdge("sr_psy_edge", (ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4])));
 			break;
+		case "glitch":
+			player glitch("sr_glitch", ToFloat(args[2]), ToFloat(args[3]));
+			break;
 		default:
 			player removeShaders();
 			break;
