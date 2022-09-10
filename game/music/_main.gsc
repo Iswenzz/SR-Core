@@ -175,6 +175,7 @@ clear()
 	ambientStop(2);
 	level removeShaders();
 	setExpFog(20000000, 10000000, 0, 0, 0, 2);
+	visionSetNaked(toLower(level.map), 0);
 
 	ents = level.music_sequence_ents;
 	for (i = 0; i < ents.size; i++)
