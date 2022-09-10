@@ -10,6 +10,7 @@ initMusics()
 	add("end_map2", "thunderstorm", 46, sr\game\music\_thunderstorm::sequence);
 	add("end_map3", "face_the_truth", 39, sr\game\music\_face_the_truth::sequence);
 	add("end_map4", "first_contact", 48, sr\game\music\_first_contact::sequence);
+	add("end_map5", "japanese_nightclub", 51, sr\game\music\_japanese_nightclub::sequence);
 
 	if (getDvarInt("vegas"))
 		vegas();

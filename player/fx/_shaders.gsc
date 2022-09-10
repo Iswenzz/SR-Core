@@ -9,9 +9,9 @@ initShaders()
 	precacheShader("sr_edge");
 	precacheShader("sr_vhs");
 	precacheShader("sr_blur");
+	precacheShader("sr_glitch");
 	precacheShader("sr_psy_glass");
 	// precacheShader("sr_psy_edge");
-	precacheShader("sr_glitch");
 
 	precacheModel("x_mirror");
 	precacheModel("x_volumetric_clouds");

@@ -140,6 +140,7 @@ precacheText()
 precacheFx()
 {
 	level.fx["pickup"]					= loadfx("misc/ui_pickup_available");
+	level.fx["lasershow"] 				= loadFx("deathrun/lasershow");
 	level.fx["endgame"] 				= loadFx("deathrun/endgame_fx");
 	level.fx["light_blink"] 			= loadFx("misc/light_c4_blink");
 	level.fx["endtrig_fx"] 				= loadFx("deathrun/endtrig_fx");
