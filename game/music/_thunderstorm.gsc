@@ -7,13 +7,10 @@ sequence(animation)
 	time = 0;
 
 	setExpFog(200, 500, 0, 0.04, 0.1, 0);
-	addEnt(playLoopedFX(level.fx["rain"], 50, level.spawn["spectator"].origin));
+	addFX(level.fx["rain"], level.spawn["spectator"].origin);
 
 	time = timeline(time, 10.9);
 
-	while (true)
-	{
-		playFX(level.fx["thunder"], level.spawn["spectator"].origin);
-		wait 0.5;
-	}
+	for (i = 0; i < 30; i++)
+		addFX(level.fx["thunder"], level.spawn["spectator"].origin);
 }

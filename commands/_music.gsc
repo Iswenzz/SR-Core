@@ -42,9 +42,8 @@ cmd_MusicSequenceEnd(args)
 
 	name = args[0];
 
-	sr\game\music\_main::stop();
-	thread sr\game\_map::end();
-	thread sr\game\music\_main::play(name);
+	level thread sr\game\_map::end();
+	level thread sr\game\music\_main::play(name);
 }
 
 cmd_MusicSequence(args)
@@ -54,8 +53,7 @@ cmd_MusicSequence(args)
 
 	name = args[0];
 
-	sr\game\music\_main::stop();
-	thread sr\game\music\_main::play(name);
+	level thread sr\game\music\_main::play(name);
 }
 
 cmd_Music(args)

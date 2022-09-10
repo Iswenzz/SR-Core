@@ -36,6 +36,7 @@ blur(id, blurMode, blurAmount, blurSpeed)
 	self.huds["shader"] = self addShader("sr_blur");
 	self.huds["shader"].color = (blurMode, blurAmount, blurSpeed);
 	self.huds["shader"].alpha = 1;
+
 	self updateStack(id, "sr_blur");
 }
 
@@ -48,6 +49,7 @@ translate(id, translateSpeedX, translateSpeedY, intensity)
 	self.huds["shader"] = self addShader("sr_translate");
 	self.huds["shader"].color = (translateSpeedX, translateSpeedY, intensity);
 	self.huds["shader"].alpha = 1;
+
 	self updateStack(id, "sr_translate");
 }
 
@@ -61,6 +63,7 @@ vhs(id, letterBox, range, noiseIntensity, offsetIntensity)
 	self.huds["shader"] = self addShader("sr_vhs");
 	self.huds["shader"].color = (range, noiseIntensity, offsetIntensity);
 	self.huds["shader"].alpha = letterBox;
+
 	self updateStack(id, "sr_vhs");
 }
 
@@ -72,6 +75,7 @@ edge(id, color, alpha)
 	self.huds["shader"] = self addShader("sr_edge");
 	self.huds["shader"].color = color;
 	self.huds["shader"].alpha = alpha;
+
 	self updateStack(id, "sr_edge");
 }
 
@@ -84,6 +88,7 @@ zoom(id, zoomMode, zoomAmount, zoomSpeed)
 	self.huds["shader"] = self addShader("sr_zoom");
 	self.huds["shader"].color = (zoomMode, zoomAmount, zoomSpeed);
 	self.huds["shader"].alpha = 1;
+
 	self updateStack(id, "sr_zoom");
 }
 
@@ -97,6 +102,7 @@ shake(id, shakeSpeedX, shakeSpeedY, intensity, zoomAmount)
 	self.huds["shader"] = self addShader("sr_shake");
 	self.huds["shader"].color = (shakeSpeedX, shakeSpeedY, zoomAmount);
 	self.huds["shader"].alpha = intensity;
+
 	self updateStack(id, "sr_shake");
 }
 
@@ -105,6 +111,7 @@ psyEdge(id, color)
 	self.huds["shader"] = self addShader("sr_psy_edge");
 	self.huds["shader"].color = color;
 	self.huds["shader"].alpha = 1;
+
 	self updateStack(id, "sr_psy_edge");
 }
 
@@ -115,6 +122,7 @@ psyGlass(id, blend)
 	self.huds["shader"] = self addShader("sr_psy_glass");
 	self.huds["shader"].color = (blend, 0, 0);
 	self.huds["shader"].alpha = 1;
+
 	self updateStack(id, "sr_psy_glass");
 }
 
@@ -126,6 +134,7 @@ glitch(id, amt, speed)
 	self.huds["shader"] = self addShader("sr_glitch");
 	self.huds["shader"].color = (amt, speed, 0);
 	self.huds["shader"].alpha = 1;
+
 	self updateStack(id, "sr_glitch");
 }
 
@@ -134,6 +143,7 @@ vision(id)
 	self.huds["shader"] = self addShader("sr_translate");
 	self.huds["shader"].color = (0, 0, 0);
 	self.huds["shader"].alpha = 1;
+
 	self updateStack(id, "sr_translate");
 }
 
@@ -148,7 +158,7 @@ clearShader(id)
 	}
 	self.shaders = shaders;
 
-	// Execute the previous one
+	// Execute current shader
 	if (self.shaders.size > 0)
 	{
 		shader = self.shaders[self.shaders.size - 1];
@@ -174,7 +184,7 @@ addShader(name)
 		shader.horzAlign = "fullscreen";
 		shader.vertAlign = "fullscreen";
 		shader.archived = true;
-		shader.sort = 900;
+		shader.sort = -1;
 	}
 	shader setShader(name, 640, 480);
 

@@ -7,8 +7,8 @@ initMusics()
 	level.music_sequence_ents = [];
 	precache();
 
-	add("end_map2", "thunderstorm", 50, sr\game\music\_thunderstorm::sequence);
-	add("end_map3", "face_the_truth", 50, sr\game\music\_face_the_truth::sequence);
+	add("end_map2", "thunderstorm", 46, sr\game\music\_thunderstorm::sequence);
+	add("end_map3", "face_the_truth", 40, sr\game\music\_face_the_truth::sequence);
 
 	if (getDvarInt("vegas"))
 		vegas();
@@ -16,7 +16,6 @@ initMusics()
 	thread test();
 }
 
-// @todo debug
 test()
 {
 
@@ -41,6 +40,19 @@ add(alias, name, time, sequence)
 addEnt(ent)
 {
 	level.music_sequence_ents[level.music_sequence_ents.size] = ent;
+	return ent;
+}
+
+addFX(effect, origin, forward, up)
+{
+	ent = undefined;
+	if (isDefined(forward) && isDefined(up))
+		ent = spawnFX(effect, origin, forward, up);
+	else
+		ent = spawnFX(effect, origin);
+
+	triggerFX(ent);
+	addEnt(ent);
 }
 
 load(name)
@@ -84,6 +96,7 @@ load(name)
 
 play(alias)
 {
+	level clear();
 	level endon("music_sequence_end");
 
 	sequence = undefined;
@@ -100,29 +113,31 @@ play(alias)
 			}
 		}
 	}
-	if (isDefined(sequence))
-	{
-		ambientPlay(sequence.alias, 0.2);
+	if (!isDefined(sequence))
+		return;
 
-		visionSetNaked("null", 0);
-		level vision("default");
-		level thread [[sequence.callback]](sequence);
+	ambientPlay(sequence.alias, 0.2);
+	wait 0.2;
 
-		if (isDefined(sequence.keyframes))
-			level thread animateKeyframes(sequence.keyframes);
+	visionSetNaked("null", 0);
+	level vision("default");
+	level thread [[sequence.callback]](sequence);
 
-		wait sequence.time;
+	if (isDefined(sequence.keyframes))
+		level thread animateKeyframes(sequence.keyframes);
 
-		stop();
-	}
+	wait sequence.time;
+
+	ambientStop(2);
+	wait 2;
+
+	level thread clear();
 }
 
 animateKeyframes(keyframes)
 {
 	level endon("music_sequence_end");
 	time = 0;
-
-	wait 0.2;
 
 	for (i = 0; i < keyframes.size; i++)
 	{
@@ -137,14 +152,13 @@ animateKeyframes(keyframes)
 	}
 }
 
-stop()
+clear()
 {
-	ambientStop(0.2);
-	wait 0.2;
-
 	level notify("music_sequence_end");
-	wait 0.1;
+
+	ambientStop(2);
 	level removeShaders();
+	setExpFog(20000000, 10000000, 0, 0, 0, 2);
 
 	ents = level.music_sequence_ents;
 	for (i = 0; i < ents.size; i++)
@@ -171,7 +185,7 @@ vegas()
 	level.huds["vegas"].vertAlign = "fullscreen";
 	level.huds["vegas"].x = 0;
 	level.huds["vegas"].y = 0;
-	level.huds["vegas"].sort = 899;
+	level.huds["vegas"].sort = 1;
 	level.huds["vegas"].fontScale = 1.4;
 	level.huds["vegas"].color = (1, 1, 1);
 	level.huds["vegas"].hidewheninmenu = true;
