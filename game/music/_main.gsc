@@ -8,7 +8,8 @@ initMusics()
 	precache();
 
 	add("end_map2", "thunderstorm", 46, sr\game\music\_thunderstorm::sequence);
-	add("end_map3", "face_the_truth", 40, sr\game\music\_face_the_truth::sequence);
+	add("end_map3", "face_the_truth", 39, sr\game\music\_face_the_truth::sequence);
+	add("end_map4", "first_contact", 48, sr\game\music\_first_contact::sequence);
 
 	if (getDvarInt("vegas"))
 		vegas();
@@ -73,7 +74,7 @@ load(name)
 		if (IsNullOrEmpty(line) || tkn.size != 7)
 			break;
 
-		time = ToInt(tkn[0]) / 1000;
+		time = ToInt(tkn[0]);
 		id = tkn[1];
 		name = tkn[2];
 		r = ToInt(tkn[3]) / 255;
@@ -137,18 +138,32 @@ play(alias)
 animateKeyframes(keyframes)
 {
 	level endon("music_sequence_end");
+
+	startTime = getTime();
 	time = 0;
+	i = 0;
 
-	for (i = 0; i < keyframes.size; i++)
+	while (true)
 	{
-		keyframe = keyframes[i];
+		if (!isDefined(keyframes[i]))
+			break;
 
-		time = timeline(time, keyframe.time);
+		keyframe = keyframes[i];
+		time = getTime() - startTime;
+
+		if (int(keyframe.time - time) > 50)
+		{
+			wait 0.05;
+			continue;
+		}
 
 		self.huds["shader"] setShader(keyframe.name, 640, 480);
 		self.huds["shader"].color = keyframe.color;
 		self.huds["shader"].alpha = keyframe.alpha;
 		self updateStack(keyframe.id, keyframe.name);
+		i++;
+
+		wait 0.05;
 	}
 }
 
@@ -185,7 +200,7 @@ vegas()
 	level.huds["vegas"].vertAlign = "fullscreen";
 	level.huds["vegas"].x = 0;
 	level.huds["vegas"].y = 0;
-	level.huds["vegas"].sort = 1;
+	level.huds["vegas"].sort = -1;
 	level.huds["vegas"].fontScale = 1.4;
 	level.huds["vegas"].color = (1, 1, 1);
 	level.huds["vegas"].hidewheninmenu = true;
