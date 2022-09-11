@@ -1,12 +1,12 @@
 {
 	stateMap "color_only";
 
-	vertexShader 3.0 "sr_aurora"
+	vertexShader 3.0 "sr_aurora_160a9bd1d3"
 	{
 
 	}
 
-	pixelShader 3.0 "sr_aurora"
+	pixelShader 3.0 "sr_aurora_160a9bd1d3"
 	{
 		skyMapSampler = material.colorMap;
 	}

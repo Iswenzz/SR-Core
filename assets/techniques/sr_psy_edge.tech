@@ -1,12 +1,12 @@
 {
 	stateMap "default2d";
 
-	vertexShader 3.0 "sr_psy_edge"
+	vertexShader 3.0 "sr_psy_edge_b3874b4a78"
     {
 
 	}
 
-	pixelShader 3.0 "sr_psy_edge"
+	pixelShader 3.0 "sr_psy_edge_b3874b4a78"
 	{
 		colorMapSampler = sampler.resolvedPostSun;
 	}

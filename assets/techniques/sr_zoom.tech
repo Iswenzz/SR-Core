@@ -1,12 +1,12 @@
 {
 	stateMap "default2d";
 
-	vertexShader 3.0 "sr_zoom"
+	vertexShader 3.0 "sr_zoom_80ced10fcc"
     {
 
 	}
 
-	pixelShader 3.0 "sr_zoom"
+	pixelShader 3.0 "sr_zoom_80ced10fcc"
 	{
 		colorMapSampler = sampler.resolvedPostSun;
 	}

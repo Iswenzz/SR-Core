@@ -1,12 +1,12 @@
 {
 	stateMap "default";
 
-	vertexShader 3.0 "sr_mirror"
+	vertexShader 3.0 "sr_mirror_52ec30e684"
     {
 
 	}
 
-	pixelShader 3.0 "sr_mirror"
+	pixelShader 3.0 "sr_mirror_52ec30e684"
 	{
 		colorMapSampler = sampler.resolvedPostSun;
 	}

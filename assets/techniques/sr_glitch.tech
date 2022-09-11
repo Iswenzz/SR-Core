@@ -1,12 +1,12 @@
 {
 	stateMap "default2d";
 
-	vertexShader 3.0 "sr_glitch"
+	vertexShader 3.0 "sr_glitch_06d9976ae5"
     {
 
 	}
 
-	pixelShader 3.0 "sr_glitch"
+	pixelShader 3.0 "sr_glitch_06d9976ae5"
 	{
 		colorMapSampler = sampler.resolvedPostSun;
 	}
