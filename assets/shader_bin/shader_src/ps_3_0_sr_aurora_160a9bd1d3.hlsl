@@ -29,7 +29,7 @@ float triNoise2d(in vec2 p, float spd)
     p = mul(p, mm2(p.x * 0.06));
     vec2 bp = p;
 
-	for (float i = 0.; i < 5.; i++)
+	for (float i = 0.; i < 3.; i++)
 	{
         vec2 dg = tri2(bp * 1.85) * .7;
         dg = mul(dg, mm2(gameTime.w*spd));
@@ -56,7 +56,7 @@ vec4 aurora(vec3 ro, vec3 rd)
     vec4 col = (vec4)0;
     vec4 avgCol = (vec4)0;
 
-    for (float i = 0.; i < (glowSetup.w * 100); i++) // 50 // 25 good too
+    for (float i = 0.; i < 10; i++) // 50 // 25 good too
     {
         float of = 0.006 * hash21((vec2)rd) * smoothstep(0., 15., i); // ??????????????????
         float pt = ((.8 + pow(abs(i), 1.4) * .002) - ro.y) / (rd.y * 2. + 0.4);
@@ -88,7 +88,7 @@ vec3 stars(in vec3 p)
     vec3 c = (vec3)0.0;
     float res = renderTargetSize.x * 1.0;
 
-	for (float i = 0.; i < 4.; i++)
+	for (float i = 0.; i < 2.; i++)
     {
         vec3 q = fract(p * (.15 * res)) - 0.5;
         vec3 id = floor(p * (.15 * res));
@@ -132,7 +132,7 @@ float4 ps_main(float3 worldPos : TEXCOORD) : COLOR
         rd.y = abs(rd.y);
         col = bg(rd) * fade * 0.6;
         vec4 aur = smoothstep(0.0, 2.5, aurora(ro, rd));
-        col += stars(rd) * 0.1;
+        // col += stars(rd) * 0.1;
         col = col * (1. - aur.a) + aur.rgb;
         vec3 pos = ro + ((0.5 - ro.y) / rd.y) * rd;
         float nz2 = triNoise2d(pos.xz * vec2(.5, .7), 0.);

@@ -12,6 +12,7 @@ initMusics()
 	add("end_map4", "first_contact", 48, sr\game\music\_first_contact::sequence);
 	add("end_map5", "japanese_nightclub", 51, sr\game\music\_japanese_nightclub::sequence);
 	add("end_map6", "triptonite", 53, sr\game\music\_triptonite::sequence);
+	add("end_map7", "together", 45, sr\game\music\_together::sequence);
 
 	if (getDvarInt("vegas"))
 		vegas();
@@ -26,6 +27,7 @@ test()
 
 precache()
 {
+	level.fx["blue_particles"] = loadFX("deathrun/blue_particles");
 	level.fx["thunder"] = loadFX("weather/lightning_mp_farm");
 	level.fx["rain"] = loadFX("weather/rain_mp_farm");
 }
