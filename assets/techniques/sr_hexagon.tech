@@ -1,0 +1,15 @@
+{
+	stateMap "color_only";
+
+	vertexShader 3.0 "sr_hexagon_83d54f6fd6"
+	{
+
+	}
+
+	pixelShader 3.0 "sr_hexagon_83d54f6fd6"
+	{
+
+	}
+
+	vertex.position = code.position;
+}

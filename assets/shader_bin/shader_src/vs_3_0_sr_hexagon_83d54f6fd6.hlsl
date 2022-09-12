@@ -12,7 +12,6 @@ struct PixelInput
 {
 	float4 position : POSITION;
 	float3 worldpos : TEXCOORD;
-	//float3 camerapos : TEXCOORD1;
 };
 
 PixelInput vs_main(const VertexInput vertex)
@@ -21,7 +20,6 @@ PixelInput vs_main(const VertexInput vertex)
 
 	pixel.position = mul(float4(vertex.position.xyz, 1.0f), worldViewProjectionMatrix);
 	pixel.worldpos = vertex.position.xyz;
-	//pixel.camerapos = inverseWorldMatrix[3].xyz;
 
 	return pixel;
 }

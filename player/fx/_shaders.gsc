@@ -16,6 +16,7 @@ initShaders()
 	precacheModel("x_mirror");
 	precacheModel("x_volumetric_clouds");
 	precacheModel("x_aurora");
+	precacheModel("x_hexagon");
 
 	level.shaders = [];
 
