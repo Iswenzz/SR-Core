@@ -7,6 +7,7 @@ initMusics()
 	level.music_sequence_ents = [];
 	precache();
 
+	add("end_map1", "moment", 56, sr\game\music\_moment::sequence);
 	add("end_map2", "thunderstorm", 46, sr\game\music\_thunderstorm::sequence);
 	add("end_map3", "face_the_truth", 39, sr\game\music\_face_the_truth::sequence);
 	add("end_map4", "first_contact", 48, sr\game\music\_first_contact::sequence);
@@ -32,7 +33,7 @@ precache()
 	level.fx["blue_particles"] = loadFX("deathrun/blue_particles");
 	level.fx["thunder"] = loadFX("weather/lightning_mp_farm");
 	level.fx["rain"] = loadFX("weather/rain_mp_farm");
-	level.fx["snow"] = loadFX("weather/snow_light");
+	level.fx["snow"] = loadFX("weather/snow_light_mp_bloc");
 }
 
 add(alias, name, time, sequence)
@@ -215,4 +216,6 @@ vegas()
 	level.huds["vegas"].alpha = 1;
 	level.huds["vegas"].archived = false;
 	level.huds["vegas"] setShader("sr_translate", 640, 480);
+
+	visionSetNaked("null", 0);
 }
