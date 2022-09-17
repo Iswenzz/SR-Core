@@ -14,6 +14,7 @@ initMusics()
 	add("end_map6", "triptonite", 53, sr\game\music\_triptonite::sequence);
 	add("end_map7", "together", 45, sr\game\music\_together::sequence);
 	add("end_map8", "symphony", 60, sr\game\music\_symphony::sequence);
+	add("end_map9", "fuji", 59, sr\game\music\_fuji::sequence);
 
 	if (getDvarInt("vegas"))
 		vegas();
@@ -31,6 +32,7 @@ precache()
 	level.fx["blue_particles"] = loadFX("deathrun/blue_particles");
 	level.fx["thunder"] = loadFX("weather/lightning_mp_farm");
 	level.fx["rain"] = loadFX("weather/rain_mp_farm");
+	level.fx["snow"] = loadFX("weather/snow_light");
 }
 
 add(alias, name, time, sequence)

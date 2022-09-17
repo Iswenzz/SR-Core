@@ -6,6 +6,4 @@ sequence(animation)
 	level endon("music_sequence_end");
 
 	setExpFog(200, 500, 0, 0, 0, 0);
-
-	addFX(level.fx["endgame"], level.spawn["spectator"].origin);
 }

@@ -15,6 +15,7 @@ initShaders()
 
 	precacheModel("x_mirror");
 	precacheModel("x_volumetric_clouds");
+	precacheModel("x_space_curvature");
 	precacheModel("x_aurora");
 	precacheModel("x_hexagon");
 

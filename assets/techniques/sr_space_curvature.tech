@@ -1,0 +1,15 @@
+{
+	stateMap "color_only";
+
+	vertexShader 3.0 "sr_space_curvature_80a4ee4278"
+	{
+
+	}
+
+	pixelShader 3.0 "sr_space_curvature_80a4ee4278"
+	{
+        detailMapSampler = material.detailMap;
+	}
+
+	vertex.position = code.position;
+}
