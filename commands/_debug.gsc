@@ -13,7 +13,7 @@ main()
 	cmd("owner",  		"debug_rotation",	::cmd_DebugRotation);
 	cmd("owner",  		"test",				::cmd_Test);
 
-	if (getDvarInt("auto"))
+	if (getDvarInt("debug_rotation"))
 		thread cmd_DebugRotation();
 }
 

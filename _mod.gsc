@@ -28,6 +28,7 @@ main()
 	sr\game\_map::main();
 	sr\game\_rank::initRank();
 	sr\game\_cheat::main();
+	sr\game\_debug::main();
 	sr\game\_demo::main();
 	sr\game\_menus::main();
 	sr\game\_perks::initPerks();

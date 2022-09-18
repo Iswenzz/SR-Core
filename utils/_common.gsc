@@ -538,3 +538,107 @@ ragdoll(sHitLoc, vDir, sWeapon, eInflictor, sMeansOfDeath, deathAnimDuration)
 
 	physicsExplosionSphere(explosionPos, explosionRadius, explosionRadius / 2, explosionForce);
 }
+
+getFloor()
+{
+	if (isDefined(self.inAir) && self.inAir)
+		return self.origin[2] + ifUndef(self.inAirValue, 0);
+
+	trace = BulletTrace(self.origin, self.origin - (0, 0, 999999), false, undefined);
+	return Ternary(trace["fraction"] != 1, trace["position"], self.origin)[2];
+}
+
+rectanglePoints()
+{
+	size = [];
+	tag = spawn("script_origin", self.origin);
+	ori1 = tag getOrigin();
+	x = 0;
+
+	// Rectangle Size
+	while (tag isTouching(self))
+	{
+		tag.origin = (tag.origin + (x, 0, 0));
+		wait 0.05;
+		x++;
+	}
+	ori2 = tag getOrigin();
+	x = ori2[0] - ori1[0];
+	size[size.size] = x;
+
+	tag.origin = self.origin - (0, 0, 0);
+	ori1 = tag getOrigin();
+	y = 0;
+	while (tag isTouching(self))
+	{
+		tag.origin = (tag.origin + (0, y, 0));
+		wait 0.05;
+		y++;
+	}
+	ori2 = tag getOrigin();
+	y = ori2[1] - ori1[1];
+
+	size[size.size] = y;
+	tag.origin = self.origin - (0, 0, 0);
+    ori1 = tag getOrigin();
+    z = 0;
+    while (tag isTouching(self))
+    {
+        tag.origin = (tag.origin + (0, 0, z));
+        wait 0.05;
+        z--;
+    }
+    ori2 = tag getOrigin();
+    z = ori2[2] - ori1[2];
+
+    size[size.size] = z;
+	tag delete();
+
+	// Rectangle points
+	points = [];
+	width = size[0];
+	length = size[1];
+	heightBottom = size[2];
+
+	z = self getFloor();
+	if (isDefined(self.inAir) && self.inAir)
+		z += heightBottom;
+
+	x = self.origin[0] + width;
+	y = self.origin[1] + length;
+	points[points.size] = (x, y, z);
+	x = self.origin[0] + width;
+	y = self.origin[1] - length;
+	points[points.size] = (x, y, z);
+	x = self.origin[0] - width;
+	y = self.origin[1] - length;
+	points[points.size] = (x, y, z);
+	x = self.origin[0] - width;
+	y = self.origin[1] + length;
+	points[points.size] = (x, y, z);
+
+	return points;
+}
+
+circlePoints()
+{
+	points = [];
+	idx = 0;
+
+	r = IfUndef(self.radius, 0);
+	z = self getFloor();
+	h = self.origin[0];
+	k = self.origin[1];
+
+	for (i = 0; i < 360; i++)
+	{
+		x = h + r * cos(i);
+		y = k - r * sin(i);
+
+		points[idx] = (x, y, z);
+
+		if (i % 2 == 0)
+			idx++;
+	}
+	return points;
+}
