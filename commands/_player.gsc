@@ -26,6 +26,7 @@ main()
 	cmd("player", 		"teleport",			::cmd_Teleport);
 	cmd("admin", 		"teleport_player",	::cmd_TeleportPlayer);
 	cmd("admin", 		"teleport_at",		::cmd_TeleportAt);
+	cmd("admin", 		"teleport_ent",		::cmd_TeleportEnt);
 	cmd("owner", 		"uammo",			::cmd_UAmmo);
 	cmd("adminplus", 	"weapon",			::cmd_Weapon);
 	cmd("adminplus", 	"weapon_all",		::cmd_WeaponAll);
@@ -66,7 +67,7 @@ cmd_TeleportPlayer(args)
 
 cmd_TeleportAt(args)
 {
-	if (args.size < 1)
+	if (args.size < 3)
 		return self pm("Usage: teleport_at <X> <Y> <Z>");
 	if (!self sr\player\modes\_main::isInMode("practise"))
 		return self pm("^1Player need to be in practise mode");
@@ -77,6 +78,21 @@ cmd_TeleportAt(args)
 
 	self.sr_cheat = true;
 	self setOrigin((x, y, z));
+}
+
+cmd_TeleportEnt(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: teleport_ent <targetname>");
+	if (!self sr\player\modes\_main::isInMode("practise"))
+		return self pm("^1Player need to be in practise mode");
+
+	ent = getEntArray(args[0], "targetname");
+	if (!isDefined(ent) || !ent.size)
+		return;
+
+	self.sr_cheat = true;
+	self setOrigin(ent[0].origin);
 }
 
 cmd_HudResolution(args)

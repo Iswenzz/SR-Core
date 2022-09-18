@@ -17,7 +17,7 @@ loop()
 		self.bhopOnGround = self isOnGround();
 		self.bhopHeight = sqrt((self.jumpHeight * 2) * self.gravity);
 
-		if (self.bhopOnGround && !self.bhopPrevOnGround && self jumpButtonPressed() && self getStance() != "prone")
+		if (self.bhopOnGround && !self.bhopPrevOnGround && self jumpButtonPressed() && self getStance() == "stand")
 		{
 			velocity = self.bhopPrevAirVelocity - self.bhopAirVelocity;
 

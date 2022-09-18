@@ -12,6 +12,7 @@ main()
 	level.randomizedMaps = [];
 
 	placeSpawns();
+	thread deleteUnsupportedWeapons();
 	thread randomizeMaps(5);
 }
 
@@ -70,6 +71,7 @@ end(map)
 	level notify("game over");
 
 	// Sequence
+	endMusic();
 	endSpectate();
 	displayMapScores();
 
@@ -82,6 +84,12 @@ end(map)
 	// Next map
 	setDvar("sv_maprotationcurrent", "gametype deathrun map " + map);
 	exitLevel(false);
+}
+
+endMusic()
+{
+	alias = fmt("end_map%d", randomIntRange(1, 9));
+	thread sr\game\music\_main::play(alias);
 }
 
 endSpectate()
@@ -220,4 +228,20 @@ spawnSpectator()
 	self spawn(spawn.origin, spawn.angles);
 	self sr\game\_teams::setSpectatePermissions();
 	self.spawnPoint = undefined;
+}
+
+deleteUnsupportedWeapons()
+{
+	waitMapLoad();
+	weapons = strTok("knife_mp,m16_gl_mp,ak74u_reflex_mp,ak74u_acog_mp,ak74u_silencer_mp,dog_mp,shovel_mp", ",");
+
+	for (i = 0; i < weapons.size; i++)
+	{
+		ents = getEntArray("weapon_" + weapons[i], "classname");
+		if (!isDefined(ents) || !ents.size)
+			continue;
+
+		for (j = 0; j < ents.size; j++)
+			ents[j] delete();
+	}
 }

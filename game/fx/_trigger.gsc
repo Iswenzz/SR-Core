@@ -78,6 +78,6 @@ fxRect(points, fx)
 			wait 3;
 		}
 		tag delete();
-		wait 3.6;
+		wait 3.2;
 	}
 }

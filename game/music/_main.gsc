@@ -1,5 +1,6 @@
 #include sr\player\fx\_shaders;
 #include sr\sys\_file;
+#include sr\utils\_common;
 
 initMusics()
 {
@@ -128,6 +129,7 @@ play(alias)
 	ambientPlay(sequence.alias, 0.2);
 	wait 0.2;
 
+	thread disableFullbright();
 	visionSetNaked("null", 0);
 	level vision("default");
 	level thread [[sequence.callback]](sequence);
@@ -141,6 +143,15 @@ play(alias)
 	wait 2;
 
 	level thread clear();
+}
+
+disableFullbright()
+{
+	level endon("music_sequence_end");
+
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+		players[i] setClientDvar("r_fullbright", 0);
 }
 
 animateKeyframes(keyframes)
