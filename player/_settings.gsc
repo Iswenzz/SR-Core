@@ -195,7 +195,7 @@ update_gfxFullbright(num)
 update_gfxDistance(num)
 {
 	value = self.settings["gfx_distance"];
-	distances = Cast(strTok("0;5000;2500;1250;500;", ";"), "int");
+	distances = strTok("0;5000;2500;1250;500;", ";");
 	labels = strTok("^3MAX;^25000;^22500;^21250;^2500;", ";");
 
 	distance = distances[value];
