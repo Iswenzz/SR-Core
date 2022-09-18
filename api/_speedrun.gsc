@@ -149,3 +149,8 @@ isSlide()
 {
 	return isDefined(level.map_slide) && level.map_slide;
 }
+
+disableXP()
+{
+	level.leaderboard_xp_disabled = true;
+}

@@ -41,7 +41,6 @@ effect(trigger, fx)
 
 fxCircle(points, fx)
 {
-	level endon("game over");
 	while (isDefined(self))
 	{
 		tag = spawn("script_model", points[0]);
@@ -58,13 +57,11 @@ fxCircle(points, fx)
 			wait 0.1;
 		}
 		tag delete();
-		wait 0.05;
 	}
 }
 
 fxRect(points, fx)
 {
-	level endon("game over");
 	while (isDefined(self))
 	{
 		tag = spawn("script_model", points[0]);
@@ -75,12 +72,12 @@ fxRect(points, fx)
 		for (i = 0; i < points.size + 1; i++)
 		{
 			if (i >= points.size)
-				tag MoveTo(points[0], 5, 0.5, 0.5);
+				tag MoveTo(points[0], 3, 0.5, 0.5);
 			else
-				tag MoveTo(points[i], 5, 0.5, 0.5);
-			wait 5;
+				tag MoveTo(points[i], 3, 0.5, 0.5);
+			wait 3;
 		}
 		tag delete();
-		wait 1;
+		wait 3.6;
 	}
 }
