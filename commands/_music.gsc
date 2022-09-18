@@ -7,7 +7,7 @@ main()
 
 	// Commands
 	cmd("adminplus", 	"music", 		::cmd_Music);
-	cmd("masteradmin", 	"music_seq", 	::cmd_MusicSequence);
+	cmd("adminplus", 	"music_seq", 	::cmd_MusicSequence);
 	cmd("owner", 		"music_seqend", ::cmd_MusicSequenceEnd);
 	cmd("adminplus", 	"music_help", 	::cmd_MusicHelp);
 	cmd("player", 		"music_stop", 	::cmd_MusicStop);
