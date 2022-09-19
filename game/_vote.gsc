@@ -31,6 +31,8 @@ onConnect()
 	self.vote_page = 0;
 	self.vote_selected = 0;
 
+	wait 2;
+
 	self display();
 }
 

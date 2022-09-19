@@ -16,6 +16,8 @@ onConnect()
 	if (isDefined(self.new)) self reset();
 	self load();
 
+	wait 1;
+
 	wait 0.05;
 	self setClientDvar("cg_drawSpectatorMessages", "1");
 	self setClientDvar("sr_setting_0", "Crosshair");

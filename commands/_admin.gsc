@@ -171,7 +171,7 @@ cmd_Online(args)
 	for (i = 0; i < players.size; i++)
 	{
 		role = players[i] getRoleName();
-		if (role != "Player")
+		if (players[i].admin_role != "player")
 			onlines[onlines.size] = fmt("%s^7[%s^7]", players[i].name, players[i] getRoleName());
 	}
 	strings = strTokByPixLen(StrJoin(onlines, ", "), 500);
@@ -265,7 +265,7 @@ cmd_Rename(args)
 		return self pm("Usage: rename <playerNum> <newName>");
 
 	player = getPlayerByNum(args[0]);
-	newName = StrJoin(args[1], " ");
+	newName = StrJoin(Range(args, 1, args.size), " ");
 
 	if (!isDefined(player))
 		return pm("Could not find player");

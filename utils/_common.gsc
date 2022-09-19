@@ -248,7 +248,7 @@ isInArray(array)
 
 isReallyAlive()
 {
-	return self.sessionstate == "playing";
+	return isDefined(self.sessionstate) && self.sessionstate == "playing";
 }
 
 isPlaying()
