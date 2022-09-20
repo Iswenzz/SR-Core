@@ -314,7 +314,7 @@ cmd_TimePlayed(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	pm(fmt("%s play time: %d", player.name, player getStat(2631)));
+	pm(fmt("%s play time: %d", player.name, player getStat(2629)));
 }
 
 cmd_Kick(args)

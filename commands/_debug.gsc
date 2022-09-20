@@ -5,13 +5,13 @@
 
 main()
 {
-	cmd("owner",  		"bots",				::cmd_Bots);
-	cmd("owner",  		"debug_ents",		::cmd_DebugEnts);
-	cmd("owner",  		"debug_speed",		::cmd_DebugSpeed);
-	cmd("owner",  		"debug_surface",	::cmd_DebugSurface);
-	cmd("owner",  		"debug_save_spawn",	::cmd_DebugSaveSpawn);
-	cmd("owner",  		"debug_rotation",	::cmd_DebugRotation);
-	cmd("owner",  		"test",				::cmd_Test);
+	cmd("owner",  		"bots",					::cmd_Bots);
+	cmd("owner",  		"debug_ents",			::cmd_DebugEnts);
+	cmd("owner",  		"debug_ents_amount",	::cmd_DebugEntsAmount);
+	cmd("owner",  		"debug_speed",			::cmd_DebugSpeed);
+	cmd("owner",  		"debug_surface",		::cmd_DebugSurface);
+	cmd("owner",  		"debug_save_spawn",		::cmd_DebugSaveSpawn);
+	cmd("owner",  		"debug_rotation",		::cmd_DebugRotation);
 
 	if (getDvarInt("debug_rotation"))
 		thread cmd_DebugRotation();
@@ -102,8 +102,11 @@ cmd_DebugSaveSpawn(args)
 		exit(0);
 }
 
-cmd_Test(args)
+cmd_DebugEntsAmount(args)
 {
+	if (args.size < 1)
+		return self pm("Usage: debug_ents_amount <amount>");
+
 	ents = getEntArray("debug_ent", "targetname");
 	for (i = 0; i < ents.size; i++)
 		ents[i] delete();
