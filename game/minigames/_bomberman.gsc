@@ -38,6 +38,8 @@ bomberman()
 		createGrid(12, 12);
 		sendPlayers();
 		watchGame();
+
+		wait 6;
 	}
 }
 
@@ -153,6 +155,7 @@ watchGame()
 
 watchPlayer()
 {
+	level endon("bomberman ended");
 	self endon("death");
 	self endon("disconnect");
 
