@@ -66,6 +66,7 @@ leave()
 	level.bombermanPlayersInRoom = Remove(level.bombermanPlayersInRoom, self);
 	self removeFromQueue("bomberman");
 	self setClientDvar("cg_drawFriendlyNames", 1);
+	self setClientDvar("cg_thirdPerson", 0);
 	self setClientDvar("cg_thirdPersonRange", 120);
 	self unlink();
 	self sr\game\_teams::setTeam("allies");
@@ -97,6 +98,7 @@ spawnPlayerInRoom(spawnIndex)
 	self.teamKill = true;
 	self.bombermanWon = false;
 	self sr\game\_teams::setTeam("axis");
+	self setClientDvar("cg_thirdPerson", 1);
 	self setClientDvar("cg_thirdPersonRange", 500);
 
 	spawn = spawnStruct();
