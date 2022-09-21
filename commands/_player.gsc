@@ -3,6 +3,7 @@
 
 main()
 {
+	cmd("masteradmin", 	"angles",			::cmd_Angles);
 	cmd("masteradmin", 	"bounce",			::cmd_Bounce);
 	cmd("owner", 		"clone",			::cmd_Clone);
 	cmd("owner", 		"damage",			::cmd_Damage);
@@ -122,6 +123,24 @@ cmd_HudFov(args)
 
 	self setStat(2402, fov);
 	self pm(fmt("^3CGAZ: ^7FOV %d", fov));
+}
+
+cmd_Angles(args)
+{
+	if (args.size < 4)
+		return self pm("Usage: angles <player> <x> <y> <z>");
+
+	player = getPlayerByName(args[0]);
+	player.sr_cheat = true;
+
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	x = ToFloat(args[1]);
+	y = ToFloat(args[2]);
+	z = ToFloat(args[3]);
+
+	player setPlayerAngles((x, y, z));
 }
 
 cmd_Bounce(args)

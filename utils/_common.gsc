@@ -214,6 +214,25 @@ originToTime(origin)
 	return time;
 }
 
+pickRandom(array, amount)
+{
+	randoms = [];
+
+	if (array.size < amount)
+		return randoms;
+	if (amount == 1)
+		return array;
+
+	while (randoms.size < amount)
+	{
+		picked = array[randomIntRange(0, array.size)];
+		if (Contains(randoms, picked))
+			continue;
+		randoms[randoms.size] = picked;
+	}
+	return randoms;
+}
+
 foreachThread(array, callback, args)
 {
 	for (i = 0; i < array.size; i++)

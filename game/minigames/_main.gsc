@@ -79,18 +79,5 @@ removeFromAllQueue()
 
 pickRandomPlayers(minigame, amount)
 {
-	players = [];
-	queue = level.minigames[minigame].queue;
-
-	if (queue.size < amount)
-		return players;
-
-	while (players.size < amount)
-	{
-		picked = queue[randomIntRange(0, queue.size)];
-		if (Contains(players, picked))
-			continue;
-		players[players.size] = picked;
-	}
-	return players;
+	return pickRandom(level.minigames[minigame].queue, amount);
 }

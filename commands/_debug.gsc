@@ -12,6 +12,7 @@ main()
 	cmd("owner",  		"debug_surface",		::cmd_DebugSurface);
 	cmd("owner",  		"debug_save_spawn",		::cmd_DebugSaveSpawn);
 	cmd("owner",  		"debug_rotation",		::cmd_DebugRotation);
+	cmd("owner",		"test",					::cmd_Test);
 
 	if (getDvarInt("debug_rotation"))
 		thread cmd_DebugRotation();
@@ -120,4 +121,9 @@ cmd_DebugEntsAmount(args)
 		ent setModel("chicken");
 	}
 	self pm(fmt("Spawned %d chicken", amount));
+}
+
+cmd_Test(args)
+{
+
 }

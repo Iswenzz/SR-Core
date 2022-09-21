@@ -118,6 +118,7 @@ precache()
 	precacheModel("body_mp_usmc_cqb");
 	precacheModel("collision_sphere");
 	precacheModel("mil_frame_charge");
+	precacheModel("ch_crate64x64");
 }
 
 precacheText()
