@@ -4,15 +4,15 @@
 
 #include "ui/menudef.h"
 
-#include "ui_mp/menustyle.inc"
+#include "ui/includes/menustyle.inc"
 #include "ui/choices_setup_common.menu"
 
-#include "ui_mp/sr_common.inc"
+#include "ui/includes/sr.inc"
 
-#define DR_TEAM_BUTTON( id, x, y, w, h, itemName, itemAction, visArg ) \
-		DR_TEAM_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, ;, ;, visArg )
+#define DR_TEAM_BUTTON(id, x, y, w, h, itemName, itemAction, visArg) \
+		DR_TEAM_BUTTON_EXT(id, x, y, w, h, itemName, itemAction, ;, ;, visArg)
 
-#define DR_TEAM_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, onItemEnter, onItemExit, visArg ) \
+#define DR_TEAM_BUTTON_EXT(id, x, y, w, h, itemName, itemAction, onItemEnter, onItemExit, visArg) \
 itemDef \
 { \
 	visible			visArg \
@@ -41,7 +41,7 @@ itemDef \
 	rect		x y w h DR_BUTTON_ALIGN \
 	backcolor	0.137 0 0.239 0.5 \
 	forecolor	1 1 1 1 \
-	exp			text( itemName ) \
+	exp			text(itemName) \
 	border		1 \
 	bordersize	2 \
 	bordercolor 0.137 0 0.239 0.8 \
@@ -93,7 +93,7 @@ itemDef \
 		{
 
 		}
-		onESC
+		onEsc
 		{
 			close self;
 		}

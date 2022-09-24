@@ -2,7 +2,7 @@
 
 #define		FILTER_Y_SPACING	20
 #define		FILTER_WIDTH		254
-#define		X_FILTER			-58 //300
+#define		X_FILTER			-58 // 300
 #define		X_FILTERB			(X_FILTER+FILTER_WIDTH)
 #define		Y_FILTER			2
 #define 	ORIGIN_FILTER1		X_FILTER Y_FILTER
@@ -22,19 +22,19 @@
 
 #define		CUSTOM_BUTTON_TEXT_SIZE	0.33
 
-#undef CHOICE_HORIZONTAL_ALIGN 
-#define CHOICE_HORIZONTAL_ALIGN HORIZONTAL_ALIGN_CENTER 
+#undef CHOICE_HORIZONTAL_ALIGN
+#define CHOICE_HORIZONTAL_ALIGN HORIZONTAL_ALIGN_CENTER
 
 #undef CHOICE_VERTICAL_ALIGN
 #define CHOICE_VERTICAL_ALIGN VERTICAL_ALIGN_TOP
 
-// custom button highlights
-CHOICE_HIGHLIGHT_CUSTOM_2( (X_FILTER-10), Y_FILTER, (FILTER_WIDTH-20), (FILTER_Y_SPACING-2), when( localVarString( ui_choicegroup ) == CHOICE_GROUP && localVarInt( ui_highlight ) == 1 ); )
-CHOICE_HIGHLIGHT_CUSTOM_2( (X_FILTER-10), (Y_FILTER+FILTER_Y_SPACING), (FILTER_WIDTH-20), (FILTER_Y_SPACING-2), when( localVarString( ui_choicegroup ) == CHOICE_GROUP && localVarInt( ui_highlight ) == 2 ); )
-CHOICE_HIGHLIGHT_CUSTOM_2( (X_FILTER-10), (Y_FILTER+(FILTER_Y_SPACING*2)), (FILTER_WIDTH-20), (FILTER_Y_SPACING-2), when( localVarString( ui_choicegroup ) == CHOICE_GROUP && localVarInt( ui_highlight ) == 3 ); )
-CHOICE_HIGHLIGHT_CUSTOM_2( (X_FILTERB-10), Y_FILTER, (FILTER_WIDTH-20), (FILTER_Y_SPACING-2), when( localVarString( ui_choicegroup ) == CHOICE_GROUP && localVarInt( ui_highlight ) == 4 ); )
-CHOICE_HIGHLIGHT_CUSTOM_2( (X_FILTERB-10), (Y_FILTER+FILTER_Y_SPACING), (FILTER_WIDTH-20), (FILTER_Y_SPACING-2), when( localVarString( ui_choicegroup ) == CHOICE_GROUP && localVarInt( ui_highlight ) == 5 ); )
-CHOICE_HIGHLIGHT_CUSTOM_2( (X_FILTERB-10), (Y_FILTER+(FILTER_Y_SPACING*2)), (FILTER_WIDTH-20), (FILTER_Y_SPACING-2), when( localVarString( ui_choicegroup ) == CHOICE_GROUP && localVarInt( ui_highlight ) == 6 ); )
+// Custom button highlights
+CHOICE_HIGHLIGHT_CUSTOM_2((X_FILTER-10), Y_FILTER, (FILTER_WIDTH-20), (FILTER_Y_SPACING-2), when(localVarString(ui_choicegroup) == CHOICE_GROUP && localVarInt(ui_highlight) == 1);)
+CHOICE_HIGHLIGHT_CUSTOM_2((X_FILTER-10), (Y_FILTER+FILTER_Y_SPACING), (FILTER_WIDTH-20), (FILTER_Y_SPACING-2), when(localVarString(ui_choicegroup) == CHOICE_GROUP && localVarInt(ui_highlight) == 2);)
+CHOICE_HIGHLIGHT_CUSTOM_2((X_FILTER-10), (Y_FILTER+(FILTER_Y_SPACING*2)), (FILTER_WIDTH-20), (FILTER_Y_SPACING-2), when(localVarString(ui_choicegroup) == CHOICE_GROUP && localVarInt(ui_highlight) == 3);)
+CHOICE_HIGHLIGHT_CUSTOM_2((X_FILTERB-10), Y_FILTER, (FILTER_WIDTH-20), (FILTER_Y_SPACING-2), when(localVarString(ui_choicegroup) == CHOICE_GROUP && localVarInt(ui_highlight) == 4);)
+CHOICE_HIGHLIGHT_CUSTOM_2((X_FILTERB-10), (Y_FILTER+FILTER_Y_SPACING), (FILTER_WIDTH-20), (FILTER_Y_SPACING-2), when(localVarString(ui_choicegroup) == CHOICE_GROUP && localVarInt(ui_highlight) == 5);)
+CHOICE_HIGHLIGHT_CUSTOM_2((X_FILTERB-10), (Y_FILTER+(FILTER_Y_SPACING*2)), (FILTER_WIDTH-20), (FILTER_Y_SPACING-2), when(localVarString(ui_choicegroup) == CHOICE_GROUP && localVarInt(ui_highlight) == 6);)
 
 itemDef	{
 	name sourcefield
@@ -171,7 +171,7 @@ itemDef {
 	textalignx	0
 	textaligny	16
 	forecolor	CHOICE_TEXTCOLOR_DISABLED
-	visible		when( dvarint("ui_netSource")!=2 )
+	visible		when(dvarint("ui_netSource")!=2)
 	decoration
 }
 itemDef {
@@ -202,17 +202,17 @@ itemDef {
 	mouseExit		{ hide message_createFavorite; }
 }
 
-#define WIDTH_PASSWORD		20 
-#define WIDTH_HARDWARE		20 
+#define WIDTH_PASSWORD		20
+#define WIDTH_HARDWARE		20
 #define WIDTH_SERVER		140
 #define WIDTH_MAP			140
 #define WIDTH_PLAYER		60
 #define WIDTH_TYPE			92
-#define WIDTH_VOICE			20 
-#define WIDTH_PURE			20 
-#define WIDTH_MOD			20 
+#define WIDTH_VOICE			20
+#define WIDTH_PURE			20
+#define WIDTH_MOD			20
 #define WIDTH_PB			20
-#define WIDTH_PING			40 
+#define WIDTH_PING			40
 
 #define TAB_HEIGHT			16
 #define TAB_LABEL_OFFSET	\
@@ -222,17 +222,17 @@ itemDef {
 #define TABLE_X				4
 #define TABLE_Y				72
 
-#define PASSWORD_X			(TABLE_X+0) 			
+#define PASSWORD_X			(TABLE_X+0)
 #define HARDWARE_X			(TABLE_X+WIDTH_PASSWORD+2)
 #define SERVER_X			(HARDWARE_X+WIDTH_HARDWARE+2)
-#define MAP_X				(SERVER_X+WIDTH_SERVER+2) 	
-#define PLAYER_X			(MAP_X+WIDTH_MAP+2) 	
-#define TYPE_X				(PLAYER_X+WIDTH_PLAYER+2) 	
-#define VOICE_X				(TYPE_X+WIDTH_TYPE+2) 	
-#define PURE_X				(VOICE_X+WIDTH_VOICE+2) 	
-#define MOD_X				(PURE_X+WIDTH_PURE+2) 	
-#define PB_X				(MOD_X+WIDTH_MOD+2) 
-#define PING_X				(PB_X+WIDTH_PB+2) 	
+#define MAP_X				(SERVER_X+WIDTH_SERVER+2)
+#define PLAYER_X			(MAP_X+WIDTH_MAP+2)
+#define TYPE_X				(PLAYER_X+WIDTH_PLAYER+2)
+#define VOICE_X				(TYPE_X+WIDTH_TYPE+2)
+#define PURE_X				(VOICE_X+WIDTH_VOICE+2)
+#define MOD_X				(PURE_X+WIDTH_PURE+2)
+#define PB_X				(MOD_X+WIDTH_MOD+2)
+#define PING_X				(PB_X+WIDTH_PB+2)
 
 #define TABLE_HEIGHT		340
 #define TABLE_WIDTH			(PING_X+WIDTH_PING+20)
@@ -273,9 +273,8 @@ itemDef	{
 #define RECT_PB				ORIGIN_PB			WIDTH_PB			TABLE_HEIGHT
 #define RECT_PING			ORIGIN_PING 		WIDTH_PING 			TABLE_HEIGHT
 
-//	SERVER LIST COLUMN OUTLINES	=====================================================================
-#define PREPROC_COLUMN_BOX( pname, prect ) PREPROC_COLUMN_BOX_RAW( pname, prect, 0 0 0 0 )
-#define PREPROC_COLUMN_BOX_RAW( pname, prect, pcolor )\
+#define PREPROC_COLUMN_BOX(pname, prect) PREPROC_COLUMN_BOX_RAW(pname, prect, 0 0 0 0)
+#define PREPROC_COLUMN_BOX_RAW(pname, prect, pcolor)\
 	itemDef	{\
 		name pname\
 		group grpColumn\
@@ -287,21 +286,19 @@ itemDef	{
 		bordercolor TAB_BORDER_COLOR\
 		visible 1	decoration\
 	}
-	
-PREPROC_COLUMN_BOX( passwordColumn, ORIGIN_PASSWORD 	(WIDTH_PASSWORD+2) 		TABLE_HEIGHT)
-PREPROC_COLUMN_BOX( hardwareColumn, ORIGIN_HARDWARE 	(WIDTH_HARDWARE+2) 		TABLE_HEIGHT)
-PREPROC_COLUMN_BOX( serverColumn,  	ORIGIN_SERVER 		(WIDTH_SERVER+2) 		TABLE_HEIGHT)
-PREPROC_COLUMN_BOX( mapColumn,  	ORIGIN_MAP 			(WIDTH_MAP+2) 			TABLE_HEIGHT)
-PREPROC_COLUMN_BOX( playerColumn,  	ORIGIN_PLAYER 		(WIDTH_PLAYER+2) 		TABLE_HEIGHT)
-PREPROC_COLUMN_BOX( typeColumn,  	ORIGIN_TYPE 		(WIDTH_TYPE+2) 			TABLE_HEIGHT)
-PREPROC_COLUMN_BOX( voiceColumn,  	ORIGIN_VOICE 		(WIDTH_VOICE+2) 		TABLE_HEIGHT)
-PREPROC_COLUMN_BOX( pureColumn,  	ORIGIN_PURE 		(WIDTH_PURE+2) 			TABLE_HEIGHT)
-PREPROC_COLUMN_BOX( modColumn,  	ORIGIN_MOD 			(WIDTH_MOD+2) 			TABLE_HEIGHT)
-PREPROC_COLUMN_BOX( pbColumn,  		ORIGIN_PB 			(WIDTH_PB+2) 			TABLE_HEIGHT)
-PREPROC_COLUMN_BOX_RAW( pingColumn, ORIGIN_PING 		(WIDTH_PING+2)			TABLE_HEIGHT, 0 0 0.4 .15)
-		
 
-// SERVER LIST TEXT ===========================================================
+PREPROC_COLUMN_BOX(passwordColumn, ORIGIN_PASSWORD 	(WIDTH_PASSWORD+2) 		TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(hardwareColumn, ORIGIN_HARDWARE 	(WIDTH_HARDWARE+2) 		TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(serverColumn,  	ORIGIN_SERVER 		(WIDTH_SERVER+2) 		TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(mapColumn,  	ORIGIN_MAP 			(WIDTH_MAP+2) 			TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(playerColumn,  	ORIGIN_PLAYER 		(WIDTH_PLAYER+2) 		TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(typeColumn,  	ORIGIN_TYPE 		(WIDTH_TYPE+2) 			TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(voiceColumn,  	ORIGIN_VOICE 		(WIDTH_VOICE+2) 		TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(pureColumn,  	ORIGIN_PURE 		(WIDTH_PURE+2) 			TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(modColumn,  	ORIGIN_MOD 			(WIDTH_MOD+2) 			TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(pbColumn,  		ORIGIN_PB 			(WIDTH_PB+2) 			TABLE_HEIGHT)
+PREPROC_COLUMN_BOX_RAW(pingColumn, ORIGIN_PING 		(WIDTH_PING+2)			TABLE_HEIGHT, 0 0 0.4 .15)
+
 itemDef
 {
 	name 			serverlist
@@ -321,7 +318,7 @@ itemDef
 	backcolor 		0 0 0 0
 	outlinecolor 	OPTIONS_HEADING_JOIN_COLOR
 	visible 		1
-	//		numcols	xpos			xwidth			textlen
+	//				numcols	xpos	xwidth			textlen
 	columns	11		(PASSWORD_X-3)	16				20
 					(HARDWARE_X-3)	16				10
 					SERVER_X		WIDTH_SERVER	22
@@ -339,8 +336,6 @@ itemDef
 
 #undef	TABLE_HEIGHT
 #define TABLE_HEIGHT TAB_HEIGHT
-
-		// PASSWORD ==============================================================
 		itemDef
 		{
 			name password
@@ -374,7 +369,6 @@ itemDef
 			decoration
 		}
 
-		// HARDWARE ==============================================================
 		itemDef
 		{
 			name hardware
@@ -407,8 +401,7 @@ itemDef
 			visible 1
 			decoration
 		}
-		
-		// SERVER ================================================================
+
 		itemDef
 		{
 			name server
@@ -437,7 +430,6 @@ itemDef
 			mouseExit { hide message_sort ; setitemcolor serverColumn bordercolor TAB_BORDER_COLOR }
 		}
 
-		// MAP ===================================================================
 		itemDef
 		{
 			name map
@@ -466,7 +458,6 @@ itemDef
 			mouseExit { hide message_sort ; setitemcolor mapColumn bordercolor TAB_BORDER_COLOR }
 		}
 
-		// PLAYERS ===============================================================
 		itemDef
 		{
 			name Players
@@ -495,7 +486,6 @@ itemDef
 			mouseExit { hide message_sort ; setitemcolor playerColumn bordercolor TAB_BORDER_COLOR }
 		}
 
-		// TYPE ==================================================================
 		itemDef
 		{
 			name Type
@@ -524,7 +514,6 @@ itemDef
 			mouseExit { hide message_sort ; setitemcolor typeColumn bordercolor TAB_BORDER_COLOR }
 		}
 
-		// VOICE =================================================================
 		itemDef
 		{
 			name voice
@@ -558,7 +547,6 @@ itemDef
 			decoration
 		}
 
-		// PURE ==================================================================
 		itemDef
 		{
 			name pure
@@ -592,7 +580,6 @@ itemDef
 			decoration
 		}
 
-		// MOD ===================================================================
 		itemDef
 		{
 			name Mod
@@ -626,30 +613,29 @@ itemDef
 			decoration
 		}
 
-		// PB ====================================================================		
-		itemDef 
+		itemDef
 		{
 			name pb
 			group grpTabs
 			type ITEM_TYPE_BUTTON
-			style WINDOW_STYLE_FILLED	
+			style WINDOW_STYLE_FILLED
 			rect RECT_PB
 			backcolor OPTIONS_HEADING_JOIN_COLOR
 			forecolor 1 1 1 1
-			visible 1 
-			action 
+			visible 1
+			action
 			{
-				play "mouse_click" ; 
+				play "mouse_click" ;
 				uiScript ServerSort 9 ;
-				setitemcolor grpTabs backcolor TAB_BG_COLOR ; 
-				setitemcolor pb backcolor .1 .2 .37 1 ;  
-				setitemcolor grpColumn backcolor 0 0 0 0 ; 
-				setitemcolor pbColumn backcolor 0 0 .4 .15 
+				setitemcolor grpTabs backcolor TAB_BG_COLOR ;
+				setitemcolor pb backcolor .1 .2 .37 1 ;
+				setitemcolor grpColumn backcolor 0 0 0 0 ;
+				setitemcolor pbColumn backcolor 0 0 .4 .15
 			}
 			mouseEnter { show message_sort ; setitemcolor pbColumn bordercolor 1 1 1 1 ; play "mouse_over"}
-			mouseExit { hide message_sort ; setitemcolor pbColumn bordercolor TAB_BORDER_COLOR }	  	  
+			mouseExit { hide message_sort ; setitemcolor pbColumn bordercolor TAB_BORDER_COLOR }
 		}
-		itemDef 
+		itemDef
 		{
 			name pbicon
 			style WINDOW_STYLE_SHADER
@@ -659,8 +645,7 @@ itemDef
 			visible 1
 			decoration
 		}
-				
-		// PING ==================================================================
+
 		itemDef
 		{
 			name Ping
@@ -692,8 +677,6 @@ itemDef
 #undef TABLE_HEIGHT
 #define TABLE_HEIGHT	360
 
-// 	BUTTONS	===============================================================
-
 itemDef {
     name serverinfo
     text "@MENU_SERVER_INFO"
@@ -705,7 +688,7 @@ itemDef {
 	bordercolor .1 .1 .1 .25
     rect  70 -26 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 384 270 92 15
 	textalign ITEM_ALIGN_CENTER
-    textalignx 9		// center
+    textalignx 9
     textaligny 18
 	backcolor TAB_BG_COLOR
     forecolor TEXTBUTTON_COLOR
@@ -727,7 +710,7 @@ itemDef {
 	bordercolor .1 .1 .1 .25
     rect 160 -26 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 502 270 92 15
 	textalign ITEM_ALIGN_CENTER
-    textalignx 0		// center
+    textalignx 0
     textaligny 18
 	backcolor TAB_BG_COLOR
     forecolor TEXTBUTTON_COLOR
@@ -777,8 +760,6 @@ itemDef {
 	visible			1
 	action {
 		play		"mouse_click" ;
-//			uiScript	DeleteFavorite ;
-//			uiScript	UpdateFilter
 		open del_fav_popmenu;
 	}
 	mouseEnter		{ show message_delFavorite; play "mouse_over"; }
@@ -843,7 +824,7 @@ itemDef {
 	mouseEnter		{ play "mouse_over"}
 	action { play "mouse_click"; uiScript JoinServer; }
 }
-    
+
 itemDef {
 	name			back
 	text			"@MENU_BACK"
@@ -858,7 +839,7 @@ itemDef {
 	textaligny		18
 	visible			1
 	mouseEnter		{ play "mouse_over"; }
-	action 
+	action
 	{
 		play "mouse_click";
 		close self;
@@ -866,5 +847,5 @@ itemDef {
 		close joinserver ;
 		close multi_menu ;
 		open main
-	}	
-}    
+	}
+}

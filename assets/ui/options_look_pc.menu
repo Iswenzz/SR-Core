@@ -1,7 +1,7 @@
 #include "ui/menudef.h"
-#include "ui_mp/common_macro.inc"
+#include "ui/includes/common.inc"
 #define OPTIONS_STYLE			1
-#include "ui_mp/menustyle.inc"
+#include "ui/includes/menustyle.inc"
 #include "ui/choices_setup_common.menu"
 
 {
@@ -35,7 +35,7 @@
 		{
 			setLocalVarBool ui_hideBack 0;
 		}
-		onESC
+		onEsc
 		{
 			close self;
 		}
@@ -67,23 +67,21 @@
 			decoration
 		}
 
-		#include "ui_mp/leftside_controls.inc"
-		
-		CHOICE_SECTION_TITLE( 21, "@MENU_LOOK" )
-		CHOICE_DVARYESNO( 22, "@MENU_INVERT_MOUSE", ui_mousePitch, uiScript update ui_mousePitch )
-		CHOICE_BIND( 23, "@MENU_LEAN_LEFT", "+leanleft", ; )
-		CHOICE_BIND( 24, "@MENU_LEAN_RIGHT", "+leanright", ; )
-		CHOICE_BIND( 25, "@MENU_LOOK_UP", "+lookup", ; )
-		CHOICE_BIND( 26, "@MENU_LOOK_DOWN", "+lookdown", ; )
-		CHOICE_BIND( 27, "@MENU_TURN_LEFT", "+left", ; )
-		CHOICE_BIND( 28, "@MENU_TURN_RIGHT", "+right", ; )
-		CHOICE_BIND( 29, "@MENU_MOUSE_LOOK", "+mlook", ; )
-		CHOICE_BIND( 30, "@MENU_CENTER_VIEW", "centerview", ; )
-		CHOICE_DVARYESNO( 31, "@MENU_FREE_LOOK", cl_freelook, ; )
-		CHOICE_DVARYESNO( 32, "@MENU_SMOOTH_MOUSE", m_filter, ; )
-		CHOICE_DVARSLIDER( 33, "@MENU_MOUSE_SENSITIVITY", sensitivity, 5, 1, 30, ; )
+		#include "ui/includes/controls.inc"
 
-		//CHOICE_BACK( "@MENU_BACK", close self )
+		CHOICE_SECTION_TITLE(21, "@MENU_LOOK")
+		CHOICE_DVARYESNO(22, "@MENU_INVERT_MOUSE", ui_mousePitch, uiScript update ui_mousePitch)
+		CHOICE_BIND(23, "@MENU_LEAN_LEFT", "+leanleft", ;)
+		CHOICE_BIND(24, "@MENU_LEAN_RIGHT", "+leanright", ;)
+		CHOICE_BIND(25, "@MENU_LOOK_UP", "+lookup", ;)
+		CHOICE_BIND(26, "@MENU_LOOK_DOWN", "+lookdown", ;)
+		CHOICE_BIND(27, "@MENU_TURN_LEFT", "+left", ;)
+		CHOICE_BIND(28, "@MENU_TURN_RIGHT", "+right", ;)
+		CHOICE_BIND(29, "@MENU_MOUSE_LOOK", "+mlook", ;)
+		CHOICE_BIND(30, "@MENU_CENTER_VIEW", "centerview", ;)
+		CHOICE_DVARYESNO(31, "@MENU_FREE_LOOK", cl_freelook, ;)
+		CHOICE_DVARYESNO(32, "@MENU_SMOOTH_MOUSE", m_filter, ;)
+		CHOICE_DVARSLIDER(33, "@MENU_MOUSE_SENSITIVITY", sensitivity, 5, 1, 30, ;)
 
 		CHOICE_KEYBINDHELP
 	}

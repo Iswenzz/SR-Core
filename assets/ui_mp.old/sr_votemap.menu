@@ -1,12 +1,12 @@
 #include "ui/menudef.h"
-#include "ui_mp/menustyle.inc"
+#include "ui/includes/menustyle.inc"
 #include "ui/choices_setup_common.menu"
-#include "ui_mp/sr_common.inc"
+#include "ui/includes/sr.inc"
 
-#define DR_VOTEMAP_BUTTON( id, x, y, w, h, itemName, itemAction, visArg ) \
-		DR_VOTEMAP_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, ;, ;, visArg )
+#define DR_VOTEMAP_BUTTON(id, x, y, w, h, itemName, itemAction, visArg) \
+		DR_VOTEMAP_BUTTON_EXT(id, x, y, w, h, itemName, itemAction, ;, ;, visArg)
 
-#define DR_VOTEMAP_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, onItemEnter, onItemExit, visArg ) \
+#define DR_VOTEMAP_BUTTON_EXT(id, x, y, w, h, itemName, itemAction, onItemEnter, onItemExit, visArg) \
 itemDef \
 { \
 	visible			visArg \
@@ -31,7 +31,7 @@ itemDef \
 	rect		x y w h DR_BUTTON_ALIGN_LEFT \
 	backcolor	0.137 0 0.239 0.5 \
 	forecolor	1 1 1 1 \
-	exp			text( itemName ) \
+	exp			text(itemName) \
 	type		ITEM_TYPE_BUTTON \
 	textfont	UI_FONT_OBJECTIVE \
 	textstyle	ITEM_TEXTSTYLE_SHADOWED \
@@ -288,12 +288,12 @@ itemDef\
 		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_22")), 310, 285, scriptMenuResponse "select:22";, "22")
 		VOTE_MAP_BUTTON(text(dvarString("sr_votemap_23")), 310, 295, scriptMenuResponse "select:23";, "23")
 
-		DR_VOTEMAP_BUTTON( "13", 547, (80 + (30 * 0)), 102, 30, "Call Vote", scriptMenuResponse "vote:map"; close self;, 1)
-		DR_VOTEMAP_BUTTON( "14", 547, (80 + (30 * 1)), 102, 30, "^8End Map", scriptMenuResponse "vote:endmap"; close self;, 1)
-		DR_VOTEMAP_BUTTON( "15", 547, (80 + (30 * 2)), 102, 30, "^8SR#C & KC", scriptMenuResponse "vote:src"; close self;, 1)
+		DR_VOTEMAP_BUTTON("13", 547, (80 + (30 * 0)), 102, 30, "Call Vote", scriptMenuResponse "vote:map"; close self;, 1)
+		DR_VOTEMAP_BUTTON("14", 547, (80 + (30 * 1)), 102, 30, "^8End Map", scriptMenuResponse "vote:endmap"; close self;, 1)
+		DR_VOTEMAP_BUTTON("15", 547, (80 + (30 * 2)), 102, 30, "^8SR#C & KC", scriptMenuResponse "vote:src"; close self;, 1)
 
-		DR_VOTEMAP_BUTTON( "19", 547, (80 + (30 * 6)), 102, 30, "^8Time +10", scriptMenuResponse "vote:add10"; close self;, 1)
-		DR_VOTEMAP_BUTTON( "20", 547, (80 + (30 * 7)), 102, 30, "^8Time +20", scriptMenuResponse "vote:add20"; close self;, 1)
+		DR_VOTEMAP_BUTTON("19", 547, (80 + (30 * 6)), 102, 30, "^8Time +10", scriptMenuResponse "vote:add10"; close self;, 1)
+		DR_VOTEMAP_BUTTON("20", 547, (80 + (30 * 7)), 102, 30, "^8Time +20", scriptMenuResponse "vote:add20"; close self;, 1)
 
 		itemdef
 		{

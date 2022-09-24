@@ -1,14 +1,14 @@
 #include "ui/menudef.h"
 
-#include "ui_mp/menustyle.inc"
+#include "ui/includes/menustyle.inc"
 #include "ui/choices_setup_common.menu"
 
-#include "ui_mp/sr_common.inc"
+#include "ui/includes/sr.inc"
 
-#define DR_STUFF_BUTTON( id, x, y, w, h, itemName, itemAction, visArg ) \
-		DR_STUFF_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, ;, ;, visArg )
+#define DR_STUFF_BUTTON(id, x, y, w, h, itemName, itemAction, visArg) \
+		DR_STUFF_BUTTON_EXT(id, x, y, w, h, itemName, itemAction, ;, ;, visArg)
 
-#define DR_STUFF_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, onItemEnter, onItemExit, visArg ) \
+#define DR_STUFF_BUTTON_EXT(id, x, y, w, h, itemName, itemAction, onItemEnter, onItemExit, visArg) \
 itemDef \
 { \
 	visible			visArg \
@@ -39,7 +39,7 @@ itemDef \
 	rect		x y w h DR_BUTTON_ALIGN_LEFT \
 	backcolor	0.137 0 0.239 0.5 \
 	forecolor	1 1 1 1 \
-	exp			text( itemName ) \
+	exp			text(itemName) \
 	type		ITEM_TYPE_BUTTON \
 	textfont	UI_FONT_OBJECTIVE \
 	textstyle	ITEM_TEXTSTYLE_SHADOWED \
@@ -68,10 +68,10 @@ itemDef \
 	} \
 }
 
-#define STUFF_BUTTON( id, x, y, w, h, itemName, itemAction, visArg ) \
-		STUFF_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, ;, ;, visArg )
+#define STUFF_BUTTON(id, x, y, w, h, itemName, itemAction, visArg) \
+		STUFF_BUTTON_EXT(id, x, y, w, h, itemName, itemAction, ;, ;, visArg)
 
-#define STUFF_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, onItemEnter, onItemExit, visArg ) \
+#define STUFF_BUTTON_EXT(id, x, y, w, h, itemName, itemAction, onItemEnter, onItemExit, visArg) \
 itemDef \
 { \
 	visible			visArg \
@@ -102,7 +102,7 @@ itemDef \
 	rect		x y w h DR_BUTTON_ALIGN_LEFT \
 	backcolor	0.137 0 0.239 0.5 \
 	forecolor	1 1 1 1 \
-	exp			text( itemName ) \
+	exp			text(itemName) \
 	type		ITEM_TYPE_BUTTON \
 	textfont	UI_FONT_OBJECTIVE \
 	textstyle	ITEM_TEXTSTYLE_SHADOWED \
@@ -146,7 +146,7 @@ itemDef \
 		{
 			close team_select;
 		}
-		onESC
+		onEsc
 		{
 			close self;
 		}
@@ -192,14 +192,14 @@ itemDef \
 			decoration
 		}
 
-		DR_STUFF_BUTTON( "1", 205, 90, 120, 25, "^8Weapons", scriptMenuResponse "weapon";, 1 )
-		DR_STUFF_BUTTON( "2", 205, 120, 120, 25, "^8Characters", scriptMenuResponse "character";, 1 )
-		DR_STUFF_BUTTON( "3", 205, 150, 120, 25, "^8Sprays", scriptMenuResponse "spray";, 1 )
-		DR_STUFF_BUTTON( "4", 205, 180, 120, 25, "^8Knifes", scriptMenuResponse "knife";, 1 )
-		DR_STUFF_BUTTON( "5", 205, 210, 120, 25, "^8Knife Skins", scriptMenuResponse "knife_skin";, 1 )
-		DR_STUFF_BUTTON( "6", 205, 240, 120, 25, "^8Gloves", scriptMenuResponse "glove";, 1 )
-		DR_STUFF_BUTTON( "7", 205, 270, 120, 25, "^8Effects", scriptMenuResponse "fx";, 1 )
-		DR_STUFF_BUTTON( "8", 205, 300, 120, 25, "^8Themes", scriptMenuResponse "theme";, 1 )
+		DR_STUFF_BUTTON("1", 205, 90, 120, 25, "^8Weapons", scriptMenuResponse "weapon";, 1)
+		DR_STUFF_BUTTON("2", 205, 120, 120, 25, "^8Characters", scriptMenuResponse "character";, 1)
+		DR_STUFF_BUTTON("3", 205, 150, 120, 25, "^8Sprays", scriptMenuResponse "spray";, 1)
+		DR_STUFF_BUTTON("4", 205, 180, 120, 25, "^8Knifes", scriptMenuResponse "knife";, 1)
+		DR_STUFF_BUTTON("5", 205, 210, 120, 25, "^8Knife Skins", scriptMenuResponse "knife_skin";, 1)
+		DR_STUFF_BUTTON("6", 205, 240, 120, 25, "^8Gloves", scriptMenuResponse "glove";, 1)
+		DR_STUFF_BUTTON("7", 205, 270, 120, 25, "^8Effects", scriptMenuResponse "fx";, 1)
+		DR_STUFF_BUTTON("8", 205, 300, 120, 25, "^8Themes", scriptMenuResponse "theme";, 1)
 	}
 
 	menuDef
@@ -279,16 +279,16 @@ itemDef \
 			decoration
 		}
 
-		STUFF_BUTTON( "1", 205, 90, 120, 25, dvarString("sr_customize_0"), scriptMenuResponse "pick:0";, 1 )
-		STUFF_BUTTON( "2", 205, 120, 120, 25, dvarString("sr_customize_1"), scriptMenuResponse "pick:1";, 1 )
-		STUFF_BUTTON( "3", 205, 150, 120, 25, dvarString("sr_customize_2"), scriptMenuResponse "pick:2";, 1 )
-		STUFF_BUTTON( "4", 205, 180, 120, 25, dvarString("sr_customize_3"), scriptMenuResponse "pick:3";, 1 )
-		STUFF_BUTTON( "5", 205, 210, 120, 25, dvarString("sr_customize_4"), scriptMenuResponse "pick:4";, 1 )
-		STUFF_BUTTON( "6", 205, 240, 120, 25, dvarString("sr_customize_5"), scriptMenuResponse "pick:5";, 1 )
-		STUFF_BUTTON( "7", 205, 270, 120, 25, dvarString("sr_customize_6"), scriptMenuResponse "pick:6";, 1 )
-		STUFF_BUTTON( "8", 205, 300, 120, 25, dvarString("sr_customize_7"), scriptMenuResponse "pick:7";, 1 )
-		STUFF_BUTTON( "9", 205, 330, 120, 25, dvarString("sr_customize_8"), scriptMenuResponse "pick:8";, 1 )
-		STUFF_BUTTON( "10", 205, 360, 120, 25, dvarString("sr_customize_9"), scriptMenuResponse "pick:9";, 1 )
+		STUFF_BUTTON("1", 205, 90, 120, 25, dvarString("sr_customize_0"), scriptMenuResponse "pick:0";, 1)
+		STUFF_BUTTON("2", 205, 120, 120, 25, dvarString("sr_customize_1"), scriptMenuResponse "pick:1";, 1)
+		STUFF_BUTTON("3", 205, 150, 120, 25, dvarString("sr_customize_2"), scriptMenuResponse "pick:2";, 1)
+		STUFF_BUTTON("4", 205, 180, 120, 25, dvarString("sr_customize_3"), scriptMenuResponse "pick:3";, 1)
+		STUFF_BUTTON("5", 205, 210, 120, 25, dvarString("sr_customize_4"), scriptMenuResponse "pick:4";, 1)
+		STUFF_BUTTON("6", 205, 240, 120, 25, dvarString("sr_customize_5"), scriptMenuResponse "pick:5";, 1)
+		STUFF_BUTTON("7", 205, 270, 120, 25, dvarString("sr_customize_6"), scriptMenuResponse "pick:6";, 1)
+		STUFF_BUTTON("8", 205, 300, 120, 25, dvarString("sr_customize_7"), scriptMenuResponse "pick:7";, 1)
+		STUFF_BUTTON("9", 205, 330, 120, 25, dvarString("sr_customize_8"), scriptMenuResponse "pick:8";, 1)
+		STUFF_BUTTON("10", 205, 360, 120, 25, dvarString("sr_customize_9"), scriptMenuResponse "pick:9";, 1)
 
 		itemdef
 		{

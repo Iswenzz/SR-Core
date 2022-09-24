@@ -1,17 +1,18 @@
 #include "ui/menudef.h"
-#include "ui_mp/common_macro.inc"
+#include "ui/includes/common.inc"
 #define OPTIONS_STYLE			1
-#include "ui_mp/menustyle.inc"
+#include "ui/includes/menustyle.inc"
 #include "ui/choices_setup_common.menu"
 
 {
-	menuDef 
+	menuDef
 	{
 		name			options_sound
 		fullScreen		0
 		rect			0 0 640 480
 		focusColor		COLOR_FOCUSED
 		soundloop		""
+
 		onOpen
 		{
 			close options_look;
@@ -36,13 +37,15 @@
 			exec "setfromdvar ui_snd_enableEq	snd_enableEq";
 			exec "setfromdvar ui_outputConfig	snd_outputConfiguration";
 		}
+
 		onClose
 		{
 			setLocalVarBool ui_hideBack 0;
 		}
-		onESC 
-		{ 
-			close self;		
+
+		onEsc
+		{
+			close self;
 		}
 
 		// Frame background
@@ -59,6 +62,7 @@
 			visible			1
 			decoration
 		}
+
 		itemDef
 		{
 			style			WINDOW_STYLE_SHADER
@@ -72,16 +76,16 @@
 			decoration
 		}
 
-		#include "ui_mp/leftside_options.inc"
-		
-		CHOICE_SECTION_TITLE( 21, "@MENU_SOUND" )
+		#include "ui/includes/options.inc"
 
-		CHOICE_DVARSLIDER( 22, "@MENU_MASTER_VOLUME", snd_volume, 0.8, 0.0, 1.0, ; )
-		CHOICE_DVARFLOATLIST_VIS( 23, "@MENU_SOUND_EQ", ui_snd_enableEq, { "@MENU_OFF" 0 "@MENU_ON" 1 }, setLocalVarBool ui_showApply 1, when( ( !dvarint( sv_running ) || dvarInt( ui_allow_graphic_change ) ) && dvarInt( arcademode ) == 0 ); )
-		CHOICE_DVARFLOATLIST_VIS( 24, "@MENU_SOUND_QUALITY", ui_snd_khz, { "@MENU_11KHZ" 11 "@MENU_22KHZ" 22 "@MENU_44KHZ" 44 }, setLocalVarBool ui_showApply 1, when( ( !dvarint( sv_running ) || dvarInt( ui_allow_graphic_change ) ) && dvarInt( arcademode ) == 0 ); )
-		CHOICE_DVARSTRINGLIST_VIS( 25, "@MENU_SPEAKER_CONFIG", ui_outputConfig, { "@MENU_WINDOWS_DEFAULT"; "Windows default"; "@MENU_MONO"; "Mono"; "@MENU_STEREO"; "Stereo"; "@MENU_FOUR_SPEAKERS"; "4 speakers"; "@MENU_FIVE_ONE_SPEAKERS"; "5.1 speakers"; }, setLocalVarBool ui_showApply 1, when( ( !dvarint( sv_running ) || dvarInt( ui_allow_graphic_change ) ) && dvarInt( arcademode ) == 0 ); )
+		CHOICE_SECTION_TITLE(21, "@MENU_SOUND")
 
-		itemDef 
+		CHOICE_DVARSLIDER(22, "@MENU_MASTER_VOLUME", snd_volume, 0.8, 0.0, 1.0, ;)
+		CHOICE_DVARFLOATLIST_VIS(23, "@MENU_SOUND_EQ", ui_snd_enableEq, { "@MENU_OFF" 0 "@MENU_ON" 1 }, setLocalVarBool ui_showApply 1, when((!dvarint(sv_running) || dvarInt(ui_allow_graphic_change)) && dvarInt(arcademode) == 0);)
+		CHOICE_DVARFLOATLIST_VIS(24, "@MENU_SOUND_QUALITY", ui_snd_khz, { "@MENU_11KHZ" 11 "@MENU_22KHZ" 22 "@MENU_44KHZ" 44 }, setLocalVarBool ui_showApply 1, when((!dvarint(sv_running) || dvarInt(ui_allow_graphic_change)) && dvarInt(arcademode) == 0);)
+		CHOICE_DVARSTRINGLIST_VIS(25, "@MENU_SPEAKER_CONFIG", ui_outputConfig, { "@MENU_WINDOWS_DEFAULT"; "Windows default"; "@MENU_MONO"; "Mono"; "@MENU_STEREO"; "Stereo"; "@MENU_FOUR_SPEAKERS"; "4 speakers"; "@MENU_FIVE_ONE_SPEAKERS"; "5.1 speakers"; }, setLocalVarBool ui_showApply 1, when((!dvarint(sv_running) || dvarInt(ui_allow_graphic_change)) && dvarInt(arcademode) == 0);)
+
+		itemDef
 		{
 			name			apply
 			text			"@MENU_APPLY"
@@ -93,16 +97,18 @@
 			textalign		ITEM_ALIGN_LEFT
 			textscale		TEXTSIZE_SMALL
 			textaligny		18
-			visible			when( localVarBool( ui_showApply ) && !dvarint( ui_multiplayer ) );
+			visible			when(localVarBool(ui_showApply) && !dvarint(ui_multiplayer));
 			mouseEnter		{ play "mouse_over"; }
-			action 
+
+			action
 			{
 				play "mouse_click";
-				uiScript openMenuOnDvar g_reloading 0 snd_restart_popmenu; 
+				uiScript openMenuOnDvar g_reloading 0 snd_restart_popmenu;
 				uiScript openMenuOnDvarNot g_reloading 0 vid_restart_popmenu_dead;
-			}	
+			}
 		}
-		itemDef 
+
+		itemDef
 		{
 			name			apply2
 			text			"@MENU_APPLY"
@@ -114,14 +120,15 @@
 			textalign		ITEM_ALIGN_LEFT
 			textscale		TEXTSIZE_SMALL
 			textaligny		18
-			visible			when( localVarBool( ui_showApply ) && dvarint( ui_multiplayer ) );
+			visible			when(localVarBool(ui_showApply) && dvarint(ui_multiplayer));
 			mouseEnter		{ play "mouse_over"; }
-			action 
+
+			action
 			{
 				play "mouse_click";
-				uiScript openMenuOnDvar sv_running 1 vid_restart_popmenu_listen; 
+				uiScript openMenuOnDvar sv_running 1 vid_restart_popmenu_listen;
 				uiScript openMenuOnDvarNot sv_running 1 snd_restart_popmenu;
-			}	
+			}
 		}
 	}
 }

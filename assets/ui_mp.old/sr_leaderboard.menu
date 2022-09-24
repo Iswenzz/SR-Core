@@ -1,11 +1,11 @@
 #include "ui/menudef.h"
-#include "ui_mp/menustyle.inc"
-#include "ui_mp/sr_common.inc"
+#include "ui/includes/menustyle.inc"
+#include "ui/includes/sr.inc"
 
-#define DR_LEADERBOARD_BUTTON( id, x, y, w, h, itemName, itemAction, visArg ) \
-		DR_LEADERBOARD_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, ;, ;, visArg )
+#define DR_LEADERBOARD_BUTTON(id, x, y, w, h, itemName, itemAction, visArg) \
+		DR_LEADERBOARD_BUTTON_EXT(id, x, y, w, h, itemName, itemAction, ;, ;, visArg)
 
-#define DR_LEADERBOARD_BUTTON_EXT( id, x, y, w, h, itemName, itemAction, onItemEnter, onItemExit, visArg ) \
+#define DR_LEADERBOARD_BUTTON_EXT(id, x, y, w, h, itemName, itemAction, onItemEnter, onItemExit, visArg) \
 itemDef \
 { \
 	visible			visArg \
@@ -30,7 +30,7 @@ itemDef \
 	rect		x y w h DR_BUTTON_ALIGN_LEFT \
 	backcolor	0.137 0 0.239 0.5 \
 	forecolor	1 1 1 1 \
-	exp			text( itemName ) \
+	exp			text(itemName) \
 	type		ITEM_TYPE_BUTTON \
 	textfont	UI_FONT_OBJECTIVE \
 	textstyle	ITEM_TEXTSTYLE_SHADOWED \
@@ -300,7 +300,7 @@ itemDef \
 			visible			1
 			rect 			295 65 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("leaderboard_numbers_0"))
+			exp             text(dvarString("leaderboard_numbers_0"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -312,7 +312,7 @@ itemDef \
 			visible			1
 			rect 			320 65 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("leaderboard_names_0"))
+			exp             text(dvarString("leaderboard_names_0"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -324,7 +324,7 @@ itemDef \
 			visible			1
 			rect 			410 65 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		0 1 1 1
-			exp             text( dvarString("leaderboard_values_0"))
+			exp             text(dvarString("leaderboard_values_0"))
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
@@ -337,7 +337,7 @@ itemDef \
 			visible			1
 			rect 			295 209 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("leaderboard_numbers_1"))
+			exp             text(dvarString("leaderboard_numbers_1"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -349,7 +349,7 @@ itemDef \
 			visible			1
 			rect 			320 209 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("leaderboard_names_1"))
+			exp             text(dvarString("leaderboard_names_1"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -361,7 +361,7 @@ itemDef \
 			visible			1
 			rect 			410 209 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		0 1 1 1
-			exp             text( dvarString("leaderboard_values_1"))
+			exp             text(dvarString("leaderboard_values_1"))
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
@@ -374,7 +374,7 @@ itemDef \
 			visible			1
 			rect 			295 353 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("leaderboard_numbers_2"))
+			exp             text(dvarString("leaderboard_numbers_2"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -386,7 +386,7 @@ itemDef \
 			visible			1
 			rect 			320 353 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		1 1 1 1
-			exp             text( dvarString("leaderboard_names_2"))
+			exp             text(dvarString("leaderboard_names_2"))
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		0.3
@@ -398,7 +398,7 @@ itemDef \
 			visible			1
 			rect 			410 353 200 100 DR_BUTTON_ALIGN_LEFT
 			forecolor		0 1 1 1
-			exp             text( dvarString("leaderboard_values_2"))
+			exp             text(dvarString("leaderboard_values_2"))
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
@@ -407,22 +407,22 @@ itemDef \
 		}
 
 		// Leaderboards
-		DR_LEADERBOARD_BUTTON( "13", 547, (80 + (30 * 0)), 102, 30, dvarString("normal_0_name"), scriptMenuResponse "way:normal_0";, when(dvarString("normal_0")=="1") )
-		DR_LEADERBOARD_BUTTON( "14", 547, (80 + (30 * 1)), 102, 30, dvarString("normal_1_name"), scriptMenuResponse "way:normal_1";, when(dvarString("normal_1")=="1") )
-		DR_LEADERBOARD_BUTTON( "15", 547, (80 + (30 * 2)), 102, 30, dvarString("normal_2_name"), scriptMenuResponse "way:normal_2";, when(dvarString("normal_2")=="1") )
-		DR_LEADERBOARD_BUTTON( "16", 547, (80 + (30 * 3)), 102, 30, dvarString("normal_3_name"), scriptMenuResponse "way:normal_3";, when(dvarString("normal_3")=="1") )
-		DR_LEADERBOARD_BUTTON( "17", 547, (80 + (30 * 4)), 102, 30, dvarString("normal_4_name"), scriptMenuResponse "way:normal_4";, when(dvarString("normal_4")=="1") )
-		DR_LEADERBOARD_BUTTON( "18", 547, (80 + (30 * 5)), 102, 30, dvarString("normal_5_name"), scriptMenuResponse "way:normal_5";, when(dvarString("normal_5")=="1") )
-		DR_LEADERBOARD_BUTTON( "19", 547, (80 + (30 * 7)), 102, 30, dvarString("secret_0_name"), scriptMenuResponse "way:secret_0";, when(dvarString("secret_0")=="1") )
-		DR_LEADERBOARD_BUTTON( "20", 547, (80 + (30 * 8)), 102, 30, dvarString("secret_1_name"), scriptMenuResponse "way:secret_1";, when(dvarString("secret_1")=="1") )
-		DR_LEADERBOARD_BUTTON( "21", 547, (80 + (30 * 9)), 102, 30, dvarString("secret_2_name"), scriptMenuResponse "way:secret_2";, when(dvarString("secret_2")=="1") )
-		DR_LEADERBOARD_BUTTON( "22", 547, (80 + (30 * 10)), 102, 30, dvarString("secret_3_name"), scriptMenuResponse "way:secret_3";, when(dvarString("secret_3")=="1") )
-		DR_LEADERBOARD_BUTTON( "23", 547, (80 + (30 * 11)), 102, 30, dvarString("secret_4_name"), scriptMenuResponse "way:secret_4";, when(dvarString("secret_4")=="1") )
-		DR_LEADERBOARD_BUTTON( "24", 547, (80 + (30 * 12)), 102, 30, dvarString("secret_5_name"), scriptMenuResponse "way:secret_5";, when(dvarString("secret_5")=="1") )
+		DR_LEADERBOARD_BUTTON("13", 547, (80 + (30 * 0)), 102, 30, dvarString("normal_0_name"), scriptMenuResponse "way:normal_0";, when(dvarString("normal_0")=="1"))
+		DR_LEADERBOARD_BUTTON("14", 547, (80 + (30 * 1)), 102, 30, dvarString("normal_1_name"), scriptMenuResponse "way:normal_1";, when(dvarString("normal_1")=="1"))
+		DR_LEADERBOARD_BUTTON("15", 547, (80 + (30 * 2)), 102, 30, dvarString("normal_2_name"), scriptMenuResponse "way:normal_2";, when(dvarString("normal_2")=="1"))
+		DR_LEADERBOARD_BUTTON("16", 547, (80 + (30 * 3)), 102, 30, dvarString("normal_3_name"), scriptMenuResponse "way:normal_3";, when(dvarString("normal_3")=="1"))
+		DR_LEADERBOARD_BUTTON("17", 547, (80 + (30 * 4)), 102, 30, dvarString("normal_4_name"), scriptMenuResponse "way:normal_4";, when(dvarString("normal_4")=="1"))
+		DR_LEADERBOARD_BUTTON("18", 547, (80 + (30 * 5)), 102, 30, dvarString("normal_5_name"), scriptMenuResponse "way:normal_5";, when(dvarString("normal_5")=="1"))
+		DR_LEADERBOARD_BUTTON("19", 547, (80 + (30 * 7)), 102, 30, dvarString("secret_0_name"), scriptMenuResponse "way:secret_0";, when(dvarString("secret_0")=="1"))
+		DR_LEADERBOARD_BUTTON("20", 547, (80 + (30 * 8)), 102, 30, dvarString("secret_1_name"), scriptMenuResponse "way:secret_1";, when(dvarString("secret_1")=="1"))
+		DR_LEADERBOARD_BUTTON("21", 547, (80 + (30 * 9)), 102, 30, dvarString("secret_2_name"), scriptMenuResponse "way:secret_2";, when(dvarString("secret_2")=="1"))
+		DR_LEADERBOARD_BUTTON("22", 547, (80 + (30 * 10)), 102, 30, dvarString("secret_3_name"), scriptMenuResponse "way:secret_3";, when(dvarString("secret_3")=="1"))
+		DR_LEADERBOARD_BUTTON("23", 547, (80 + (30 * 11)), 102, 30, dvarString("secret_4_name"), scriptMenuResponse "way:secret_4";, when(dvarString("secret_4")=="1"))
+		DR_LEADERBOARD_BUTTON("24", 547, (80 + (30 * 12)), 102, 30, dvarString("secret_5_name"), scriptMenuResponse "way:secret_5";, when(dvarString("secret_5")=="1"))
 
 		// Modes
-		DR_LEADERBOARD_BUTTON( "25", 215, 230, 60, 20, "190", scriptMenuResponse "mode:190";, 1 )
-		DR_LEADERBOARD_BUTTON( "26", 215, 260, 60, 20, "210", scriptMenuResponse "mode:210";, 1 )
+		DR_LEADERBOARD_BUTTON("25", 215, 230, 60, 20, "190", scriptMenuResponse "mode:190";, 1)
+		DR_LEADERBOARD_BUTTON("26", 215, 260, 60, 20, "210", scriptMenuResponse "mode:210";, 1)
 
 		itemDef
 		{

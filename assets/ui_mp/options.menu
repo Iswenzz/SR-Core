@@ -1,30 +1,36 @@
 #include "ui/menudef.h"
-#include "ui_mp/common_macro.inc"
+#include "ui/includes/common.inc"
 #define OPTIONS_STYLE			1
-#include "ui_mp/menustyle.inc"
+#include "ui/includes/menustyle.inc"
 #include "ui/choices_setup_common.menu"
 
 {
-	menuDef 
+	menuDef
 	{
 		name			main_controls
 		fullScreen		0
 		rect			0 0 640 480
 		focusColor		COLOR_FOCUSED
 		soundloop		""
+
 		onOpen
 		{
 			setLocalVarBool ui_showApply 0;
 			setLocalVarBool ui_hideBack 1;
-			
+
 			setitemcolor fadebox backcolor 0 0 0 1;
 			fadeout fadebox ;
 			setdvar g_reloading "0";
 		}
-		onclose{ setLocalVarBool ui_hideBack 0; }
-		onESC 
-		{ 
-			close self;		
+
+		onClose
+		{
+			setLocalVarBool ui_hideBack 0;
+		}
+
+		onEsc
+		{
+			close self;
 		}
 
 		// Frame background
@@ -54,33 +60,38 @@
 			decoration
 		}
 
-		#include "ui_mp/leftside_controls.inc"
-	}	
-	
+		#include "ui/includes/controls.inc"
+	}
+
 	#undef CHOICE_SIZE_X
 	#define CHOICE_SIZE_X 				220
-	
 
-	menuDef 
+	menuDef
 	{
 		name			main_options
 		fullScreen		0
 		rect			0 0 640 480
 		focusColor		COLOR_FOCUSED
 		soundloop		""
+
 		onOpen
 		{
 			setLocalVarBool ui_showApply 0;
 			setLocalVarBool ui_hideBack 1;
-			
+
 			setitemcolor fadebox backcolor 0 0 0 1;
 			fadeout fadebox;
 			setdvar g_reloading "0";
 		}
-		onclose{ setLocalVarBool ui_hideBack 0; }
-		onESC 
-		{ 
-			close self;		
+
+		onClose
+		{
+			setLocalVarBool ui_hideBack 0;
+		}
+
+		onEsc
+		{
+			close self;
 		}
 
 		// Frame background
@@ -97,6 +108,7 @@
 			visible			1
 			decoration
 		}
+
 		itemDef
 		{
 			style			WINDOW_STYLE_SHADER
@@ -110,6 +122,6 @@
 			decoration
 		}
 
-		#include "ui_mp/leftside_options.inc"
+		#include "ui/includes/options.inc"
 	}
 }

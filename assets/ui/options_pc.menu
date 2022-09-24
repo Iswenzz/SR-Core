@@ -24,7 +24,6 @@
 		onOpen
 		{
 			setitemcolor fadebox backcolor 0 0 0 1;
-//			play "music_mainmenu";
 			fadeout fadebox ;
 			setdvar ui_background "background_american_w";
 			setdvar ui_logo_show "1";
@@ -32,6 +31,7 @@
 			setdvar ui_separator_show "1";
 			setdvar ui_background_gradient_show "0";
 		}
+
 		onClose
 		{
 			close options_look;
@@ -50,7 +50,8 @@
 			close options_graphics_texture;
 			close options_control_defaults;
 		}
-		onESC
+
+		onEsc
 		{
 			close self;
 		}
@@ -69,6 +70,7 @@
 			visible			1
 			decoration
 		}
+
 		itemDef
 		{
 			style			WINDOW_STYLE_SHADER
@@ -86,23 +88,21 @@
 		#include "ui/background_ingame.menu"
 #endif
 
+		CHOICE_MENU_TITLE("@MENU_OPTIONS")
 
+		CHOICE_SECTION_TITLE(1, "@MENU_CONTROLS")
 
-		CHOICE_MENU_TITLE( "@MENU_OPTIONS" )
-		
-		CHOICE_SECTION_TITLE( 1, "@MENU_CONTROLS" )
+		CHOICE_BUTTON(2, "@MENU_LOOK", open options_look)
+		CHOICE_BUTTON(3, "@MENU_MOVE", open options_move)
+		CHOICE_BUTTON(4, "@MENU_SHOOT", open options_shoot)
+		CHOICE_BUTTON(5, "@MENU_INTERACT", open options_misc)
+		CHOICE_BUTTON(6, "@MENU_SET_DEFAULT_CONTROLS", open options_control_defaults)
 
-		CHOICE_BUTTON( 2, "@MENU_LOOK", open options_look )
-		CHOICE_BUTTON( 3, "@MENU_MOVE", open options_move )
-		CHOICE_BUTTON( 4, "@MENU_SHOOT", open options_shoot )
-		CHOICE_BUTTON( 5, "@MENU_INTERACT", open options_misc )
-		CHOICE_BUTTON( 6, "@MENU_SET_DEFAULT_CONTROLS", open options_control_defaults )
+		CHOICE_SECTION_TITLE(7, "@MENU_SYSTEM")
 
-		CHOICE_SECTION_TITLE( 7, "@MENU_SYSTEM" )
-
-		CHOICE_BUTTON( 8, "@MENU_GRAPHICS", open options_graphics )
-		CHOICE_BUTTON( 9, "@MENU_SOUND", open options_sound )
-		CHOICE_BUTTON( 10, "@MENU_GAME_OPTIONS", open options_game )
-		CHOICE_BUTTON( 11, "@MENU_RESET_SYSTEM_DEFAULTS", open options_graphics_defaults )
+		CHOICE_BUTTON(8, "@MENU_GRAPHICS", open options_graphics)
+		CHOICE_BUTTON(9, "@MENU_SOUND", open options_sound)
+		CHOICE_BUTTON(10, "@MENU_GAME_OPTIONS", open options_game)
+		CHOICE_BUTTON(11, "@MENU_RESET_SYSTEM_DEFAULTS", open options_graphics_defaults)
 	}
 }

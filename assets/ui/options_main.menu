@@ -2,8 +2,8 @@
 
 #ifdef CONSOLE
 #include "ui/options.menu"
-#endif // #ifdef CONSOLE
+#endif
 
 #ifdef PC
 #include "ui/options_pc.menu"
-#endif // #ifdef PC
+#endif

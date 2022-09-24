@@ -1,19 +1,20 @@
 #include "ui/menudef.h"
-#include "ui_mp/common_macro.inc"
+#include "ui/includes/common.inc"
 
 #define OPTIONS_STYLE			1
 #define CHOICE_SEP_1			23
 
-#include "ui_mp/menustyle.inc"
+#include "ui/includes/menustyle.inc"
 #include "ui/choices_setup_common.menu"
 {
-	menuDef 
+	menuDef
 	{
 		name			options_misc
 		fullScreen		0
 		rect			0 0 640 480
 		focusColor		COLOR_FOCUSED
 		soundloop		""
+
 		onOpen
 		{
 			close options_look;
@@ -33,13 +34,15 @@
 
 			setLocalVarBool ui_hideBack 1;
 		}
+
 		onClose
 		{
 			setLocalVarBool ui_hideBack 0;
 		}
-		onESC 
-		{ 
-			close self;		
+
+		onEsc
+		{
+			close self;
 		}
 
 		// Frame background
@@ -56,6 +59,7 @@
 			visible			1
 			decoration
 		}
+
 		itemDef
 		{
 			style			WINDOW_STYLE_SHADER
@@ -69,18 +73,16 @@
 			decoration
 		}
 
-		#include "ui_mp/leftside_controls.inc"
-		
-		CHOICE_SECTION_TITLE( 21, "@MENU_INTERACT" )
+		#include "ui/includes/controls.inc"
 
-		CHOICE_BIND( 22, "@MENU_USE", "+activate", ; )
-		CHOICE_BIND( 23, "@MENU_NIGHT_VISION", "+actionslot 1", ; )
-		
-		CHOICE_SEPARATOR( CHOICE_SEP_1 )
-		CHOICE_BIND( 24, "@MENU_SCREENSHOT", "screenshotjpeg", ; )
-		CHOICE_BIND( 25, "@MENU_SHOW_OBJECTIVES_SCORES", "+scores", ; )
+		CHOICE_SECTION_TITLE(21, "@MENU_INTERACT")
 
-		//CHOICE_BACK( "@MENU_BACK", close self )
+		CHOICE_BIND(22, "@MENU_USE", "+activate", ;)
+		CHOICE_BIND(23, "@MENU_NIGHT_VISION", "+actionslot 1", ;)
+
+		CHOICE_SEPARATOR(CHOICE_SEP_1)
+		CHOICE_BIND(24, "@MENU_SCREENSHOT", "screenshotjpeg", ;)
+		CHOICE_BIND(25, "@MENU_SHOW_OBJECTIVES_SCORES", "+scores", ;)
 
 		CHOICE_KEYBINDHELP
 	}
