@@ -2,7 +2,7 @@
 
 #define CHOICE_SIZE_X		180
 #define CHOICE_SIZE_Y		20
-#include "ui/choices_setup_common.menu"
+#include "ui/templates/choices_setup_common.menu"
 
 {
 	menuDef
@@ -85,7 +85,7 @@
 		}
 
 #ifdef OPTIONS_INGAME
-		#include "ui/background_ingame.menu"
+		#include "ui/templates/background_ingame.menu"
 #endif
 
 		CHOICE_MENU_TITLE("@MENU_OPTIONS")

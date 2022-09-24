@@ -3,7 +3,7 @@
 #define OPTIONS_STYLE			1
 
 #include "ui/includes/menustyle.inc"
-#include "ui/choices_setup_common.menu"
+#include "ui/templates/choices_setup_common.menu"
 
 {
 	menuDef

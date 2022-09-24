@@ -840,6 +840,6 @@
 		fullScreen		0
 		visible			1
 
-		#include "ui/safearea.menu"
+		#include "ui/templates/safearea.menu"
 	}
 }

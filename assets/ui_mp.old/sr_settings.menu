@@ -1,6 +1,6 @@
 #include "ui/menudef.h"
 #include "ui/includes/menustyle.inc"
-#include "ui/choices_setup_common.menu"
+#include "ui/templates/choices_setup_common.menu"
 #include "ui/includes/sr.inc"
 
 #define DR_SETTINGS_BUTTON(id, x, y, w, h, itemName, itemAction, visArg) \

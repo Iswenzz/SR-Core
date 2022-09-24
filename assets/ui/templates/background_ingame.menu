@@ -7,4 +7,4 @@ itemDef
 	decoration
 }
 
-#include "ui/navcontrols.menu"
+#include "ui/templates/navcontrols.menu"

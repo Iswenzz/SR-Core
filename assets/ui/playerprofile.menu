@@ -8,7 +8,7 @@
 
 #define STYLE_PC					1
 #include "ui/includes/menustyle.inc"
-#include "ui/choices_setup_common.menu"
+#include "ui/templates/choices_setup_common.menu"
 
 #undef	CHOICE_SIZE_X
 #define CHOICE_SIZE_X				320
@@ -236,7 +236,7 @@
 	#define CHOICE_GROUP			"profile_popup"
 
 	#include "ui/includes/popup.inc"
-	#include "ui/choices_setup_popmenu.menu"
+	#include "ui/templates/choices_setup_popmenu.menu"
 
 	#undef	CHOICE_SIZE_X
 	#define CHOICE_SIZE_X				320

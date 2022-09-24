@@ -7,10 +7,10 @@
 #define CHOICE_GROUP			"errors"
 
 #include "ui/includes/menustyle.inc"
-#include "ui/choices_setup_common.menu"
+#include "ui/templates/choices_setup_common.menu"
 
 #include "ui/includes/popup.inc"
-#include "ui/choices_setup_popmenu.menu"
+#include "ui/templates/choices_setup_popmenu.menu"
 
 #undef CHOICE_SIZE_X
 #define CHOICE_SIZE_X			520
@@ -443,7 +443,7 @@
 			}
 		}
 
-		#include "ui/safearea.menu"
+		#include "ui/templates/safearea.menu"
 	}
 
 	menuDef
@@ -530,7 +530,7 @@
 			}
 		}
 
-		#include "ui/safearea.menu"
+		#include "ui/templates/safearea.menu"
 	}
 
 }
