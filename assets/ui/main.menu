@@ -1,5 +1,5 @@
 #include "ui/headers/menudef.h"
-#include "ui/includes/common_macro.inc"
+#include "ui/includes/common.inc"
 
 #define CHOICE_X_START			0
 #define CHOICE_Y_START			0
@@ -11,9 +11,9 @@
 
 #define STYLE_PC	1
 
-#include "ui/includes/menustyle.inc"
+#include "ui/includes/style.inc"
 #include "ui/templates/lnr_setup_common.menu"
-#include "ui/includes/stats_info.inc"
+#include "ui/includes/stats.inc"
 
 #define ui_maincontent_lnr 		1
 #define ui_maincontent_update 	1
@@ -22,18 +22,16 @@
 #define ui_hideback 			1
 #define link_button_vis 		1
 
-// local option vars
 #define ui_showTextureApply 0
 
 {
 	assetGlobalDef
 	{
-		fadeClamp		1.0						// sets the fadeup alpha
-		fadeCycle		1						// how often fade happens in milliseconds
-		fadeAmount		0.1						// amount to adjust alpha per cycle
+		fadeClamp		1.0						// Sets the fadeup alpha
+		fadeCycle		1						// How often fade happens in milliseconds
+		fadeAmount		0.1						// Amount to adjust alpha per cycle
 	}
 
-	// init
 	menuDef
 	{
 		name			"main"
@@ -41,9 +39,9 @@
 		rect			0 0 640 480
 		focusColor		COLOR_FOCUSED
 		soundloop 		"music_mainmenu_mp"
+
 		onOpen
 		{
-			// open main
 			open 	main_text;
 
 			setdvar ui_button_highlight_brightness	"0.5";
@@ -51,17 +49,8 @@
 			setdvar ui_button_outline_brightness	"0.7";
 			setdvar ui_button_outline_radius		"1.0";
 		}
-
-		onClose
-		{
-		}
-
-		onESC
-		{
-		}
 	}
 
-	// main
 	menuDef
 	{
 		name			"main_text"
@@ -78,24 +67,8 @@
 			setLocalVarBool link_button_vis 1;
 		}
 
-		onClose
-		{
-		}
-
-		onESC
-		{
-		}
-
-		// create background for all menus
-		#include "ui/includes/bg.inc"
-
-        //****************************************************************************************************************//
-        //
-        //  Start Navigation
-        //
-        //  Navigation Background + Line
-        //
-        //****************************************************************************************************************//
+		// #include "ui/includes/background.inc"
+		#include "ui/includes/theme.inc"
 
         itemDef
         {
@@ -119,27 +92,15 @@
             decoration
         }
 
-		LNR_BUTTON_VIS(2, "@MENU_JOIN_GAME", 			CLOSE_ALL_SUBNAVS; open serverlist_subnav; open serverlist_browser;		, when(!localvarBool(ui_hideBack)))
-		LNR_BUTTON_VIS(3, "@MENU_START_NEW_SERVER", 	CLOSE_ALL_SUBNAVS; open createserver;									, when(!localvarBool(ui_hideBack)))
+		LNR_BUTTON_VIS(2, "@MENU_JOIN_GAME", CLOSE_ALL_SUBNAVS; open serverlist_subnav; open serverlist_browser;		, when(!localvarBool(ui_hideBack)))
+		LNR_BUTTON_VIS(3, "@MENU_START_NEW_SERVER", CLOSE_ALL_SUBNAVS; open createserver;									, when(!localvarBool(ui_hideBack)))
 
-		LNR_BUTTON_VIS(4, "@MENU_CONTROLS", 			CLOSE_ALL_SUBNAVS; open main_controls;									, when(!localvarBool(ui_hideBack)))
-		LNR_BUTTON_VIS(5, "@MENU_OPTIONS", 			CLOSE_ALL_SUBNAVS; open main_options;									, when(!localvarBool(ui_hideBack)))
+		LNR_BUTTON_VIS(4, "@MENU_CONTROLS", CLOSE_ALL_SUBNAVS; open main_controls;									, when(!localvarBool(ui_hideBack)))
+		LNR_BUTTON_VIS(5, "@MENU_OPTIONS", 	CLOSE_ALL_SUBNAVS; open main_options;									, when(!localvarBool(ui_hideBack)))
 
-		LNR_BUTTON_VIS(6, "@MENU_MODS", 				open mods_menu;															, when(!localvarBool(ui_hideBack)))
-		LNR_BUTTON_VIS(7, "Profile", 					CLOSE_ALL_SUBNAVS; open player_profile;									, when(!localvarBool(ui_hideBack)))
-		LNR_BUTTON_VIS(8, "@MENU_QUIT", 				open quit_popmenu;														, when(!localvarBool(ui_hideBack)))
-
-        #if ui_maincontent_update
-			#undef  ui_maincontent_lnr_X
-			#define ui_maincontent_lnr_X 	0
-			#undef  ui_maincontent_lnr_Y
-			#define ui_maincontent_lnr_Y 	100
-        	#include "ui/includes/main_update.inc";
-		#endif
-
-        /* #if ui_maincontent_lnr
-        	#include "ui/includes/main_content.inc";
-		#endif */
+		LNR_BUTTON_VIS(6, "@MENU_MODS", open mods_menu;															, when(!localvarBool(ui_hideBack)))
+		LNR_BUTTON_VIS(7, "Profile", CLOSE_ALL_SUBNAVS; open player_profile;									, when(!localvarBool(ui_hideBack)))
+		LNR_BUTTON_VIS(8, "@MENU_QUIT", open quit_popmenu;														, when(!localvarBool(ui_hideBack)))
 
 		#define SETUP_ACTION_CREATEACLASS \
 		execnow "statset 260 1"; \

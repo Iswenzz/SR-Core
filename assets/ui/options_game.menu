@@ -1,6 +1,4 @@
-// setup choices
-#include "ui/includes/options_menu_setup.inc"
-// redef any options below, if needed
+#include "ui/includes/options.inc"
 
 {
 	menuDef
@@ -10,6 +8,7 @@
 		rect			NAV_MENU_FULLSCREEN_RECT
 		focusColor		COLOR_FOCUSED
 		soundloop		""
+
 		onOpen
 		{
 			CLOSE_ALL_CONTROLS;
@@ -43,20 +42,12 @@
 			close self;
 		}
 
-		#undef CONTENT_TITLE
-		#define CONTENT_TITLE "@MENU_MULTIPLAYER_OPTIONS"
-		// create container
-		#include "ui/includes/options_container.inc"
-
-		CHOICE_DVARYESNO(1, "@MENU_SHOW_BLOOD", cg_blood, ;) // 22
+		CHOICE_DVARYESNO(1, "@MENU_SHOW_BLOOD", cg_blood, ;)
 		CHOICE_DVARFLOATLIST(2, "@MENU_ENABLE_CONSOLE", monkeytoy, { "@MENU_YES" 0 "@MENU_NO" 1 }, ;)
 		CHOICE_DVARYESNO(3, "@MPUI_PUNKBUSTER", cl_punkbuster, ;)
 		CHOICE_DVARYESNO(4, "@MENU_ALLOW_DOWNLOAD", cl_allowdownload, ;)
-		//CHOICE_SEPARATOR(CHOICE_SEP_1)
 		CHOICE_DVAREDIT_VIS(16, "@MENU_PLAYER_NAME", ui_name, 15, 15, ;, 1)
 		CHOICE_BUTTON(17, "@MENU_ENTER_KEY_CODE", open cdkey_menu;)
-
-		//CHOICE_BACK("@MENU_BACK", close self)
 
 		CHOICE_KEYBINDHELP
 	}

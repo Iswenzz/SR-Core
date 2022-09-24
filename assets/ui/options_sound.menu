@@ -1,6 +1,4 @@
-// setup choices
-#include "ui/includes/options_menu_setup.inc"
-// redef any options below, if needed
+#include "ui/includes/options.inc"
 
 {
 	menuDef
@@ -42,11 +40,6 @@
 			close self;
 		}
 
-		#undef CONTENT_TITLE
-		#define CONTENT_TITLE "@MENU_SOUND"
-		// create container
-		#include "ui/includes/options_container.inc"
-
 		CHOICE_DVARSLIDER(1, "@MENU_MASTER_VOLUME", snd_volume, 0.8, 0.0, 1.0, ;)
 		CHOICE_DVARFLOATLIST_VIS(2, "@MENU_SOUND_EQ", ui_snd_enableEq, { "@MENU_OFF" 0 "@MENU_ON" 1 }, setLocalVarBool ui_showApply 1, when((!dvarint(sv_running) || dvarInt(ui_allow_graphic_change)) && dvarInt(arcademode) == 0);)
 		CHOICE_DVARFLOATLIST_VIS(3, "@MENU_SOUND_QUALITY", ui_snd_khz, { "@MENU_11KHZ" 11 "@MENU_22KHZ" 22 "@MENU_44KHZ" 44 }, setLocalVarBool ui_showApply 1, when((!dvarint(sv_running) || dvarInt(ui_allow_graphic_change)) && dvarInt(arcademode) == 0);)
@@ -56,7 +49,6 @@
 		CHOICE_DVARSLIDER(17, "@MENU_VOICECHAT_RECORD_LEVEL", winvoice_mic_reclevel, 65535, 0, 65535, ;)
 
 		CHOICE_DVARFLOATLIST(18, "@MENU_VOICECHAT_LEVEL_INDICATOR", ui_voiceLevelIndicator, { "" 1 "" 0 }, ;)
-		//PREPROC_TEXT_DRAW_ALIGNED(CHOICE_ORIGIN(18) CHOICE_SIZE_X 20 CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN, -10 22, text "@MENU_VOICECHAT_LEVEL_INDICATOR", CHOICE_TEXTSIZE, 0, 0, ITEM_ALIGN_CENTER, CHOICE_TEXTCOLOR)
 
 		itemDef
 		{
@@ -83,6 +75,7 @@
 			textaligny		18
 			visible			when(localVarBool(ui_showApply) && dvarint(ui_multiplayer));
 			mouseEnter		{ play "mouse_over"; }
+
 			action
 			{
 				play "mouse_click";

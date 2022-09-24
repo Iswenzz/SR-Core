@@ -1,27 +1,10 @@
-#define OPTIONS_HEADING_JOIN_COLOR	0.25 0.25 0.25 0.175//0.9 0.9 0.95 0.175
+#define OPTIONS_HEADING_JOIN_COLOR	0.25 0.25 0.25 0.175
 #define	TAB_BG_COLOR				OPTIONS_HEADING_JOIN_COLOR
 #define	TAB_BORDER_COLOR			0.1 0.1 0.12 0.5
-#define SERVERBROWSER_X_OFFS 		0//(FULLSCEEN_ULTRAWIDE - 780 - 420)
+#define SERVERBROWSER_X_OFFS 		0
 
-/* #define		FILTER_Y_SPACING	20 // height of filters @ top
-#define		FILTER_WIDTH		254
-#define		X_FILTER			-58//-58 //300
-#define		X_FILTERB			(X_FILTER+FILTER_WIDTH)
-#define		Y_FILTER			2
-#define 	ORIGIN_FILTER1		X_FILTER Y_FILTER
-#define 	ORIGIN_FILTER2		X_FILTER (Y_FILTER+FILTER_Y_SPACING)
-#define 	ORIGIN_FILTER3		X_FILTER (Y_FILTER+(FILTER_Y_SPACING*2))
-#define 	ORIGIN_FILTER4		8 (Y_FILTER+(FILTER_Y_SPACING*2))
-
-#define 	ORIGIN_FILTER1B		X_FILTERB Y_FILTER
-#define 	ORIGIN_FILTER2B		X_FILTERB (Y_FILTER+FILTER_Y_SPACING)
-#define 	ORIGIN_FILTER3B		X_FILTERB (Y_FILTER+(FILTER_Y_SPACING*2))
-#define 	ORIGIN_FILTER4B		X_FILTERB (Y_FILTER+(FILTER_Y_SPACING*3)) */
-
-//#define 	TAB_NAME_Y			68
-
-#define TABLETEXT_X			(-SERVERBROWSER_X_OFFS + 4) // -190 - on 1200
-#define TABLE_X				(-SERVERBROWSER_X_OFFS) // 194 - on 1200
+#define TABLETEXT_X			(-SERVERBROWSER_X_OFFS + 4)
+#define TABLE_X				(-SERVERBROWSER_X_OFFS)
 #define TABLE_Y				14
 
 itemDef
@@ -31,7 +14,7 @@ itemDef
 	textstyle		ITEM_TEXTSTYLE_SHADOWED
 	textfont		UI_FONT_NORMAL
 	textscale 		0.25
-	rect 			140 (-SUBNAV_Y_POS + TABLE_Y + 1) 265 18 //ORIGIN_FILTER4 265 18
+	rect 			140 (-SUBNAV_Y_POS + TABLE_Y + 1) 265 18
 	textalign 		ITEM_ALIGN_LEFT
 	textalignx 		0
 	textaligny 		16
@@ -43,23 +26,22 @@ itemDef
 #undef CHOICE_X_COUNT
 #define CHOICE_X_COUNT			6
 
-
 #define WIDTH_PASSWORD		30
 #define WIDTH_HARDWARE		30
 #define WIDTH_SERVER		280 // uw: 370 //208
-#define WIDTH_MAP			96 // uw: 140 //70
-#define WIDTH_PLAYER		60 	//50
-#define WIDTH_TYPE			130	//102
+#define WIDTH_MAP			96  // uw: 140 //70
+#define WIDTH_PLAYER		60 	// 50
+#define WIDTH_TYPE			130	// 102
 #define WIDTH_VOICE			30
 #define WIDTH_PURE			30
-#define WIDTH_MOD			30	//20
+#define WIDTH_MOD			30	// 20
 #define WIDTH_PB			30
 #define WIDTH_PING			50
 
-#define TAB_HEIGHT			24 //16
+#define TAB_HEIGHT			24  // 16
 #define TAB_LABEL_OFFSET	\
 	textalignx 4			\
-	textaligny (TAB_HEIGHT-8) //(TAB_HEIGHT-2)
+	textaligny (TAB_HEIGHT-8)  // (TAB_HEIGHT-2)
 
 #define PASSWORD_X			(TABLE_X+0)
 #define HARDWARE_X			(TABLE_X+WIDTH_PASSWORD+2)
@@ -76,7 +58,6 @@ itemDef
 #define TABLE_HEIGHT		380
 #define TABLE_WIDTH			(PING_X+WIDTH_PING+20)
 
-// table bg color
 itemDef
 {
 	name 		window
@@ -115,7 +96,6 @@ itemDef
 #define RECT_PB				ORIGIN_PB			WIDTH_PB			TABLE_HEIGHT
 #define RECT_PING			ORIGIN_PING 		WIDTH_PING 			TABLE_HEIGHT
 
-//	SERVER LIST COLUMN OUTLINES	=====================================================================
 #define PREPROC_COLUMN_BOX(pname, prect) PREPROC_COLUMN_BOX_RAW(pname, prect, 0 0 0 0)
 #define PREPROC_COLUMN_BOX_RAW(pname, prect, pcolor)\
 	itemDef	{\
@@ -130,30 +110,28 @@ itemDef
 		visible 1	decoration\
 	}
 
-PREPROC_COLUMN_BOX(passwordColumn, ORIGIN_PASSWORD		(WIDTH_PASSWORD+2) 		TABLE_HEIGHT)
-PREPROC_COLUMN_BOX(hardwareColumn, ORIGIN_HARDWARE 	(WIDTH_HARDWARE+2) 		TABLE_HEIGHT)
-PREPROC_COLUMN_BOX(serverColumn,  	ORIGIN_SERVER 		(WIDTH_SERVER+2) 		TABLE_HEIGHT)
-PREPROC_COLUMN_BOX(mapColumn,  	ORIGIN_MAP 			(WIDTH_MAP+2) 			TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(passwordColumn, 	ORIGIN_PASSWORD		(WIDTH_PASSWORD+2) 		TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(hardwareColumn, 	ORIGIN_HARDWARE 	(WIDTH_HARDWARE+2) 		TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(serverColumn, 	ORIGIN_SERVER 		(WIDTH_SERVER+2) 		TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(mapColumn,  		ORIGIN_MAP 			(WIDTH_MAP+2) 			TABLE_HEIGHT)
 PREPROC_COLUMN_BOX(playerColumn,  	ORIGIN_PLAYER 		(WIDTH_PLAYER+2) 		TABLE_HEIGHT)
 PREPROC_COLUMN_BOX(typeColumn,  	ORIGIN_TYPE 		(WIDTH_TYPE+2) 			TABLE_HEIGHT)
 PREPROC_COLUMN_BOX(voiceColumn,  	ORIGIN_VOICE 		(WIDTH_VOICE+2) 		TABLE_HEIGHT)
 PREPROC_COLUMN_BOX(pureColumn,  	ORIGIN_PURE 		(WIDTH_PURE+2) 			TABLE_HEIGHT)
-PREPROC_COLUMN_BOX(modColumn,  	ORIGIN_MOD 			(WIDTH_MOD+2) 			TABLE_HEIGHT)
+PREPROC_COLUMN_BOX(modColumn,  		ORIGIN_MOD 			(WIDTH_MOD+2) 			TABLE_HEIGHT)
 PREPROC_COLUMN_BOX(pbColumn,  		ORIGIN_PB 			(WIDTH_PB+2) 			TABLE_HEIGHT)
-PREPROC_COLUMN_BOX_RAW(pingColumn, ORIGIN_PING 		(WIDTH_PING+2)			TABLE_HEIGHT, 0 0 0.4 .15)
+PREPROC_COLUMN_BOX_RAW(pingColumn, 	ORIGIN_PING 		(WIDTH_PING+2)			TABLE_HEIGHT, 0 0 0.4 .15)
 
-
-// SERVER LIST TEXT ===========================================================
 itemDef
 {
 	name 			serverlist
-	rect 			TABLE_X TABLE_Y (TABLE_WIDTH-8) (TABLE_HEIGHT-17) //TABLE_X TABLE_Y (TABLE_WIDTH-8) (TABLE_HEIGHT-17)
+	rect 			TABLE_X TABLE_Y (TABLE_WIDTH-8) (TABLE_HEIGHT-17) // TABLE_X TABLE_Y (TABLE_WIDTH-8) (TABLE_HEIGHT-17)
 	origin			TABLETEXT_X 22
 	type 			ITEM_TYPE_LISTBOX
 	style 			WINDOW_STYLE_FILLED
 	elementwidth 	120
-	elementheight 	16 // list entry hight
-	textfont		UI_FONT_BIG//UI_FONT_NORMAL
+	elementheight 	16
+	textfont		UI_FONT_BIG
 	textalign 		1
 	textaligny 		0
 	textscale 		0.25
@@ -163,25 +141,13 @@ itemDef
 	backcolor 		0 0 0 0
 	outlinecolor 	OPTIONS_HEADING_JOIN_COLOR
 	visible 		1
-	//		numcols	xpos			xwidth			textlen
-	/* columns	11		(PASSWORD_X-3)	16				20
-					(HARDWARE_X-3)	16				10
-					SERVER_X		WIDTH_SERVER	22
-					MAP_X			WIDTH_MAP		25
-					PLAYER_X		WIDTH_PLAYER	10
-					TYPE_X			WIDTH_TYPE		22
-					VOICE_X			16				14
-					PURE_X			16				10
-					MOD_X			16				20
-					PB_X			WIDTH_PB		20
-					PING_X			WIDTH_PING		20 */
 	columns	11		(PASSWORD_X+6)	16				20
 					(HARDWARE_X+3)	16				10
-					SERVER_X		WIDTH_SERVER	240	//22
-					MAP_X			WIDTH_MAP		64	//25
+					SERVER_X		WIDTH_SERVER	240	// 22
+					MAP_X			WIDTH_MAP		64	// 25
 					PLAYER_X		WIDTH_PLAYER	10
-					TYPE_X			WIDTH_TYPE		40 	//22
-					(VOICE_X+6)		16				14 	// 16				14
+					TYPE_X			WIDTH_TYPE		40 	// 22
+					(VOICE_X+6)		16				14 	// 16 14
 					(PURE_X+6)		16				10
 					(MOD_X+6)		16				20
 					(PB_X+6)		WIDTH_PB		20
@@ -193,406 +159,353 @@ itemDef
 #undef	TABLE_HEIGHT
 #define TABLE_HEIGHT TAB_HEIGHT
 
-// table header columns
-		// PASSWORD ==============================================================
-		itemDef
-		{
-			name password
-			group grpTabs
-			type ITEM_TYPE_BUTTON
-			style WINDOW_STYLE_FILLED
-			rect RECT_PASSWORD
-			forecolor 1 1 1 1
-			backcolor OPTIONS_HEADING_JOIN_COLOR
-			visible 1
-			action
-			{
-				play "mouse_click" ;
-				uiScript ServerSort 0 ;
-				setitemcolor grpTabs backcolor TAB_BG_COLOR ;
-				setitemcolor password backcolor .1 .2 .37 1 ;
-				setitemcolor grpColumn backcolor 0 0 0 0 ;
-				setitemcolor passwordColumn backcolor 0 0 0.4 .15
-			}
-			mouseEnter { show message_sort ; setitemcolor passwordColumn bordercolor 1 1 1 1 ; play "mouse_over" }
-			mouseExit { hide message_sort ; setitemcolor passwordColumn bordercolor TAB_BORDER_COLOR }
-		}
-		itemDef
-		{
-			name passwordicon
-			style WINDOW_STYLE_SHADER
-			rect ORIGIN_PASSWORD 16 16
-			origin 6 4//3 0
-			background "hud_server_locked"
-			visible 1
-			decoration
-		}
+itemDef
+{
+	name password
+	group grpTabs
+	type ITEM_TYPE_BUTTON
+	style WINDOW_STYLE_FILLED
+	rect RECT_PASSWORD
+	forecolor 1 1 1 1
+	backcolor OPTIONS_HEADING_JOIN_COLOR
+	visible 1
+	action
+	{
+		play "mouse_click" ;
+		uiScript ServerSort 0 ;
+		setitemcolor grpTabs backcolor TAB_BG_COLOR ;
+		setitemcolor password backcolor .1 .2 .37 1 ;
+		setitemcolor grpColumn backcolor 0 0 0 0 ;
+		setitemcolor passwordColumn backcolor 0 0 0.4 .15
+	}
+	mouseEnter { show message_sort ; setitemcolor passwordColumn bordercolor 1 1 1 1 ; play "mouse_over" }
+	mouseExit { hide message_sort ; setitemcolor passwordColumn bordercolor TAB_BORDER_COLOR }
+}
 
-		// HARDWARE ==============================================================
-		itemDef
-		{
-			name hardware
-			group grpTabs
-			type ITEM_TYPE_BUTTON
-			style WINDOW_STYLE_FILLED
-			rect RECT_HARDWARE
-			forecolor 1 1 1 1
-			backcolor OPTIONS_HEADING_JOIN_COLOR
-			visible 1
-			action
-			{
-				play "mouse_click" ;
-				uiScript ServerSort 1 ;
-				setitemcolor grpTabs backcolor TAB_BG_COLOR ;
-				setitemcolor hardware backcolor .1 .2 .37 1 ;
-				setitemcolor grpColumn backcolor 0 0 0 0 ;
-				setitemcolor hardwareColumn backcolor 0 0 0.4 .15
-			}
-			mouseEnter { show message_sort ; setitemcolor hardwareColumn bordercolor 1 1 1 1 ; play "mouse_over" }
-			mouseExit { hide message_sort ; setitemcolor hardwareColumn bordercolor TAB_BORDER_COLOR }
-		}
-		itemDef
-		{
-			name hardwareicon
-			style WINDOW_STYLE_SHADER
-			rect ORIGIN_HARDWARE 16 16
-			origin 6 4//3 0
-			background "server_hardware_header"
-			visible 1
-			decoration
-		}
+itemDef
+{
+	name passwordicon
+	style WINDOW_STYLE_SHADER
+	rect ORIGIN_PASSWORD 16 16
+	origin 6 4//3 0
+	background "hud_server_locked"
+	visible 1
+	decoration
+}
 
-		// SERVER ================================================================
-		itemDef
-		{
-			name server
-			group grpTabs
-			text "@MENU_SERVER NAME"
-			TAB_LABEL_OFFSET
-			type ITEM_TYPE_BUTTON
-			textscale 0.25
-			textfont	UI_FONT_NORMAL
-			style WINDOW_STYLE_FILLED
-			rect RECT_SERVER
-			textalign ITEM_ALIGN_LEFT
-			forecolor 1 1 1 1
-			backcolor OPTIONS_HEADING_JOIN_COLOR
-			visible 1
-			action
-			{
-				play "mouse_click" ;
-				uiScript ServerSort 2 ;
-				setitemcolor grpTabs backcolor TAB_BG_COLOR ;
-				setitemcolor server backcolor .1 .2 .37 1 ;
-				setitemcolor grpColumn backcolor 0 0 0 0 ;
-				setitemcolor serverColumn backcolor 0 0 0.4 .15
-			}
-			mouseEnter { show message_sort ; setitemcolor serverColumn bordercolor 1 1 1 1 ; play "mouse_over" }
-			mouseExit { hide message_sort ; setitemcolor serverColumn bordercolor TAB_BORDER_COLOR }
-		}
+itemDef
+{
+	name hardware
+	group grpTabs
+	type ITEM_TYPE_BUTTON
+	style WINDOW_STYLE_FILLED
+	rect RECT_HARDWARE
+	forecolor 1 1 1 1
+	backcolor OPTIONS_HEADING_JOIN_COLOR
+	visible 1
+	action
+	{
+		play "mouse_click" ;
+		uiScript ServerSort 1 ;
+		setitemcolor grpTabs backcolor TAB_BG_COLOR ;
+		setitemcolor hardware backcolor .1 .2 .37 1 ;
+		setitemcolor grpColumn backcolor 0 0 0 0 ;
+		setitemcolor hardwareColumn backcolor 0 0 0.4 .15
+	}
+	mouseEnter { show message_sort ; setitemcolor hardwareColumn bordercolor 1 1 1 1 ; play "mouse_over" }
+	mouseExit { hide message_sort ; setitemcolor hardwareColumn bordercolor TAB_BORDER_COLOR }
+}
 
-		// MAP ===================================================================
-		itemDef
-		{
-			name map
-			group grpTabs
-			type ITEM_TYPE_BUTTON
-			text "@MENU_MAP_NAME"
-			TAB_LABEL_OFFSET
-			textscale 0.25
-			textfont	UI_FONT_NORMAL
-			style WINDOW_STYLE_FILLED
-			rect RECT_MAP
-			textalign ITEM_ALIGN_LEFT
-			backcolor OPTIONS_HEADING_JOIN_COLOR
-			forecolor 1 1 1 1
-			visible 1
-			action
-			{
-				play "mouse_click" ;
-				uiScript ServerSort 3 ;
-				setitemcolor grpTabs backcolor TAB_BG_COLOR ;
-				setitemcolor map backcolor .1 .2 .37 1 ;
-				setitemcolor grpColumn backcolor 0 0 0 0 ;
-				setitemcolor mapColumn backcolor 0 0 .4 .15
-			}
-			mouseEnter { show message_sort ; setitemcolor mapColumn bordercolor 1 1 1 1 ; play "mouse_over"}
-			mouseExit { hide message_sort ; setitemcolor mapColumn bordercolor TAB_BORDER_COLOR }
-		}
+itemDef
+{
+	name hardwareicon
+	style WINDOW_STYLE_SHADER
+	rect ORIGIN_HARDWARE 16 16
+	origin 6 4//3 0
+	background "server_hardware_header"
+	visible 1
+	decoration
+}
 
-		// PLAYERS ===============================================================
-		itemDef
-		{
-			name Players
-			group grpTabs
-			text "@MENU_NUMPLAYERS"
-			TAB_LABEL_OFFSET
-			type ITEM_TYPE_BUTTON
-			textscale 0.25
-			style WINDOW_STYLE_FILLED
-			textfont	UI_FONT_NORMAL
-			rect RECT_PLAYER
-			textalign ITEM_ALIGN_LEFT
-			forecolor 1 1 1 1
-			backcolor OPTIONS_HEADING_JOIN_COLOR
-			visible 1
-			action
-			{
-				play "mouse_click" ;
-				uiScript ServerSort 4 ;
-				setitemcolor grpTabs backcolor TAB_BG_COLOR ;
-				setitemcolor Players backcolor .1 .2 .37 1 ;
-				setitemcolor grpColumn backcolor 0 0 0 0 ;
-				setitemcolor playerColumn backcolor 0 0 .4 .15
-			}
-			mouseEnter { show message_sort ; setitemcolor playerColumn bordercolor 1 1 1 1 ; play "mouse_over"}
-			mouseExit { hide message_sort ; setitemcolor playerColumn bordercolor TAB_BORDER_COLOR }
-		}
+itemDef
+{
+	name server
+	group grpTabs
+	text "@MENU_SERVER NAME"
+	TAB_LABEL_OFFSET
+	type ITEM_TYPE_BUTTON
+	textscale 0.25
+	textfont	UI_FONT_NORMAL
+	style WINDOW_STYLE_FILLED
+	rect RECT_SERVER
+	textalign ITEM_ALIGN_LEFT
+	forecolor 1 1 1 1
+	backcolor OPTIONS_HEADING_JOIN_COLOR
+	visible 1
+	action
+	{
+		play "mouse_click" ;
+		uiScript ServerSort 2 ;
+		setitemcolor grpTabs backcolor TAB_BG_COLOR ;
+		setitemcolor server backcolor .1 .2 .37 1 ;
+		setitemcolor grpColumn backcolor 0 0 0 0 ;
+		setitemcolor serverColumn backcolor 0 0 0.4 .15
+	}
+	mouseEnter { show message_sort ; setitemcolor serverColumn bordercolor 1 1 1 1 ; play "mouse_over" }
+	mouseExit { hide message_sort ; setitemcolor serverColumn bordercolor TAB_BORDER_COLOR }
+}
 
-		// TYPE ==================================================================
-		itemDef
-		{
-			name Type
-			group grpTabs
-			text "@MENU_TYPE1"
-			TAB_LABEL_OFFSET
-			textfont	UI_FONT_NORMAL
-			textscale 0.25
-			type ITEM_TYPE_BUTTON
-			style WINDOW_STYLE_FILLED
-			rect RECT_TYPE
-			textalign ITEM_ALIGN_LEFT
-			backcolor OPTIONS_HEADING_JOIN_COLOR
-			forecolor 1 1 1 1
-			visible 1
-			action
-			{
-				play "mouse_click" ;
-				uiScript ServerSort 5 ;
-				setitemcolor grpTabs backcolor TAB_BG_COLOR ;
-				setitemcolor Type backcolor .1 .2 .37 1 ;
-				setitemcolor grpColumn backcolor 0 0 0 0 ;
-				setitemcolor typeColumn backcolor 0 0 .4 .15
-			}
-			mouseEnter { show message_sort ; setitemcolor typeColumn bordercolor 1 1 1 1 ; play "mouse_over"}
-			mouseExit { hide message_sort ; setitemcolor typeColumn bordercolor TAB_BORDER_COLOR }
-		}
+itemDef
+{
+	name map
+	group grpTabs
+	type ITEM_TYPE_BUTTON
+	text "@MENU_MAP_NAME"
+	TAB_LABEL_OFFSET
+	textscale 0.25
+	textfont	UI_FONT_NORMAL
+	style WINDOW_STYLE_FILLED
+	rect RECT_MAP
+	textalign ITEM_ALIGN_LEFT
+	backcolor OPTIONS_HEADING_JOIN_COLOR
+	forecolor 1 1 1 1
+	visible 1
+	action
+	{
+		play "mouse_click" ;
+		uiScript ServerSort 3 ;
+		setitemcolor grpTabs backcolor TAB_BG_COLOR ;
+		setitemcolor map backcolor .1 .2 .37 1 ;
+		setitemcolor grpColumn backcolor 0 0 0 0 ;
+		setitemcolor mapColumn backcolor 0 0 .4 .15
+	}
+	mouseEnter { show message_sort ; setitemcolor mapColumn bordercolor 1 1 1 1 ; play "mouse_over"}
+	mouseExit { hide message_sort ; setitemcolor mapColumn bordercolor TAB_BORDER_COLOR }
+}
 
-		// VOICE =================================================================
-		itemDef
-		{
-			name voice
-			group grpTabs
-			type ITEM_TYPE_BUTTON
-			style WINDOW_STYLE_FILLED
-			rect RECT_VOICE
-			backcolor OPTIONS_HEADING_JOIN_COLOR
-			forecolor 1 1 1 1
-			visible 1
-			action
-			{
-				play "mouse_click" ;
-				uiScript ServerSort 6;
-				setitemcolor grpTabs backcolor TAB_BG_COLOR ;
-				setitemcolor voice backcolor .1 .2 .37 1 ;
-				setitemcolor grpColumn backcolor 0 0 0 0 ;
-				setitemcolor voiceColumn backcolor 0 0 .4 .15
-			}
-			mouseEnter { show message_sort ; setitemcolor voiceColumn bordercolor 1 1 1 1 ; play "mouse_over"}
-			mouseExit { hide message_sort ; setitemcolor voiceColumn bordercolor TAB_BORDER_COLOR }
-		}
-		itemDef
-		{
-			name voiceicon
-			style WINDOW_STYLE_SHADER
-			rect ORIGIN_VOICE 16 16
-			origin 6 4//3 0
-			background "voice_on"
-			visible 1
-			decoration
-		}
+itemDef
+{
+	name Players
+	group grpTabs
+	text "@MENU_NUMPLAYERS"
+	TAB_LABEL_OFFSET
+	type ITEM_TYPE_BUTTON
+	textscale 0.25
+	style WINDOW_STYLE_FILLED
+	textfont	UI_FONT_NORMAL
+	rect RECT_PLAYER
+	textalign ITEM_ALIGN_LEFT
+	forecolor 1 1 1 1
+	backcolor OPTIONS_HEADING_JOIN_COLOR
+	visible 1
+	action
+	{
+		play "mouse_click" ;
+		uiScript ServerSort 4 ;
+		setitemcolor grpTabs backcolor TAB_BG_COLOR ;
+		setitemcolor Players backcolor .1 .2 .37 1 ;
+		setitemcolor grpColumn backcolor 0 0 0 0 ;
+		setitemcolor playerColumn backcolor 0 0 .4 .15
+	}
+	mouseEnter { show message_sort ; setitemcolor playerColumn bordercolor 1 1 1 1 ; play "mouse_over"}
+	mouseExit { hide message_sort ; setitemcolor playerColumn bordercolor TAB_BORDER_COLOR }
+}
 
-		// PURE ==================================================================
-		itemDef
-		{
-			name pure
-			group grpTabs
-			type ITEM_TYPE_BUTTON
-			style WINDOW_STYLE_FILLED
-			rect RECT_PURE
-			backcolor OPTIONS_HEADING_JOIN_COLOR
-			forecolor 1 1 1 1
-			visible 1
-			action
-			{
-				play "mouse_click" ;
-				uiScript ServerSort 7 ;
-				setitemcolor grpTabs backcolor TAB_BG_COLOR ;
-				setitemcolor pure backcolor .1 .2 .37 1 ;
-				setitemcolor grpColumn backcolor 0 0 0 0 ;
-				setitemcolor pureColumn backcolor 0 0 .4 .15
-			}
-			mouseEnter { show message_sort ; setitemcolor pureColumn bordercolor 1 1 1 1 ; play "mouse_over"}
-			mouseExit { hide message_sort ; setitemcolor pureColumn bordercolor TAB_BORDER_COLOR }
-		}
-		itemDef
-		{
-			name pureicon
-			style WINDOW_STYLE_SHADER
-			rect ORIGIN_PURE 16 16
-			origin 6 4//2 0
-			background "hud_server_pure"
-			visible 1
-			decoration
-		}
+itemDef
+{
+	name Type
+	group grpTabs
+	text "@MENU_TYPE1"
+	TAB_LABEL_OFFSET
+	textfont	UI_FONT_NORMAL
+	textscale 0.25
+	type ITEM_TYPE_BUTTON
+	style WINDOW_STYLE_FILLED
+	rect RECT_TYPE
+	textalign ITEM_ALIGN_LEFT
+	backcolor OPTIONS_HEADING_JOIN_COLOR
+	forecolor 1 1 1 1
+	visible 1
+	action
+	{
+		play "mouse_click" ;
+		uiScript ServerSort 5 ;
+		setitemcolor grpTabs backcolor TAB_BG_COLOR ;
+		setitemcolor Type backcolor .1 .2 .37 1 ;
+		setitemcolor grpColumn backcolor 0 0 0 0 ;
+		setitemcolor typeColumn backcolor 0 0 .4 .15
+	}
+	mouseEnter { show message_sort ; setitemcolor typeColumn bordercolor 1 1 1 1 ; play "mouse_over"}
+	mouseExit { hide message_sort ; setitemcolor typeColumn bordercolor TAB_BORDER_COLOR }
+}
 
-		// MOD ===================================================================
-		itemDef
-		{
-			name Mod
-			group grpTabs
-			type ITEM_TYPE_BUTTON
-			style WINDOW_STYLE_FILLED
-			rect RECT_MOD
-			backcolor OPTIONS_HEADING_JOIN_COLOR
-			forecolor 1 1 1 1
-			visible 1
-			action
-			{
-				play "mouse_click" ;
-				uiScript ServerSort 8 ;
-				setitemcolor grpTabs backcolor TAB_BG_COLOR ;
-				setitemcolor Mod backcolor .1 .2 .37 1 ;
-				setitemcolor grpColumn backcolor 0 0 0 0 ;
-				setitemcolor modColumn backcolor 0 0 .4 .15
-			}
-			mouseEnter { show message_sort ; setitemcolor modColumn bordercolor 1 1 1 1 ; play "mouse_over"}
-			mouseExit { hide message_sort ; setitemcolor modColumn bordercolor TAB_BORDER_COLOR }
-		}
-		itemDef
-		{
-			name modicon
-			style WINDOW_STYLE_SHADER
-			rect ORIGIN_MOD 16 16
-			origin 6 4//2 0
-			background "mod_header"
-			visible 1
-			decoration
-		}
+itemDef
+{
+	name voice
+	group grpTabs
+	type ITEM_TYPE_BUTTON
+	style WINDOW_STYLE_FILLED
+	rect RECT_VOICE
+	backcolor OPTIONS_HEADING_JOIN_COLOR
+	forecolor 1 1 1 1
+	visible 1
+	action
+	{
+		play "mouse_click" ;
+		uiScript ServerSort 6;
+		setitemcolor grpTabs backcolor TAB_BG_COLOR ;
+		setitemcolor voice backcolor .1 .2 .37 1 ;
+		setitemcolor grpColumn backcolor 0 0 0 0 ;
+		setitemcolor voiceColumn backcolor 0 0 .4 .15
+	}
+	mouseEnter { show message_sort ; setitemcolor voiceColumn bordercolor 1 1 1 1 ; play "mouse_over"}
+	mouseExit { hide message_sort ; setitemcolor voiceColumn bordercolor TAB_BORDER_COLOR }
+}
 
-		// PB ====================================================================
-		itemDef
-		{
-			name pb
-			group grpTabs
-			type ITEM_TYPE_BUTTON
-			style WINDOW_STYLE_FILLED
-			rect RECT_PB
-			backcolor OPTIONS_HEADING_JOIN_COLOR
-			forecolor 1 1 1 1
-			visible 1
-			action
-			{
-				play "mouse_click" ;
-				uiScript ServerSort 9 ;
-				setitemcolor grpTabs backcolor TAB_BG_COLOR ;
-				setitemcolor pb backcolor .1 .2 .37 1 ;
-				setitemcolor grpColumn backcolor 0 0 0 0 ;
-				setitemcolor pbColumn backcolor 0 0 .4 .15
-			}
-			mouseEnter { show message_sort ; setitemcolor pbColumn bordercolor 1 1 1 1 ; play "mouse_over"}
-			mouseExit { hide message_sort ; setitemcolor pbColumn bordercolor TAB_BORDER_COLOR }
-		}
-		itemDef
-		{
-			name pbicon
-			style WINDOW_STYLE_SHADER
-			rect ORIGIN_PB 16 16
-			origin 6 4//2 0
-			background "punkbusterlogo"
-			visible 1
-			decoration
-		}
+itemDef
+{
+	name voiceicon
+	style WINDOW_STYLE_SHADER
+	rect ORIGIN_VOICE 16 16
+	origin 6 4//3 0
+	background "voice_on"
+	visible 1
+	decoration
+}
 
-		// PING ==================================================================
-		itemDef
-		{
-			name Ping
-			group grpTabs
-			text "@MENU_PING"
-			TAB_LABEL_OFFSET
-			type ITEM_TYPE_BUTTON
-			textscale 0.25
-			textfont	UI_FONT_NORMAL
-			style WINDOW_STYLE_FILLED
-			rect RECT_PING
-			textalign ITEM_ALIGN_LEFT
-			backcolor .1 .2 .37 1 // Start highlighted
-			forecolor 1 1 1 1
-			visible 1
-			action
-			{
-				play "mouse_click" ;
-				uiScript ServerSort 10 ;
-				setitemcolor grpTabs backcolor TAB_BG_COLOR ;
-				setitemcolor Ping backcolor .1 .2 .37 1 ;
-				setitemcolor grpColumn backcolor 0 0 0 0 ;
-				setitemcolor pingColumn backcolor 0 0 .4 .15
-			}
-			mouseEnter { show message_sort ; setitemcolor pingColumn bordercolor 1 1 1 1 ; play "mouse_over"}
-			mouseExit { hide message_sort ; setitemcolor pingColumn bordercolor TAB_BORDER_COLOR }
-		}
+itemDef
+{
+	name pure
+	group grpTabs
+	type ITEM_TYPE_BUTTON
+	style WINDOW_STYLE_FILLED
+	rect RECT_PURE
+	backcolor OPTIONS_HEADING_JOIN_COLOR
+	forecolor 1 1 1 1
+	visible 1
+	action
+	{
+		play "mouse_click" ;
+		uiScript ServerSort 7 ;
+		setitemcolor grpTabs backcolor TAB_BG_COLOR ;
+		setitemcolor pure backcolor .1 .2 .37 1 ;
+		setitemcolor grpColumn backcolor 0 0 0 0 ;
+		setitemcolor pureColumn backcolor 0 0 .4 .15
+	}
+	mouseEnter { show message_sort ; setitemcolor pureColumn bordercolor 1 1 1 1 ; play "mouse_over"}
+	mouseExit { hide message_sort ; setitemcolor pureColumn bordercolor TAB_BORDER_COLOR }
+}
+itemDef
+{
+	name pureicon
+	style WINDOW_STYLE_SHADER
+	rect ORIGIN_PURE 16 16
+	origin 6 4
+	background "hud_server_pure"
+	visible 1
+	decoration
+}
+
+itemDef
+{
+	name Mod
+	group grpTabs
+	type ITEM_TYPE_BUTTON
+	style WINDOW_STYLE_FILLED
+	rect RECT_MOD
+	backcolor OPTIONS_HEADING_JOIN_COLOR
+	forecolor 1 1 1 1
+	visible 1
+	action
+	{
+		play "mouse_click" ;
+		uiScript ServerSort 8 ;
+		setitemcolor grpTabs backcolor TAB_BG_COLOR ;
+		setitemcolor Mod backcolor .1 .2 .37 1 ;
+		setitemcolor grpColumn backcolor 0 0 0 0 ;
+		setitemcolor modColumn backcolor 0 0 .4 .15
+	}
+	mouseEnter { show message_sort ; setitemcolor modColumn bordercolor 1 1 1 1 ; play "mouse_over"}
+	mouseExit { hide message_sort ; setitemcolor modColumn bordercolor TAB_BORDER_COLOR }
+}
+
+itemDef
+{
+	name modicon
+	style WINDOW_STYLE_SHADER
+	rect ORIGIN_MOD 16 16
+	origin 6 4//2 0
+	background "mod_header"
+	visible 1
+	decoration
+}
+
+itemDef
+{
+	name pb
+	group grpTabs
+	type ITEM_TYPE_BUTTON
+	style WINDOW_STYLE_FILLED
+	rect RECT_PB
+	backcolor OPTIONS_HEADING_JOIN_COLOR
+	forecolor 1 1 1 1
+	visible 1
+	action
+	{
+		play "mouse_click" ;
+		uiScript ServerSort 9 ;
+		setitemcolor grpTabs backcolor TAB_BG_COLOR ;
+		setitemcolor pb backcolor .1 .2 .37 1 ;
+		setitemcolor grpColumn backcolor 0 0 0 0 ;
+		setitemcolor pbColumn backcolor 0 0 .4 .15
+	}
+	mouseEnter { show message_sort ; setitemcolor pbColumn bordercolor 1 1 1 1 ; play "mouse_over"}
+	mouseExit { hide message_sort ; setitemcolor pbColumn bordercolor TAB_BORDER_COLOR }
+}
+
+itemDef
+{
+	name pbicon
+	style WINDOW_STYLE_SHADER
+	rect ORIGIN_PB 16 16
+	origin 6 4//2 0
+	background "punkbusterlogo"
+	visible 1
+	decoration
+}
+
+itemDef
+{
+	name Ping
+	group grpTabs
+	text "@MENU_PING"
+	TAB_LABEL_OFFSET
+	type ITEM_TYPE_BUTTON
+	textscale 0.25
+	textfont	UI_FONT_NORMAL
+	style WINDOW_STYLE_FILLED
+	rect RECT_PING
+	textalign ITEM_ALIGN_LEFT
+	backcolor .1 .2 .37 1 // Start highlighted
+	forecolor 1 1 1 1
+	visible 1
+	action
+	{
+		play "mouse_click" ;
+		uiScript ServerSort 10 ;
+		setitemcolor grpTabs backcolor TAB_BG_COLOR ;
+		setitemcolor Ping backcolor .1 .2 .37 1 ;
+		setitemcolor grpColumn backcolor 0 0 0 0 ;
+		setitemcolor pingColumn backcolor 0 0 .4 .15
+	}
+	mouseEnter { show message_sort ; setitemcolor pingColumn bordercolor 1 1 1 1 ; play "mouse_over"}
+	mouseExit { hide message_sort ; setitemcolor pingColumn bordercolor TAB_BORDER_COLOR }
+}
 
 #undef TABLE_HEIGHT
 #define TABLE_HEIGHT	360
 
-// 	BUTTONS	===============================================================
-
 #define MAINMENU_LOWER_BUTTON_OFFSET_X 	220
-
-/* itemDef {
-    name serverinfo
-    text "@MENU_SERVER_INFO"
-	type ITEM_TYPE_BUTTON
-	textfont	UI_FONT_NORMAL
-    textscale TEXTSIZE_SMALL
-	style WINDOW_STYLE_FILLED
-	border 1
-	bordercolor .1 .1 .1 .25
-    rect  70 -26 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM //70 -26 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 384 270 92 15
-	textalign ITEM_ALIGN_CENTER
-    textalignx 9		// center
-    textaligny 18
-	backcolor TAB_BG_COLOR
-    forecolor TEXTBUTTON_COLOR
-    visible 0
-    action { play "mouse_click" ;
-	open serverinfo_popmenu }
-	mouseEnter { show message_serverinfo ; setitemcolor serverinfo backcolor .1 .2 .37 1 ; play "mouse_over"}
-    mouseExit { hide message_serverinfo ; setitemcolor serverinfo backcolor TAB_BG_COLOR }
-} */
-
-/* itemDef {
-    name findplayer
-    text "@MENU_FIND_FRIEND"
-	type ITEM_TYPE_BUTTON
-	textfont	UI_FONT_NORMAL
-    textscale TEXTSIZE_SMALL
-	style WINDOW_STYLE_FILLED
-	border 1
-	bordercolor .1 .1 .1 .25
-    rect 160 -26 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 502 270 92 15
-	textalign ITEM_ALIGN_CENTER
-    textalignx 0		// center
-    textaligny 18
-	backcolor TAB_BG_COLOR
-    forecolor TEXTBUTTON_COLOR
-    visible 0
-    action { play "mouse_click" ;
-	open findplayer_popmenu }
-	mouseEnter { show message_findplayer ; setitemcolor findplayer backcolor .1 .2 .37 1 ; play "mouse_over"}
-    mouseExit { hide message_findplayer ; setitemcolor findplayer backcolor TAB_BG_COLOR }
-} */
 
 itemDef
 {
@@ -635,8 +548,6 @@ itemDef
 	visible			1
 	action {
 		play		"mouse_click" ;
-//			uiScript	DeleteFavorite ;
-//			uiScript	UpdateFilter
 		open del_fav_popmenu;
 	}
 	mouseEnter		{ show message_delFavorite; play "mouse_over"; }
@@ -674,7 +585,6 @@ itemDef
 	style			WINDOW_STYLE_FILLED
 	textstyle		ITEM_TEXTSTYLE_SHADOWED
 	textfont		UI_FONT_NORMAL
-	//rect			(50 + MAINMENU_LOWER_BUTTON_OFFSET_X) (-26 - SUBNAV_Y_POS) 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 390 420 100 14
 	rect 			(50 + MAINMENU_LOWER_BUTTON_OFFSET_X) -78 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM
 	textalign		ITEM_ALIGN_CENTER
 	textaligny		18
@@ -687,7 +597,6 @@ itemDef
 	mouseEnter		{ show message_password; play "mouse_over"; }
 	mouseExit		{ hide message_password; }
 }
-
 
 itemDef
 {

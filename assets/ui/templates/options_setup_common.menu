@@ -3,17 +3,6 @@
 #define ENABLE_TITLE_BG			1	// enables menu title background graphics
 
 #define SR_BTN_SIZE_X 			150
-//#define SR_CHOICE_DVAR_TEXTALIGN ITEM_ALIGN_CENTER
-
-/*
-#ifndef CHOICE_SIZE_X
-#error "CHOICE_SIZE_X undefined"
-#endif
-#ifndef CHOICE_SIZE_Y
-#error "CHOICE_SIZE_Y undefined"
-#endif
-*/
-
 
 #ifndef CHOICE_SIZE_Y
 #define CHOICE_SIZE_Y			22
@@ -158,7 +147,7 @@
 #endif
 
 #ifndef ALTERNATE_HINT_COLOR
-#define ALTERNATE_HINT_COLOR	1 1 1 1 //0.55 0.95 0.55 0.9//0 1 0 0.35//0.75 .75 0.8 1
+#define ALTERNATE_HINT_COLOR	1 1 1 1 // 0.55 0.95 0.55 0.9 // 0 1 0 0.35 // 0.75 .75 0.8 1
 #endif
 
 #ifndef HIGHLIGHT_COLOR
@@ -203,7 +192,6 @@
 #define A_BUTTON_OFFSET_Y		0
 #endif
 
-
 #ifdef PS3
 	#define A_BUTTON_BG_COLOR 	0.25 0.25 0.25 1
 #else
@@ -219,11 +207,6 @@
 #ifndef BUTTON_BG_COLOR
 #define BUTTON_BG_COLOR		0.9 0.9 1 0.07
 #endif
-
-// ------------ splitscreen ----------------
-
-
-// -----------------------------------------
 
 #if !defined(CHOICE_SEP_1) || !defined(CHOICE_SEP_SPACING)
 #define CHOICE_SEP_TOTAL_SPACING(itemIndex)	0
@@ -245,10 +228,6 @@
 
 #define FOOTNOTE_RECT(x, y)			x y 240 60 CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN
 
-// ======================================================================================================================================
-// ======================================================================================================================================
-// ======================================================================================================================================
-
 #define CHOICE_HIGHLIGHT(itemIndex, vis) \
 	CHOICE_HIGHLIGHT_CUSTOM(itemIndex, HIGHLIGHT_COLOR, HIGHLIGHT_BORDER_COLOR, vis)
 
@@ -267,28 +246,6 @@
 			visible			1; \
 			decoration \
 		} \
-
-/* #define CHOICE_BUTTON_BG(itemIndex, visArg) CHOICE_BUTTON_BG_RAW(itemIndex, "gradient_fadein", BUTTON_BG_COLOR, visArg)
-
-#define CHOICE_BUTTON_BG_RAW(itemIndex, bgimage, foreColorArg, visArg) \
-		itemDef \
-		{ \
-			style			WINDOW_STYLE_SHADER \
-			rect			CHOICE_ORIGIN(itemIndex) (CHOICE_SIZE_X-(CHOICE_SIZE_Y/4)) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-			exp				material(bgimage); \
-			forecolor		foreColorArg \
-			visible			visArg; \
-			decoration \
-		} \
-		itemDef \
-		{ \
-			style			WINDOW_STYLE_SHADER \
-			rect			(CHOICE_X(itemIndex)+(CHOICE_SIZE_X-(CHOICE_SIZE_Y/4))) CHOICE_Y(itemIndex) (CHOICE_SIZE_Y/4) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-			background		HIGHLIGHT_SHADER_ART \
-			forecolor		foreColorArg \
-			visible			visArg; \
-			decoration \
-		} \		 */
 
 #define CHOICE_BUTTON_BG(itemIndex, visArg) CHOICE_BUTTON_BG_RAW(itemIndex, "gradient_fadein", BUTTON_BG_COLOR, visArg)
 
@@ -324,30 +281,6 @@
 			visible			visArg; \
 			decoration \
 		} \
-
-/* #define CHOICE_HIGHLIGHT_CUSTOM(itemIndex, foreColorArg, borderColorArg, visArg) \
-		itemDef \
-		{ \
-			style			WINDOW_STYLE_SHADER \
-			rect			CHOICE_ORIGIN(itemIndex) (CHOICE_SIZE_X-(CHOICE_SIZE_Y/4)) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-			background		HIGHLIGHT_SHADER \
-			forecolor		foreColorArg \
-			border			HIGHLIGHT_BORDER \
-			bordersize		2 \
-			bordercolor		borderColorArg \
-			visible			when(localVarInt(ui_highlight) == itemIndex && localVarString(ui_choicegroup) == CHOICE_GROUP); \
-			decoration \
-		} \
-		itemDef \
-		{ \
-			style			WINDOW_STYLE_SHADER \
-			rect			(CHOICE_X(itemIndex)+(CHOICE_SIZE_X-(CHOICE_SIZE_Y/4))) CHOICE_Y(itemIndex) (CHOICE_SIZE_Y/4) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-			background		HIGHLIGHT_SHADER_ART \
-			forecolor		foreColorArg \
-			visible			when(localVarInt(ui_highlight) == itemIndex && localVarString(ui_choicegroup) == CHOICE_GROUP); \
-			decoration \
-		} \
-		CHOICE_ACCEPT_HINT(itemIndex, visArg) */
 
 #define CHOICE_HIGHLIGHT_CUSTOM(itemIndex, foreColorArg, borderColorArg, visArg) \
         itemDef /* button */ \
@@ -472,115 +405,7 @@
         } \
         CHOICE_ACCEPT_HINT(itemIndex, visArg)
 
-/* // creates way to many itemDefs for the createServer menu
-#define CREATESERVER_HIGHLIGHT_CUSTOM_VIS(itemIndex, foreColorArg, borderColorArg, visArg) \
-        itemDef \
-        { \
-            style            	WINDOW_STYLE_FILLED \
-            textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	CHOICE_ORIGIN(itemIndex) SR_BTN_SIZE_X CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-            forecolor        	1 1 1 1 \
-            backColor       	1 1 1 0.01 \
-            background         	black \
-            visible            	when(localVarInt(ui_highlight) == itemIndex && localVarString(ui_choicegroup) == CHOICE_GROUP); \
-            decoration \
-        } \
-		itemDef \
-        { \
-            style            	WINDOW_STYLE_SHADER \
-            textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	CHOICE_ORIGIN(itemIndex) SR_BTN_SIZE_X (CHOICE_SIZE_Y-CHOICE_SIZE_Y+1) CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-			origin 				0 0 \
-            forecolor        	0 0 0 0 \
-            backColor       	0 0 0 1 \
-            visible          	visArg; \
-            background        	black \
-            decoration \
-            onFocus \
-            { \
-                setLocalVarInt ui_highlight2 itemIndex; \
-                setLocalVarString ui_choicegroup CHOICE_GROUP; \
-                onFocusArg \
-            } \
-            leaveFocus \
-            { \
-                setLocalVarInt ui_highlight2 0; \
-                leaveFocusArg \
-            } \
-        } \
-		itemDef \
-        { \
-            style            	WINDOW_STYLE_SHADER \
-            textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	CHOICE_ORIGIN(itemIndex) SR_BTN_SIZE_X (CHOICE_SIZE_Y - CHOICE_SIZE_Y + 1) CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-			origin 				0 (CHOICE_SIZE_Y - 1) \
-            forecolor        	0 0 0 0 \
-            backColor       	0 0 0 1 \
-            visible          	visArg; \
-            background        	black \
-            decoration \
-            onFocus \
-            { \
-                setLocalVarInt ui_highlight2 itemIndex; \
-                setLocalVarString ui_choicegroup CHOICE_GROUP; \
-                onFocusArg \
-            } \
-            leaveFocus \
-            { \
-                setLocalVarInt ui_highlight2 0; \
-                leaveFocusArg \
-            } \
-        } \
-		itemDef \
-        { \
-            style            	WINDOW_STYLE_SHADER \
-            textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	CHOICE_ORIGIN(itemIndex) (SR_BTN_SIZE_X - SR_BTN_SIZE_X + 1) (CHOICE_SIZE_Y - 2) CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-			origin 				0 1 \
-            forecolor        	0 0 0 0 \
-            backColor       	0 0 0 1 \
-            visible          	visArg; \
-            background        	black \
-            decoration \
-            onFocus \
-            { \
-                setLocalVarInt ui_highlight2 itemIndex; \
-                setLocalVarString ui_choicegroup CHOICE_GROUP; \
-                onFocusArg \
-            } \
-            leaveFocus \
-            { \
-                setLocalVarInt ui_highlight2 0; \
-                leaveFocusArg \
-            } \
-        } \
-		itemDef \
-        { \
-            style            	WINDOW_STYLE_SHADER \
-            textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	CHOICE_ORIGIN(itemIndex) (SR_BTN_SIZE_X - SR_BTN_SIZE_X + 1) (CHOICE_SIZE_Y - 2) CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-			origin 				(SR_BTN_SIZE_X - 1) 1 \
-            forecolor        	0 0 0 0 \
-            backColor       	0 0 0 1 \
-            visible          	visArg; \
-            background        	black \
-            decoration \
-            onFocus \
-            { \
-                setLocalVarInt ui_highlight2 itemIndex; \
-                setLocalVarString ui_choicegroup CHOICE_GROUP; \
-                onFocusArg \
-            } \
-            leaveFocus \
-            { \
-                setLocalVarInt ui_highlight2 0; \
-                leaveFocusArg \
-            } \
-        } \
-        CHOICE_ACCEPT_HINT(itemIndex, visArg)
-*/
-
-// used for custom highlights for itemDefs that are special and can not use itemIndex or complie with the strict alignment of this macro set
+// Used for custom highlights for itemDefs that are special and can not use itemIndex or complie with the strict alignment of this macro set
 #define CHOICE_HIGHLIGHT_CUSTOM_2(px, py, pw, ph, visArg) \
 		itemDef \
 		{ \
@@ -618,9 +443,6 @@
 			visible			visArg \
 			decoration \
 		} \
-
-
-//CHOICE_TEXT_OFFSET_X
 
 #if defined(CONSOLE) && !defined(SPLITSCREEN)
 #define CHOICE_ACCEPT_HINT(itemIndex, vis) \
@@ -741,7 +563,6 @@
 		visible 		visArg \
 		decoration \
 	}
-
 
 #define CHOICE_SEPARATOR(afterItemIndex) \
 		CHOICE_SEPARATOR_VIS(afterItemIndex, when(ENABLE_SEPARATOR))
@@ -938,8 +759,6 @@
 			CHOICE_SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg) \
 		}
 
-
-
 #define CREATESERVER_DVARYESNO(itemIndex, textArg, dvarArg, actionArg) \
 		CREATESERVER_DVARYESNO_VIS(itemIndex, textArg, dvarArg, actionArg, 1)
 
@@ -961,8 +780,6 @@
 			visible			visArg \
 			CHOICE_SCRIPTS_ACTION(itemIndex, actionArg) \
 		}
-
-
 
 #define CREATESERVER_DVAREDIT_NUMERIC(itemIndex, textArg, dvarArg, max_chars, actionArg) \
 		CREATESERVER_DVAREDIT_NUMERIC_VIS(itemIndex, textArg, dvarArg, max_chars, actionArg, 1)
@@ -1035,36 +852,6 @@
 			visible			visArg ; \
 			CHOICE_SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg) \
 		}
-
-
-
-/* #define CREATESERVER_BTN_VIS(itemIndex, textArg, dvarArg, strListArg, actionArg, visArg) \
-		CREATESERVER_BTN_VIS_X(itemIndex, textArg, dvarArg, ITEM_TYPE_MULTI, dvarFloatList strListArg, actionArg, visArg)
-
-#define CREATESERVER_BTN_VIS_X(itemIndex, textArg, dvarArg, listTypeArg, listArg, actionArg, visArg) \
-		CREATESERVER_BTN_VIS_XX(itemIndex, textArg, dvarArg, listTypeArg, listArg, actionArg, ;, ;, visArg)
-
-// without outlines
-#define CREATESERVER_BTN_VIS_XX(itemIndex, textArg, dvarArg, listTypeArg, listArg, actionArg, onFocusArg, leaveFocusArg, visArg) \
-		CREATESERVER_BUTTON_BG_VIS(itemIndex, visArg) \
-		CREATESERVER_HIGHLIGHT_VIS(itemIndex, visArg) \
-		CHOICE_CAPTION_VIS(itemIndex, textArg, visArg) \
-		itemDef \
-		{ \
-			type			listTypeArg \
-			dvar			dvarArg \
-			listArg \
-			rect			CHOICE_ORIGIN(itemIndex) (CHOICE_SIZE_X+CHOICE_DVAR_WIDTH_OFFSET) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-			textalign		CHOICE_DVAR_TEXTALIGN \
-			textalignx		CHOICE_DVAR_OFFSET_X \
-			textscale		CHOICE_TEXTSIZE \
-			textstyle 		ITEM_TEXTSTYLE_SHADOWED \
-			style			WINDOW_STYLE_FILLED \
-			forecolor		CHOICE_TEXTCOLOR \
-			visible			visArg \
-			CHOICE_SCRIPTS_ACTION(itemIndex, actionArg) \
-		} */
-// CHOICE_SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg)
 
 #define	CHOICE_STATUS_COLOR_VIS(itemIndex, textArg, colorArg, visArg) \
 		itemDef \
@@ -1146,7 +933,6 @@
 			CHOICE_SCRIPTS_ACTION(itemIndex, actionArg) \
 		}
 
-
 #define CHOICE_DVAREDIT(itemIndex, textArg, dvarArg, actionArg) \
 		CHOICE_DVAREDIT_VIS(itemIndex, textArg, dvarArg, 31, 18, actionArg, 1)
 
@@ -1198,7 +984,6 @@
 			CHOICE_SCRIPTS_ACTION(itemIndex, actionArg) \
 		}
 
-
 #define CHOICE_DVARYESNO(itemIndex, textArg, dvarArg, actionArg) \
 		CHOICE_DVARYESNO_VIS(itemIndex, textArg, dvarArg, actionArg, 1)
 
@@ -1243,7 +1028,6 @@
 			CHOICE_SCRIPTS_ALL(itemIndex, actionArg, show keyBindStatus, hide keyBindStatus) \
 		}
 
-
 #define CHOICE_CAPTION(itemIndex, textArg) \
 		CHOICE_CAPTION_VIS(itemIndex, textArg, 1)
 
@@ -1284,11 +1068,8 @@
 			decoration \
 		}
 
-
 #define CHOICE_SCRIPTS_ACTION(itemIndex, actionArg) \
 	CHOICE_SCRIPTS_ALL(itemIndex, actionArg, ;, ;)
-
-
 
 #define CHOICE_SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg) \
 			onFocus \
@@ -1308,7 +1089,6 @@
 				play "mouse_click"; \
 				actionArg; \
 			}
-
 
 #define CHOICE_APPLY(textArg, actionArg) \
 		CHOICE_APPLY_VIS(textArg, actionArg, 1)
@@ -1354,7 +1134,6 @@
 			} \
 		}
 
-
 #define CHOICE_FOOTNOTE(textArg, x, y) \
 		CHOICE_FOOTNOTE_VIS(textArg, x, y, 1)
 
@@ -1371,7 +1150,6 @@
 			visible 		visArg \
 			decoration \
 		}
-
 
 #define CHOICE_KEYBINDHELP \
 		itemDef \
@@ -1390,8 +1168,3 @@
 			visible			0 \
 			decoration \
 		}
-
-
-
-
-

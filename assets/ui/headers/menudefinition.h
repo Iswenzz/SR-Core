@@ -81,11 +81,9 @@
 #define RANGETYPE_ABSOLUTE		0
 #define RANGETYPE_RELATIVE		1
 
-// list box element types
 #define LISTBOX_TEXT				0x00
 #define LISTBOX_IMAGE				0x01
 
-// list feeders
 #define FEEDER_HEADS				0x00	// model heads
 #define FEEDER_MAPS 				0x01	// text maps based on game type
 #define FEEDER_SERVERS				0x02	// servers
@@ -130,7 +128,6 @@
 #define FEEDER_ENEMY_MEMBERS_RANK	0x30	// rank icon
 #define FEEDER_MYTEAM_MEMBERS_RANK  0x31	// rank icon
 
-// display flags
 #define CG_SHOW_BLUE_TEAM_HAS_REDFLAG		0x00000001
 #define CG_SHOW_RED_TEAM_HAS_BLUEFLAG		0x00000002
 #define CG_SHOW_ANYTEAMGAME					0x00000004
@@ -151,11 +148,8 @@
 #define CG_SHOW_ANYNONTEAMGAME				0x00080000
 #define CG_SHOW_TEXTASINT					0x00200000
 #define CG_SHOW_HIGHLIGHTED					0x00100000
-
 #define CG_SHOW_NOT_V_CLEAR					0x02000000
-
 #define CG_SHOW_2DONLY						0x10000000
-
 
 #define UI_SHOW_LEADER						0x00000001
 #define UI_SHOW_NOTLEADER					0x00000002
@@ -171,8 +165,7 @@
 #define UI_SHOW_NETANYTEAMGAME				0x00000800
 #define UI_SHOW_NOTFAVORITESERVERS			0x00001000
 
-// font types
-#define UI_FONT_DEFAULT			0	// auto-chose betwen big/reg/small
+#define UI_FONT_DEFAULT			0
 #define UI_FONT_NORMAL			1
 #define UI_FONT_BIG				2
 #define UI_FONT_SMALL			3
@@ -180,16 +173,10 @@
 #define UI_FONT_CONSOLE			5
 #define UI_FONT_OBJECTIVE		6
 
-// owner draw types
-// ideally these should be done outside of this file but
-// this makes it much easier for the macro expansion to
-// convert them for the designers (from the .menu files)
 #define CG_OWNERDRAW_BASE			1
 #define CG_PLAYER_AMMO_VALUE		5
 #define CG_PLAYER_AMMO_BACKDROP		6
-
 #define CG_PLAYER_STANCE			20
-
 #define CG_SPECTATORS				60
 
 #define CG_HOLD_BREATH_HINT			71

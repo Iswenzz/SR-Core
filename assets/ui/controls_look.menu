@@ -1,4 +1,4 @@
-#include "ui/includes/options_menu_setup.inc"
+#include "ui/includes/options.inc"
 
 {
 	menuDef

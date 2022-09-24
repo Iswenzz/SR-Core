@@ -3,7 +3,7 @@
 
 #define CHOICE_GROUP			"quickstuff"
 
-#include "ui/includes/menustyle.inc"
+#include "ui/includes/style.inc"
 #include "ui/templates/choices_setup_common.menu"
 
 #include "ui/includes/popup.inc"

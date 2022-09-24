@@ -55,12 +55,6 @@
 #define CAC_TEMP_STORAGE		2402
 #define CAC_S_TEMP_STORAGE		"2402"
 
-/* 	refString: "m16", "m4", etc...
-	Puts the weapons stat index (3000 to 3089) into temp storage stat.
-	Puts that into a temp dvar.
-	Clear the weapon new bit at that stat address.
-	Clears the temp storage stat good measure.
-*/
 #define CLEAR_WEAP_NEW(refString) \
 	statsetusingtable(CAC_TEMP_STORAGE, tableLookup("mp/statstable.csv", 4, refString, 1)); \
 	execNow "statGetInDvar "CAC_S_TEMP_STORAGE" ui_tempStorage"; \

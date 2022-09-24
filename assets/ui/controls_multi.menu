@@ -1,11 +1,11 @@
 #include "ui/headers/menudef.h"
-#include "ui/includes/common_macro.inc"
+#include "ui/includes/common.inc"
 
 #define 	OPTIONS_STYLE		1
 
 #define 	CHOICE_SEP_1		23
 
-#include "ui/includes/menustyle.inc"
+#include "ui/includes/style.inc"
 #include "ui/templates/choices_setup_common.menu"
 
 #undef  CHOICE_X_START
@@ -28,6 +28,7 @@
 		rect			NAV_MENU_FULLSCREEN_RECT
 		focusColor		COLOR_FOCUSED
 		soundloop		""
+
 		onOpen
 		{
 			CLOSE_ALL_OPTIONS;
@@ -57,10 +58,6 @@
 			setLocalVarBool ui_maincontent_update "0";
 		}
 
-		/***********************************************\
-        |* Content | Background
-        \***********************************************/
-
         itemDef
         {
             name                        "content"
@@ -72,11 +69,6 @@
             visible                     1
             decoration
         }
-
-
-        /***********************************************\
-        |* Content | Title
-        \***********************************************/
 
         itemDef
         {
@@ -105,9 +97,6 @@
 		CHOICE_BIND(25, "@MENU_CHAT", "chatmodepublic", ;)
 		CHOICE_BIND(26, "@MENU_TEAM_CHAT", "chatmodeteam", ;)
 		CHOICE_BIND(27, "@MENU_QUICK_CHAT", "mp_QuickMessage", ;)
-		//CHOICE_SEPARATOR(CHOICE_SEP_2)
-		//CHOICE_BIND(28, "@MENU_WEAPON_MENU", "openscriptmenu ingame changeweapon", ;)
-		//CHOICE_BACK("@MENU_BACK", close self)
 
 		CHOICE_KEYBINDHELP
 	}

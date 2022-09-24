@@ -1,5 +1,4 @@
-// generic shader draw, text draw, ui art elements to be included by menu scripts that use such
-
+// Generic shader draw, text draw, ui art elements to be included by menu scripts that use such
 #define PREPROC_SHADER_DRAW_ALIGNED(prect, porigin, pshader, pcolor, pborder, pbordersize, pbordercolor) \
 		PREPROC_SHADER_DRAW_ALIGNED_VIS(prect, porigin, pshader, pcolor, pborder, pbordersize, pbordercolor, 1)
 
@@ -15,7 +14,7 @@ itemDef { \
 	bordercolor		pbordercolor \
 	visible			visArg decoration }
 
-// generic shader draw
+// Generic shader draw
 #define PREPROC_SHADER_DRAW(prect, porigin, pshader, pcolor, pborder, pbordersize, pbordercolor) \
 itemDef { \
 	style			WINDOW_STYLE_SHADER \
@@ -38,7 +37,7 @@ itemDef { \
 	bordercolor		pbordercolor \
 	visible			1 decoration }
 
-// generic text draw
+// Generic text draw
 #define PREPROC_TEXT_DRAW(prect, porigin, ptext, psize, palignx, paligny, palign, pcolor) \
 itemDef { \
 	rect			prect 0 0 origin porigin \
@@ -50,7 +49,7 @@ itemDef { \
 	ptext \
 	visible			1 decoration }
 
-// generic text draw
+// Generic text draw
 #define PREPROC_TEXT_DRAW_ALIGNED(prect, porigin, ptext, psize, palignx, paligny, palign, pcolor) \
 itemDef { \
 	rect			prect \
@@ -63,7 +62,7 @@ itemDef { \
 	ptext \
 	visible			1 decoration autowrapped }
 
-// generic text draw
+// Generic text draw
 #define PREPROC_TEXT_DRAW_ALIGNED_EXP(prect, porigin, ptext, psize, palignx, paligny, palign, pcolor) \
 itemDef { \
 	rect			prect \
@@ -89,7 +88,7 @@ itemDef { \
 	exp				text(ptext); \
 	visible			1 decoration autowrapped }
 
-// generic shader draw using exp
+// Generic shader draw using exp
 #define PREPROC_SHADER_DRAW_EXP(prect, porigin, pshader, pcolor, pborder, pbordersize, pbordercolor) \
 itemDef { \
 	style			WINDOW_STYLE_SHADER \
@@ -101,7 +100,7 @@ itemDef { \
 	bordercolor		pbordercolor \
 	visible			1 decoration }
 
-// generic text draw using exp
+// Generic text draw using exp
 #define PREPROC_TEXT_DRAW_EXP(prect, porigin, ptext, psize, palignx, paligny, palign, pcolor) \
 itemDef { \
 	rect			prect 0 0 origin porigin \
@@ -113,7 +112,7 @@ itemDef { \
 	ptext; \
 	visible			1 decoration }
 
-// generic shader draw
+// Generic shader draw
 #define PREPROC_SHADER_DRAW_ADV(px, py, pw, ph, pshader, pcolor, pborder, pbordersize, pbordercolor) \
 		PREPROC_SHADER_DRAW_ADV_VIS(px, py, pw, ph, pshader, pcolor, pborder, pbordersize, pbordercolor, 1)
 
@@ -132,7 +131,7 @@ itemDef { \
 	visible			visArg \
 	decoration }
 
-// generic text draw
+// Generic text draw
 #define PREPROC_TEXT_DRAW_ADV(px, py, pw, ph, ptext, psize, palignx, paligny, palign, pcolor) \
 itemDef { \
 	exp				rect X(px) \
@@ -171,12 +170,11 @@ itemDef { \
 	exp				material("ui_perforation"); \
 	visible			1 decoration }
 
-// art bar with perforation texture
+// Art bar with perforation texture
 #define PERFORATIONBAR(px, py, pw, ph, px2, py2) \
 	PREPROC_PERFORATION(px, py, (ph)*4, ph, px2, py2, 0, 0) \
 	PREPROC_PERFORATION((px)+(pw)-(ph)*4, py, -4*(ph), ph, px2, py2, 0, 0)
 
-// ------------------ preprocessing function definitions ------------------
 #define SINGULAR_HIDEALL \
 	hide description_choice1;	\
 	hide description2_choice1;	\
@@ -247,7 +245,7 @@ itemDef { \
 	hide highlight_choice17;	\
 	hide a_button_choice17;
 
-// singular button macro
+// Singular button macro
 #define SINGULAR_BUTTON(pnum, porigin, phighlight_size, ptext, paction) \
 	SINGULAR_BUTTON_RAW(pnum, porigin, phighlight_size, ptext, paction, 1)
 
@@ -299,7 +297,7 @@ itemDef { 											\
 	visible			1 								\
 	decoration }
 
-// full button that show/hides highlight, a button, description and gray out if locked
+// Full button that show/hides highlight, a button, description and gray out if locked
 #define SINGULAR_BUTTON_FULL(pnum, porigin, phighlight_size, ptext, paction, pvis) \
 itemDef{											\
 	type			ITEM_TYPE_BUTTON				\

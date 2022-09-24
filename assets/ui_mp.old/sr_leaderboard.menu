@@ -1,5 +1,5 @@
 #include "ui/menudef.h"
-#include "ui/includes/menustyle.inc"
+#include "ui/includes/style.inc"
 #include "ui/includes/sr.inc"
 
 #define DR_LEADERBOARD_BUTTON(id, x, y, w, h, itemName, itemAction, visArg) \

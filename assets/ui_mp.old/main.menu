@@ -11,7 +11,7 @@
 
 #define STYLE_PC	1
 
-#include "ui/includes/menustyle.inc"
+#include "ui/includes/style.inc"
 #include "ui/templates/choices_setup_common.menu"
 #include "ui/includes/stats.inc"
 

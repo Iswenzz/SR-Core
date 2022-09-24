@@ -1,10 +1,10 @@
 #include "ui/headers/menudef.h"
 #include "ui/includes/sr.inc"
-#include "ui/includes/common_macro.inc"
+#include "ui/includes/common.inc"
 
 #define OPTIONS_STYLE			1
 
-#include "ui/includes/menustyle.inc"
+#include "ui/includes/style.inc"
 #include "ui/templates/lnr_setup_common.menu"
 
 #undef CHOICE_X_SPACING

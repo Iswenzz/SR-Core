@@ -45,7 +45,7 @@
 #endif
 
 #ifndef CHOICE_POPUP_BACKCOLOR
-#define CHOICE_POPUP_BACKCOLOR	0.2 0.2 0.22 1 //0.85 //0.1412 0.1412 0.1812 0.75
+#define CHOICE_POPUP_BACKCOLOR	0.2 0.2 0.22 1 // 0.85 // 0.1412 0.1412 0.1812 0.75
 #endif
 
 #ifndef CHOICE_POPUP_BACKCOLOR_NOALPHA
@@ -63,7 +63,7 @@
 #define CHOICE_POPUP_OFFSET_Y	0
 #endif
 
-#define CHOICE_POPUP_WIDTH						((CHOICE_POPUP_BORDER_X * 2) + ((CHOICE_POPUP_TITLE_WIDTH > CHOICE_SIZE_X) ? CHOICE_POPUP_TITLE_WIDTH : CHOICE_SIZE_X))
+#define CHOICE_POPUP_WIDTH					((CHOICE_POPUP_BORDER_X * 2) + ((CHOICE_POPUP_TITLE_WIDTH > CHOICE_SIZE_X) ? CHOICE_POPUP_TITLE_WIDTH : CHOICE_SIZE_X))
 #define CHOICE_POPUP_HEIGHT(itemCount)		(CHOICE_POPUP_TITLE_HEIGHT + CHOICE_POPUP_SUBTITLE_HEIGHT + (CHOICE_Y_SPACING * (itemCount) + CHOICE_POPUP_BORDER_Y * 2))
 
 #ifndef POPUP_NOPOS
@@ -89,13 +89,11 @@
 #define CHOICE_SIDETEXT_X 0
 #define CHOICE_SIDETEXT_Y 0
 
-
 #define CHOICE_POPMENU_SETUP(nameArg, itemCount, xArg, yArg, onEscArg) \
 		CHOICE_POPMENU_SETUP_ONOPEN(nameArg, itemCount, xArg, yArg, onEscArg, focusfirst)
 
 #define CHOICE_POPMENU_SETUP_ONOPEN(nameArg, itemCount, xArg, yArg, onEscArg, onOpenArg) \
 		CHOICE_POPMENU_SETUP_ONOPEN_EX(nameArg, itemCount, xArg, yArg, onEscArg, onOpenArg, ;)
-
 
 #define CHOICE_POPMENU_SETUP_ONOPEN_EX(nameArg, itemCount, xArg, yArg, onEscArg, onOpenArg, extraArgs) \
 		name			nameArg \
@@ -157,7 +155,7 @@
 			autowrapped \
 		}
 
-#ifdef	PC
+#ifdef PC
 	#define PREPROC_CANCEL_OVERLAY(shadow_visArg,itemCount) \
 		itemDef { \
 			type			ITEM_TYPE_BUTTON \
@@ -229,10 +227,6 @@
 		}\
 		PREPROC_CANCEL_OVERLAY(shadow_visArg, itemCount) \
 		PREPROC_SHADER_DRAW(-4 -4 CHOICE_POPUP_WIDTH CHOICE_POPUP_HEIGHT(itemCount), 0 0, "white", CHOICE_POPUP_BACKCOLOR, 1, CHOICE_POPUP_BORDER_WIDTH, CHOICE_POPUP_BORDER_COLOR)
-
-		//PREPROC_TEXT_DRAW(0 0 10 10, 0 0, text "x", TEXTSIZE_SMALL, 0, 0, ITEM_ALIGN_MIDDLE_LEFT, CHOICE_POPUP_BORDER_COLOR visible when(dvarInt(ui_popup_close_icon));)
-
-		//PREPROC_SHADER_DRAW(-4 -4 CHOICE_POPUP_WIDTH CHOICE_POPUP_HEIGHT(itemCount), 0 0, "white", 0 0 0 0, 1, CHOICE_POPUP_BORDER_WIDTH, 0 0 0 0.8 visible when(dvarInt(ui_popup_close_icon));)
 
 #define CENTER_POPUP_SETUP(nameArg, itemCount, onEscArg, shadow_visArg) \
 		CENTER_POPUP_SETUP_ONOPEN(nameArg, itemCount, onEscArg, focusfirst, shadow_visArg)

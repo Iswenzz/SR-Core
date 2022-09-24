@@ -2,16 +2,6 @@
 #define ENABLE_SEPARATOR		1	// enables separator bars
 #define ENABLE_TITLE_BG			1	// enables menu title background graphics
 
-/*
-#ifndef CHOICE_SIZE_X
-#error "CHOICE_SIZE_X undefined"
-#endif
-#ifndef CHOICE_SIZE_Y
-#error "CHOICE_SIZE_Y undefined"
-#endif
-*/
-
-
 #ifndef CHOICE_SIZE_Y
 #define CHOICE_SIZE_Y			22
 #endif
@@ -155,7 +145,7 @@
 #endif
 
 #ifndef ALTERNATE_HINT_COLOR
-#define ALTERNATE_HINT_COLOR	1 1 1 1 //0.55 0.95 0.55 0.9//0 1 0 0.35//0.75 .75 0.8 1
+#define ALTERNATE_HINT_COLOR	1 1 1 1 // 0.55 0.95 0.55 0.9 // 0 1 0 0.35 // 0.75 .75 0.8 1
 #endif
 
 #ifndef HIGHLIGHT_COLOR
@@ -200,7 +190,6 @@
 #define A_BUTTON_OFFSET_Y		0
 #endif
 
-
 #ifdef PS3
 	#define A_BUTTON_BG_COLOR 	0.25 0.25 0.25 1
 #else
@@ -216,11 +205,6 @@
 #ifndef BUTTON_BG_COLOR
 #define BUTTON_BG_COLOR		0.9 0.9 1 0.07
 #endif
-
-// ------------ splitscreen ----------------
-
-
-// -----------------------------------------
 
 #if !defined(CHOICE_SEP_1) || !defined(CHOICE_SEP_SPACING)
 #define CHOICE_SEP_TOTAL_SPACING(itemIndex)	0
@@ -241,10 +225,6 @@
 #define CHOICE_RECT(itemIndex)	CHOICE_ORIGIN(itemIndex) CHOICE_SIZE_X CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN
 
 #define FOOTNOTE_RECT(x, y)			x y 240 60 CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN
-
-// ======================================================================================================================================
-// ======================================================================================================================================
-// ======================================================================================================================================
 
 #define CHOICE_HIGHLIGHT(itemIndex, vis) \
 	CHOICE_HIGHLIGHT_CUSTOM(itemIndex, HIGHLIGHT_COLOR, HIGHLIGHT_BORDER_COLOR, vis)
@@ -311,7 +291,7 @@
 		} \
 		CHOICE_ACCEPT_HINT(itemIndex, visArg)
 
-// used for custom highlights for itemDefs that are special and can not use itemIndex or complie with the strict alignment of this macro set
+// Used for custom highlights for itemDefs that are special and can not use itemIndex or complie with the strict alignment of this macro set
 #define CHOICE_HIGHLIGHT_CUSTOM_2(px, py, pw, ph, visArg) \
 		itemDef \
 		{ \
@@ -349,9 +329,6 @@
 			visible			visArg \
 			decoration \
 		} \
-
-
-//CHOICE_TEXT_OFFSET_X
 
 #if defined(CONSOLE) && !defined(SPLITSCREEN)
 #define CHOICE_ACCEPT_HINT(itemIndex, vis) \
@@ -472,7 +449,6 @@
 		visible 		visArg \
 		decoration \
 	}
-
 
 #define CHOICE_SEPARATOR(afterItemIndex) \
 		CHOICE_SEPARATOR_VIS(afterItemIndex, when(ENABLE_SEPARATOR))
@@ -721,7 +697,6 @@
 			CHOICE_SCRIPTS_ACTION(itemIndex, actionArg) \
 		}
 
-
 #define CHOICE_DVAREDIT(itemIndex, textArg, dvarArg, actionArg) \
 		CHOICE_DVAREDIT_VIS(itemIndex, textArg, dvarArg, 31, 18, actionArg, 1)
 
@@ -773,7 +748,6 @@
 			CHOICE_SCRIPTS_ACTION(itemIndex, actionArg) \
 		}
 
-
 #define CHOICE_DVARYESNO(itemIndex, textArg, dvarArg, actionArg) \
 		CHOICE_DVARYESNO_VIS(itemIndex, textArg, dvarArg, actionArg, 1)
 
@@ -818,7 +792,6 @@
 			CHOICE_SCRIPTS_ALL(itemIndex, actionArg, show keyBindStatus, hide keyBindStatus) \
 		}
 
-
 #define CHOICE_CAPTION(itemIndex, textArg) \
 		CHOICE_CAPTION_VIS(itemIndex, textArg, 1)
 
@@ -859,11 +832,8 @@
 			decoration \
 		}
 
-
 #define CHOICE_SCRIPTS_ACTION(itemIndex, actionArg) \
 	CHOICE_SCRIPTS_ALL(itemIndex, actionArg, ;, ;)
-
-
 
 #define CHOICE_SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg) \
 			onFocus \
@@ -883,7 +853,6 @@
 				play "mouse_click"; \
 				actionArg; \
 			}
-
 
 #define CHOICE_APPLY(textArg, actionArg) \
 		CHOICE_APPLY_VIS(textArg, actionArg, 1)
@@ -929,7 +898,6 @@
 			} \
 		}
 
-
 #define CHOICE_FOOTNOTE(textArg, x, y) \
 		CHOICE_FOOTNOTE_VIS(textArg, x, y, 1)
 
@@ -946,7 +914,6 @@
 			visible 		visArg \
 			decoration \
 		}
-
 
 #define CHOICE_KEYBINDHELP \
 		itemDef \
@@ -965,8 +932,3 @@
 			visible			0 \
 			decoration \
 		}
-
-
-
-
-

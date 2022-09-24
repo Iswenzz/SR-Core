@@ -1,5 +1,4 @@
 #ifdef PC
-
 	#undef CHOICE_X_START
 	#define CHOICE_X_START			((CHOICE_POPUP_WIDTH - CHOICE_SIZE_X) / 2)
 
@@ -37,8 +36,6 @@
 	#define CHOICE_POPUP_TITLE_HEIGHT	(24)
 #endif
 
-// -------------------------------------------
-
 #undef CHOICE_SIZE_Y
 #define CHOICE_SIZE_Y			18
 
@@ -53,7 +50,7 @@
 #undef CHOICE_POPUP_BORDER_Y
 #define CHOICE_POPUP_BORDER_Y	4
 #undef CHOICE_POPUP_BACKCOLOR
-#define CHOICE_POPUP_BACKCOLOR	0.2 0.2 0.22 1 //0.85
+#define CHOICE_POPUP_BACKCOLOR	0.2 0.2 0.22 1
 #undef CHOICE_POPUP_BORDER_COLOR
 #define CHOICE_POPUP_BORDER_COLOR	0.4 0.4 0.42 1
 

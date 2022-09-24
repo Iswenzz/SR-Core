@@ -1,12 +1,12 @@
 #include "ui/headers/menudef.h"
-#include "ui/includes/common_macro.inc"
+#include "ui/includes/common.inc"
 
 #define 	OPTIONS_STYLE		1
 
 #define 	CHOICE_SEP_1		25
 #define 	CHOICE_SEP_2		32
 
-#include "ui/includes/menustyle.inc"
+#include "ui/includes/style.inc"
 #include "ui/templates/choices_setup_common.menu"
 
 #undef  CHOICE_X_START
@@ -57,10 +57,6 @@
 			setLocalVarBool ui_maincontent_update "0";
 		}
 
-		/***********************************************\
-        |* Content | Background
-        \***********************************************/
-
         itemDef
         {
             name                        "content"
@@ -72,11 +68,6 @@
             visible                     1
             decoration
         }
-
-
-        /***********************************************\
-        |* Content | Title
-        \***********************************************/
 
         itemDef
         {
@@ -113,7 +104,5 @@
 			visible		1
 			decoration
 		}
-
-		//CHOICE_BACK("@MENU_BACK", close self)
 	}
 }

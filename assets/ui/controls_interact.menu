@@ -1,6 +1,4 @@
-// setup choices
-#include "ui/includes/options_menu_setup.inc"
-// redef any options below, if needed
+#include "ui/includes/options.inc"
 
 {
 	menuDef
@@ -38,11 +36,6 @@
 			close self;
 		}
 
-        #undef CONTENT_TITLE
-		#define CONTENT_TITLE "@MENU_INTERACT"
-		// create container
-		#include "ui/includes/options_container.inc"
-
 		CHOICE_BIND(1, "@MENU_USE", "+activate", ;)
 		CHOICE_BIND(2, "@MENU_NIGHT_VISION", "+actionslot 1", ;)
 		CHOICE_BIND(3, "@MENU_SHOW_OBJECTIVES_SCORES", "+scores", ;)
@@ -56,9 +49,6 @@
 		CHOICE_BIND(19, "@MENU_QUICK_CHAT", "mp_QuickMessage", ;)
 
         CHOICE_BIND(21, "@MENU_SCREENSHOT", "screenshotjpeg", ;)
-
-		//CHOICE_BACK("@MENU_BACK", close self)
-
 		CHOICE_KEYBINDHELP
 	}
 }

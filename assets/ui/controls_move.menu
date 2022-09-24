@@ -1,6 +1,5 @@
 // setup choices
-#include "ui/includes/options_menu_setup.inc"
-// redef any options below, if needed
+#include "ui/includes/options.inc"
 
 {
 	menuDef
@@ -38,18 +37,10 @@
 			close self;
 		}
 
-		#undef CONTENT_TITLE
-		#define CONTENT_TITLE "@MENU_MOVE"
-		// create container
-		#include "ui/includes/options_container.inc"
-
-
 		CHOICE_BIND(1, "@MENU_FORWARD", "+forward", ;)
 		CHOICE_BIND(2, "@MENU_BACKPEDAL", "+back", ;)
 		CHOICE_BIND(3, "@MENU_MOVE_LEFT", "+moveleft", ;)
 		CHOICE_BIND(4, "@MENU_MOVE_RIGHT", "+moveright", ;)
-
-		//CHOICE_SEPARATOR(CHOICE_SEP_1)
 
 		CHOICE_BIND(5, "@MENU_STANDJUMP", "+gostand", ;)
 
@@ -61,13 +52,8 @@
 		CHOICE_BIND(19, "@MENU_CROUCH", "+movedown", ;)
 		CHOICE_BIND(20, "@MENU_PRONE", "+prone", ;)
 
-		//CHOICE_SEPARATOR(CHOICE_SEP_2)
-
 		CHOICE_BIND(22, "@MENU_CHANGE_STANCE", "+stance", ;)
 		CHOICE_BIND(23, "@MENU_STRAFE", "+strafe", ;)
-		//CHOICE_BIND(35, "@MENU_SPRINT", "+sprint", ;)
-
-		//CHOICE_BACK("@MENU_BACK", close self)
 
 		CHOICE_KEYBINDHELP
 	}
