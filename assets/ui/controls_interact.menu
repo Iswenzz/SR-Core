@@ -1,0 +1,64 @@
+// setup choices
+#include "ui/includes/options_menu_setup.inc"
+// redef any options below, if needed
+
+{
+	menuDef
+	{
+		name			"options_misc"
+		fullScreen		0
+		rect			NAV_MENU_FULLSCREEN_RECT
+		focusColor		COLOR_FOCUSED
+		soundloop		""
+
+		onOpen
+		{
+            CLOSE_ALL_OPTIONS;
+			CLOSE_ALL_CONTROLS_EX_INTERACT;
+
+			CLOSE_SERVERBROWSER;
+			CLOSE_CREATE_SERVER;
+			CLOSE_MODS;
+			CLOSE_PROFILE;
+
+			setLocalVarBool ui_hideBack "0";
+			setLocalVarBool ui_maincontent_lnr "1";
+			setLocalVarBool ui_maincontent_update "1";
+		}
+
+		onClose
+		{
+			setLocalVarBool ui_hideBack 0;
+			setLocalVarBool ui_maincontent_lnr "0";
+			setLocalVarBool ui_maincontent_update "0";
+		}
+
+		onESC
+		{
+			close self;
+		}
+
+        #undef CONTENT_TITLE
+		#define CONTENT_TITLE "@MENU_INTERACT"
+		// create container
+		#include "ui/includes/options_container.inc"
+
+		CHOICE_BIND(1, "@MENU_USE", "+activate", ;)
+		CHOICE_BIND(2, "@MENU_NIGHT_VISION", "+actionslot 1", ;)
+		CHOICE_BIND(3, "@MENU_SHOW_OBJECTIVES_SCORES", "+scores", ;)
+
+        CHOICE_BIND(5, "@MENU_VOTE_YES", "vote yes", ;)
+		CHOICE_BIND(6, "@MENU_VOTE_NO", "vote no", ;)
+
+		CHOICE_BIND(16, "@MENU_VOICE_CHAT_BUTTON", "+talk", ;)
+		CHOICE_BIND(17, "@MENU_CHAT", "chatmodepublic", ;)
+		CHOICE_BIND(18, "@MENU_TEAM_CHAT", "chatmodeteam", ;)
+		CHOICE_BIND(19, "@MENU_QUICK_CHAT", "mp_QuickMessage", ;)
+
+        CHOICE_BIND(21, "@MENU_SCREENSHOT", "screenshotjpeg", ;)
+
+		//CHOICE_BACK("@MENU_BACK", close self)
+
+		CHOICE_KEYBINDHELP
+	}
+}

@@ -1,0 +1,34 @@
+{
+ 	loadMenu { "ui/main.menu" }
+ 	loadMenu { "ui/hud.menu" }
+ 	loadMenu { "ui/connect.menu" }
+
+	loadMenu { "ui/serverlist.menu" }
+	loadMenu { "ui/serverinfo.menu" }
+	loadMenu { "ui/password.menu" }
+	loadMenu { "ui/createfavorite.menu" }
+	loadMenu { "ui/filter.menu" }
+	loadMenu { "ui/createserver.menu" }
+
+	loadMenu { "ui/controls.menu" }
+	loadMenu { "ui/controls_look.menu" }
+	loadMenu { "ui/controls_move.menu" }
+	loadMenu { "ui/controls_shoot.menu" }
+	loadMenu { "ui/controls_interact.menu" }
+
+	loadMenu { "ui/options.menu" }
+	loadMenu { "ui/options_graphics.menu" }
+	loadMenu { "ui/options_sound.menu" }
+	loadMenu { "ui/options_game.menu" }
+
+	loadMenu { "ui/mods.menu" }
+	loadMenu { "ui/playerprofile.menu" }
+	loadMenu { "ui/quit.menu" }
+
+	loadMenu { "ui/error.menu" }
+	loadMenu { "ui/snd_restart.menu" }
+	loadMenu { "ui/language_restart.menu" }
+	loadMenu { "ui/cdkey.menu" }
+ 	loadMenu { "ui/vid_restart.menu" }
+	loadMenu { "ui/pb_popmenus.menu" }
+}

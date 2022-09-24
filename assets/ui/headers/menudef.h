@@ -1,12 +1,12 @@
-#include "ui_iw3xo/headers/mainnav.h"
-#include "ui_iw3xo/headers/menudefinition.h"
+#include "ui/headers/mainnav.h"
+#include "ui/headers/menudefinition.h"
 
 // Size define for the hud compass
 // These are used for both the dynamic & non-dynamic compass drawing
 // If these are changed, the cgame should be recompiled
 #define COMPASS_SIZE		109
 #define MINIMAP_X			11.5
-#define MINIMAP_Y			5 
+#define MINIMAP_Y			5
 #define MINIMAP_W			89.5
 #define	MINIMAP_H			89.5
 
@@ -17,11 +17,11 @@
 #define	MINIMAP_H_MP			102
 
 /// :: for menuDef :: center horizontal with new width -- untouched y / height
-#define RECT_MENU_CENTER_W( xOffs, yOffs, newWidth, newHeight ) (320 - (newWidth * 0.5) + xOffs) yOffs newWidth newHeight
+#define RECT_MENU_CENTER_W(xOffs, yOffs, newWidth, newHeight) (320 - (newWidth * 0.5) + xOffs) yOffs newWidth newHeight
 /// :: for menuDef :: center horizontal and vertical with new width and new height
-#define RECT_MENU_CENTER_WH( xOffs, yOffs, newWidth, newHeight ) (320 - (newWidth * 0.5) + xOffs) (240 - (newHeight * 0.5) + yOffs) newWidth newHeight
+#define RECT_MENU_CENTER_WH(xOffs, yOffs, newWidth, newHeight) (320 - (newWidth * 0.5) + xOffs) (240 - (newHeight * 0.5) + yOffs) newWidth newHeight
 /// :: for menuDef :: center horizontal with new width -- fullscreen height with top cutoff
-#define RECT_MENU_CENTER_W_TOP_H( xOffs, yOffs, newWidth, newHeight ) (320 - (newWidth * 0.5) + xOffs) yOffs newWidth (newHeight - yOffs)
+#define RECT_MENU_CENTER_W_TOP_H(xOffs, yOffs, newWidth, newHeight) (320 - (newWidth * 0.5) + xOffs) yOffs newWidth (newHeight - yOffs)
 
 #define FULLSCREEN			    0 0 640 480
 #define FULLSCEEN_ULTRAWIDE     2000
@@ -32,8 +32,8 @@
 #define FULLSCREEN_WIDE_X_OFFSET    (320 - (FULLSCEEN_ULTRAWIDE * 0.5)
 
 #define RECT_ITEM_FULLSCREEN    0 0 0 0 HORIZONTAL_ALIGN_LEFT
-#define FULLSCREEN_WIDTH_EXP    rect W(dvarint( ui_renderWidth ))
-#define FULLSCREEN_HEIGHT_EXP   rect H(dvarint( ui_renderHeight ))
+#define FULLSCREEN_WIDTH_EXP    rect W(dvarint(ui_renderWidth))
+#define FULLSCREEN_HEIGHT_EXP   rect H(dvarint(ui_renderHeight))
 
 #define ORIGIN_TITLE		48 40
 #define ORIGIN_TITLE_SS		104 120
@@ -105,8 +105,8 @@
 #define SYSTEMLINK_MP_CFG		"default_systemlink.cfg"
 #define XBOXLIVE_MP_CFG			"default_xboxlive.cfg"
 
-#define MAX_RANK		int(tableLookup( "mp/rankTable.csv", 0, "maxrank", 1))
-#define MAX_PRESTIGE	int(tableLookup( "mp/rankIconTable.csv", 0, "maxprestige", 1))
+#define MAX_RANK		int(tableLookup("mp/rankTable.csv", 0, "maxrank", 1))
+#define MAX_PRESTIGE	int(tableLookup("mp/rankIconTable.csv", 0, "maxprestige", 1))
 
 #define PRESTIGE_AVAIL (stat(2326) < MAX_PRESTIGE && stat(2301) == int(tableLookup("mp/rankTable.csv",0,MAX_RANK,7)))
 #define PRESTIGE_NEXT (stat(2326) < MAX_PRESTIGE && stat(252) == MAX_RANK)

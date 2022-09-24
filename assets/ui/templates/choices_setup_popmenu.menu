@@ -113,7 +113,7 @@
 		{ \
 			onOpenArg; \
 		} \
-		onEsc \
+		onESC \
 		{ \
 			play "mouse_click"; \
 			close self; \
@@ -221,7 +221,7 @@
 		{ \
 			onOpenArg; \
 		} \
-		onEsc \
+		onESC \
 		{ \
 			play "mouse_click"; \
 			close self; \
@@ -263,7 +263,7 @@
 				CENTER_POPUP_ON_CLOSE \
 				setLocalVarBool	ui_centerPopup 0; \
 			} \
-			onEsc \
+			onESC \
 			{ \
 				setLocalVarBool	ui_centerPopup 0; \
 				close self; \
@@ -302,7 +302,7 @@
 				CENTER_POPUP_ON_CLOSE \
 				setLocalVarBool	ui_centerPopup 0; \
 			} \
-			onEsc \
+			onESC \
 			{ \
 				setLocalVarBool	ui_centerPopup 0; \
 				close self; \
@@ -339,7 +339,7 @@
 		{ \
 			setLocalVarBool	ui_centerPopup 0; \
 		} \
-		onEsc \
+		onESC \
 		{ \
 			setLocalVarBool	ui_centerPopup 0; \
 			play "mouse_click"; \

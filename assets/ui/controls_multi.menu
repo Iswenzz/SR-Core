@@ -1,0 +1,114 @@
+#include "ui/headers/menudef.h"
+#include "ui/includes/common_macro.inc"
+
+#define 	OPTIONS_STYLE		1
+
+#define 	CHOICE_SEP_1		23
+
+#include "ui/includes/menustyle.inc"
+#include "ui/templates/choices_setup_common.menu"
+
+#undef  CHOICE_X_START
+#define CHOICE_X_START			0
+
+#undef  CHOICE_Y_START
+#define CHOICE_Y_START			35
+
+#undef  CHOICE_SIZE_X
+#define CHOICE_SIZE_X			90
+
+#undef  CHOICE_SIZE_Y
+#define CHOICE_SIZE_Y			25
+
+{
+	menuDef
+	{
+		name			"controls_multi"
+		fullScreen		0
+		rect			NAV_MENU_FULLSCREEN_RECT
+		focusColor		COLOR_FOCUSED
+		soundloop		""
+		onOpen
+		{
+			CLOSE_ALL_OPTIONS;
+			CLOSE_ALL_CONTROLS_EX_MULTI;
+
+			CLOSE_SERVERBROWSER;
+			CLOSE_CREATE_SERVER;
+			CLOSE_MODS;
+			CLOSE_PROFILE;
+
+			exec "setfromdvar ui_name name";
+
+			setLocalVarBool ui_hideBack "0";
+			setLocalVarBool ui_maincontent_lnr "1";
+			setLocalVarBool ui_maincontent_update "1";
+		}
+
+		onClose
+		{
+			setLocalVarBool ui_hideBack 0;
+		}
+
+		onESC
+		{
+			close self;
+			setLocalVarBool ui_maincontent_lnr "0";
+			setLocalVarBool ui_maincontent_update "0";
+		}
+
+		/***********************************************\
+        |* Content | Background
+        \***********************************************/
+
+        itemDef
+        {
+            name                        "content"
+            rect                        -250 0 500 410 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+            origin                      0 30
+            style                       WINDOW_STYLE_FILLED
+            backcolor                   1 1 1 0.03
+            forecolor                   1 1 1 1
+            visible                     1
+            decoration
+        }
+
+
+        /***********************************************\
+        |* Content | Title
+        \***********************************************/
+
+        itemDef
+        {
+            name                        "content_title"
+            rect                        -250 0 500 30 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+            origin                      0 30
+            style                       WINDOW_STYLE_FILLED
+            borderSize                  0
+            foreColor                   1 1 1 1
+            backColor                   1 1 1 0.02
+            borderColor                 1 1 1 1
+            outlineColor                0 0 0 0
+            exp                         text ("@MENU_MULTIPLAYER_CONTROLS");
+            textFont                    UI_FONT_NORMAL
+            textAlign                   ITEM_ALIGN_MIDDLE_LEFT
+            textAlignX                  10
+            textScale                   0.20
+            visible                     1
+            decoration
+        }
+
+		CHOICE_BIND(22, "@MENU_VOTE_YES", "vote yes", ;)
+		CHOICE_BIND(23, "@MENU_VOTE_NO", "vote no", ;)
+		CHOICE_SEPARATOR(CHOICE_SEP_1)
+		CHOICE_BIND(24, "@MENU_VOICE_CHAT_BUTTON", "+talk", ;)
+		CHOICE_BIND(25, "@MENU_CHAT", "chatmodepublic", ;)
+		CHOICE_BIND(26, "@MENU_TEAM_CHAT", "chatmodeteam", ;)
+		CHOICE_BIND(27, "@MENU_QUICK_CHAT", "mp_QuickMessage", ;)
+		//CHOICE_SEPARATOR(CHOICE_SEP_2)
+		//CHOICE_BIND(28, "@MENU_WEAPON_MENU", "openscriptmenu ingame changeweapon", ;)
+		//CHOICE_BACK("@MENU_BACK", close self)
+
+		CHOICE_KEYBINDHELP
+	}
+}

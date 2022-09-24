@@ -2,19 +2,32 @@
 #define ENABLE_SEPARATOR		1	// enables separator bars
 #define ENABLE_TITLE_BG			1	// enables menu title background graphics
 
-/*
+
+#ifndef CHOICE_OWNER_OFFSET_X
+#define CHOICE_OWNER_OFFSET_X 	0
+#endif
+
+#ifndef CHOICE_OWNER_OFFSET_Y
+#define CHOICE_OWNER_OFFSET_Y 	-25
+#endif
+
+#ifndef CHOICE_OWNER_SIZE_X
+#define CHOICE_OWNER_SIZE_X 	90
+#endif
+
+#ifndef CHOICE_OWNER_SIZE_Y
+#define CHOICE_OWNER_SIZE_Y 	25
+#endif
+
+
 #ifndef CHOICE_SIZE_X
-#error "CHOICE_SIZE_X undefined"
+#define CHOICE_SIZE_X			90
 #endif
-#ifndef CHOICE_SIZE_Y
-#error "CHOICE_SIZE_Y undefined"
-#endif
-*/
-
 
 #ifndef CHOICE_SIZE_Y
-#define CHOICE_SIZE_Y			22
+#define CHOICE_SIZE_Y			25
 #endif
+
 
 #ifndef CHOICE_SIDEITEM_SIZE_X
 #define CHOICE_SIDEITEM_SIZE_X	64
@@ -28,19 +41,23 @@
 #endif
 
 #ifndef CHOICE_X_START
-#define CHOICE_X_START			58
+#define CHOICE_X_START			0
 #endif
 
 #ifndef CHOICE_X_SPACING
-#define CHOICE_X_SPACING		250
+#define CHOICE_X_SPACING		91
+#endif
+
+#ifndef CHOICE_X_COUNT
+#define CHOICE_X_COUNT			10
 #endif
 
 #ifndef CHOICE_Y_START
-#define CHOICE_Y_START			82
+#define CHOICE_Y_START			0
 #endif
 
 #ifndef CHOICE_Y_SPACING
-#define CHOICE_Y_SPACING		20
+#define CHOICE_Y_SPACING		5
 #endif
 
 #ifndef CHOICE_Y_COUNT
@@ -48,8 +65,9 @@
 #endif
 
 #ifndef CHOICE_TEXT_OFFSET_X
-#define CHOICE_TEXT_OFFSET_X	22
+#define CHOICE_TEXT_OFFSET_X	0
 #endif
+
 #ifndef SECTION_TEXT_OFFSET_X
 #define SECTION_TEXT_OFFSET_X	0
 #endif
@@ -82,16 +100,17 @@
 #define CHOICE_FOCUS_SOUND		"mouse_over"
 #endif
 
-#ifndef CHOICE_TEXTSIZE
-#define CHOICE_TEXTSIZE			TEXTSIZE_DEFAULT
+#ifdef CHOICE_TEXTSIZE
+	#undef CHOICE_TEXTSIZE
+	#define CHOICE_TEXTSIZE			0.25
 #endif
 
 #ifndef CHOICE_TEXTFONT
 #define CHOICE_TEXTFONT			UI_FONT_NORMAL
 #endif
 
-#ifndef CHOICE_HEADERCOLOR
-#define CHOICE_HEADERCOLOR		1 1 1 0.75
+#ifdef CHOICE_HEADERCOLOR
+#define CHOICE_HEADERCOLOR		1 1 0 0.75
 #endif
 
 #ifndef CHOICE_TEXTCOLOR
@@ -107,7 +126,7 @@
 #endif
 
 #ifndef CHOICE_TEXTALIGN
-#define	CHOICE_TEXTALIGN		ITEM_ALIGN_MIDDLE_LEFT
+#define	CHOICE_TEXTALIGN		ITEM_ALIGN_MIDDLE_CENTER
 #endif
 
 #ifndef ALT_HINT_X_OFFSET
@@ -139,7 +158,7 @@
 #endif
 
 #ifndef CHOICE_DVAR_OFFSET_X
-#define	CHOICE_DVAR_OFFSET_X	(0 - CHOICE_TEXT_OFFSET_X)
+#define	CHOICE_DVAR_OFFSET_X	(0 - 0)
 #endif
 
 #ifndef CHOICE_SEP_BACKGROUND
@@ -155,22 +174,34 @@
 #endif
 
 #ifndef ALTERNATE_HINT_COLOR
-#define ALTERNATE_HINT_COLOR	1 1 1 1 //0.55 0.95 0.55 0.9//0 1 0 0.35//0.75 .75 0.8 1
+#define ALTERNATE_HINT_COLOR	0.55 0.95 0.55 1//0 1 0 0.35//0.75 .75 0.8 1
 #endif
 
-#ifndef HIGHLIGHT_COLOR
-#define HIGHLIGHT_COLOR			0.2 0.25 0.35 0.25
+#ifdef HIGHLIGHT_COLOR
+	#undef HIGHLIGHT_COLOR
+	#define HIGHLIGHT_COLOR	0.00 1.00 0.57 0.4//0.2 0.25 0.35 0.25
 #endif
+
 #ifndef HIGHLIGHT_BORDER_COLOR
-#define HIGHLIGHT_BORDER_COLOR	0.8 0.95 1 0.4
+#define HIGHLIGHT_BORDER_COLOR	1 1 1 0.02
 #endif
 
-#ifndef CHOICE_HORIZONTAL_ALIGN
-#define CHOICE_HORIZONTAL_ALIGN HORIZONTAL_ALIGN_DEFAULT
+
+#ifdef CHOICE_HORIZONTAL_ALIGN
+	#undef CHOICE_HORIZONTAL_ALIGN
+	#define CHOICE_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_SUBLEFT
 #endif
-#ifndef CHOICE_VERTICAL_ALIGN
-#define CHOICE_VERTICAL_ALIGN VERTICAL_ALIGN_DEFAULT
+
+#ifdef COLOR_FOCUSED
+	#undef COLOR_FOCUSED
+	#define COLOR_FOCUSED	0.80 0.04 0.32 1
 #endif
+
+#ifdef CHOICE_VERTICAL_ALIGN
+	#undef CHOICE_VERTICAL_ALIGN
+	#define CHOICE_VERTICAL_ALIGN	VERTICAL_ALIGN_SUBTOP
+#endif
+
 
 #ifndef HIGHLIGHT_BORDER
 #define HIGHLIGHT_BORDER		WINDOW_BORDER_RAISED
@@ -214,7 +245,7 @@
 #endif
 
 #ifndef BUTTON_BG_COLOR
-#define BUTTON_BG_COLOR		0.9 0.9 1 0.07
+#define BUTTON_BG_COLOR		0.9 0.9 1 1
 #endif
 
 // ------------ splitscreen ----------------
@@ -246,6 +277,22 @@
 // ======================================================================================================================================
 // ======================================================================================================================================
 
+#define CHOICE_ROW_LNR(itemIndex)		((itemIndex - 2) % CHOICE_X_COUNT)
+#define CHOICE_COL_LNR(itemIndex)		((itemIndex - 1 - ((itemIndex - 1) % CHOICE_X_COUNT)) / CHOICE_X_COUNT)
+
+#define CHOICE_X_LNR(itemIndex) 		(CHOICE_X_START + CHOICE_X_SPACING * CHOICE_ROW_LNR(itemIndex))
+#define CHOICE_Y_LNR(itemIndex) 		(CHOICE_Y_START + CHOICE_Y_SPACING * CHOICE_COL_LNR(itemIndex))
+
+#define CHOICE_ORIGIN_LNR(itemIndex)	CHOICE_X_LNR(itemIndex) CHOICE_Y_LNR(itemIndex)
+
+#define CHOICE_RECT_LNR(itemIndex)	CHOICE_ORIGIN_LNR(itemIndex) CHOICE_SIZE_X CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN
+#define CHOICE_RECT_LNR_OWNER(itemIndex)	CHOICE_ORIGIN_LNR(itemIndex) (CHOICE_OWNER_SIZE_X - CHOICE_OWNER_OFFSET_X) (CHOICE_OWNER_SIZE_Y - CHOICE_OWNER_OFFSET_Y) CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN
+
+
+// ======================================================================================================================================
+// ======================================================================================================================================
+// ======================================================================================================================================
+
 #define CHOICE_HIGHLIGHT(itemIndex, vis) \
 	CHOICE_HIGHLIGHT_CUSTOM(itemIndex, HIGHLIGHT_COLOR, HIGHLIGHT_BORDER_COLOR, vis)
 
@@ -270,46 +317,128 @@
 #define CHOICE_BUTTON_BG_RAW(itemIndex, bgimage, foreColorArg, visArg) \
 		itemDef \
 		{ \
-			style			WINDOW_STYLE_SHADER \
-			rect			CHOICE_ORIGIN(itemIndex) (CHOICE_SIZE_X-(CHOICE_SIZE_Y/4)) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-			exp				material(bgimage); \
-			forecolor		foreColorArg \
-			visible			visArg; \
+			style			WINDOW_STYLE_FILLED \
+			rect			CHOICE_ORIGIN_LNR(itemIndex) (CHOICE_SIZE_X) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
+			forecolor		1 1 1 0 \
+			backColor       1 1 1 0 \
+			visible			1 \
 			decoration \
 		} \
 		itemDef \
 		{ \
-			style			WINDOW_STYLE_SHADER \
-			rect			(CHOICE_X(itemIndex)+(CHOICE_SIZE_X-(CHOICE_SIZE_Y/4))) CHOICE_Y(itemIndex) (CHOICE_SIZE_Y/4) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-			background		HIGHLIGHT_SHADER_ART \
-			forecolor		foreColorArg \
-			visible			visArg; \
+			style			WINDOW_STYLE_FILLED \
+			rect			CHOICE_ORIGIN_LNR(itemIndex) (CHOICE_SIZE_X) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
+			forecolor		1 1 1 0 \
+			backColor       1 1 1 0 \
+			visible			1 \
 			decoration \
 		} \
 
 #define CHOICE_HIGHLIGHT_CUSTOM(itemIndex, foreColorArg, borderColorArg, visArg) \
-		itemDef \
-		{ \
-			style			WINDOW_STYLE_SHADER \
-			rect			CHOICE_ORIGIN(itemIndex) (CHOICE_SIZE_X-(CHOICE_SIZE_Y/4)) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-			background		HIGHLIGHT_SHADER \
-			forecolor		foreColorArg \
-			border			HIGHLIGHT_BORDER \
-			bordersize		2 \
-			bordercolor		borderColorArg \
-			visible			when(localVarInt(ui_highlight) == itemIndex && localVarString(ui_choicegroup) == CHOICE_GROUP); \
-			decoration \
-		} \
-		itemDef \
-		{ \
-			style			WINDOW_STYLE_SHADER \
-			rect			(CHOICE_X(itemIndex)+(CHOICE_SIZE_X-(CHOICE_SIZE_Y/4))) CHOICE_Y(itemIndex) (CHOICE_SIZE_Y/4) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
-			background		HIGHLIGHT_SHADER_ART \
-			forecolor		foreColorArg \
-			visible			when(localVarInt(ui_highlight) == itemIndex && localVarString(ui_choicegroup) == CHOICE_GROUP); \
-			decoration \
-		} \
-		CHOICE_ACCEPT_HINT(itemIndex, visArg)
+        itemDef /* button */ \
+        { \
+            style            	WINDOW_STYLE_FILLED \
+            textstyle        	ITEM_TEXTSTYLE_NORMAL \
+            rect            	CHOICE_ORIGIN_LNR(itemIndex) CHOICE_SIZE_X CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
+            forecolor        	1 1 1 1 \
+            backColor       	1 1 1 0.01 \
+            background         	black \
+            visible            	when(localVarInt(ui_highlight) == itemIndex && localVarString(ui_choicegroup) == CHOICE_GROUP); \
+            decoration \
+        } \
+		itemDef /* top outline */ \
+        { \
+            style            	WINDOW_STYLE_SHADER \
+            textstyle        	ITEM_TEXTSTYLE_NORMAL \
+            rect            	CHOICE_ORIGIN_LNR(itemIndex) CHOICE_SIZE_X (CHOICE_SIZE_Y-CHOICE_SIZE_Y+1) CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
+			origin 				0 0 \
+            forecolor        	0 0 0 0 \
+            backColor       	0 0 0 1 \
+            visible          	1 \
+            background        	black \
+            decoration \
+            onFocus \
+            { \
+                setLocalVarInt ui_highlight2 itemIndex; \
+                setLocalVarString ui_choicegroup CHOICE_GROUP; \
+                onFocusArg \
+            } \
+            leaveFocus \
+            { \
+                setLocalVarInt ui_highlight2 0; \
+                leaveFocusArg \
+            } \
+        } \
+		itemDef /* bottom outline*/ \
+        { \
+            style            	WINDOW_STYLE_SHADER \
+            textstyle        	ITEM_TEXTSTYLE_NORMAL \
+            rect            	CHOICE_ORIGIN_LNR(itemIndex) CHOICE_SIZE_X (CHOICE_SIZE_Y - CHOICE_SIZE_Y + 1) CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
+			origin 				0 (CHOICE_SIZE_Y - 1) \
+            forecolor        	0 0 0 0 \
+            backColor       	0 0 0 1 \
+            visible          	1 \
+            background        	black \
+            decoration \
+            onFocus \
+            { \
+                setLocalVarInt ui_highlight2 itemIndex; \
+                setLocalVarString ui_choicegroup CHOICE_GROUP; \
+                onFocusArg \
+            } \
+            leaveFocus \
+            { \
+                setLocalVarInt ui_highlight2 0; \
+                leaveFocusArg \
+            } \
+        } \
+		itemDef /* left outline */ \
+        { \
+            style            	WINDOW_STYLE_SHADER \
+            textstyle        	ITEM_TEXTSTYLE_NORMAL \
+            rect            	CHOICE_ORIGIN_LNR(itemIndex) (CHOICE_SIZE_X - CHOICE_SIZE_X + 1) (CHOICE_SIZE_Y - 2) CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
+			origin 				0 1 \
+            forecolor        	0 0 0 0 \
+            backColor       	0 0 0 1 \
+            visible          	1 \
+            background        	black \
+            decoration \
+            onFocus \
+            { \
+                setLocalVarInt ui_highlight2 itemIndex; \
+                setLocalVarString ui_choicegroup CHOICE_GROUP; \
+                onFocusArg \
+            } \
+            leaveFocus \
+            { \
+                setLocalVarInt ui_highlight2 0; \
+                leaveFocusArg \
+            } \
+        } \
+		itemDef /* right outline */ \
+        { \
+            style            	WINDOW_STYLE_SHADER \
+            textstyle        	ITEM_TEXTSTYLE_NORMAL \
+            rect            	CHOICE_ORIGIN_LNR(itemIndex) (CHOICE_SIZE_X - CHOICE_SIZE_X + 1) (CHOICE_SIZE_Y - 2) CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
+			origin 				(CHOICE_SIZE_X - 1) 1 \
+            forecolor        	0 0 0 0 \
+            backColor       	0 0 0 1 \
+            visible          	1 \
+            background        	black \
+            decoration \
+            onFocus \
+            { \
+                setLocalVarInt ui_highlight2 itemIndex; \
+                setLocalVarString ui_choicegroup CHOICE_GROUP; \
+                onFocusArg \
+            } \
+            leaveFocus \
+            { \
+                setLocalVarInt ui_highlight2 0; \
+                leaveFocusArg \
+            } \
+        } \
+        CHOICE_ACCEPT_HINT(itemIndex, visArg)
 
 // used for custom highlights for itemDefs that are special and can not use itemIndex or complie with the strict alignment of this macro set
 #define CHOICE_HIGHLIGHT_CUSTOM_2(px, py, pw, ph, visArg) \
@@ -336,7 +465,7 @@
 			style			WINDOW_STYLE_SHADER \
 			rect			(px+(ph/4)) py (-(pw-(ph/4))) ph CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
 			background		HIGHLIGHT_SHADER \
-			forecolor		HIGHLIGHT_COLOR \
+			forecolor		1 0 0 1 \
 			visible			visArg \
 			decoration \
 		} \
@@ -345,13 +474,13 @@
 			style			WINDOW_STYLE_SHADER \
 			rect			px py (-(ph/4)) ph CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
 			background		HIGHLIGHT_SHADER_ART \
-			forecolor		HIGHLIGHT_COLOR \
+			forecolor		1 0 0 1 \
 			visible			visArg \
 			decoration \
 		} \
 
 
-//CHOICE_TEXT_OFFSET_X
+//0
 
 #if defined(CONSOLE) && !defined(SPLITSCREEN)
 #define CHOICE_ACCEPT_HINT(itemIndex, vis) \
@@ -489,13 +618,44 @@
 			decoration \
 		}
 
+#define LNR_BUTTON_VIS_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, visArg) \
+		CHOICE_BUTTON_BG(itemIndex, visArg) \
+		CHOICE_HIGHLIGHT(itemIndex, 1) \
+		CHOICE_BUTTON_VIS_NOHI_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, visArg)
+
+#define CHOICE_BUTTON_VIS_NOHI_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, visArg) \
+		CHOICE_BUTTON_FOCUS_VIS_NOHI_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, ;, ;, visArg)
+
+#define CHOICE_BUTTON_FOCUS_VIS_NOHI_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, onFocusArg, leaveFocusArg, visArg) \
+		CHOICE_BUTTON_FOCUS_VIS_NOHI_EX_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, onFocusArg, leaveFocusArg, visArg, ;)
+
+#define CHOICE_BUTTON_FOCUS_VIS_NOHI_EX_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, onFocusArg, leaveFocusArg, visArg, extraArgs) \
+		itemDef \
+		{ \
+			type			ITEM_TYPE_BUTTON  \
+			rect			CHOICE_RECT_LNR(itemIndex) \
+			origin 			0 0 \
+			text			textArg \
+			ownerdraw		owner \
+			textfont		CHOICE_TEXTFONT \
+			textscale		CHOICE_TEXTSIZE \
+			textstyle		CHOICE_TEXTSTYLE \
+			textAlign		textAlignChoice \
+			textAlignX		textAlignOffsetX \
+			textalignY 		18 \
+			forecolor		CHOICE_TEXTCOLOR \
+			visible			visArg \
+			extraArgs \
+			CHOICE_SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg) \
+		} \
+
 #define CHOICE_BUTTON(itemIndex, textArg, actionArg) \
-		CHOICE_BUTTON_VIS(itemIndex, textArg, actionArg, 1)
+		LNR_BUTTON_VIS(itemIndex, textArg, actionArg, 1)
 
 #define CHOICE_BUTTON_NOHI(itemIndex, textArg, actionArg) \
 		CHOICE_BUTTON_VIS_NOHI(itemIndex, textArg, actionArg, 1)
 
-#define CHOICE_BUTTON_VIS(itemIndex, textArg, actionArg, visArg) \
+#define LNR_BUTTON_VIS(itemIndex, textArg, actionArg, visArg) \
 		CHOICE_BUTTON_BG(itemIndex, visArg) \
 		CHOICE_HIGHLIGHT(itemIndex, 1) \
 		CHOICE_BUTTON_VIS_NOHI(itemIndex, textArg, actionArg, visArg)
@@ -551,18 +711,19 @@
 		itemDef \
 		{ \
 			type			ITEM_TYPE_BUTTON \
-			rect			CHOICE_RECT(itemIndex) \
+			rect			CHOICE_RECT_LNR(itemIndex) \
 			exp				text(textArg); \
 			textfont		CHOICE_TEXTFONT \
 			textscale		CHOICE_TEXTSIZE \
 			textstyle		CHOICE_TEXTSTYLE \
 			textAlign		CHOICE_TEXTALIGN \
-			textAlignX		CHOICE_TEXT_OFFSET_X \
+			textAlignX		0 \
 			forecolor		CHOICE_TEXTCOLOR \
 			visible			visArg \
 			extraArgs \
 			CHOICE_SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg) \
 		} \
+
 
 #define CHOICE_DBUTTON_VIS_NOHI(itemIndex, textArg, visArg) \
 		itemDef \
@@ -574,7 +735,7 @@
 			textscale		CHOICE_TEXTSIZE \
 			textstyle		CHOICE_TEXTSTYLE \
 			textAlign		CHOICE_TEXTALIGN \
-			textAlignX		CHOICE_TEXT_OFFSET_X \
+			textAlignX		0 \
 			forecolor		CHOICE_TEXTCOLOR_DISABLED \
 			visible			visArg \
 			decoration \
@@ -591,7 +752,7 @@
 			textscale		CHOICE_TEXTSIZE \
 			textstyle		CHOICE_TEXTSTYLE \
 			textAlign		CHOICE_TEXTALIGN \
-			textAlignX		CHOICE_TEXT_OFFSET_X \
+			textAlignX		0 \
 			forecolor		CHOICE_TEXTCOLOR_DISABLED \
 			visible			visArg \
 			decoration \
@@ -648,7 +809,7 @@
 			rect			CHOICE_RECT(itemIndex) \
 			exp				text(textArg); \
 			textalign		ITEM_ALIGN_MIDDLE_RIGHT \
-			textalignx		(0 - CHOICE_TEXT_OFFSET_X) \
+			textalignx		(0 - 0) \
 			textscale		CHOICE_TEXTSIZE \
 			style			WINDOW_STYLE_FILLED \
 			forecolor		colorArg \
@@ -711,7 +872,7 @@
 			dvar			dvarArg \
 			rect			CHOICE_ORIGIN(itemIndex) (CHOICE_SIZE_X+120) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
 			textalign		ITEM_ALIGN_MIDDLE_LEFT \
-			textalignx		(CHOICE_SIZE_X+8) /*(-(CHOICE_TEXT_OFFSET_X))*/ \
+			textalignx		(CHOICE_SIZE_X+8) /*(-(0))*/ \
 			textscale		CHOICE_TEXTSIZE \
 			textstyle		ITEM_TEXTSTYLE_SHADOWED \
 			style			WINDOW_STYLE_FILLED \
@@ -736,7 +897,7 @@
 			dvar			dvarArg \
 			rect			CHOICE_ORIGIN(itemIndex) (CHOICE_SIZE_X+120) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
 			textalign		ITEM_ALIGN_MIDDLE_LEFT \
-			textalignx		(CHOICE_SIZE_X+8) /*(-(CHOICE_TEXT_OFFSET_X))*/ \
+			textalignx		(CHOICE_SIZE_X+8) /*(-(0))*/ \
 			textscale		CHOICE_TEXTSIZE \
 			textstyle		ITEM_TEXTSTYLE_SHADOWED \
 			style			WINDOW_STYLE_FILLED \
@@ -763,7 +924,7 @@
 			dvarfloat		dvarArg defaultArg minArg maxArg \
 			rect			CHOICE_ORIGIN(itemIndex) (CHOICE_SIZE_X+120) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
 			textalign		ITEM_ALIGN_MIDDLE_LEFT \
-			textalignx		(CHOICE_SIZE_X+20) /*(-(CHOICE_TEXT_OFFSET_X))*/ \
+			textalignx		(CHOICE_SIZE_X+20) /*(-(0))*/ \
 			textscale		CHOICE_TEXTSIZE \
 			textstyle		ITEM_TEXTSTYLE_SHADOWED \
 			style			WINDOW_STYLE_FILLED \
@@ -787,7 +948,7 @@
 			dvar			dvarArg \
 			rect			CHOICE_ORIGIN(itemIndex) (CHOICE_SIZE_X+120) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
 			textalign		ITEM_ALIGN_MIDDLE_LEFT \
-			textalignx		(CHOICE_SIZE_X+20)/*(-(CHOICE_TEXT_OFFSET_X))*/ \
+			textalignx		(CHOICE_SIZE_X+20)/*(-(0))*/ \
 			textscale		CHOICE_TEXTSIZE \
 			textstyle		ITEM_TEXTSTYLE_SHADOWED \
 			style			WINDOW_STYLE_FILLED \
@@ -809,7 +970,7 @@
 			dvar			cmdArg \
 			rect			CHOICE_ORIGIN(itemIndex) (CHOICE_SIZE_X+120) CHOICE_SIZE_Y CHOICE_HORIZONTAL_ALIGN CHOICE_VERTICAL_ALIGN \
 			textalign		ITEM_ALIGN_MIDDLE_LEFT \
-			textalignx		(CHOICE_SIZE_X+20)/*(-(CHOICE_TEXT_OFFSET_X))*/ \
+			textalignx		(CHOICE_SIZE_X+20)/*(-(0))*/ \
 			textscale		CHOICE_TEXTSIZE \
 			textstyle		ITEM_TEXTSTYLE_SHADOWED \
 			style			WINDOW_STYLE_FILLED \
@@ -838,7 +999,7 @@
 			textscale		CHOICE_TEXTSIZE \
 			textstyle		CHOICE_TEXTSTYLE \
 			textAlign		CHOICE_TEXTALIGN \
-			textAlignX		CHOICE_TEXT_OFFSET_X \
+			textAlignX		0 \
 			forecolor		colorArg \
 			visible			visArg \
 			decoration \

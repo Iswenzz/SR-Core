@@ -1,82 +1,102 @@
 #ifdef PC
 	#ifndef STYLE2_NOPOSITION
-		#undef CHOICE_SIZE_X
-		#define CHOICE_SIZE_X 				220
-
-		#undef CHOICE_SIZE_Y
-		#define CHOICE_SIZE_Y 				22
-
-		#define CHOICE_TEXT_OFFSET_X		(-(CHOICE_SIZE_Y-12))
+		//#undef CHOICE_SIZE_X
+		//#define CHOICE_SIZE_X 				220
+		
+		//#undef CHOICE_SIZE_Y
+		//#define CHOICE_SIZE_Y 				22
+	
+		//#define CHOICE_TEXT_OFFSET_X		(-(CHOICE_SIZE_Y-12))
 		#define CHOICE_ACCEPT_ALIGN_X		-2
-
-		#define	CHOICE_TEXTALIGN			ITEM_ALIGN_MIDDLE_RIGHT
-
+	
+		#define	CHOICE_TEXTALIGN			ITEM_ALIGN_MIDDLE_CENTER
+		
 		#undef CHOICE_SEP_OFFSET_Y
 		#define CHOICE_SEP_OFFSET_Y			-2
-
-		#define TEXTBUTTON_COLOR			0.9 0.9 0.92 0.75
-
-		#define TEXTSIZE_BUTTON_PC			0.4
-
+		
+		#define TEXTBUTTON_COLOR			0.9 0.9 0.92 0.4
+		
+		#define TEXTSIZE_BUTTON_PC			0.3
+		
 		#define ORIGIN_OPTIONS_FRAME		220 0
-
+		
 		#define CHOICE_DVAR_TEXTALIGN		ITEM_ALIGN_MIDDLE_LEFT
 		#define	CHOICE_DVAR_OFFSET_X		(CHOICE_SIZE_X+20)
 		#define CHOICE_DVAR_WIDTH_OFFSET	120
-
+		
 		#ifdef OPTIONS_STYLE
 			#undef	CHOICE_X_START
 			#define CHOICE_X_START			0
 			#undef  CHOICE_Y_START
 			#define CHOICE_Y_START			10
+	
+			#define LOCAL_CLOSE_ALL \
+				close options_look; \
+				close options_move; \
+				close options_shoot; \
+				close options_misc; \
+				close options_graphics; \
+				close options_sound; \
+				close options_game; \
+				close options_view; \
+				close options_defaults; \
+				close options_driverinfo; \
+				close options_credits; \
+				close options_multi; \
+				close options_graphics_defaults; \
+				close options_graphics_texture; \
+				close options_control_defaults; \
+				close options_voice; \
+				close options_multi; \
+				close controls_multi; \
+				close main_options; \
+				close main_controls 
 
-			#define LOCAL_CLOSE_ALL 				\
-				close options_look; 				\
-				close options_move; 				\
-				close options_shoot; 				\
-				close options_misc; 				\
-				close options_graphics; 			\
-				close options_sound; 				\
-				close options_game;					\
-				close options_view; 				\
-				close options_defaults; 			\
-				close options_driverinfo; 			\
-				close options_credits; 				\
-				close options_multi; 				\
-				close options_graphics_defaults; 	\
-				close options_graphics_texture; 	\
-				close options_control_defaults; 	\
-				close options_voice; 				\
-				close options_multi; 				\
-				close controls_multi; 				\
-				close main_options; 				\
-				close main_controls;
+			#define LOCAL_CLOSE_ALL_CUSTOM \
+				close options_look; \
+				close options_move; \
+				close options_shoot; \
+				close options_misc; \
+				close options_graphics; \
+				close options_sound; \
+				close options_game; \
+				close options_view; \
+				close options_defaults; \
+				close options_driverinfo; \
+				close options_credits; \
+				close options_multi; \
+				close options_graphics_defaults; \
+				close options_graphics_texture; \
+				close options_control_defaults; \
+				close options_voice; \
+				close options_multi; \
+				close controls_multi
 		#endif
-
-		// Disable the other positioning overrides
+		
+		// disable the other positioning overrides
 		#undef STYLE2_NOPOSITION
 		#define STYLE2_NOPOSITION			1
 		#undef SPLITSCREEN_ENABLED
-
+		
 	#endif
 
 	#define TITLE_X_OFFSET				-36
-	#define TITLE_Y_OFFSET				-36
-
+	#define TITLE_Y_OFFSET				-36	
+	
 #endif
 
-// Position setting
+// position setting
 #ifndef STYLE2_NOPOSITION
 	#undef CHOICE_SIZE_X
 	#define CHOICE_SIZE_X 224
 	#undef CHOICE_SIZE_Y
 	#define CHOICE_SIZE_Y 22
-	#define CHOICE_TEXT_OFFSET_X	(0 - (4+CHOICE_SIZE_Y))
+	//#define CHOICE_TEXT_OFFSET_X	(0 - (4+CHOICE_SIZE_Y))
 	#define CHOICE_ACCEPT_ALIGN_X	-2
 	#define CHOICE_ACCEPT_ALIGN_Y	0
-
+	
 	#define	A_BUTTON_OFFSET_Y		1
-
+	
 	#define	CHOICE_TEXTALIGN		ITEM_ALIGN_MIDDLE_RIGHT
 	#define ALT_HINT_X_OFFSET		-(CHOICE_SIZE_Y)
 	#undef CHOICE_SEP_OFFSET_Y
@@ -92,13 +112,13 @@
 	#define CHOICE_TEXTSIZE			TEXTSIZE_DEFAULT
 #endif
 
-// Position setting for splitscreen
+// position setting for splitscreen
 #ifdef SPLITSCREEN_ENABLED
 	#undef CHOICE_SIZE_X
 	#define CHOICE_SIZE_X 120
 	#undef CHOICE_SIZE_Y
 	#define CHOICE_SIZE_Y 18
-	#define CHOICE_TEXT_OFFSET_X	(0 - (4+CHOICE_SIZE_Y))
+	//#define CHOICE_TEXT_OFFSET_X	(0 - (4+CHOICE_SIZE_Y))
 	#define CHOICE_ACCEPT_ALIGN_X	-2
 	#define CHOICE_ACCEPT_ALIGN_Y	0
 	#define	CHOICE_TEXTALIGN		ITEM_ALIGN_MIDDLE_RIGHT
@@ -106,10 +126,10 @@
 	#undef CHOICE_SEP_OFFSET_Y
 	#define CHOICE_SEP_OFFSET_Y		-2
 	#define NEW_X_OFFSET			2
-
+	
 	#undef CHOICE_TEXTSIZE
 	#define CHOICE_TEXTSIZE		TEXTSIZE_SMALL
-
+	
 	#define BUTTON_BG_COLOR			0.9 0.9 1 0.12
 #endif
 
@@ -126,7 +146,7 @@
 #define HIGHLIGHT_SHADER		"gradient_fadein"
 
 #undef HIGHLIGHT_COLOR
-#define HIGHLIGHT_COLOR			0.9 0.95 1 0.35
+#define HIGHLIGHT_COLOR			0.9 0.95 1 1
 
 #undef A_BUTTON_COLOR
 #define A_BUTTON_COLOR			1 1 1 1

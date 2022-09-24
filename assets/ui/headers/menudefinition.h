@@ -47,12 +47,12 @@
 
 #define ITEM_TEXTSTYLE_NORMAL			0	// normal text
 #define ITEM_TEXTSTYLE_BLINK			1	// fast blinking
-#define ITEM_TEXTSTYLE_SHADOWED 		3	// drop shadow ( need a color for this )
-#define ITEM_TEXTSTYLE_SHADOWEDMORE 	6	// drop shadow ( need a color for this )
+#define ITEM_TEXTSTYLE_SHADOWED 		3	// drop shadow (need a color for this)
+#define ITEM_TEXTSTYLE_SHADOWEDMORE 	6	// drop shadow (need a color for this)
 #define ITEM_TEXTSTYLE_MONOSPACE		128
 
 #define WINDOW_BORDER_NONE			0		// no border
-#define WINDOW_BORDER_FULL			1		// full border based on border color ( single pixel )
+#define WINDOW_BORDER_FULL			1		// full border based on border color (single pixel)
 #define WINDOW_BORDER_HORZ			2		// horizontal borders only
 #define WINDOW_BORDER_VERT			3		// vertical borders only
 #define WINDOW_BORDER_KCGRADIENT	4		// horizontal border using the gradient bars
@@ -183,7 +183,7 @@
 // owner draw types
 // ideally these should be done outside of this file but
 // this makes it much easier for the macro expansion to
-// convert them for the designers ( from the .menu files )
+// convert them for the designers (from the .menu files)
 #define CG_OWNERDRAW_BASE			1
 #define CG_PLAYER_AMMO_VALUE		5
 #define CG_PLAYER_AMMO_BACKDROP		6

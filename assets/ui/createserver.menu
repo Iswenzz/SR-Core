@@ -1,0 +1,769 @@
+/* #include "ui/headers/menudef.h"
+#include "ui/includes/common_macro.inc"
+
+#define CHOICE_GROUP			"createserver"
+#define CHOICE_SEP_1			7
+#define CHOICE_SEP_2			11
+
+#define CHOICE_X_START			100
+#define CHOICE_Y_START			55
+
+#define STYLE_PC				1
+
+#include "ui/includes/menustyle.inc"
+#include "ui/templates/choices_setup_common.menu"
+
+#undef	CHOICE_SIZE_X
+#define CHOICE_SIZE_X 			220
+
+#undef	CHOICE_SIZE_Y
+#define CHOICE_SIZE_Y 			22 */
+
+// setup choices
+#include "ui/includes/options_menu_setup.inc"
+// redef any options below, if needed
+
+//#undef CHOICE_GROUP
+//#define CHOICE_GROUP			"createserver"
+
+#undef	CHOICE_Y_COUNT
+#define CHOICE_Y_COUNT 			16
+
+// offset buttons
+#undef CHOICE_X_START
+#define CHOICE_X_START			-290//-298
+
+// offset buttons
+#undef CHOICE_Y_START
+#define CHOICE_Y_START			47//-298
+
+// keep containers at the same place as the buttons but with padding
+#undef CONTAINER_X_START
+#define CONTAINER_X_START 		(CHOICE_X_START - 20)
+
+#undef CONTAINER_Y_START
+#define CONTAINER_Y_START 		(CHOICE_Y_START + 5)
+
+// button padding
+#undef	CHOICE_X_SPACING
+#define CHOICE_X_SPACING 		290
+
+#undef SR_MAP_SELECTION_X_START
+#define SR_MAP_SELECTION_X_START 320
+
+{
+	// Server Creation //
+	menuDef
+	{
+		name			"createserver"
+		fullscreen		0
+		rect			NAV_MENU_FULLSCREEN_RECT_SERVERBROWSER //NAV_MENU_FULLSCREEN_RECT
+		focuscolor		COLOR_FOCUSED
+
+		onOpen
+		{
+			CLOSE_SERVERBROWSER;
+			CLOSE_ALL_CONTROLS;
+			CLOSE_ALL_OPTIONS;
+			CLOSE_MODS;
+			CLOSE_PROFILE;
+
+			// disable main content
+			setLocalVarBool ui_maincontent_lnr "1";
+			setLocalVarBool ui_maincontent_update "1";
+
+			uiScript 		loadArenas;
+		}
+
+		onClose
+		{
+			setLocalVarBool ui_maincontent_lnr "0";
+			setLocalVarBool ui_maincontent_update "0";
+		}
+
+		onEsc
+		{
+			close self;
+		}
+
+		/***********************************************\
+        |* Content | Background
+        \***********************************************/
+
+        itemDef
+        {
+            name                        "content_left"
+            rect                        CONTAINER_X_START 0 610 392 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP // 630 fits against
+            origin                      0 16
+            style                       WINDOW_STYLE_FILLED
+            backcolor                   1 1 1 0.03
+            forecolor                   1 1 1 1
+            visible                     1
+            decoration
+        }
+
+		itemDef
+        {
+            name                        "content_left_title"
+            rect                        CONTAINER_X_START 0 610 24 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+            origin                      0 16
+            style                       WINDOW_STYLE_FILLED
+            borderSize                  0
+            foreColor                   1 1 1 1
+            backColor                   1 1 1 0.02
+            borderColor                 1 1 1 1
+            outlineColor                0 0 0 0
+            exp                         text ("@MENU_START_NEW_SERVER");
+            textFont                    UI_FONT_NORMAL
+            textAlign                   ITEM_ALIGN_MIDDLE_LEFT
+            textAlignX                  10
+            textScale                   0.20
+            visible                     1
+            decoration
+        }
+
+
+
+/* 		CREATESERVER_BTN_VIS(	25, "@MPUI_RULES_TIME_LIMIT",
+								"scr_sab_timelimit",
+								{
+									"@MPUI_RULES_UNLIMITED" 0 "@MPUI_RULES_2_5MINUTES" 2.5 "@MPUI_RULES_5MINUTES" 5 "@MPUI_RULES_10MINUTES" 10 "@MPUI_RULES_20MINUTES" 20 "@MPUI_RULES_30MINUTES" 30
+								},
+								play "mouse_click",
+								when(dvarstring(ui_netGametypeName) == "sab") ;)
+ */
+
+		// -------------------------------------------------------------------------------------------------------------------------
+		// Server settings
+
+		CREATESERVER_DVAREDIT_VIS(		1, "@MENU_SERVER_NAME", "sv_hostname", 20, 20, ;, 1)
+		CREATESERVER_DVARFLOATLIST(	2, "@MENU_DEDICATED", "ui_dedicated", { "@MENU_NO" 0 "@MENU_LAN" 1 "@MENU_INTERNET" 2 }, ;)
+		CREATESERVER_DVARYESNO(		3, "@MPUI_PUNKBUSTERWITHCOLONANDTWOSPACES", "sv_punkbuster", ;)
+		CREATESERVER_DVAREDIT_VIS(		4, "@MENU_PASSWORD1", "g_password", 12, 12, ;, 1)
+		CREATESERVER_DVAREDIT_NUMERIC(	5, "@MENU_MAXIMUM_PLAYERS", "sv_maxclients", 3, ;)
+
+		// right
+		CREATESERVER_DVAREDIT_NUMERIC(	17, "@MENU_MINIMUM_PING", "sv_minping", 4, ;)
+		CREATESERVER_DVAREDIT_NUMERIC(	18, "@MENU_MAXIMUM_PING", "sv_maxping", 4, ;)
+		CREATESERVER_DVARYESNO(		19, "@MENU_VOICECHATCOLON", "sv_voice", ;)
+		CREATESERVER_DVARYESNO(		20, "@MENU_AUTOBALANCE_TEAMS", "scr_teambalance", ;)
+		CREATESERVER_DVARYESNO(		21, "@MENU_ALLOW_VOTING", "g_allowvote", ;)
+
+		itemDef /* seperator line --------------------------------------------------------------------  */
+        {
+            name                        "sep_line_server"
+            rect                        CHOICE_X_START (CHOICE_Y(6) + 10) (610 - 40) 2 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+            origin                      0 0
+            style                       WINDOW_STYLE_FILLED
+            borderSize                  0
+            backColor                   1 1 1 0.03
+            visible                     1
+            decoration
+        }
+
+		// -------------------------------------------------------------------------------------------------------------------------
+		// Gametype settings
+
+		CREATESERVER_DVARLIST_VIS(		10, "@MENU_GAME_TYPE", "", ITEM_TYPE_MULTI, ownerdraw UI_NETGAMETYPE textaligny 18, ;, 1)
+
+		// General ------------------------------------------------------------
+
+		CREATESERVER_BTN_VIS(	7, "@MPUI_RULES_OLDSCHOOL",
+								"scr_oldschool",
+								{
+									"@MENU_DISABLED" 0 "@MENU_ENABLED" 1
+								},
+								play "mouse_click"; execNowOnDvarIntValue scr_oldschool 0 "exec oldschool_disable.cfg"; execNowOnDvarIntValue scr_oldschool 1 "exec oldschool_settings.cfg; exec hardcore_disable.cfg; set scr_hardcore 0",
+								1 ;)
+
+		CREATESERVER_BTN_VIS(	8, "@MPUI_RULES_SPECTATING",
+								"scr_game_spectatetype",
+								{
+									"@MENU_DISABLED" 0 "@MPUI_RULES_TEAM_ONLY" 1 "@MPUI_RULES_FREE" 2
+								},
+								play "mouse_click",
+								1 ;)
+
+		CREATESERVER_BTN_VIS(	23, "@MPUI_RULES_HARDCORE",
+								"scr_hardcore",
+								{
+									"@MENU_DISABLED" 0 "@MENU_ENABLED" 1
+								},
+								play "mouse_click"; execNowOnDvarIntValue scr_hardcore 0 "exec hardcore_disable.cfg"; execNowOnDvarIntValue scr_hardcore 1 "exec hardcore_settings.cfg; exec oldschool_disable.cfg; set scr_oldschool 0",
+								1 ;)
+
+		CREATESERVER_BTN_VIS(	24, "@MPUI_RULE_ALLOW_KILLCAM",
+								"scr_game_allowkillcam",
+								{
+									"@MENU_DISABLED" 0 "@MENU_ENABLED" 1
+								},
+								play "mouse_click",
+								1 ;)
+
+		CREATESERVER_BTN_VIS(	26, "@MPUI_RULES_FRIENDLY_FIRE",
+								"scr_team_fftype",
+								{
+									"@MENU_DISABLED" 0 "@MENU_ENABLED" 1 "@MPUI_RULES_REFLECT" 2 "@MPUI_RULES_SHARED" 3
+								},
+								play "mouse_click",
+								when(dvarstring(ui_netGametypeName) != "dm") ;)
+
+		itemDef /* seperator line --------------------------------------------------------------------  */
+        {
+            name                        "sep_line_server"
+            rect                        CHOICE_X_START (CHOICE_Y(9) + 10) (610 - 40) 2 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+            origin                      0 0
+            style                       WINDOW_STYLE_FILLED
+            borderSize                  0
+            backColor                   1 1 1 0.03
+            visible                     1
+            decoration
+        }
+
+		// using choice groups to not highlight hidden buttons :))
+
+		// DM ------------------------------------------------------------
+		#undef CHOICE_GROUP
+		#define CHOICE_GROUP			"cs_dm"
+		#include "ui/includes/createserver_dm.inc"
+
+		// DOM -----------------------------------------------------------
+		#undef CHOICE_GROUP
+		#define CHOICE_GROUP			"cs_dom"
+		#include "ui/includes/createserver_dom.inc"
+
+		// SD ------------------------------------------------------------
+		#undef CHOICE_GROUP
+		#define CHOICE_GROUP			"cs_sd"
+		#include "ui/includes/createserver_sd.inc"
+
+		// SAB -----------------------------------------------------------
+		#undef CHOICE_GROUP
+		#define CHOICE_GROUP			"cs_sab"
+		#include "ui/includes/createserver_sab.inc"
+
+		// TDM -----------------------------------------------------------
+		#undef CHOICE_GROUP
+		#define CHOICE_GROUP			"cs_tdm"
+		#include "ui/includes/createserver_tdm.inc"
+
+		// HQ ------------------------------------------------------------
+		#undef CHOICE_GROUP
+		#define CHOICE_GROUP			"cs_hq"
+		#include "ui/includes/createserver_hq.inc"
+
+
+		// -------------------------------------------------
+		// map preview
+
+		itemDef
+        {
+            name                        "content_right_title"
+            rect                        SR_MAP_SELECTION_X_START 0 150 25 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+            origin                      0 16
+            style                       WINDOW_STYLE_FILLED
+            borderSize                  0
+            foreColor                   1 1 1 1
+            backColor                   1 1 1 0.02
+            borderColor                 1 1 1 1
+            outlineColor                0 0 0 0
+            exp                         text ("Map Preview");
+            textFont                    UI_FONT_NORMAL
+            textAlign                   ITEM_ALIGN_MIDDLE_LEFT
+            textAlignX                  10
+            textScale                   0.20
+            visible                     1
+            decoration
+        }
+
+		itemDef
+		{
+			name			mappreview
+			style			0
+			ownerdraw		UI_MAPPREVIEW
+			rect			SR_MAP_SELECTION_X_START 41 150 85 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP // Y::41 H::85
+			border			0
+			bordercolor		.5 .5 .5 .5
+			origin			0 0
+			visible			1
+			decoration
+		}
+
+		// -------------------------------------------------
+		// map list
+
+		itemDef
+        {
+            name                        "maplist_content_right"
+            rect                        SR_MAP_SELECTION_X_START 110 150 224 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP // Y::150 H::204
+            origin                      0 16
+            style                       WINDOW_STYLE_FILLED
+            backcolor                   1 1 1 0.03
+            forecolor                   1 1 1 1
+            visible                     1
+            decoration
+        }
+
+		itemDef
+		{
+			name			maplist
+			rect			(SR_MAP_SELECTION_X_START - 2.5) 126 153 224 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP // Y::166 H::204
+			type			ITEM_TYPE_LISTBOX
+			style			WINDOW_STYLE_FILLED
+			elementwidth 	125
+			elementheight 	20
+			origin			0 0
+			textfont		UI_FONT_NORMAL
+			textscale		CHOICE_TEXTSIZE
+			elementtype		LISTBOX_TEXT
+			feeder			FEEDER_ALLMAPS
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textalignx 		6
+			textaligny 		0//-2
+			forecolor 		CHOICE_TEXTCOLOR
+			backcolor 		0 1 1 0.2
+			visible			1
+			forecolor 			1 1 1 0.9
+			backcolor 			0 0 0 0
+			border				0
+			bordercolor			1 1 1 0.15
+			outlinecolor 		1 1 1 0.03
+
+			columns			1 5 150 20
+			mouseEnter 		{ play "mouse_over"; setitemcolor maplist bordercolor 1 1 1 0.45 }
+			mouseExit 		{ setitemcolor maplist bordercolor 1 1 1 0.15 }
+			doubleclick		{ play "mouse_click"; uiScript StartServerCustom; }
+		}
+
+		#define CREATESERVER_STARTBUTTON_X 	SR_MAP_SELECTION_X_START
+		#define CREATESERVER_STARTBUTTON_Y	383
+		#define CREATESERVER_STARTBUTTON_W	150
+		#define CREATESERVER_STARTBUTTON_H	25
+		#define CREATESERVER_STARTBUTTON_ALIGN 		HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+
+		#define CREATESERVER_ADVBUTTON_Y 	(CREATESERVER_STARTBUTTON_Y - CREATESERVER_STARTBUTTON_H - 1)
+
+		// -------------------------------------------------
+		// createserver_advanced button
+
+		itemDef // bg
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			CREATESERVER_STARTBUTTON_X CREATESERVER_ADVBUTTON_Y CREATESERVER_STARTBUTTON_W CREATESERVER_STARTBUTTON_H CREATESERVER_STARTBUTTON_ALIGN
+			forecolor		1 1 1 0
+			backColor       0.2 0.2 0.2 0.07
+			visible			1
+			decoration
+		}
+
+		itemDef // highlight
+        {
+            style            	WINDOW_STYLE_FILLED
+            textstyle        	ITEM_TEXTSTYLE_NORMAL
+            rect            	CREATESERVER_STARTBUTTON_X CREATESERVER_ADVBUTTON_Y CREATESERVER_STARTBUTTON_W CREATESERVER_STARTBUTTON_H CREATESERVER_STARTBUTTON_ALIGN
+            forecolor        	1 1 1 1
+            backColor       	1 1 1 0.02
+            background         	black
+            visible            	when(localVarInt(ui_highlight) == 98 && localVarString(ui_choicegroup) == CHOICE_GROUP);//1;
+            decoration
+        }
+
+		itemDef // button + text
+		{
+			name 			"adv_settings"
+			type			ITEM_TYPE_BUTTON
+			rect			CREATESERVER_STARTBUTTON_X CREATESERVER_ADVBUTTON_Y CREATESERVER_STARTBUTTON_W CREATESERVER_STARTBUTTON_H CREATESERVER_STARTBUTTON_ALIGN
+			origin 			0 0
+			text			"Advanced Server Settings"
+			textfont		UI_FONT_BIG
+			textscale		CHOICE_TEXTSIZE
+			textstyle		CHOICE_TEXTSTYLE
+			textAlign		ITEM_ALIGN_MIDDLE_CENTER
+			textAlignX		0
+			textalignY 		0
+			forecolor		CHOICE_TEXTCOLOR
+			visible			1
+
+			onFocus
+			{
+				play 				"mouse_over";
+				setLocalVarInt 		ui_highlight 98;
+				setLocalVarString 	ui_choicegroup CHOICE_GROUP;
+			}
+
+			leaveFocus
+			{
+				setLocalVarInt ui_highlight 0;
+			}
+
+			action
+			{
+				play 		"mouse_click";
+				open 		createserver_advanced;
+				//close 		self;
+				//uiScript StartServer
+			}
+		}
+
+		// -------------------------------------------------
+		// start new server button
+
+		itemDef // bg
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			CREATESERVER_STARTBUTTON_X CREATESERVER_STARTBUTTON_Y CREATESERVER_STARTBUTTON_W CREATESERVER_STARTBUTTON_H CREATESERVER_STARTBUTTON_ALIGN
+			forecolor		1 1 1 0
+			backColor       0.2 0.2 0.2 0.07
+			visible			1
+			decoration
+		}
+
+		itemDef // highlight
+        {
+            style            	WINDOW_STYLE_FILLED
+            textstyle        	ITEM_TEXTSTYLE_NORMAL
+            rect            	CREATESERVER_STARTBUTTON_X CREATESERVER_STARTBUTTON_Y CREATESERVER_STARTBUTTON_W CREATESERVER_STARTBUTTON_H CREATESERVER_STARTBUTTON_ALIGN
+            forecolor        	1 1 1 1
+            backColor       	1 1 1 0.02
+            background         	black
+            visible            	when(localVarInt(ui_highlight) == 99 && localVarString(ui_choicegroup) == CHOICE_GROUP);//1;
+            decoration
+        }
+
+		itemDef // button + text
+		{
+			name 			"start_server"
+			type			ITEM_TYPE_BUTTON
+			rect			CREATESERVER_STARTBUTTON_X CREATESERVER_STARTBUTTON_Y CREATESERVER_STARTBUTTON_W CREATESERVER_STARTBUTTON_H CREATESERVER_STARTBUTTON_ALIGN
+			origin 			0 0
+			text			"@MENU_START_NEW_SERVER"
+			textfont		UI_FONT_BIG
+			textscale		CHOICE_TEXTSIZE
+			textstyle		CHOICE_TEXTSTYLE
+			textAlign		ITEM_ALIGN_MIDDLE_CENTER
+			textAlignX		0
+			textalignY 		0
+			forecolor		CHOICE_TEXTCOLOR
+			visible			1
+
+			onFocus
+			{
+				play "mouse_over";
+				setLocalVarInt ui_highlight 99;
+				setLocalVarString ui_choicegroup CHOICE_GROUP;
+			}
+
+			leaveFocus
+			{
+				setLocalVarInt ui_highlight 0;
+			}
+
+			action
+			{
+				play "mouse_click";
+				uiScript StartServerCustom //StartServer
+			}
+		}
+	}
+
+
+
+
+
+
+
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+	// -----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+	#undef 	CHOICE_GROUP
+	#define CHOICE_GROUP 	"createserver_advanced"
+
+	// -----------------------------------------------------------------------------------------------------------------
+	// Developer / Debug Settings / Advanced Settings
+
+	menuDef
+	{
+		name			"createserver_advanced"
+		fullscreen		0
+		rect			NAV_MENU_FULLSCREEN_RECT_SERVERBROWSER //NAV_MENU_FULLSCREEN_RECT
+		focuscolor		COLOR_FOCUSED
+
+		onOpen
+		{
+			close 	createserver;
+
+			// disable main content
+			setLocalVarBool ui_maincontent_lnr "1";
+			setLocalVarBool ui_maincontent_update "1";
+
+			uiScript 		loadArenas;
+		}
+
+		onClose
+		{
+			//open 	createserver; // bad
+		}
+
+		onEsc
+		{
+			open 	createserver;
+			close 	self;
+		}
+
+		/***********************************************\
+        |* Content | Background
+        \***********************************************/
+
+        itemDef
+        {
+            name                        "content_left_adv"
+            rect                        CONTAINER_X_START 0 610 392 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP // 780 == content + map list size
+            origin                      0 16
+            style                       WINDOW_STYLE_FILLED
+            backcolor                   1 1 1 0.03
+            forecolor                   1 1 1 1
+            visible                     1
+            decoration
+        }
+
+		itemDef
+        {
+            name                        "content_left_title_adv"
+            rect                        CONTAINER_X_START 0 610 24 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+            origin                      0 16
+            style                       WINDOW_STYLE_FILLED
+            borderSize                  0
+            foreColor                   1 1 1 1
+            backColor                   1 1 1 0.02
+            borderColor                 1 1 1 1
+            outlineColor                0 0 0 0
+            exp                         text ("Advanced Server Settings");
+            textFont                    UI_FONT_NORMAL
+            textAlign                   ITEM_ALIGN_MIDDLE_LEFT
+            textAlignX                  10
+            textScale                   0.20
+            visible                     1
+            decoration
+        }
+
+		CREATESERVER_DVARFLOATLIST(	1, "Devmap", "ui_devmap", { "@MENU_DISABLED" 0 "@MENU_ENABLED" 1 }, ;)
+		CREATESERVER_DVARFLOATLIST(	2, "Developer", "ui_developer", { "@MENU_DISABLED" 0 "Debug (1)" 1 "Debug + Errors (2)" 2 }, ;)
+		CREATESERVER_DVARFLOATLIST(	3, "Developer_Script", "ui_developer_script", { "@MENU_DISABLED" 0 "@MENU_ENABLED" 1 }, ;)
+
+
+		// -------------------------------------------------
+		// map preview
+
+		itemDef
+        {
+            name                        "content_right_title"
+            rect                        SR_MAP_SELECTION_X_START 0 150 25 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+            origin                      0 16
+            style                       WINDOW_STYLE_FILLED
+            borderSize                  0
+            foreColor                   1 1 1 1
+            backColor                   1 1 1 0.02
+            borderColor                 1 1 1 1
+            outlineColor                0 0 0 0
+            exp                         text ("Map Preview");
+            textFont                    UI_FONT_NORMAL
+            textAlign                   ITEM_ALIGN_MIDDLE_LEFT
+            textAlignX                  10
+            textScale                   0.20
+            visible                     1
+            decoration
+        }
+
+		itemDef
+		{
+			name			mappreview
+			style			0
+			ownerdraw		UI_MAPPREVIEW
+			rect			SR_MAP_SELECTION_X_START 41 150 85 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP // Y::41 H::85
+			border			0
+			bordercolor		.5 .5 .5 .5
+			origin			0 0
+			visible			1
+			decoration
+		}
+
+
+		// -------------------------------------------------
+		// map list
+
+		itemDef
+        {
+            name                        "maplist_content_right"
+            rect                        SR_MAP_SELECTION_X_START 110 150 224 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP // Y::150 H::204
+            origin                      0 16
+            style                       WINDOW_STYLE_FILLED
+            backcolor                   1 1 1 0.03
+            forecolor                   1 1 1 1
+            visible                     1
+            decoration
+        }
+
+		itemDef
+		{
+			name			maplist
+			rect			(SR_MAP_SELECTION_X_START - 2.5) 126 153 224 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP // Y::166 H::204
+			type			ITEM_TYPE_LISTBOX
+			style			WINDOW_STYLE_FILLED
+			elementwidth 	125
+			elementheight 	20
+			origin			0 0
+			textfont		UI_FONT_NORMAL
+			textscale		CHOICE_TEXTSIZE
+			elementtype		LISTBOX_TEXT
+			feeder			FEEDER_ALLMAPS
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textalignx 		6
+			textaligny 		0//-2
+			forecolor 		CHOICE_TEXTCOLOR
+			backcolor 		0 1 1 0.2
+			visible			1
+			forecolor 			1 1 1 0.9
+			backcolor 			0 0 0 0
+			border				0
+			bordercolor			1 1 1 0.15
+			outlinecolor 		1 1 1 0.03
+
+			columns			1 5 150 20
+			mouseEnter 		{ play "mouse_over"; setitemcolor maplist bordercolor 1 1 1 0.45 }
+			mouseExit 		{ setitemcolor maplist bordercolor 1 1 1 0.15 }
+			doubleclick		{ play "mouse_click"; uiScript StartServer; }
+		}
+
+
+		// -------------------------------------------------
+		// createserver_advanced back button
+
+		itemDef // bg
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			CREATESERVER_STARTBUTTON_X CREATESERVER_ADVBUTTON_Y CREATESERVER_STARTBUTTON_W CREATESERVER_STARTBUTTON_H CREATESERVER_STARTBUTTON_ALIGN
+			forecolor		1 1 1 0
+			backColor       0.2 0.2 0.2 0.07
+			visible			1
+			decoration
+		}
+
+		itemDef // highlight
+        {
+            style            	WINDOW_STYLE_FILLED
+            textstyle        	ITEM_TEXTSTYLE_NORMAL
+            rect            	CREATESERVER_STARTBUTTON_X CREATESERVER_ADVBUTTON_Y CREATESERVER_STARTBUTTON_W CREATESERVER_STARTBUTTON_H CREATESERVER_STARTBUTTON_ALIGN
+            forecolor        	1 1 1 1
+            backColor       	1 1 1 0.02
+            background         	black
+            visible            	when(localVarInt(ui_highlight) == 98 && localVarString(ui_choicegroup) == CHOICE_GROUP);//1;
+            decoration
+        }
+
+		itemDef // button + text
+		{
+			name 			"adv_settings_back"
+			type			ITEM_TYPE_BUTTON
+			rect			CREATESERVER_STARTBUTTON_X CREATESERVER_ADVBUTTON_Y CREATESERVER_STARTBUTTON_W CREATESERVER_STARTBUTTON_H CREATESERVER_STARTBUTTON_ALIGN
+			origin 			0 0
+			text			"Default Server Settings"
+			textfont		UI_FONT_BIG
+			textscale		CHOICE_TEXTSIZE
+			textstyle		CHOICE_TEXTSTYLE
+			textAlign		ITEM_ALIGN_MIDDLE_CENTER
+			textAlignX		0
+			textalignY 		0
+			forecolor		CHOICE_TEXTCOLOR
+			visible			1
+
+			onFocus
+			{
+				play 				"mouse_over";
+				setLocalVarInt 		ui_highlight 98;
+				setLocalVarString 	ui_choicegroup CHOICE_GROUP;
+			}
+
+			leaveFocus
+			{
+				setLocalVarInt ui_highlight 0;
+			}
+
+			action
+			{
+				play 	"mouse_click";
+				open 	createserver;
+				close 	self;
+			}
+		}
+
+
+		// -------------------------------------------------
+		// start new server button
+
+		itemDef // bg
+		{
+			style			WINDOW_STYLE_FILLED
+			rect			CREATESERVER_STARTBUTTON_X CREATESERVER_STARTBUTTON_Y CREATESERVER_STARTBUTTON_W CREATESERVER_STARTBUTTON_H CREATESERVER_STARTBUTTON_ALIGN
+			forecolor		1 1 1 0
+			backColor       0.2 0.2 0.2 0.07
+			visible			1
+			decoration
+		}
+
+		itemDef // highlight
+        {
+            style            	WINDOW_STYLE_FILLED
+            textstyle        	ITEM_TEXTSTYLE_NORMAL
+            rect            	CREATESERVER_STARTBUTTON_X CREATESERVER_STARTBUTTON_Y CREATESERVER_STARTBUTTON_W CREATESERVER_STARTBUTTON_H CREATESERVER_STARTBUTTON_ALIGN
+            forecolor        	1 1 1 1
+            backColor       	1 1 1 0.02
+            background         	black
+            visible            	when(localVarInt(ui_highlight) == 99 && localVarString(ui_choicegroup) == CHOICE_GROUP);//1;
+            decoration
+        }
+
+		itemDef // button + text
+		{
+			name 			"start_server"
+			type			ITEM_TYPE_BUTTON
+			rect			CREATESERVER_STARTBUTTON_X CREATESERVER_STARTBUTTON_Y CREATESERVER_STARTBUTTON_W CREATESERVER_STARTBUTTON_H CREATESERVER_STARTBUTTON_ALIGN
+			origin 			0 0
+			text			"@MENU_START_NEW_SERVER"
+			textfont		UI_FONT_BIG
+			textscale		CHOICE_TEXTSIZE
+			textstyle		CHOICE_TEXTSTYLE
+			textAlign		ITEM_ALIGN_MIDDLE_CENTER
+			textAlignX		0
+			textalignY 		0
+			forecolor		CHOICE_TEXTCOLOR
+			visible			1
+
+			onFocus
+			{
+				play "mouse_over";
+				setLocalVarInt ui_highlight 99;
+				setLocalVarString ui_choicegroup CHOICE_GROUP;
+			}
+
+			leaveFocus
+			{
+				setLocalVarInt ui_highlight 0;
+			}
+
+			action
+			{
+				play "mouse_click";
+				uiScript StartServerCustom;
+			}
+		}
+	}
+}

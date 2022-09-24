@@ -1,0 +1,74 @@
+// setup choices
+#include "ui/includes/options_menu_setup.inc"
+// redef any options below, if needed
+
+{
+	menuDef
+	{
+		name			"options_move"
+		fullScreen		0
+		rect			NAV_MENU_FULLSCREEN_RECT
+		focusColor		COLOR_FOCUSED
+		soundloop		""
+
+		onOpen
+		{
+			CLOSE_ALL_OPTIONS;
+			CLOSE_ALL_CONTROLS_EX_MOVE;
+
+			CLOSE_SERVERBROWSER;
+			CLOSE_CREATE_SERVER;
+			CLOSE_MODS;
+			CLOSE_PROFILE;
+
+			setLocalVarBool ui_hideBack "0";
+			setLocalVarBool ui_maincontent_lnr "1";
+			setLocalVarBool ui_maincontent_update "1";
+		}
+
+		onClose
+		{
+			setLocalVarBool ui_hideBack 0;
+			setLocalVarBool ui_maincontent_lnr "0";
+			setLocalVarBool ui_maincontent_update "0";
+		}
+
+		onESC
+		{
+			close self;
+		}
+
+		#undef CONTENT_TITLE
+		#define CONTENT_TITLE "@MENU_MOVE"
+		// create container
+		#include "ui/includes/options_container.inc"
+
+
+		CHOICE_BIND(1, "@MENU_FORWARD", "+forward", ;)
+		CHOICE_BIND(2, "@MENU_BACKPEDAL", "+back", ;)
+		CHOICE_BIND(3, "@MENU_MOVE_LEFT", "+moveleft", ;)
+		CHOICE_BIND(4, "@MENU_MOVE_RIGHT", "+moveright", ;)
+
+		//CHOICE_SEPARATOR(CHOICE_SEP_1)
+
+		CHOICE_BIND(5, "@MENU_STANDJUMP", "+gostand", ;)
+
+		CHOICE_BIND(7, "@MENU_TOGGLE_CROUCH", "togglecrouch", ;)
+		CHOICE_BIND(8, "@MENU_TOGGLE_PRONE", "toggleprone", ;)
+
+		CHOICE_BIND(16, "@MENU_GO_TO_CROUCH", "gocrouch", ;)
+		CHOICE_BIND(17, "@MENU_GO_TO_PRONE", "goprone", ;)
+		CHOICE_BIND(19, "@MENU_CROUCH", "+movedown", ;)
+		CHOICE_BIND(20, "@MENU_PRONE", "+prone", ;)
+
+		//CHOICE_SEPARATOR(CHOICE_SEP_2)
+
+		CHOICE_BIND(22, "@MENU_CHANGE_STANCE", "+stance", ;)
+		CHOICE_BIND(23, "@MENU_STRAFE", "+strafe", ;)
+		//CHOICE_BIND(35, "@MENU_SPRINT", "+sprint", ;)
+
+		//CHOICE_BACK("@MENU_BACK", close self)
+
+		CHOICE_KEYBINDHELP
+	}
+}
