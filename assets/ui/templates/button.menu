@@ -1,29 +1,11 @@
-//#define ENABLE_BUTTON_BG		1	// enables button background image
-#define ENABLE_SEPARATOR		1	// enables separator bars
-#define ENABLE_TITLE_BG			1	// enables menu title background graphics
+//#define ENABLE_BUTTON_BG		1	// Enables button background image
+#define ENABLE_SEPARATOR		1	// Enables separator bars
+#define ENABLE_TITLE_BG			1	// Enables menu title background graphics
 
-#ifndef BUTTON_OWNER_OFFSET_X
-#define BUTTON_OWNER_OFFSET_X 	0
-#endif
-
-#ifndef BUTTON_OWNER_OFFSET_Y
-#define BUTTON_OWNER_OFFSET_Y 	-25
-#endif
-
-#ifndef BUTTON_OWNER_SIZE_X
-#define BUTTON_OWNER_SIZE_X 	90
-#endif
-
-#ifndef BUTTON_OWNER_SIZE_Y
-#define BUTTON_OWNER_SIZE_Y 	25
-#endif
-
-#ifndef BUTTON_SIZE_X
-#define BUTTON_SIZE_X			90
-#endif
+#define SR_BTN_SIZE_X 			150
 
 #ifndef BUTTON_SIZE_Y
-#define BUTTON_SIZE_Y			25
+#define BUTTON_SIZE_Y			22
 #endif
 
 #ifndef BUTTON_SIDEITEM_SIZE_X
@@ -38,23 +20,19 @@
 #endif
 
 #ifndef BUTTON_X_START
-#define BUTTON_X_START			0
+#define BUTTON_X_START			58
 #endif
 
 #ifndef BUTTON_X_SPACING
-#define BUTTON_X_SPACING		91
-#endif
-
-#ifndef BUTTON_X_COUNT
-#define BUTTON_X_COUNT			10
+#define BUTTON_X_SPACING		250
 #endif
 
 #ifndef BUTTON_Y_START
-#define BUTTON_Y_START			0
+#define BUTTON_Y_START			82
 #endif
 
 #ifndef BUTTON_Y_SPACING
-#define BUTTON_Y_SPACING		5
+#define BUTTON_Y_SPACING		20
 #endif
 
 #ifndef BUTTON_Y_COUNT
@@ -62,9 +40,8 @@
 #endif
 
 #ifndef BUTTON_TEXT_OFFSET_X
-#define BUTTON_TEXT_OFFSET_X	0
+#define BUTTON_TEXT_OFFSET_X	22
 #endif
-
 #ifndef SECTION_TEXT_OFFSET_X
 #define SECTION_TEXT_OFFSET_X	0
 #endif
@@ -97,16 +74,15 @@
 #define BUTTON_FOCUS_SOUND		"mouse_over"
 #endif
 
-#ifdef BUTTON_TEXTSIZE
-	#undef BUTTON_TEXTSIZE
-	#define BUTTON_TEXTSIZE			0.3
+#ifndef BUTTON_TEXTSIZE
+#define BUTTON_TEXTSIZE			TEXTSIZE_DEFAULT
 #endif
 
 #ifndef BUTTON_TEXTFONT
 #define BUTTON_TEXTFONT			UI_FONT_NORMAL
 #endif
 
-#ifdef BUTTON_HEADERCOLOR
+#ifndef BUTTON_HEADERCOLOR
 #define BUTTON_HEADERCOLOR		1 1 1 1
 #endif
 
@@ -123,7 +99,7 @@
 #endif
 
 #ifndef BUTTON_TEXTALIGN
-#define	BUTTON_TEXTALIGN		ITEM_ALIGN_MIDDLE_CENTER
+#define	BUTTON_TEXTALIGN		ITEM_ALIGN_MIDDLE_LEFT
 #endif
 
 #ifndef ALT_HINT_X_OFFSET
@@ -155,7 +131,7 @@
 #endif
 
 #ifndef BUTTON_DVAR_OFFSET_X
-#define	BUTTON_DVAR_OFFSET_X	(0 - 0)
+#define	BUTTON_DVAR_OFFSET_X	(0 - BUTTON_TEXT_OFFSET_X)
 #endif
 
 #ifndef BUTTON_SEP_BACKGROUND
@@ -171,31 +147,21 @@
 #endif
 
 #ifndef ALTERNATE_HINT_COLOR
-#define ALTERNATE_HINT_COLOR	0.55 0.95 0.55 1 // 0 1 0 0.35 // 0.75 .75 0.8 1
+#define ALTERNATE_HINT_COLOR	1 1 1 1 // 0.55 0.95 0.55 0.9 // 0 1 0 0.35 // 0.75 .75 0.8 1
 #endif
 
-#ifdef HIGHLIGHT_COLOR
-	#undef HIGHLIGHT_COLOR
-	#define HIGHLIGHT_COLOR	1 1 1 0.8 // 0.2 0.25 0.35 0.25
+#ifndef HIGHLIGHT_COLOR
+#define HIGHLIGHT_COLOR			0 1 1 0.8
 #endif
-
 #ifndef HIGHLIGHT_BORDER_COLOR
-#define HIGHLIGHT_BORDER_COLOR	1 1 1 0.02
+#define HIGHLIGHT_BORDER_COLOR	0 1 1 0.4
 #endif
 
-#ifdef BUTTON_HORIZONTAL_ALIGN
-	#undef BUTTON_HORIZONTAL_ALIGN
-	#define BUTTON_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_SUBLEFT
+#ifndef BUTTON_HORIZONTAL_ALIGN
+#define BUTTON_HORIZONTAL_ALIGN HORIZONTAL_ALIGN_DEFAULT
 #endif
-
-#ifdef COLOR_FOCUSED
-	#undef COLOR_FOCUSED
-	#define COLOR_FOCUSED	0.80 0.04 0.32 1
-#endif
-
-#ifdef BUTTON_VERTICAL_ALIGN
-	#undef BUTTON_VERTICAL_ALIGN
-	#define BUTTON_VERTICAL_ALIGN	VERTICAL_ALIGN_SUBTOP
+#ifndef BUTTON_VERTICAL_ALIGN
+#define BUTTON_VERTICAL_ALIGN VERTICAL_ALIGN_DEFAULT
 #endif
 
 #ifndef HIGHLIGHT_BORDER
@@ -226,7 +192,6 @@
 #define A_BUTTON_OFFSET_Y		0
 #endif
 
-
 #ifdef PS3
 	#define A_BUTTON_BG_COLOR 	0.25 0.25 0.25 1
 #else
@@ -236,11 +201,11 @@
 #define A_BUTTON_TEXTSTYLE	ITEM_TEXTSTYLE_NORMAL
 
 #ifndef A_BUTTON_COLOR
-#define A_BUTTON_COLOR		1 1 1 1
+#define A_BUTTON_COLOR			1 1 1 1
 #endif
 
 #ifndef BUTTON_BG_COLOR
-#define BUTTON_BG_COLOR		1 1 1 1
+#define BUTTON_BG_COLOR		0 0 0 0.3
 #endif
 
 #if !defined(BUTTON_SEP_1) || !defined(BUTTON_SEP_SPACING)
@@ -262,17 +227,6 @@
 #define BUTTON_RECT(itemIndex)	BUTTON_ORIGIN(itemIndex) BUTTON_SIZE_X BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN
 
 #define FOOTNOTE_RECT(x, y)			x y 240 60 BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN
-
-#define BUTTON_ROW_HEADER(itemIndex)		((itemIndex - 2) % BUTTON_X_COUNT)
-#define BUTTON_COL_HEADER(itemIndex)		((itemIndex - 1 - ((itemIndex - 1) % BUTTON_X_COUNT)) / BUTTON_X_COUNT)
-
-#define BUTTON_X_HEADER(itemIndex) 		(BUTTON_X_START + BUTTON_X_SPACING * BUTTON_ROW_HEADER(itemIndex))
-#define BUTTON_Y_HEADER(itemIndex) 		(BUTTON_Y_START + BUTTON_Y_SPACING * BUTTON_COL_HEADER(itemIndex))
-
-#define BUTTON_ORIGIN_HEADER(itemIndex)	BUTTON_X_HEADER(itemIndex) BUTTON_Y_HEADER(itemIndex)
-
-#define BUTTON_RECT_HEADER(itemIndex)	BUTTON_ORIGIN_HEADER(itemIndex) BUTTON_SIZE_X BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN
-#define BUTTON_RECT_HEADER_OWNER(itemIndex)	BUTTON_ORIGIN_HEADER(itemIndex) (BUTTON_OWNER_SIZE_X - BUTTON_OWNER_OFFSET_X) (BUTTON_OWNER_SIZE_Y - BUTTON_OWNER_OFFSET_Y) BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN
 
 #define BUTTON_HIGHLIGHT(itemIndex, vis) \
 	BUTTON_HIGHLIGHT_CUSTOM(itemIndex, HIGHLIGHT_COLOR, HIGHLIGHT_BORDER_COLOR, vis)
@@ -299,19 +253,32 @@
 		itemDef \
 		{ \
 			style			WINDOW_STYLE_FILLED \
-			rect			BUTTON_ORIGIN_HEADER(itemIndex) (BUTTON_SIZE_X) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+			rect			BUTTON_ORIGIN(itemIndex) (SR_BTN_SIZE_X) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
 			forecolor		1 1 1 0 \
-			backColor       0 0 0 0 \
+			backColor       0 0 0 0.1 \
 			visible			1 \
 			decoration \
 		} \
 		itemDef \
 		{ \
 			style			WINDOW_STYLE_FILLED \
-			rect			BUTTON_ORIGIN_HEADER(itemIndex) (BUTTON_SIZE_X) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+			rect			BUTTON_ORIGIN(itemIndex) (SR_BTN_SIZE_X) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
 			forecolor		1 1 1 0 \
-			backColor       0 0 0 0 \
+			backColor       0 0 0 0.1 \
 			visible			1 \
+			decoration \
+		} \
+
+#define CREATESERVER_BUTTON_BG_VIS(itemIndex, visArg) CREATESERVER_BUTTON_BG_RAW_VIS(itemIndex, "gradient_fadein", BUTTON_BG_COLOR, visArg)
+
+#define CREATESERVER_BUTTON_BG_RAW_VIS(itemIndex, bgimage, foreColorArg, visArg) \
+		itemDef \
+		{ \
+			style			WINDOW_STYLE_FILLED \
+			rect			BUTTON_ORIGIN(itemIndex) (SR_BTN_SIZE_X) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+			forecolor		1 1 1 0 \
+			backColor       0 0 0 0.1 \
+			visible			visArg; \
 			decoration \
 		} \
 
@@ -320,9 +287,9 @@
         { \
             style            	WINDOW_STYLE_FILLED \
             textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	BUTTON_ORIGIN_HEADER(itemIndex) BUTTON_SIZE_X BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+            rect            	BUTTON_ORIGIN(itemIndex) SR_BTN_SIZE_X BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
             forecolor        	1 1 1 1 \
-            backColor       	0 0 0 0 \
+            backColor       	0 0 0 0.1 \
             background         	black \
             visible            	when(localVarInt(ui_highlight) == itemIndex && localVarString(ui_buttongroup) == BUTTON_GROUP); \
             decoration \
@@ -331,7 +298,7 @@
         { \
             style            	WINDOW_STYLE_SHADER \
             textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	BUTTON_ORIGIN_HEADER(itemIndex) BUTTON_SIZE_X (BUTTON_SIZE_Y-BUTTON_SIZE_Y+1) BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+            rect            	BUTTON_ORIGIN(itemIndex) SR_BTN_SIZE_X (BUTTON_SIZE_Y-BUTTON_SIZE_Y+1) BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
 			origin 				0 0 \
             forecolor        	0 0 0 0 \
             backColor       	0 0 0 1 \
@@ -354,7 +321,7 @@
         { \
             style            	WINDOW_STYLE_SHADER \
             textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	BUTTON_ORIGIN_HEADER(itemIndex) BUTTON_SIZE_X (BUTTON_SIZE_Y - BUTTON_SIZE_Y + 1) BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+            rect            	BUTTON_ORIGIN(itemIndex) SR_BTN_SIZE_X (BUTTON_SIZE_Y - BUTTON_SIZE_Y + 1) BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
 			origin 				0 (BUTTON_SIZE_Y - 1) \
             forecolor        	0 0 0 0 \
             backColor       	0 0 0 1 \
@@ -377,7 +344,7 @@
         { \
             style            	WINDOW_STYLE_SHADER \
             textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	BUTTON_ORIGIN_HEADER(itemIndex) (BUTTON_SIZE_X - BUTTON_SIZE_X + 1) (BUTTON_SIZE_Y - 2) BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+            rect            	BUTTON_ORIGIN(itemIndex) (SR_BTN_SIZE_X - SR_BTN_SIZE_X + 1) (BUTTON_SIZE_Y - 2) BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
 			origin 				0 1 \
             forecolor        	0 0 0 0 \
             backColor       	0 0 0 1 \
@@ -400,8 +367,8 @@
         { \
             style            	WINDOW_STYLE_SHADER \
             textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	BUTTON_ORIGIN_HEADER(itemIndex) (BUTTON_SIZE_X - BUTTON_SIZE_X + 1) (BUTTON_SIZE_Y - 2) BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
-			origin 				(BUTTON_SIZE_X - 1) 1 \
+            rect            	BUTTON_ORIGIN(itemIndex) (SR_BTN_SIZE_X - SR_BTN_SIZE_X + 1) (BUTTON_SIZE_Y - 2) BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+			origin 				(SR_BTN_SIZE_X - 1) 1 \
             forecolor        	0 0 0 0 \
             backColor       	0 0 0 1 \
             visible          	1 \
@@ -418,6 +385,23 @@
                 setLocalVarInt ui_highlight2 0; \
                 leaveFocusArg \
             } \
+        } \
+        BUTTON_ACCEPT_HINT(itemIndex, visArg)
+
+#define CREATESERVER_HIGHLIGHT_VIS(itemIndex, vis) \
+	CREATESERVER_HIGHLIGHT_CUSTOM_VIS(itemIndex, HIGHLIGHT_COLOR, HIGHLIGHT_BORDER_COLOR, vis)
+
+#define CREATESERVER_HIGHLIGHT_CUSTOM_VIS(itemIndex, foreColorArg, borderColorArg, visArg) \
+        itemDef \
+        { \
+            style            	WINDOW_STYLE_FILLED \
+            textstyle        	ITEM_TEXTSTYLE_NORMAL \
+            rect            	BUTTON_ORIGIN(itemIndex) SR_BTN_SIZE_X BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+            forecolor        	1 1 1 1 \
+            backColor       	0 0 0 0.1 \
+            background         	black \
+            visible            	when(localVarInt(ui_highlight) == itemIndex && localVarString(ui_buttongroup) == BUTTON_GROUP); \
+            decoration \
         } \
         BUTTON_ACCEPT_HINT(itemIndex, visArg)
 
@@ -446,7 +430,7 @@
 			style			WINDOW_STYLE_SHADER \
 			rect			(px+(ph/4)) py (-(pw-(ph/4))) ph BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
 			background		HIGHLIGHT_SHADER \
-			forecolor		1 0 0 1 \
+			forecolor		HIGHLIGHT_COLOR \
 			visible			visArg \
 			decoration \
 		} \
@@ -455,7 +439,7 @@
 			style			WINDOW_STYLE_SHADER \
 			rect			px py (-(ph/4)) ph BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
 			background		HIGHLIGHT_SHADER_ART \
-			forecolor		1 0 0 1 \
+			forecolor		HIGHLIGHT_COLOR \
 			visible			visArg \
 			decoration \
 		} \
@@ -595,44 +579,13 @@
 			decoration \
 		}
 
-#define HEADER_BUTTON_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, visArg) \
-		BUTTON_BG(itemIndex, visArg) \
-		BUTTON_HIGHLIGHT(itemIndex, 1) \
-		BUTTON_VIS_NOHI_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, visArg)
-
-#define BUTTON_VIS_NOHI_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, visArg) \
-		BUTTON_FOCUS_VIS_NOHI_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, ;, ;, visArg)
-
-#define BUTTON_FOCUS_VIS_NOHI_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, onFocusArg, leaveFocusArg, visArg) \
-		BUTTON_FOCUS_VIS_NOHI_EX_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, onFocusArg, leaveFocusArg, visArg, ;)
-
-#define BUTTON_FOCUS_VIS_NOHI_EX_OWNER(itemIndex, textArg, owner, textAlignChoice, textAlignOffsetX, actionArg, onFocusArg, leaveFocusArg, visArg, extraArgs) \
-		itemDef \
-		{ \
-			type			ITEM_TYPE_BUTTON  \
-			rect			BUTTON_RECT_HEADER(itemIndex) \
-			origin 			0 0 \
-			text			textArg \
-			ownerdraw		owner \
-			textfont		BUTTON_TEXTFONT \
-			textscale		BUTTON_TEXTSIZE \
-			textstyle		BUTTON_TEXTSTYLE \
-			textAlign		textAlignChoice \
-			textAlignX		textAlignOffsetX \
-			textalignY 		18 \
-			forecolor		BUTTON_TEXTCOLOR \
-			visible			visArg \
-			extraArgs \
-			BUTTON_SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg) \
-		} \
-
 #define BUTTON(itemIndex, textArg, actionArg) \
-		HEADER_BUTTON(itemIndex, textArg, actionArg, 1)
+		BUTTON_VIS(itemIndex, textArg, actionArg, 1)
 
 #define BUTTON_NOHI(itemIndex, textArg, actionArg) \
 		BUTTON_VIS_NOHI(itemIndex, textArg, actionArg, 1)
 
-#define HEADER_BUTTON(itemIndex, textArg, actionArg, visArg) \
+#define BUTTON_VIS(itemIndex, textArg, actionArg, visArg) \
 		BUTTON_BG(itemIndex, visArg) \
 		BUTTON_HIGHLIGHT(itemIndex, 1) \
 		BUTTON_VIS_NOHI(itemIndex, textArg, actionArg, visArg)
@@ -688,13 +641,13 @@
 		itemDef \
 		{ \
 			type			ITEM_TYPE_BUTTON \
-			rect			BUTTON_RECT_HEADER(itemIndex) \
+			rect			BUTTON_RECT(itemIndex) \
 			exp				text(textArg); \
 			textfont		BUTTON_TEXTFONT \
 			textscale		BUTTON_TEXTSIZE \
 			textstyle		BUTTON_TEXTSTYLE \
 			textAlign		BUTTON_TEXTALIGN \
-			textAlignX		0 \
+			textAlignX		BUTTON_TEXT_OFFSET_X \
 			forecolor		BUTTON_TEXTCOLOR \
 			visible			visArg \
 			extraArgs \
@@ -711,7 +664,7 @@
 			textscale		BUTTON_TEXTSIZE \
 			textstyle		BUTTON_TEXTSTYLE \
 			textAlign		BUTTON_TEXTALIGN \
-			textAlignX		0 \
+			textAlignX		BUTTON_TEXT_OFFSET_X \
 			forecolor		BUTTON_TEXTCOLOR_DISABLED \
 			visible			visArg \
 			decoration \
@@ -728,7 +681,7 @@
 			textscale		BUTTON_TEXTSIZE \
 			textstyle		BUTTON_TEXTSTYLE \
 			textAlign		BUTTON_TEXTALIGN \
-			textAlignX		0 \
+			textAlignX		BUTTON_TEXT_OFFSET_X \
 			forecolor		BUTTON_TEXTCOLOR_DISABLED \
 			visible			visArg \
 			decoration \
@@ -778,6 +731,128 @@
 			BUTTON_SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg) \
 		}
 
+// ----------------------------------------------------------------------
+
+#define CREATESERVER_DVARFLOATLIST(itemIndex, textArg, dvarArg, strListArg, actionArg) \
+		CREATESERVER_DVARLIST_VIS(itemIndex, textArg, dvarArg, ITEM_TYPE_MULTI, dvarFloatList strListArg, actionArg, 1)
+
+ #define CREATESERVER_DVARLIST_VIS(itemIndex, textArg, dvarArg, listTypeArg, listArg, actionArg, visArg) \
+		 CREATESERVER_DVARLIST_FOCUS_VIS(itemIndex, textArg, dvarArg, listTypeArg, listArg, actionArg, ;, ;, visArg)
+
+#define CREATESERVER_DVARLIST_FOCUS_VIS(itemIndex, textArg, dvarArg, listTypeArg, listArg, actionArg, onFocusArg, leaveFocusArg, visArg) \
+		CREATESERVER_BUTTON_BG_VIS(itemIndex, visArg) \
+		CREATESERVER_HIGHLIGHT_VIS(itemIndex, visArg) \
+		BUTTON_CAPTION_VIS(itemIndex, textArg, visArg) \
+		itemDef \
+		{ \
+			type			listTypeArg \
+			dvar			dvarArg \
+			listArg \
+			rect			BUTTON_ORIGIN(itemIndex) (BUTTON_SIZE_X+BUTTON_DVAR_WIDTH_OFFSET) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+			textalign		BUTTON_DVAR_TEXTALIGN \
+			textalignx		BUTTON_DVAR_OFFSET_X \
+			textscale		BUTTON_TEXTSIZE \
+			textstyle 		ITEM_TEXTSTYLE_NORMAL \
+			style			WINDOW_STYLE_FILLED \
+			forecolor		BUTTON_TEXTCOLOR \
+			visible			visArg ; \
+			BUTTON_SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg) \
+		}
+
+#define CREATESERVER_DVARYESNO(itemIndex, textArg, dvarArg, actionArg) \
+		CREATESERVER_DVARYESNO_VIS(itemIndex, textArg, dvarArg, actionArg, 1)
+
+#define CREATESERVER_DVARYESNO_VIS(itemIndex, textArg, dvarArg, actionArg, visArg) \
+		CREATESERVER_BUTTON_BG_VIS(itemIndex, visArg) \
+		CREATESERVER_HIGHLIGHT_VIS(itemIndex, visArg) \
+		BUTTON_CAPTION_VIS(itemIndex, textArg, visArg) \
+		itemDef \
+		{ \
+			type			ITEM_TYPE_YESNO \
+			dvar			dvarArg \
+			rect			BUTTON_ORIGIN(itemIndex) (BUTTON_SIZE_X+120) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+			textalign		ITEM_ALIGN_MIDDLE_LEFT \
+			textalignx		(BUTTON_SIZE_X+20)/*(-(BUTTON_TEXT_OFFSET_X))*/ \
+			textscale		BUTTON_TEXTSIZE \
+			textstyle		ITEM_TEXTSTYLE_NORMAL \
+			style			WINDOW_STYLE_FILLED \
+			forecolor		BUTTON_TEXTCOLOR \
+			visible			visArg \
+			BUTTON_SCRIPTS_ACTION(itemIndex, actionArg) \
+		}
+
+#define CREATESERVER_DVAREDIT_NUMERIC(itemIndex, textArg, dvarArg, max_chars, actionArg) \
+		CREATESERVER_DVAREDIT_NUMERIC_VIS(itemIndex, textArg, dvarArg, max_chars, actionArg, 1)
+
+#define CREATESERVER_DVAREDIT_NUMERIC_VIS(itemIndex, textArg, dvarArg, max_chars, actionArg, visArg) \
+		CREATESERVER_BUTTON_BG_VIS(itemIndex, visArg) \
+		CREATESERVER_HIGHLIGHT_VIS(itemIndex, visArg) \
+		BUTTON_CAPTION_VIS(itemIndex, textArg, visArg) \
+		itemDef \
+		{ \
+			type			ITEM_TYPE_NUMERICFIELD \
+			text			" " \
+			dvar			dvarArg \
+			rect			BUTTON_ORIGIN(itemIndex) (BUTTON_SIZE_X+120) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+			textalign		ITEM_ALIGN_MIDDLE_LEFT \
+			textalignx		(BUTTON_SIZE_X+8) /*(-(BUTTON_TEXT_OFFSET_X))*/ \
+			textscale		BUTTON_TEXTSIZE \
+			textstyle		ITEM_TEXTSTYLE_NORMAL \
+			style			WINDOW_STYLE_FILLED \
+			forecolor		BUTTON_TEXTCOLOR \
+			visible			visArg \
+			maxChars		max_chars \
+			BUTTON_SCRIPTS_ACTION(itemIndex, actionArg) \
+		}
+
+#define CREATESERVER_DVAREDIT_VIS(itemIndex, textArg, dvarArg, max_chars, max_paintchars, actionArg, visArg) \
+		CREATESERVER_BUTTON_BG_VIS(itemIndex, visArg) \
+		CREATESERVER_HIGHLIGHT_VIS(itemIndex, visArg) \
+		BUTTON_CAPTION_VIS(itemIndex, textArg, visArg) \
+		itemDef \
+		{ \
+			type			ITEM_TYPE_EDITFIELD \
+			text			" " \
+			dvar			dvarArg \
+			rect			BUTTON_ORIGIN(itemIndex) (BUTTON_SIZE_X+120) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+			textalign		ITEM_ALIGN_MIDDLE_LEFT \
+			textalignx		(BUTTON_SIZE_X+8) /*(-(BUTTON_TEXT_OFFSET_X))*/ \
+			textscale		BUTTON_TEXTSIZE \
+			textstyle		ITEM_TEXTSTYLE_NORMAL \
+			style			WINDOW_STYLE_FILLED \
+			forecolor		BUTTON_TEXTCOLOR \
+			visible			visArg \
+			maxChars		max_chars \
+			maxpaintchars	max_paintchars \
+			BUTTON_SCRIPTS_ACTION(itemIndex, actionArg) \
+		}
+
+#define CREATESERVER_BTN_VIS(itemIndex, textArg, dvarArg, strListArg, actionArg, visArg) \
+		CREATESERVER_BTN_VIS_1(itemIndex, textArg, dvarArg, ITEM_TYPE_MULTI, dvarFloatList strListArg, actionArg, visArg)
+
+ #define CREATESERVER_BTN_VIS_1(itemIndex, textArg, dvarArg, listTypeArg, listArg, actionArg, visArg) \
+		 CREATESERVER_BTN_VIS_2(itemIndex, textArg, dvarArg, listTypeArg, listArg, actionArg, ;, ;, visArg)
+
+#define CREATESERVER_BTN_VIS_2(itemIndex, textArg, dvarArg, listTypeArg, listArg, actionArg, onFocusArg, leaveFocusArg, visArg) \
+		CREATESERVER_BUTTON_BG_VIS(itemIndex, visArg) \
+		CREATESERVER_HIGHLIGHT_VIS(itemIndex, visArg) \
+		BUTTON_CAPTION_VIS(itemIndex, textArg, visArg) \
+		itemDef \
+		{ \
+			type			listTypeArg \
+			dvar			dvarArg \
+			listArg \
+			rect			BUTTON_ORIGIN(itemIndex) (BUTTON_SIZE_X+BUTTON_DVAR_WIDTH_OFFSET) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
+			textalign		BUTTON_DVAR_TEXTALIGN \
+			textalignx		BUTTON_DVAR_OFFSET_X \
+			textscale		BUTTON_TEXTSIZE \
+			textstyle 		ITEM_TEXTSTYLE_NORMAL \
+			style			WINDOW_STYLE_FILLED \
+			forecolor		BUTTON_TEXTCOLOR \
+			visible			visArg ; \
+			BUTTON_SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg) \
+		}
+
 #define	BUTTON_STATUS_COLOR_VIS(itemIndex, textArg, colorArg, visArg) \
 		itemDef \
 		{ \
@@ -785,7 +860,7 @@
 			rect			BUTTON_RECT(itemIndex) \
 			exp				text(textArg); \
 			textalign		ITEM_ALIGN_MIDDLE_RIGHT \
-			textalignx		(0 - 0) \
+			textalignx		(0 - BUTTON_TEXT_OFFSET_X) \
 			textscale		BUTTON_TEXTSIZE \
 			style			WINDOW_STYLE_FILLED \
 			forecolor		colorArg \
@@ -848,7 +923,7 @@
 			dvar			dvarArg \
 			rect			BUTTON_ORIGIN(itemIndex) (BUTTON_SIZE_X+120) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
 			textalign		ITEM_ALIGN_MIDDLE_LEFT \
-			textalignx		(BUTTON_SIZE_X+8) /*(-(0))*/ \
+			textalignx		(BUTTON_SIZE_X+8) /*(-(BUTTON_TEXT_OFFSET_X))*/ \
 			textscale		BUTTON_TEXTSIZE \
 			textstyle		ITEM_TEXTSTYLE_NORMAL \
 			style			WINDOW_STYLE_FILLED \
@@ -872,7 +947,7 @@
 			dvar			dvarArg \
 			rect			BUTTON_ORIGIN(itemIndex) (BUTTON_SIZE_X+120) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
 			textalign		ITEM_ALIGN_MIDDLE_LEFT \
-			textalignx		(BUTTON_SIZE_X+8) /*(-(0))*/ \
+			textalignx		(BUTTON_SIZE_X+8) /*(-(BUTTON_TEXT_OFFSET_X))*/ \
 			textscale		BUTTON_TEXTSIZE \
 			textstyle		ITEM_TEXTSTYLE_NORMAL \
 			style			WINDOW_STYLE_FILLED \
@@ -899,7 +974,7 @@
 			dvarfloat		dvarArg defaultArg minArg maxArg \
 			rect			BUTTON_ORIGIN(itemIndex) (BUTTON_SIZE_X+120) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
 			textalign		ITEM_ALIGN_MIDDLE_LEFT \
-			textalignx		(BUTTON_SIZE_X+20) /*(-(0))*/ \
+			textalignx		(BUTTON_SIZE_X+20) /*(-(BUTTON_TEXT_OFFSET_X))*/ \
 			textscale		BUTTON_TEXTSIZE \
 			textstyle		ITEM_TEXTSTYLE_NORMAL \
 			style			WINDOW_STYLE_FILLED \
@@ -922,7 +997,7 @@
 			dvar			dvarArg \
 			rect			BUTTON_ORIGIN(itemIndex) (BUTTON_SIZE_X+120) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
 			textalign		ITEM_ALIGN_MIDDLE_LEFT \
-			textalignx		(BUTTON_SIZE_X+20)/*(-(0))*/ \
+			textalignx		(BUTTON_SIZE_X+20)/*(-(BUTTON_TEXT_OFFSET_X))*/ \
 			textscale		BUTTON_TEXTSIZE \
 			textstyle		ITEM_TEXTSTYLE_NORMAL \
 			style			WINDOW_STYLE_FILLED \
@@ -944,7 +1019,7 @@
 			dvar			cmdArg \
 			rect			BUTTON_ORIGIN(itemIndex) (BUTTON_SIZE_X+120) BUTTON_SIZE_Y BUTTON_HORIZONTAL_ALIGN BUTTON_VERTICAL_ALIGN \
 			textalign		ITEM_ALIGN_MIDDLE_LEFT \
-			textalignx		(BUTTON_SIZE_X+20)/*(-(0))*/ \
+			textalignx		(BUTTON_SIZE_X+20)/*(-(BUTTON_TEXT_OFFSET_X))*/ \
 			textscale		BUTTON_TEXTSIZE \
 			textstyle		ITEM_TEXTSTYLE_NORMAL \
 			style			WINDOW_STYLE_FILLED \
@@ -972,7 +1047,7 @@
 			textscale		BUTTON_TEXTSIZE \
 			textstyle		BUTTON_TEXTSTYLE \
 			textAlign		BUTTON_TEXTALIGN \
-			textAlignX		0 \
+			textAlignX		BUTTON_TEXT_OFFSET_X \
 			forecolor		colorArg \
 			visible			visArg \
 			decoration \
@@ -993,20 +1068,20 @@
 			decoration \
 		}
 
-
 #define BUTTON_SCRIPTS_ACTION(itemIndex, actionArg) \
 	BUTTON_SCRIPTS_ALL(itemIndex, actionArg, ;, ;)
-
 
 #define BUTTON_SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg) \
 			onFocus \
 			{ \
 				play BUTTON_FOCUS_SOUND; \
+				setLocalVarInt ui_highlight itemIndex; \
 				setLocalVarString ui_buttongroup BUTTON_GROUP; \
 				onFocusArg \
 			} \
 			leaveFocus \
 			{ \
+				setLocalVarInt ui_highlight 0; \
 				leaveFocusArg \
 			} \
 			action \

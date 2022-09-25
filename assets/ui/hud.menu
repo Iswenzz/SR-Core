@@ -129,7 +129,7 @@
 			name			"chRect"
 			rect			0 0 40 40
 			textscale		TEXTSIZE_SMALL
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			ownerdraw		CG_MANTLE_HINT
 			visible			when(NOT_SPECTATING)
 			decoration
@@ -149,7 +149,7 @@
 			name			"chRect"
 			rect			0 0 40 40 // 64x64
 			textscale		0.3550
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			ownerdraw		CG_CURSORHINT
 			visible			when(NOT_SPECTATING)
 			decoration
@@ -169,7 +169,7 @@
 			name			"chRect"
 			rect			0 0 0 0
 			textscale		TEXTSIZE_SMALL
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			ownerdraw		CG_INVALID_CMD_HINT
 			textfont		UI_FONT_NORMAL
 			visible			when(NOT_SPECTATING)
@@ -194,7 +194,7 @@
 			textfont		UI_FONT_OBJECTIVE
 			visible			when(!inkillcam() && !selecting_location() && dvarint(ui_hud_hardcore) == 0);
 			textscale		TEXTSIZE_SMALL
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			forecolor		1 1 1 HUD_ALPHA
 			decoration
 		}
@@ -234,7 +234,7 @@
 			background		"minimap_tickertape"
 			ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE
 			textscale		0.25
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			visible			when(COMPASS_STAT == 2)
 			decoration
 		}
@@ -280,7 +280,7 @@
 			background		"minimap_tickertape"
 			ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE
 			textscale		0.25
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			visible			when(COMPASS_STAT == 5)
 			decoration
 		}
@@ -327,7 +327,7 @@
 			background		"minimap_tickertape"
 			ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE
 			textscale		0.25
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			visible			when(COMPASS_STAT == 3)
 			decoration
 		}
@@ -373,7 +373,7 @@
 			background		"minimap_tickertape"
 			ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE
 			textscale		0.25
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			visible			when(COMPASS_STAT == 6)
 			decoration
 		}
@@ -419,7 +419,7 @@
 			background		"minimap_tickertape"
 			ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE
 			textscale		0.25
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			visible			when(COMPASS_STAT == 1)
 			decoration
 		}
@@ -465,7 +465,7 @@
 			background		"minimap_tickertape"
 			ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE
 			textscale		0.25
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			visible			when(COMPASS_STAT == 4)
 			decoration
 		}
@@ -554,7 +554,7 @@
 			forecolor	1 1 1 1
 			exp			text("ID: ")
 			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_SHADOWED
+			textstyle	ITEM_TEXTSTYLE_NORMAL
 			textalign	ITEM_ALIGN_RIGHT
 			textscale	0.25
 			visible		1
@@ -567,7 +567,7 @@
 			forecolor	1 1 1 1
 			exp			text(dvarString("sr_anticheat_player_id"))
 			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_SHADOWED
+			textstyle	ITEM_TEXTSTYLE_NORMAL
 			textalign	ITEM_ALIGN_LEFT
 			textscale	0.25
 			visible		1
@@ -580,7 +580,7 @@
 			forecolor	1 1 1 1
 			exp			text("Run: ")
 			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_SHADOWED
+			textstyle	ITEM_TEXTSTYLE_NORMAL
 			textalign	ITEM_ALIGN_RIGHT
 			textscale	0.25
 			visible		1
@@ -593,7 +593,7 @@
 			forecolor	1 1 1 1
 			exp			text(dvarString("sr_anticheat_player_run"))
 			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_SHADOWED
+			textstyle	ITEM_TEXTSTYLE_NORMAL
 			textalign	ITEM_ALIGN_LEFT
 			textscale	0.25
 			visible		1
@@ -606,7 +606,7 @@
 			forecolor	1 1 1 1
 			exp			text("Name: ")
 			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_SHADOWED
+			textstyle	ITEM_TEXTSTYLE_NORMAL
 			textalign	ITEM_ALIGN_RIGHT
 			textscale	0.25
 			visible		1
@@ -619,7 +619,7 @@
 			forecolor	1 1 1 1
 			exp			text(dvarString("sr_anticheat_player_name"))
 			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_SHADOWED
+			textstyle	ITEM_TEXTSTYLE_NORMAL
 			textalign	ITEM_ALIGN_LEFT
 			textscale	0.25
 			visible		1
@@ -632,7 +632,7 @@
 			forecolor	1 1 1 1
 			exp			text("GUID: ")
 			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_SHADOWED
+			textstyle	ITEM_TEXTSTYLE_NORMAL
 			textalign	ITEM_ALIGN_RIGHT
 			textscale	0.25
 			visible		0
@@ -645,7 +645,7 @@
 			forecolor	1 1 1 1
 			exp			text(dvarString("sr_anticheat_player_guid"))
 			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_SHADOWED
+			textstyle	ITEM_TEXTSTYLE_NORMAL
 			textalign	ITEM_ALIGN_LEFT
 			textscale	0.25
 			visible		0
@@ -679,7 +679,7 @@
 			name			"ammoStock"
 			rect			(WEAPINFO_X - 30) (WEAPINFO_Y + 34) 1 1
 			textscale		TEXTSIZE_SMALL
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			textfont		UI_FONT_OBJECTIVE
 			forecolor		1 1 1 HUD_FOREGROUND_ALPHA
 			ownerdraw		CG_PLAYER_WEAPON_AMMO_STOCK
@@ -713,7 +713,7 @@
 			name			"offHandSmokeAmmo"
 			rect			(WEAPINFO_X -45) (WEAPINFO_Y +20) 25 25
 			textscale		TEXTSIZE_SMALL
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			textfont		UI_FONT_OBJECTIVE
 			forecolor		1 1 1 HUD_FOREGROUND_ALPHA
 			ownerdraw		CG_OFFHAND_WEAPON_AMMO_SMOKEFLASH
@@ -726,7 +726,7 @@
 			name			"offHandFragAmmo"
 			rect			(WEAPINFO_X -14) (WEAPINFO_Y +20) 25 25
 			textscale		TEXTSIZE_SMALL
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			textfont		UI_FONT_OBJECTIVE
 			forecolor		1 1 1 HUD_FOREGROUND_ALPHA
 			ownerdraw		CG_OFFHAND_WEAPON_AMMO_FRAG
@@ -738,7 +738,7 @@
 		{
 			name			"weapname"
 			rect			(WEAPINFO_X - 40) (WEAPINFO_Y + 20) 1 1
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textstyle		ITEM_TEXTSTYLE_NORMAL
 			textscale		TEXTSIZE_SMALL
 			textfont		UI_FONT_OBJECTIVE
 			forecolor		1 1 1 HUD_FOREGROUND_ALPHA
@@ -783,7 +783,7 @@
 			textfont	UI_FONT_OBJECTIVE
 			textscale	0.90
 			textalign	ITEM_ALIGN_CENTER
-			textstyle	ITEM_TEXTSTYLE_SHADOWEDMORE
+			textstyle	ITEM_TEXTSTYLE_NORMAL
 			visible 	1
 			decoration
 		}
@@ -804,7 +804,7 @@
 			gamemsgwindowindex	0
 			gamemsgwindowmode	MODE_BOTTOMUP_ALIGN_BOTTOM
 			textfont			UI_FONT_DEFAULT
-			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textstyle			ITEM_TEXTSTYLE_NORMAL
 			textalign			ITEM_ALIGN_LEFT
 			textscale			0.25
 			visible				when (dvarint(ui_hud_obituaries) == 1 && !ui_active());
@@ -825,7 +825,7 @@
 			gamemsgwindowindex	1
 			gamemsgwindowmode	MODE_BOTTOMUP_ALIGN_BOTTOM
 			textfont			UI_FONT_OBJECTIVE
-			textstyle			ITEM_TEXTSTYLE_SHADOWED
+			textstyle			ITEM_TEXTSTYLE_NORMAL
 			textalign			ITEM_ALIGN_CENTER
 			textscale			0.31 // SP: 0.5
 			visible				when (dvarint(ui_hud_obituaries) == 1 && !ui_active());

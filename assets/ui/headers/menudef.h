@@ -48,23 +48,23 @@
 #define TEXTSIZE_BIG		TEXTSIZE_TITLE
 
 #define COLOR_TITLE			1 0.8 0.4 1
-#define COLOR_FOCUSED		0.76 0.45 0.1 1 // 0.937 0.670 0.341 1 // 1 1 1 1
-#define COLOR_UNFOCUSED		0.4823 0.4823 0.4823 1
+#define COLOR_FOCUSED		0 1 1 1 // 0.937 0.670 0.341 1 // 1 1 1 1
+#define COLOR_UNFOCUSED		0.8 0.8 0.8 1
 #define COLOR_DISABLED		0.35 0.35 0.35 1
 #define COLOR_SAFEAREA		0 0 1 1
 
-#define	BUTTON_A			1
-#define	BUTTON_B			2
-#define	BUTTON_X			3
-#define	BUTTON_Y			4
-#define	BUTTON_LSHLDR		5
-#define	BUTTON_RSHLDR		6
-#define	BUTTON_START		14
-#define	BUTTON_BACK			15
-#define	BUTTON_LSTICK		16
-#define	BUTTON_RSTICK		17
-#define	BUTTON_LTRIG		18
-#define	BUTTON_RTRIG		19
+#define	BTN_A			1
+#define	BTN_B			2
+#define	BTN_X			3
+#define	BTN_Y			4
+#define	BTN_LSHLDR		5
+#define	BTN_RSHLDR		6
+#define	BTN_START		14
+#define	BTN_BACK			15
+#define	BTN_LSTICK		16
+#define	BTN_RSTICK		17
+#define	BTN_LTRIG		18
+#define	BTN_RTRIG		19
 #define	DPAD_UP				20
 #define	DPAD_DOWN			21
 #define	DPAD_LEFT			22

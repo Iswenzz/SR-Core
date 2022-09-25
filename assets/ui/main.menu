@@ -1,13 +1,13 @@
 #include "ui/headers/menudef.h"
 #include "ui/includes/common.inc"
 
-#define CHOICE_X_START			0
-#define CHOICE_Y_START			0
+#define BUTTON_X_START			0
+#define BUTTON_Y_START			0
 
-#define CHOICE_GROUP			"main"
-#define CHOICE_SEP_1			3
-#define CHOICE_SEP_2			7
-#define CHOICE_SEP_3			8
+#define BUTTON_GROUP			"main"
+#define BUTTON_SEP_1			3
+#define BUTTON_SEP_2			7
+#define BUTTON_SEP_3			8
 
 #define STYLE_PC	1
 
@@ -20,7 +20,7 @@
 #define ui_maincontent_header_X 	0
 #define ui_maincontent_header_Y 	0
 #define ui_hideback 				1
-#define link_CHOICE_vis 			1
+#define link_BUTTON_vis 			1
 
 #define ui_showTextureApply 0
 
@@ -44,10 +44,10 @@
 		{
 			open 	main_text;
 
-			setdvar ui_CHOICE_highlight_brightness	"0.5";
-			setdvar ui_CHOICE_highlight_radius		"1.0";
-			setdvar ui_CHOICE_outline_brightness	"0.7";
-			setdvar ui_CHOICE_outline_radius		"1.0";
+			setdvar ui_button_highlight_brightness	"0.5";
+			setdvar ui_button_highlight_radius		"1.0";
+			setdvar ui_button_outline_brightness	"0.7";
+			setdvar ui_button_outline_radius		"1.0";
 		}
 	}
 
@@ -64,7 +64,7 @@
 			exec "selectStringTableEntryInDvar mp/didyouknow.csv 0 didyouknow";
 			setLocalVarBool ui_maincontent_header 1;
 			setLocalVarBool ui_maincontent_update 1;
-			setLocalVarBool link_CHOICE_vis 1;
+			setLocalVarBool link_BUTTON_vis 1;
 		}
 
 		itemDef
@@ -122,21 +122,84 @@
             decoration
         }
 
-		HEADER_BUTTON(2, "@MENU_JOIN_GAME", CLOSE_ALL_SUBNAVS; open serverlist_subnav; open serverlist_browser;		, when(!localvarBool(ui_hideBack)))
-		HEADER_BUTTON(3, "@MENU_START_NEW_SERVER", CLOSE_ALL_SUBNAVS; open createserver;									, when(!localvarBool(ui_hideBack)))
+		HEADER_BUTTON(2, "@MENU_JOIN_GAME", CLOSE_ALL; open serverlist_subnav; open serverlist_browser;, when(!localvarBool(ui_hideBack)))
+		HEADER_BUTTON(3, "@MENU_START_NEW_SERVER", CLOSE_ALL; open createserver;, when(!localvarBool(ui_hideBack)))
 
-		HEADER_BUTTON(4, "@MENU_CONTROLS", CLOSE_ALL_SUBNAVS; open main_controls;									, when(!localvarBool(ui_hideBack)))
-		HEADER_BUTTON(5, "@MENU_OPTIONS", 	CLOSE_ALL_SUBNAVS; open main_options;									, when(!localvarBool(ui_hideBack)))
+		HEADER_BUTTON(4, "@MENU_CONTROLS", CLOSE_ALL; open main_controls;, when(!localvarBool(ui_hideBack)))
+		HEADER_BUTTON(5, "@MENU_OPTIONS", 	CLOSE_ALL; open main_options;, when(!localvarBool(ui_hideBack)))
 
-		HEADER_BUTTON(6, "@MENU_MODS", open mods_menu;															, when(!localvarBool(ui_hideBack)))
-		HEADER_BUTTON(7, "Profile", CLOSE_ALL_SUBNAVS; open player_profile;									, when(!localvarBool(ui_hideBack)))
-		HEADER_BUTTON(8, "@MENU_QUIT", open quit_popmenu;														, when(!localvarBool(ui_hideBack)))
+		HEADER_BUTTON(6, "@MENU_MODS", CLOSE_ALL; open mods_menu;, when(!localvarBool(ui_hideBack)))
+		HEADER_BUTTON(7, "@MENU_SELECT_PROFILE", CLOSE_ALL; open player_profile;, when(!localvarBool(ui_hideBack)))
+		HEADER_BUTTON(8, "@MENU_QUIT", CLOSE_ALL; open quit_popmenu;, when(!localvarBool(ui_hideBack)))
 
-		#define SETUP_ACTION_CREATEACLASS \
-		execnow "statset 260 1"; \
-		play "mouse_click"; \
-		open pc_cac_popup;
+		FOOTNOTE_VIS("@SR_GAME_EXPERIENCE_CHANGED", 40, 450, when(!localvarBool(ui_hideBack)))
 
 		#define CLEARUIHINT	exec "set ui_hint_text @MP_NULL"
+
+		itemDef
+		{
+			visible			1
+			rect			-800 -800 2000 2000
+			forecolor		1 1 1 1
+			style			WINDOW_STYLE_SHADER
+			background		"black"
+			visible 		when(dvarstring(ui_dr_info) != "");
+			decoration
+		}
+
+		itemDef
+		{
+			visible 		when(dvarstring(ui_dr_info) != "");
+			rect			-800 -800 2000 2000
+			forecolor		1 1 1 1
+			type			ITEM_TYPE_BUTTON
+			text			" . "
+			textfont		UI_FONT_NORMAL
+			textscale		.3
+			textalignx		8
+			textaligny		16
+
+			action
+			{
+				play "mouse_click";
+				execnow "exec cleanup.cfg";
+			}
+		}
+
+		itemDef
+		{
+			visible 		when(dvarstring(ui_dr_info) != "");
+			origin			320 200
+			forecolor		1 1 1 1
+			text			"@SR_NOTICE"
+			textfont		UI_FONT_NORMAL
+			textalign		ITEM_ALIGN_CENTER
+			textscale		.8
+			decoration
+		}
+
+		itemDef
+		{
+			visible 		when(dvarstring(ui_dr_info) != "");
+			origin			320 220
+			forecolor		1 1 1 1
+			exp				text(dvarstring(ui_dr_info));
+			textfont		UI_FONT_NORMAL
+			textalign		ITEM_ALIGN_CENTER
+			textscale		.44
+			decoration
+		}
+
+		itemDef
+		{
+			visible 		when(dvarstring(ui_dr_info2) != "");
+			origin			320 238
+			forecolor		1 1 1 1
+			exp				text(dvarstring(ui_dr_info2));
+			textfont		UI_FONT_NORMAL
+			textalign		ITEM_ALIGN_CENTER
+			textscale		.44
+			decoration
+		}
 	}
 }

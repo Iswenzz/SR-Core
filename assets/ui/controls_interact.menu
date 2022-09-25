@@ -37,19 +37,19 @@
 			close self;
 		}
 
-		CHOICE_BIND(1, "@MENU_USE", "+activate", ;)
-		CHOICE_BIND(2, "@MENU_NIGHT_VISION", "+actionslot 1", ;)
-		CHOICE_BIND(3, "@MENU_SHOW_OBJECTIVES_SCORES", "+scores", ;)
+		BUTTON_BIND(1, "@MENU_USE", "+activate", ;)
+		BUTTON_BIND(2, "@MENU_NIGHT_VISION", "+actionslot 1", ;)
+		BUTTON_BIND(3, "@MENU_SHOW_OBJECTIVES_SCORES", "+scores", ;)
 
-        CHOICE_BIND(5, "@MENU_VOTE_YES", "vote yes", ;)
-		CHOICE_BIND(6, "@MENU_VOTE_NO", "vote no", ;)
+        BUTTON_BIND(5, "@MENU_VOTE_YES", "vote yes", ;)
+		BUTTON_BIND(6, "@MENU_VOTE_NO", "vote no", ;)
 
-		CHOICE_BIND(16, "@MENU_VOICE_CHAT_BUTTON", "+talk", ;)
-		CHOICE_BIND(17, "@MENU_CHAT", "chatmodepublic", ;)
-		CHOICE_BIND(18, "@MENU_TEAM_CHAT", "chatmodeteam", ;)
-		CHOICE_BIND(19, "@MENU_QUICK_CHAT", "mp_QuickMessage", ;)
+		BUTTON_BIND(16, "@MENU_VOICE_CHAT_BUTTON", "+talk", ;)
+		BUTTON_BIND(17, "@MENU_CHAT", "chatmodepublic", ;)
+		BUTTON_BIND(18, "@MENU_TEAM_CHAT", "chatmodeteam", ;)
+		BUTTON_BIND(19, "@MENU_QUICK_CHAT", "mp_QuickMessage", ;)
 
-        CHOICE_BIND(21, "@MENU_SCREENSHOT", "screenshotjpeg", ;)
-		CHOICE_KEYBINDHELP
+        BUTTON_BIND(21, "@MENU_SCREENSHOT", "screenshotjpeg", ;)
+		BUTTON_KEYBINDHELP
 	}
 }

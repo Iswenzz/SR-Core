@@ -1,26 +1,25 @@
 #include "ui/headers/menudef.h"
 #include "ui/includes/common.inc"
 
-#define CHOICE_X_START			0
-#define CHOICE_Y_START			34
+#define BUTTON_X_START			0
+#define BUTTON_Y_START			34
 
-#define CHOICE_GROUP			"errors"
+#define BUTTON_GROUP			"errors"
 
 #include "ui/includes/style.inc"
-#include "ui/templates/choice.menu"
-
+#include "ui/templates/button.menu"
 #include "ui/includes/popup.inc"
 
-#undef CHOICE_SIZE_X
-#define CHOICE_SIZE_X			520
+#undef BUTTON_SIZE_X
+#define BUTTON_SIZE_X			520
 
-#undef CHOICE_HORIZONTAL_ALIGN
-#define CHOICE_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_CENTER
-#undef CHOICE_VERTICAL_ALIGN
-#define CHOICE_VERTICAL_ALIGN	VERTICAL_ALIGN_CENTER
+#undef BUTTON_HORIZONTAL_ALIGN
+#define BUTTON_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_CENTER
+#undef BUTTON_VERTICAL_ALIGN
+#define BUTTON_VERTICAL_ALIGN	VERTICAL_ALIGN_CENTER
 
-#undef CHOICE_POPUP_TITLE_HEIGHT
-#define CHOICE_POPUP_TITLE_HEIGHT	24
+#undef BUTTON_POPUP_TITLE_HEIGHT
+#define BUTTON_POPUP_TITLE_HEIGHT	24
 
 {
 	menuDef
@@ -140,22 +139,22 @@
 		}
 	}
 
-	#undef CHOICE_POPUP_TITLE_HEIGHT
-	#define CHOICE_POPUP_TITLE_HEIGHT	24
+	#undef BUTTON_POPUP_TITLE_HEIGHT
+	#define BUTTON_POPUP_TITLE_HEIGHT	24
 
-	#undef	CHOICE_X_START
-	#undef	CHOICE_Y_START
-	#define CHOICE_X_START			2
-	#define CHOICE_Y_START			28
+	#undef	BUTTON_X_START
+	#undef	BUTTON_Y_START
+	#define BUTTON_X_START			2
+	#define BUTTON_Y_START			28
 
-	#undef CHOICE_SIZE_X
-	#define CHOICE_SIZE_X			480
+	#undef BUTTON_SIZE_X
+	#define BUTTON_SIZE_X			480
 
 	#ifdef PS3
 		menuDef
 		{
 			CENTER_POPUP_SETUP(controllerremoved_popmenu, 1, ;, 1)
-			CHOICE_POPMENU_TITLE("@PLATFORM_CONTROLLER_DISCONNECTED")
+			BUTTON_POPMENU_TITLE("@PLATFORM_CONTROLLER_DISCONNECTED")
 			itemDef
 			{
 				type			ITEM_TYPE_BUTTON
@@ -166,17 +165,17 @@
 		}
 	#endif
 
-	#undef CHOICE_SIZE_X
-	#define CHOICE_SIZE_X			320
+	#undef BUTTON_SIZE_X
+	#define BUTTON_SIZE_X			320
 
 	menuDef
 	{
 		CENTER_POPUP_SETUP(save_corrupted, 5, ;, 1)
 
-		CHOICE_POPMENU_TITLE("@MENU_SAVE_CORRUPTED")
-		CHOICE_POPMENU_SUBTITLE("@MENU_SAVEDATA_CORRUPTED")
+		BUTTON_POPMENU_TITLE("@MENU_SAVE_CORRUPTED")
+		BUTTON_POPMENU_SUBTITLE("@MENU_SAVEDATA_CORRUPTED")
 
-		CHOICE_BUTTON(5, "@MENU_OK", close self;)
+		BUTTON(5, "@MENU_OK", close self;)
 	}
 
 	menuDef
@@ -205,10 +204,10 @@
 			rect			20 24 0 0 0 0 \
 			exp				text(textArg); \
 			textfont		UI_FONT_NORMAL \
-			textscale		CHOICE_POPUP_TITLE_TEXTSIZE \
+			textscale		BUTTON_POPUP_TITLE_TEXTSIZE \
 			textAlign		ITEM_ALIGN_TOP_LEFT \
-			textstyle		CHOICE_TEXTSTYLE \
-			forecolor		CHOICE_TEXTCOLOR \
+			textstyle		BUTTON_TEXTSTYLE \
+			forecolor		BUTTON_TEXTCOLOR \
 			visible			visArg \
 		}
 
@@ -230,10 +229,10 @@
 			close error_popmenu_party;
 		}
 
-		CHOICE_POPMENU_TITLE(dvarSTring("com_errorTitle"))
-		CHOICE_POPMENU_SUBTITLE(dvarSTring("com_errorMessage"))
+		BUTTON_POPMENU_TITLE(dvarSTring("com_errorTitle"))
+		BUTTON_POPMENU_SUBTITLE(dvarSTring("com_errorMessage"))
 
-		CHOICE_BUTTON(4, "@MENU_OK", uiScript clearError; close error_popmenu_party;)
+		BUTTON(4, "@MENU_OK", uiScript clearError; close error_popmenu_party;)
 	}
 
 	menuDef
@@ -246,10 +245,10 @@
 			close error_popmenu_lobby;
 		}
 
-		CHOICE_POPMENU_TITLE(dvarSTring("com_errorTitle"))
-		CHOICE_POPMENU_SUBTITLE(dvarSTring("com_errorMessage"))
+		BUTTON_POPMENU_TITLE(dvarSTring("com_errorTitle"))
+		BUTTON_POPMENU_SUBTITLE(dvarSTring("com_errorMessage"))
 
-		CHOICE_BUTTON(4, "@MENU_OK", uiScript clearError; close error_popmenu_lobby;)
+		BUTTON(4, "@MENU_OK", uiScript clearError; close error_popmenu_lobby;)
 	}
 
 	menuDef
@@ -265,10 +264,10 @@
 			rect			40 24 0 0 0 0 \
 			exp				text(textArg); \
 			textfont		UI_FONT_NORMAL \
-			textscale		CHOICE_POPUP_TITLE_TEXTSIZE \
+			textscale		BUTTON_POPUP_TITLE_TEXTSIZE \
 			textAlign		ITEM_ALIGN_TOP_LEFT \
-			textstyle		CHOICE_TEXTSTYLE \
-			forecolor		CHOICE_TEXTCOLOR \
+			textstyle		BUTTON_TEXTSTYLE \
+			forecolor		BUTTON_TEXTCOLOR \
 			visible			visArg \
 			decoration \
 		}
@@ -282,13 +281,13 @@
 	{
 		CENTER_POPUP_SETUP(acceptinvite_warning, 5, close "acceptinvite_warning";, 1)
 
-		CHOICE_POPMENU_TITLE("@MENU_ACCEPTINVITETITLE")
-		CHOICE_POPMENU_SUBTITLE_VIS("@MENU_LEAVEMPGAMEWARNINGPARTYHOST", when(privatepartyhost() && !aloneinparty());)
-		CHOICE_POPMENU_SUBTITLE_VIS("@MENU_LEAVEPARTYWARNING", when(!privatepartyhost() && !inlobby());)
-		CHOICE_POPMENU_SUBTITLE_VIS("@MENU_LEAVEMPGAMEWARNING", when(!privatepartyhost() && inlobby());)
+		BUTTON_POPMENU_TITLE("@MENU_ACCEPTINVITETITLE")
+		BUTTON_POPMENU_SUBTITLE_VIS("@MENU_LEAVEMPGAMEWARNINGPARTYHOST", when(privatepartyhost() && !aloneinparty());)
+		BUTTON_POPMENU_SUBTITLE_VIS("@MENU_LEAVEPARTYWARNING", when(!privatepartyhost() && !inlobby());)
+		BUTTON_POPMENU_SUBTITLE_VIS("@MENU_LEAVEMPGAMEWARNING", when(!privatepartyhost() && inlobby());)
 
-		CHOICE_BUTTON(4, "@MENU_RESUMEGAME", close self;)
-		CHOICE_BUTTON(5, "@MENU_ACCEPTINVITE", close self; exec "acceptInvite";)
+		BUTTON(4, "@MENU_RESUMEGAME", close self;)
+		BUTTON(5, "@MENU_ACCEPTINVITE", close self; exec "acceptInvite";)
 	}
 
 	#define VIS_PRESS_START 1

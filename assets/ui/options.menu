@@ -15,6 +15,11 @@
 		{
 			setLocalVarBool ui_showApply 0;
 			setLocalVarBool ui_showTextureApply 0;
+
+			CLOSE_SERVERBROWSER;
+			CLOSE_CREATE_SERVER;
+			CLOSE_MODS;
+			CLOSE_PROFILE;
 		}
 
 		onClose
