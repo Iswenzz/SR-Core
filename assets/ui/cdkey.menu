@@ -32,8 +32,8 @@
 		focusColor COLOR_FOCUSED
 		style 1
 		border			1
-		bordersize		POPUP_BORDER_WIDTH
-		bordercolor		POPUP_BORDER_COLOR
+		bordersize		LAYOUT_BORDER_WIDTH
+		bordercolor		LAYOUT_BORDER_COLOR
 		popup
 
 		onOpen
@@ -49,9 +49,9 @@
 		itemDef
 		{
 			style			WINDOW_STYLE_SHADER
-			rect			0 0 (POPUP_WIDTH-(POPUP_BORDER_WIDTH*2)) (POPUP_HEIGHT(6)-(POPUP_BORDER_WIDTH*2)) HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
+			rect			0 0 (POPUP_WIDTH-(LAYOUT_BORDER_WIDTH*2)) (POPUP_HEIGHT(6)-(LAYOUT_BORDER_WIDTH*2)) HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
 			background		"white"
-			forecolor		POPUP_BACKCOLOR
+			forecolor		LAYOUT_BACKCOLOR
 			visible			1
 			decoration
 		}

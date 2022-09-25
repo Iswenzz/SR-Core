@@ -1,119 +1,119 @@
-#ifndef POPUP_BORDER_X
-#define POPUP_BORDER_X	4
+#ifndef LAYOUT_BORDER_X
+#define LAYOUT_BORDER_X	4
 #endif
 
-#ifndef POPUP_BORDER_Y
-#define POPUP_BORDER_Y	4
+#ifndef LAYOUT_BORDER_Y
+#define LAYOUT_BORDER_Y	4
 #endif
 
-#ifndef POPUP_TITLE_WIDTH
-#define POPUP_TITLE_WIDTH	0
+#ifndef LAYOUT_TITLE_WIDTH
+#define LAYOUT_TITLE_WIDTH	0
 #endif
 
 #ifndef POPUP_TITLE_HEIGHT
 #define POPUP_TITLE_HEIGHT	0
 #endif
 
-#ifndef POPUP_TEXTSTYLE
-#define POPUP_TEXTSTYLE ITEM_TEXTSTYLE_NORMAL
+#ifndef LAYOUT_TEXTSTYLE
+#define LAYOUT_TEXTSTYLE ITEM_TEXTSTYLE_NORMAL
 #endif
 
-#ifndef POPUP_TEXTCOLOR
-#define POPUP_TEXTCOLOR 1 1 1 1
+#ifndef LAYOUT_TEXTCOLOR
+#define LAYOUT_TEXTCOLOR 1 1 1 1
 #endif
 
-#ifndef POPUP_HORIZONTAL_ALIGN
-#define POPUP_HORIZONTAL_ALIGN HORIZONTAL_ALIGN_DEFAULT
+#ifndef LAYOUT_HORIZONTAL_ALIGN
+#define LAYOUT_HORIZONTAL_ALIGN HORIZONTAL_ALIGN_DEFAULT
 #endif
 
-#ifndef POPUP_VERTICAL_ALIGN
-#define POPUP_VERTICAL_ALIGN VERTICAL_ALIGN_DEFAULT
+#ifndef LAYOUT_VERTICAL_ALIGN
+#define LAYOUT_VERTICAL_ALIGN VERTICAL_ALIGN_DEFAULT
 #endif
 
-#ifndef POPUP_TITLE_TEXTSIZE
-#define POPUP_TITLE_TEXTSIZE	TEXTSIZE_DEFAULT
+#ifndef LAYOUT_TITLE_TEXTSIZE
+#define LAYOUT_TITLE_TEXTSIZE	TEXTSIZE_DEFAULT
 #endif
 
-#ifndef POPUP_SUBTITLE_WIDTH
-#define POPUP_SUBTITLE_WIDTH	0
+#ifndef LAYOUT_SUBTITLE_WIDTH
+#define LAYOUT_SUBTITLE_WIDTH	0
 #endif
 
-#ifndef POPUP_SUBTITLE_HEIGHT
-#define POPUP_SUBTITLE_HEIGHT 	0
+#ifndef LAYOUT_SUBTITLE_HEIGHT
+#define LAYOUT_SUBTITLE_HEIGHT 	0
 #endif
 
-#ifndef POPUP_SUBTITLE_TEXTSIZE
-#define POPUP_SUBTITLE_TEXTSIZE	TEXTSIZE_SMALL
+#ifndef LAYOUT_SUBTITLE_TEXTSIZE
+#define LAYOUT_SUBTITLE_TEXTSIZE	TEXTSIZE_SMALL
 #endif
 
 #ifndef CENTER_POPUP_ON_CLOSE
 #define CENTER_POPUP_ON_CLOSE play "mouse_click";
 #endif
 
-#ifndef POPUP_BORDER_WIDTH
-#define POPUP_BORDER_WIDTH	2
+#ifndef LAYOUT_BORDER_WIDTH
+#define LAYOUT_BORDER_WIDTH	2
 #endif
 
-#ifndef POPUP_BORDER_COLOR
-#define POPUP_BORDER_COLOR	0 0 0 0.5
+#ifndef LAYOUT_BORDER_COLOR
+#define LAYOUT_BORDER_COLOR	0 0 0 0.5
 #endif
 
-#ifndef POPUP_BACKCOLOR
-#define POPUP_BACKCOLOR	0 0 0 0.35
+#ifndef LAYOUT_BACKCOLOR
+#define LAYOUT_BACKCOLOR	0 0 0 0.35
 #endif
 
-#ifndef POPUP_BACKCOLOR_NOALPHA
-#define POPUP_BACKCOLOR_NOALPHA	0.1412 0.1412 0.1812
+#ifndef LAYOUT_BACKCOLOR_NOALPHA
+#define LAYOUT_BACKCOLOR_NOALPHA	0.1412 0.1412 0.1812
 #endif
 
 #undef	BUTTON_FOCUS_SOUND
 #define BUTTON_FOCUS_SOUND 		"mouse_submenu_over"
 
-#ifndef POPUP_OFFSET_X
-#define POPUP_OFFSET_X	0
+#ifndef LAYOUT_OFFSET_X
+#define LAYOUT_OFFSET_X	0
 #endif
 
-#ifndef POPUP_OFFSET_Y
-#define POPUP_OFFSET_Y	0
+#ifndef LAYOUT_OFFSET_Y
+#define LAYOUT_OFFSET_Y	0
 #endif
 
-#ifndef POPUP_SIZE_X
-#define POPUP_SIZE_X			200
+#ifndef LAYOUT_SIZE_X
+#define LAYOUT_SIZE_X			200
 #endif
 
-#ifndef POPUP_SIZE_Y
-#define POPUP_SIZE_Y			80
+#ifndef LAYOUT_SIZE_Y
+#define LAYOUT_SIZE_Y			80
 #endif
 
-#ifndef POPUP_Y_SPACING
-#define POPUP_Y_SPACING 		0
+#ifndef LAYOUT_Y_SPACING
+#define LAYOUT_Y_SPACING 		0
 #endif
 
-#define POPUP_WIDTH					((POPUP_BORDER_X * 2) + ((POPUP_TITLE_WIDTH > POPUP_SIZE_X) ? POPUP_TITLE_WIDTH : POPUP_SIZE_X))
-#define POPUP_HEIGHT(itemCount)		(POPUP_TITLE_HEIGHT + POPUP_SUBTITLE_HEIGHT + (POPUP_Y_SPACING * (itemCount) + POPUP_BORDER_Y * 2))
+#define POPUP_WIDTH					((LAYOUT_BORDER_X * 2) + ((LAYOUT_TITLE_WIDTH > LAYOUT_SIZE_X) ? LAYOUT_TITLE_WIDTH : LAYOUT_SIZE_X))
+#define POPUP_HEIGHT(itemCount)		(POPUP_TITLE_HEIGHT + LAYOUT_SUBTITLE_HEIGHT + (LAYOUT_Y_SPACING * (itemCount) + LAYOUT_BORDER_Y * 2))
 
-#ifndef POPUP_NOPOS
-	#undef POPUP_X_START
-	#define POPUP_X_START			((POPUP_WIDTH - POPUP_SIZE_X) / 2 - 2)
+#ifndef LAYOUT_NOPOS
+	#undef LAYOUT_X_START
+	#define LAYOUT_X_START			((POPUP_WIDTH - LAYOUT_SIZE_X) / 2 - 2)
 
-	#undef POPUP_Y_START
-	#define POPUP_Y_START			(POPUP_TITLE_HEIGHT + POPUP_SUBTITLE_HEIGHT + POPUP_BORDER_Y)
+	#undef LAYOUT_Y_START
+	#define LAYOUT_Y_START			(POPUP_TITLE_HEIGHT + LAYOUT_SUBTITLE_HEIGHT + LAYOUT_BORDER_Y)
 
-	#undef POPUP_SEPARATOR_TOTAL_SPACING
-	#define POPUP_SEPARATOR_TOTAL_SPACING(itemIndex)	0
+	#undef LAYOUT_SEPARATOR_TOTAL_SPACING
+	#define LAYOUT_SEPARATOR_TOTAL_SPACING(itemIndex)	0
 
-	#undef POPUP_GROUP
-	#define POPUP_GROUP			"popmenu"
+	#undef LAYOUT_GROUP
+	#define LAYOUT_GROUP			"popmenu"
 #endif
 
-#define POPUP_SIDEIMAGE_X 0
-#define POPUP_SIDEIMAGE_Y 0
+#define LAYOUT_SIDEIMAGE_X 0
+#define LAYOUT_SIDEIMAGE_Y 0
 
-#define POPUP_SIDETITLE_X 0
-#define POPUP_SIDETITLE_Y 0
+#define LAYOUT_SIDETITLE_X 0
+#define LAYOUT_SIDETITLE_Y 0
 
-#define POPUP_SIDETEXT_X 0
-#define POPUP_SIDETEXT_Y 0
+#define LAYOUT_SIDETEXT_X 0
+#define LAYOUT_SIDETEXT_Y 0
 
 #define POPMENU_SETUP(nameArg, itemCount, xArg, yArg, onEscArg) \
 		POPMENU_SETUP_ONOPEN(nameArg, itemCount, xArg, yArg, onEscArg, focusfirst)
@@ -124,11 +124,11 @@
 #define POPMENU_SETUP_ONOPEN_EX(nameArg, itemCount, xArg, yArg, onEscArg, onOpenArg, extraArgs) \
 		name			nameArg \
    		fullscreen		0 \
-		rect			(xArg + 1) (yArg + 1) POPUP_WIDTH POPUP_HEIGHT(itemCount) POPUP_HORIZONTAL_ALIGN POPUP_VERTICAL_ALIGN \
-		backcolor		POPUP_BACKCOLOR \
+		rect			(xArg + 1) (yArg + 1) POPUP_WIDTH POPUP_HEIGHT(itemCount) LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
+		backcolor		LAYOUT_BACKCOLOR \
 		border			1 \
-		bordersize		POPUP_BORDER_WIDTH \
-		bordercolor		POPUP_BORDER_COLOR \
+		bordersize		LAYOUT_BORDER_WIDTH \
+		bordercolor		LAYOUT_BORDER_COLOR \
 		focusColor		COLOR_FOCUSED \
    		style			WINDOW_STYLE_FILLED \
 		popup \
@@ -151,13 +151,13 @@
 		itemDef \
 		{ \
 			type			ITEM_TYPE_BUTTON \
-			rect			((POPUP_WIDTH - POPUP_TITLE_WIDTH) / 2) (POPUP_BORDER_Y/2) POPUP_TITLE_WIDTH POPUP_TITLE_HEIGHT POPUP_HORIZONTAL_ALIGN POPUP_VERTICAL_ALIGN \
+			rect			((POPUP_WIDTH - LAYOUT_TITLE_WIDTH) / 2) (LAYOUT_BORDER_Y/2) LAYOUT_TITLE_WIDTH POPUP_TITLE_HEIGHT LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 			exp				text(textArg); \
 			textfont		UI_FONT_NORMAL \
-			textscale		POPUP_TITLE_TEXTSIZE \
+			textscale		LAYOUT_TITLE_TEXTSIZE \
 			textAlign		ITEM_ALIGN_TOP_CENTER \
-			textstyle		POPUP_TEXTSTYLE \
-			forecolor		POPUP_TEXTCOLOR \
+			textstyle		LAYOUT_TEXTSTYLE \
+			forecolor		LAYOUT_TEXTCOLOR \
 			visible			visArg \
 			decoration \
 		}
@@ -169,13 +169,13 @@
 		itemDef \
 		{ \
 			type			ITEM_TYPE_BUTTON \
-			rect			POPUP_BORDER_X (POPUP_BORDER_Y + POPUP_TITLE_HEIGHT) (POPUP_WIDTH - (POPUP_BORDER_Y*2)) POPUP_SUBTITLE_HEIGHT POPUP_HORIZONTAL_ALIGN POPUP_VERTICAL_ALIGN \
+			rect			LAYOUT_BORDER_X (LAYOUT_BORDER_Y + POPUP_TITLE_HEIGHT) (POPUP_WIDTH - (LAYOUT_BORDER_Y*2)) LAYOUT_SUBTITLE_HEIGHT LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 			exp				text(textArg); \
 			textfont		UI_FONT_NORMAL \
-			textscale		POPUP_SUBTITLE_TEXTSIZE \
+			textscale		LAYOUT_SUBTITLE_TEXTSIZE \
 			textAlign		ITEM_ALIGN_TOP_LEFT \
-			textstyle		POPUP_TEXTSTYLE \
-			forecolor		POPUP_TEXTCOLOR \
+			textstyle		LAYOUT_TEXTSTYLE \
+			forecolor		LAYOUT_TEXTCOLOR \
 			visible			visArg \
 			decoration \
 			autowrapped \
@@ -189,8 +189,8 @@
 			text			"" \
 			textfont		UI_FONT_NORMAL \
 			visible			1 \
-			onfocus{ setdvar ui_popup_close_icon "1" } \
-			leavefocus{ setdvar ui_popup_close_icon "0" } \
+			onfocus{ setdvar ui_LAYOUT_close_icon "1" } \
+			leavefocus{ setdvar ui_LAYOUT_close_icon "0" } \
 			action{ close self; } \
 		}\
 		itemDef { \
@@ -233,9 +233,9 @@
 		name			nameArg \
     	visible			0 \
    		fullscreen		0 \
-		rect			(xArg+0) (yArg+56) POPUP_WIDTH POPUP_HEIGHT(itemCount) POPUP_HORIZONTAL_ALIGN POPUP_VERTICAL_ALIGN \
+		rect			(xArg+0) (yArg+56) POPUP_WIDTH POPUP_HEIGHT(itemCount) LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 		border			1 \
-		bordersize		POPUP_BORDER_WIDTH \
+		bordersize		LAYOUT_BORDER_WIDTH \
 		bordercolor		0 0 0 0 \
 		focusColor		COLOR_FOCUSED \
    		style			WINDOW_STYLE_FILLED \
@@ -252,7 +252,7 @@
 			onEscArg; \
 		}\
 		PREPROC_CANCEL_OVERLAY(shadow_visArg, itemCount) \
-		PREPROC_SHADER_DRAW(-4 -4 POPUP_WIDTH POPUP_HEIGHT(itemCount), 0 0, "white", POPUP_BACKCOLOR, 1, POPUP_BORDER_WIDTH, POPUP_BORDER_COLOR)
+		PREPROC_SHADER_DRAW(-4 -4 POPUP_WIDTH POPUP_HEIGHT(itemCount), 0 0, "white", LAYOUT_BACKCOLOR, 1, LAYOUT_BORDER_WIDTH, LAYOUT_BORDER_COLOR)
 
 #define CENTER_POPUP_SETUP(nameArg, itemCount, onEscArg, shadow_visArg) \
 		CENTER_POPUP_SETUP_ONOPEN(nameArg, itemCount, onEscArg, focusfirst, shadow_visArg)
@@ -267,8 +267,8 @@
 			rect			(0-(POPUP_WIDTH/2)) (0-(POPUP_HEIGHT(itemCount)/2)) POPUP_WIDTH POPUP_HEIGHT(itemCount) HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
 			border			1 \
 			backcolor		0 0 0 0 \
-			bordersize		POPUP_BORDER_WIDTH \
-			bordercolor		POPUP_BORDER_COLOR \
+			bordersize		LAYOUT_BORDER_WIDTH \
+			bordercolor		LAYOUT_BORDER_COLOR \
 			focusColor		COLOR_FOCUSED \
 	   		style			WINDOW_STYLE_FILLED \
 			popup \
@@ -293,9 +293,9 @@
 			itemDef \
 			{ \
 				style			WINDOW_STYLE_SHADER \
-				rect			0 0 (POPUP_WIDTH-(POPUP_BORDER_WIDTH*2)) (POPUP_HEIGHT(itemCount)-(POPUP_BORDER_WIDTH*2)) HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+				rect			0 0 (POPUP_WIDTH-(LAYOUT_BORDER_WIDTH*2)) (POPUP_HEIGHT(itemCount)-(LAYOUT_BORDER_WIDTH*2)) HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
 				background		"white" \
-				forecolor		POPUP_BACKCOLOR \
+				forecolor		LAYOUT_BACKCOLOR \
 				visible			1 \
 				decoration \
 			}
@@ -306,8 +306,8 @@
 			rect			(0-(POPUP_WIDTH/2)) (0-(POPUP_HEIGHT(itemCount)/2)) POPUP_WIDTH POPUP_HEIGHT(itemCount) HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
 			border			1 \
 			backcolor		0 0 0 0 \
-			bordersize		POPUP_BORDER_WIDTH \
-			bordercolor		POPUP_BORDER_COLOR \
+			bordersize		LAYOUT_BORDER_WIDTH \
+			bordercolor		LAYOUT_BORDER_COLOR \
 			focusColor		COLOR_FOCUSED \
 	   		style			WINDOW_STYLE_FILLED \
 			popup \
@@ -331,9 +331,9 @@
 			itemDef \
 			{ \
 				style			WINDOW_STYLE_SHADER \
-				rect			0 0 (POPUP_WIDTH-(POPUP_BORDER_WIDTH*2)) (POPUP_HEIGHT(itemCount)-(POPUP_BORDER_WIDTH*2)) HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+				rect			0 0 (POPUP_WIDTH-(LAYOUT_BORDER_WIDTH*2)) (POPUP_HEIGHT(itemCount)-(LAYOUT_BORDER_WIDTH*2)) HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
 				background		"white" \
-				forecolor		POPUP_BACKCOLOR \
+				forecolor		LAYOUT_BACKCOLOR \
 				visible			1 \
 				decoration \
 			}
@@ -369,9 +369,9 @@
 		itemDef \
 		{ \
 			style			WINDOW_STYLE_SHADER \
-			rect			0 0 (POPUP_WIDTH-(POPUP_BORDER_WIDTH*2)) (POPUP_HEIGHT(itemCount)-(POPUP_BORDER_WIDTH*2)) HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
+			rect			0 0 (POPUP_WIDTH-(LAYOUT_BORDER_WIDTH*2)) (POPUP_HEIGHT(itemCount)-(LAYOUT_BORDER_WIDTH*2)) HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
 			background		"white" \
-			forecolor		POPUP_BACKCOLOR \
+			forecolor		LAYOUT_BACKCOLOR \
 			visible			1 \
 			decoration \
 		} \
@@ -380,7 +380,7 @@
 			style			WINDOW_STYLE_SHADER \
 			rect			0 (POPUP_TITLE_HEIGHT/4) POPUP_WIDTH (POPUP_HEIGHT(itemCount)-(POPUP_TITLE_HEIGHT/4)) HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER \
 			background		"white" \
-			forecolor		POPUP_BACKCOLOR \
+			forecolor		LAYOUT_BACKCOLOR \
 			visible			1 \
 			decoration \
 		} \

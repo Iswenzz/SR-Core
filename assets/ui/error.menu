@@ -180,14 +180,14 @@
 
 	menuDef
 	{
-		CENTER_POPUP_SETUP(popup_gettingdata, 2, focusFirst;, 1)
+		CENTER_POPUP_SETUP(LAYOUT_gettingdata, 2, focusFirst;, 1)
 		onESC
 		{
 			close menu_xboxlive;
-			close popup_findgame;
-			close popup_gettingdata;
+			close LAYOUT_findgame;
+			close LAYOUT_gettingdata;
 			close live_cac_popup;
-			close popup_gamesetup_private;
+			close LAYOUT_gamesetup_private;
 			close private_cac_popup;
 			exec "onlinegame 0";
 			exec "xstopprivateparty";
@@ -204,7 +204,7 @@
 			rect			20 24 0 0 0 0 \
 			exp				text(textArg); \
 			textfont		UI_FONT_NORMAL \
-			textscale		POPUP_TITLE_TEXTSIZE \
+			textscale		LAYOUT_TITLE_TEXTSIZE \
 			textAlign		ITEM_ALIGN_TOP_LEFT \
 			textstyle		LAYOUT_TEXTSTYLE \
 			forecolor		LAYOUT_TEXTCOLOR \
@@ -253,7 +253,7 @@
 
 	menuDef
 	{
-		CENTER_POPUP_SETUP(popup_reconnectingtoparty, 2, close menu_xboxlive; close popup_gettingdata;, 1)
+		CENTER_POPUP_SETUP(LAYOUT_reconnectingtoparty, 2, close menu_xboxlive; close LAYOUT_gettingdata;, 1)
 
 		#define LOCAL_RECON_ANIMATION (sin(milliseconds()*0.005)+1)*0.5
 
@@ -264,7 +264,7 @@
 			rect			40 24 0 0 0 0 \
 			exp				text(textArg); \
 			textfont		UI_FONT_NORMAL \
-			textscale		POPUP_TITLE_TEXTSIZE \
+			textscale		LAYOUT_TITLE_TEXTSIZE \
 			textAlign		ITEM_ALIGN_TOP_LEFT \
 			textstyle		LAYOUT_TEXTSTYLE \
 			forecolor		LAYOUT_TEXTCOLOR \

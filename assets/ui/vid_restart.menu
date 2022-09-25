@@ -21,8 +21,8 @@
 	exec "vid_restart";
 
 {
-	#undef	POPUP_SUBTITLE_HEIGHT
-	#define POPUP_SUBTITLE_HEIGHT 48
+	#undef	LAYOUT_SUBTITLE_HEIGHT
+	#define LAYOUT_SUBTITLE_HEIGHT 48
 
 	menuDef
 	{
@@ -31,8 +31,8 @@
 		BUTTON(2, "@MENU_OK", play "mouse_click"; close self;)
 	}
 
-	#undef	POPUP_SUBTITLE_HEIGHT
-	#define POPUP_SUBTITLE_HEIGHT 0
+	#undef	LAYOUT_SUBTITLE_HEIGHT
+	#define LAYOUT_SUBTITLE_HEIGHT 0
 
 	menuDef
 	{
