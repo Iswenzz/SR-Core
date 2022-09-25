@@ -1,25 +1,25 @@
 #include "ui/headers/menudef.h"
 #include "ui/includes/common.inc"
 
-#define BUTTON_X_START			0
-#define BUTTON_Y_START			150
+#define LAYOUT_X_START			0
+#define LAYOUT_Y_START			150
 
-#define BUTTON_GROUP			"apply_settings_sound"
+#define LAYOUT_GROUP			"apply_settings_sound"
 
 #define STYLE_PC	1
 #include "ui/includes/style.inc"
 #include "ui/templates/button.menu"
 #include "ui/includes/popup.inc"
 
-#undef BUTTON_SIZE_X
-#define BUTTON_SIZE_X			250
+#undef LAYOUT_SIZE_X
+#define LAYOUT_SIZE_X			250
 
 {
 	menuDef
 	{
 		IMPROVED_POPUP_SETUP(snd_restart_popmenu, 3, 230, 170, ;, 1)
 
-		BUTTON_POPMENU_TITLE("@MENU_APPLY_SETTINGS")
+		POPMENU_TITLE("@MENU_APPLY_SETTINGS")
 
 		BUTTON(2, "@MENU_YES", exec "setfromdvar snd_khz ui_snd_khz"; exec "setfromdvar snd_outputConfiguration	ui_OutputConfig"; exec "setfromdvar snd_enableEq ui_snd_enableEq"; close snd_restart_popmenu; exec "snd_restart";)
 		BUTTON(3, "@MENU_NO", close self)

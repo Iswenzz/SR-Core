@@ -1,13 +1,13 @@
 #include "ui/headers/menudef.h"
 #include "ui/includes/common.inc"
 
-#define BUTTON_X_START			0
-#define BUTTON_Y_START			0
+#define LAYOUT_X_START			0
+#define LAYOUT_Y_START			0
 
-#define BUTTON_GROUP			"main"
-#define BUTTON_SEP_1			3
-#define BUTTON_SEP_2			7
-#define BUTTON_SEP_3			8
+#define LAYOUT_GROUP			"main"
+#define LAYOUT_SEPATATOR_1			3
+#define LAYOUT_SEPATATOR_2			7
+#define LAYOUT_SEPATATOR_3			8
 
 #define STYLE_PC	1
 
@@ -20,7 +20,7 @@
 #define ui_maincontent_header_X 	0
 #define ui_maincontent_header_Y 	0
 #define ui_hideback 				1
-#define link_BUTTON_vis 			1
+#define link_LAYOUT_vis 			1
 
 #define ui_showTextureApply 0
 
@@ -64,7 +64,7 @@
 			exec "selectStringTableEntryInDvar mp/didyouknow.csv 0 didyouknow";
 			setLocalVarBool ui_maincontent_header 1;
 			setLocalVarBool ui_maincontent_update 1;
-			setLocalVarBool link_BUTTON_vis 1;
+			setLocalVarBool link_LAYOUT_vis 1;
 		}
 
 		itemDef

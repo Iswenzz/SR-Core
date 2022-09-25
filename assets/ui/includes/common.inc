@@ -247,9 +247,9 @@ itemDef { \
 
 // Singular button macro
 #define SINGULAR_BUTTON(pnum, porigin, phighlight_size, ptext, paction) \
-	SINGULAR_BUTTON_RAW(pnum, porigin, phighlight_size, ptext, paction, 1)
+	SINGULAR_LAYOUT_RAW(pnum, porigin, phighlight_size, ptext, paction, 1)
 
-#define SINGULAR_BUTTON_RAW(pnum, porigin, phighlight_size, ptext, paction, p_vis) \
+#define SINGULAR_LAYOUT_RAW(pnum, porigin, phighlight_size, ptext, paction, p_vis) \
 itemDef{											\
 	type			ITEM_TYPE_BUTTON				\
 	origin			porigin							\
@@ -298,7 +298,7 @@ itemDef { 											\
 	decoration }
 
 // Full button that show/hides highlight, a button, description and gray out if locked
-#define SINGULAR_BUTTON_FULL(pnum, porigin, phighlight_size, ptext, paction, pvis) \
+#define SINGULAR_LAYOUT_FULL(pnum, porigin, phighlight_size, ptext, paction, pvis) \
 itemDef{											\
 	type			ITEM_TYPE_BUTTON				\
 	origin			porigin							\
@@ -325,7 +325,7 @@ itemDef{											\
 	leaveFocus{										\
 		hide "description2_choice"#pnum;			\
 		hide "highlight_choice"#pnum; } }			\
-SINGULAR_BUTTON_RAW(pnum, porigin, phighlight_size, ptext, paction, pvis)
+SINGULAR_LAYOUT_RAW(pnum, porigin, phighlight_size, ptext, paction, pvis)
 
 #define LOADOUT_PLATING_RAW(porigin, px, py, pw, ph, palign, vis_gradient_top, vis_gradient_bottom) \
 	PREPROC_SHADER_DRAW_ALIGNED((px-4) (py-8) pw ph palign, porigin, "white", 0.2 0.2 0.225 1, 0, 0, 0 0 0 0) \

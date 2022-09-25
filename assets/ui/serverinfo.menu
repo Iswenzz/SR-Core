@@ -1,7 +1,7 @@
 #include "ui/headers/menudef.h"
 #include "ui/includes/common.inc"
 
-#define BUTTON_GROUP	"serverinfo"
+#define LAYOUT_GROUP	"serverinfo"
 
 #include "ui/includes/style.inc"
 #include "ui/templates/button.menu"
@@ -12,11 +12,11 @@
 #define INFO_BOX_HEIGHT 280
 #define INFO_BOX_SIZE 	INFO_BOX_WIDTH INFO_BOX_HEIGHT
 
-#undef BUTTON_SIZE_X
-#define BUTTON_SIZE_X	(INFO_BOX_WIDTH+(SIDE_MARGIN*2))
+#undef LAYOUT_SIZE_X
+#define LAYOUT_SIZE_X	(INFO_BOX_WIDTH+(SIDE_MARGIN*2))
 
-#undef BUTTON_POPUP_TITLE_HEIGHT
-#define BUTTON_POPUP_TITLE_HEIGHT	(INFO_BOX_HEIGHT+SIDE_MARGIN+24)
+#undef POPUP_TITLE_HEIGHT
+#define POPUP_TITLE_HEIGHT	(INFO_BOX_HEIGHT+SIDE_MARGIN+24)
 
 {
 	menuDef
@@ -24,11 +24,11 @@
 		name			serverinfo_popmenu
     	visible			1
    		fullscreen		0
-		rect			(0-(BUTTON_POPUP_WIDTH/2)) 70 BUTTON_POPUP_WIDTH BUTTON_POPUP_HEIGHT(2) HORIZONTAL_ALIGN_CENTER 0
+		rect			(0-(POPUP_WIDTH/2)) 70 POPUP_WIDTH POPUP_HEIGHT(2) HORIZONTAL_ALIGN_CENTER 0
 		border			1
 		backcolor		0 0 0 0
-		bordersize		BUTTON_POPUP_BORDER_WIDTH
-		bordercolor		BUTTON_POPUP_BORDER_COLOR
+		bordersize		POPUP_BORDER_WIDTH
+		bordercolor		POPUP_BORDER_COLOR
 		focusColor		COLOR_FOCUSED
    		style			WINDOW_STYLE_FILLED
 		popup
@@ -54,21 +54,21 @@
 		itemDef
 		{
 			style			WINDOW_STYLE_SHADER
-			rect			0 0 (BUTTON_POPUP_WIDTH-(BUTTON_POPUP_BORDER_WIDTH*2)) (BUTTON_POPUP_HEIGHT(2)-(BUTTON_POPUP_BORDER_WIDTH*2))
+			rect			0 0 (POPUP_WIDTH-(POPUP_BORDER_WIDTH*2)) (POPUP_HEIGHT(2)-(POPUP_BORDER_WIDTH*2))
 			background		"white"
 			forecolor		0.2 0.2 0.22 0.85
 			visible			1
 			decoration
 		}
 
-		#undef BUTTON_X_START
-		#define BUTTON_X_START				0
-		#undef BUTTON_HORIZONTAL_ALIGN
-		#define BUTTON_HORIZONTAL_ALIGN		HORIZONTAL_ALIGN_CENTER
-		#undef BUTTON_VERTICAL_ALIGN
-		#define BUTTON_VERTICAL_ALIGN		VERTICAL_ALIGN_TOP
+		#undef LAYOUT_X_START
+		#define LAYOUT_X_START				0
+		#undef LAYOUT_HORIZONTAL_ALIGN
+		#define LAYOUT_HORIZONTAL_ALIGN		HORIZONTAL_ALIGN_CENTER
+		#undef LAYOUT_VERTICAL_ALIGN
+		#define LAYOUT_VERTICAL_ALIGN		VERTICAL_ALIGN_TOP
 
-		BUTTON_POPMENU_TITLE("@MENU_SERVER_INFO")
+		POPMENU_TITLE("@MENU_SERVER_INFO")
 
 		itemDef
 		{

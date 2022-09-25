@@ -41,7 +41,7 @@
 
 		BUTTON_BIND(22, "@MENU_VOTE_YES", "vote yes", ;)
 		BUTTON_BIND(23, "@MENU_VOTE_NO", "vote no", ;)
-		SEPARATOR(BUTTON_SEP_1)
+		SEPARATOR(LAYOUT_SEPATATOR_1)
 		BUTTON_BIND(24, "@MENU_VOICE_CHAT_BUTTON", "+talk", ;)
 		BUTTON_BIND(25, "@MENU_CHAT", "chatmodepublic", ;)
 		BUTTON_BIND(26, "@MENU_TEAM_CHAT", "chatmodeteam", ;)

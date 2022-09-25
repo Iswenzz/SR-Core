@@ -1,25 +1,25 @@
 #include "ui/headers/menudef.h"
 #include "ui/includes/common.inc"
 
-#define BUTTON_X_START			0
-#define BUTTON_Y_START			34
+#define LAYOUT_X_START			0
+#define LAYOUT_Y_START			34
 
-#define BUTTON_GROUP			"errors"
+#define LAYOUT_GROUP			"errors"
 
 #include "ui/includes/style.inc"
 #include "ui/templates/button.menu"
 #include "ui/includes/popup.inc"
 
-#undef BUTTON_SIZE_X
-#define BUTTON_SIZE_X			520
+#undef LAYOUT_SIZE_X
+#define LAYOUT_SIZE_X			520
 
-#undef BUTTON_HORIZONTAL_ALIGN
-#define BUTTON_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_CENTER
-#undef BUTTON_VERTICAL_ALIGN
-#define BUTTON_VERTICAL_ALIGN	VERTICAL_ALIGN_CENTER
+#undef LAYOUT_HORIZONTAL_ALIGN
+#define LAYOUT_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_CENTER
+#undef LAYOUT_VERTICAL_ALIGN
+#define LAYOUT_VERTICAL_ALIGN	VERTICAL_ALIGN_CENTER
 
-#undef BUTTON_POPUP_TITLE_HEIGHT
-#define BUTTON_POPUP_TITLE_HEIGHT	24
+#undef POPUP_TITLE_HEIGHT
+#define POPUP_TITLE_HEIGHT	24
 
 {
 	menuDef
@@ -139,22 +139,22 @@
 		}
 	}
 
-	#undef BUTTON_POPUP_TITLE_HEIGHT
-	#define BUTTON_POPUP_TITLE_HEIGHT	24
+	#undef POPUP_TITLE_HEIGHT
+	#define POPUP_TITLE_HEIGHT	24
 
-	#undef	BUTTON_X_START
-	#undef	BUTTON_Y_START
-	#define BUTTON_X_START			2
-	#define BUTTON_Y_START			28
+	#undef	LAYOUT_X_START
+	#undef	LAYOUT_Y_START
+	#define LAYOUT_X_START			2
+	#define LAYOUT_Y_START			28
 
-	#undef BUTTON_SIZE_X
-	#define BUTTON_SIZE_X			480
+	#undef LAYOUT_SIZE_X
+	#define LAYOUT_SIZE_X			480
 
 	#ifdef PS3
 		menuDef
 		{
 			CENTER_POPUP_SETUP(controllerremoved_popmenu, 1, ;, 1)
-			BUTTON_POPMENU_TITLE("@PLATFORM_CONTROLLER_DISCONNECTED")
+			POPMENU_TITLE("@PLATFORM_CONTROLLER_DISCONNECTED")
 			itemDef
 			{
 				type			ITEM_TYPE_BUTTON
@@ -165,15 +165,15 @@
 		}
 	#endif
 
-	#undef BUTTON_SIZE_X
-	#define BUTTON_SIZE_X			320
+	#undef LAYOUT_SIZE_X
+	#define LAYOUT_SIZE_X			320
 
 	menuDef
 	{
 		CENTER_POPUP_SETUP(save_corrupted, 5, ;, 1)
 
-		BUTTON_POPMENU_TITLE("@MENU_SAVE_CORRUPTED")
-		BUTTON_POPMENU_SUBTITLE("@MENU_SAVEDATA_CORRUPTED")
+		POPMENU_TITLE("@MENU_SAVE_CORRUPTED")
+		POPMENU_SUBTITLE("@MENU_SAVEDATA_CORRUPTED")
 
 		BUTTON(5, "@MENU_OK", close self;)
 	}
@@ -204,10 +204,10 @@
 			rect			20 24 0 0 0 0 \
 			exp				text(textArg); \
 			textfont		UI_FONT_NORMAL \
-			textscale		BUTTON_POPUP_TITLE_TEXTSIZE \
+			textscale		POPUP_TITLE_TEXTSIZE \
 			textAlign		ITEM_ALIGN_TOP_LEFT \
-			textstyle		BUTTON_TEXTSTYLE \
-			forecolor		BUTTON_TEXTCOLOR \
+			textstyle		LAYOUT_TEXTSTYLE \
+			forecolor		LAYOUT_TEXTCOLOR \
 			visible			visArg \
 		}
 
@@ -229,8 +229,8 @@
 			close error_popmenu_party;
 		}
 
-		BUTTON_POPMENU_TITLE(dvarSTring("com_errorTitle"))
-		BUTTON_POPMENU_SUBTITLE(dvarSTring("com_errorMessage"))
+		POPMENU_TITLE(dvarSTring("com_errorTitle"))
+		POPMENU_SUBTITLE(dvarSTring("com_errorMessage"))
 
 		BUTTON(4, "@MENU_OK", uiScript clearError; close error_popmenu_party;)
 	}
@@ -245,8 +245,8 @@
 			close error_popmenu_lobby;
 		}
 
-		BUTTON_POPMENU_TITLE(dvarSTring("com_errorTitle"))
-		BUTTON_POPMENU_SUBTITLE(dvarSTring("com_errorMessage"))
+		POPMENU_TITLE(dvarSTring("com_errorTitle"))
+		POPMENU_SUBTITLE(dvarSTring("com_errorMessage"))
 
 		BUTTON(4, "@MENU_OK", uiScript clearError; close error_popmenu_lobby;)
 	}
@@ -264,10 +264,10 @@
 			rect			40 24 0 0 0 0 \
 			exp				text(textArg); \
 			textfont		UI_FONT_NORMAL \
-			textscale		BUTTON_POPUP_TITLE_TEXTSIZE \
+			textscale		POPUP_TITLE_TEXTSIZE \
 			textAlign		ITEM_ALIGN_TOP_LEFT \
-			textstyle		BUTTON_TEXTSTYLE \
-			forecolor		BUTTON_TEXTCOLOR \
+			textstyle		LAYOUT_TEXTSTYLE \
+			forecolor		LAYOUT_TEXTCOLOR \
 			visible			visArg \
 			decoration \
 		}
@@ -281,10 +281,10 @@
 	{
 		CENTER_POPUP_SETUP(acceptinvite_warning, 5, close "acceptinvite_warning";, 1)
 
-		BUTTON_POPMENU_TITLE("@MENU_ACCEPTINVITETITLE")
-		BUTTON_POPMENU_SUBTITLE_VIS("@MENU_LEAVEMPGAMEWARNINGPARTYHOST", when(privatepartyhost() && !aloneinparty());)
-		BUTTON_POPMENU_SUBTITLE_VIS("@MENU_LEAVEPARTYWARNING", when(!privatepartyhost() && !inlobby());)
-		BUTTON_POPMENU_SUBTITLE_VIS("@MENU_LEAVEMPGAMEWARNING", when(!privatepartyhost() && inlobby());)
+		POPMENU_TITLE("@MENU_ACCEPTINVITETITLE")
+		POPMENU_SUBTITLE_VIS("@MENU_LEAVEMPGAMEWARNINGPARTYHOST", when(privatepartyhost() && !aloneinparty());)
+		POPMENU_SUBTITLE_VIS("@MENU_LEAVEPARTYWARNING", when(!privatepartyhost() && !inlobby());)
+		POPMENU_SUBTITLE_VIS("@MENU_LEAVEMPGAMEWARNING", when(!privatepartyhost() && inlobby());)
 
 		BUTTON(4, "@MENU_RESUMEGAME", close self;)
 		BUTTON(5, "@MENU_ACCEPTINVITE", close self; exec "acceptInvite";)
