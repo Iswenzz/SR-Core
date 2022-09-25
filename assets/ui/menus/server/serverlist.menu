@@ -1,0 +1,83 @@
+#include "ui/headers/menudef.h"
+#include "ui/components/common.inc"
+
+#define LAYOUT_X_START			40
+#define LAYOUT_Y_START			0
+
+#define LAYOUT_SEPATATOR_1			3
+#define LAYOUT_SEPATATOR_2			7
+#define LAYOUT_SEPATATOR_3			8
+
+#define STYLE_PC	1
+
+#include "ui/components/style.inc"
+#include "ui/components/header.inc"
+
+#define BACK_ENABLE 1
+#define ui_subnav_serverlist 1
+
+{
+	menuDef
+	{
+		name			"serverlist_browser"
+		fullscreen		0
+		rect 			NAV_MENU_FULLSCREEN_RECT_SERVERBROWSER
+		focuscolor		COLOR_FOCUSED
+
+		onOpen
+		{
+			CLOSE_ALL_CONTROLS;
+			CLOSE_ALL_OPTIONS;
+			CLOSE_CREATE_SERVER;
+			CLOSE_MODS;
+			CLOSE_PROFILE;
+
+			uiScript 	UpdateFilter;
+
+			setLocalVarBool ui_maincontent_header "1";
+			setLocalVarBool ui_maincontent_update "1";
+		}
+
+		onClose
+		{
+			close 		serverlist_subnav;
+
+			setLocalVarBool ui_maincontent_header "0";
+			setLocalVarBool ui_maincontent_update "0";
+
+		}
+
+		onESC
+		{
+			close 		serverlist_subnav;
+			close 		self;
+
+			setLocalVarBool ui_maincontent_header "0";
+			setLocalVarBool ui_maincontent_update "0";
+		}
+
+		#undef RANKED_SERVER
+		#include "ui/menus/server/serverlist.inc"
+	}
+
+	menuDef
+	{
+		name				"serverlist_subnav"
+		fullscreen			0
+		rect 				SUBNAV_MENU_RECT
+		focusColor			COLOR_FOCUSED
+
+		onESC
+		{
+			close serverlist_browser;
+			close self;
+		}
+
+		HEADER(2, "@MENU_FILTER_SERVERS", play "mouse_click"; open filter_popmenu;)
+		HEADER(5, "@MENU_REFRESH_LIST", play "mouse_click"; uiScript RefreshServers;)
+		HEADER(4, "@MENU_QUICK_REFRESH", play "mouse_click"; uiScript RefreshFilter;)
+		HEADER(3, "@MENU_NEW_FAVORITE", play "mouse_click"; open createfavorite_popmenu;)
+		HEADER_OWNER(1, "@MENU_GAME_TYPE", UI_JOINGAMETYPE, ITEM_ALIGN_LEFT, 10, play "mouse_click"; show message_typefilter;)
+		HEADER_OWNER(6, "", UI_NETSOURCE, ITEM_ALIGN_LEFT, 0, play "mouse_click"; show message_typefilter;)
+	}
+}

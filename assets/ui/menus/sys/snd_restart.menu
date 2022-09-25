@@ -1,0 +1,27 @@
+#include "ui/headers/menudef.h"
+#include "ui/components/common.inc"
+
+#define LAYOUT_X_START			0
+#define LAYOUT_Y_START			150
+
+#define LAYOUT_GROUP			"apply_settings_sound"
+
+#define STYLE_PC	1
+#include "ui/components/style.inc"
+#include "ui/components/layout.inc"
+#include "ui/components/popup.inc"
+
+#undef LAYOUT_SIZE_X
+#define LAYOUT_SIZE_X			250
+
+{
+	menuDef
+	{
+		IMPROVED_POPUP_SETUP(snd_restart_popmenu, 3, 230, 170, ;, 1)
+
+		POPMENU_TITLE("@MENU_APPLY_SETTINGS")
+
+		BUTTON(2, "@MENU_YES", exec "setfromdvar snd_khz ui_snd_khz"; exec "setfromdvar snd_outputConfiguration	ui_OutputConfig"; exec "setfromdvar snd_enableEq ui_snd_enableEq"; close snd_restart_popmenu; exec "snd_restart";)
+		BUTTON(3, "@MENU_NO", close self)
+	}
+}

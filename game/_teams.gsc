@@ -1,6 +1,6 @@
 main()
 {
-	game["menu_team"] = "team_select";
+	game["menu_main"] = "main_mp";
 }
 
 setPlayerModel()
@@ -53,7 +53,7 @@ setTeam(team)
 	if (isAlive(self))
 		self suicide();
 
-	self setClientDvars("g_scriptMainMenu", "team_select");
+	self setClientDvars("g_scriptMainMenu", "main_mp");
 }
 
 setSpectatePermissions()

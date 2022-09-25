@@ -468,7 +468,7 @@ spawnBots(number)
 	{
 		bot = addTestClient();
 		wait 0.05;
-		bot notify("menuresponse", game["menu_team"], "autoassign");
+		bot notify("menuresponse", game["menu_main"], "autoassign");
 		bots[bots.size] = bot;
 	}
 	return bots;

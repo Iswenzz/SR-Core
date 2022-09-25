@@ -1,0 +1,39 @@
+#include "ui/components/sr.inc"
+#include "ui/menus/controls/header.inc"
+
+{
+	menuDef
+	{
+		SR_WINDOW("main_controls")
+
+		fullScreen		0
+		focusColor		COLOR_FOCUSED
+		forecolor		1 1 1 0.04
+		soundloop		""
+
+		onOpen
+		{
+			setLocalVarBool ui_showApply 0;
+
+			CLOSE_SERVERBROWSER;
+			CLOSE_CREATE_SERVER;
+			CLOSE_MODS;
+			CLOSE_PROFILE;
+		}
+
+		onClose
+		{
+			setLocalVarBool ui_hideBack 0;
+		}
+
+		onESC
+		{
+			close self;
+		}
+
+		HEADER(3, "@MENU_LOOK", open options_look; play "mouse_click";)
+		HEADER(4, "@MENU_MOVE", open options_move; play "mouse_click";)
+		HEADER(5, "@MENU_COMBAT", open options_shoot; play "mouse_click";)
+		HEADER(6, "@MENU_INTERACT", open options_misc; play "mouse_click";)
+	}
+}
