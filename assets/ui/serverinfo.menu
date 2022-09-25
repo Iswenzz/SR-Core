@@ -4,8 +4,8 @@
 #define LAYOUT_GROUP	"serverinfo"
 
 #include "ui/includes/style.inc"
-#include "ui/templates/button.menu"
-#include "ui/includes/popup.inc"
+#include "ui/includes/components/layout.inc"
+#include "ui/includes/components/popup.inc"
 
 #define SIDE_MARGIN		20
 #define INFO_BOX_WIDTH	390
@@ -13,7 +13,7 @@
 #define INFO_BOX_SIZE 	INFO_BOX_WIDTH INFO_BOX_HEIGHT
 
 #undef LAYOUT_SIZE_X
-#define LAYOUT_SIZE_X	(INFO_BOX_WIDTH+(SIDE_MARGIN*2))
+#define LAYOUT_SIZE_X	(INFO_BOX_WIDTH + (SIDE_MARGIN * 2))
 
 #undef POPUP_TITLE_HEIGHT
 #define POPUP_TITLE_HEIGHT	(INFO_BOX_HEIGHT+SIDE_MARGIN+24)

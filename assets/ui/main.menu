@@ -12,7 +12,7 @@
 #define STYLE_PC	1
 
 #include "ui/includes/style.inc"
-#include "ui/templates/header.menu"
+#include "ui/includes/components/header.inc"
 #include "ui/includes/stats.inc"
 
 #define ui_maincontent_update 		1

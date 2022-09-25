@@ -11,7 +11,7 @@
 #define STYLE_PC	1
 
 #include "ui/includes/style.inc"
-#include "ui/templates/header.menu"
+#include "ui/includes/components/header.inc"
 
 #define BACK_ENABLE 1
 #define ui_subnav_serverlist 1

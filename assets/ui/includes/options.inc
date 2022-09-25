@@ -10,7 +10,7 @@
 #define STYLE_PC				1
 
 #include "ui/includes/style.inc"
-#include "ui/templates/button.menu"
+#include "ui/includes/components/layout.inc"
 
 #undef LAYOUT_TEXT_OFFSET_X
 #define LAYOUT_TEXT_OFFSET_X 	0

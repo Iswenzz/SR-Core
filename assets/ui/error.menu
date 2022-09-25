@@ -7,8 +7,8 @@
 #define LAYOUT_GROUP			"errors"
 
 #include "ui/includes/style.inc"
-#include "ui/templates/button.menu"
-#include "ui/includes/popup.inc"
+#include "ui/includes/components/layout.inc"
+#include "ui/includes/components/popup.inc"
 
 #undef LAYOUT_SIZE_X
 #define LAYOUT_SIZE_X			520
@@ -440,7 +440,7 @@
 			}
 		}
 
-		#include "ui/templates/safearea.menu"
+		#include "ui/includes/components/safearea.inc"
 	}
 
 	menuDef
@@ -524,6 +524,6 @@
 			}
 		}
 
-		#include "ui/templates/safearea.menu"
+		#include "ui/includes/components/safearea.inc"
 	}
 }

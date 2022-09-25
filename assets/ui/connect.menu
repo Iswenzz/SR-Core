@@ -57,7 +57,7 @@
 			visible			1	decoration
 		}
 
-		#include "ui/templates/safearea.menu"
+		#include "ui/includes/components/safearea.inc"
 	}
 }
 

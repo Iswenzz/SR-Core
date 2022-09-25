@@ -4,7 +4,7 @@
 #define OPTIONS_STYLE			1
 
 #include "ui/includes/style.inc"
-#include "ui/templates/header.menu"
+#include "ui/includes/components/header.inc"
 
 #undef HEADER_X_SPACING
 #define HEADER_X_SPACING		146
@@ -20,12 +20,6 @@
 
 #undef	HEADER_SIZE_Y
 #define HEADER_SIZE_Y			25
-
-#undef HEADER_HIGHLIGHT_BORDER_COLOR
-#define HEADER_HIGHLIGHT_BORDER_COLOR 	1 1 1 0.02
-
-#undef HEADER_COLOR_FOCUSED
-#define HEADER_COLOR_FOCUSED			1 1 1 0.8
 
 #undef HEADER_HORIZONTAL_ALIGN
 #define HEADER_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_CENTER

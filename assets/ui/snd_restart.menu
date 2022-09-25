@@ -8,8 +8,8 @@
 
 #define STYLE_PC	1
 #include "ui/includes/style.inc"
-#include "ui/templates/button.menu"
-#include "ui/includes/popup.inc"
+#include "ui/includes/components/layout.inc"
+#include "ui/includes/components/popup.inc"
 
 #undef LAYOUT_SIZE_X
 #define LAYOUT_SIZE_X			250
