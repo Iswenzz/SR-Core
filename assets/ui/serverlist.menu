@@ -73,11 +73,11 @@
 			close self;
 		}
 
-		HEADER_BUTTON(2, "@MENU_FILTER_SERVERS", 	play "mouse_click"; 	open filter_popmenu;			, 1)
-		HEADER_BUTTON(5, "@MENU_REFRESH_LIST", 	play "mouse_click"; 	uiScript RefreshServers;		, 1)
-		HEADER_BUTTON(4, "@MENU_QUICK_REFRESH", 	play "mouse_click"; 	uiScript RefreshFilter;			, 1)
-		HEADER_BUTTON(3, "@MENU_NEW_FAVORITE", 	play "mouse_click"; 	open createfavorite_popmenu;	, 1)
-		HEADER_LAYOUT_OWNER(1, "@MENU_GAME_TYPE", UI_JOINGAMETYPE, 	ITEM_ALIGN_LEFT, 10,	play "mouse_click"; show message_typefilter; , 1)
-		HEADER_LAYOUT_OWNER(6, " "			  , UI_NETSOURCE, 		ITEM_ALIGN_LEFT,  0,	play "mouse_click"; show message_typefilter; , 1)
+		HEADER(2, "@MENU_FILTER_SERVERS", play "mouse_click"; open filter_popmenu;)
+		HEADER(5, "@MENU_REFRESH_LIST", play "mouse_click"; uiScript RefreshServers;)
+		HEADER(4, "@MENU_QUICK_REFRESH", play "mouse_click"; uiScript RefreshFilter;)
+		HEADER(3, "@MENU_NEW_FAVORITE", play "mouse_click"; open createfavorite_popmenu;)
+		HEADER_OWNER(1, "@MENU_GAME_TYPE", UI_JOINGAMETYPE, ITEM_ALIGN_LEFT, 10, play "mouse_click"; show message_typefilter;)
+		HEADER_OWNER(6, "", UI_NETSOURCE, ITEM_ALIGN_LEFT, 0, play "mouse_click"; show message_typefilter;)
 	}
 }

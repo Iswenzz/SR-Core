@@ -32,8 +32,8 @@
 			close self;
 		}
 
-		HEADER_BUTTON(3, "@MENU_GRAPHICS", open options_graphics; play "mouse_click";, 1)
-		HEADER_BUTTON(4, "@MENU_SOUND", open options_sound; play "mouse_click";, 1)
-		HEADER_BUTTON(5, "@MENU_MULTIPLAYER_OPTIONS", open options_game; play "mouse_click";, 1)
+		HEADER(3, "@MENU_GRAPHICS", open options_graphics; play "mouse_click";)
+		HEADER(4, "@MENU_SOUND", open options_sound; play "mouse_click";)
+		HEADER(5, "@MENU_MULTIPLAYER_OPTIONS", open options_game; play "mouse_click";)
 	}
 }

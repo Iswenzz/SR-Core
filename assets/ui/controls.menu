@@ -31,9 +31,9 @@
 			close self;
 		}
 
-		HEADER_BUTTON(3, "@MENU_LOOK", open options_look; play "mouse_click";, 1)
-		HEADER_BUTTON(4, "@MENU_MOVE", open options_move; play "mouse_click";, 1)
-		HEADER_BUTTON(5, "@MENU_COMBAT", open options_shoot; play "mouse_click";, 1)
-		HEADER_BUTTON(6, "@MENU_INTERACT", open options_misc; play "mouse_click";, 1)
+		HEADER(3, "@MENU_LOOK", open options_look; play "mouse_click";)
+		HEADER(4, "@MENU_MOVE", open options_move; play "mouse_click";)
+		HEADER(5, "@MENU_COMBAT", open options_shoot; play "mouse_click";)
+		HEADER(6, "@MENU_INTERACT", open options_misc; play "mouse_click";)
 	}
 }

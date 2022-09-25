@@ -19,6 +19,14 @@
 #define LAYOUT_GROUP ""
 #endif
 
+#ifndef LAYOUT_SIZE_X
+#define LAYOUT_SIZE_X 400
+#endif
+
+#ifndef LAYOUT_SIZE_Y
+#define LAYOUT_SIZE_Y 22
+#endif
+
 #ifndef LAYOUT_X_START
 #define LAYOUT_X_START			58
 #endif
@@ -114,16 +122,16 @@
 #define LAYOUT_TEXTCOLOR_DISABLED		0.5 0.5 0.5 0.5
 #endif
 
-#ifndef LAYOUT_SEP_WIDTH
-#define LAYOUT_SEP_WIDTH		130
+#ifndef LAYOUT_SEPARATOR_WIDTH
+#define LAYOUT_SEPARATOR_WIDTH		130
 #endif
 
-#ifndef LAYOUT_SEP_OFFSET_X
-#define LAYOUT_SEP_OFFSET_X		0
+#ifndef LAYOUT_SEPARATOR_OFFSET_X
+#define LAYOUT_SEPARATOR_OFFSET_X		0
 #endif
 
-#ifndef LAYOUT_SEP_OFFSET_Y
-#define LAYOUT_SEP_OFFSET_Y		0
+#ifndef LAYOUT_SEPARATOR_OFFSET_Y
+#define LAYOUT_SEPARATOR_OFFSET_Y		0
 #endif
 
 #ifndef BUTTON_DVAR_WIDTH_OFFSET
@@ -134,8 +142,8 @@
 #define	BUTTON_DVAR_OFFSET_X	(0 - LAYOUT_TEXT_OFFSET_X)
 #endif
 
-#ifndef LAYOUT_SEP_BACKGROUND
-#define	LAYOUT_SEP_BACKGROUND	"gradient_fadein"
+#ifndef LAYOUT_SEPARATOR_BACKGROUND
+#define	LAYOUT_SEPARATOR_BACKGROUND	"gradient_fadein"
 #endif
 
 #ifndef HIGHLIGHT_SHADER_ART
@@ -208,21 +216,21 @@
 #define BACKGROUND_COLOR		0 0 0 0.3
 #endif
 
-#if !defined(LAYOUT_SEPATATOR_1) || !defined(LAYOUT_SEP_SPACING)
-#define LAYOUT_SEP_TOTAL_SPACING(itemIndex)	0
+#if !defined(LAYOUT_SEPATATOR_1) || !defined(LAYOUT_SEPARATOR_SPACING)
+#define LAYOUT_SEPARATOR_TOTAL_SPACING(itemIndex)	0
 #elif !defined(LAYOUT_SEPATATOR_2)
-#define LAYOUT_SEP_TOTAL_SPACING(itemIndex)	((itemIndex <= LAYOUT_SEPATATOR_1) ? 0 : LAYOUT_SEP_SPACING)
+#define LAYOUT_SEPARATOR_TOTAL_SPACING(itemIndex)	((itemIndex <= LAYOUT_SEPATATOR_1) ? 0 : LAYOUT_SEPARATOR_SPACING)
 #elif !defined(LAYOUT_SEPATATOR_3)
-#define LAYOUT_SEP_TOTAL_SPACING(itemIndex)	((itemIndex <= LAYOUT_SEPATATOR_1) ? 0 : ((itemIndex <= LAYOUT_SEPATATOR_2) ? LAYOUT_SEP_SPACING : LAYOUT_SEP_SPACING * 2))
+#define LAYOUT_SEPARATOR_TOTAL_SPACING(itemIndex)	((itemIndex <= LAYOUT_SEPATATOR_1) ? 0 : ((itemIndex <= LAYOUT_SEPATATOR_2) ? LAYOUT_SEPARATOR_SPACING : LAYOUT_SEPARATOR_SPACING * 2))
 #else
-#define LAYOUT_SEP_TOTAL_SPACING(itemIndex)	((itemIndex <= LAYOUT_SEPATATOR_1) ? 0 : ((itemIndex <= LAYOUT_SEPATATOR_2) ? LAYOUT_SEP_SPACING : ((itemIndex <= LAYOUT_SEPATATOR_3) ? LAYOUT_SEP_SPACING * 2 : LAYOUT_SEP_SPACING * 3)))
+#define LAYOUT_SEPARATOR_TOTAL_SPACING(itemIndex)	((itemIndex <= LAYOUT_SEPATATOR_1) ? 0 : ((itemIndex <= LAYOUT_SEPATATOR_2) ? LAYOUT_SEPARATOR_SPACING : ((itemIndex <= LAYOUT_SEPATATOR_3) ? LAYOUT_SEPARATOR_SPACING * 2 : LAYOUT_SEPARATOR_SPACING * 3)))
 #endif
 
 #define LAYOUT_ROW(itemIndex)		((itemIndex - 1) % LAYOUT_Y_COUNT)
 #define LAYOUT_COL(itemIndex)		((itemIndex - 1 - ((itemIndex - 1) % LAYOUT_Y_COUNT)) / LAYOUT_Y_COUNT)
 
 #define LAYOUT_X(itemIndex) 		(LAYOUT_X_START + LAYOUT_X_SPACING * LAYOUT_COL(itemIndex))
-#define LAYOUT_Y(itemIndex) 		(LAYOUT_Y_START + LAYOUT_Y_SPACING * LAYOUT_ROW(itemIndex) + LAYOUT_SEP_TOTAL_SPACING(itemIndex))
+#define LAYOUT_Y(itemIndex) 		(LAYOUT_Y_START + LAYOUT_Y_SPACING * LAYOUT_ROW(itemIndex) + LAYOUT_SEPARATOR_TOTAL_SPACING(itemIndex))
 #define LAYOUT_ORIGIN(itemIndex)	LAYOUT_X(itemIndex) LAYOUT_Y(itemIndex)
 #define LAYOUT_RECT(itemIndex)	LAYOUT_ORIGIN(itemIndex) LAYOUT_SIZE_X LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN
 
@@ -571,9 +579,9 @@
 		itemDef \
 		{ \
 			style			WINDOW_STYLE_SHADER \
-			rect			(LAYOUT_SEP_OFFSET_X) (LAYOUT_Y_SPACING + LAYOUT_SEP_SPACING / 2 + LAYOUT_SEP_OFFSET_Y - 3) LAYOUT_SEP_WIDTH 8 LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
+			rect			(LAYOUT_SEPARATOR_OFFSET_X) (LAYOUT_Y_SPACING + LAYOUT_SEPARATOR_SPACING / 2 + LAYOUT_SEPARATOR_OFFSET_Y - 3) LAYOUT_SEPARATOR_WIDTH 8 LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 			origin			LAYOUT_ORIGIN(afterItemIndex) \
-			background		LAYOUT_SEP_BACKGROUND \
+			background		LAYOUT_SEPARATOR_BACKGROUND \
 			forecolor		BACKGROUND_COLOR \
 			visible			visArg \
 			decoration \
@@ -931,8 +939,8 @@
 			SCRIPTS_ACTION(itemIndex, actionArg) \
 		}
 
-#define BUTTON_DVAREDIT(itemIndex, textArg, dvarArg, actionArg) \
-		BUTTON_DVAREDIT_VIS(itemIndex, textArg, dvarArg, 31, 18, actionArg, 1)
+#define BUTTON_DVAREDIT(itemIndex, textArg, dvarArg, max_chars, max_paintchars, actionArg) \
+		BUTTON_DVAREDIT_VIS(itemIndex, textArg, dvarArg, max_chars, max_paintchars, actionArg, 1)
 
 #define BUTTON_DVAREDIT_VIS(itemIndex, textArg, dvarArg, max_chars, max_paintchars, actionArg, visArg) \
 		BACKGROUND(itemIndex, 1) \

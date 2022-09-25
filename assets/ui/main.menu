@@ -15,12 +15,12 @@
 #include "ui/templates/header.menu"
 #include "ui/includes/stats.inc"
 
-#define ui_maincontent_header 		1
 #define ui_maincontent_update 		1
+#define ui_maincontent_header 		1
 #define ui_maincontent_header_X 	0
 #define ui_maincontent_header_Y 	0
 #define ui_hideback 				1
-#define link_LAYOUT_vis 			1
+#define link_layout_vis 			1
 
 #define ui_showTextureApply 0
 
@@ -64,7 +64,7 @@
 			exec "selectStringTableEntryInDvar mp/didyouknow.csv 0 didyouknow";
 			setLocalVarBool ui_maincontent_header 1;
 			setLocalVarBool ui_maincontent_update 1;
-			setLocalVarBool link_LAYOUT_vis 1;
+			setLocalVarBool link_layout_vis 1;
 		}
 
 		itemDef
@@ -114,25 +114,25 @@
         itemDef
         {
             name        "mainnav_seperator"
-            rect        MAINNAV_SEP_RECT
-            origin      MAINNAV_SEP_ORIGIN
+            rect        MAINNAV_SEPARATOR_RECT
+            origin      MAINNAV_SEPARATOR_ORIGIN
             style       1
-            backcolor   MAINNAV_SEP_COLOR
+            backcolor   MAINNAV_SEPARATOR_COLOR
             visible     0
             decoration
         }
 
-		HEADER_BUTTON(2, "@MENU_JOIN_GAME", CLOSE_ALL; open serverlist_subnav; open serverlist_browser;, when(!localvarBool(ui_hideBack)))
-		HEADER_BUTTON(3, "@MENU_START_NEW_SERVER", CLOSE_ALL; open createserver;, when(!localvarBool(ui_hideBack)))
+		HEADER(2, "@MENU_JOIN_GAME", CLOSE_ALL; open serverlist_subnav; open serverlist_browser;)
+		HEADER(3, "@MENU_START_NEW_SERVER", CLOSE_ALL; open createserver;)
 
-		HEADER_BUTTON(4, "@MENU_CONTROLS", CLOSE_ALL; open main_controls;, when(!localvarBool(ui_hideBack)))
-		HEADER_BUTTON(5, "@MENU_OPTIONS", 	CLOSE_ALL; open main_options;, when(!localvarBool(ui_hideBack)))
+		HEADER(4, "@MENU_CONTROLS", CLOSE_ALL; open main_controls;)
+		HEADER(5, "@MENU_OPTIONS", 	CLOSE_ALL; open main_options;)
 
-		HEADER_BUTTON(6, "@MENU_MODS", CLOSE_ALL; open mods_menu;, when(!localvarBool(ui_hideBack)))
-		HEADER_BUTTON(7, "@MENU_SELECT_PROFILE", CLOSE_ALL; open player_profile;, when(!localvarBool(ui_hideBack)))
-		HEADER_BUTTON(8, "@MENU_QUIT", CLOSE_ALL; open quit_popmenu;, when(!localvarBool(ui_hideBack)))
+		HEADER(6, "@MENU_MODS", CLOSE_ALL; open mods_menu;)
+		HEADER(7, "@MENU_SELECT_PROFILE", CLOSE_ALL; open player_profile;)
+		HEADER(8, "@MENU_QUIT", CLOSE_ALL; open quit_popmenu;)
 
-		FOOTNOTE_VIS("@SR_GAME_EXPERIENCE_CHANGED", 40, 450, when(!localvarBool(ui_hideBack)))
+		FOOTNOTE("@SR_GAME_EXPERIENCE_CHANGED", 40, 450)
 
 		#define CLEARUIHINT	exec "set ui_hint_text @MP_NULL"
 
