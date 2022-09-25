@@ -1,4 +1,4 @@
-#include "ui/menudef.h"
+#include "ui/headers/menudef.h"
 
 #define ORIGIN_DIY_TITLE_PC			42 290
 #define ORIGIN_DIY_FRAME_PC			35 290
@@ -21,8 +21,6 @@
 		focuscolor		COLOR_FOCUSED
 		style			WINDOW_STYLE_EMPTY
 		legacySplitScreenScale
-
-		#include "ui/includes/theme.inc"
 
 		// Current Map
 		itemDef

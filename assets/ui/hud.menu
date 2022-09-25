@@ -1,6 +1,6 @@
 // PC HUD - MP
 
-#include "ui/menudef.h"
+#include "ui/headers/menudef.h"
 #include "ui/includes/sr.inc"
 
 #define TEAM_IS_MARINES		(localVarString(ui_team) == "marines")

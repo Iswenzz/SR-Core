@@ -1,4 +1,4 @@
-// Assumes that "choices_setup_common" has already been included
+// Assumes that "buttons" has already been included
 
 #ifndef CHOICE_POPUP_BORDER_X
 #define CHOICE_POPUP_BORDER_X	19

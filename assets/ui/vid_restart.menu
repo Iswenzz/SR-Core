@@ -1,4 +1,4 @@
-#include "ui/menudef.h"
+#include "ui/headers/menudef.h"
 #include "ui/includes/common.inc"
 
 #define CHOICE_X_START			0
@@ -7,10 +7,9 @@
 #define CHOICE_GROUP			"vid_restart"
 
 #include "ui/includes/style.inc"
-#include "ui/choices_setup_common.menu"
+#include "ui/templates/choice.menu"
 
 #include "ui/includes/popup.inc"
-#include "ui/choices_setup_popmenu.menu"
 
 #undef CHOICE_SIZE_X
 #define CHOICE_SIZE_X			250

@@ -179,77 +179,77 @@ itemDef { \
 	hide description_choice1;	\
 	hide description2_choice1;	\
 	hide highlight_choice1;		\
-	hide a_button_choice1;		\
+	hide a_CHOICE_choice1;		\
 	hide description_choice2;	\
 	hide description2_choice2;	\
 	hide highlight_choice2;		\
-	hide a_button_choice2;		\
+	hide a_CHOICE_choice2;		\
 	hide description_choice3;	\
 	hide description2_choice3;	\
 	hide highlight_choice3;		\
-	hide a_button_choice3;		\
+	hide a_CHOICE_choice3;		\
 	hide description_choice4;	\
 	hide description2_choice4;	\
 	hide highlight_choice4;		\
-	hide a_button_choice4;		\
+	hide a_CHOICE_choice4;		\
 	hide description_choice5;	\
 	hide description2_choice5;	\
 	hide highlight_choice5;		\
-	hide a_button_choice5;		\
+	hide a_CHOICE_choice5;		\
 	hide description_choice6;	\
 	hide description2_choice6;	\
 	hide highlight_choice6;		\
-	hide a_button_choice6;		\
+	hide a_CHOICE_choice6;		\
 	hide description_choice7;	\
 	hide description2_choice7;	\
 	hide highlight_choice7;		\
-	hide a_button_choice7;		\
+	hide a_CHOICE_choice7;		\
 	hide description_choice8;	\
 	hide description2_choice8;	\
 	hide highlight_choice8;		\
-	hide a_button_choice8;		\
+	hide a_CHOICE_choice8;		\
 	hide description_choice9;	\
 	hide description2_choice9;	\
 	hide highlight_choice9;		\
-	hide a_button_choice9;		\
+	hide a_CHOICE_choice9;		\
 	hide description_choice10;	\
 	hide description2_choice10;	\
 	hide highlight_choice10;	\
-	hide a_button_choice10;		\
+	hide a_CHOICE_choice10;		\
 	hide description_choice11;	\
 	hide description2_choice11;	\
 	hide highlight_choice11;	\
-	hide a_button_choice11;		\
+	hide a_CHOICE_choice11;		\
 	hide description_choice12;	\
 	hide description2_choice12;	\
 	hide highlight_choice12;	\
-	hide a_button_choice12;		\
+	hide a_CHOICE_choice12;		\
 	hide description_choice13;	\
 	hide description2_choice13;	\
 	hide highlight_choice13;	\
-	hide a_button_choice13;		\
+	hide a_CHOICE_choice13;		\
 	hide description_choice14;	\
 	hide description2_choice14;	\
 	hide highlight_choice14;	\
-	hide a_button_choice14;		\
+	hide a_CHOICE_choice14;		\
 	hide description_choice15;	\
 	hide description2_choice15;	\
 	hide highlight_choice15;	\
-	hide a_button_choice15;		\
+	hide a_CHOICE_choice15;		\
 	hide description_choice16;	\
 	hide description2_choice16;	\
 	hide highlight_choice16;	\
-	hide a_button_choice16;		\
+	hide a_CHOICE_choice16;		\
 	hide description_choice17;	\
 	hide description2_choice17;	\
 	hide highlight_choice17;	\
-	hide a_button_choice17;
+	hide a_CHOICE_choice17;
 
 // Singular button macro
 #define SINGULAR_BUTTON(pnum, porigin, phighlight_size, ptext, paction) \
-	SINGULAR_BUTTON_RAW(pnum, porigin, phighlight_size, ptext, paction, 1)
+	SINGULAR_CHOICE_RAW(pnum, porigin, phighlight_size, ptext, paction, 1)
 
-#define SINGULAR_BUTTON_RAW(pnum, porigin, phighlight_size, ptext, paction, p_vis) \
+#define SINGULAR_CHOICE_RAW(pnum, porigin, phighlight_size, ptext, paction, p_vis) \
 itemDef{											\
 	type			ITEM_TYPE_BUTTON				\
 	origin			porigin							\
@@ -265,12 +265,12 @@ itemDef{											\
 		show "description_choice"#pnum;				\
 		show "description2_choice"#pnum;			\
 		show "highlight_choice"#pnum;				\
-		show "a_button_choice"#pnum; }				\
+		show "a_CHOICE_choice"#pnum; }				\
 	leaveFocus{										\
 		hide "description_choice"#pnum;				\
 		hide "description2_choice"#pnum;			\
 		hide "highlight_choice"#pnum;				\
-		hide "a_button_choice"#pnum; }				\
+		hide "a_CHOICE_choice"#pnum; }				\
 	action{											\
 		play "mouse_click";							\
 		paction	}}									\
@@ -287,7 +287,7 @@ itemDef { 											\
 	visible			1 								\
 	decoration }									\
 itemDef { 											\
-	name			"a_button_choice"#pnum 			\
+	name			"a_CHOICE_choice"#pnum 			\
 	text			"@XBOXLIVE_SELECTBUTTON" 		\
 	textfont		UI_FONT_NORMAL 					\
 	textscale		0.27		 					\
@@ -298,7 +298,7 @@ itemDef { 											\
 	decoration }
 
 // Full button that show/hides highlight, a button, description and gray out if locked
-#define SINGULAR_BUTTON_FULL(pnum, porigin, phighlight_size, ptext, paction, pvis) \
+#define SINGULAR_CHOICE_FULL(pnum, porigin, phighlight_size, ptext, paction, pvis) \
 itemDef{											\
 	type			ITEM_TYPE_BUTTON				\
 	origin			porigin							\
@@ -325,7 +325,7 @@ itemDef{											\
 	leaveFocus{										\
 		hide "description2_choice"#pnum;			\
 		hide "highlight_choice"#pnum; } }			\
-SINGULAR_BUTTON_RAW(pnum, porigin, phighlight_size, ptext, paction, pvis)
+SINGULAR_CHOICE_RAW(pnum, porigin, phighlight_size, ptext, paction, pvis)
 
 #define LOADOUT_PLATING_RAW(porigin, px, py, pw, ph, palign, vis_gradient_top, vis_gradient_bottom) \
 	PREPROC_SHADER_DRAW_ALIGNED((px-4) (py-8) pw ph palign, porigin, "white", 0.2 0.2 0.225 1, 0, 0, 0 0 0 0) \

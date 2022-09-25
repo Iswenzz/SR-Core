@@ -1,11 +1,12 @@
+#include "ui/includes/sr.inc"
 #include "ui/includes/options.inc"
 
 {
 	menuDef
 	{
-		name			"options_shoot"
+		SR_WINDOW_CONTENT("options_shoot");
+
 		fullScreen		0
-		rect			NAV_MENU_FULLSCREEN_RECT
 		focusColor		COLOR_FOCUSED
 		soundloop		""
 
@@ -20,14 +21,14 @@
 			CLOSE_PROFILE;
 
 			setLocalVarBool ui_hideBack "0";
-			setLocalVarBool ui_maincontent_lnr "1";
+			setLocalVarBool ui_maincontent_header "1";
 			setLocalVarBool ui_maincontent_update "1";
 		}
 
 		onClose
 		{
 			setLocalVarBool ui_hideBack 0;
-			setLocalVarBool ui_maincontent_lnr "0";
+			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
 		}
 
@@ -35,7 +36,6 @@
 		{
 			close self;
 		}
-
 
 		CHOICE_BIND(1, "@MENU_ATTACK", "+attack", ;)
 		CHOICE_BIND(2, "@MENU_TOGGLE_AIM_DOWN_THE_SIGHT", "+toggleads_throw", ;)

@@ -54,13 +54,15 @@
 #undef CHOICE_POPUP_BORDER_COLOR
 #define CHOICE_POPUP_BORDER_COLOR	0.4 0.4 0.42 1
 
-#undef A_BUTTON_SIZE
-#define A_BUTTON_SIZE 			0.3
+#undef A_CHOICE_SIZE
+#define A_CHOICE_SIZE 			0.3
 
-#undef A_BUTTON_OFFSET_X
-#define A_BUTTON_OFFSET_X		-2
+#undef A_CHOICE_OFFSET_X
+#define A_CHOICE_OFFSET_X		-2
 
 #ifdef PC
 	#undef CHOICE_TEXTSIZE
 	#define CHOICE_TEXTSIZE			0.4
 #endif
+
+#include "ui/templates/popup.menu"

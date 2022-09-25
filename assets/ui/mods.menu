@@ -34,7 +34,7 @@
 			CLOSE_PROFILE;
 
 			setLocalVarBool ui_hideBack 0;
-			setLocalVarBool ui_maincontent_lnr "1";
+			setLocalVarBool ui_maincontent_header "1";
 			setLocalVarBool ui_maincontent_update "1";
 
 			uiScript loadMods;
@@ -48,7 +48,7 @@
 		onESC
 		{
 			close self;
-			setLocalVarBool ui_maincontent_lnr "0";
+			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
 		}
 

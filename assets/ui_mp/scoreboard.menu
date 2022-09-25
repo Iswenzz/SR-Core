@@ -1,4 +1,4 @@
-#include "ui/menudef.h"
+#include "ui/headers/menudef.h"
 
 {
 	menuDef  // Stub: the scoreboard is controlled by code

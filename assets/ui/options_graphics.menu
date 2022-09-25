@@ -1,11 +1,12 @@
+#include "ui/includes/sr.inc"
 #include "ui/includes/options.inc"
 
 {
 	menuDef
 	{
-		name			options_graphics
+		SR_WINDOW_CONTENT("options_graphics");
+
 		fullScreen		0
-		rect			NAV_MENU_FULLSCREEN_RECT
 		focusColor		COLOR_FOCUSED
 		soundloop		""
 
@@ -23,7 +24,7 @@
 			setLocalVarBool ui_showTextureApply 0;
 
 			setLocalVarBool ui_hideBack "0";
-			setLocalVarBool ui_maincontent_lnr "1";
+			setLocalVarBool ui_maincontent_header "1";
 			setLocalVarBool ui_maincontent_update "1";
 
 			exec "exec options_graphics.cfg";
@@ -40,7 +41,7 @@
 		onClose
 		{
 			setLocalVarBool ui_hideBack 0;
-			setLocalVarBool ui_maincontent_lnr "0";
+			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
 
 			execOnDvarIntValue ui_zfeather 0 "set r_zfeather 0; set r_depthPrepass 0"; // Off
@@ -140,7 +141,7 @@
 			textalign		ITEM_ALIGN_LEFT
 			textscale		TEXTSIZE_SMALL
 			textaligny		18
-			visible			when((localVarBool(ui_showApply) == 0 && localVarBool(ui_showTextureApply)) );
+			visible			when((localVarBool(ui_showApply) == 0 && localVarBool(ui_showTextureApply)));
 			mouseEnter		{ play "mouse_over"; }
 
 			action

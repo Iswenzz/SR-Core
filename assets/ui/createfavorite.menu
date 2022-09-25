@@ -1,4 +1,4 @@
-#include "ui/menudef.h"
+#include "ui/headers/menudef.h"
 #include "ui/includes/common.inc"
 
 #define CHOICE_X_START			0
@@ -6,10 +6,9 @@
 #define CHOICE_GROUP			"favorite"
 
 #include "ui/includes/style.inc"
-#include "ui/choices_setup_common.menu"
+#include "ui/templates/choice.menu"
 
 #include "ui/includes/popup.inc"
-#include "ui/choices_setup_popmenu.menu"
 
 #undef CHOICE_HORIZONTAL_ALIGN
 #define CHOICE_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_CENTER

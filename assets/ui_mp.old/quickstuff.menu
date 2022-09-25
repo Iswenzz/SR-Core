@@ -1,19 +1,18 @@
 #include "ui/menudef.h"
 #include "ui/includes/common.inc"
 
-#define CHOICE_GROUP			"quickstuff"
+#define BUTTON_GROUP			"quickstuff"
 
 #include "ui/includes/style.inc"
-#include "ui/templates/choices_setup_common.menu"
+#include "ui/templates/buttons.menu"
 
 #include "ui/includes/popup.inc"
-#include "ui/templates/choices_setup_popmenu.menu"
 
-#undef CHOICE_SIZE_X
-#define CHOICE_SIZE_X			186
+#undef BUTTON_SIZE_X
+#define BUTTON_SIZE_X			186
 
-#undef CHOICE_POPUP_BACKCOLOR
-#define CHOICE_POPUP_BACKCOLOR  0 0 0 0.6
+#undef BUTTON_POPUP_BACKCOLOR
+#define BUTTON_POPUP_BACKCOLOR  0 0 0 0.6
 
 #define ORIGIN_QUICKSTUFFWINDOW		0 16
 
@@ -23,7 +22,7 @@
 		IMPROVED_POPUP_SETUP_ONOPEN(quickstuff, 6, 4, 292, ;, setDvar cl_bypassMouseInput "1";, 0)
 		onClose{ setDvar cl_bypassMouseInput "0" }
 
-		CHOICE_POPMENU_TITLE("Player Menu")
+		BUTTON_POPMENU_TITLE("Player Menu")
 
 		//free: 52,68,84,100
 		itemDef

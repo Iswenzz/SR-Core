@@ -7,10 +7,9 @@
 #define CHOICE_GROUP			"quit"
 
 #include "ui/includes/style.inc"
-#include "ui/templates/choices_setup_common.menu"
+#include "ui/templates/choice.menu"
 
 #include "ui/includes/popup.inc"
-#include "ui/templates/choices_setup_popmenu.menu"
 
 #undef CHOICE_SIZE_X
 #define CHOICE_SIZE_X			320

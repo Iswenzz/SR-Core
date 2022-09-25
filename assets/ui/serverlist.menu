@@ -11,7 +11,7 @@
 #define STYLE_PC	1
 
 #include "ui/includes/style.inc"
-#include "ui/templates/lnr_setup_common.menu"
+#include "ui/templates/header.menu"
 
 #define BACK_ENABLE 1
 #define ui_subnav_serverlist 1
@@ -34,7 +34,7 @@
 
 			uiScript 	UpdateFilter;
 
-			setLocalVarBool ui_maincontent_lnr "1";
+			setLocalVarBool ui_maincontent_header "1";
 			setLocalVarBool ui_maincontent_update "1";
 		}
 
@@ -42,7 +42,7 @@
 		{
 			close 		serverlist_subnav;
 
-			setLocalVarBool ui_maincontent_lnr "0";
+			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
 
 		}
@@ -52,7 +52,7 @@
 			close 		serverlist_subnav;
 			close 		self;
 
-			setLocalVarBool ui_maincontent_lnr "0";
+			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
 		}
 
@@ -73,11 +73,11 @@
 			close self;
 		}
 
-		LNR_BUTTON_VIS(2, "@MENU_FILTER_SERVERS", 	play "mouse_click"; 	open filter_popmenu;			, 1)
-		LNR_BUTTON_VIS(5, "@MENU_REFRESH_LIST", 	play "mouse_click"; 	uiScript RefreshServers;		, 1)
-		LNR_BUTTON_VIS(4, "@MENU_QUICK_REFRESH", 	play "mouse_click"; 	uiScript RefreshFilter;			, 1)
-		LNR_BUTTON_VIS(3, "@MENU_NEW_FAVORITE", 	play "mouse_click"; 	open createfavorite_popmenu;	, 1)
-		LNR_BUTTON_VIS_OWNER(1, "@MENU_GAME_TYPE", UI_JOINGAMETYPE, 	ITEM_ALIGN_LEFT, 10,	play "mouse_click"; show message_typefilter; , 1)
-		LNR_BUTTON_VIS_OWNER(6, " "			  , UI_NETSOURCE, 		ITEM_ALIGN_LEFT,  0,	play "mouse_click"; show message_typefilter; , 1)
+		HEADER_BUTTON(2, "@MENU_FILTER_SERVERS", 	play "mouse_click"; 	open filter_popmenu;			, 1)
+		HEADER_BUTTON(5, "@MENU_REFRESH_LIST", 	play "mouse_click"; 	uiScript RefreshServers;		, 1)
+		HEADER_BUTTON(4, "@MENU_QUICK_REFRESH", 	play "mouse_click"; 	uiScript RefreshFilter;			, 1)
+		HEADER_BUTTON(3, "@MENU_NEW_FAVORITE", 	play "mouse_click"; 	open createfavorite_popmenu;	, 1)
+		HEADER_CHOICE_OWNER(1, "@MENU_GAME_TYPE", UI_JOINGAMETYPE, 	ITEM_ALIGN_LEFT, 10,	play "mouse_click"; show message_typefilter; , 1)
+		HEADER_CHOICE_OWNER(6, " "			  , UI_NETSOURCE, 		ITEM_ALIGN_LEFT,  0,	play "mouse_click"; show message_typefilter; , 1)
 	}
 }

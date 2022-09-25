@@ -1,18 +1,16 @@
 #include "ui/headers/menudef.h"
 #include "ui/includes/common.inc"
-#include "ui/includes/sr.inc"
 
 #define 	CHOICE_SEP_1		25
 #define 	CHOICE_SEP_2		32
 
 #define CHOICE_X_START			-298
-#define CHOICE_Y_START			55
+#define CHOICE_Y_START			35
 
 #define STYLE_PC				1
 
 #include "ui/includes/style.inc"
-//#include "ui/templates/choices_setup_common.menu"
-#include "ui/templates/options_setup_common.menu"
+#include "ui/templates/options.menu"
 
 #undef CHOICE_TEXT_OFFSET_X
 #define CHOICE_TEXT_OFFSET_X 	0

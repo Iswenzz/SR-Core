@@ -9,7 +9,7 @@
 #define STYLE_PC					1
 
 #include "ui/includes/style.inc"
-#include "ui/templates/choices_setup_common.menu"
+#include "ui/templates/choice.menu"
 
 #undef	CHOICE_SIZE_X
 #define CHOICE_SIZE_X				200
@@ -41,7 +41,7 @@
 			CLOSE_CREATE_SERVER;
 			CLOSE_MODS;
 
-			setLocalVarBool ui_maincontent_lnr "1";
+			setLocalVarBool ui_maincontent_header "1";
 			setLocalVarBool ui_maincontent_update "1";
 
 			setdvar ui_separator_show "1";
@@ -56,7 +56,7 @@
 
 		onClose
 		{
-			setLocalVarBool ui_maincontent_lnr "0";
+			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
 
 			setdvar ui_separator_show "1";
@@ -65,7 +65,7 @@
 
 		onEsc
 		{
-			setLocalVarBool ui_maincontent_lnr "0";
+			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
 
 			setdvar ui_playerProfileAlreadyChosen 1;
@@ -215,7 +215,6 @@
 	#define CHOICE_GROUP			"profile_popup"
 
 	#include "ui/includes/popup.inc"
-	#include "ui/choices_setup_popmenu.menu"
 
 	#undef	CHOICE_SIZE_X
 	#define CHOICE_SIZE_X				320

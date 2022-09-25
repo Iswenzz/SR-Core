@@ -60,6 +60,20 @@
 	SR_WINDOW_HEADER("header") \
 	SR_WINDOW_HEADER_BORDER(0.5, 0.1, 1, 1)
 
+#define SR_FRAME(x, y, w, h) \
+	itemdef \
+	{ \
+		name			"frame" \
+		rect			x y w h SR_ALIGN_TOP_LEFT \
+		style			1 \
+		backcolor		0 0 0 0.4 \
+		visible			1 \
+		border			5 \
+		bordersize		1 \
+		bordercolor		0.5 0.1 1 1 \
+		decoration \
+	}
+
 #define SR_WINDOW_CONTENT(menuName) \
 	name menuName \
 	rect SR_WINDOW_CONTENT_RECT

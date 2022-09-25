@@ -1,12 +1,12 @@
-// setup choices
+#include "ui/includes/sr.inc"
 #include "ui/includes/options.inc"
 
 {
 	menuDef
 	{
-		name			"options_move"
+		SR_WINDOW_CONTENT("options_move");
+
 		fullScreen		0
-		rect			NAV_MENU_FULLSCREEN_RECT
 		focusColor		COLOR_FOCUSED
 		soundloop		""
 
@@ -21,14 +21,14 @@
 			CLOSE_PROFILE;
 
 			setLocalVarBool ui_hideBack "0";
-			setLocalVarBool ui_maincontent_lnr "1";
+			setLocalVarBool ui_maincontent_header "1";
 			setLocalVarBool ui_maincontent_update "1";
 		}
 
 		onClose
 		{
 			setLocalVarBool ui_hideBack 0;
-			setLocalVarBool ui_maincontent_lnr "0";
+			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
 		}
 

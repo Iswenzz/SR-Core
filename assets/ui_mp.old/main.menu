@@ -1,18 +1,18 @@
 #include "ui/menudef.h"
 #include "ui/includes/common.inc"
 
-#define CHOICE_X_START			0
-#define CHOICE_Y_START			120
+#define BUTTON_X_START			0
+#define BUTTON_Y_START			120
 
-#define CHOICE_GROUP			"main"
-#define CHOICE_SEP_1			3
-#define CHOICE_SEP_2			6
-#define CHOICE_SEP_3			9
+#define BUTTON_GROUP			"main"
+#define BUTTON_SEP_1			3
+#define BUTTON_SEP_2			6
+#define BUTTON_SEP_3			9
 
 #define STYLE_PC	1
 
 #include "ui/includes/style.inc"
-#include "ui/templates/choices_setup_common.menu"
+#include "ui/templates/buttons.menu"
 #include "ui/includes/stats.inc"
 
 {
@@ -55,22 +55,22 @@
 		#include "ui/includes/theme.inc"
 
 		#define CLEARUIHINT	exec "set ui_hint_text @MP_NULL"
-		#undef CHOICE_Y_START
-		#define CHOICE_Y_START 85
+		#undef BUTTON_Y_START
+		#define BUTTON_Y_START 85
 
-		CHOICE_BUTTON_VIS(1, "Speedrun", exec "connect 213.32.18.205:28960";, when(!localvarBool(ui_hideBack)))
-		CHOICE_BUTTON_VIS(2, "Deathrun", exec "connect 213.32.18.205:28962";, when(!localvarBool(ui_hideBack)))
-		CHOICE_BUTTON_VIS(3, "Battle Royale", exec "connect 213.32.18.205:28964";, when(!localvarBool(ui_hideBack)))
+		BUTTON_BUTTON_VIS(1, "Speedrun", exec "connect 213.32.18.205:28960";, when(!localvarBool(ui_hideBack)))
+		BUTTON_BUTTON_VIS(2, "Deathrun", exec "connect 213.32.18.205:28962";, when(!localvarBool(ui_hideBack)))
+		BUTTON_BUTTON_VIS(3, "Battle Royale", exec "connect 213.32.18.205:28964";, when(!localvarBool(ui_hideBack)))
 
-		CHOICE_BUTTON_VIS(5, "@MENU_JOIN_GAME", open pc_join_unranked;, when(!localvarBool(ui_hideBack)))
-		CHOICE_BUTTON_VIS(6, "@MENU_SELECT_PROFILE", setdvar ui_playerProfileAlreadyChosen 0; open player_profile;, when(!localvarBool(ui_hideBack)))
-		CHOICE_BUTTON_VIS(7, "@MENU_CONTROLS", open main_controls;, when(!localvarBool(ui_hideBack)))
-		CHOICE_BUTTON_VIS(8, "@MENU_OPTIONS", open main_options;, when(!localvarBool(ui_hideBack)))
+		BUTTON_BUTTON_VIS(5, "@MENU_JOIN_GAME", open pc_join_unranked;, when(!localvarBool(ui_hideBack)))
+		BUTTON_BUTTON_VIS(6, "@MENU_SELECT_PROFILE", setdvar ui_playerProfileAlreadyChosen 0; open player_profile;, when(!localvarBool(ui_hideBack)))
+		BUTTON_BUTTON_VIS(7, "@MENU_CONTROLS", open main_controls;, when(!localvarBool(ui_hideBack)))
+		BUTTON_BUTTON_VIS(8, "@MENU_OPTIONS", open main_options;, when(!localvarBool(ui_hideBack)))
 
-		CHOICE_BUTTON_VIS(10, "@MENU_MODS", close self; open mods_menu;, when(!localvarBool(ui_hideBack)))
-		CHOICE_BUTTON_VIS(11, "@MENU_QUIT", open quit_popmenu;, when(!localvarBool(ui_hideBack)))
+		BUTTON_BUTTON_VIS(10, "@MENU_MODS", close self; open mods_menu;, when(!localvarBool(ui_hideBack)))
+		BUTTON_BUTTON_VIS(11, "@MENU_QUIT", open quit_popmenu;, when(!localvarBool(ui_hideBack)))
 
-		CHOICE_FOOTNOTE_VIS("@SR_GAME_EXPERIENCE_CHANGED", 40, 422, when(!localvarBool(ui_hideBack)))
+		BUTTON_FOOTNOTE_VIS("@SR_GAME_EXPERIENCE_CHANGED", 40, 422, when(!localvarBool(ui_hideBack)))
 
 		itemDef
 		{
@@ -139,23 +139,22 @@
 	}
 
 	#include "ui/includes/popup.inc"
-	#include "ui/templates/choices_setup_popmenu.menu"
 
-	#undef CHOICE_SIZE_X
-	#define CHOICE_SIZE_X			212
+	#undef BUTTON_SIZE_X
+	#define BUTTON_SIZE_X			212
 
 	#undef NEW_X_OFFSET
-	#define NEW_X_OFFSET	(0-CHOICE_SIZE_X)
+	#define NEW_X_OFFSET	(0-BUTTON_SIZE_X)
 	#undef NEW_Y_OFFSET
 	#define NEW_Y_OFFSET	(0-2)
 
-	#undef CHOICE_SIZE_X
-	#define CHOICE_SIZE_X	200
+	#undef BUTTON_SIZE_X
+	#define BUTTON_SIZE_X	200
 
 	menuDef
 	{
 		IMPROVED_POPUP_SETUP("join_game_popup", 4, 12, 112, ;, 1)
-		CHOICE_BUTTON(3, "Ranked Games", close self; close "main_text"; open pc_join_unranked)
-		CHOICE_BUTTON(4, "Unranked Games", close self; close "main_text"; open pc_join_unranked)
+		BUTTON_BUTTON(3, "Ranked Games", close self; close "main_text"; open pc_join_unranked)
+		BUTTON_BUTTON(4, "Unranked Games", close self; close "main_text"; open pc_join_unranked)
 	}
 }
