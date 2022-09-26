@@ -1,28 +1,18 @@
-#include "ui/headers/menudef.h"
-#include "ui/components/common.inc"
-
-#define LAYOUT_X_START			0
-#define LAYOUT_Y_START			0
-
-#define LAYOUT_GROUP			"main"
+#define LAYOUT_NAME					"main"
+#define LAYOUT_X_START				0
+#define LAYOUT_Y_START				0
 #define LAYOUT_SEPATATOR_1			3
 #define LAYOUT_SEPATATOR_2			7
 #define LAYOUT_SEPATATOR_3			8
-
-#define STYLE_PC	1
-
-#include "ui/components/style.inc"
-#include "ui/components/header.inc"
-#include "ui/components/stats.inc"
 
 #define ui_maincontent_update 		1
 #define ui_maincontent_header 		1
 #define ui_maincontent_header_X 	0
 #define ui_maincontent_header_Y 	0
 #define ui_hideback 				1
-#define link_layout_vis 			1
+#define ui_showTextureApply 		0
 
-#define ui_showTextureApply 0
+#include "ui/components/base.inc"
 
 {
 	assetGlobalDef
@@ -64,7 +54,6 @@
 			exec "selectStringTableEntryInDvar mp/didyouknow.csv 0 didyouknow";
 			setLocalVarBool ui_maincontent_header 1;
 			setLocalVarBool ui_maincontent_update 1;
-			setLocalVarBool link_layout_vis 1;
 		}
 
 		itemDef
@@ -129,7 +118,7 @@
 		HEADER(5, "@MENU_OPTIONS", 	CLOSE_ALL; open main_options;)
 
 		HEADER(6, "@MENU_MODS", CLOSE_ALL; open mods_menu;)
-		HEADER(7, "@MENU_SELECT_PROFILE", CLOSE_ALL; open player_profile;)
+		HEADER(7, "@MENU_SELECT_PROFILE", CLOSE_ALL; open profile;)
 		HEADER(8, "@MENU_QUIT", CLOSE_ALL; open quit_popmenu;)
 
 		FOOTNOTE("@SR_GAME_EXPERIENCE_CHANGED", 40, 450)

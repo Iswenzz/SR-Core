@@ -1,16 +1,14 @@
-#include "ui/headers/menudef.h"
-#include "ui/components/common.inc"
+#undef LAYOUT_SEPATATOR_1
+#define LAYOUT_SEPATATOR_1		25
 
-#define 	LAYOUT_SEPATATOR_1		25
-#define 	LAYOUT_SEPATATOR_2		32
+#undef LAYOUT_SEPATATOR_2
+#define LAYOUT_SEPATATOR_2		32
 
+#undef LAYOUT_X_START
 #define LAYOUT_X_START			-298
+
+#undef LAYOUT_Y_START
 #define LAYOUT_Y_START			15
-
-#define STYLE_PC				1
-
-#include "ui/components/style.inc"
-#include "ui/components/layout.inc"
 
 #undef LAYOUT_TEXT_OFFSET_X
 #define LAYOUT_TEXT_OFFSET_X 	0
@@ -27,17 +25,17 @@
 #undef	LAYOUT_SIZE_X
 #define LAYOUT_SIZE_X 			160
 
-#undef SR_BTN_SIZE_X
-#define SR_BTN_SIZE_X 			280
+#undef BUTTON_SIZE_X
+#define BUTTON_SIZE_X 			280
 
 #undef	LAYOUT_SIZE_Y
 #define LAYOUT_SIZE_Y 			22
 
-#undef 	SR_BTN_APPLY_X
-#define SR_BTN_APPLY_X 			240
+#undef 	BUTTON_APPLY_X
+#define BUTTON_APPLY_X 			240
 
-#undef 	SR_BTN_APPLY_Y
-#define SR_BTN_APPLY_Y 			-100
+#undef 	BUTTON_APPLY_Y
+#define BUTTON_APPLY_Y 			-100
 
 #undef LAYOUT_SEPATATOR_1
 #define LAYOUT_SEPATATOR_1            0

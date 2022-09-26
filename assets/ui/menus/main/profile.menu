@@ -1,34 +1,18 @@
-#include "ui/headers/menudef.h"
-#include "ui/components/common.inc"
-
+#define LAYOUT_NAME					"profile"
 #define LAYOUT_X_START				-250
 #define LAYOUT_Y_START				0
-
-#define LAYOUT_GROUP				"profile"
-
-#define STYLE_PC					1
-
-#include "ui/components/style.inc"
-#include "ui/components/layout.inc"
-
-#undef	LAYOUT_SIZE_X
 #define LAYOUT_SIZE_X				200
-
-#undef  LAYOUT_TEXT_OFFSET_X
+#define LAYOUT_HORIZONTAL_ALIGN 	HORIZONTAL_ALIGN_RIGHT
+#define LAYOUT_VERTICAL_ALIGN 		VERTICAL_ALIGN_SUBTOP
 #define LAYOUT_TEXT_OFFSET_X		(-(LAYOUT_SIZE_X)+100)
-
 #define TEXT_ON_BG_STYLE 			3
 
-#undef LAYOUT_HORIZONTAL_ALIGN
-#define LAYOUT_HORIZONTAL_ALIGN 	HORIZONTAL_ALIGN_RIGHT
-
-#undef LAYOUT_VERTICAL_ALIGN
-#define LAYOUT_VERTICAL_ALIGN 		VERTICAL_ALIGN_SUBTOP
+#include "ui/components/base.inc"
 
 {
 	menuDef
 	{
-	   	name 				"player_profile"
+	   	name 				"profile"
 	   	fullscreen 			0
 		rect 				(420 - (820 * 0.5) + 0) (25 + 1 + 25) 820 (480 - (25 + 1 + 25)) // 0 0 640 480
 	   	focusColor 			COLOR_FOCUSED
@@ -69,7 +53,7 @@
 			setLocalVarBool ui_maincontent_update "0";
 
 			setdvar ui_playerProfileAlreadyChosen 1;
-			uiScript closeMenuOnDvarNot com_playerProfile "" player_profile;
+			uiScript closeMenuOnDvarNot com_playerProfile "" profile;
 		}
 
 		itemDef
@@ -101,7 +85,7 @@
 				play "mouse_click";
 				setdvar ui_playerProfileAlreadyChosen 1;
 				uiScript loadPlayerProfile;
-				close player_profile;
+				close profile;
 			}
 
 			execkeyint 13
@@ -109,7 +93,7 @@
 				play "mouse_click";
 				setdvar ui_playerProfileAlreadyChosen 1;
 				uiScript loadPlayerProfile;
-				close player_profile;
+				close profile;
 			}
 		}
 
@@ -139,7 +123,7 @@
 				play "mouse_click";
 				setdvar ui_playerProfileAlreadyChosen 1;
 				uiScript loadPlayerProfile;
-				close player_profile;
+				close profile;
 			}
   		}
 
@@ -165,7 +149,7 @@
 			{
 				play "mouse_click";
 				setdvar ui_playerProfileAlreadyChosen 1;
-				close player_profile;
+				close profile;
 			}
   		}
 
@@ -207,27 +191,27 @@
 	}
 
 	#undef  LAYOUT_X_START
-	#undef  LAYOUT_Y_START
 	#define LAYOUT_X_START			0
+
+	#undef  LAYOUT_Y_START
 	#define LAYOUT_Y_START			150
 
-	#undef  LAYOUT_GROUP
-	#define LAYOUT_GROUP			"profile_popup"
-
-	#include "ui/components/popup.inc"
+	#undef  LAYOUT_NAME
+	#define LAYOUT_NAME				"profile_popup"
 
 	#undef	LAYOUT_SIZE_X
-	#define LAYOUT_SIZE_X				320
+	#define LAYOUT_SIZE_X			320
 
 	#undef LAYOUT_HORIZONTAL_ALIGN
 	#define LAYOUT_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_CENTER
+
 	#undef LAYOUT_VERTICAL_ALIGN
 	#define LAYOUT_VERTICAL_ALIGN	VERTICAL_ALIGN_CENTER
 
 	#undef  LAYOUT_TEXT_OFFSET_X
-	#define LAYOUT_TEXT_OFFSET_X		(-(LAYOUT_SIZE_Y-12))
+	#define LAYOUT_TEXT_OFFSET_X	(-(LAYOUT_SIZE_Y-12))
 
-	#define SIDE_MARGIN		40
+	#define SIDE_MARGIN				40
 
 	menuDef
 	{
@@ -282,7 +266,7 @@
 	menuDef
 	{
 		CENTER_POPUP_SETUP(profile_exists_popmenu, 4, ;, 1)
-		POPMENU_SUBTITLE("@MENU_A_PROFILE_WITH_THE_SAME_NAME_ALREADY_EXISTS")
+		POPMENU_SUBTITLE("@MENU_ACCEPT_PROFILE_WITH_THE_SAME_NAME_ALREADY_EXISTS")
 		BUTTON(4, "@MENU_OK", close self;)
 	}
 

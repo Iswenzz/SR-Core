@@ -1,17 +1,15 @@
-#include "ui/headers/menudef.h"
-
 #define ORIGIN_DIY_TITLE_PC			42 290
 #define ORIGIN_DIY_FRAME_PC			35 290
 #define ORIGIN_DIY_PC				37 310
-
 #define ORIGIN_DIY_TITLE_HIDEF		82 320
 #define ORIGIN_DIY_FRAME_HIDEF		75 320
 #define ORIGIN_DIY_HIDEF			77 340
 #define ORIGIN_DIY_TITLE			166 320
 #define ORIGIN_DIY_FRAME			159 320
 #define ORIGIN_DIY					161 340
-
 #define WIDESCREEN_OFFSET			107 0
+
+#include "ui/components/base.inc"
 
 {
 	menuDef

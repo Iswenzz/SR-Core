@@ -1,11 +1,3 @@
-#include "ui/headers/menudef.h"
-#include "ui/components/common.inc"
-
-#define OPTIONS_STYLE			1
-
-#include "ui/components/style.inc"
-#include "ui/components/header.inc"
-
 #undef HEADER_X_SPACING
 #define HEADER_X_SPACING		146
 

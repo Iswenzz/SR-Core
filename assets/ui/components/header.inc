@@ -1,5 +1,3 @@
-#include "ui/components/layout.inc"
-
 #ifndef HEADER_OWNER_OFFSET_X
 #define HEADER_OWNER_OFFSET_X 	0
 #endif
@@ -27,6 +25,7 @@
 #ifndef HEADER_SIDEITEM_SIZE_X
 #define HEADER_SIDEITEM_SIZE_X	64
 #endif
+
 #ifndef HEADER_SIDEITEM_SPACING
 #define HEADER_SIDEITEM_SPACING	16
 #endif
@@ -127,14 +126,12 @@
 #define HEADER_ALTERNATE_HINT_COLOR	0.55 0.95 0.55 1 // 0 1 0 0.35 // 0.75 .75 0.8 1
 #endif
 
-#ifdef HEADER_HIGHLIGHT_COLOR
-	#undef HEADER_HIGHLIGHT_COLOR
-	#define HEADER_HIGHLIGHT_COLOR	1 1 1 0.8 // 0.2 0.25 0.35 0.25
+#ifndef HEADER_HIGHLIGHT_COLOR
+#define HEADER_HIGHLIGHT_COLOR	1 1 1 0.8 // 0.2 0.25 0.35 0.25
 #endif
 
-#ifdef COLOR_FOCUSED
-	#undef COLOR_FOCUSED
-	#define COLOR_FOCUSED 1 1 1 0.8
+#ifndef COLOR_FOCUSED
+#define COLOR_FOCUSED 1 1 1 0.8
 #endif
 
 #ifndef HEADER_HIGHLIGHT_BORDER_COLOR
@@ -145,9 +142,8 @@
 #define HEADER_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_SUBLEFT
 #endif
 
-#ifdef HEADER_COLOR_FOCUS
-	#undef HEADER_COLOR_FOCUS
-	#define HEADER_COLOR_FOCUS	0.80 0.04 0.32 1
+#ifndef HEADER_COLOR_FOCUS
+#define HEADER_COLOR_FOCUS	0.80 0.04 0.32 1
 #endif
 
 #ifndef HEADER_VERTICAL_ALIGN
@@ -209,7 +205,7 @@
             forecolor        	1 1 1 1 \
             backColor       	0 0 0 0 \
             background         	black \
-            visible            	when(localVarInt(ui_highlight) == itemIndex && localVarString(ui_buttongroup) == LAYOUT_GROUP); \
+            visible            	when(localVarInt(ui_highlight) == itemIndex && localVarString(ui_buttongroup) == LAYOUT_NAME); \
             decoration \
         } \
 		itemDef /* top outline */ \
@@ -226,7 +222,7 @@
             onFocus \
             { \
                 setLocalVarInt ui_highlight2 itemIndex; \
-                setLocalVarString ui_buttongroup LAYOUT_GROUP; \
+                setLocalVarString ui_buttongroup LAYOUT_NAME; \
                 onFocusArg \
             } \
             leaveFocus \
@@ -249,7 +245,7 @@
             onFocus \
             { \
                 setLocalVarInt ui_highlight2 itemIndex; \
-                setLocalVarString ui_buttongroup LAYOUT_GROUP; \
+                setLocalVarString ui_buttongroup LAYOUT_NAME; \
                 onFocusArg \
             } \
             leaveFocus \
@@ -272,7 +268,7 @@
             onFocus \
             { \
                 setLocalVarInt ui_highlight2 itemIndex; \
-                setLocalVarString ui_buttongroup LAYOUT_GROUP; \
+                setLocalVarString ui_buttongroup LAYOUT_NAME; \
                 onFocusArg \
             } \
             leaveFocus \
@@ -295,7 +291,7 @@
             onFocus \
             { \
                 setLocalVarInt ui_highlight2 itemIndex; \
-                setLocalVarString ui_buttongroup LAYOUT_GROUP; \
+                setLocalVarString ui_buttongroup LAYOUT_NAME; \
                 onFocusArg \
             } \
             leaveFocus \
@@ -540,7 +536,7 @@
 			{ \
 				play BUTTON_FOCUS_SOUND; \
 				setLocalVarInt ui_header_highlight itemIndex; \
-				setLocalVarString ui_buttongroup LAYOUT_GROUP; \
+				setLocalVarString ui_buttongroup LAYOUT_NAME; \
 				onFocusArg \
 			} \
 			leaveFocus \

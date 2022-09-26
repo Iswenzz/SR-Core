@@ -1,20 +1,13 @@
-#include "ui/headers/menudef.h"
-#include "ui/components/common.inc"
-
-#define LAYOUT_X_START			40
-#define LAYOUT_Y_START			0
-
+#define LAYOUT_X_START				40
+#define LAYOUT_Y_START				0
 #define LAYOUT_SEPATATOR_1			3
 #define LAYOUT_SEPATATOR_2			7
 #define LAYOUT_SEPATATOR_3			8
+#define BACK_ENABLE 				1
 
-#define STYLE_PC	1
-
-#include "ui/components/style.inc"
-#include "ui/components/header.inc"
-
-#define BACK_ENABLE 1
 #define ui_subnav_serverlist 1
+
+#include "ui/components/base.inc"
 
 {
 	menuDef
@@ -57,7 +50,7 @@
 		}
 
 		#undef RANKED_SERVER
-		#include "ui/menus/server/serverlist.inc"
+		#include "ui/menus/server/list.inc"
 	}
 
 	menuDef

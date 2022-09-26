@@ -130,4 +130,4 @@
 
 #define CLOSE_MODS              close mods_menu
 
-#define CLOSE_PROFILE           close player_profile
+#define CLOSE_PROFILE           close profile

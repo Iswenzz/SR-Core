@@ -1,23 +1,20 @@
-// PC HUD - MP
+#include "ui/components/base.inc"
 
-#include "ui/headers/menudef.h"
-#include "ui/components/sr.inc"
+#define TEAM_IS_MARINES			(localVarString(ui_team) == "marines")
+#define TEAM_IS_OPFOR			(localVarString(ui_team) == "opfor")
 
-#define TEAM_IS_MARINES		(localVarString(ui_team) == "marines")
-#define TEAM_IS_OPFOR		(localVarString(ui_team) == "opfor")
+#define RANK_ORIGIN 			0 6
+#define ONLINEGAME 				(dvarInt("onlinegame") && !dvarInt("xblive_privatematch"))
+#define ONLINEGAME_OFFSET 		10
 
-#define RANK_ORIGIN 0 6
-#define ONLINEGAME (dvarInt("onlinegame") && !dvarInt("xblive_privatematch"))
-#define ONLINEGAME_OFFSET 10
+#define FLASH_OFS 				((sin(milliseconds()/90))*2)
+#define FLASH_OFS2 				((sin(milliseconds()/90))*4)
 
-#define FLASH_OFS 	((sin(milliseconds()/90))*2)
-#define FLASH_OFS2 	((sin(milliseconds()/90))*4)
+#define HUD_ALPHA 				0.65
+#define HUD_FOREGROUND_ALPHA 	0.75
+#define DPAD_ICON_ALPHA 		0.65
 
-#define HUD_ALPHA 0.65
-#define HUD_FOREGROUND_ALPHA 0.75
-#define DPAD_ICON_ALPHA 0.65
-
-#define NOT_SPECTATING (!spectatingClient())
+#define NOT_SPECTATING 			(!spectatingClient())
 
 #define OBJICON(teamName, idx, texture, dvarName, showValue) \
 	itemDef \

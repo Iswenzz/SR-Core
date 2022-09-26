@@ -3,9 +3,9 @@
 #define	TAB_BORDER_COLOR			0.1 0.1 0.12 0.5
 #define SERVERBROWSER_X_OFFS 		0
 
-#define TABLETEXT_X			(-SERVERBROWSER_X_OFFS + 4)
-#define TABLE_X				(-SERVERBROWSER_X_OFFS)
-#define TABLE_Y				14
+#define TABLETEXT_X					(-SERVERBROWSER_X_OFFS + 4)
+#define TABLE_X						(-SERVERBROWSER_X_OFFS)
+#define TABLE_Y						14
 
 itemDef
 {
@@ -520,7 +520,7 @@ itemDef
 	textfont		UI_FONT_NORMAL
 	textalign		ITEM_ALIGN_CENTER
 	textaligny		18
-	forecolor		TEXTLAYOUT_COLOR
+	forecolor		LAYOUT_TEXTCOLOR
 	action {
 		play "mouse_click" ;
 		uiScript addFavorite;
@@ -544,7 +544,7 @@ itemDef
 	rect			(-176 + MAINMENU_LOWER_LAYOUT_OFFSET_X) -78 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 140 420 120 14
 	textalign		ITEM_ALIGN_CENTER
 	textaligny		18
-	forecolor		TEXTLAYOUT_COLOR
+	forecolor		LAYOUT_TEXTCOLOR
 	visible			1
 	action {
 		play		"mouse_click" ;
@@ -566,7 +566,7 @@ itemDef
 	rect			(-46 + MAINMENU_LOWER_LAYOUT_OFFSET_X) -78 80 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 280 420 90 14
 	textalign		ITEM_ALIGN_CENTER
 	textaligny		18
-	forecolor		TEXTLAYOUT_COLOR
+	forecolor		LAYOUT_TEXTCOLOR
 	visible			1
 	action {
 		play "mouse_click" ;
@@ -588,7 +588,7 @@ itemDef
 	rect 			(50 + MAINMENU_LOWER_LAYOUT_OFFSET_X) -78 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM
 	textalign		ITEM_ALIGN_CENTER
 	textaligny		18
-	forecolor		TEXTLAYOUT_COLOR
+	forecolor		LAYOUT_TEXTCOLOR
 	visible			1
 	action {
 		play "mouse_click" ;
@@ -610,7 +610,7 @@ itemDef
 	textalign		ITEM_ALIGN_CENTER
 	textscale		TEXTSIZE_SMALL
 	textaligny		18
-	forecolor		TEXTLAYOUT_COLOR
+	forecolor		LAYOUT_TEXTCOLOR
 	visible			1
 	mouseEnter		{ play "mouse_over"}
 	action { play "mouse_click"; uiScript JoinServer; }
@@ -622,7 +622,7 @@ itemDef
 	text			"@MENU_BACK"
 	type			1
 	style			WINDOW_STYLE_FILLED
-	forecolor		TEXTLAYOUT_COLOR
+	forecolor		LAYOUT_TEXTCOLOR
 	textstyle		ITEM_TEXTSTYLE_NORMAL
 	rect			(-250 + MAINMENU_LOWER_LAYOUT_OFFSET_X) -78 40 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM
 	textfont		UI_FONT_NORMAL

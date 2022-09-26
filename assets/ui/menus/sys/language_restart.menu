@@ -1,4 +1,4 @@
-#include "ui/headers/menudef.h"
+#include "ui/components/base.inc"
 
 {
 	menuDef

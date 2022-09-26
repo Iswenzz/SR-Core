@@ -53,18 +53,18 @@
 #define COLOR_DISABLED		0.35 0.35 0.35 1
 #define COLOR_SAFEAREA		0 0 1 1
 
-#define	BTN_A			1
-#define	BTN_B			2
-#define	BTN_X			3
-#define	BTN_Y			4
-#define	BTN_LSHLDR		5
-#define	BTN_RSHLDR		6
-#define	BTN_START		14
-#define	BTN_BACK			15
-#define	BTN_LSTICK		16
-#define	BTN_RSTICK		17
-#define	BTN_LTRIG		18
-#define	BTN_RTRIG		19
+#define	CONSOLE_BUTTON_A			1
+#define	CONSOLE_BUTTON_B			2
+#define	CONSOLE_BUTTON_X			3
+#define	CONSOLE_BUTTON_Y			4
+#define	CONSOLE_BUTTON_LSHLDR		5
+#define	CONSOLE_BUTTON_RSHLDR		6
+#define	CONSOLE_BUTTON_START		14
+#define	CONSOLE_BUTTON_BACK			15
+#define	CONSOLE_BUTTON_LSTICK		16
+#define	CONSOLE_BUTTON_RSTICK		17
+#define	CONSOLE_BUTTON_LTRIG		18
+#define	CONSOLE_BUTTON_RTRIG		19
 #define	DPAD_UP				20
 #define	DPAD_DOWN			21
 #define	DPAD_LEFT			22

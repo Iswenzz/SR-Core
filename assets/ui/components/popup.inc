@@ -102,8 +102,8 @@
 	#undef LAYOUT_SEPARATOR_TOTAL_SPACING
 	#define LAYOUT_SEPARATOR_TOTAL_SPACING(itemIndex)	0
 
-	#undef LAYOUT_GROUP
-	#define LAYOUT_GROUP			"popmenu"
+	#undef LAYOUT_NAME
+	#define LAYOUT_NAME			"popmenu"
 #endif
 
 #define LAYOUT_SIDEIMAGE_X 0

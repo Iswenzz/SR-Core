@@ -1,22 +1,12 @@
-#include "ui/headers/menudef.h"
-#include "ui/components/common.inc"
+#define LAYOUT_NAME			"serverinfo"
+#define SIDE_MARGIN			20
+#define INFO_BOX_WIDTH		390
+#define INFO_BOX_HEIGHT 	280
+#define INFO_BOX_SIZE 		INFO_BOX_WIDTH INFO_BOX_HEIGHT
+#define LAYOUT_SIZE_X		(INFO_BOX_WIDTH + (SIDE_MARGIN * 2))
+#define POPUP_TITLE_HEIGHT	(INFO_BOX_HEIGHT + SIDE_MARGIN + 24)
 
-#define LAYOUT_GROUP	"serverinfo"
-
-#include "ui/components/style.inc"
-#include "ui/components/layout.inc"
-#include "ui/components/popup.inc"
-
-#define SIDE_MARGIN		20
-#define INFO_BOX_WIDTH	390
-#define INFO_BOX_HEIGHT 280
-#define INFO_BOX_SIZE 	INFO_BOX_WIDTH INFO_BOX_HEIGHT
-
-#undef LAYOUT_SIZE_X
-#define LAYOUT_SIZE_X	(INFO_BOX_WIDTH + (SIDE_MARGIN * 2))
-
-#undef POPUP_TITLE_HEIGHT
-#define POPUP_TITLE_HEIGHT	(INFO_BOX_HEIGHT+SIDE_MARGIN+24)
+#include "ui/components/base.inc"
 
 {
 	menuDef

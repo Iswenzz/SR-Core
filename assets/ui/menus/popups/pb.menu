@@ -1,20 +1,9 @@
-#include "ui/headers/menudef.h"
+#define LAYOUT_NAME					"punkbuster"
+#define LAYOUT_HORIZONTAL_ALIGN		HORIZONTAL_ALIGN_CENTER
+#define LAYOUT_VERTICAL_ALIGN		VERTICAL_ALIGN_CENTER
+#define LAYOUT_SIZE_X				280
 
-#include "ui/components/common.inc"
-
-#define LAYOUT_GROUP	"punkbuster"
-
-#include "ui/components/style.inc"
-#include "ui/components/layout.inc"
-#include "ui/components/popup.inc"
-
-#undef LAYOUT_HORIZONTAL_ALIGN
-#define LAYOUT_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_CENTER
-#undef LAYOUT_VERTICAL_ALIGN
-#define LAYOUT_VERTICAL_ALIGN	VERTICAL_ALIGN_CENTER
-
-#undef LAYOUT_SIZE_X
-#define LAYOUT_SIZE_X	280
+#include "ui/components/base.inc"
 
 {
 	#define LOCAL_STARTPB_ACTION\

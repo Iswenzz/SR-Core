@@ -1,5 +1,5 @@
-#include "ui/components/sr.inc"
-#include "ui/menus/options/header.inc"
+#include "ui/components/base.inc"
+#include "ui/shared/frame_header.inc"
 
 {
     menuDef

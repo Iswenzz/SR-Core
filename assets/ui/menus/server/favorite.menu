@@ -1,23 +1,12 @@
-#include "ui/headers/menudef.h"
-#include "ui/components/common.inc"
-
+#define LAYOUT_NAME				"favorite"
 #define LAYOUT_X_START			0
 #define LAYOUT_Y_START			150
-#define LAYOUT_GROUP			"favorite"
-
-#include "ui/components/style.inc"
-#include "ui/components/layout.inc"
-#include "ui/components/popup.inc"
-
-#undef LAYOUT_HORIZONTAL_ALIGN
 #define LAYOUT_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_CENTER
-#undef LAYOUT_VERTICAL_ALIGN
 #define LAYOUT_VERTICAL_ALIGN	VERTICAL_ALIGN_CENTER
+#define LAYOUT_SIZE_X			400
+#define SIDE_MARGIN				40
 
-#undef LAYOUT_SIZE_X
-#define LAYOUT_SIZE_X	400
-
-#define SIDE_MARGIN		40
+#include "ui/components/base.inc"
 
 {
 	menuDef

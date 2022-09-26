@@ -179,71 +179,71 @@ itemDef { \
 	hide description_choice1;	\
 	hide description2_choice1;	\
 	hide highlight_choice1;		\
-	hide a_BUTTON1;		\
+	hide a_button_choice1;		\
 	hide description_choice2;	\
 	hide description2_choice2;	\
 	hide highlight_choice2;		\
-	hide a_BUTTON2;		\
+	hide a_button_choice2;		\
 	hide description_choice3;	\
 	hide description2_choice3;	\
 	hide highlight_choice3;		\
-	hide a_BUTTON3;		\
+	hide a_button_choice3;		\
 	hide description_choice4;	\
 	hide description2_choice4;	\
 	hide highlight_choice4;		\
-	hide a_BUTTON4;		\
+	hide a_button_choice4;		\
 	hide description_choice5;	\
 	hide description2_choice5;	\
 	hide highlight_choice5;		\
-	hide a_BUTTON5;		\
+	hide a_button_choice5;		\
 	hide description_choice6;	\
 	hide description2_choice6;	\
 	hide highlight_choice6;		\
-	hide a_BUTTON6;		\
+	hide a_button_choice6;		\
 	hide description_choice7;	\
 	hide description2_choice7;	\
 	hide highlight_choice7;		\
-	hide a_BUTTON7;		\
+	hide a_button_choice7;		\
 	hide description_choice8;	\
 	hide description2_choice8;	\
 	hide highlight_choice8;		\
-	hide a_BUTTON8;		\
+	hide a_button_choice8;		\
 	hide description_choice9;	\
 	hide description2_choice9;	\
 	hide highlight_choice9;		\
-	hide a_BUTTON9;		\
+	hide a_button_choice9;		\
 	hide description_choice10;	\
 	hide description2_choice10;	\
 	hide highlight_choice10;	\
-	hide a_BUTTON10;		\
+	hide a_button_choice10;		\
 	hide description_choice11;	\
 	hide description2_choice11;	\
 	hide highlight_choice11;	\
-	hide a_BUTTON11;		\
+	hide a_button_choice11;		\
 	hide description_choice12;	\
 	hide description2_choice12;	\
 	hide highlight_choice12;	\
-	hide a_BUTTON12;		\
+	hide a_button_choice12;		\
 	hide description_choice13;	\
 	hide description2_choice13;	\
 	hide highlight_choice13;	\
-	hide a_BUTTON13;		\
+	hide a_button_choice13;		\
 	hide description_choice14;	\
 	hide description2_choice14;	\
 	hide highlight_choice14;	\
-	hide a_BUTTON14;		\
+	hide a_button_choice14;		\
 	hide description_choice15;	\
 	hide description2_choice15;	\
 	hide highlight_choice15;	\
-	hide a_BUTTON15;		\
+	hide a_button_choice15;		\
 	hide description_choice16;	\
 	hide description2_choice16;	\
 	hide highlight_choice16;	\
-	hide a_BUTTON16;		\
+	hide a_button_choice16;		\
 	hide description_choice17;	\
 	hide description2_choice17;	\
 	hide highlight_choice17;	\
-	hide a_BUTTON17;
+	hide a_button_choice17;
 
 // Singular button macro
 #define SINGULAR_BUTTON(pnum, porigin, phighlight_size, ptext, paction) \
@@ -265,12 +265,12 @@ itemDef{											\
 		show "description_choice"#pnum;				\
 		show "description2_choice"#pnum;			\
 		show "highlight_choice"#pnum;				\
-		show "a_BUTTON"#pnum; }				\
+		show "a_button_choice"#pnum; }				\
 	leaveFocus{										\
 		hide "description_choice"#pnum;				\
 		hide "description2_choice"#pnum;			\
 		hide "highlight_choice"#pnum;				\
-		hide "a_BUTTON"#pnum; }				\
+		hide "a_button_choice"#pnum; }				\
 	action{											\
 		play "mouse_click";							\
 		paction	}}									\
@@ -287,7 +287,7 @@ itemDef { 											\
 	visible			1 								\
 	decoration }									\
 itemDef { 											\
-	name			"a_BUTTON"#pnum 			\
+	name			"a_button_choice"#pnum 			\
 	text			"@XBOXLIVE_SELECTBUTTON" 		\
 	textfont		UI_FONT_NORMAL 					\
 	textscale		0.27		 					\
