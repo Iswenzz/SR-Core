@@ -316,7 +316,7 @@
 
 		itemDef
 		{
-			name			"profile"
+			name			"player_profile"
 			visible			1
 			rect			40 40 560 400
 			ownerdraw		UI_LOADPROFILING
@@ -461,7 +461,7 @@
 
 		itemDef
 		{
-			name			"profile"
+			name			"player_profile"
 			visible			1
 			rect			40 40 560 400
 			ownerdraw		UI_LOADPROFILING

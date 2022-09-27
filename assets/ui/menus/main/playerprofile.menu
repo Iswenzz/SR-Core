@@ -1,4 +1,4 @@
-#define LAYOUT_NAME					"profile"
+#define LAYOUT_NAME					"player_profile"
 #define LAYOUT_X_START				-250
 #define LAYOUT_Y_START				0
 #define LAYOUT_SIZE_X				200
@@ -12,7 +12,7 @@
 {
 	menuDef
 	{
-	   	name 				"profile"
+	   	name 				"player_profile"
 	   	fullscreen 			0
 		rect 				(420 - (820 * 0.5) + 0) (25 + 1 + 25) 820 (480 - (25 + 1 + 25)) // 0 0 640 480
 	   	focusColor 			COLOR_FOCUSED
@@ -53,7 +53,7 @@
 			setLocalVarBool ui_maincontent_update "0";
 
 			setdvar ui_playerProfileAlreadyChosen 1;
-			uiScript closeMenuOnDvarNot com_playerProfile "" profile;
+			uiScript closeMenuOnDvarNot com_playerProfile "" player_profile;
 		}
 
 		itemDef
@@ -85,7 +85,7 @@
 				play "mouse_click";
 				setdvar ui_playerProfileAlreadyChosen 1;
 				uiScript loadPlayerProfile;
-				close profile;
+				close player_profile;
 			}
 
 			execkeyint 13
@@ -93,7 +93,7 @@
 				play "mouse_click";
 				setdvar ui_playerProfileAlreadyChosen 1;
 				uiScript loadPlayerProfile;
-				close profile;
+				close player_profile;
 			}
 		}
 
@@ -123,7 +123,7 @@
 				play "mouse_click";
 				setdvar ui_playerProfileAlreadyChosen 1;
 				uiScript loadPlayerProfile;
-				close profile;
+				close player_profile;
 			}
   		}
 
@@ -149,7 +149,7 @@
 			{
 				play "mouse_click";
 				setdvar ui_playerProfileAlreadyChosen 1;
-				close profile;
+				close player_profile;
 			}
   		}
 

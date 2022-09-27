@@ -118,7 +118,7 @@
 		HEADER(5, "@MENU_OPTIONS", 	CLOSE_ALL; open main_options;)
 
 		HEADER(6, "@MENU_MODS", CLOSE_ALL; open mods_menu;)
-		HEADER(7, "@MENU_SELECT_PROFILE", CLOSE_ALL; open profile;)
+		HEADER(7, "@MENU_SELECT_PROFILE", CLOSE_ALL; open player_profile;)
 		HEADER(8, "@MENU_QUIT", CLOSE_ALL; open quit_popmenu;)
 
 		FOOTNOTE("@SR_GAME_EXPERIENCE_CHANGED", 40, 450)

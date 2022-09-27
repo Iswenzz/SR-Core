@@ -195,8 +195,8 @@ cmd_PID(args)
 	{
 		player = players[i];
 
-		self iPrintLn(fmt("^2Name:^7 %s ^3PID:^7 %d ^5ID:^7 %s ^5GUID:^7 %s",
-			player.name, player getEntityNumber(), player.id, player.guid));
+		self iPrintLn(fmt("^2Name:^7 %s ^3PID:^7 %d ^5ID:^7 %s ^5GUID:^7 %s ^1FGUID:^7 %s",
+			player.name, player getEntityNumber(), player.id, player.guid, player getGuid()));
 	}
 }
 

@@ -3,7 +3,7 @@
  	loadMenu { "ui/menus/main/hud.menu" }
  	loadMenu { "ui/menus/main/connect.menu" }
 	loadMenu { "ui/menus/main/mods.menu" }
-	loadMenu { "ui/menus/main/profile.menu" }
+	loadMenu { "ui/menus/main/playerprofile.menu" }
 
 	loadMenu { "ui/menus/server/list.menu" }
 	loadMenu { "ui/menus/server/info.menu" }
