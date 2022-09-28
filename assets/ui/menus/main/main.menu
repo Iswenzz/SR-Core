@@ -111,8 +111,8 @@
             decoration
         }
 
-		HEADER(2, "@MENU_JOIN_GAME", CLOSE_ALL; open serverlist_subnav; open serverlist_browser;)
-		HEADER(3, "@MENU_START_NEW_SERVER", CLOSE_ALL; open createserver;)
+		HEADER(2, "Servers", CLOSE_ALL; open serverlist_subnav; open serverlist_browser;)
+		HEADER(3, "Create", CLOSE_ALL; open createserver;)
 
 		HEADER(4, "@MENU_CONTROLS", CLOSE_ALL; open main_controls;)
 		HEADER(5, "@MENU_OPTIONS", 	CLOSE_ALL; open main_options;)
@@ -120,8 +120,6 @@
 		HEADER(6, "@MENU_MODS", CLOSE_ALL; open mods_menu;)
 		HEADER(7, "@MENU_SELECT_PROFILE", CLOSE_ALL; open player_profile;)
 		HEADER(8, "@MENU_QUIT", CLOSE_ALL; open quit_popmenu;)
-
-		FOOTNOTE("@SR_GAME_EXPERIENCE_CHANGED", 40, 450)
 
 		#define CLEARUIHINT	exec "set ui_hint_text @MP_NULL"
 

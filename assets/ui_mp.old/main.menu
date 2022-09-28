@@ -70,8 +70,6 @@
 		BUTTON_BUTTON_VIS(10, "@MENU_MODS", close self; open mods_menu;, when(!localvarBool(ui_hideBack)))
 		BUTTON_BUTTON_VIS(11, "@MENU_QUIT", open quit_popmenu;, when(!localvarBool(ui_hideBack)))
 
-		BUTTON_FOOTNOTE_VIS("@SR_GAME_EXPERIENCE_CHANGED", 40, 422, when(!localvarBool(ui_hideBack)))
-
 		itemDef
 		{
 			visible			1

@@ -5,11 +5,11 @@
 	loadMenu { "ui/menus/main/mods.menu" }
 	loadMenu { "ui/menus/main/playerprofile.menu" }
 
-	loadMenu { "ui/menus/server/list.menu" }
+	loadMenu { "ui/menus/server/serverlist.menu" }
 	loadMenu { "ui/menus/server/info.menu" }
 	loadMenu { "ui/menus/server/favorite.menu" }
 	loadMenu { "ui/menus/server/filter.menu" }
-	loadMenu { "ui/menus/server/create.menu" }
+	loadMenu { "ui/menus/server/createserver.menu" }
 
 	loadMenu { "ui/menus/controls/controls.menu" }
 	loadMenu { "ui/menus/controls/controls_look.menu" }

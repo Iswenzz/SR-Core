@@ -1,14 +1,22 @@
+#include "ui/components/base.inc"
+#include "ui/shared/frame_layout.inc"
+
+#undef LAYOUT_Y_COUNT
 #define LAYOUT_Y_COUNT 			16
+
+#undef LAYOUT_X_START
 #define LAYOUT_X_START			-290
+
+#undef LAYOUT_Y_START
 #define LAYOUT_Y_START			47
+
+#undef LAYOUT_X_SPACING
 #define LAYOUT_X_SPACING 		290
 
 #define CONTAINER_X_START 		(LAYOUT_X_START - 20)
 #define CONTAINER_Y_START 		(LAYOUT_Y_START + 5)
 
 #define MAP_SELECTION_X_START 	320
-
-#include "ui/components/base.inc"
 
 {
 	menuDef
@@ -376,7 +384,7 @@
 			action
 			{
 				play "mouse_click";
-				uiScript StartServerCustom
+				uiScript StartServerCustom;
 			}
 		}
 	}

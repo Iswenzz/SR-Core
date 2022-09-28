@@ -14,7 +14,7 @@
 #define LAYOUT_TEXTSIZE				0.3
 
 #undef LAYOUT_SIZE_X
-#define LAYOUT_SIZE_X 				224
+#define LAYOUT_SIZE_X 				160
 
 #undef LAYOUT_SIZE_Y
 #define LAYOUT_SIZE_Y 				22
@@ -79,8 +79,6 @@
 #undef COLOR_FOCUSED
 #define COLOR_FOCUSED 				0 1 1 1
 
-
-
 #undef LAYOUT_SEPATATOR_1
 #define LAYOUT_SEPATATOR_1		25
 
@@ -109,7 +107,7 @@
 #define BUTTON_APPLY_X 			240
 
 #undef 	BUTTON_APPLY_Y
-#define BUTTON_APPLY_Y 			-100
+#define BUTTON_APPLY_Y 			-150
 
 #undef LAYOUT_SEPATATOR_1
-#define LAYOUT_SEPATATOR_1            0
+#define LAYOUT_SEPATATOR_1      0
