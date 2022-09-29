@@ -3,16 +3,18 @@
 #define LAYOUT_SEPATATOR_1			3
 #define LAYOUT_SEPATATOR_2			7
 #define LAYOUT_SEPATATOR_3			8
+#define HEADER_X_START				-320
+#define HEADER_HORIZONTAL_ALIGN		HORIZONTAL_ALIGN_CENTER
 #define BACK_ENABLE 				1
 
-#define ui_subnav_serverlist 1
+#define ui_subnav_serverlist 		1
 
 #include "ui/components/base.inc"
 
 {
 	menuDef
 	{
-		name			"serverlist_browser"
+		name			pc_join_unranked
 		fullscreen		0
 		rect 			NAV_MENU_FULLSCREEN_RECT_SERVERBROWSER
 		focuscolor		COLOR_FOCUSED
@@ -33,23 +35,29 @@
 
 		onClose
 		{
-			close 		serverlist_subnav;
-
 			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
-
 		}
 
 		onESC
 		{
-			close 		serverlist_subnav;
 			close 		self;
 
 			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
 		}
 
+		HEADER(2, "@MENU_FILTER_SERVERS", play "mouse_click"; open filter_popmenu;)
+		HEADER(3, "@MENU_REFRESH_LIST", play "mouse_click"; uiScript RefreshServers;)
+		HEADER(4, "@MENU_QUICK_REFRESH", play "mouse_click"; uiScript RefreshFilter;)
+		HEADER(5, "@MENU_NEW_FAVORITE", play "mouse_click"; open createfavorite_popmenu;)
+		HEADER_OWNER(6, "", UI_NETSOURCE, ITEM_ALIGN_LEFT, 0, play "mouse_click"; show message_typefilter;)
+		HEADER_OWNER(7, "@MENU_GAME_TYPE", UI_JOINGAMETYPE, ITEM_ALIGN_LEFT, 10, play "mouse_click"; show message_typefilter;)
+
 		#undef RANKED_SERVER
+
+		#undef LAYOUT_Y_START
+		#define LAYOUT_Y_START 				SUBNAV_HEIGHT
 
 		#define OPTIONS_HEADING_JOIN_COLOR	0.25 0.25 0.25 0.175
 		#define	TAB_BG_COLOR				OPTIONS_HEADING_JOIN_COLOR
@@ -58,7 +66,7 @@
 
 		#define TABLETEXT_X					(-SERVERBROWSER_X_OFFS + 4)
 		#define TABLE_X						(-SERVERBROWSER_X_OFFS)
-		#define TABLE_Y						14
+		#define TABLE_Y						(SUBNAV_HEIGHT + 14)
 
 		itemDef
 		{
@@ -569,7 +577,7 @@
 			style			WINDOW_STYLE_FILLED
 			textstyle		ITEM_TEXTSTYLE_NORMAL
 			ownerdrawFlag	UI_SHOW_NOTFAVORITESERVERS
-			rect			(-176 + MAINMENU_LOWER_LAYOUT_OFFSET_X) -78 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 140 420 120 14
+			rect			(-176 + MAINMENU_LOWER_LAYOUT_OFFSET_X) (-78 + SUBNAV_HEIGHT) 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 140 420 120 14
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_CENTER
 			textaligny		18
@@ -594,7 +602,7 @@
 			textstyle		ITEM_TEXTSTYLE_NORMAL
 			textfont		UI_FONT_NORMAL
 			ownerdrawFlag	UI_SHOW_FAVORITESERVERS
-			rect			(-176 + MAINMENU_LOWER_LAYOUT_OFFSET_X) -78 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 140 420 120 14
+			rect			(-176 + MAINMENU_LOWER_LAYOUT_OFFSET_X) (-78 + SUBNAV_HEIGHT) 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 140 420 120 14
 			textalign		ITEM_ALIGN_CENTER
 			textaligny		18
 			forecolor		LAYOUT_TEXTCOLOR
@@ -616,7 +624,7 @@
 			style			WINDOW_STYLE_FILLED
 			textstyle		ITEM_TEXTSTYLE_NORMAL
 			textfont		UI_FONT_NORMAL
-			rect			(-46 + MAINMENU_LOWER_LAYOUT_OFFSET_X) -78 80 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 280 420 90 14
+			rect			(-46 + MAINMENU_LOWER_LAYOUT_OFFSET_X) (-78 + SUBNAV_HEIGHT) 80 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 280 420 90 14
 			textalign		ITEM_ALIGN_CENTER
 			textaligny		18
 			forecolor		LAYOUT_TEXTCOLOR
@@ -638,7 +646,7 @@
 			style			WINDOW_STYLE_FILLED
 			textstyle		ITEM_TEXTSTYLE_NORMAL
 			textfont		UI_FONT_NORMAL
-			rect 			(50 + MAINMENU_LOWER_LAYOUT_OFFSET_X) -78 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM
+			rect 			(50 + MAINMENU_LOWER_LAYOUT_OFFSET_X) (-78 + SUBNAV_HEIGHT) 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM
 			textalign		ITEM_ALIGN_CENTER
 			textaligny		18
 			forecolor		LAYOUT_TEXTCOLOR
@@ -659,7 +667,7 @@
 			textfont		UI_FONT_NORMAL
 			style			WINDOW_STYLE_FILLED
 			textstyle		ITEM_TEXTSTYLE_NORMAL
-			rect			(160 + MAINMENU_LOWER_LAYOUT_OFFSET_X) -78 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 510 420 90 14
+			rect			(160 + MAINMENU_LOWER_LAYOUT_OFFSET_X) (-78 + SUBNAV_HEIGHT) 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 510 420 90 14
 			textalign		ITEM_ALIGN_CENTER
 			textscale		TEXTSIZE_SMALL
 			textaligny		18
@@ -677,7 +685,7 @@
 			style			WINDOW_STYLE_FILLED
 			forecolor		LAYOUT_TEXTCOLOR
 			textstyle		ITEM_TEXTSTYLE_NORMAL
-			rect			(-250 + MAINMENU_LOWER_LAYOUT_OFFSET_X) -78 40 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM
+			rect			(-250 + MAINMENU_LOWER_LAYOUT_OFFSET_X) (-78 + SUBNAV_HEIGHT) 40 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM
 			textfont		UI_FONT_NORMAL
 			textalign		ITEM_ALIGN_LEFT
 			textscale		TEXTSIZE_SMALL
@@ -694,26 +702,5 @@
 				open main
 			}
 		}
-	}
-
-	menuDef
-	{
-		name				"serverlist_subnav"
-		fullscreen			0
-		rect 				SUBNAV_MENU_RECT
-		focusColor			COLOR_FOCUSED
-
-		onESC
-		{
-			close serverlist_browser;
-			close self;
-		}
-
-		HEADER(2, "@MENU_FILTER_SERVERS", play "mouse_click"; open filter_popmenu;)
-		HEADER(5, "@MENU_REFRESH_LIST", play "mouse_click"; uiScript RefreshServers;)
-		HEADER(4, "@MENU_QUICK_REFRESH", play "mouse_click"; uiScript RefreshFilter;)
-		HEADER(3, "@MENU_NEW_FAVORITE", play "mouse_click"; open createfavorite_popmenu;)
-		HEADER_OWNER(1, "@MENU_GAME_TYPE", UI_JOINGAMETYPE, ITEM_ALIGN_LEFT, 10, play "mouse_click"; show message_typefilter;)
-		HEADER_OWNER(6, "", UI_NETSOURCE, ITEM_ALIGN_LEFT, 0, play "mouse_click"; show message_typefilter;)
 	}
 }

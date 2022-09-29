@@ -5,7 +5,7 @@
 	loadMenu { "ui/menus/main/mods.menu" }
 	loadMenu { "ui/menus/main/playerprofile.menu" }
 
-	loadMenu { "ui/menus/server/serverlist.menu" }
+	loadMenu { "ui/menus/server/pc_joinchoosegamemode.menu" }
 	loadMenu { "ui/menus/server/info.menu" }
 	loadMenu { "ui/menus/server/favorite.menu" }
 	loadMenu { "ui/menus/server/filter.menu" }

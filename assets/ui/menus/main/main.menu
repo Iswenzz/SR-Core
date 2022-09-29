@@ -111,7 +111,7 @@
             decoration
         }
 
-		HEADER(2, "Servers", CLOSE_ALL; open serverlist_subnav; open serverlist_browser;)
+		HEADER(2, "Servers", CLOSE_ALL; open pc_join_unranked;)
 		HEADER(3, "Create", CLOSE_ALL; open createserver;)
 
 		HEADER(4, "@MENU_CONTROLS", CLOSE_ALL; open main_controls;)
