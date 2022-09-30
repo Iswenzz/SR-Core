@@ -42,7 +42,7 @@
 #endif
 
 #ifndef LAYOUT_Y_SPACING
-#define LAYOUT_Y_SPACING		20
+#define LAYOUT_Y_SPACING		24
 #endif
 
 #ifndef LAYOUT_Y_COUNT
