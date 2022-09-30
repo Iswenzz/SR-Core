@@ -3,7 +3,9 @@
 #define LAYOUT_SEPATATOR_1			3
 #define LAYOUT_SEPATATOR_2			7
 #define LAYOUT_SEPATATOR_3			8
-#define HEADER_X_START				-320
+#define HEADER_SIZE_X				100
+#define HEADER_X_SPACING			101
+#define HEADER_X_START				-260
 #define HEADER_HORIZONTAL_ALIGN		HORIZONTAL_ALIGN_CENTER
 #define BACK_ENABLE 				1
 
@@ -51,7 +53,7 @@
 		HEADER(3, "@MENU_REFRESH_LIST", play "mouse_click"; uiScript RefreshServers;)
 		HEADER(4, "@MENU_QUICK_REFRESH", play "mouse_click"; uiScript RefreshFilter;)
 		HEADER(5, "@MENU_NEW_FAVORITE", play "mouse_click"; open createfavorite_popmenu;)
-		HEADER_OWNER(6, "", UI_NETSOURCE, ITEM_ALIGN_LEFT, 0, play "mouse_click"; show message_typefilter;)
+		HEADER_OWNER(6, " ", UI_NETSOURCE, ITEM_ALIGN_LEFT, 0, play "mouse_click"; show message_typefilter;)
 		HEADER_OWNER(7, "@MENU_GAME_TYPE", UI_JOINGAMETYPE, ITEM_ALIGN_LEFT, 10, play "mouse_click"; show message_typefilter;)
 
 		#undef RANKED_SERVER

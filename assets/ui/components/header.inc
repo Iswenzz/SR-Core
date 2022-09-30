@@ -177,7 +177,7 @@
 		itemDef \
 		{ \
 			style			WINDOW_STYLE_FILLED \
-			rect			HEADER_ORIGIN(itemIndex) (LAYOUT_SIZE_X) LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
+			rect			HEADER_ORIGIN(itemIndex) (HEADER_SIZE_X) HEADER_SIZE_Y HEADER_HORIZONTAL_ALIGN HEADER_VERTICAL_ALIGN \
 			forecolor		1 1 1 0 \
 			backColor       0 0 0 0 \
 			visible			1 \
@@ -186,7 +186,7 @@
 		itemDef \
 		{ \
 			style			WINDOW_STYLE_FILLED \
-			rect			HEADER_ORIGIN(itemIndex) (LAYOUT_SIZE_X) LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
+			rect			HEADER_ORIGIN(itemIndex) (HEADER_SIZE_X) HEADER_SIZE_Y HEADER_HORIZONTAL_ALIGN HEADER_VERTICAL_ALIGN \
 			forecolor		1 1 1 0 \
 			backColor       0 0 0 0 \
 			visible			1 \
@@ -201,7 +201,7 @@
         { \
             style            	WINDOW_STYLE_FILLED \
             textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	HEADER_ORIGIN(itemIndex) LAYOUT_SIZE_X LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
+            rect            	HEADER_ORIGIN(itemIndex) HEADER_SIZE_X HEADER_SIZE_Y HEADER_HORIZONTAL_ALIGN HEADER_VERTICAL_ALIGN \
             forecolor        	1 1 1 1 \
             backColor       	0 0 0 0 \
             background         	black \
@@ -212,7 +212,7 @@
         { \
             style            	WINDOW_STYLE_SHADER \
             textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	HEADER_ORIGIN(itemIndex) LAYOUT_SIZE_X (LAYOUT_SIZE_Y-LAYOUT_SIZE_Y+1) LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
+            rect            	HEADER_ORIGIN(itemIndex) HEADER_SIZE_X (HEADER_SIZE_Y-HEADER_SIZE_Y+1) HEADER_HORIZONTAL_ALIGN HEADER_VERTICAL_ALIGN \
 			origin 				0 0 \
             forecolor        	0 0 0 0 \
             backColor       	0 0 0 1 \
@@ -235,8 +235,8 @@
         { \
             style            	WINDOW_STYLE_SHADER \
             textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	HEADER_ORIGIN(itemIndex) LAYOUT_SIZE_X (LAYOUT_SIZE_Y - LAYOUT_SIZE_Y + 1) LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
-			origin 				0 (LAYOUT_SIZE_Y - 1) \
+            rect            	HEADER_ORIGIN(itemIndex) HEADER_SIZE_X (HEADER_SIZE_Y - HEADER_SIZE_Y + 1) HEADER_HORIZONTAL_ALIGN HEADER_VERTICAL_ALIGN \
+			origin 				0 (HEADER_SIZE_Y - 1) \
             forecolor        	0 0 0 0 \
             backColor       	0 0 0 1 \
             visible          	1 \
@@ -258,7 +258,7 @@
         { \
             style            	WINDOW_STYLE_SHADER \
             textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	HEADER_ORIGIN(itemIndex) (LAYOUT_SIZE_X - LAYOUT_SIZE_X + 1) (LAYOUT_SIZE_Y - 2) LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
+            rect            	HEADER_ORIGIN(itemIndex) (HEADER_SIZE_X - HEADER_SIZE_X + 1) (HEADER_SIZE_Y - 2) HEADER_HORIZONTAL_ALIGN HEADER_VERTICAL_ALIGN \
 			origin 				0 1 \
             forecolor        	0 0 0 0 \
             backColor       	0 0 0 1 \
@@ -281,8 +281,8 @@
         { \
             style            	WINDOW_STYLE_SHADER \
             textstyle        	ITEM_TEXTSTYLE_NORMAL \
-            rect            	HEADER_ORIGIN(itemIndex) (LAYOUT_SIZE_X - LAYOUT_SIZE_X + 1) (LAYOUT_SIZE_Y - 2) LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
-			origin 				(LAYOUT_SIZE_X - 1) 1 \
+            rect            	HEADER_ORIGIN(itemIndex) (HEADER_SIZE_X - HEADER_SIZE_X + 1) (HEADER_SIZE_Y - 2) HEADER_HORIZONTAL_ALIGN HEADER_VERTICAL_ALIGN \
+			origin 				(HEADER_SIZE_X - 1) 1 \
             forecolor        	0 0 0 0 \
             backColor       	0 0 0 1 \
             visible          	1 \
@@ -329,7 +329,7 @@
 			textstyle		HEADER_TEXTSTYLE \
 			textAlign		textAlignChoice \
 			textAlignX		textAlignOffsetX \
-			textalignY 		18 \
+			textalignY 		19.5 \
 			forecolor		HEADER_TEXTCOLOR \
 			visible			visArg \
 			extraArgs \
