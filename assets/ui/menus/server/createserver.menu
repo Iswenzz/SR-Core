@@ -11,12 +11,18 @@
 #define LAYOUT_Y_START			47
 
 #undef LAYOUT_X_SPACING
-#define LAYOUT_X_SPACING 		290
+#define LAYOUT_X_SPACING 		220
+
+#undef LAYOUT_SIZE_X
+#define LAYOUT_SIZE_X 			140
+
+#undef LAYOUT_TEXTALIGN
+#define	LAYOUT_TEXTALIGN		ITEM_ALIGN_MIDDLE_LEFT
 
 #define CONTAINER_X_START 		(LAYOUT_X_START - 20)
 #define CONTAINER_Y_START 		(LAYOUT_Y_START + 5)
 
-#define MAP_SELECTION_X_START 	320
+#define MAP_SELECTION_X_START 	160
 
 {
 	menuDef
@@ -54,7 +60,7 @@
         itemDef
         {
             name                        "content_left"
-            rect                        CONTAINER_X_START 0 610 392 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP // 630 fits against
+            rect                        CONTAINER_X_START 0 450 392 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP // 630 fits against
             origin                      0 16
             style                       WINDOW_STYLE_FILLED
             backcolor                   1 1 1 0.03
@@ -66,7 +72,7 @@
 		itemDef
         {
             name                        "content_left_title"
-            rect                        CONTAINER_X_START 0 610 24 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+            rect                        CONTAINER_X_START 0 450 24 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
             origin                      0 16
             style                       WINDOW_STYLE_FILLED
             borderSize                  0
@@ -98,7 +104,7 @@
 		itemDef
         {
             name                        "sep_line_server"
-            rect                        LAYOUT_X_START (LAYOUT_Y(6) + 10) (610 - 40) 2 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+            rect                        LAYOUT_X_START (LAYOUT_Y(6) + 10) (450 - 40) 2 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
             origin                      0 0
             style                       WINDOW_STYLE_FILLED
             borderSize                  0
@@ -157,7 +163,7 @@
 		itemDef
         {
             name                        "sep_line_server"
-            rect                        LAYOUT_X_START (LAYOUT_Y(9) + 10) (610 - 40) 2 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+            rect                        LAYOUT_X_START (LAYOUT_Y(9) + 10) (450 - 40) 2 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
             origin                      0 0
             style                       WINDOW_STYLE_FILLED
             borderSize                  0
@@ -418,7 +424,7 @@
         itemDef
         {
             name                        "content_left_adv"
-            rect                        CONTAINER_X_START 0 610 392 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP // 780 == content + map list size
+            rect                        CONTAINER_X_START 0 450 392 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP // 780 == content + map list size
             origin                      0 16
             style                       WINDOW_STYLE_FILLED
             backcolor                   1 1 1 0.03
@@ -430,7 +436,7 @@
 		itemDef
         {
             name                        "content_left_title_adv"
-            rect                        CONTAINER_X_START 0 610 24 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
+            rect                        CONTAINER_X_START 0 450 24 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_SUBTOP
             origin                      0 16
             style                       WINDOW_STYLE_FILLED
             borderSize                  0

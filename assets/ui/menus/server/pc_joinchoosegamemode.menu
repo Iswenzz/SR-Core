@@ -3,10 +3,6 @@
 #define LAYOUT_SEPATATOR_1			3
 #define LAYOUT_SEPATATOR_2			7
 #define LAYOUT_SEPATATOR_3			8
-#define HEADER_SIZE_X				100
-#define HEADER_X_SPACING			101
-#define HEADER_X_START				-260
-#define HEADER_HORIZONTAL_ALIGN		HORIZONTAL_ALIGN_CENTER
 #define BACK_ENABLE 				1
 
 #define ui_subnav_serverlist 		1
@@ -53,7 +49,15 @@
 		HEADER(3, "@MENU_REFRESH_LIST", play "mouse_click"; uiScript RefreshServers;)
 		HEADER(4, "@MENU_QUICK_REFRESH", play "mouse_click"; uiScript RefreshFilter;)
 		HEADER(5, "@MENU_NEW_FAVORITE", play "mouse_click"; open createfavorite_popmenu;)
+
 		HEADER_OWNER(6, " ", UI_NETSOURCE, ITEM_ALIGN_LEFT, 0, play "mouse_click"; show message_typefilter;)
+
+		#undef HEADER_SIZE_X
+		#define HEADER_SIZE_X		95
+
+		#undef HEADER_X_SPACING
+		#define HEADER_X_SPACING	96
+
 		HEADER_OWNER(7, "@MENU_GAME_TYPE", UI_JOINGAMETYPE, ITEM_ALIGN_LEFT, 10, play "mouse_click"; show message_typefilter;)
 
 		#undef RANKED_SERVER
@@ -77,7 +81,7 @@
 			textstyle		ITEM_TEXTSTYLE_NORMAL
 			textfont		UI_FONT_NORMAL
 			textscale 		0.25
-			rect 			140 (-SUBNAV_Y_POS + TABLE_Y + 1) 265 18
+			rect 			-315 (SUBNAV_HEIGHT - 3) 265 10 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_TOP
 			textalign 		ITEM_ALIGN_LEFT
 			textalignx 		0
 			textaligny 		16
@@ -87,19 +91,19 @@
 		}
 
 		#undef LAYOUT_X_COUNT
-		#define LAYOUT_X_COUNT			6
+		#define LAYOUT_X_COUNT		6
 
-		#define WIDTH_PASSWORD		30
-		#define WIDTH_HARDWARE		30
-		#define WIDTH_SERVER		280 // uw: 370 //208
-		#define WIDTH_MAP			96  // uw: 140 //70
-		#define WIDTH_PLAYER		60 	// 50
-		#define WIDTH_TYPE			130	// 102
-		#define WIDTH_VOICE			30
-		#define WIDTH_PURE			30
-		#define WIDTH_MOD			30	// 20
-		#define WIDTH_PB			30
-		#define WIDTH_PING			50
+		#define WIDTH_PASSWORD		20
+		#define WIDTH_HARDWARE		20
+		#define WIDTH_SERVER		140
+		#define WIDTH_MAP			140
+		#define WIDTH_PLAYER		60
+		#define WIDTH_TYPE			92
+		#define WIDTH_VOICE			20
+		#define WIDTH_PURE			20
+		#define WIDTH_MOD			20
+		#define WIDTH_PB			20
+		#define WIDTH_PING			40
 
 		#define TAB_HEIGHT			24  // 16
 		#define TAB_LABEL_OFFSET	\
@@ -137,14 +141,14 @@
 
 		#define ORIGIN_PASSWORD   	(PASSWORD_X - PBOX_OFFS)	TABLE_Y
 		#define ORIGIN_HARDWARE    	(HARDWARE_X - PBOX_OFFS)	TABLE_Y
-		#define ORIGIN_SERVER 	   	(SERVER_X - PBOX_OFFS)	TABLE_Y
-		#define ORIGIN_MAP 		   	(MAP_X - PBOX_OFFS)		TABLE_Y
-		#define ORIGIN_PLAYER 	   	(PLAYER_X - PBOX_OFFS)	TABLE_Y
+		#define ORIGIN_SERVER 	   	(SERVER_X - PBOX_OFFS)		TABLE_Y
+		#define ORIGIN_MAP 		   	(MAP_X - PBOX_OFFS)			TABLE_Y
+		#define ORIGIN_PLAYER 	   	(PLAYER_X - PBOX_OFFS)		TABLE_Y
 		#define ORIGIN_TYPE 	   	(TYPE_X - PBOX_OFFS)		TABLE_Y
 		#define ORIGIN_VOICE 	   	(VOICE_X - PBOX_OFFS)		TABLE_Y
 		#define ORIGIN_PURE 	   	(PURE_X - PBOX_OFFS)		TABLE_Y
-		#define ORIGIN_MOD 		   	(MOD_X - PBOX_OFFS)		TABLE_Y
-		#define ORIGIN_PB			(PB_X - PBOX_OFFS)		TABLE_Y
+		#define ORIGIN_MOD 		   	(MOD_X - PBOX_OFFS)			TABLE_Y
+		#define ORIGIN_PB			(PB_X - PBOX_OFFS)			TABLE_Y
 		#define ORIGIN_PING 	   	(PING_X - PBOX_OFFS)		TABLE_Y
 
 		#define RECT_PASSWORD		ORIGIN_PASSWORD 	WIDTH_PASSWORD 		TABLE_HEIGHT
@@ -204,17 +208,17 @@
 			backcolor 		0 0 0 0
 			outlinecolor 	OPTIONS_HEADING_JOIN_COLOR
 			visible 		1
-			columns	11		(PASSWORD_X+6)	16				20
-							(HARDWARE_X+3)	16				10
-							SERVER_X		WIDTH_SERVER	240	// 22
-							MAP_X			WIDTH_MAP		64	// 25
-							PLAYER_X		WIDTH_PLAYER	10
-							TYPE_X			WIDTH_TYPE		40 	// 22
-							(VOICE_X+6)		16				14 	// 16 14
-							(PURE_X+6)		16				10
-							(MOD_X+6)		16				20
-							(PB_X+6)		WIDTH_PB		20
-							PING_X			WIDTH_PING		20
+			columns	11		(PASSWORD_X - 3)	16				20
+							(HARDWARE_X - 3)	16				10
+							SERVER_X			WIDTH_SERVER	240
+							MAP_X				WIDTH_MAP		64
+							PLAYER_X			WIDTH_PLAYER	10
+							TYPE_X				WIDTH_TYPE		40
+							(VOICE_X + 2)		16				14
+							(PURE_X + 2)		16				10
+							(MOD_X + 2)			16				20
+							(PB_X + 2)			WIDTH_PB		20
+							(PING_X + 2)		WIDTH_PING		20
 			doubleClick 	{ uiScript JoinServer }
 			execkeyint 		13	{ uiScript JoinServer }
 		}
@@ -250,7 +254,7 @@
 			name passwordicon
 			style WINDOW_STYLE_SHADER
 			rect ORIGIN_PASSWORD 16 16
-			origin 6 4//3 0
+			origin 2 4
 			background "hud_server_locked"
 			visible 1
 			decoration
@@ -284,7 +288,7 @@
 			name hardwareicon
 			style WINDOW_STYLE_SHADER
 			rect ORIGIN_HARDWARE 16 16
-			origin 6 4//3 0
+			origin 2 4
 			background "server_hardware_header"
 			visible 1
 			decoration
@@ -430,7 +434,7 @@
 			name voiceicon
 			style WINDOW_STYLE_SHADER
 			rect ORIGIN_VOICE 16 16
-			origin 6 4//3 0
+			origin 2 4
 			background "voice_on"
 			visible 1
 			decoration
@@ -463,7 +467,7 @@
 			name pureicon
 			style WINDOW_STYLE_SHADER
 			rect ORIGIN_PURE 16 16
-			origin 6 4
+			origin 2 4
 			background "hud_server_pure"
 			visible 1
 			decoration
@@ -497,7 +501,7 @@
 			name modicon
 			style WINDOW_STYLE_SHADER
 			rect ORIGIN_MOD 16 16
-			origin 6 4//2 0
+			origin 2 4
 			background "mod_header"
 			visible 1
 			decoration
@@ -531,7 +535,7 @@
 			name pbicon
 			style WINDOW_STYLE_SHADER
 			rect ORIGIN_PB 16 16
-			origin 6 4//2 0
+			origin 2 4
 			background "punkbusterlogo"
 			visible 1
 			decoration
@@ -568,7 +572,7 @@
 		#undef TABLE_HEIGHT
 		#define TABLE_HEIGHT	360
 
-		#define MAINMENU_LOWER_LAYOUT_OFFSET_X 	220
+		#define MAINMENU_LOWER_LAYOUT_OFFSET_X 	50
 
 		itemDef
 		{
@@ -604,7 +608,7 @@
 			textstyle		ITEM_TEXTSTYLE_NORMAL
 			textfont		UI_FONT_NORMAL
 			ownerdrawFlag	UI_SHOW_FAVORITESERVERS
-			rect			(-176 + MAINMENU_LOWER_LAYOUT_OFFSET_X) (-78 + SUBNAV_HEIGHT) 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 140 420 120 14
+			rect			(-146 + MAINMENU_LOWER_LAYOUT_OFFSET_X) (-78 + SUBNAV_HEIGHT) 92 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM // 140 420 120 14
 			textalign		ITEM_ALIGN_CENTER
 			textaligny		18
 			forecolor		LAYOUT_TEXTCOLOR
