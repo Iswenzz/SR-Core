@@ -544,11 +544,6 @@ isFxUnlocked(num)
 	return isUnlocked(level.assets["fx"], num);
 }
 
-isThemeUnlocked(num)
-{
-	return isUnlocked(level.assets["theme"], num);
-}
-
 isUnlocked(assets, num, vip)
 {
 	if (num > assets.size || num <= -1)

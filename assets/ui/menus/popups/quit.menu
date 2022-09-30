@@ -20,13 +20,13 @@
         blurWorld                 7.0
         style					  WINDOW_STYLE_EMPTY
 
-        onOpen						{ focusFirst;}
-        onClose						{ scriptMenuResponse back ;}
-        onEsc 						{ scriptMenuResponse back ;}
+        onOpen						{ focusFirst; }
+        onClose						{ scriptMenuResponse back; }
+        onEsc 						{ scriptMenuResponse back; }
         focusColor					1 1 1 1
         disableColor				0 0 0 0
-        visible 0
-		onEsc						{ scriptMenuResponse "back";close self}
+        visible 					0
+		onEsc						{ scriptMenuResponse "back"; close self; }
 
 		itemDef
 		{
@@ -73,7 +73,7 @@
 		{
 			name			"yes_button"
 			text			"Yes"
-            style           WINDOW_STYLE_SHADER
+            style           1
             border          WINDOW_BORDER_FULL
             borderSize      1
             background 		black
@@ -87,7 +87,7 @@
 			textalign		1
 			textaligny		22
 			backcolor		1 1 1 0
-			borderColor 	1.00 1.00 1.00 0.06
+			borderColor 	1 1 1 0.06
 			textstyle		3
 			mouseEnter		{play "mouse_over";}
 			mouseExit		{}
@@ -99,7 +99,7 @@
 		{
 			name			"no_button"
 			text			"No"
-			style           WINDOW_STYLE_SHADER
+			style           1
             border          WINDOW_BORDER_FULL
             borderSize      1
             background 		black
@@ -108,7 +108,6 @@
 			type			1
 			rect			0 0 200 30
 			origin			220 290
-			style			1
 			textfont		1
 			textscale		0.34
 			textalign		1

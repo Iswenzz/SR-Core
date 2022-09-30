@@ -60,7 +60,7 @@
 		{
 			style			WINDOW_STYLE_SHADER
 			rect			FULLSCREEN_WIDE
-			background		sr_glitch
+			background		sr_grid
 			visible			1
 			decoration
 		}

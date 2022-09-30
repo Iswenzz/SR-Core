@@ -12,6 +12,7 @@ initShaders()
 	precacheShader("sr_glitch");
 	precacheShader("sr_psy_glass");
 	precacheShader("sr_psy_edge");
+	precacheShader("sr_grid");
 
 	precacheModel("x_mirror");
 	precacheModel("x_volumetric_clouds");

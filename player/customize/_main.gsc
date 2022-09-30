@@ -10,7 +10,6 @@ initCustomize()
 	sr\player\customize\_knife_skin::main();
 	sr\player\customize\_knife::main();
 	sr\player\customize\_spray::main();
-	sr\player\customize\_theme::main();
 	sr\player\customize\_weapon::main();
 
 	menu("sr_customize_category", "open", ::menu_Open);
@@ -124,7 +123,6 @@ clean()
 
 	self.customize_category = "null";
 	self.customize_page = 0;
-	self setClientDvar("sr_customize_theme", "0");
 	self setClientDvar("sr_customize_page", self.customize_page);
 }
 
