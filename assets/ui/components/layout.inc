@@ -584,22 +584,22 @@
 		}
 
 #define BUTTON(itemIndex, textArg, actionArg) \
-		LAYOUT_VIS(itemIndex, textArg, actionArg, 1)
+		BUTTON_VIS(itemIndex, textArg, actionArg, 1)
 
-#define LAYOUT_NOHI(itemIndex, textArg, actionArg) \
-		LAYOUT_VIS_NOHI(itemIndex, textArg, actionArg, 1)
+#define BUTTON_NOHI(itemIndex, textArg, actionArg) \
+		BUTTON_VIS_NOHI(itemIndex, textArg, actionArg, 1)
 
-#define LAYOUT_VIS(itemIndex, textArg, actionArg, visArg) \
+#define BUTTON_VIS(itemIndex, textArg, actionArg, visArg) \
 		BACKGROUND(itemIndex, visArg) \
 		HIGHLIGHT(itemIndex, visArg) \
-		LAYOUT_VIS_NOHI(itemIndex, textArg, actionArg, visArg)
+		BUTTON_VIS_NOHI(itemIndex, textArg, actionArg, visArg)
 
-#define LAYOUT_VIS_ADV(itemIndex, textArg, actionArg, visArg, vis) \
+#define BUTTON_VIS_ADV(itemIndex, textArg, actionArg, visArg, vis) \
 		BACKGROUND(itemIndex, visArg) \
 		HIGHLIGHT(itemIndex, vis) \
-		LAYOUT_VIS_NOHI(itemIndex, textArg, actionArg, visArg)
+		BUTTON_VIS_NOHI(itemIndex, textArg, actionArg, visArg)
 
-#define LAYOUT_VIS_NOHI(itemIndex, textArg, actionArg, visArg) \
+#define BUTTON_VIS_NOHI(itemIndex, textArg, actionArg, visArg) \
 		BUTTON_FOCUS_VIS_NOHI(itemIndex, textArg, actionArg, ;, ;, visArg)
 
 #define BUTTON_FOCUS(itemIndex, textArg, actionArg, onFocusArg, leaveFocusArg) \
@@ -658,7 +658,7 @@
 			SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg) \
 		} \
 
-#define DLAYOUT_VIS_NOHI(itemIndex, textArg, visArg) \
+#define DBUTTON_VIS_NOHI(itemIndex, textArg, visArg) \
 		itemDef \
 		{ \
 			type			ITEM_TYPE_TEXT \
@@ -674,7 +674,7 @@
 			decoration \
 		} \
 
-#define DLAYOUT_VIS(itemIndex, textArg, visArg) \
+#define DBUTTON_VIS(itemIndex, textArg, visArg) \
 		BACKGROUND(itemIndex, visArg) \
 		itemDef \
 		{ \
@@ -855,7 +855,7 @@
 			SCRIPTS_ALL(itemIndex, actionArg, onFocusArg, leaveFocusArg) \
 		}
 
-#define	LAYOUT_STATUS_COLOR_VIS(itemIndex, textArg, colorArg, visArg) \
+#define	STATUS_COLOR_VIS(itemIndex, textArg, colorArg, visArg) \
 		itemDef \
 		{ \
 			type			ITEM_TYPE_TEXT \
@@ -939,6 +939,9 @@
 		BUTTON_DVAREDIT_VIS(itemIndex, textArg, dvarArg, max_chars, max_paintchars, actionArg, 1)
 
 #define BUTTON_DVAREDIT_VIS(itemIndex, textArg, dvarArg, max_chars, max_paintchars, actionArg, visArg) \
+	BUTTON_DVAREDIT_VIS_EX(itemIndex, textArg, dvarArg, max_chars, max_paintchars, actionArg, visArg, ;)
+
+#define BUTTON_DVAREDIT_VIS_EX(itemIndex, textArg, dvarArg, max_chars, max_paintchars, actionArg, visArg, extraArg) \
 		BACKGROUND(itemIndex, 1) \
 		HIGHLIGHT(itemIndex, 1) \
 		BUTTON_CAPTION(itemIndex, textArg) \
@@ -958,6 +961,7 @@
 			maxChars		max_chars \
 			maxpaintchars	max_paintchars \
 			SCRIPTS_ACTION(itemIndex, actionArg) \
+			extraArg \
 		}
 
 #define BUTTON_DVARSLIDER(itemIndex, textArg, dvarArg, defaultArg, minArg, maxArg, actionArg) \

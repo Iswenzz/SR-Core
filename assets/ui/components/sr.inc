@@ -265,7 +265,7 @@
 	}
 
 #define SR_BUTTON_LEFT(itemIndex, textArg, actionArg, visArg) \
-		LAYOUT_VIS(itemIndex, textArg, actionArg, visArg) \
+		BUTTON_VIS(itemIndex, textArg, actionArg, visArg) \
 		itemDef \
 		{ \
 			style			WINDOW_STYLE_FILLED \

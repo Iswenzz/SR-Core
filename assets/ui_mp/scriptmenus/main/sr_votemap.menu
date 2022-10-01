@@ -1,0 +1,165 @@
+#define LAYOUT_NAME				"votemap"
+#define LAYOUT_Y_COUNT			1
+#define LAYOUT_X_START			20
+#define LAYOUT_Y_START			68
+#define LAYOUT_X_SPACING		199
+#define LAYOUT_SIZE_X			198
+#define LAYOUT_TEXT_OFFSET_X 	0
+#define LAYOUT_TEXTALIGN		ITEM_ALIGN_MIDDLE_CENTER
+#define BUTTON_SIZE_X			198
+#define SR_HEADER_TEXTALIGN 	ITEM_ALIGN_MIDDLE_CENTER
+#define SR_HEADER_OFFSET_X		0
+#define SR_WINDOW_HEADER_H		40
+#define HEADER_HALF				(SR_WINDOW_HEADER_H / 2)
+#define FOOTER_H				30
+#define BOTTOM_Y				(SR_WINDOW_H - FOOTER_H)
+
+#include "ui/components/base.inc"
+
+#define ENTRY(id, script) \
+	BUTTON_VIS((id + 1), dvarString("sr_votemap_" + id), scriptMenuResponse script;, when(dvarString("sr_votemap_" + id) != ""))
+
+{
+	menuDef
+	{
+		SR_WINDOW("sr_votemap")
+
+		focusColor	COLOR_FOCUSED
+
+		onEsc
+		{
+			close self;
+		}
+
+		SR_FRAME_HEADER("Vote", 0, 0, SR_WINDOW_W, HEADER_HALF, 0)
+		SR_FRAME_HEADER(dvarString("sr_vote_selected"), 0, HEADER_HALF, SR_WINDOW_W, HEADER_HALF, 0)
+
+		BUTTON_DVAREDIT_VIS_EX(1, "", "sr_vote_search", 30, 30, scriptMenuResponse "search";, 1, textalignx LAYOUT_TEXT_OFFSET_X)
+		SR_FRAME_BORDER(LAYOUT_X_START, (LAYOUT_Y_START + 22), BUTTON_SIZE_X, 2)
+
+		#undef LAYOUT_Y_START
+		#define LAYOUT_Y_START			110
+
+		#undef LAYOUT_Y_COUNT
+		#define LAYOUT_Y_COUNT			8
+
+		#undef LAYOUT_NAME
+		#define LAYOUT_NAME				"entry"
+
+		ENTRY(0, "select:0")
+		ENTRY(1, "select:1")
+		ENTRY(2, "select:2")
+		ENTRY(3, "select:3")
+		ENTRY(4, "select:4")
+		ENTRY(5, "select:5")
+		ENTRY(6, "select:6")
+		ENTRY(7, "select:7")
+
+		ENTRY(8, "select:8")
+		ENTRY(9, "select:9")
+		ENTRY(10, "select:10")
+		ENTRY(11, "select:11")
+		ENTRY(12, "select:12")
+		ENTRY(13, "select:13")
+		ENTRY(14, "select:14")
+		ENTRY(15, "select:15")
+
+		ENTRY(16, "select:16")
+		ENTRY(17, "select:17")
+		ENTRY(18, "select:18")
+		ENTRY(19, "select:19")
+		ENTRY(20, "select:20")
+		ENTRY(21, "select:21")
+		ENTRY(22, "select:22")
+		ENTRY(23, "select:23")
+
+		#undef LAYOUT_NAME
+		#define LAYOUT_NAME			"call"
+
+		#undef LAYOUT_Y_START
+		#define LAYOUT_Y_START		BOTTOM_Y + 5
+
+		#undef LAYOUT_Y_COUNT
+		#define LAYOUT_Y_COUNT 		1
+
+		#undef LAYOUT_X_SPACING
+		#define LAYOUT_X_SPACING	61
+
+		#undef LAYOUT_SIZE_X
+		#define LAYOUT_SIZE_X		60
+
+		#undef BUTTON_SIZE_X
+		#define BUTTON_SIZE_X		60
+
+		#undef LAYOUT_HORIZONTAL_ALIGN
+		#define LAYOUT_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_DEFAULT
+
+		SR_FRAME_HEADER("", 0, BOTTOM_Y, SR_WINDOW_W, FOOTER_H, 0)
+		SR_FRAME_BORDER(0, BOTTOM_Y, SR_WINDOW_W, 2)
+
+		BUTTON(1, "^8Call Vote", scriptMenuResponse "vote:map";)
+		BUTTON(2, "^8End Map", scriptMenuResponse "vote:endmap";)
+		BUTTON(3, "^8SR#C & KC", scriptMenuResponse "vote:src";)
+		BUTTON(4, "^8Time +10", scriptMenuResponse "vote:add10";)
+		BUTTON(5, "^8Time +20", scriptMenuResponse "vote:add20";)
+
+		#define MARGIN 245
+
+		itemdef
+		{
+			name			"prev"
+			rect			(MARGIN + 20) (BOTTOM_Y - 45) 30 30 0 0
+			style			WINDOW_STYLE_SHADER
+			background		"sr_prev"
+			type			ITEM_TYPE_BUTTON
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			visible			1
+
+			mouseEnter
+			{
+				play "mouse_over";
+			}
+
+			action
+			{
+				play "mouse_click";
+				scriptMenuResponse "prev";
+			}
+		}
+
+		itemdef
+		{
+			name			"next"
+			rect			(MARGIN + 100) (BOTTOM_Y - 45) 30 30 0 0
+			style			WINDOW_STYLE_SHADER
+			background		"sr_next"
+			type			ITEM_TYPE_BUTTON
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			visible			1
+
+			mouseEnter
+			{
+				play "mouse_over";
+			}
+
+			action
+			{
+				play "mouse_click";
+				scriptMenuResponse "next";
+			}
+		}
+
+		itemdef
+		{
+			name			"pageindex"
+			rect			(MARGIN + 65) (BOTTOM_Y - 45) 20 20 0 0
+			style			WINDOW_STYLE_EMPTY
+			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textalign		ITEM_ALIGN_MIDDLE_CENTER
+			textaligny		4
+			visible			1
+			exp				text("^8" + dvarString("sr_vote_page"))
+			decoration
+		}
+	}
+}

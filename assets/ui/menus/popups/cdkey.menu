@@ -119,7 +119,7 @@
 		BUTTON(5, "@MENU_VERIFY", uiScript verifyCDKey; setlocalvarint ui_show_cancel 0;)
 		BACKGROUND(6, 1)
 		HIGHLIGHT(6, 1)
-		LAYOUT_VIS_NOHI(6, "@MENU_CANCEL", close self;, when(localvarint(ui_show_cancel));)
-		LAYOUT_VIS_NOHI(6, "@MENU_CLOSE", close self;, when(localvarint(ui_show_cancel) == 0);)
+		BUTTON_VIS_NOHI(6, "@MENU_CANCEL", close self;, when(localvarint(ui_show_cancel));)
+		BUTTON_VIS_NOHI(6, "@MENU_CLOSE", close self;, when(localvarint(ui_show_cancel) == 0);)
 	}
 }
