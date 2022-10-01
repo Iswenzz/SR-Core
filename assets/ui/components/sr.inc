@@ -127,7 +127,7 @@
 		decoration \
 	}
 
-#define SR_FRAME_HEADER(textArg, x, y, w, h) \
+#define SR_FRAME_HEADER(textArg, x, y, w, h, o) \
 	itemdef \
 	{ \
 		name			"frameHeader" \
@@ -138,10 +138,9 @@
 		type			0 \
 		exp				text(textArg) \
 		textscale		0.35 \
-		textstyle		SR_HEADER_TEXTALIGN \
-		textalign		0 \
-		textalignx		6 \
-		textaligny		21 \
+		textstyle		0 \
+		textalign		SR_HEADER_TEXTALIGN \
+		textalignx		o \
 		decoration \
 	}
 
