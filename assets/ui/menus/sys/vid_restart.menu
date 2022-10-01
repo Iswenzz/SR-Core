@@ -1,5 +1,7 @@
 #define LAYOUT_NAME				"vid_restart"
 #define	LAYOUT_TEXTALIGN		ITEM_ALIGN_MIDDLE_CENTER
+#define LAYOUT_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_CENTER
+#define LAYOUT_VERTICAL_ALIGN	VERTICAL_ALIGN_CENTER
 #define LAYOUT_TEXT_OFFSET_X	0
 #define LAYOUT_X_START			0
 #define LAYOUT_Y_START			0
@@ -21,7 +23,7 @@
 
 	menuDef
 	{
-		IMPROVED_POPUP_SETUP(vid_restart_popmenu_listen, 2, 230, 170, ;, 1)
+		CENTER_POPUP_SETUP(vid_restart_popmenu_listen, 2, ;, 1)
 		POPMENU_SUBTITLE("Unable to apply settings while connected to a server.")
 		BUTTON(2, "@MENU_OK", close self;)
 	}
@@ -31,7 +33,7 @@
 
 	menuDef
 	{
-		IMPROVED_POPUP_SETUP(vid_restart_popmenu, 3, 230, 170, ;, 1)
+		CENTER_POPUP_SETUP(vid_restart_popmenu, 3, ;, 1)
 
 		POPMENU_TITLE("@MENU_APPLY_SETTINGS")
 		BUTTON(2, "@MENU_YES", LOCAL_SETTING_ACTION)

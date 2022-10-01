@@ -113,10 +113,6 @@
 #define	LAYOUT_TEXTALIGN			ITEM_ALIGN_MIDDLE_LEFT
 #endif
 
-#ifndef ALT_HINT_X_OFFSET
-#define ALT_HINT_X_OFFSET			-16
-#endif
-
 #ifndef SECTION_X_OFFSET
 #define SECTION_X_OFFSET			0
 #endif
@@ -1103,7 +1099,7 @@
 		itemDef \
 		{ \
 			type			ITEM_TYPE_BUTTON \
-			rect			430 422 100 16 LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
+			rect			430 450 100 16 LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 			text			textArg \
 			textfont		UI_FONT_NORMAL \
 			textscale		TEXTSIZE_DEFAULT \
@@ -1125,7 +1121,7 @@
 		itemDef \
 		{ \
 			type			ITEM_TYPE_BUTTON \
-			rect			270 422 100 16 LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
+			rect			270 450 100 16 LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 			text			textArg \
 			textfont		UI_FONT_NORMAL \
 			textscale		TEXTSIZE_DEFAULT \
@@ -1161,7 +1157,7 @@
 		itemDef \
 		{ \
 			name			keyBindStatus \
-			rect			-190 -8 300 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM \
+			rect			-190 -8 350 20 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_BOTTOM \
 			ownerdraw		UI_KEYBINDSTATUS \
 			textstyle		ITEM_TEXTSTYLE_NORMAL \
 			style			WINDOW_STYLE_FILLED \

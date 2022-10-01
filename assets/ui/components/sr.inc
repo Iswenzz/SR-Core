@@ -137,6 +137,46 @@
 		decoration \
 	}
 
+#define SR_BUTTON_KV(itemIndex, keyArg, valueArg, actionArg) \
+	itemdef \
+	{ \
+		name			"textKey" \
+		style			1 \
+		backcolor		0 0 0 0.4 \
+		visible			1 \
+		type			0 \
+		rect			LAYOUT_X(itemIndex) LAYOUT_Y(itemIndex) SR_KEY_SIZE_X LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
+		exp				text(keyArg); \
+		textfont		LAYOUT_TEXTFONT \
+		textscale		LAYOUT_TEXTSIZE \
+		textstyle		LAYOUT_TEXTSTYLE \
+		textAlign		SR_TEXTALIGN_KEY \
+		textAlignX		SR_KEY_OFFSET_X \
+		forecolor		LAYOUT_TEXTCOLOR \
+		decoration \
+	} \
+	itemdef \
+	{ \
+		name			"textValue" \
+		style			1 \
+		backcolor		0 0 0 0.4 \
+		visible			1 \
+		type			ITEM_TYPE_BUTTON \
+		rect			(LAYOUT_X(itemIndex) + SR_KEY_SIZE_X + 2) LAYOUT_Y(itemIndex) SR_VALUE_SIZE_X LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
+		exp				text(valueArg); \
+		textfont		LAYOUT_TEXTFONT \
+		textscale		LAYOUT_TEXTSIZE \
+		textstyle		LAYOUT_TEXTSTYLE \
+		textAlign		SR_TEXTALIGN_VALUE \
+		textAlignX		SR_VALUE_OFFSET_X \
+		forecolor		LAYOUT_TEXTCOLOR \
+		action \
+		{ \
+			play "mouse_click"; \
+			actionArg; \
+		} \
+	}
+
 #define SR_TEXT_KV(itemIndex, keyArg, valueArg) \
 	itemdef \
 	{ \

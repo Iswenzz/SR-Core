@@ -28,9 +28,6 @@
 #undef ACCEPT_BUTTON_OFFSET_Y
 #define	ACCEPT_BUTTON_OFFSET_Y		1
 
-#undef ALT_HINT_X_OFFSET
-#define ALT_HINT_X_OFFSET			-(LAYOUT_SIZE_Y)
-
 #undef NEW_X_OFFSET
 #define NEW_X_OFFSET				2
 
