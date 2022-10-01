@@ -168,12 +168,15 @@
 	}
 
 #define SR_BUTTON_KV(itemIndex, keyArg, valueArg, actionArg) \
+	SR_BUTTON_KV_VIS(itemIndex, keyArg, valueArg, actionArg, 1)
+
+#define SR_BUTTON_KV_VIS(itemIndex, keyArg, valueArg, actionArg, visArg) \
 	itemdef \
 	{ \
 		name			"textKey" \
 		style			1 \
 		backcolor		0 0 0 0.4 \
-		visible			1 \
+		visible			visArg \
 		type			0 \
 		rect			LAYOUT_X(itemIndex) LAYOUT_Y(itemIndex) SR_KEY_SIZE_X LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 		exp				text(keyArg); \
@@ -190,7 +193,7 @@
 		name			"textValue" \
 		style			1 \
 		backcolor		0 0 0 0.4 \
-		visible			1 \
+		visible			visArg \
 		type			ITEM_TYPE_BUTTON \
 		rect			(LAYOUT_X(itemIndex) + SR_KEY_SIZE_X + 2) LAYOUT_Y(itemIndex) SR_VALUE_SIZE_X LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 		exp				text(valueArg); \

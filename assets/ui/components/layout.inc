@@ -260,7 +260,7 @@
 			rect			LAYOUT_ORIGIN(itemIndex) (BUTTON_SIZE_X) LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 			forecolor		1 1 1 0 \
 			backColor       0 0 0 0.1 \
-			visible			1 \
+			visible			visArg \
 			decoration \
 		} \
 		itemDef \
@@ -269,7 +269,7 @@
 			rect			LAYOUT_ORIGIN(itemIndex) (BUTTON_SIZE_X) LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 			forecolor		1 1 1 0 \
 			backColor       0 0 0 0.1 \
-			visible			1 \
+			visible			visArg \
 			decoration \
 		} \
 
@@ -591,7 +591,7 @@
 
 #define LAYOUT_VIS(itemIndex, textArg, actionArg, visArg) \
 		BACKGROUND(itemIndex, visArg) \
-		HIGHLIGHT(itemIndex, 1) \
+		HIGHLIGHT(itemIndex, visArg) \
 		LAYOUT_VIS_NOHI(itemIndex, textArg, actionArg, visArg)
 
 #define LAYOUT_VIS_ADV(itemIndex, textArg, actionArg, visArg, vis) \

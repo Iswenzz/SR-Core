@@ -48,7 +48,7 @@ build()
 
 	eye = self sr\utils\_math::eyePos();
     forward = anglesToForward(self getPlayerAngles()) * 35;
-	right = anglesToRight(self getPlayerAngles()) * 13;
+	right = anglesToRight(self getPlayerAngles()) * 11;
 
     if (isDefined(self.customize_preview))
         self.customize_preview.origin = forward + right + eye;

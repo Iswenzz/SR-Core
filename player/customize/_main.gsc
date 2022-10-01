@@ -2,7 +2,7 @@
 
 initCustomize()
 {
-	level.customize_max_entries = 10;
+	level.customize_max_entries = 16;
 
 	sr\player\customize\_character::main();
 	sr\player\customize\_fx::main();
@@ -146,7 +146,7 @@ movePreview(ent)
 
 	eye = self sr\utils\_math::eyePos();
     forward = anglesToForward(self getPlayerAngles()) * 70;
-	right = anglesToRight(self getPlayerAngles()) * 50;
+	right = anglesToRight(self getPlayerAngles()) * 40;
 	left = (anglesToRight(self getPlayerAngles()) * 10) * -1;
 
 	oriRight = forward + right + eye;
