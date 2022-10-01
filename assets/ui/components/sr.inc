@@ -5,16 +5,24 @@
 #define SR_ALIGN_BOTTOM_CENTER 		HORIZONTAL_ALIGN_CENTER 	VERTICAL_ALIGN_BOTTOM
 #define SR_ALIGN_BOTTOM_RIGHT 		HORIZONTAL_ALIGN_RIGHT 		VERTICAL_ALIGN_BOTTOM
 
-#define SR_WINDOW_X 0
-#define SR_WINDOW_Y 35
-#define SR_WINDOW_W 640
-#define SR_WINDOW_H 410
+#define SR_WINDOW_X 		0
+#define SR_WINDOW_Y 		35
+#define SR_WINDOW_W 		640
+#define SR_WINDOW_H 		410
 
-#define SR_WINDOW_ORIGIN SR_WINDOW_X SR_WINDOW_Y
-#define SR_WINDOW_SIZE SR_WINDOW_W SR_WINDOW_H
+#define SR_WINDOW_ORIGIN 	SR_WINDOW_X SR_WINDOW_Y
+#define SR_WINDOW_SIZE 		SR_WINDOW_W SR_WINDOW_H
 
-#define SR_WINDOW_RECT SR_WINDOW_ORIGIN SR_WINDOW_SIZE SR_ALIGN_TOP_LEFT
-#define SR_WINDOW_HEADER_H 25
+#define SR_WINDOW_RECT 		SR_WINDOW_ORIGIN SR_WINDOW_SIZE SR_ALIGN_TOP_LEFT
+#define SR_WINDOW_HEADER_H 	25
+
+#define SR_KEY_SIZE_X 		200
+#define SR_KEY_OFFSET_X		6
+#define SR_TEXTALIGN_KEY	ITEM_ALIGN_MIDDLE_LEFT
+
+#define SR_VALUE_SIZE_X		50
+#define SR_VALUE_OFFSET_X	0
+#define SR_TEXTALIGN_VALUE	ITEM_ALIGN_MIDDLE_CENTER
 
 #define SR_WINDOW_CONTENT_RECT \
 	SR_WINDOW_X \
@@ -74,18 +82,105 @@
 		decoration \
 	}
 
+#define SR_FRAME_SECONDARY(x, y, w, h) \
+	itemdef \
+	{ \
+		name			"frame" \
+		rect			x y w h SR_ALIGN_TOP_LEFT \
+		style			1 \
+		backcolor		0 0 0 0.4 \
+		visible			1 \
+		border			6 \
+		bordersize		1 \
+		bordercolor		0.5 0.1 1 1 \
+		decoration \
+	}
+
+#define SR_FRAME_HEADER(textArg, x, y, w, h) \
+	itemdef \
+	{ \
+		name			"frameHeader" \
+		rect			x y w h SR_ALIGN_TOP_LEFT \
+		style			1 \
+		backcolor		0 0 0 0.5 \
+		visible			1 \
+		type			0 \
+		exp				text(textArg) \
+		textscale		0.35 \
+		textstyle		0 \
+		textalign		0 \
+		textalignx		6 \
+		textaligny		21 \
+		decoration \
+	}
+
 #define SR_WINDOW_CONTENT(menuName) \
 	name menuName \
 	rect SR_WINDOW_CONTENT_RECT
 
-#define SR_BUTTON_LEFT(itemIndex, textArg, actionArg) \
-		LAYOUT_VIS(itemIndex, textArg, actionArg, 1) \
+#define SR_TEXT(itemIndex, textArg) \
+	itemdef \
+	{ \
+		name			"text" \
+		style			1 \
+		backcolor		0 0 0 0.4 \
+		visible			1 \
+		type			0 \
+		rect			LAYOUT_RECT(itemIndex) \
+		exp				text(textArg); \
+		textfont		LAYOUT_TEXTFONT \
+		textscale		LAYOUT_TEXTSIZE \
+		textstyle		LAYOUT_TEXTSTYLE \
+		textAlign		LAYOUT_TEXTALIGN \
+		textAlignX		LAYOUT_TEXT_OFFSET_X \
+		forecolor		LAYOUT_TEXTCOLOR \
+		decoration \
+	}
+
+#define SR_TEXT_KV(itemIndex, keyArg, valueArg) \
+	itemdef \
+	{ \
+		name			"textKey" \
+		style			1 \
+		backcolor		0 0 0 0.4 \
+		visible			1 \
+		type			0 \
+		rect			LAYOUT_X(itemIndex) LAYOUT_Y(itemIndex) SR_KEY_SIZE_X LAYOUT_SIZE_Y SR_ALIGN_TOP_LEFT \
+		exp				text(keyArg); \
+		textfont		LAYOUT_TEXTFONT \
+		textscale		LAYOUT_TEXTSIZE \
+		textstyle		LAYOUT_TEXTSTYLE \
+		textAlign		SR_TEXTALIGN_KEY \
+		textAlignX		SR_KEY_OFFSET_X \
+		forecolor		LAYOUT_TEXTCOLOR \
+		decoration \
+	} \
+	itemdef \
+	{ \
+		name			"textValue" \
+		style			1 \
+		backcolor		0 0 0 0.4 \
+		visible			1 \
+		type			0 \
+		rect			(LAYOUT_X(itemIndex) + SR_KEY_SIZE_X + 2) LAYOUT_Y(itemIndex) SR_VALUE_SIZE_X LAYOUT_SIZE_Y SR_ALIGN_TOP_LEFT \
+		exp				text(valueArg); \
+		textfont		LAYOUT_TEXTFONT \
+		textscale		LAYOUT_TEXTSIZE \
+		textstyle		LAYOUT_TEXTSTYLE \
+		textAlign		SR_TEXTALIGN_VALUE \
+		textAlignX		SR_VALUE_OFFSET_X \
+		forecolor		LAYOUT_TEXTCOLOR \
+		decoration \
+	}
+
+#define SR_BUTTON_LEFT(itemIndex, textArg, actionArg, visArg) \
+		LAYOUT_VIS(itemIndex, textArg, actionArg, visArg) \
 		itemDef \
 		{ \
 			style			WINDOW_STYLE_FILLED \
 			rect			LAYOUT_ORIGIN(itemIndex) 2 LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 			forecolor		1 1 1 0 \
 			backColor       0.5 0.1 1 1 \
-			visible			1 \
+			visible			visArg \
 			decoration \
 		}

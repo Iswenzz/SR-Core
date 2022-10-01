@@ -29,12 +29,14 @@
 
 			setLocalVarBool ui_maincontent_header "1";
 			setLocalVarBool ui_maincontent_update "1";
+			setLocalVarBool ui_hideBack "1";
 		}
 
 		onClose
 		{
 			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
+			setLocalVarBool ui_hideBack "0";
 		}
 
 		onESC

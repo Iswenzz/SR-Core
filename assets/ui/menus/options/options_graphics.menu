@@ -23,7 +23,6 @@
 			setLocalVarBool ui_showApply 0;
 			setLocalVarBool ui_showTextureApply 0;
 
-			setLocalVarBool ui_hideBack "0";
 			setLocalVarBool ui_maincontent_header "1";
 			setLocalVarBool ui_maincontent_update "1";
 
@@ -40,7 +39,6 @@
 
 		onClose
 		{
-			setLocalVarBool ui_hideBack 0;
 			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
 

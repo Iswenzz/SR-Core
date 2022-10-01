@@ -22,21 +22,19 @@
 
 			exec "setfromdvar ui_name name";
 
-			setLocalVarBool ui_hideBack "0";
 			setLocalVarBool ui_maincontent_header "1";
 			setLocalVarBool ui_maincontent_update "1";
 		}
 
 		onClose
 		{
-			setLocalVarBool ui_hideBack 0;
+			setLocalVarBool ui_maincontent_header "0";
+			setLocalVarBool ui_maincontent_update "0";
 		}
 
 		onESC
 		{
 			close self;
-			setLocalVarBool ui_maincontent_header "0";
-			setLocalVarBool ui_maincontent_update "0";
 		}
 
 		BUTTON_BIND(22, "@MENU_VOTE_YES", "vote yes", ;)

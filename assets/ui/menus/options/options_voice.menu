@@ -20,21 +20,19 @@
 			CLOSE_MODS;
 			CLOSE_PROFILE;
 
-			setLocalVarBool ui_hideBack "0";
 			setLocalVarBool ui_maincontent_header "1";
 			setLocalVarBool ui_maincontent_update "1";
 		}
 
 		onClose
 		{
-			setLocalVarBool ui_hideBack 0;
+			setLocalVarBool ui_maincontent_header "0";
+			setLocalVarBool ui_maincontent_update "0";
 		}
 
 		onESC
 		{
 			close self;
-			setLocalVarBool ui_maincontent_header "0";
-			setLocalVarBool ui_maincontent_update "0";
 		}
 
 		BUTTON_DVARFLOATLIST(22, "@MENU_VOICE_CHAT_ENABLE", cl_voice, { "@MENU_ON" 1 "@MENU_OFF" 0 }, ;)

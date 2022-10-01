@@ -9,7 +9,6 @@
 #define ui_maincontent_header 		1
 #define ui_maincontent_header_X 	0
 #define ui_maincontent_header_Y 	0
-#define ui_hideback 				1
 #define ui_showTextureApply 		0
 
 #include "ui/components/base.inc"
@@ -124,7 +123,7 @@
 		#define CLEARUIHINT	exec "set ui_hint_text @MP_NULL"
 
 		#undef LAYOUT_Y_START
-		#define LAYOUT_Y_START		60
+		#define LAYOUT_Y_START		100
 
 		#undef LAYOUT_Y_SPACING
 		#define LAYOUT_Y_SPACING	26
@@ -135,9 +134,9 @@
 		#undef BUTTON_SIZE_X
 		#define BUTTON_SIZE_X		200
 
-		SR_BUTTON_LEFT(1, "Speedrun", exec "connect iswenzz.com:28960";)
-		SR_BUTTON_LEFT(2, "Deathrun", exec "connect iswenzz.com:28962";)
-		SR_BUTTON_LEFT(3, "Battle Royale", exec "connect iswenzz.com:28964";)
+		SR_BUTTON_LEFT(1, "Speedrun", exec "connect iswenzz.com:28960";, when(!localvarBool(ui_hideBack)))
+		SR_BUTTON_LEFT(2, "Deathrun", exec "connect iswenzz.com:28962";, when(!localvarBool(ui_hideBack)))
+		SR_BUTTON_LEFT(3, "Battle Royale", exec "connect iswenzz.com:28964";, when(!localvarBool(ui_hideBack)))
 
 		itemDef
 		{

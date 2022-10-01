@@ -45,6 +45,7 @@
 
 			setLocalVarBool ui_maincontent_header "1";
 			setLocalVarBool ui_maincontent_update "1";
+			setLocalVarBool ui_hideBack "1";
 
 			uiScript 		loadArenas;
 		}
@@ -53,6 +54,7 @@
 		{
 			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
+			setLocalVarBool ui_hideBack "0";
 		}
 
 		onEsc

@@ -23,7 +23,7 @@
 			CLOSE_CREATE_SERVER;
 			CLOSE_PROFILE;
 
-			setLocalVarBool ui_hideBack 0;
+			setLocalVarBool ui_hideBack "1";
 			setLocalVarBool ui_maincontent_header "1";
 			setLocalVarBool ui_maincontent_update "1";
 
@@ -32,7 +32,7 @@
 
 		onClose
 		{
-			setLocalVarBool ui_hideBack 0;
+			setLocalVarBool ui_hideBack "0";
 		}
 
 		onESC

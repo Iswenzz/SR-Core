@@ -27,6 +27,7 @@
 
 			setLocalVarBool ui_maincontent_header "1";
 			setLocalVarBool ui_maincontent_update "1";
+			setLocalVarBool ui_hideBack "1";
 
 			setdvar ui_separator_show "1";
 			setdvar ui_version_show "0";
@@ -42,6 +43,7 @@
 		{
 			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
+			setLocalVarBool ui_hideBack "0";
 
 			setdvar ui_separator_show "1";
 			setdvar ui_version_show "1";
