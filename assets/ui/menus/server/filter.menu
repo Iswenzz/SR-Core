@@ -38,5 +38,4 @@
 		BUTTON(12, "@MENU_OK", close self;)
 		BUTTON(13, "@MENU_RESET", exec "exec default_filter.cfg";)
 	}
-
 }

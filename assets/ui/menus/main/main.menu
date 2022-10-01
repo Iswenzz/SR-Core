@@ -123,6 +123,22 @@
 
 		#define CLEARUIHINT	exec "set ui_hint_text @MP_NULL"
 
+		#undef LAYOUT_Y_START
+		#define LAYOUT_Y_START		60
+
+		#undef LAYOUT_Y_SPACING
+		#define LAYOUT_Y_SPACING	26
+
+		#undef LAYOUT_SIZE_X
+		#define LAYOUT_SIZE_X		200
+
+		#undef BUTTON_SIZE_X
+		#define BUTTON_SIZE_X		200
+
+		SR_BUTTON_LEFT(1, "Speedrun", exec "connect iswenzz.com:28960";)
+		SR_BUTTON_LEFT(2, "Deathrun", exec "connect iswenzz.com:28962";)
+		SR_BUTTON_LEFT(3, "Battle Royale", exec "connect iswenzz.com:28964";)
+
 		itemDef
 		{
 			visible			1

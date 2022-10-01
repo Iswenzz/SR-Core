@@ -1,7 +1,10 @@
 #define LAYOUT_NAME				"vid_restart"
+#define	LAYOUT_TEXTALIGN		ITEM_ALIGN_MIDDLE_CENTER
+#define LAYOUT_TEXT_OFFSET_X	0
 #define LAYOUT_X_START			0
-#define LAYOUT_Y_START			150
+#define LAYOUT_Y_START			0
 #define LAYOUT_SIZE_X			250
+#define BUTTON_SIZE_X			250
 
 #include "ui/components/base.inc"
 

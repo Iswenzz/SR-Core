@@ -4,6 +4,7 @@
 #define LAYOUT_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_CENTER
 #define LAYOUT_VERTICAL_ALIGN	VERTICAL_ALIGN_CENTER
 #define LAYOUT_SIZE_X			400
+#define BUTTON_SIZE_X			400
 #define SIDE_MARGIN				40
 
 #include "ui/components/base.inc"

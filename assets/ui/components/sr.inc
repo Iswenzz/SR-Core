@@ -77,3 +77,15 @@
 #define SR_WINDOW_CONTENT(menuName) \
 	name menuName \
 	rect SR_WINDOW_CONTENT_RECT
+
+#define SR_BUTTON_LEFT(itemIndex, textArg, actionArg) \
+		LAYOUT_VIS(itemIndex, textArg, actionArg, 1) \
+		itemDef \
+		{ \
+			style			WINDOW_STYLE_FILLED \
+			rect			LAYOUT_ORIGIN(itemIndex) 2 LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
+			forecolor		1 1 1 0 \
+			backColor       0.5 0.1 1 1 \
+			visible			1 \
+			decoration \
+		}

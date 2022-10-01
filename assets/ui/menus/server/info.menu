@@ -5,6 +5,7 @@
 #define INFO_BOX_SIZE 		INFO_BOX_WIDTH INFO_BOX_HEIGHT
 #define LAYOUT_SIZE_X		(INFO_BOX_WIDTH + (SIDE_MARGIN * 2))
 #define POPUP_TITLE_HEIGHT	(INFO_BOX_HEIGHT + SIDE_MARGIN + 24)
+#define BUTTON_SIZE_X		LAYOUT_SIZE_X
 
 #include "ui/components/base.inc"
 
@@ -46,7 +47,7 @@
 			style			WINDOW_STYLE_SHADER
 			rect			0 0 (POPUP_WIDTH-(LAYOUT_BORDER_WIDTH*2)) (POPUP_HEIGHT(2)-(LAYOUT_BORDER_WIDTH*2))
 			background		"white"
-			forecolor		0.2 0.2 0.22 0.85
+			forecolor		0.05 0.05 0.05 0.85
 			visible			1
 			decoration
 		}

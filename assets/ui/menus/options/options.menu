@@ -1,6 +1,9 @@
 #include "ui/components/base.inc"
 #include "ui/shared/frame_header.inc"
 
+#undef HEADER_X_START
+#define HEADER_X_START		-((HEADER_X_SPACING * 2.5))
+
 {
     menuDef
 	{
