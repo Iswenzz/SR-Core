@@ -57,32 +57,32 @@
 								close options_move; \
 								close options_shoot; \
 								close options_misc; \
-								close controls_multi
+								close options_mod
+
+#define CLOSE_ALL_CONTROLS_EX_MULTI     close options_move; \
+										close options_shoot; \
+										close options_misc; \
+										close options_look
 
 #define CLOSE_ALL_CONTROLS_EX_LOOK      close options_move; \
 										close options_shoot; \
 										close options_misc; \
-										close controls_multi
+										close options_mod
 
 #define CLOSE_ALL_CONTROLS_EX_MOVE      close options_look; \
 										close options_shoot; \
 										close options_misc; \
-										close controls_multi
+										close options_mod
 
 #define CLOSE_ALL_CONTROLS_EX_SHOOT     close options_look; \
 										close options_move; \
 										close options_misc; \
-										close controls_multi
+										close options_mod
 
 #define CLOSE_ALL_CONTROLS_EX_INTERACT  close options_look; \
 										close options_move; \
 										close options_shoot; \
-										close controls_multi
-
-#define CLOSE_ALL_CONTROLS_EX_MULTI     close options_look; \
-										close options_move; \
-										close options_shoot; \
-										close options_misc
+										close options_mod
 
 #define CLOSE_ALL_OPTIONS       close options_graphics; \
 								close options_graphics_texture; \
@@ -95,37 +95,43 @@
 											close options_sound; \
 											close options_voice; \
 											close options_game; \
-											close options_view
+											close options_view; \
+											close sr_settings
 
 #define CLOSE_ALL_OPTIONS_EX_GRAPHICS_TEX   close options_graphics; \
 											close options_sound; \
 											close options_voice; \
 											close options_game; \
-											close options_view
+											close options_view; \
+											close sr_settings
 
 #define CLOSE_ALL_OPTIONS_EX_SOUND          close options_graphics; \
 											close options_graphics_texture; \
 											close options_voice; \
 											close options_game; \
-											close options_view
+											close options_view; \
+											close sr_settings
 
 #define CLOSE_ALL_OPTIONS_EX_VOICE          close options_graphics; \
 											close options_graphics_texture; \
 											close options_sound; \
 											close options_game; \
-											close options_view
+											close options_view; \
+											close sr_settings
 
 #define CLOSE_ALL_OPTIONS_EX_GAME           close options_graphics; \
 											close options_graphics_texture; \
 											close options_sound; \
 											close options_voice; \
-											close options_view
+											close options_view; \
+											close sr_settings
 
 #define CLOSE_ALL_OPTIONS_EX_VIEW           close options_graphics; \
 											close options_graphics_texture; \
 											close options_sound; \
 											close options_voice; \
-											close options_game
+											close options_game; \
+											close sr_settings
 
 #define CLOSE_MODS              close mods_menu
 

@@ -28,6 +28,8 @@
 		{
 			setLocalVarBool ui_maincontent_header "0";
 			setLocalVarBool ui_maincontent_update "0";
+
+			open sr_settings;
 		}
 
 		onESC

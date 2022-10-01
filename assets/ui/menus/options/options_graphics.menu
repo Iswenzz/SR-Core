@@ -47,6 +47,8 @@
 
 			execondvarintvalue r_lodScaleRigid 2 "set r_lodScaleSkinned 4; set r_lodBiasSkinned -200; set r_lodBiasRigid -100";
 			execondvarintvalue r_lodScaleRigid 1 "set r_lodScaleSkinned 1; set r_lodBiasSkinned 0; set r_lodBiasRigid 0";
+
+			open sr_settings;
 		}
 
 		onESC
@@ -61,6 +63,7 @@
 		BUTTON_DVARSLIDER(5, "@MENU_BRIGHTNESS", r_gamma, 1, 0.5, 3, ;)
 		BUTTON_DVARYESNO(6, "@MENU_SYNC_EVERY_FRAME", ui_r_vsync, setLocalVarBool ui_showApply 1)
 		BUTTON_DVARYESNO(7, "@MENU_OPTIMIZE_FOR_DUAL_VIDEO_CARDS", r_multiGpu, ;)
+
 		BUTTON_DVARFLOATLIST(16, "@MENU_NUMBER_OF_DYNAMIC_LIGHTS", r_dlightlimit, { "@MENU_OFF" 0 "@MENU_LOW" 2 "@MENU_NORMAL" 4 }, ;)
 		BUTTON_DVARYESNO(17, "@MENU_SHADOWS", sm_enable, ;)
 		BUTTON_DVARYESNO(18, "@MENU_SPECULAR_MAP", r_specular, ;)

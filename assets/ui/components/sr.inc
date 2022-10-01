@@ -16,7 +16,7 @@
 #define SR_WINDOW_RECT 		SR_WINDOW_ORIGIN SR_WINDOW_SIZE SR_ALIGN_TOP_LEFT
 #define SR_WINDOW_HEADER_H 	25
 
-#define SR_KEY_SIZE_X 		200
+#define SR_KEY_SIZE_X 		230
 #define SR_KEY_OFFSET_X		6
 #define SR_TEXTALIGN_KEY	ITEM_ALIGN_MIDDLE_LEFT
 
@@ -145,7 +145,7 @@
 		backcolor		0 0 0 0.4 \
 		visible			1 \
 		type			0 \
-		rect			LAYOUT_X(itemIndex) LAYOUT_Y(itemIndex) SR_KEY_SIZE_X LAYOUT_SIZE_Y SR_ALIGN_TOP_LEFT \
+		rect			LAYOUT_X(itemIndex) LAYOUT_Y(itemIndex) SR_KEY_SIZE_X LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 		exp				text(keyArg); \
 		textfont		LAYOUT_TEXTFONT \
 		textscale		LAYOUT_TEXTSIZE \
@@ -162,7 +162,7 @@
 		backcolor		0 0 0 0.4 \
 		visible			1 \
 		type			0 \
-		rect			(LAYOUT_X(itemIndex) + SR_KEY_SIZE_X + 2) LAYOUT_Y(itemIndex) SR_VALUE_SIZE_X LAYOUT_SIZE_Y SR_ALIGN_TOP_LEFT \
+		rect			(LAYOUT_X(itemIndex) + SR_KEY_SIZE_X + 2) LAYOUT_Y(itemIndex) SR_VALUE_SIZE_X LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 		exp				text(valueArg); \
 		textfont		LAYOUT_TEXTFONT \
 		textscale		LAYOUT_TEXTSIZE \

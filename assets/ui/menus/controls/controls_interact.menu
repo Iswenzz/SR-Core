@@ -48,6 +48,7 @@
 		BUTTON_BIND(19, "@MENU_QUICK_CHAT", "mp_QuickMessage", ;)
 
         BUTTON_BIND(21, "@MENU_SCREENSHOT", "screenshotjpeg", ;)
+
 		BUTTON_KEYBINDHELP
 	}
 }

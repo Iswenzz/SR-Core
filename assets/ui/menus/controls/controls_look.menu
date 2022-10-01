@@ -43,9 +43,12 @@
 		BUTTON_BIND(6, "@MENU_TURN_LEFT", "+left", ;)
 		BUTTON_BIND(7, "@MENU_TURN_RIGHT", "+right", ;)
 		BUTTON_BIND(8, "@MENU_MOUSE_LOOK", "+mlook", ;)
+
 		BUTTON_BIND(16, "@MENU_CENTER_VIEW", "centerview", ;)
 		BUTTON_DVARYESNO(17, "@MENU_FREE_LOOK", cl_freelook, ;)
 		BUTTON_DVARYESNO(18, "@MENU_SMOOTH_MOUSE", m_filter, ;)
 		BUTTON_DVARSLIDER(19, "@MENU_MOUSE_SENSITIVITY", sensitivity, 5, 1, 30, ;)
+
+		BUTTON_KEYBINDHELP
 	}
 }

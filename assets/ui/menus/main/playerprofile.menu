@@ -100,7 +100,7 @@
 		}
 
 		SECTION_TITLE(1, "@MENU_SELECT_PROFILE")
-		BUTTON(3, "@MENU_NAME", play "mouse_click";	uiScript sortPlayerProfiles 0)
+		BUTTON(3, "@MENU_NAME",	uiScript sortPlayerProfiles 0)
 
 		itemDef
 		{

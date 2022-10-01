@@ -115,7 +115,7 @@
 		}
 		LOCAL_KEY_SEG(SEG5_X SEG_Y SEG_SIZE, "cdkey5", LOCAL_ACCEPT)
 
-		BUTTON(5, "@MENU_VERIFY", play "mouse_click"; uiScript verifyCDKey; setlocalvarint ui_show_cancel 0;)
+		BUTTON(5, "@MENU_VERIFY", uiScript verifyCDKey; setlocalvarint ui_show_cancel 0;)
 		BACKGROUND(6, 1)
 		HIGHLIGHT(6, 1)
 		LAYOUT_VIS_NOHI(6, "@MENU_CANCEL", close self;, when(localvarint(ui_show_cancel));)

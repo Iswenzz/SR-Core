@@ -47,12 +47,12 @@
 			setLocalVarBool ui_maincontent_update "0";
 		}
 
-		HEADER(2, "@MENU_FILTER_SERVERS", play "mouse_click"; open filter_popmenu;)
-		HEADER(3, "@MENU_REFRESH_LIST", play "mouse_click"; uiScript RefreshServers;)
-		HEADER(4, "@MENU_QUICK_REFRESH", play "mouse_click"; uiScript RefreshFilter;)
-		HEADER(5, "@MENU_NEW_FAVORITE", play "mouse_click"; open createfavorite_popmenu;)
+		HEADER(2, "@MENU_FILTER_SERVERS", open filter_popmenu;)
+		HEADER(3, "@MENU_REFRESH_LIST", uiScript RefreshServers;)
+		HEADER(4, "@MENU_QUICK_REFRESH", uiScript RefreshFilter;)
+		HEADER(5, "@MENU_NEW_FAVORITE", open createfavorite_popmenu;)
 
-		HEADER_OWNER(6, " ", UI_NETSOURCE, ITEM_ALIGN_LEFT, 0, play "mouse_click"; show message_typefilter;)
+		HEADER_OWNER(6, " ", UI_NETSOURCE, ITEM_ALIGN_LEFT, 0, show message_typefilter;)
 
 		#undef HEADER_SIZE_X
 		#define HEADER_SIZE_X		95

@@ -23,7 +23,7 @@
 	{
 		IMPROVED_POPUP_SETUP(vid_restart_popmenu_listen, 2, 230, 170, ;, 1)
 		POPMENU_SUBTITLE("Unable to apply settings while connected to a server.")
-		BUTTON(2, "@MENU_OK", play "mouse_click"; close self;)
+		BUTTON(2, "@MENU_OK", close self;)
 	}
 
 	#undef	LAYOUT_SUBTITLE_HEIGHT
