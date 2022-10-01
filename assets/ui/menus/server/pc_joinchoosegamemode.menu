@@ -210,17 +210,17 @@
 			backcolor 		0 0 0 0
 			outlinecolor 	OPTIONS_HEADING_JOIN_COLOR
 			visible 		1
-			columns	11		(PASSWORD_X - 3)	16				20
-							(HARDWARE_X - 3)	16				10
+			columns	11		PASSWORD_X			16				20
+							HARDWARE_X			16				10
 							SERVER_X			WIDTH_SERVER	240
 							MAP_X				WIDTH_MAP		64
 							PLAYER_X			WIDTH_PLAYER	10
 							TYPE_X				WIDTH_TYPE		40
-							(VOICE_X + 2)		16				14
-							(PURE_X + 2)		16				10
-							(MOD_X + 2)			16				20
-							(PB_X + 2)			WIDTH_PB		20
-							(PING_X + 2)		WIDTH_PING		20
+							(VOICE_X + 6)		16				14
+							(PURE_X + 6)		16				10
+							(MOD_X + 6)			16				20
+							(PB_X + 6)			WIDTH_PB		20
+							(PING_X + 6)		WIDTH_PING		20
 			doubleClick 	{ uiScript JoinServer }
 			execkeyint 		13	{ uiScript JoinServer }
 		}

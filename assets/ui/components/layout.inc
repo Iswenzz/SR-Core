@@ -22,7 +22,7 @@
 #endif
 
 #ifndef LAYOUT_SIZE_X
-#define LAYOUT_SIZE_X 			400
+#define LAYOUT_SIZE_X 			150
 #endif
 
 #ifndef LAYOUT_SIZE_Y

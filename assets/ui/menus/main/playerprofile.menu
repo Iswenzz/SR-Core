@@ -4,10 +4,11 @@
 #define LAYOUT_SIZE_X				200
 #define LAYOUT_HORIZONTAL_ALIGN 	HORIZONTAL_ALIGN_RIGHT
 #define LAYOUT_VERTICAL_ALIGN 		VERTICAL_ALIGN_SUBTOP
-#define LAYOUT_TEXT_OFFSET_X		(-(LAYOUT_SIZE_X)+100)
+#define LAYOUT_TEXT_OFFSET_X		(-(LAYOUT_SIZE_X) + 100)
 #define TEXT_ON_BG_STYLE 			3
 
 #include "ui/components/base.inc"
+#include "ui/components/popup.inc"
 
 {
 	menuDef
@@ -196,7 +197,7 @@
 	#define LAYOUT_X_START			0
 
 	#undef  LAYOUT_Y_START
-	#define LAYOUT_Y_START			150
+	#define LAYOUT_Y_START			0
 
 	#undef  LAYOUT_NAME
 	#define LAYOUT_NAME				"profile_popup"
@@ -211,7 +212,7 @@
 	#define LAYOUT_VERTICAL_ALIGN	VERTICAL_ALIGN_CENTER
 
 	#undef  LAYOUT_TEXT_OFFSET_X
-	#define LAYOUT_TEXT_OFFSET_X	(-(LAYOUT_SIZE_Y-12))
+	#define LAYOUT_TEXT_OFFSET_X	(-(LAYOUT_SIZE_Y-28))
 
 	#define SIDE_MARGIN				40
 

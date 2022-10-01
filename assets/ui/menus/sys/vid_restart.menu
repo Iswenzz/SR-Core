@@ -9,6 +9,7 @@
 #define BUTTON_SIZE_X			250
 
 #include "ui/components/base.inc"
+#include "ui/components/popup.inc"
 
 #define LOCAL_SETTING_ACTION \
 	exec "exec options_graphics_set.cfg"; \

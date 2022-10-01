@@ -4,4 +4,3 @@
 #include "ui/components/common.inc"
 #include "ui/components/layout.inc"
 #include "ui/components/header.inc"
-#include "ui/components/popup.inc"

@@ -4,6 +4,7 @@
 #define LAYOUT_SIZE_X				280
 
 #include "ui/components/base.inc"
+#include "ui/components/popup.inc"
 
 {
 	#define LOCAL_STARTPB_ACTION\

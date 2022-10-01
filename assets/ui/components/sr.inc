@@ -5,10 +5,21 @@
 #define SR_ALIGN_BOTTOM_CENTER 		HORIZONTAL_ALIGN_CENTER 	VERTICAL_ALIGN_BOTTOM
 #define SR_ALIGN_BOTTOM_RIGHT 		HORIZONTAL_ALIGN_RIGHT 		VERTICAL_ALIGN_BOTTOM
 
+#ifndef SR_WINDOW_X
 #define SR_WINDOW_X 		0
+#endif
+
+#ifndef SR_WINDOW_Y
 #define SR_WINDOW_Y 		35
+#endif
+
+#ifndef SR_WINDOW_W
 #define SR_WINDOW_W 		640
+#endif
+
+#ifndef SR_WINDOW_H
 #define SR_WINDOW_H 		410
+#endif
 
 #define SR_WINDOW_ORIGIN 	SR_WINDOW_X SR_WINDOW_Y
 #define SR_WINDOW_SIZE 		SR_WINDOW_W SR_WINDOW_H
@@ -16,13 +27,33 @@
 #define SR_WINDOW_RECT 		SR_WINDOW_ORIGIN SR_WINDOW_SIZE SR_ALIGN_TOP_LEFT
 #define SR_WINDOW_HEADER_H 	25
 
-#define SR_KEY_SIZE_X 		230
-#define SR_KEY_OFFSET_X		6
-#define SR_TEXTALIGN_KEY	ITEM_ALIGN_MIDDLE_LEFT
+#ifndef SR_HEADER_TEXTALIGN
+#define SR_HEADER_TEXTALIGN ITEM_ALIGN_MIDDLE_LEFT
+#endif
 
+#ifndef SR_KEY_SIZE_X
+#define SR_KEY_SIZE_X 		230
+#endif
+
+#ifndef SR_KEY_OFFSET_X
+#define SR_KEY_OFFSET_X		6
+#endif
+
+#ifndef SR_TEXTALIGN_KEY
+#define SR_TEXTALIGN_KEY	ITEM_ALIGN_MIDDLE_LEFT
+#endif
+
+#ifndef SR_VALUE_SIZE_X
 #define SR_VALUE_SIZE_X		50
+#endif
+
+#ifndef SR_VALUE_OFFSET_X
 #define SR_VALUE_OFFSET_X	0
+#endif
+
+#ifndef SR_TEXTALIGN_VALUE
 #define SR_TEXTALIGN_VALUE	ITEM_ALIGN_MIDDLE_CENTER
+#endif
 
 #define SR_WINDOW_CONTENT_RECT \
 	SR_WINDOW_X \
@@ -107,7 +138,7 @@
 		type			0 \
 		exp				text(textArg) \
 		textscale		0.35 \
-		textstyle		0 \
+		textstyle		SR_HEADER_TEXTALIGN \
 		textalign		0 \
 		textalignx		6 \
 		textaligny		21 \

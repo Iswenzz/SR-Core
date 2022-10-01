@@ -11,6 +11,7 @@
 #define SIDE_MARGIN				40
 
 #include "ui/components/base.inc"
+#include "ui/components/popup.inc"
 
 {
 	menuDef
