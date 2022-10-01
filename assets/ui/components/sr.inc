@@ -25,10 +25,17 @@
 #define SR_WINDOW_SIZE 		SR_WINDOW_W SR_WINDOW_H
 
 #define SR_WINDOW_RECT 		SR_WINDOW_ORIGIN SR_WINDOW_SIZE SR_ALIGN_TOP_LEFT
+
+#ifndef SR_WINDOW_HEADER_H
 #define SR_WINDOW_HEADER_H 	25
+#endif
 
 #ifndef SR_HEADER_TEXTALIGN
 #define SR_HEADER_TEXTALIGN ITEM_ALIGN_MIDDLE_LEFT
+#endif
+
+#ifndef SR_BORDER_COLOR
+#define SR_BORDER_COLOR 	0.5 0.1 1 1
 #endif
 
 #ifndef SR_KEY_SIZE_X
@@ -73,13 +80,13 @@
 		decoration \
 	}
 
-#define SR_WINDOW_HEADER_BORDER(r, g, b, a) \
+#define SR_WINDOW_HEADER_BORDER(x, y, w, h) \
 	itemdef \
 	{ \
 		name			"headerBorder" \
-		rect			0 SR_WINDOW_HEADER_H SR_WINDOW_W 2 SR_ALIGN_TOP_LEFT \
+		rect			x y w h SR_ALIGN_TOP_LEFT \
 		style			1 \
-		backcolor		r g b a \
+		backcolor		SR_BORDER_COLOR\
 		visible			1 \
 		decoration \
 	}
@@ -97,7 +104,7 @@
 		decoration \
 	} \
 	SR_WINDOW_HEADER("header") \
-	SR_WINDOW_HEADER_BORDER(0.5, 0.1, 1, 1)
+	SR_WINDOW_HEADER_BORDER(0, SR_WINDOW_HEADER_H, SR_WINDOW_W, 2)
 
 #define SR_FRAME(x, y, w, h) \
 	itemdef \
@@ -110,6 +117,17 @@
 		border			5 \
 		bordersize		1 \
 		bordercolor		0.5 0.1 1 1 \
+		decoration \
+	}
+
+#define SR_FRAME_BORDER(x, y, w, h) \
+	itemdef \
+	{ \
+		name			"headerBorder" \
+		rect			x y w h SR_ALIGN_TOP_LEFT \
+		style			1 \
+		backcolor		SR_BORDER_COLOR \
+		visible			1 \
 		decoration \
 	}
 
