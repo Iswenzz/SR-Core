@@ -224,6 +224,7 @@
 #define IMPROVED_POPUP_SETUP(nameArg, itemCount, xArg, yArg, onEscArg, shadow_visArg) \
 		IMPROVED_POPUP_SETUP_ONOPEN(nameArg, itemCount, xArg, yArg, onEscArg, focusfirst, shadow_visArg)
 
+// h = (x) => 480 - (24 * x + 8 + 56)
 #define IMPROVED_POPUP_SETUP_ONOPEN(nameArg, itemCount, xArg, yArg, onEscArg, onOpenArg, shadow_visArg) \
 		IMPROVED_POPUP_SETUP_RAW(nameArg, itemCount, xArg, yArg, onEscArg, onOpenArg, ;, shadow_visArg)
 

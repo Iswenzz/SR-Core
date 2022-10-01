@@ -13,7 +13,7 @@
 {
 	menuDef
 	{
-		IMPROVED_POPUP_SETUP_ONOPEN(quickstatements, 7, 0, 260, ;, setDvar cl_bypassMouseInput "1";, 0)
+		IMPROVED_POPUP_SETUP_ONOPEN(quickstatements, 6, 0, 272, ;, setDvar cl_bypassMouseInput "1";, 0)
 		onClose{ setDvar cl_bypassMouseInput "0" }
 
 		POPMENU_TITLE("@QUICKMESSAGE_QUICK_MESSAGE")
