@@ -175,10 +175,10 @@ banned()
 	if (!isBanned)
 		return;
 
-	self setClientDvar("ui_dr_info", "^4You have been banned.");
-	self setClientDvar("ui_dr_info2", "^5More info at https://discord.gg/76aHfGF");
+	self setClientDvar("ui_sr_info", "^5You have been banned.");
+	self setClientDvar("ui_sr_info2", "More info at https://discord.gg/76aHfGF");
 
-	// Use this instead of kick() to get the ui_dr_info menu
+	// Use this instead of kick() to get the ui_sr_info menu
 	exec(fmt("kick %d banned.", self getEntityNumber()));
 }
 
