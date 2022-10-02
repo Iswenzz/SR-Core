@@ -17,7 +17,7 @@
 #include "ui/components/base.inc"
 
 #define ENTRY(id, script) \
-	BUTTON_VIS((id + 1), dvarString("sr_votemap_" + id), scriptMenuResponse script;, when(dvarString("sr_votemap_" + id) != ""))
+	BUTTON_VIS(id, dvarString("sr_votemap_" + (id - 1)), scriptMenuResponse script;, when(dvarString("sr_votemap_" + (id - 1)) != ""))
 
 {
 	menuDef
@@ -56,38 +56,38 @@
 		#undef LAYOUT_NAME
 		#define LAYOUT_NAME				"entry"
 
-		ENTRY(0, "select:0")
-		ENTRY(1, "select:1")
-		ENTRY(2, "select:2")
-		ENTRY(3, "select:3")
-		ENTRY(4, "select:4")
-		ENTRY(5, "select:5")
-		ENTRY(6, "select:6")
-		ENTRY(7, "select:7")
+		ENTRY(1, "select:0")
+		ENTRY(2, "select:1")
+		ENTRY(3, "select:2")
+		ENTRY(4, "select:3")
+		ENTRY(5, "select:4")
+		ENTRY(6, "select:5")
+		ENTRY(7, "select:6")
+		ENTRY(8, "select:7")
 
-		ENTRY(8, "select:8")
-		ENTRY(9, "select:9")
-		ENTRY(10, "select:10")
-		ENTRY(11, "select:11")
-		ENTRY(12, "select:12")
-		ENTRY(13, "select:13")
-		ENTRY(14, "select:14")
-		ENTRY(15, "select:15")
+		ENTRY(9, "select:8")
+		ENTRY(10, "select:9")
+		ENTRY(11, "select:10")
+		ENTRY(12, "select:11")
+		ENTRY(13, "select:12")
+		ENTRY(14, "select:13")
+		ENTRY(15, "select:14")
+		ENTRY(16, "select:15")
 
-		ENTRY(16, "select:16")
-		ENTRY(17, "select:17")
-		ENTRY(18, "select:18")
-		ENTRY(19, "select:19")
-		ENTRY(20, "select:20")
-		ENTRY(21, "select:21")
-		ENTRY(22, "select:22")
-		ENTRY(23, "select:23")
+		ENTRY(17, "select:16")
+		ENTRY(18, "select:17")
+		ENTRY(19, "select:18")
+		ENTRY(20, "select:19")
+		ENTRY(21, "select:20")
+		ENTRY(22, "select:21")
+		ENTRY(23, "select:22")
+		ENTRY(24, "select:23")
 
 		#undef LAYOUT_NAME
 		#define LAYOUT_NAME			"call"
 
 		#undef LAYOUT_Y_START
-		#define LAYOUT_Y_START		BOTTOM_Y + 5
+		#define LAYOUT_Y_START		(BOTTOM_Y + 5)
 
 		#undef LAYOUT_Y_COUNT
 		#define LAYOUT_Y_COUNT 		1
