@@ -213,7 +213,7 @@ getRotation(includeCurrent)
 			continue;
 		list[list.size] = maps[i];
 	}
-	return list;
+	return Sort(list);
 }
 
 spawnSpectator()

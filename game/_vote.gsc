@@ -160,6 +160,7 @@ searchBox()
 			if (isSubStr(level.rotation[i], self.vote_search))
 				maps[maps.size] = level.rotation[i];
 		}
+		self.vote_page = 0;
 		self.vote_maps = Chunk(maps, level.vote_max_entries);
 		self display();
 
