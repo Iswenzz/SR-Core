@@ -72,6 +72,12 @@ createTriggerFx(trigger, fx)
 	thread sr\game\fx\_trigger::effect(trigger, fx);
 }
 
+noFallDamage()
+{
+	setDvar("bg_falldamagemaxheight", 2000000000);
+	setDvar("bg_falldamageminheight", 1500000000);
+}
+
 getSpeed(speed)
 {
 	return int(ceil(getDvarInt("g_speed") * (speed / 190)));
