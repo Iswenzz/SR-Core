@@ -70,7 +70,7 @@ save()
 	self setStat(1603, self.settings["gfx_distance"]);
 	self setStat(1611, self.settings["gfx_fx"]);
 	self setStat(1618, self.settings["gfx_ragdoll"]);
-	self setStat(1619, self.settings["gfx_music_animation"]);
+	self setStat(1619, !self.settings["gfx_music_animation"]);
 }
 
 load()

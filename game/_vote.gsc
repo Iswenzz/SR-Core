@@ -142,6 +142,7 @@ menu_PlayerVote(arg)
 
 searchBox()
 {
+	self endon("disconnect");
 	self endon("menu_votemap_close");
 	previousSearch = "";
 
