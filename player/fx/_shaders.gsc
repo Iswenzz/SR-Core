@@ -175,6 +175,8 @@ removeShaders()
 {
 	if (isDefined(self.huds["shader"]))
 		self.huds["shader"] destroy();
+	if (isDefined(self.huds["vision"]))
+		self.huds["vision"] destroy();
 	self.shaders = [];
 }
 

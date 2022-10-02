@@ -42,6 +42,7 @@ onConnect()
 	wait 0.05;
 	self setClientDvar("sr_setting_17", "Snap HUD");
 	self setClientDvar("sr_setting_18", "Ragdoll");
+	self setClientDvar("sr_setting_19", "Music Animations");
 
 	self update();
 }
@@ -69,6 +70,7 @@ save()
 	self setStat(1603, self.settings["gfx_distance"]);
 	self setStat(1611, self.settings["gfx_fx"]);
 	self setStat(1618, self.settings["gfx_ragdoll"]);
+	self setStat(1619, self.settings["gfx_music_animation"]);
 }
 
 load()
@@ -92,6 +94,7 @@ load()
 	self.settings["gfx_distance"] 			= self getStat(1603);
 	self.settings["gfx_fx"] 				= self getStat(1611);
 	self.settings["gfx_ragdoll"] 			= self getStat(1618);
+	self.settings["gfx_music_animation"] 	= !self getStat(1619);
 }
 
 reset()
@@ -115,6 +118,7 @@ reset()
 	self.settings["gfx_fullbright"] 		= false;
 	self.settings["gfx_fx"] 				= true;
 	self.settings["gfx_ragdoll"] 			= false;
+	self.settings["gfx_music_animation"] 	= true;
 	self save();
 }
 
@@ -219,6 +223,12 @@ update_gfxRagdoll(num)
 	self updateHud(num, value);
 }
 
+update_gfxMusicAnimation(num)
+{
+	value = self.settings["gfx_music_animation"];
+	self updateHud(num, value);
+}
+
 update_hudVelocityInfo(num)
 {
 	value = self.settings["hud_velocity_info"];
@@ -289,6 +299,7 @@ update()
 	self update_gfxFX(11);
 	wait 0.05;
 	self update_gfxRagdoll(18);
+	self update_gfxMusicAnimation(19);
 
 	self thread save();
 }
@@ -324,6 +335,7 @@ menu_setting(args)
 		case 16: 	self.settings["hud_cgaz"] 				= !self.settings["hud_cgaz"]; 								break;
 		case 17: 	self.settings["hud_snap"] 				= intRange(self.settings["hud_snap"], 0, 3);				break;
 		case 18: 	self.settings["gfx_ragdoll"] 			= !self.settings["gfx_ragdoll"];							break;
+		case 19: 	self.settings["gfx_music_animation"] 	= !self.settings["gfx_music_animation"];						break;
 	}
 	self update();
 }

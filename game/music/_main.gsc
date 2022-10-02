@@ -20,13 +20,6 @@ initMusics()
 
 	if (getDvarInt("vegas"))
 		vegas();
-
-	thread test();
-}
-
-test()
-{
-
 }
 
 precache()
@@ -130,6 +123,7 @@ play(alias)
 	wait 0.2;
 
 	thread disableFullbright();
+	thread disablePlayersAnimation();
 	visionSetNaked("null", 0);
 	level vision("default");
 	level thread [[sequence.callback]](sequence);
@@ -143,15 +137,6 @@ play(alias)
 	wait 2;
 
 	level thread clear();
-}
-
-disableFullbright()
-{
-	level endon("music_sequence_end");
-
-	players = getAllPlayers();
-	for (i = 0; i < players.size; i++)
-		players[i] setClientDvar("r_fullbright", 0);
 }
 
 animateKeyframes(keyframes)
@@ -191,7 +176,12 @@ clear()
 	level notify("music_sequence_end");
 
 	ambientStop(2);
+
 	level removeShaders();
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+		players[i] removeShaders();
+
 	setExpFog(20000000, 10000000, 0, 0, 0, 2);
 	visionSetNaked(toLower(level.map), 0);
 
@@ -210,6 +200,44 @@ timeline(total, time)
 	return time;
 }
 
+disablePlayersAnimation()
+{
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+		players[i] disableAnimation();
+}
+
+disableFullbright()
+{
+	level endon("music_sequence_end");
+
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+		players[i] setClientDvar("r_fullbright", 0);
+}
+
+disableAnimation()
+{
+	if (self.settings["gfx_music_animation"])
+		return;
+
+	self.huds["vision"] = newClientHudElem(self);
+	self.huds["vision"].foreground = true;
+	self.huds["vision"].alignX = "left";
+	self.huds["vision"].alignY = "top";
+	self.huds["vision"].horzAlign = "fullscreen";
+	self.huds["vision"].vertAlign = "fullscreen";
+	self.huds["vision"].x = 0;
+	self.huds["vision"].y = 0;
+	self.huds["vision"].sort = -1;
+	self.huds["vision"].fontScale = 1.4;
+	self.huds["vision"].color = (0, 0, 0);
+	self.huds["vision"].hidewheninmenu = true;
+	self.huds["vision"].alpha = 1;
+	self.huds["vision"].archived = false;
+	self.huds["vision"] setShader("sr_translate", 640, 480);
+}
+
 vegas()
 {
 	level.huds["vegas"] = newHudElem();
@@ -222,7 +250,7 @@ vegas()
 	level.huds["vegas"].y = 0;
 	level.huds["vegas"].sort = -1;
 	level.huds["vegas"].fontScale = 1.4;
-	level.huds["vegas"].color = (1, 1, 1);
+	level.huds["vegas"].color = (0, 0, 0);
 	level.huds["vegas"].hidewheninmenu = true;
 	level.huds["vegas"].alpha = 1;
 	level.huds["vegas"].archived = false;
