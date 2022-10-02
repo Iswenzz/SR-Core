@@ -74,11 +74,14 @@ fetch()
 		row = SQL_FetchRowDict();
 		self.admin_role = row["role"];
 		self.admin_vip = row["vip"];
+		self setStat(2000, row["vip"]);
+		self setClientDvar("sr_admin_role", self getRoleName());
 	}
 	else
 	{
 		self.admin_role = "player";
 		self.admin_vip = 0;
+		self setStat(2000, 0);
 	}
 	mutex_release("mysql");
 }
