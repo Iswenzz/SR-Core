@@ -1,7 +1,13 @@
-#define SR_ALIGN_TOP_LEFT 			HORIZONTAL_ALIGN_SUBLEFT 	VERTICAL_ALIGN_SUBTOP
+#define SR_ALIGN_TOP_SUBLEFT 		HORIZONTAL_ALIGN_SUBLEFT 	VERTICAL_ALIGN_SUBTOP
+#define SR_ALIGN_TOP_LEFT 			HORIZONTAL_ALIGN_LEFT 		VERTICAL_ALIGN_SUBTOP
 #define SR_ALIGN_TOP_CENTER 		HORIZONTAL_ALIGN_CENTER 	VERTICAL_ALIGN_SUBTOP
 #define SR_ALIGN_TOP_RIGHT 			HORIZONTAL_ALIGN_RIGHT 		VERTICAL_ALIGN_SUBTOP
-#define SR_ALIGN_BOTTOM_LEFT 		HORIZONTAL_ALIGN_SUBLEFT 	VERTICAL_ALIGN_BOTTOM
+#define SR_ALIGN_MIDDLE_SUBLEFT 	HORIZONTAL_ALIGN_SUBLEFT 	VERTICAL_ALIGN_CENTER
+#define SR_ALIGN_MIDDLE_LEFT 		HORIZONTAL_ALIGN_LEFT 		VERTICAL_ALIGN_CENTER
+#define SR_ALIGN_MIDDLE_CENTER 		HORIZONTAL_ALIGN_CENTER 	VERTICAL_ALIGN_CENTER
+#define SR_ALIGN_MIDDLE_RIGHT 		HORIZONTAL_ALIGN_RIGHT 		VERTICAL_ALIGN_CENTER
+#define SR_ALIGN_BOTTOM_SUBLEFT 	HORIZONTAL_ALIGN_SUBLEFT 	VERTICAL_ALIGN_BOTTOM
+#define SR_ALIGN_BOTTOM_LEFT 		HORIZONTAL_ALIGN_LEFT 		VERTICAL_ALIGN_BOTTOM
 #define SR_ALIGN_BOTTOM_CENTER 		HORIZONTAL_ALIGN_CENTER 	VERTICAL_ALIGN_BOTTOM
 #define SR_ALIGN_BOTTOM_RIGHT 		HORIZONTAL_ALIGN_RIGHT 		VERTICAL_ALIGN_BOTTOM
 
@@ -24,7 +30,7 @@
 #define SR_WINDOW_ORIGIN 	SR_WINDOW_X SR_WINDOW_Y
 #define SR_WINDOW_SIZE 		SR_WINDOW_W SR_WINDOW_H
 
-#define SR_WINDOW_RECT 		SR_WINDOW_ORIGIN SR_WINDOW_SIZE SR_ALIGN_TOP_LEFT
+#define SR_WINDOW_RECT 		SR_WINDOW_ORIGIN SR_WINDOW_SIZE SR_ALIGN_TOP_SUBLEFT
 
 #ifndef SR_WINDOW_HEADER_H
 #define SR_WINDOW_HEADER_H 	25
@@ -67,13 +73,13 @@
 	(SR_WINDOW_Y + SR_WINDOW_HEADER_H) \
 	SR_WINDOW_W \
 	(SR_WINDOW_H - SR_WINDOW_HEADER_H) \
-	SR_ALIGN_TOP_LEFT \
+	SR_ALIGN_TOP_SUBLEFT \
 
 #define SR_WINDOW_HEADER(headerName) \
 	itemdef \
 	{ \
 		name			headerName \
-		rect			0 0 SR_WINDOW_W SR_WINDOW_HEADER_H SR_ALIGN_TOP_LEFT \
+		rect			0 0 SR_WINDOW_W SR_WINDOW_HEADER_H SR_ALIGN_TOP_SUBLEFT \
 		style			1 \
 		backcolor		0 0 0 0.5 \
 		visible			1 \
@@ -84,7 +90,7 @@
 	itemdef \
 	{ \
 		name			"headerBorder" \
-		rect			x y w h SR_ALIGN_TOP_LEFT \
+		rect			x y w h SR_ALIGN_TOP_SUBLEFT \
 		style			1 \
 		backcolor		SR_BORDER_COLOR\
 		visible			1 \
@@ -97,7 +103,7 @@
 	itemdef \
 	{ \
 		name			"window" \
-		rect			0 0 SR_WINDOW_SIZE SR_ALIGN_TOP_LEFT \
+		rect			0 0 SR_WINDOW_SIZE SR_ALIGN_TOP_SUBLEFT \
 		style			1 \
 		backcolor		0 0 0 0.3 \
 		visible			1 \
@@ -110,7 +116,7 @@
 	itemdef \
 	{ \
 		name			"frame" \
-		rect			x y w h SR_ALIGN_TOP_LEFT \
+		rect			x y w h SR_ALIGN_TOP_SUBLEFT \
 		style			1 \
 		backcolor		0 0 0 0.4 \
 		visible			1 \
@@ -124,7 +130,7 @@
 	itemdef \
 	{ \
 		name			"headerBorder" \
-		rect			x y w h SR_ALIGN_TOP_LEFT \
+		rect			x y w h SR_ALIGN_TOP_SUBLEFT \
 		style			1 \
 		backcolor		SR_BORDER_COLOR \
 		visible			1 \
@@ -135,7 +141,7 @@
 	itemdef \
 	{ \
 		name			"frame" \
-		rect			x y w h SR_ALIGN_TOP_LEFT \
+		rect			x y w h SR_ALIGN_TOP_SUBLEFT \
 		style			1 \
 		backcolor		0 0 0 0.4 \
 		visible			1 \
@@ -149,7 +155,7 @@
 	itemdef \
 	{ \
 		name			"frameHeader" \
-		rect			x y w h SR_ALIGN_TOP_LEFT \
+		rect			x y w h SR_ALIGN_TOP_SUBLEFT \
 		style			1 \
 		backcolor		0 0 0 0.5 \
 		visible			1 \

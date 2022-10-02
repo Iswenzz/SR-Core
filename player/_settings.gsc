@@ -107,7 +107,7 @@ reset()
 	self.settings["hud_velocity"] 			= 8;
 	self.settings["hud_velocity_info"] 		= 0;
 	self.settings["hud_velocity_ground"]	= 0;
-	self.settings["hud_compass"] 			= 5;
+	self.settings["hud_compass"] 			= 8;
 	self.settings["hud_cgaz"] 				= false;
 	self.settings["hud_snap"] 				= false;
 	self.settings["hud_2D"] 				= true;
@@ -160,7 +160,7 @@ update_hudVelocity(num)
 update_hudCompass(num)
 {
 	value = self.settings["hud_compass"];
-	labels = strTok("^1OFF;^2Top-Left;^2Top-Center;^2Top-Right;^2Bottom-Left;^2Bottom-Center;^2Bottom-Right;", ";");
+	labels = strTok("^1OFF;^2Top-Left;^2Top-Center;^2Top-Right;^2Middle-Left;^2Middle-Center;^2Middle-Right;^2Bottom-Left;^2Bottom-Center;^2Bottom-Right;", ";");
 	self updateHud(num, value, labels[value]);
 }
 
@@ -324,7 +324,7 @@ menu_setting(args)
 		case 5: 	self.settings["gfx_distance"] 			= intRange(self.settings["gfx_distance"], 0, 4);			break;
 		case 6: 	self menu_FOV();																					break;
 		case 7: 	self.settings["hud_velocity"] 			= intRange(self.settings["hud_velocity"], 0, 9);			break;
-		case 8: 	self.settings["hud_compass"] 			= intRange(self.settings["hud_compass"], 0, 6);				break;
+		case 8: 	self.settings["hud_compass"] 			= intRange(self.settings["hud_compass"], 0, 9);				break;
 		case 9: 	self.settings["player_hide"] 			= intRange(self.settings["player_hide"], 0, 2);				break;
 		case 10: 	self.settings["hud_2D"] 				= !self.settings["hud_2D"]; 								break;
 		case 11: 	self.settings["gfx_fx"] 				= !self.settings["gfx_fx"]; 								break;

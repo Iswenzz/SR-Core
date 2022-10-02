@@ -1,89 +1,61 @@
 #include "ui/components/base.inc"
 
-#define TEAM_IS_MARINES			(localVarString(ui_team) == "marines")
-#define TEAM_IS_OPFOR			(localVarString(ui_team) == "opfor")
-
-#define RANK_ORIGIN 			0 6
 #define ONLINEGAME 				(dvarInt("onlinegame") && !dvarInt("xblive_privatematch"))
 #define ONLINEGAME_OFFSET 		10
 
-#define FLASH_OFS 				((sin(milliseconds()/90))*2)
-#define FLASH_OFS2 				((sin(milliseconds()/90))*4)
-
 #define HUD_ALPHA 				0.65
 #define HUD_FOREGROUND_ALPHA 	0.75
-#define DPAD_ICON_ALPHA 		0.65
 
 #define NOT_SPECTATING 			(!spectatingClient())
 
-#define OBJICON(teamName, idx, texture, dvarName, showValue) \
+#define COMPASS_STAT (stat(1608))
+#define COMPASS(position, x, y, alignment) \
 	itemDef \
 	{ \
-		style			WINDOW_STYLE_SHADER \
-		rect			(30*idx) -74 24 24 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM \
-		exp				rect X((30*idx) - ((FLASH_OFS) * dvarInt(dvarName+"_flash"))) \
-		exp				rect Y(-74 - ((FLASH_OFS) * dvarInt(dvarName+"_flash"))) \
-		exp				rect W(24 + (FLASH_OFS2 * dvarInt(dvarName+"_flash"))) \
-		exp				rect H(24 + (FLASH_OFS2 * dvarInt(dvarName+"_flash"))) \
-		origin			20 0 \
-		background		texture \
-		forecolor		1 1 1 0.61 \
-		visible			when(dvarString(dvarName) == showValue && team(name) == teamName); \
-		decoration \
-	}
-
-#define	SCOREBAR_BORDER(setting, alliesColor, axisColor) \
-	itemDef \
-	{ \
-		style			WINDOW_STYLE_FILLED \
-		rect			36 -36 80 12 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM \
-		forecolor		0 0 0 0 \
-		border			1 \
-		bordercolor		alliesColor 1 \
-		bordersize		2 \
-		visible when ((tableLookup("mp/mapsTable.csv", 0, dvarString("mapname"), 1) == setting) && team(name) == "TEAM_ALLIES"); \
+		name			"TickerBorder" \
+		rect			x y 160 15 alignment \
+		forecolor		1 1 1 1 \
+		background		"minimap_tickertape_background" \
+		ownerdraw		CG_PLAYER_COMPASS_BACK \
+		visible			when(COMPASS_STAT == position) \
 		decoration \
 	} \
 	itemDef \
 	{ \
-		style			WINDOW_STYLE_FILLED \
-		rect			36 -36 80 12 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM \
-		forecolor		0 0 0 0 \
-		border			1 \
-		bordercolor		axisColor 1 \
-		bordersize		2 \
-		visible when ((tableLookup("mp/mapsTable.csv", 0, dvarString("mapname"), 1) == setting) && team(name) == "TEAM_AXIS"); \
+		name			"Ticker" \
+		rect			x y 158 12 alignment \
+		forecolor		1 1 1 1 \
+		background		"minimap_tickertape" \
+		ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE \
+		textscale		0.25 \
+		textstyle		ITEM_TEXTSTYLE_NORMAL \
+		visible			when(COMPASS_STAT == position) \
+		decoration \
+	} \
+	itemDef \
+	{ \
+		name			"TickerPipUp" \
+		rect			(x + 80) y 1 6 alignment \
+		forecolor		1 1 1 0.8 \
+		background		"white" \
+		ownerdraw		CG_PLAYER_COMPASS_BACK \
+		visible			when(COMPASS_STAT == position) \
+		decoration \
+	} \
+	itemDef \
+	{ \
+		name			"TickerPipDown" \
+		rect			(x + 80) (y + 8) 1 6 alignment \
+		forecolor		1 1 1 0.8 \
+		background		"white" \
+		ownerdraw		CG_PLAYER_COMPASS_BACK \
+		visible			when(COMPASS_STAT == position) \
 		decoration \
 	}
 
-#define TICKER_WIDTH(segID)		(segID*64) 1 64 6 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
-#define TICKER_WIDTH_WS(segID)		(segID*85) 1 151 6 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
-
-#define HUD_TICKER(segID) \
-		itemDef \
-		{ \
-			style			WINDOW_STYLE_SHADER \
-			rect			TICKER_WIDTH(segID) \
-			origin			0 0 \
-			background		"hud_xpticker480" \
-			forecolor		1 1 1 HUD_FOREGROUND_ALPHA \
-			visible			when(dvarString("sr_xp_bar")=="1") \
-			decoration \
-		} \
-		itemDef \
-		{ \
-			style			WINDOW_STYLE_SHADER \
-			rect			TICKER_WIDTH_WS(segID) \
-			origin			0 0 \
-			background		"hud_xpticker480ws" \
-			forecolor		1 1 1 HUD_FOREGROUND_ALPHA \
-			visible			when(dvarString("sr_xp_bar")=="1") \
-			decoration \
-		}
-
-#define	BOTTOM_RECT_X 0
-#define	BOTTOM_RECT_Y 0
-#define MINIMAP_ORIGIN 2 11
+#define	BOTTOM_RECT_X 	0
+#define	BOTTOM_RECT_Y 	0
+#define MINIMAP_ORIGIN 	2 11
 
 {
 	assetGlobalDef
@@ -93,7 +65,6 @@
 		fadeAmount		0.1					// Amount to adjust alpha per cycle
 	}
 
-	// Low health overlay
 	menuDef
 	{
 		name			"Low Health"
@@ -113,7 +84,6 @@
 		}
 	}
 
-	// Mantle hint
 	menuDef
 	{
     	name			"MantleHint"
@@ -133,13 +103,12 @@
 		}
 	}
 
-	// Cursor hints
 	menuDef
 	{
 		name			"Cursorhints"
 		rect			0 0 40 40 HORIZONTAL_ALIGN_CENTER VERTICAL_ALIGN_CENTER
 		fullScreen		0
-		visible			1 // when(dvarInt(ui_hud_hardcore) == 0 && !ui_active())
+		visible			1
 
 		itemDef
 		{
@@ -153,7 +122,6 @@
 		}
 	}
 
-	// Invalid cmd hint
 	menuDef
 	{
 		name			"InvalidCmdHint"
@@ -174,7 +142,6 @@
 		}
 	}
 
-	// Stance indicator
 	menuDef
 	{
     	// Place this offscreen so it doesn't show the stance indicator but only shows the "prone blocked"
@@ -186,7 +153,7 @@
 		itemDef
 		{
 			name			"chRect"
-			rect			0 0 80 80 // 64x64
+			rect			0 0 80 80
 			ownerdraw		CG_PLAYER_STANCE
 			textfont		UI_FONT_OBJECTIVE
 			visible			when(!inkillcam() && !selecting_location() && dvarint(ui_hud_hardcore) == 0);
@@ -197,14 +164,12 @@
 		}
 	}
 
-	#define ALLIES_HAVE_UAV (dvarint(ui_uav_allies) && team(name) == "TEAM_ALLIES")
-	#define AXIS_HAVE_UAV (dvarint(ui_uav_axis) && team(name) == "TEAM_AXIS")
-	#define CLIENT_HAS_UAV (dvarint(ui_uav_client) && team(name) == "TEAM_FREE")
+	#define ALLIES_HAVE_UAV 	(dvarint(ui_uav_allies) && team(name) == "TEAM_ALLIES")
+	#define AXIS_HAVE_UAV 		(dvarint(ui_uav_axis) && team(name) == "TEAM_AXIS")
+	#define CLIENT_HAS_UAV 		(dvarint(ui_uav_client) && team(name) == "TEAM_FREE")
 	#undef MINIMAP_ORIGIN
 	#define MINIMAP_ORIGIN 		6 6
 
-	// Compass
-	#define COMPASS_STAT (stat(1608))
 	menuDef
 	{
 		name			"Compass_old"
@@ -212,285 +177,19 @@
  	   	fullScreen		0
  	   	visible			when(COMPASS_STAT > 0 && !inkillcam() && !flashbanged() && !ui_active() && !scoped() && (dvarString("show_hud") == "true"))
 
-		itemDef
-		{
-			name			"TickerBorder"
-			rect			-80 20 160 15 SR_ALIGN_TOP_CENTER
-			forecolor		1 1 1 1
-			background		"minimap_tickertape_background"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 2)
-			decoration
-		}
+		COMPASS(1, 0, 90, SR_ALIGN_TOP_LEFT)
+		COMPASS(2, -80, 20, SR_ALIGN_TOP_CENTER)
+		COMPASS(3, -160, 30, SR_ALIGN_TOP_RIGHT)
 
-		itemDef
-		{
-			name			"Ticker"
-			rect			-80 20 158 12 SR_ALIGN_TOP_CENTER
-			forecolor		1 1 1 1
-			background		"minimap_tickertape"
-			ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE
-			textscale		0.25
-			textstyle		ITEM_TEXTSTYLE_NORMAL
-			visible			when(COMPASS_STAT == 2)
-			decoration
-		}
+		COMPASS(4, 0, 10, SR_ALIGN_MIDDLE_LEFT)
+		COMPASS(5, -80, 10, SR_ALIGN_MIDDLE_CENTER)
+		COMPASS(6, -160, 10, SR_ALIGN_MIDDLE_RIGHT)
 
-		itemDef
-		{
-			name			"TickerPipUp"
-			rect			0 20 1 6 SR_ALIGN_TOP_CENTER
-			forecolor		1 1 1 0.8
-			background		"white"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 2)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerPipDown"
-			rect			0 28 1 6 SR_ALIGN_TOP_CENTER
-			forecolor		1 1 1 0.8
-			background		"white"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 2)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerBorder"
-			rect			-80 -30 160 15 SR_ALIGN_BOTTOM_CENTER
-			forecolor		1 1 1 1
-			background		"minimap_tickertape_background"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 5)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"Ticker"
-			rect			-80 -30 158 12 SR_ALIGN_BOTTOM_CENTER
-			forecolor		1 1 1 1
-			background		"minimap_tickertape"
-			ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE
-			textscale		0.25
-			textstyle		ITEM_TEXTSTYLE_NORMAL
-			visible			when(COMPASS_STAT == 5)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerPipUp"
-			rect			0 -28 1 6 SR_ALIGN_BOTTOM_CENTER
-			forecolor		1 1 1 0.8
-			background		"white"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 5)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerPipDown"
-			rect			0 -20 1 6 SR_ALIGN_BOTTOM_CENTER
-			forecolor		1 1 1 0.8
-			background		"white"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 5)
-			decoration
-		}
-
-		// RIGHT
-		itemDef
-		{
-			name			"TickerBorder"
-			rect			-160 20 160 15 SR_ALIGN_TOP_RIGHT
-			forecolor		1 1 1 1
-			background		"minimap_tickertape_background"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 3)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"Ticker"
-			rect			-160 20 158 12 SR_ALIGN_TOP_RIGHT
-			forecolor		1 1 1 1
-			background		"minimap_tickertape"
-			ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE
-			textscale		0.25
-			textstyle		ITEM_TEXTSTYLE_NORMAL
-			visible			when(COMPASS_STAT == 3)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerPipUp"
-			rect			-80 20 1 6 SR_ALIGN_TOP_RIGHT
-			forecolor		1 1 1 0.8
-			background		"white"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 3)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerPipDown"
-			rect			-80 28 1 6 SR_ALIGN_TOP_RIGHT
-			forecolor		1 1 1 0.8
-			background		"white"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 3)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerBorder"
-			rect			-160 -30 160 15 SR_ALIGN_BOTTOM_RIGHT
-			forecolor		1 1 1 1
-			background		"minimap_tickertape_background"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 6)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"Ticker"
-			rect			-160 -30 158 12 SR_ALIGN_BOTTOM_RIGHT
-			forecolor		1 1 1 1
-			background		"minimap_tickertape"
-			ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE
-			textscale		0.25
-			textstyle		ITEM_TEXTSTYLE_NORMAL
-			visible			when(COMPASS_STAT == 6)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerPipUp"
-			rect			-80 -20 1 6 SR_ALIGN_BOTTOM_RIGHT
-			forecolor		1 1 1 0.8
-			background		"white"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 6)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerPipDown"
-			rect			-80 -28 1 6 SR_ALIGN_BOTTOM_RIGHT
-			forecolor		1 1 1 0.8
-			background		"white"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 6)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerBorder"
-			rect			0 90 160 15 SR_ALIGN_TOP_LEFT
-			forecolor		1 1 1 1
-			background		"minimap_tickertape_background"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 1)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"Ticker"
-			rect			0 90 158 12 SR_ALIGN_TOP_LEFT
-			forecolor		1 1 1 1
-			background		"minimap_tickertape"
-			ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE
-			textscale		0.25
-			textstyle		ITEM_TEXTSTYLE_NORMAL
-			visible			when(COMPASS_STAT == 1)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerPipUp"
-			rect			80 90 1 6 SR_ALIGN_TOP_LEFT
-			forecolor		1 1 1 0.8
-			background		"white"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 1)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerPipDown"
-			rect			80 98 1 6 SR_ALIGN_TOP_LEFT
-			forecolor		1 1 1 0.8
-			background		"white"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 1)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerBorder"
-			rect			0 -30 160 15 SR_ALIGN_BOTTOM_LEFT
-			forecolor		1 1 1 1
-			background		"minimap_tickertape_background"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 4)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"Ticker"
-			rect			0 -30 158 12 SR_ALIGN_BOTTOM_LEFT
-			forecolor		1 1 1 1
-			background		"minimap_tickertape"
-			ownerdraw		CG_PLAYER_COMPASS_TICKERTAPE
-			textscale		0.25
-			textstyle		ITEM_TEXTSTYLE_NORMAL
-			visible			when(COMPASS_STAT == 4)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerPipUp"
-			rect			80 -20 1 6 SR_ALIGN_BOTTOM_LEFT
-			forecolor		1 1 1 0.8
-			background		"white"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 4)
-			decoration
-		}
-
-		itemDef
-		{
-			name			"TickerPipDown"
-			rect			80 -28 1 6 SR_ALIGN_BOTTOM_LEFT
-			forecolor		1 1 1 0.8
-			background		"white"
-			ownerdraw		CG_PLAYER_COMPASS_BACK
-			visible			when(COMPASS_STAT == 4)
-			decoration
-		}
+		COMPASS(7, 0, -30, SR_ALIGN_BOTTOM_LEFT)
+		COMPASS(8, -80, -30, SR_ALIGN_BOTTOM_CENTER)
+		COMPASS(9, -160, -30, SR_ALIGN_BOTTOM_RIGHT)
 	}
 
-	// XP bar
 	menuDef
 	{
 		name			"xpbar"
@@ -522,133 +221,21 @@
 		}
 	}
 
-	#define SCOREBAR_ORIGIN 0 -7
-	#define ESCOREBAR_ORIGIN 8 -6
+	#define SCOREBAR_ORIGIN 	0 -7
+	#define ESCOREBAR_ORIGIN 	8 -6
 
-	#define SCORE_OFFSET_X	4
-	#define SCORE_OFFSET_Y	2
+	#define SCORE_OFFSET_X		4
+	#define SCORE_OFFSET_Y		2
 
-	#define TEAM_IS_TIED	(team(score) == otherteam(score))
-	#define TEAM_IS_WINNING (team(score) > otherteam(score))
-	#define TEAM_IS_LOSING	(team(score) < otherteam(score))
+	#define TEAM_IS_TIED		(team(score) == otherteam(score))
+	#define TEAM_IS_WINNING 	(team(score) > otherteam(score))
+	#define TEAM_IS_LOSING		(team(score) < otherteam(score))
 
 	#define PLAYER_IS_TIED		(player(score) == scoreatrank(1) && scoreatrank(1) == scoreatrank(2))
 	#define PLAYER_IS_WINNING	(player(score) > scoreatrank(2))
 	#define PLAYER_IS_LOSING	(player(score) < scoreatrank(1))
 
 	#define SHOULD_DISPLAY_SCOREBAR (team(name) != "TEAM_SPECTATOR")
-
-	menuDef
-	{
-		name			"scorebars"
-		style			WINDOW_STYLE_EMPTY
-		rect			0 0 640 480
-		visible			1
-
-		itemDef
-		{
-			rect		-80 70 1 1 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
-			forecolor	1 1 1 1
-			exp			text("ID: ")
-			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_NORMAL
-			textalign	ITEM_ALIGN_RIGHT
-			textscale	0.25
-			visible		1
-			decoration
-		}
-
-		itemDef
-		{
-			rect		-78 70 1 1 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
-			forecolor	1 1 1 1
-			exp			text(dvarString("sr_anticheat_player_id"))
-			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_NORMAL
-			textalign	ITEM_ALIGN_LEFT
-			textscale	0.25
-			visible		1
-			decoration
-		}
-
-		itemDef
-		{
-			rect		-80 80 1 1 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
-			forecolor	1 1 1 1
-			exp			text("Run: ")
-			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_NORMAL
-			textalign	ITEM_ALIGN_RIGHT
-			textscale	0.25
-			visible		1
-			decoration
-		}
-
-		itemDef
-		{
-			rect		-78 80 1 1 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
-			forecolor	1 1 1 1
-			exp			text(dvarString("sr_anticheat_player_run"))
-			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_NORMAL
-			textalign	ITEM_ALIGN_LEFT
-			textscale	0.25
-			visible		1
-			decoration
-		}
-
-		itemDef
-		{
-			rect		-80 90 1 1 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
-			forecolor	1 1 1 1
-			exp			text("Name: ")
-			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_NORMAL
-			textalign	ITEM_ALIGN_RIGHT
-			textscale	0.25
-			visible		1
-			decoration
-		}
-
-		itemDef
-		{
-			rect		-78 90 1 1 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
-			forecolor	1 1 1 1
-			exp			text(dvarString("sr_anticheat_player_name"))
-			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_NORMAL
-			textalign	ITEM_ALIGN_LEFT
-			textscale	0.25
-			visible		1
-			decoration
-		}
-
-		itemDef
-		{
-			rect		-80 100 1 1 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
-			forecolor	1 1 1 1
-			exp			text("GUID: ")
-			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_NORMAL
-			textalign	ITEM_ALIGN_RIGHT
-			textscale	0.25
-			visible		0
-			decoration
-		}
-
-		itemDef
-		{
-			rect		-78 100 1 1 HORIZONTAL_ALIGN_RIGHT VERTICAL_ALIGN_TOP
-			forecolor	1 1 1 1
-			exp			text(dvarString("sr_anticheat_player_guid"))
-			textfont	UI_FONT_NORMAL
-			textstyle	ITEM_TEXTSTYLE_NORMAL
-			textalign	ITEM_ALIGN_LEFT
-			textscale	0.25
-			visible		0
-			decoration
-		}
-	}
 
 	#define WEAPINFO_X -4
 	#define WEAPINFO_Y -36
@@ -786,7 +373,6 @@
 		}
 	}
 
-	// Game messages
 	menuDef
 	{
 		name			"gamemessages"
@@ -824,12 +410,11 @@
 			textfont			UI_FONT_OBJECTIVE
 			textstyle			ITEM_TEXTSTYLE_NORMAL
 			textalign			ITEM_ALIGN_CENTER
-			textscale			0.31 // SP: 0.5
+			textscale			0.28
 			visible				when (dvarint(ui_hud_obituaries) == 1 && !ui_active());
 		}
 	}
 
-	// Safe area
 	menuDef
 	{
 		name			"safeareaa"

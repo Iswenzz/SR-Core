@@ -4,7 +4,7 @@
 
 initVote()
 {
-	level.sr_map = "mp_sr_backrooms";
+	level.sr_map = undefined;
 	level.vote_max_entries = 24;
 	level.vote_maps = Chunk(level.rotation, level.vote_max_entries);
 	level.vote_progress = false;
@@ -173,6 +173,9 @@ vote(vote, value)
 {
 	if (level.vote_progress)
 		return;
+	if (vote == "src" && !isDefined(level.sr_map))
+		return;
+
 	level.vote_progress = true;
 	level.vote_timer = 20;
 	level.vote_yes = 0;
