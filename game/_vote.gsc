@@ -1,4 +1,5 @@
 #include sr\sys\_events;
+#include sr\utils\_common;
 #include sr\utils\_hud;
 
 initVote()
@@ -13,6 +14,8 @@ initVote()
 
 	menu_multiple("sr_votemap", "select", ::menu_Select);
 	menu_multiple("sr_votemap", "vote", ::menu_Vote);
+	menu("sr_votemap", "open", ::menu_Open);
+	menu("sr_votemap", "close", ::menu_Close);
 	menu("sr_votemap", "next", ::menu_PageNext);
 	menu("sr_votemap", "prev", ::menu_PagePrev);
 	menu("-1", "cjvoteyes", ::menu_PlayerVote);
@@ -30,35 +33,43 @@ onConnect()
 	self.vote_cd = getTime();
 	self.vote_page = 0;
 	self.vote_selected = 0;
-
-	wait 2;
-
-	self display();
+	self.vote_maps = level.vote_maps;
 }
 
 display()
 {
 	page = self.vote_page;
-	maxPage = level.vote_maps.size;
+	maxPage = self.vote_maps.size;
 
 	for (i = 0; i < level.vote_max_entries; i++)
 	{
 		string = "";
-		if (isDefined(level.vote_maps[page][i]))
-			string = level.vote_maps[page][i];
+		if (self.vote_maps.size && isDefined(self.vote_maps[page]) && isDefined(self.vote_maps[page][i]))
+			string = self.vote_maps[page][i];
 		self setClientDvar("sr_votemap_" + i, string);
-
-		if (!(i % 6))
-			wait 0.05;
 	}
 	self setClientDvar("sr_vote_selected", "");
 	self setClientDvar("sr_vote_page", fmt("%d/%d", page + 1, maxPage));
 }
 
-menu_PageNext(arg)
+menu_Open(args)
+{
+	self.vote_maps = level.vote_maps;
+	self setClientDvar("sr_vote_search", "");
+	self display();
+
+	self thread searchBox();
+}
+
+menu_Close(args)
+{
+	self notify("menu_votemap_close");
+}
+
+menu_PageNext(args)
 {
 	page = self.vote_page;
-	maxPage = level.vote_maps.size;
+	maxPage = self.vote_maps.size;
 
 	if (page >= maxPage - 1)
 		return;
@@ -81,10 +92,10 @@ menu_Select(args)
 	value = ToInt(args[1]);
 
 	page = self.vote_page;
-	maxPage = level.vote_maps.size;
+	maxPage = self.vote_maps.size;
 
 	self.vote_selected = value;
-	selected = level.vote_maps[page][value];
+	selected = self.vote_maps[page][value];
 	self setClientDvar("sr_vote_selected", selected);
 	self setClientDvar("sr_vote_selected_material", "loadscreen_" + selected);
 }
@@ -94,7 +105,7 @@ menu_Vote(args)
 	value = args[1];
 
 	page = self.vote_page;
-	selected = level.vote_maps[page][self.vote_selected];
+	selected = self.vote_maps[page][self.vote_selected];
 
 	if ((getTime() - self.vote_cd) < 300000)
 	{
@@ -126,6 +137,33 @@ menu_PlayerVote(arg)
 	{
 		case "cjvoteyes": level.vote_yes++; break;
 		case "cjvoteno":  level.vote_no++;  break;
+	}
+}
+
+searchBox()
+{
+	self endon("menu_votemap_close");
+	previousSearch = "";
+
+	while (true)
+	{
+		wait 0.2;
+
+		self.vote_search = toLower(self getUserInfo("sr_vote_search"));
+		if (previousSearch == self.vote_search)
+			continue;
+		previousSearch = self.vote_search;
+
+		maps = [];
+		for (i = 0; i < level.rotation.size; i++)
+		{
+			if (isSubStr(level.rotation[i], self.vote_search))
+				maps[maps.size] = level.rotation[i];
+		}
+		self.vote_maps = Chunk(maps, level.vote_max_entries);
+		self display();
+
+		wait 1;
 	}
 }
 

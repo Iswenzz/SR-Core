@@ -26,6 +26,16 @@
 
 		focusColor	COLOR_FOCUSED
 
+		onOpen
+		{
+			scriptMenuResponse "open";
+		}
+
+		onClose
+		{
+			scriptMenuResponse "close";
+		}
+
 		onEsc
 		{
 			close self;
@@ -34,7 +44,7 @@
 		SR_FRAME_HEADER("Vote", 0, 0, SR_WINDOW_W, HEADER_HALF, 0)
 		SR_FRAME_HEADER(dvarString("sr_vote_selected"), 0, HEADER_HALF, SR_WINDOW_W, HEADER_HALF, 0)
 
-		BUTTON_DVAREDIT_VIS_EX(1, "", "sr_vote_search", 30, 30, scriptMenuResponse "search";, 1, textalignx LAYOUT_TEXT_OFFSET_X)
+		BUTTON_DVAREDIT_VIS_EX(1, "", "sr_vote_search", 30, 30, ;, 1, textalignx LAYOUT_TEXT_OFFSET_X)
 		SR_FRAME_BORDER(LAYOUT_X_START, (LAYOUT_Y_START + 22), BUTTON_SIZE_X, 2)
 
 		#undef LAYOUT_Y_START
