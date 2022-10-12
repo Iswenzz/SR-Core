@@ -237,6 +237,14 @@
 
 	#define SHOULD_DISPLAY_SCOREBAR (team(name) != "TEAM_SPECTATOR")
 
+	menuDef
+	{
+		name			"scorebars"
+		style			WINDOW_STYLE_EMPTY
+		rect			0 0 640 480
+		visible			0
+	}
+
 	#define WEAPINFO_X -4
 	#define WEAPINFO_Y -36
 
