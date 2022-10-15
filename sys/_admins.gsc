@@ -194,6 +194,26 @@ log()
 	FILE_Close(file);
 }
 
+printBold(msg)
+{
+	if (!isPlayer(self))
+	{
+		sysPrintLn(msg);
+		return;
+	}
+	self iPrintLnBold(msg);
+}
+
+printLine(msg)
+{
+	if (!isPlayer(self))
+	{
+		sysPrintLn(msg);
+		return;
+	}
+	self iPrintLn(msg);
+}
+
 message(msg)
 {
 	exec(fmt("say %s", msg));
