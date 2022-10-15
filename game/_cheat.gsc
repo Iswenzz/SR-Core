@@ -12,7 +12,7 @@ loop()
 	self endon("disconnect");
 
 	self.sr_cheat = false;
-	self.antiLowFps = true;
+	self.antiLag = true;
 	self.antiElevator = true;
 
 	wait 0.05;
@@ -29,7 +29,7 @@ loop()
 		self.previousVelocity = self getVelocity();
 		wait 0.05;
 
-		// self antiLowFps();
+		self antiLag();
 		self antiElevator();
 	}
 }
@@ -49,12 +49,12 @@ antiCheat()
 	self.sr_cheat = cheat;
 }
 
-antiLowFps()
+antiLag()
 {
-	if (self.sr_cheat || self.pers["team"] == "axis" || !self.antiLowFps)
+	if (self.sr_cheat || self.pers["team"] == "axis" || !self.antiLag)
 		return;
 
-	if (self getCountedFPS() < 1)
+	if (self getFPS() <= 10 || self getPing() >= 800)
 	{
 		self iPrintLn("^5ANTI-LAG");
 		self suicide();

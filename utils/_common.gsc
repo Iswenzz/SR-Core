@@ -60,11 +60,13 @@ getPlayingPlayers()
 
 getFPS()
 {
-	fps = self getUserInfo("com_maxfps");
+	return self getCountedFPS();
+}
 
-	if (IsNullOrEmpty(fps))
-		return 125;
-	return ToInt(fps);
+setu(var, value)
+{
+	self clientCmd(fmt("setu %s %s", var, value));
+	wait 0.05;
 }
 
 canSpawn()
