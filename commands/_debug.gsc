@@ -125,5 +125,10 @@ cmd_DebugEntsAmount(args)
 
 cmd_Test(args)
 {
+	self.antiLag = false;
+	self.sr_cheat = true;
+	self.godmode = true;
 
+	ent = self playDemo();
+	self linkTo(ent);
 }
