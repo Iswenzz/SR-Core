@@ -11,6 +11,27 @@ main()
 	event("disconnect", ::recordDelete);
 }
 
+play(mode, way)
+{
+	self.demoEnt = self playDemo(mode, way);
+	self linkTo(self.demoEnt);
+
+	self sr\player\huds\_demo::hud();
+
+	while (self isDemoPlaying())
+	{
+		if (self meleeButtonPressed())
+		{
+			self stopDemo();
+			break;
+		}
+
+		wait 0.05;
+	}
+	self.demoEnt delete();
+	self suicide();
+}
+
 record()
 {
 	self endon("death");
