@@ -1,5 +1,6 @@
 #include sr\sys\_file;
 #include sr\sys\_events;
+#include sr\utils\_common;
 
 main()
 {
@@ -8,28 +9,56 @@ main()
 
 	event("spawn", ::record);
 	event("death", ::recordDelete);
+	event("death", ::stopDemoPlayer);
 	event("disconnect", ::recordDelete);
 }
 
 play(mode, way)
 {
-	self.demoEnt = self playDemo(mode, way);
-	self linkTo(self.demoEnt);
+	self stopDemoPlayer();
+	wait 0.05;
+	self endon("demo_stop");
 
-	self sr\player\huds\_demo::hud();
+	self.sr_cheat = true;
+	self.godmode = true;
+	self.antiLag = false;
+	self.antiElevator = false;
+
+	self endon("death");
+	self endon("disconnect");
+	self endon("joined_spectators");
+
+	if (!isDefined(self.demoEnt))
+	{
+		self.demoEnt = self playDemo(mode, way);
+		self linkTo(self.demoEnt);
+	}
+
+	self thread speedrun\player\huds\_demo::hud();
 
 	while (self isDemoPlaying())
 	{
 		if (self meleeButtonPressed())
-		{
-			self stopDemo();
 			break;
-		}
 
 		wait 0.05;
 	}
-	self.demoEnt delete();
-	self suicide();
+	self thread stopDemoPlayer();
+}
+
+stopDemoPlayer()
+{
+	if (isDefined(self.demoEnt))
+	{
+		self notify("demo_stop");
+		self.demoEnt delete();
+		self stopDemo();
+		self suicide();
+
+		self.godmode = undefined;
+		self.antiLag = true;
+		self.antiElevator = true;
+	}
 }
 
 record()

@@ -35,7 +35,7 @@ loop()
 }
 
 antiCheat()
-	{
+{
 	self endon("disconnect");
 	self endon("death");
 
@@ -45,6 +45,8 @@ antiCheat()
 	if (self sr\game\minigames\_main::isInAnyQueue())
 		cheat = true;
 	if (self sr\player\modes\_main::isInAnyMode())
+		cheat = true;
+	if (self isDemoPlaying())
 		cheat = true;
 	self.sr_cheat = cheat;
 }
