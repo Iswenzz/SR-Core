@@ -7,58 +7,11 @@ main()
 	if (!level.dvar["demos"])
 		return;
 
+	level.demos = [];
+
 	event("spawn", ::record);
 	event("death", ::recordDelete);
-	event("death", ::stopDemoPlayer);
 	event("disconnect", ::recordDelete);
-}
-
-play(mode, way)
-{
-	self stopDemoPlayer();
-	wait 0.05;
-	self endon("demo_stop");
-
-	self.sr_cheat = true;
-	self.godmode = true;
-	self.antiLag = false;
-	self.antiElevator = false;
-
-	self endon("death");
-	self endon("disconnect");
-	self endon("joined_spectators");
-
-	if (!isDefined(self.demoEnt))
-	{
-		self.demoEnt = self playDemo(mode, way);
-		self linkTo(self.demoEnt);
-	}
-
-	self thread speedrun\player\huds\_demo::hud();
-
-	while (self isDemoPlaying())
-	{
-		if (self meleeButtonPressed())
-			break;
-
-		wait 0.05;
-	}
-	self thread stopDemoPlayer();
-}
-
-stopDemoPlayer()
-{
-	if (isDefined(self.demoEnt))
-	{
-		self notify("demo_stop");
-		self.demoEnt delete();
-		self stopDemo();
-		self suicide();
-
-		self.godmode = undefined;
-		self.antiLag = true;
-		self.antiElevator = true;
-	}
 }
 
 record()
