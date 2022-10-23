@@ -57,10 +57,7 @@ antiLag()
 		return;
 
 	if (self getFPS() <= 10 || self getPing() >= 800)
-	{
-		self iPrintLn("^5ANTI-LAG");
 		self suicide();
-	}
 }
 
 antiElevator()
