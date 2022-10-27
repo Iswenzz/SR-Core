@@ -33,8 +33,6 @@ hud()
 
 		self.run = self.player.run;
 		self.velocityDist = self.player getPlayerVelocity();
-        if (isDefined(self.demo))
-			self.velocityDist = self getSpeedrunVelocity();
         self.onGround = self.player isOnGround();
 
         if (self.onGround && !self.prevOnGround)

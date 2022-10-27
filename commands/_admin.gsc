@@ -8,6 +8,7 @@ main()
 	cmd("owner",        "cmd",			::cmd_Command);
 	cmd("admin",        "detail",		::cmd_Detail);
 	cmd("masteradmin",  "end",			::cmd_End);
+	cmd("owner",  		"nextmap",		::cmd_NextMap);
 	cmd("owner",        "givexp",		::cmd_GiveXp);
 	cmd("owner",        "getdvar",		::cmd_GetDvar);
 	cmd("player", 		"help",			::cmd_Help);
@@ -36,6 +37,14 @@ main()
 cmd_End(args)
 {
 	thread sr\game\_map::end();
+}
+
+cmd_NextMap(args)
+{
+	maps = level.randomizedMaps;
+	map = maps[randomInt(maps.size)];
+	setDvar("sv_maprotationcurrent", "gametype deathrun map " + map);
+	exitLevel(false);
 }
 
 cmd_PM(args)

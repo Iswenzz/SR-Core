@@ -62,6 +62,7 @@ loop()
 
 	while (true)
 	{
+		iPrintLnBold("bt");
 		if (!self isReallyAlive() || !self hasWeaponBT())
 		{
 			wait 1;

@@ -40,7 +40,7 @@ hud()
 
 		self.run = self.player.run;
         self.fps = self.player getFPS();
-        self.velocity = self.player getVelocity();
+		self.jumpOrigin = self.origin[2];
         self.isOnGround = self.player isOnGround();
         self.isFalling = self.player isFalling();
 
@@ -51,15 +51,18 @@ hud()
         self.prevFps = self.fps;
         self.prevIsOnGround = self.isOnGround;
         self.prevIsFalling = self.isFalling;
+		self.prevJumpOrigin = self.jumpOrigin;
 	}
 }
 
 vars()
 {
 	self.fpsCombo = "";
+	self.jumpOrigin = self.origin[2];
     self.prevFps = 0;
     self.prevIsOnGround = true;
     self.prevIsFalling = false;
+	self.prevJumpOrigin = 0;
 }
 
 hudFps()
@@ -127,8 +130,10 @@ isFalling()
 {
     if (self.isOnGround)
         return false;
-    if (self.velocity[2] >= 0)
-        return false;
+	if (self.isFalling && self.jumpOrigin - self.prevJumpOrigin <= 0)
+		return true;
+    if (self.jumpOrigin - self.prevJumpOrigin >= 0)
+		return false;
     return true;
 }
 

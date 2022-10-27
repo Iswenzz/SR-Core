@@ -42,6 +42,9 @@ getPlayerByName(nickname)
 
 getPlayerVelocity()
 {
+	if (isDefined(self.demo))
+		return self getSpeedrunVelocity();
+
 	velocity = self getVelocity();
 	return int(sqrt((velocity[0] * velocity[0]) + (velocity[1] * velocity[1])));
 }
