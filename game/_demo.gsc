@@ -26,8 +26,7 @@ record()
 
 	thread recordTimeout();
 
-	mapname = level.map;
-	self.demoPath = PathJoin(PATH_Mod("demos"), self.id, mapname, ToString(self.run));
+	self.demoPath = PathJoin(PATH_Mod("demos"), self.id, level.map, self.run);
 	exec(fmt("record %d %s", self getEntityNumber(), self.demoPath));
 }
 
