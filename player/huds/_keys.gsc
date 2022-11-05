@@ -65,10 +65,15 @@ updateKeys()
 	if (!isDefined(self.huds["keys"]) || !self.huds["keys"].size)
 		return;
 
-	self.huds["keys"][0].alpha = Ternary(self.player forwardButtonPressed(), 1, 0);
-	self.huds["keys"][1].alpha = Ternary(self.player moveLeftButtonPressed(), 1, 0);
-	self.huds["keys"][2].alpha = Ternary(self.player backButtonPressed(), 1, 0);
-	self.huds["keys"][3].alpha = Ternary(self.player moveRightButtonPressed(), 1, 0);
+	forward = self.player forwardButtonPressed() || self.player getDemoForwardMove() > 0;
+	left = self.player moveLeftButtonPressed() || self.player getDemoRightMove() < 0;
+	backward = self.player backButtonPressed() || self.player getDemoForwardMove() < 0;
+	right = self.player moveRightButtonPressed() || self.player getDemoRightMove() > 0;
+
+	self.huds["keys"][0].alpha = forward;
+	self.huds["keys"][1].alpha = left;
+	self.huds["keys"][2].alpha = backward;
+	self.huds["keys"][3].alpha = right;
 }
 
 clear()

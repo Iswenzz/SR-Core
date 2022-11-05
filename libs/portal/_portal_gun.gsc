@@ -54,11 +54,11 @@ watch()
 		}
 
 		color = undefined;
-		if (self attackButtonPressed())
+		if (self attackButtonPressed() || self getDemoButtons() & 1)
 			color = "blue";
-		else if (self aimButtonPressed())
+		else if (self aimButtonPressed() || self getDemoButtons() & 524288)
 			color = "red";
-		else if (self fragButtonPressed())
+		else if (self fragButtonPressed() || self getDemoButtons() & 16384)
 			self resetPortals();
 
 		if (isDefined(color))

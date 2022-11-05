@@ -67,7 +67,7 @@ loop()
 			wait 1;
 			continue;
 		}
-		if (self attackButtonPressed())
+		if (self attackButtonPressed() || self getDemoButtons() & 1)
 		{
 			weapon = self getWeaponBT();
 			if (!isDefined(weapon))
