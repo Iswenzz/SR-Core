@@ -40,9 +40,8 @@ hud()
 
 		self.run = self.player.run;
         self.fps = self.player getFPS();
-		self.jumpOrigin = self.origin[2];
         self.isOnGround = self.player isOnGround();
-        self.isFalling = self.player isFalling();
+        self.isBouncing = self.player isBouncing();
 
 		self updateFps();
 
@@ -50,19 +49,17 @@ hud()
 
         self.prevFps = self.fps;
         self.prevIsOnGround = self.isOnGround;
-        self.prevIsFalling = self.isFalling;
-		self.prevJumpOrigin = self.jumpOrigin;
+		self.prevIsBouncing = self.isBouncing;
 	}
 }
 
 vars()
 {
 	self.fpsCombo = "";
-	self.jumpOrigin = self.origin[2];
+	self.isBouncing = false;
     self.prevFps = 0;
     self.prevIsOnGround = true;
-    self.prevIsFalling = false;
-	self.prevJumpOrigin = 0;
+	self.prevIsBouncing = false;
 }
 
 hudFps()
@@ -75,40 +72,41 @@ hudFps()
 
 updateFps()
 {
-	if (!isDefined(self.huds["fps"]))
-		return;
-
-	switch (self.fps)
+	if (isDefined(self.huds["fps"]) && self.fps != self.prevFps)
 	{
-		case 20:
-		case 30:
-		case 125:
-		case 142:
-		case 166:
-		case 250:
-		case 333:
-		case 500:
-		case 1000:
-			self.huds["fps"] setShader("fps_" + self.fps, 90, 60);
-			break;
+		switch (self.fps)
+		{
+			case 20:
+			case 30:
+			case 125:
+			case 142:
+			case 166:
+			case 250:
+			case 333:
+			case 500:
+			case 1000:
+				self.huds["fps"] setShader("fps_" + self.fps, 90, 60);
+				break;
+		}
 	}
     if (!isDefined(self.huds["fps_combo"]))
         return;
 
     if (self.isOnGround)
     {
-        self.fpsCombo = "";
-        self.huds["fps_combo"] setText(self.fpsCombo);
+        if (self.fpsCombo.size)
+		{
+			self.fpsCombo = "";
+       		self.huds["fps_combo"] setText(self.fpsCombo);
+		}
         return;
     }
-
-	bounced = false;
-    if (!self.isOnGround && !self.isFalling && self.prevIsFalling)
+	if (self.isBouncing && !self.prevIsBouncing && self.fpsCombo.size)
 	{
 		self.fpsCombo += "-";
-		bounced = true;
+		self.prevFps = -1;
 	}
-    if (!bounced && self.fps == self.prevFps && !self.prevIsOnGround)
+	if (self.fps == self.prevFps && !self.prevIsOnGround)
         return;
 
 	switch (self.fps)
@@ -126,15 +124,11 @@ updateFps()
 	self.huds["fps_combo"] setText(self.fpsCombo);
 }
 
-isFalling()
+isBouncing()
 {
     if (self.isOnGround)
         return false;
-	if (self.isFalling && self.jumpOrigin - self.prevJumpOrigin <= 0)
-		return true;
-    if (self.jumpOrigin - self.prevJumpOrigin >= 0)
-		return false;
-    return true;
+    return !self getJumpOrigin();
 }
 
 clear()
