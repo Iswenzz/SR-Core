@@ -113,8 +113,8 @@ pmove()
 	self.cgaz.forward = anglesToForward(self.cgaz.viewAngles);
 	self.cgaz.right = anglesToRight(self.cgaz.viewAngles);
 	self.cgaz.up = anglesToUp(self.cgaz.viewAngles);
-	self.cgaz.forwardMove = self.player getDemoForwardMove() || self.player getForwardMove();
-	self.cgaz.rightMove = self.player getDemoRightMove() || self.player getRightMove();
+	self.cgaz.forwardMove = Ternary(self.player getDemoForwardMove(), self.player getDemoForwardMove(), self.player getForwardMove());
+	self.cgaz.rightMove = Ternary(self.player getDemoRightMove(), self.player getDemoRightMove(), self.player getRightMove());
 	self.cgaz.frameTime = 1 / self.player getFPS();
 	self.cgaz.viewHeight = int(self.player eye()[2]);
 	self.cgaz.speed = IfUndef(self.player.speed, 190);

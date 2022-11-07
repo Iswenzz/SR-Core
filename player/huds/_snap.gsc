@@ -215,8 +215,8 @@ pmove()
 	self.snap.forward = anglesToForward(self.snap.viewAngles);
 	self.snap.right = anglesToRight(self.snap.viewAngles);
 	self.snap.up = anglesToUp(self.snap.viewAngles);
-	self.snap.forwardMove = self.player getDemoForwardMove() || self.player getForwardMove();
-	self.snap.rightMove = self.player getDemoRightMove() || self.player getRightMove();
+	self.snap.forwardMove = Ternary(self.player getDemoForwardMove(), self.player getDemoForwardMove(), self.player getForwardMove());
+	self.snap.rightMove = Ternary(self.player getDemoRightMove(), self.player getDemoRightMove(), self.player getRightMove());
 	self.snap.frameTime = 1 / self.player getFPS();
 	self.snap.viewHeight = int(self.player eye()[2]);
 	self.snap.hudIndex = 0;

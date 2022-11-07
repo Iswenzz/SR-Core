@@ -125,7 +125,8 @@ updateVelocity()
 		if (self.settings["hud_velocity_ground"] == 2)
 			ground = fmt("^2G ^7%d", int(Average(self.groundTimes)));
 	}
-	self.huds["velocity"] setText(fmt("%s    %s    %s    %s", ground, velocity, average, max));
+	if (self.velocityDist != self.prevVelocityDist)
+		self.huds["velocity"] setText(fmt("%s    %s    %s    %s", ground, velocity, average, max));
 }
 
 clear()
