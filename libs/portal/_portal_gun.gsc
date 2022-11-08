@@ -66,7 +66,9 @@ watch()
 			self playLocalSound("portal_gun_shoot_" + color);
 			self thread portal(color);
 		}
-		while (self attackButtonPressed() || self aimButtonPressed() || self fragButtonPressed())
+		while ((self attackButtonPressed() || self getDemoButtons() & 1)
+			|| (self aimButtonPressed() || self getDemoButtons() & 524288)
+			|| (self fragButtonPressed() || self getDemoButtons() & 16384))
 			wait 0.05;
 	}
 }
