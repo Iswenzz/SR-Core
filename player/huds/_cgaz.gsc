@@ -119,6 +119,7 @@ pmove()
 	self.cgaz.viewHeight = int(self.player eye()[2]);
 	self.cgaz.speed = IfUndef(self.player.speed, 190);
 	self.cgaz.moveSpeedScale = IfUndef(self.player.moveSpeedScale, 1.05);
+	self.cgaz.gravity = IfUndef(self.player.gravity, 800);
 
 	if (self isOnGround())
 		self pm_walkMove();
@@ -362,7 +363,7 @@ pm_accelerate(wishspeed, accel)
 
 pm_slickAccelerate(wishspeed, accel)
 {
-	self update_d(wishspeed, accel, self.gravity * self.cgaz.frameTime);
+	self update_d(wishspeed, accel, self.cgaz.gravity * self.cgaz.frameTime);
 }
 
 update_d(wishspeed, accel, slickGravity)
