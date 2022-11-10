@@ -4,7 +4,7 @@
 main()
 {
 	event("connect", ::loop);
-	event("spawn", ::antiCheat);
+	event("spawn", ::spawnLoop);
 }
 
 loop()
@@ -14,27 +14,9 @@ loop()
 	self.sr_cheat = false;
 	self.antiLag = true;
 	self.antiElevator = true;
-
-	wait 0.05;
-
-	while (true)
-	{
-		if (!self isPlaying())
-		{
-			wait 0.1;
-			continue;
-		}
-
-		self.previousOrigin = self.origin;
-		self.previousVelocity = self getVelocity();
-		wait 0.05;
-
-		self antiLag();
-		self antiElevator();
-	}
 }
 
-antiCheat()
+spawnLoop()
 {
 	self endon("disconnect");
 	self endon("death");
@@ -49,6 +31,18 @@ antiCheat()
 	if (self isDemoPlaying())
 		cheat = true;
 	self.sr_cheat = cheat;
+
+	wait 1;
+
+	while (true)
+	{
+		self.previousOrigin = self.origin;
+		self.previousVelocity = self getVelocity();
+		wait 0.05;
+
+		self antiLag();
+		self antiElevator();
+	}
 }
 
 antiLag()
