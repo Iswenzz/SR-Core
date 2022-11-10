@@ -23,7 +23,7 @@ playersVisibility()
             // Activator should be visible to everyone
             if (players[i].pers["team"] == "axis")
                 players[i] show();
-            else
+            else if (!players[i].hidden)
                 players[i] hide();
         }
         for (i = 0; i < players.size; i++)
