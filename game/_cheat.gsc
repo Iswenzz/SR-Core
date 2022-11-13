@@ -32,6 +32,9 @@ spawnLoop()
 		cheat = true;
 	self.sr_cheat = cheat;
 
+	if (self.isBot || self.sr_cheat) 
+		return;
+
 	wait 1;
 
 	while (true)
