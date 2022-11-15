@@ -1,0 +1,16 @@
+{
+	stateMap "default";
+
+	vertexShader 3.0 "sr_spray_ec8ef9ff77"
+    {
+
+	}
+
+	pixelShader 3.0 "sr_spray_ec8ef9ff77"
+	{
+		colorMapSampler = material.colorMap;
+	}
+
+	vertex.position = code.position;
+	vertex.texcoord[0] = code.texcoord[0];
+}
