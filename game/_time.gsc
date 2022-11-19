@@ -27,8 +27,13 @@ playedTime()
 
 updateMenuPT()
 {
+	self endon("disconnect");
+
 	wait 0.5;
 
-	time = originToTime(getTime() - self.timePlayed);
-	self setClientDvar("sr_info_timePlayed", self getStat(2629) + time.min);
+	if (isDefined(self.timePlayed))
+	{
+		time = originToTime(getTime() - self.timePlayed);
+		self setClientDvar("sr_info_timePlayed", self getStat(2629) + time.min);
+	}
 }

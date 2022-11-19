@@ -29,6 +29,8 @@ main()
 
 onConnect()
 {
+	self endon("disconnect");
+
 	wait 0.05;
 
 	self setClientDvar("r_distortion", 1);

@@ -106,20 +106,20 @@ updateFps()
 		self.fpsCombo += "-";
 		self.prevFps = -1;
 	}
-	if (self.fps == self.prevFps && !self.prevIsOnGround)
-        return;
-
-	switch (self.fps)
+	if (self.fps != self.prevFps || !self.fpsCombo.size)
 	{
-		case 20:	self.fpsCombo += "(20)";	break;
-		case 30:	self.fpsCombo += "(30)";	break;
-		case 125:	self.fpsCombo += "1";		break;
-		case 142:	self.fpsCombo += "4";		break;
-		case 166:	self.fpsCombo += "6";		break;
-		case 250:	self.fpsCombo += "2";		break;
-		case 333:	self.fpsCombo += "3";		break;
-		case 500:	self.fpsCombo += "5";		break;
-		case 1000: 	self.fpsCombo += "0";		break;
+		switch (self.fps)
+		{
+			case 20:	self.fpsCombo += "(20)";	break;
+			case 30:	self.fpsCombo += "(30)";	break;
+			case 125:	self.fpsCombo += "1";		break;
+			case 142:	self.fpsCombo += "4";		break;
+			case 166:	self.fpsCombo += "6";		break;
+			case 250:	self.fpsCombo += "2";		break;
+			case 333:	self.fpsCombo += "3";		break;
+			case 500:	self.fpsCombo += "5";		break;
+			case 1000: 	self.fpsCombo += "0";		break;
+		}
 	}
 	self.huds["fps_combo"] setText(self.fpsCombo);
 }
