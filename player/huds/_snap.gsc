@@ -56,7 +56,7 @@ resetGraph()
 		if (!isDefined(self.huds["snap"][i]))
 			continue;
 
-		if (!self.huds["snap"][i].rendered)
+		if (isDefined(self.huds["snap"][i].rendered) && !self.huds["snap"][i].rendered)
 			self.huds["snap"][i].alpha = 0;
 		self.huds["snap"][i].rendered = false;
 	}
@@ -174,6 +174,8 @@ snapHud()
 {
 	self.snap = spawnStruct();
 	self.snap.wishvel = [];
+	self.snap.wishvel[0] = 0;
+	self.snap.wishvel[1] = 0;
 	self.snap.forwardMove = 0;
 	self.snap.rightMove = 0;
 	self.snap.velocity = (0, 0, 0);
@@ -208,6 +210,9 @@ getSnapFlags(mode)
 
 pmove()
 {
+	if (!self.player getFPS())
+		return;
+
 	self.snapFlags = self getSnapFlags(self.settings["hud_snap"]);
 
 	self.snap.velocity = self.player getVelocity();

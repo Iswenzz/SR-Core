@@ -71,6 +71,8 @@ cgazHud()
 {
 	self.cgaz = spawnStruct();
 	self.cgaz.wishvel = [];
+	self.cgaz.wishvel[0] = 0;
+	self.cgaz.wishvel[1] = 0;
 	self.cgaz.forwardMove = 0;
 	self.cgaz.rightMove = 0;
 	self.cgaz.velocity = (0, 0, 0);
@@ -396,7 +398,7 @@ update_d_min()
 		self.cgaz.vf_squared + self.cgaz.g_squared;
 	num = sqrt(num_squared);
 
-	if (num >= self.cgaz.vf)
+	if (num >= self.cgaz.vf || !self.cgaz.vf)
 		return 0;
 	return acos1(num / self.cgaz.vf);
 }
@@ -405,7 +407,7 @@ update_d_opt()
 {
 	num = self.cgaz.wishspeed - self.cgaz.a;
 
-	if (num >= self.cgaz.vf)
+	if (num >= self.cgaz.vf || !self.cgaz.vf)
 		return 0;
 	return acos1(num / self.cgaz.vf);
 }
