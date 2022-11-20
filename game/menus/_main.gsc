@@ -41,8 +41,6 @@ menuEvent(id, weapon)
 		else if (self.script_menu_open && self meleeButtonPressed())
 			self close(weapon);
 
-		iPrintLnBold("loop");
-
 		wait 0.2;
 		self.script_menu_prevWeapon = currentWeapon;
 	}
