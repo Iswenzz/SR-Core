@@ -27,7 +27,7 @@ hud()
 	{
 		self.player = IfUndef(self getSpectatorClient(), self);
 
-		if (self getPlayerVelocity() >= 1)
+		if (self.player getPlayerVelocity() >= 1)
 		{
 			self pmove();
 			self draw();
@@ -108,6 +108,9 @@ cgazHud()
 
 pmove()
 {
+	if (!self.player getFPS())
+		return;
+
 	self.cgaz.velocity = self.player getVelocity();
 	self.cgaz.viewAngles = self.player getPlayerAngles();
 	self.cgaz.forward = anglesToForward(self.cgaz.viewAngles);

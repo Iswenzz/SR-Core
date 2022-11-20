@@ -19,7 +19,8 @@ menuEvent(id, weapon)
 
 	while (isDefined(self))
 	{
-		if (!self.script_menu_open && self GetCurrentWeapon() == weapon)
+		currentWeapon = self GetCurrentWeapon();
+		if (!self.script_menu_open && currentWeapon == weapon)
 		{
 			if (self.sessionstate != "playing" || self.pers["team"] == "spectator")
 				continue;
@@ -30,7 +31,7 @@ menuEvent(id, weapon)
 			while (self.sessionstate == "playing" && !self isOnGround())
 				wait .05;
 
-			self open(id);
+			self open(id, weapon);
 
 			self allowSpectateTeam("allies", false);
 			self allowSpectateTeam("axis", false);
@@ -38,16 +39,19 @@ menuEvent(id, weapon)
 			wait 1.3;
 		}
 		else if (self.script_menu_open && self meleeButtonPressed())
-			self close();
+			self close(weapon);
+
+		iPrintLnBold("loop");
 
 		wait 0.2;
+		self.script_menu_prevWeapon = currentWeapon;
 	}
 }
 
-close()
+close(weapon)
 {
 	self notify("sr_menu_close");
-	self takeWeapon("shop_mp");
+	self takeWeapon(weapon);
 
 	if (!isDefined(self.huds["script_menu"]))
 		return;
@@ -60,7 +64,8 @@ close()
 	}
 
 	self.script_menu_open = false;
-	self switchToWeapon(self.pers["weapon"]);
+	if (isDefined(self.script_menu_prevWeapon))
+		self switchToWeapon(self.script_menu_prevWeapon);
 
 	self allowSpectateTeam("allies", true);
 	self allowSpectateTeam("axis", true);
@@ -68,7 +73,7 @@ close()
 
 	wait 0.5;
 
-	self giveWeapon("shop_mp");
+	self giveWeapon(weapon);
 }
 
 menuOption(section, name, script, args)
@@ -119,7 +124,7 @@ getMenuOptions(id, menu)
 	return options;
 }
 
-open(id)
+open(id, weapon)
 {
 	self endon("sr_menu_close");
 	self endon("disconnect");
@@ -217,7 +222,7 @@ open(id)
 			wait 0.2;
 		}
 	}
-	self thread close();
+	self thread close(weapon);
 }
 
 addTextHud(who, x, y, alpha, alignX, alignY, vert, fontScale, sort)

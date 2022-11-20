@@ -63,8 +63,7 @@ getPlayingPlayers()
 
 getFPS()
 {
-	fps = self getCountedFPS();
-	return Ternary(fps, fps, 1);
+	return self getCountedFPS();
 }
 
 setu(var, value)
