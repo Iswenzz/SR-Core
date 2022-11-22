@@ -189,6 +189,9 @@ giveRankXP(type, value)
 	if (!isDefined(value))
 		value = getScoreInfoValue(type);
 
+	if (value <= 0)
+		return;
+
 	self.score += value;
 	self.pers["score"] = self.score;
 
