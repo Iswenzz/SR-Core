@@ -9,6 +9,7 @@ initBomberman()
 	level.bombermanGrid = [];
 	level.bombermanOrigin = (6647, -9666, 65);
 	level.bombermanSpawns = [];
+	level.bombermanPlayersInRoom = [];
 	level.bombermanStarted = false;
 	level.bombermanMaxX = 12;
 	level.bombermanMaxY = 12;

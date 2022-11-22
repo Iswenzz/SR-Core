@@ -7,7 +7,7 @@ main()
 {
 	cmd("owner",  		"bots",					::cmd_Bots);
 	cmd("owner",  		"debug_ents",			::cmd_DebugEnts);
-	cmd("owner",  		"debug_ents_amount",	::cmd_DebugEntsAmount);
+	cmd("owner",  		"debug_ents_spawn",		::cmd_DebugEntsSpawn);
 	cmd("owner",  		"debug_speed",			::cmd_DebugSpeed);
 	cmd("owner",  		"debug_surface",		::cmd_DebugSurface);
 	cmd("owner",  		"debug_save_spawn",		::cmd_DebugSaveSpawn);
@@ -103,7 +103,7 @@ cmd_DebugSaveSpawn(args)
 		exit(0);
 }
 
-cmd_DebugEntsAmount(args)
+cmd_DebugEntsSpawn(args)
 {
 	if (args.size < 1)
 		return self pm("Usage: debug_ents_amount <amount>");

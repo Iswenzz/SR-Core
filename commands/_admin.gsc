@@ -141,11 +141,17 @@ cmd_Help(args)
 			continue;
 		valids[valids.size] = keys[i];
 	}
-	strings = strTokByPixLen(StrJoin(valids, ", "), 500);
-
+	chunks = Chunk(valids, 5);
 	self pm(fmt("%s ^7commands:", self getRoleName()));
-	for (i = 0; i < strings.size; i++)
-		self pm(strings[i]);
+
+	for (i = 0; i < chunks.size; i++)
+	{
+		strings = strTokByPixLen(StrJoin(chunks[i], ", "), 500);
+		for (k = 0; k < strings.size; k++)
+			self pm(strings[k]);
+
+		wait 0.05;
+	}
 }
 
 cmd_Msg(args)
