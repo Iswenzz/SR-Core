@@ -238,12 +238,14 @@ vote(vote, value)
 
 		case "add10":
 			level.time += 600;
-			level.huds["time"] setTimer(level.time);
+			if (isDefined(level.huds["time"]))
+				level.huds["time"] setTimer(level.time);
 			break;
 
 		case "add20":
 			level.time += 1200;
-			level.huds["time"] setTimer(level.time);
+			if (isDefined(level.huds["time"]))
+				level.huds["time"] setTimer(level.time);
 			break;
 	}
 }

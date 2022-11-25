@@ -197,10 +197,10 @@ giveRankXP(type, value)
 
 	score = self maps\mp\gametypes\_persistence::statGet("score");
 	self maps\mp\gametypes\_persistence::statSet("score", score + value);
-
-	self incRankXP(value);
 	self thread updateRankScoreHUD(value);
-	self databaseSetRank(self.pers["rankxp"], self.pers["rank"], self.pers["prestige"]);
+
+	if (self incRankXP(value))
+		self databaseSetRank(self.pers["rankxp"], self.pers["rank"], self.pers["prestige"]);
 }
 
 databaseSetRank(xp, rank, prestige)
@@ -383,13 +383,14 @@ incRankXP(amount)
 	newXp = (xp + amount);
 
 	if (self.pers["rank"] == level.maxRank && newXp >= getRankInfoMaxXP(level.maxRank))
-		newXp = getRankInfoMaxXP(level.maxRank);
+		return false;
 
 	self.pers["rankxp"] = newXp;
 	self maps\mp\gametypes\_persistence::statSet("rankxp", newXp);
 
 	rankId = self getRankForXp(self getRankXP());
 	self updateRank(rankId);
+	return true;
 }
 
 updateRank(rankId)

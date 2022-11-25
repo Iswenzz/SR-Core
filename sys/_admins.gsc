@@ -112,6 +112,8 @@ command(name, arg)
 
 canExecuteCommand(cmd, index)
 {
+	if (!isDefined(cmd))
+		return false;
 	if (isDefined(level.admin_roles[cmd.role]))
 		return self isRole(cmd.role);
 	else if (isDefined(level.special_roles[cmd.role]))

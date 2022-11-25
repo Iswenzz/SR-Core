@@ -140,21 +140,21 @@ updateVelocity()
 	if (!isDefined(self.huds["velocity"]))
 		return;
 
-	if (self.settings["hud_velocity_ground"] == 1)
+	if (isDefined(self.huds["velocity"]["ground"]) && self.settings["hud_velocity_ground"] == 1)
 		self.huds["velocity"]["ground"] setValueTrunc(self.groundTime);
 	if (isDefined(self.vels) && self.vels.size)
 	{
-		if (self.settings["hud_velocity_info"] >= 1)
+		if (isDefined(self.huds["velocity"]["average"]) && self.settings["hud_velocity_info"] >= 1)
 			self.huds["velocity"]["average"] setValueTrunc(int(Average(self.vels)));
-		if (self.settings["hud_velocity_info"] >= 2)
+		if (isDefined(self.huds["velocity"]["max"]) && self.settings["hud_velocity_info"] >= 2)
 			self.huds["velocity"]["max"] setValueTrunc(int(GetMax(self.vels)));
 	}
 	if (isDefined(self.groundTimes) && self.groundTimes.size)
 	{
-		if (self.settings["hud_velocity_ground"] == 2)
+		if (isDefined(self.huds["velocity"]["ground"]) && self.settings["hud_velocity_ground"] == 2)
 			self.huds["velocity"]["ground"] setValueTrunc(int(Average(self.groundTimes)));
 	}
-	if (self.velocityDist != self.prevVelocityDist)
+	if (isDefined(self.huds["velocity"]["units"]) && self.velocityDist != self.prevVelocityDist)
 		self.huds["velocity"]["units"] setValueTrunc(self.velocityDist);
 }
 
