@@ -34,30 +34,29 @@ def saveToIWI():
     """
     Save image to IWI.
     """
-    output.save("output/image.png")
-    with wandImage.Image(filename="output/image.png") as image:
+    output.save("output/{}.png".format(imageName))
+    with wandImage.Image(filename="output/{}.png".format(imageName)) as image:
         image.compression = "dxt5"
-        image.save(filename="output/image.dds")
-        subprocess.call(["dds2iwi.exe", "output/image.dds"])
+        image.save(filename="output/{}.dds".format(imageName))
+        subprocess.call(["dds2iwi.exe", "output/{}.dds".format(imageName)])
 
 
 def main():
     """
     Program entry.
     """
-    if len(argv) < 2:
-        print("Usage: gif <path>")
-        exit(-1)
-
+    global imageName
     global gifPath
-    gifPath = argv[1]
+
+    imageName = argv[1]
+    gifPath = argv[2]
 
     computeSpritesheet()
     saveToIWI()
 
 
 if __name__ == "__main__":
-    if len(argv) < 2:
-        print("usage: gif <filePath>")
+    if len(argv) < 3:
+        print("Usage: gif <name> <path>")
         exit(-1)
     main()

@@ -112,8 +112,8 @@ buildButtons()
 
 countPages()
 {
-	count = int(level.assets[self.customize_category].size / level.customize_max_entries);
-	count = Ternary(count <= 1, 1, count + 1);
+	count = int(ceil(level.assets[self.customize_category].size / level.customize_max_entries));
+	count = Ternary(count <= 1, 1, count);
 	return count;
 }
 

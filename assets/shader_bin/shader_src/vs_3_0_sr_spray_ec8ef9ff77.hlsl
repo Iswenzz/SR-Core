@@ -28,7 +28,7 @@ PixelShaderInput vs_main(VertexShaderInput input)
 	const int speed = 15;
 
 	int index = int(gameTime.w * speed) % NUM_OF_SPRITES;
-	int2 pos = int2(index % SPRITE_COLUMNS, index / SPRITE_COLUMNS);
+	float2 pos = float2(index % SPRITE_COLUMNS, index / SPRITE_COLUMNS);
 	float2 uv = computeTextureUV(input.uv);
 
 	output.uv = float2(
