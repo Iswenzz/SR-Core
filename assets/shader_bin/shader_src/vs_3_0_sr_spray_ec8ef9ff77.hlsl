@@ -15,18 +15,20 @@ struct PixelShaderInput
 	float2 uv : TEXCOORD0;
 };
 
+float2 atlasSize;
+
 PixelShaderInput vs_main(VertexShaderInput input)
 {
 	PixelShaderInput output;
 	output.position = mul(float4(input.position.xyz, 1.0f), worldViewProjectionMatrix);
 
-	const float SPRITE_COLUMNS = 12.0;
-	const float SPRITE_ROWS = 12.0;
+	const int SPRITE_COLUMNS = int(atlasSize.x);
+	const int SPRITE_ROWS = int(atlasSize.y);
 	const int NUM_OF_SPRITES = SPRITE_COLUMNS * SPRITE_ROWS;
-	const int speed = 10;
+	const int speed = 15;
 
 	int index = int(gameTime.w * speed) % NUM_OF_SPRITES;
-	float2 pos = float2(index % int(SPRITE_COLUMNS), int(index / SPRITE_COLUMNS));
+	int2 pos = int2(index % SPRITE_COLUMNS, index / SPRITE_COLUMNS);
 	float2 uv = computeTextureUV(input.uv);
 
 	output.uv = float2(

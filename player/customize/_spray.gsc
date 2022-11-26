@@ -18,10 +18,21 @@ precache()
 		id = int(tableLookup(tableName, 0, idx, 1));
 		level.assets["spray"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
 		level.assets["spray"][id]["prestige"] = int(tableLookup(tableName, 0, idx, 3));
-		level.assets["spray"][id]["effect"] = loadFx(tableLookup(tableName, 0, idx, 4));
-		level.assets["spray"][id]["name"] = tableLookup(tableName, 0, idx, 5);
+		level.assets["spray"][id]["type"] = tableLookup(tableName, 0, idx, 4);
+		level.assets["spray"][id]["effect"] = tableLookup(tableName, 0, idx, 5);
+		level.assets["spray"][id]["name"] = tableLookup(tableName, 0, idx, 6);
 		level.assets["spray"][id]["callback"] = sr\player\customize\_spray::pick;
 		level.assets["spray"][id]["unlock"] = sr\game\_rank::isSprayUnlocked;
+
+		switch (level.assets["spray"][id]["type"])
+		{
+			case "fx":
+				level.assets["spray"][id]["effect"] = loadFX(level.assets["spray"][id]["effect"]);
+				break;
+			case "gif":
+				precacheModel(level.assets["spray"][id]["effect"]);
+				break;
+		}
 	}
 }
 

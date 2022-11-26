@@ -3,7 +3,7 @@
 
 	vertexShader 3.0 "sr_spray_ec8ef9ff77"
     {
-
+		atlasSize = material.atlasSize;
 	}
 
 	pixelShader 3.0 "sr_spray_ec8ef9ff77"

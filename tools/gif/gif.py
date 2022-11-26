@@ -1,5 +1,8 @@
+import subprocess
+
 from sys import argv
 from math import ceil, sqrt
+from wand import image as wandImage
 from PIL import Image
 
 size = 2048
@@ -7,7 +10,10 @@ output = Image.new("RGBA", (size, size), color="black")
 
 
 def computeSpritesheet():
-    image = Image.open(argv[1])
+    """
+    Compute a GIF into a spritesheet.
+    """
+    image = Image.open(gifPath)
 
     rows = ceil(sqrt(image.n_frames))
     frameSize = ceil(size / rows)
@@ -24,9 +30,30 @@ def computeSpritesheet():
         output.paste(resize, (x, y))
 
 
+def saveToIWI():
+    """
+    Save image to IWI.
+    """
+    output.save("output/image.png")
+    with wandImage.Image(filename="output/image.png") as image:
+        image.compression = "dxt5"
+        image.save(filename="output/image.dds")
+        subprocess.call(["dds2iwi.exe", "output/image.dds"])
+
+
 def main():
+    """
+    Program entry.
+    """
+    if len(argv) < 2:
+        print("Usage: gif <path>")
+        exit(-1)
+
+    global gifPath
+    gifPath = argv[1]
+
     computeSpritesheet()
-    output.save("output.dds", "DDS")
+    saveToIWI()
 
 
 if __name__ == "__main__":

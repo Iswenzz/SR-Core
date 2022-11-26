@@ -8,4 +8,10 @@ textureTable
     #endif
     "colorMap" = map("@tileColor@", "@filterColor@", "$colorMap$", @nopicmipColor@) "@formatColor@" : "2d";
 }
+
+constantTable
+{
+	"atlasSize" = float2(@textureAtlasRowCount@, @textureAtlasColumnCount@);
+}
+
 refImage("$colorMap$");
