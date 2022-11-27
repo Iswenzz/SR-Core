@@ -12,20 +12,20 @@ main()
 	cmd("adminplus", 	"music_help", 	::cmd_MusicHelp);
 	cmd("player", 		"music_stop", 	::cmd_MusicStop);
 
-	// Musics
-	add("dame_tu_cosita");
+	// SFX
+	add("cosita");
 	add("ways_to_die");
 	add("this_is_minecraft");
 	add("stal");
 	add("fn_despacito");
-	add("oof");
-	add("mc");
-	add("doot");
-	add("despacito");
+	add("omg");
+	add("minecraft");
+	add("wario");
+	add("pipe");
 	add("dead");
 	add("delfino");
 	add("ninja");
-	add("poopy");
+	add("xina");
 	add("wii");
 	add("ricardo");
 	add("fishe");
@@ -33,6 +33,17 @@ main()
 	add("cow");
 	add("polish");
 	add("minion");
+	add("laogan");
+	add("fortnite");
+	add("wide");
+	add("dame");
+	add("sometime");
+	add("trap");
+	add("bing");
+	add("redsun");
+	add("heya");
+	add("fak");
+	add("gf");
 }
 
 cmd_MusicSequenceEnd(args)
@@ -87,12 +98,12 @@ play(name)
 	if (name == "stop")
 		return;
 
-	AmbientPlay(IfUndef(level.sr_music[name], name), 2);
+	AmbientPlay(IfUndef(level.sr_music[name], name), 0.05);
 }
 
 stop()
 {
-	AmbientStop(2);
+	AmbientStop(0.05);
 }
 
 add(name)
