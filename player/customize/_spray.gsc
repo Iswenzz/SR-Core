@@ -53,9 +53,6 @@ build()
 {
 	self endon("disconnect");
 
-	// angles = self getPlayerAngles();
-	// self setPlayerAngles((85, angles[1], 0));
-
 	self buildButtons();
 }
 
@@ -66,24 +63,4 @@ pick(id)
 
 	self setStat(979, id);
 	self setClientDvar("drui_spray", id);
-
-	// TODO FIND A WAY TO CLEAR FX/DECALS
-	// if (isDefined(self.customize_fx))
-	// 	self.customize_fx delete();
-
-	// angles = self getPlayerAngles();
-	// eye = self getTagOrigin("j_head");
-	// forward = eye + vectorScale(anglesToForward(angles), 70);
-	// trace = bulletTrace(eye, forward, false, self);
-
-	// if (trace["fraction"] == 1) // we didnt hit the wall or floor
-	// 	return true;
-
-	// position = trace["position"] - vectorScale(anglesToForward(angles), -2);
-	// angles = vectorToAngles(eye - position);
-	// forward = anglesToForward(angles);
-	// up = anglesToUp(angles);
-
-	// self.customize_fx = spawnFX(level.assets["spray"][id]["effect"], position, forward, up);
-	// triggerFX(self.customize_fx);
 }
