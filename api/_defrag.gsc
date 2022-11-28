@@ -20,6 +20,8 @@ triggerSection(id, origin, width, height, callback)
 	trigger.radius = width;
 	trigger.callback = callback;
 	trigger.id = id;
+
+	return trigger;
 }
 
 triggerWeapon(id, origin, width, height, weapon, ammo)
@@ -30,6 +32,8 @@ triggerWeapon(id, origin, width, height, weapon, ammo)
 	trigger.weapon = weapon;
 	trigger.ammo = ammo;
 	trigger.id = id;
+
+	return trigger;
 }
 
 triggerPerk(id, origin, width, height, perk, time)
@@ -40,6 +44,8 @@ triggerPerk(id, origin, width, height, perk, time)
 	trigger.perk = perk;
 	trigger.time = time;
 	trigger.id = id;
+
+	return trigger;
 }
 
 switchToDefragWeapon(name)

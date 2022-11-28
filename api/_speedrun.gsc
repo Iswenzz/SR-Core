@@ -45,15 +45,14 @@ createEndMap(origin, width, height, way)
 {
 	// Default way
 	if (!isDefined(way))
-	{
-		sr\api\_map::createEndMap(origin, width, height);
-		return;
-	}
-	trig = spawn("trigger_radius", origin, 0, width, height);
-	trig.radius = width;
+		return sr\api\_map::createEndMap(origin, width, height);
+	trigger = spawn("trigger_radius", origin, 0, width, height);
+	trigger.radius = width;
 
-	thread watchTriggerEndMap(trig, way);
-	thread sr\game\fx\_trigger::effect(trig, "red");
+	thread watchTriggerEndMap(trigger, way);
+	thread sr\game\fx\_trigger::effect(trigger, "red");
+
+	return trigger;
 }
 
 watchTriggerEndMap(trig, way)
@@ -72,6 +71,8 @@ createWay(triggerOrigin, width, height, color, way)
 
 	thread watchWay(trigger, way);
 	thread sr\game\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
+
+	return trigger;
 }
 
 watchWay(trigger, way)
@@ -92,6 +93,8 @@ createTeleporter(triggerOrigin, width, height, origin, angles, state, color, way
 
 	thread watchTeleporter(trigger, origin, angles, state, way);
 	thread sr\game\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
+
+	return trigger;
 }
 
 watchTeleporter(trigger, origin, angles, state, way)
