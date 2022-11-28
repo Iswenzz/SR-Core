@@ -119,6 +119,7 @@ reset()
 	self.settings["gfx_fx"] 				= true;
 	self.settings["gfx_ragdoll"] 			= false;
 	self.settings["gfx_music_animation"] 	= true;
+
 	self save();
 }
 

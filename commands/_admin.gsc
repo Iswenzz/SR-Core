@@ -4,34 +4,35 @@
 
 main()
 {
-	cmd("player", 		"!pm", 			::cmd_PM);
-	cmd("owner",        "cmd",			::cmd_Command);
-	cmd("admin",        "detail",		::cmd_Detail);
-	cmd("masteradmin",  "end",			::cmd_End);
-	cmd("owner",  		"nextmap",		::cmd_NextMap);
-	cmd("owner",        "givexp",		::cmd_GiveXp);
-	cmd("owner",        "getdvar",		::cmd_GetDvar);
-	cmd("player", 		"help",			::cmd_Help);
-	cmd("member", 		"msg",			::cmd_Msg);
-	cmd("player",       "myid",			::cmd_MyID);
-	cmd("owner",		"notification",	::cmd_Notification);
-	cmd("member",       "online",		::cmd_Online);
-	cmd("owner",       	"owner",		::cmd_Owner);
-	cmd("admin",        "pid",			::cmd_PID);
-	cmd("owner",        "rank",			::cmd_Rank);
-	cmd("masteradmin",  "rank_reset",	::cmd_RankReset);
-	cmd("owner",        "redirect_all",	::cmd_RedirectAll);
-	cmd("masteradmin",  "reconnect",	::cmd_Reconnect);
-	cmd("admin",        "rename",		::cmd_Rename);
-	cmd("player",       "report_player",::cmd_ReportPlayer); // @todo - Change role to member
-	cmd("player",       "report_bug",	::cmd_ReportBug);
-	cmd("member",       "timeplayed",	::cmd_TimePlayed);
-	cmd("owner",        "setdvar",		::cmd_SetDvar);
-	cmd("admin",        "sr_kick",		::cmd_Kick);
-	cmd("owner",        "sr_role",		::cmd_Role);
-	cmd("owner",        "sr_vip",		::cmd_VIP);
-	cmd("owner",        "sr_id",		::cmd_ID);
-	cmd("masteradmin",  "sr_ban",		::cmd_Ban);
+	cmd("player", 		"!pm", 				::cmd_PM);
+	cmd("owner",        "cmd",				::cmd_Command);
+	cmd("admin",        "detail",			::cmd_Detail);
+	cmd("masteradmin",  "end",				::cmd_End);
+	cmd("owner",  		"nextmap",			::cmd_NextMap);
+	cmd("owner",        "givexp",			::cmd_GiveXp);
+	cmd("owner",        "getdvar",			::cmd_GetDvar);
+	cmd("player", 		"help",				::cmd_Help);
+	cmd("member", 		"msg",				::cmd_Msg);
+	cmd("player",       "myid",				::cmd_MyID);
+	cmd("owner",		"notification",		::cmd_Notification);
+	cmd("member",       "online",			::cmd_Online);
+	cmd("owner",       	"owner",			::cmd_Owner);
+	cmd("admin",        "pid",				::cmd_PID);
+	cmd("owner",        "rank",				::cmd_Rank);
+	cmd("masteradmin",  "reset_rank",		::cmd_ResetRank);
+	cmd("player", 		"reset_settings",	::cmd_ResetSettings);
+	cmd("owner",        "redirect_all",		::cmd_RedirectAll);
+	cmd("masteradmin",  "reconnect",		::cmd_Reconnect);
+	cmd("admin",        "rename",			::cmd_Rename);
+	cmd("player",       "report_player",	::cmd_ReportPlayer); // @todo - Change role to member
+	cmd("player",       "report_bug",		::cmd_ReportBug);
+	cmd("member",       "timeplayed",		::cmd_TimePlayed);
+	cmd("owner",        "setdvar",			::cmd_SetDvar);
+	cmd("admin",        "sr_kick",			::cmd_Kick);
+	cmd("owner",        "sr_role",			::cmd_Role);
+	cmd("owner",        "sr_vip",			::cmd_VIP);
+	cmd("owner",        "sr_id",			::cmd_ID);
+	cmd("masteradmin",  "sr_ban",			::cmd_Ban);
 }
 
 cmd_End(args)
@@ -235,10 +236,10 @@ cmd_Rank(args)
 	player reconnect();
 }
 
-cmd_RankReset(args)
+cmd_ResetRank(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: rank_reset <playerName>");
+		return self pm("Usage: reset_rank <playerName>");
 
 	player = getPlayerByName(args[0]);
 
@@ -248,6 +249,12 @@ cmd_RankReset(args)
 
 	player sr\game\_rank::reset();
 	player eventConnect();
+}
+
+cmd_ResetSettings(args)
+{
+	self sr\player\_settings::reset();
+	self pm("^2Settings reset.");
 }
 
 cmd_RedirectAll(args)
