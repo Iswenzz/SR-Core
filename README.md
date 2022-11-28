@@ -38,7 +38,7 @@ Core mod for SR containing libraries, utilities, player movements, player huds, 
 * Demo recording
 * Leaderboards and PBs
 * Map edition moving entities or placing chickens
-* Anti-cheat including preventing elevators, lag switch and low fps
+* Anti-cheat preventing elevators, lag switch and low fps
 * Hitmarker
 * Killcam
 * Random map rotation
