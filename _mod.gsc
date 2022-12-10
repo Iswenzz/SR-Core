@@ -65,11 +65,11 @@ main()
 	sr\player\modes\_portal::main();
 	sr\player\huds\_cgaz::main();
 	sr\player\huds\_crosshair::main();
-	sr\player\huds\_snap::main();
 	sr\player\huds\_fps::main();
 	sr\player\huds\_keys::main();
 	sr\player\huds\_velocity::main();
 	sr\player\huds\_viewkick::main();
+	sr\player\huds\_voice::main();
 }
 
 precache()

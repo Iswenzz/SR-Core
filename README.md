@@ -20,7 +20,7 @@ Core mod for SR containing libraries, utilities, player movements, player huds, 
 
 * Customization
 * Shaders, sprays, trails
-* HUDs cgaz, snap, crosshair, keys, velocity, fps, viewkick
+* HUDs cgaz, crosshair, keys, velocity, fps, viewkick
 * 210, 190, Defrag and portal movements
 * Noclip, pickup, practise player modes
 * Bunny hop, player hiding and insertions

@@ -99,16 +99,15 @@ cmd_FOV(args)
 
 	self pm("FOV scale ^5" + value);
 	self.settings["gfx_fov"] = normalized;
-	self sr\player\_settings::update();
+	self sr\player\_settings::update("gfx_fov");
 }
 
 cmd_FPS(args)
 {
-	self.settings["gfx_fullbright"] = !self.settings["gfx_fullbright"];
-	msg = Ternary(self.settings["gfx_fullbright"], "^2Fullbright On", "^1Fullbright Off");
+	self sr\player\_settings::toggle("gfx_fullbright");
 
+	msg = Ternary(self.settings["gfx_fullbright"], "^2Fullbright On", "^1Fullbright Off");
 	self pm(msg);
-	self sr\player\_settings::update();
 }
 
 cmd_Sheep(args)
@@ -124,11 +123,10 @@ cmd_Sheep(args)
 
 cmd_FX(args)
 {
-	self.settings["gfx_fx"] = !self.settings["gfx_fx"];
-	msg = Ternary(self.settings["gfx_fx"], "^2FX On", "^1FX Off");
+	self sr\player\_settings::toggle("gfx_fx");
 
+	msg = Ternary(self.settings["gfx_fx"], "^2FX On", "^1FX Off");
 	self pm(msg);
-	self sr\player\_settings::update();
 }
 
 cmd_Color(args)
