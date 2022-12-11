@@ -2,7 +2,7 @@
 #include "ui/shared/frame_header.inc"
 
 #undef HEADER_X_START
-#define HEADER_X_START		-((HEADER_X_SPACING * 2.5))
+#define HEADER_X_START		-((HEADER_X_SPACING * 2))
 
 {
     menuDef
@@ -37,8 +37,9 @@
 			close self;
 		}
 
-		HEADER(3, "@MENU_GRAPHICS", open options_graphics;)
-		HEADER(4, "@MENU_SOUND", open options_sound;)
-		HEADER(5, "@MENU_MULTIPLAYER_OPTIONS", open options_game;)
+		HEADER(2, "@MENU_GRAPHICS", open options_graphics;)
+		HEADER(3, "@MENU_SOUND", open options_sound;)
+		HEADER(4, "@MENU_MULTIPLAYER_OPTIONS", open options_game;)
+		HEADER(5, "Mute Players...", open muteplayer;)
 	}
 }

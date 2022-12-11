@@ -89,13 +89,15 @@
 								close options_sound; \
 								close options_voice; \
 								close options_game; \
-								close options_view
+								close options_view; \
+								close muteplayer
 
 #define CLOSE_ALL_OPTIONS_EX_GRAPHICS       close options_graphics_texture; \
 											close options_sound; \
 											close options_voice; \
 											close options_game; \
 											close options_view; \
+											close muteplayer; \
 											close sr_settings
 
 #define CLOSE_ALL_OPTIONS_EX_GRAPHICS_TEX   close options_graphics; \
@@ -103,6 +105,7 @@
 											close options_voice; \
 											close options_game; \
 											close options_view; \
+											close muteplayer; \
 											close sr_settings
 
 #define CLOSE_ALL_OPTIONS_EX_SOUND          close options_graphics; \
@@ -110,6 +113,7 @@
 											close options_voice; \
 											close options_game; \
 											close options_view; \
+											close muteplayer; \
 											close sr_settings
 
 #define CLOSE_ALL_OPTIONS_EX_VOICE          close options_graphics; \
@@ -117,6 +121,15 @@
 											close options_sound; \
 											close options_game; \
 											close options_view; \
+											close muteplayer; \
+											close sr_settings
+
+#define CLOSE_ALL_OPTIONS_EX_MUTE			close options_graphics; \
+											close options_graphics_texture; \
+											close options_sound; \
+											close options_game; \
+											close options_view; \
+											close options_voice; \
 											close sr_settings
 
 #define CLOSE_ALL_OPTIONS_EX_GAME           close options_graphics; \
@@ -124,6 +137,7 @@
 											close options_sound; \
 											close options_voice; \
 											close options_view; \
+											close muteplayer; \
 											close sr_settings
 
 #define CLOSE_ALL_OPTIONS_EX_VIEW           close options_graphics; \
@@ -131,6 +145,7 @@
 											close options_sound; \
 											close options_voice; \
 											close options_game; \
+											close muteplayer; \
 											close sr_settings
 
 #define CLOSE_MODS              close mods_menu
