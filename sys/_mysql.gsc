@@ -2,7 +2,7 @@
 
 initMySQL()
 {
-	connection = SQL_Connect("127.0.0.1", 3306, "root", "rootpassword");
+	connection = SQL_Connect("iswenzz.com", 3306, "iswenzz", "Ln2UwU<t.Qze79:j");
 	if (!isDefined(connection) || !connection)
 	{
 		sysPrintLn("Database connection failed");
@@ -48,4 +48,15 @@ variables()
 	level.MYSQL_TYPE_STRING       = 253;
 	level.MYSQL_TYPE_TEXT         = 254;
 	level.MYSQL_TYPE_GEOMETRY     = 255;
+}
+
+SQL_Wait(request)
+{
+	status = SQL_Status(request);
+	while (status <= 1)
+	{
+		wait 0.05;
+		status = SQL_Status(request);
+	}
+	return status;
 }

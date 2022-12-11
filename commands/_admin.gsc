@@ -1,5 +1,6 @@
 #include sr\sys\_admins;
 #include sr\sys\_events;
+#include sr\sys\_mysql;
 #include sr\utils\_common;
 
 main()
@@ -367,18 +368,24 @@ cmd_Role(args)
 
 	mutex_acquire("mysql");
 
-	SQL_Prepare("UPDATE admins SET role = ? WHERE player = ?");
-	SQL_BindParam(role, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(player.id, level.MYSQL_TYPE_STRING);
-	SQL_Execute();
+	request = SQL_Prepare("UPDATE admins SET role = ? WHERE player = ?");
+	SQL_BindParam(request, role, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
+	SQL_Execute(request);
+	SQL_Wait(request);
 
-	if (!SQL_AffectedRows())
+	affected = SQL_AffectedRows(request);
+	SQL_Free(request);
+
+	if (!affected)
 	{
-		SQL_Prepare("INSERT INTO admins (name, player, role) VALUES (?, ?, ?)");
-		SQL_BindParam(player.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(player.id, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(role, level.MYSQL_TYPE_STRING);
-		SQL_Execute();
+		request = SQL_Prepare("INSERT INTO admins (name, player, role) VALUES (?, ?, ?)");
+		SQL_BindParam(request, player.name, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, role, level.MYSQL_TYPE_STRING);
+		SQL_Execute(request);
+		SQL_Wait(request);
+		SQL_Free(request);
 	}
 	mutex_release("mysql");
 
@@ -401,19 +408,25 @@ cmd_VIP(args)
 
 	mutex_acquire("mysql");
 
-	SQL_Prepare("UPDATE admins SET vip = ? WHERE player = ?");
-	SQL_BindParam(vip, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(player.id, level.MYSQL_TYPE_STRING);
-	SQL_Execute();
+	request = SQL_Prepare("UPDATE admins SET vip = ? WHERE player = ?");
+	SQL_BindParam(request, vip, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
+	SQL_Execute(request);
+	SQL_Wait(request);
 
-	if (!SQL_AffectedRows())
+	affected = SQL_AffectedRows(request);
+	SQL_Free(request);
+
+	if (!affected)
 	{
-		SQL_Prepare("INSERT INTO admins (name, player, role, vip) VALUES (?, ?, ?, ?)");
-		SQL_BindParam(player.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(player.id, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(player.admin_role, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(vip, level.MYSQL_TYPE_LONG);
-		SQL_Execute();
+		request = SQL_Prepare("INSERT INTO admins (name, player, role, vip) VALUES (?, ?, ?, ?)");
+		SQL_BindParam(request, player.name, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, player.admin_role, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, vip, level.MYSQL_TYPE_LONG);
+		SQL_Execute(request);
+		SQL_Wait(request);
+		SQL_Free(request);
 	}
 	mutex_release("mysql");
 
@@ -453,13 +466,15 @@ cmd_Ban(args)
 
 	mutex_acquire("mysql");
 
-	SQL_Prepare("INSERT INTO bans (name, guid, player, steamId, ip) VALUES (?, ?, ?, ?, ?)");
-	SQL_BindParam(name, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(guid, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(id, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(steamId, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(ip, level.MYSQL_TYPE_STRING);
-	SQL_Execute();
+	request = SQL_Prepare("INSERT INTO bans (name, guid, player, steamId, ip) VALUES (?, ?, ?, ?, ?)");
+	SQL_BindParam(request, name, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, guid, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, id, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, steamId, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, ip, level.MYSQL_TYPE_STRING);
+	SQL_Execute(request);
+	SQL_Wait(request);
+	SQL_Free(request);
 
 	mutex_release("mysql");
 }

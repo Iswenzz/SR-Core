@@ -1,4 +1,5 @@
 #include sr\sys\_events;
+#include sr\sys\_mysql;
 
 initRank()
 {
@@ -211,24 +212,30 @@ databaseSetRank(xp, rank, prestige)
 	mutex_acquire("mysql");
 
 	// Update rank
-	SQL_Prepare("UPDATE ranks SET name = ?, xp = ?, level = ?, prestige = ? WHERE player = ?");
-	SQL_BindParam(self.name, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(xp, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(rank + 1, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(prestige, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(self.guid, level.MYSQL_TYPE_STRING);
-	SQL_Execute();
+	request = SQL_Prepare("UPDATE ranks SET name = ?, xp = ?, level = ?, prestige = ? WHERE player = ?");
+	SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, xp, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, rank + 1, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, prestige, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, self.guid, level.MYSQL_TYPE_STRING);
+	SQL_Execute(request);
+	SQL_Wait(request);
+
+	affected = SQL_AffectedRows(request);
+	SQL_Free(request);
 
 	// Insert new rank
-	if (!SQL_AffectedRows())
+	if (!affected)
 	{
-		SQL_Prepare("INSERT INTO ranks (name, player, xp, level, prestige) VALUES (?, ?, ?, ?, ?)");
-		SQL_BindParam(self.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(self.guid, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(xp, level.MYSQL_TYPE_LONG);
-		SQL_BindParam(rank + 1, level.MYSQL_TYPE_LONG);
-		SQL_BindParam(prestige, level.MYSQL_TYPE_LONG);
-		SQL_Execute();
+		request = SQL_Prepare("INSERT INTO ranks (name, player, xp, level, prestige) VALUES (?, ?, ?, ?, ?)");
+		SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, self.guid, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, xp, level.MYSQL_TYPE_LONG);
+		SQL_BindParam(request, rank + 1, level.MYSQL_TYPE_LONG);
+		SQL_BindParam(request, prestige, level.MYSQL_TYPE_LONG);
+		SQL_Execute(request);
+		SQL_Wait(request);
+		SQL_Free(request);
 	}
 	mutex_release("mysql");
 }
@@ -237,16 +244,17 @@ databaseGetRank()
 {
 	mutex_acquire("mysql");
 
-	SQL_Prepare("SELECT xp, level, prestige FROM ranks WHERE player = ?");
-	SQL_BindParam(getSubStr(self getGuid(), 24, 32), level.MYSQL_TYPE_STRING);
-	SQL_BindResult(level.MYSQL_TYPE_LONG);
-	SQL_BindResult(level.MYSQL_TYPE_LONG);
-	SQL_BindResult(level.MYSQL_TYPE_LONG);
-	SQL_Execute();
+	request = SQL_Prepare("SELECT xp, level, prestige FROM ranks WHERE player = ?");
+	SQL_BindParam(request, getSubStr(self getGuid(), 24, 32), level.MYSQL_TYPE_STRING);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
+	SQL_Execute(request);
+	SQL_Wait(request);
 
-	if (SQL_NumRows())
+	if (SQL_NumRows(request))
 	{
-		row = SQL_FetchRowDict();
+		row = SQL_FetchRowDict(request);
 		self.pers["rankxp"] = row["xp"];
 		self.pers["rank"] = row["level"] - 1;
 		self.pers["prestige"] = row["prestige"];
@@ -257,6 +265,8 @@ databaseGetRank()
 		self.pers["rank"] = 0;
 		self.pers["prestige"] = 0;
 	}
+
+	SQL_Free(request);
 	mutex_release("mysql");
 }
 

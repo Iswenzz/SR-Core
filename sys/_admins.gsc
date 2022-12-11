@@ -1,5 +1,6 @@
 #include sr\sys\_file;
 #include sr\sys\_events;
+#include sr\sys\_mysql;
 #include sr\utils\_common;
 
 initAdmins()
@@ -8,8 +9,13 @@ initAdmins()
 
 	precache();
 
-	// Roles
-	level.admin_roles 					= [];
+	level.admins = [];
+	level.vips = [];
+	level.bans = [];
+	level.admin_commands = [];
+	level.admin_roles = [];
+	level.special_roles = [];
+
 	level.admin_roles["player"] 		= 1;
 	level.admin_roles["trusted"] 		= 2;
 	level.admin_roles["member"] 		= 10;
@@ -18,17 +24,13 @@ initAdmins()
 	level.admin_roles["masteradmin"] 	= 60;
 	level.admin_roles["owner"] 			= 100;
 
-	// Special
 	level.special_roles["vip"] 			= 1;
 	level.special_roles["donator"] 		= 3;
 
-	// Commands
-	level.admin_commands				= [];
-	level.admin_role					= "owner";
-
 	event("command", ::command);
-	event("connect", ::banned);
-	event("connect", ::fetch);
+	event("connect", ::connection);
+
+	thread fetch();
 }
 
 precache()
@@ -63,27 +65,61 @@ fetch()
 {
 	mutex_acquire("mysql");
 
-	SQL_Prepare("SELECT role, vip FROM admins WHERE player = ?");
-	SQL_BindParam(self.id, level.MYSQL_TYPE_STRING);
-	SQL_BindResult(level.MYSQL_TYPE_STRING, 20);
-	SQL_BindResult(level.MYSQL_TYPE_LONG);
-	SQL_Execute();
+	request = SQL_Prepare("SELECT player, role, vip FROM admins");
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 36);
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 20);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
+	SQL_Execute(request);
+	SQL_Wait(request);
 
-	if (SQL_NumRows())
+	rows = SQL_FetchRowsDict(request);
+	for (i = 0; i < rows.size; i++)
 	{
-		row = SQL_FetchRowDict();
-		self.admin_role = row["role"];
-		self.admin_vip = row["vip"];
-		self setStat(2000, row["vip"]);
-		self setClientDvar("sr_admin_role", self getRoleName());
+		row = rows[i];
+		player = row["player"];
+
+		level.admins[player] = row["role"];
+		level.vips[player] = row["vip"];
 	}
-	else
+	SQL_Free(request);
+
+	request = SQL_Prepare("SELECT guid, player, steamId, ip FROM bans");
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING);
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING);
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING);
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING);
+	SQL_Execute(request);
+	SQL_Wait(request);
+
+	rows = SQL_FetchRowsDict(request);
+	for (i = 0; i < rows.size; i++)
 	{
-		self.admin_role = "player";
-		self.admin_vip = 0;
-		self setStat(2000, 0);
+		row = rows[i];
+
+		entry = [];
+		entry[entry.size] = row["guid"];
+		entry[entry.size] = row["player"];
+		entry[entry.size] = row["steamId"];
+		entry[entry.size] = row["ip"];
+
+		level.bans[level.bans.size] = entry;
 	}
+	SQL_Free(request);
+
 	mutex_release("mysql");
+}
+
+connection()
+{
+	self endon("disconnect");
+
+	self banned();
+
+	self.admin_role = IfUndef(level.admins[self.id], "player");
+	self setClientDvar("sr_admin_role", self getRoleName());
+
+	self.admin_vip = IfUndef(level.vips[self.id], 0);
+	self setStat(2000, self.admin_vip);
 }
 
 cmd(role, name, callback)
@@ -158,23 +194,29 @@ isVIP()
 	return self.admin_vip;
 }
 
-banned()
+isBanned()
 {
 	self.guid = getSubStr(self getGuid(), 24, 32);
 
-	mutex_acquire("mysql");
+	for (i = 0; i < level.bans.size; i++)
+	{
+		entry = level.bans[i];
 
-	SQL_Prepare("SELECT 1 FROM bans WHERE guid = ? OR player = ? OR steamId = ? OR ip = ?");
-	SQL_BindParam(self.guid, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(self.id, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(self getSteamID(), level.MYSQL_TYPE_STRING);
-	SQL_BindParam(self getIP(), level.MYSQL_TYPE_STRING);
-	SQL_Execute();
-	isBanned = SQL_NumRows();
+		if (entry[0] == self.guid)
+			return true;
+		if (entry[1] == self.id)
+			return true;
+		if (entry[2] == self getSteamId())
+			return true;
+		if (entry[3] == self getIP())
+			return true;
+	}
+	return false;
+}
 
-	mutex_release("mysql");
-
-	if (!isBanned)
+banned()
+{
+	if (!self isBanned())
 		return;
 
 	self setClientDvar("ui_sr_info", "^5You have been banned.");

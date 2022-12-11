@@ -7,7 +7,7 @@ gsclib()
 
 	sr\libs\gsclib\__test__\_test_data::main();
 	sr\libs\gsclib\__test__\_test_linq::main();
-	// sr\libs\gsclib\__test__\_test_net::main();
+	sr\libs\gsclib\__test__\_test_net::main();
 	sr\libs\gsclib\__test__\_test_sys::main();
 	sr\libs\gsclib\__test__\_test_utils::main();
 }

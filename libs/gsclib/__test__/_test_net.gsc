@@ -8,23 +8,23 @@ main()
 
 	beforeAll();
 
-	// net/curl
-	it(::test_CURL_Version, "CURL_Version");
-	it(::test_CURL_HeaderCleanup, "CURL_HeaderCleanup");
-	it(::test_CURL_OptCleanup, "CURL_OptCleanup");
-	it(::test_CURL_AddOpt, "CURL_AddOpt");
+	// // net/curl
+	// it(::test_CURL_Version, "CURL_Version");
+	// it(::test_CURL_HeaderCleanup, "CURL_HeaderCleanup");
+	// it(::test_CURL_OptCleanup, "CURL_OptCleanup");
+	// it(::test_CURL_AddOpt, "CURL_AddOpt");
 
-	// net/ftp
-	it(::test_SFTP_Shell, "SFTP_Shell", ::beforeSFTP, ::afterSFTP);
-	it(::test_SFTP_PostGetFile, "SFTP_PostGetFile", ::beforeSFTP, ::afterSFTP);
-	it(::test_FTP_Shell, "FTP_Shell", ::beforeFTP, ::afterFTP);
-	it(::test_FTP_PostGetFile, "FTP_PostGetFile", ::beforeFTP, ::afterFTP);
+	// // net/ftp
+	// it(::test_SFTP_Shell, "SFTP_Shell", ::beforeSFTP, ::afterSFTP);
+	// it(::test_SFTP_PostGetFile, "SFTP_PostGetFile", ::beforeSFTP, ::afterSFTP);
+	// it(::test_FTP_Shell, "FTP_Shell", ::beforeFTP, ::afterFTP);
+	// it(::test_FTP_PostGetFile, "FTP_PostGetFile", ::beforeFTP, ::afterFTP);
 
-	// net/https
-	it(::test_HTTPS_GetFile, "HTTPS_GetFile");
-	it(::test_HTTPS_GetString, "HTTPS_GetString");
-	it(::test_HTTPS_PostFile, "HTTPS_PostFile");
-	it(::test_HTTPS_PostString, "HTTPS_PostString");
+	// // net/https
+	// it(::test_HTTPS_GetFile, "HTTPS_GetFile");
+	// it(::test_HTTPS_GetString, "HTTPS_GetString");
+	// it(::test_HTTPS_PostFile, "HTTPS_PostFile");
+	// it(::test_HTTPS_PostString, "HTTPS_PostString");
 
 	// net/mysql
 	it(::test_SQL_Version, "SQL_Version", ::beforeMySQL);
@@ -94,7 +94,9 @@ beforeMySQL()
 {
 	if (!hasMySQL())
 		return false;
-	SQL_Query("DELETE FROM ranks");
+	request = SQL_Query("DELETE FROM ranks");
+	SQL_Wait(request);
+	SQL_Free(request);
 	return true;
 }
 
@@ -229,7 +231,7 @@ test_SQL_PrepareStatement()
 	expectedFields[0] = "name";
 	expectedFields[1] = "player";
 	expectedFields[2] = "xp";
-	expectedFields[3] = "rank";
+	expectedFields[3] = "level";
 	expectedFields[4] = "prestige";
 
 	expectedRow = [];
@@ -240,39 +242,43 @@ test_SQL_PrepareStatement()
 	expectedRow[4] = 10;
 
 	// Insert Into
-	EXPECT_TRUE(SQL_Prepare("INSERT INTO ranks (name, player, xp, rank, prestige) VALUES (?, ?, ?, ?, ?)"));
-	SQL_BindParam("Iswenzz", level.MYSQL_TYPE_STRING);
-	SQL_BindParam("05a84e1d", level.MYSQL_TYPE_STRING);
-	SQL_BindParam(1296000, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(80, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(10, level.MYSQL_TYPE_LONG);
-	EXPECT_TRUE(SQL_Execute());
+	request = SQL_Prepare("INSERT INTO ranks (name, player, xp, level, prestige) VALUES (?, ?, ?, ?, ?)");
+	SQL_BindParam(request, "Iswenzz", level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, "05a84e1d", level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, 1296000, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, 80, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, 10, level.MYSQL_TYPE_LONG);
+	EXPECT_TRUE(SQL_Execute(request));
+	SQL_Wait(request);
 
-	EXPECT_EQ(SQL_AffectedRows(), 1);
+	EXPECT_EQ(SQL_AffectedRows(request), 1);
+	SQL_Free(request);
 
 	// Select
-	EXPECT_TRUE(SQL_Prepare("SELECT name, player, xp, rank, prestige FROM ranks"));
-	SQL_BindResult(level.MYSQL_TYPE_STRING, 36);
-	SQL_BindResult(level.MYSQL_TYPE_STRING, 8);
-	SQL_BindResult(level.MYSQL_TYPE_LONG);
-	SQL_BindResult(level.MYSQL_TYPE_LONG);
-	SQL_BindResult(level.MYSQL_TYPE_LONG);
-	EXPECT_TRUE(SQL_Execute());
+	request = SQL_Prepare("SELECT name, player, xp, level, prestige FROM ranks");
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 36);
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 8);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
+	EXPECT_TRUE(SQL_Execute(request));
+	SQL_Wait(request);
 
-	fields = SQL_FetchFields();
-	rows = SQL_FetchRows();
+	fields = SQL_FetchFields(request);
+	rows = SQL_FetchRows(request);
 
 	for (i = 0; i < fields.size; i++)
 		EXPECT_EQ(fields[i], expectedFields[i]);
-	EXPECT_EQ(SQL_NumFields(), 5);
+	EXPECT_EQ(SQL_NumFields(request), 5);
 
-	EXPECT_EQ(SQL_NumRows(), 1);
+	EXPECT_EQ(SQL_NumRows(request), 1);
 	for (i = 0; i < rows.size; i++)
 	{
 		row = rows[i];
 		for (j = 0; j < row.size; j++)
 			EXPECT_EQ(row[j], expectedRow[j]);
 	}
+	SQL_Free(request);
 }
 
 test_SQL_PrepareStatementDict()
@@ -281,7 +287,7 @@ test_SQL_PrepareStatementDict()
 	expectedFields[0] = "name";
 	expectedFields[1] = "player";
 	expectedFields[2] = "xp";
-	expectedFields[3] = "rank";
+	expectedFields[3] = "level";
 	expectedFields[4] = "prestige";
 
 	expectedRow = [];
@@ -292,33 +298,36 @@ test_SQL_PrepareStatementDict()
 	expectedRow[4] = 10;
 
 	// Insert Into
-	EXPECT_TRUE(SQL_Prepare("INSERT INTO ranks (name, player, xp, rank, prestige) VALUES (?, ?, ?, ?, ?)"));
-	SQL_BindParam("Iswenzz", level.MYSQL_TYPE_STRING);
-	SQL_BindParam("05a84e1d", level.MYSQL_TYPE_STRING);
-	SQL_BindParam(1296000, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(80, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(10, level.MYSQL_TYPE_LONG);
-	EXPECT_TRUE(SQL_Execute());
+	request = SQL_Prepare("INSERT INTO ranks (name, player, xp, level, prestige) VALUES (?, ?, ?, ?, ?)");
+	SQL_BindParam(request, "Iswenzz", level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, "05a84e1d", level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, 1296000, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, 80, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, 10, level.MYSQL_TYPE_LONG);
+	EXPECT_TRUE(SQL_Execute(request));
+	SQL_Wait(request);
 
-	EXPECT_EQ(SQL_AffectedRows(), 1);
+	EXPECT_EQ(SQL_AffectedRows(request), 1);
+	SQL_Free(request);
 
 	// Select
-	EXPECT_TRUE(SQL_Prepare("SELECT name, player, xp, rank, prestige FROM ranks"));
-	SQL_BindResult(level.MYSQL_TYPE_STRING, 36);
-	SQL_BindResult(level.MYSQL_TYPE_STRING, 8);
-	SQL_BindResult(level.MYSQL_TYPE_LONG);
-	SQL_BindResult(level.MYSQL_TYPE_LONG);
-	SQL_BindResult(level.MYSQL_TYPE_LONG);
-	EXPECT_TRUE(SQL_Execute());
+	request = SQL_Prepare("SELECT name, player, xp, level, prestige FROM ranks");
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 36);
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 8);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
+	EXPECT_TRUE(SQL_Execute(request));
+	SQL_Wait(request);
 
-	fields = SQL_FetchFields();
-	rows = SQL_FetchRowsDict();
+	fields = SQL_FetchFields(request);
+	rows = SQL_FetchRowsDict(request);
 
 	for (i = 0; i < fields.size; i++)
 		EXPECT_EQ(fields[i], expectedFields[i]);
-	EXPECT_EQ(SQL_NumFields(), 5);
+	EXPECT_EQ(SQL_NumFields(request), 5);
 
-	EXPECT_EQ(SQL_NumRows(), 1);
+	EXPECT_EQ(SQL_NumRows(request), 1);
 	for (i = 0; i < rows.size; i++)
 	{
 		row = rows[i];
@@ -327,6 +336,7 @@ test_SQL_PrepareStatementDict()
 		for (j = 0; j < row.size; j++)
 			EXPECT_EQ(row[keys[j]], expectedRow[j]);
 	}
+	SQL_Free(request);
 }
 
 test_SQL_Query()
@@ -335,7 +345,7 @@ test_SQL_Query()
 	expectedFields[0] = "name";
 	expectedFields[1] = "player";
 	expectedFields[2] = "xp";
-	expectedFields[3] = "rank";
+	expectedFields[3] = "level";
 	expectedFields[4] = "prestige";
 
 	expectedRow = [];
@@ -346,22 +356,25 @@ test_SQL_Query()
 	expectedRow[4] = "10";
 
 	// Insert Into
-	queryInsert = "INSERT INTO ranks (name, player, xp, rank, prestige) " +
+	queryInsert = "INSERT INTO ranks (name, player, xp, level, prestige) " +
 		"VALUES ('Iswenzz', '05a84e1d', 1296000, 80, 10)";
-	EXPECT_TRUE(SQL_Query(queryInsert));
-	EXPECT_EQ(SQL_AffectedRows(), 1);
+	request = SQL_Query(queryInsert);
+	SQL_Wait(request);
+	EXPECT_EQ(SQL_AffectedRows(request), 1);
+	SQL_Free(request);
 
 	// Select
-	EXPECT_TRUE(SQL_Query("SELECT name, player, xp, rank, prestige FROM ranks"));
+	request = SQL_Query("SELECT name, player, xp, level, prestige FROM ranks");
+	SQL_Wait(request);
 
-	fields = SQL_FetchFields();
-	rows = SQL_FetchRowsDict();
+	fields = SQL_FetchFields(request);
+	rows = SQL_FetchRowsDict(request);
 
 	for (i = 0; i < fields.size; i++)
 		EXPECT_EQ(fields[i], expectedFields[i]);
-	EXPECT_EQ(SQL_NumFields(), 5);
+	EXPECT_EQ(SQL_NumFields(request), 5);
 
-	EXPECT_EQ(SQL_NumRows(), 1);
+	EXPECT_EQ(SQL_NumRows(request), 1);
 	for (i = 0; i < rows.size; i++)
 	{
 		row = rows[i];
@@ -370,6 +383,7 @@ test_SQL_Query()
 		for (j = 0; j < row.size; j++)
 			EXPECT_EQ(row[keys[j]], expectedRow[j]);
 	}
+	SQL_Free(request);
 }
 
 test_SQL_HexString()
@@ -401,4 +415,15 @@ test_SQL_ListTables()
 test_SQL_Version()
 {
 	EXPECT_EQ(SQL_Version(), "8.0.17");
+}
+
+SQL_Wait(request)
+{
+	status = SQL_Status(request);
+	while (status <= 1)
+	{
+		wait 0.05;
+		status = SQL_Status(request);
+	}
+	return status;
 }
