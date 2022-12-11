@@ -5,7 +5,7 @@ main()
 {
 	event("spawn", ::onConnect);
 
-	precacheHeadIcon("voice_on");
+	precacheHeadIcon("headicon_voice");
 	precacheShader("voice_on");
 }
 
@@ -16,7 +16,10 @@ onConnect()
 	while (true)
 	{
 		isVoiceChatting = self VoiceChatButtonPressed();
-		self.headicon = Ternary(isVoiceChatting, "voice_on", self.headicon);
+
+		if (self.headicon != "headicon_voice")
+			self.prevHeadicon = self.headicon;
+		self.headicon = Ternary(isVoiceChatting, "headicon_voice", self.prevHeadicon);
 
 		wait 0.05;
 	}

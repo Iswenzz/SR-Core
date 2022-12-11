@@ -47,7 +47,7 @@ precache()
 
 	precacheStatusIcon("hud_status_connecting");
 	precacheStatusIcon("hud_status_dead");
-	precacheHeadIcon("headicon_admin");
+	precacheHeadIcon("headicon_vip");
 
 	precacheShellShock("default");
 	precacheShellShock("flashbang");
