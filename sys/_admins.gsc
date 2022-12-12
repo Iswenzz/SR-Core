@@ -16,6 +16,8 @@ initAdmins()
 	level.admin_roles = [];
 	level.special_roles = [];
 
+	level.admin_role = "owner";
+
 	level.admin_roles["player"] 		= 1;
 	level.admin_roles["trusted"] 		= 2;
 	level.admin_roles["member"] 		= 10;

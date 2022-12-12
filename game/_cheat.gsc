@@ -30,9 +30,11 @@ spawnLoop()
 		cheat = true;
 	if (self isDemoPlaying())
 		cheat = true;
+	if (self.isBot)
+		cheat = true;
 	self.sr_cheat = cheat;
 
-	if (self.isBot || self.sr_cheat) 
+	if (self.isBot || self.sr_cheat)
 		return;
 
 	wait 1;

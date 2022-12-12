@@ -242,6 +242,12 @@ databaseSetRank(xp, rank, prestige)
 
 databaseGetRank()
 {
+	if (self.isBot)
+	{
+		self getBotRank();
+		return;
+	}
+
 	mutex_acquire("mysql");
 
 	request = SQL_Prepare("SELECT xp, level, prestige FROM ranks WHERE player = ?");
@@ -268,6 +274,13 @@ databaseGetRank()
 
 	SQL_Free(request);
 	mutex_release("mysql");
+}
+
+getBotRank()
+{
+	self.pers["rankxp"] = 0;
+	self.pers["rank"] = 80;
+	self.pers["prestige"] = 10;
 }
 
 prestige()
