@@ -11,7 +11,7 @@ main()
 	cmd("vip", 			"color",		::cmd_Color);
 	cmd("owner", 		"shader",		::cmd_Shader);
 	cmd("owner", 		"spawn_model",	::cmd_SpawnModel);
-	cmd("masteradmin", 	"vision",		::cmd_Vision);
+	cmd("owner", 		"vision",		::cmd_Vision);
 }
 
 cmd_Vision(args)

@@ -313,7 +313,7 @@ cmd_ReportPlayer(args)
 		self.name, self.guid,
 		player.name, player.guid,
 		reason);
-	sr\sys\_discord::webhookEmbed("SR", "Report Player", message);
+	sr\sys\_discord::embed("SR", "Report Player", message);
 }
 
 cmd_ReportBug(args)
@@ -324,7 +324,7 @@ cmd_ReportBug(args)
 	reason = StrJoin(args, " ");
 	message = fmt("**%s (%s)**\\n**%s**\\n\\n%s", self.name, self.guid, level.map, reason);
 
-	sr\sys\_discord::webhookEmbed("SR", "Report Bug", message);
+	sr\sys\_discord::embed("SR", "Report Bug", message);
 }
 
 cmd_TimePlayed(args)

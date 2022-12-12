@@ -18,9 +18,11 @@ main()
 	sr\sys\_dvar::initDvars();
 	sr\sys\_events::initEvents();
 	sr\sys\_file::initFiles();
+	sr\sys\_ftp::initFTP();
+	sr\sys\_http::initHTTP();
 	sr\sys\_ids::initIds();
     sr\sys\_mysql::initMySQL();
-    sr\sys\_curl::initCurl();
+    sr\sys\_curl::initCURL();
 	sr\sys\_discord::initDiscord();
 	sr\sys\_admins::initAdmins();
 	sr\sys\_notifications::initNotifications();

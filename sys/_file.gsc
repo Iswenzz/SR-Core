@@ -16,3 +16,24 @@ PATH_Mod(path)
 {
 	return PathJoin(getDvar("fs_game"), path);
 }
+
+FILE_OpenJSON(path)
+{
+	if (!FILE_Exists(path))
+		return "";
+	file = FILE_Open(path, "r");
+
+	lines = FILE_ReadLines(file);
+	for (i = 0; i < lines.size; i++)
+	{
+		line = lines[i];
+		line = Replace(line, "<string>", "%s");
+		line = Replace(line, "\"<int>\"", "%d");
+		line = Replace(line, "\"<float>\"", "%f");
+		line = Replace(line, "\"<bool>\"", "%d");
+		lines[i] = line;
+	}
+
+	FILE_Close(file);
+	return StrJoin(lines, "\n");
+}

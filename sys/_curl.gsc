@@ -1,12 +1,17 @@
 #include sr\sys\_events;
 
-initCurl()
+initCURL()
 {
 	mutex("curl");
 }
 
-json()
+CURL_Wait(request)
 {
-	CURL_AddHeader("Accept: application/json");
-	CURL_AddHeader("Content-Type: application/json");
+	status = CURL_Status(request);
+	while (status <= 1)
+	{
+		wait 0.05;
+		status = CURL_Status(request);
+	}
+	return status;
 }

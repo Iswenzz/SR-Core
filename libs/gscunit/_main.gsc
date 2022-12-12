@@ -82,7 +82,7 @@ summarize(exit)
 
 	time = 0;
 	if (isDefined(level.gscunit.clock))
-		stopClock(level.gscunit.clock);
+		time = stopClock(level.gscunit.clock);
 
 	color = Ternary(level.gscunit.count_fail > 0, "^1", "^2");
 	sysPrintLn("\n%sPassed: %d Failed: %d (%dms)\n", color,

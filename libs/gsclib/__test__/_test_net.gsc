@@ -8,23 +8,23 @@ main()
 
 	beforeAll();
 
-	// // net/curl
-	// it(::test_CURL_Version, "CURL_Version");
-	// it(::test_CURL_HeaderCleanup, "CURL_HeaderCleanup");
-	// it(::test_CURL_OptCleanup, "CURL_OptCleanup");
-	// it(::test_CURL_AddOpt, "CURL_AddOpt");
+	// net/curl
+	it(::test_CURL_Version, "CURL_Version");
+	it(::test_CURL_HeaderCleanup, "CURL_HeaderCleanup");
+	it(::test_CURL_OptCleanup, "CURL_OptCleanup");
+	it(::test_CURL_AddOpt, "CURL_AddOpt");
 
-	// // net/ftp
-	// it(::test_SFTP_Shell, "SFTP_Shell", ::beforeSFTP, ::afterSFTP);
-	// it(::test_SFTP_PostGetFile, "SFTP_PostGetFile", ::beforeSFTP, ::afterSFTP);
-	// it(::test_FTP_Shell, "FTP_Shell", ::beforeFTP, ::afterFTP);
-	// it(::test_FTP_PostGetFile, "FTP_PostGetFile", ::beforeFTP, ::afterFTP);
+	// net/ftp
+	it(::test_SFTP_Shell, "SFTP_Shell", ::beforeSFTP, ::afterSFTP);
+	it(::test_SFTP_PostGetFile, "SFTP_PostGetFile", ::beforeSFTP, ::afterSFTP);
+	it(::test_FTP_Shell, "FTP_Shell", ::beforeFTP, ::afterFTP);
+	it(::test_FTP_PostGetFile, "FTP_PostGetFile", ::beforeFTP, ::afterFTP);
 
-	// // net/https
-	// it(::test_HTTPS_GetFile, "HTTPS_GetFile");
-	// it(::test_HTTPS_GetString, "HTTPS_GetString");
-	// it(::test_HTTPS_PostFile, "HTTPS_PostFile");
-	// it(::test_HTTPS_PostString, "HTTPS_PostString");
+	// net/http
+	it(::test_HTTP_Get, "HTTP_Get");
+	it(::test_HTTP_GetFile, "HTTP_GetFile");
+	it(::test_HTTP_Post, "HTTP_Post");
+	it(::test_HTTP_PostFile, "HTTP_PostFile");
 
 	// net/mysql
 	it(::test_SQL_Version, "SQL_Version", ::beforeMySQL);
@@ -79,7 +79,7 @@ beforeAll()
 {
 	if (hasMySQL())
 	{
-		SQL_Connect("192.168.1.86", 3306, "root", "rootpassword");
+		SQL_Connect("127.0.0.1", 3306, "root", "rootpassword");
 		SQL_SelectDB("speedrun");
 	}
 }
@@ -94,7 +94,7 @@ beforeMySQL()
 {
 	if (!hasMySQL())
 		return false;
-	request = SQL_Query("DELETE FROM ranks");
+	request = SQL_Query("DELETE FROM ranks WHERE player = '12345678'");
 	SQL_Wait(request);
 	SQL_Free(request);
 	return true;
@@ -139,89 +139,158 @@ test_CURL_Version()
 
 test_CURL_HeaderCleanup()
 {
-	EXPECT_UNDEFINED(CURL_HeaderCleanup());
+	request = CURL_Init();
+	EXPECT_UNDEFINED(CURL_HeaderCleanup(request));
+	CURL_Free(request);
 }
 
 test_CURL_OptCleanup()
 {
-	EXPECT_UNDEFINED(CURL_OptCleanup());
+	request = CURL_Init();
+	EXPECT_UNDEFINED(CURL_OptCleanup(request));
+	CURL_Free(request);
 }
 
 test_CURL_AddOpt()
 {
-	EXPECT_UNDEFINED(CURL_AddOpt(41, 1));
+	request = CURL_Init();
+	EXPECT_UNDEFINED(CURL_AddOpt(request, 41, 1));
+	CURL_Free(request);
 }
 
-test_HTTPS_GetFile()
-{
-	url = "https://iswenzz.com/";
-	EXPECT_TRUE(HTTPS_GetFile("temp/iswenzz.html", url));
-}
-
-test_HTTPS_GetString()
+test_HTTP_Get()
 {
 	url = "http://httpbin.org/get";
-	EXPECT_CONTAIN(HTTPS_GetString(url), "httpbin.org");
+
+	request = HTTP_Init();
+	HTTP_Get(request, url);
+	HTTP_Wait(request);
+
+	EXPECT_CONTAIN(HTTP_Response(request), "httpbin.org");
+	HTTP_Free(request);
 }
 
-test_HTTPS_PostFile()
+test_HTTP_GetFile()
 {
-	url = "http://httpbin.org/post";
-	EXPECT_CONTAIN(HTTPS_PostFile("temp/iswenzz.html", url), "Iswenzz");
-	FILE_Delete("temp/iswenzz.html");
+	url = "https://iswenzz.com/";
+
+	request = HTTP_Init();
+	EXPECT_TRUE(HTTP_GetFile(request, "temp/iswenzz.html", url));
+	HTTP_Wait(request);
+	HTTP_Free(request);
 }
 
-test_HTTPS_PostString()
+test_HTTP_Post()
 {
 	json = "{\"login\":\"login\",\"password\":\"password\"}";
 	url = "http://httpbin.org/post";
 
-	CURL_AddHeader("Accept: application/json,Content-Type: application/json");
-	EXPECT_CONTAIN(HTTPS_PostString(json, url), "password");
+	request = HTTP_Init();
+	CURL_AddHeader(request, "Accept: application/json,Content-Type: application/json");
+	HTTP_Post(request, json, url);
+	HTTP_Wait(request);
+
+	EXPECT_CONTAIN(HTTP_Response(request), "password");
+	HTTP_Free(request);
+}
+
+test_HTTP_PostFile()
+{
+	url = "http://httpbin.org/post";
+
+	request = HTTP_Init();
+	HTTP_PostFile(request, "temp/iswenzz.html", url);
+	HTTP_Wait(request);
+
+	EXPECT_CONTAIN(HTTP_Response(request), "Iswenzz");
+	HTTP_Free(request);
+	FILE_Delete("temp/iswenzz.html");
 }
 
 test_SFTP_Shell()
 {
 	FILE_Create("temp/test.txt");
-	EXPECT_TRUE(FTP_PostFile("temp/test.txt", "test.txt"));
 
-	CURL_AddHeader("rename test.txt new.txt");
-	EXPECT_TRUE(FTP_Shell());
+	request = FTP_Init();
+	EXPECT_TRUE(FTP_PostFile(request, "temp/test.txt", "test.txt"));
+	FTP_Wait(request);
+	FTP_Free(request);
 
-	CURL_AddHeader("rm new.txt");
-	EXPECT_TRUE(FTP_Shell());
+	request = FTP_Init();
+	CURL_AddHeader(request, "rename test.txt new.txt");
+	EXPECT_TRUE(FTP_Shell(request));
+	FTP_Wait(request);
+	FTP_Free(request);
+
+	request = FTP_Init();
+	CURL_AddHeader(request, "rm new.txt");
+	EXPECT_TRUE(FTP_Shell(request));
+	FTP_Wait(request);
+	FTP_Free(request);
 }
 
 test_SFTP_PostGetFile()
 {
-	EXPECT_TRUE(FTP_PostFile("temp/test.txt", "get.txt"));
-	EXPECT_TRUE(FTP_GetFile("temp/test.txt", "get.txt"));
+	request = FTP_Init();
+	EXPECT_TRUE(FTP_PostFile(request, "temp/test.txt", "get.txt"));
+	FTP_Wait(request);
+	FTP_Free(request);
 
-	CURL_AddHeader("rm get.txt");
-	EXPECT_TRUE(FTP_Shell());
+	request = FTP_Init();
+	EXPECT_TRUE(FTP_GetFile(request, "temp/test.txt", "get.txt"));
+	FTP_Wait(request);
+	FTP_Free(request);
+
+	request = FTP_Init();
+	CURL_AddHeader(request, "rm get.txt");
+	EXPECT_TRUE(FTP_Shell(request));
+	FTP_Wait(request);
+	FTP_Free(request);
+
 	FILE_Delete("temp/test.txt");
 }
 
 test_FTP_Shell()
 {
 	FILE_Create("temp/test.txt");
-	EXPECT_TRUE(FTP_PostFile("temp/test.txt", "test.txt"));
 
-	CURL_AddHeader("RNFR test.txt");
-	CURL_AddHeader("RNTO new.txt");
-	EXPECT_TRUE(FTP_Shell());
+	request = FTP_Init();
+	EXPECT_TRUE(FTP_PostFile(request, "temp/test.txt", "test.txt"));
+	FTP_Wait(request);
+	FTP_Free(request);
 
-	CURL_AddHeader("DELE new.txt");
-	EXPECT_TRUE(FTP_Shell());
+	request = FTP_Init();
+	CURL_AddHeader(request, "RNFR test.txt");
+	CURL_AddHeader(request, "RNTO new.txt");
+	EXPECT_TRUE(FTP_Shell(request));
+	FTP_Wait(request);
+	FTP_Free(request);
+
+	request = FTP_Init();
+	CURL_AddHeader(request, "DELE new.txt");
+	EXPECT_TRUE(FTP_Shell(request));
+	FTP_Wait(request);
+	FTP_Free(request);
 }
 
 test_FTP_PostGetFile()
 {
-	EXPECT_TRUE(FTP_PostFile("temp/test.txt", "get.txt"));
-	EXPECT_TRUE(FTP_GetFile("temp/test.txt", "get.txt"));
+	request = FTP_Init();
+	EXPECT_TRUE(FTP_PostFile(request, "temp/test.txt", "get.txt"));
+	FTP_Wait(request);
+	FTP_Free(request);
 
-	CURL_AddHeader("DELE get.txt");
-	EXPECT_TRUE(FTP_Shell());
+	request = FTP_Init();
+	EXPECT_TRUE(FTP_GetFile(request, "temp/test.txt", "get.txt"));
+	FTP_Wait(request);
+	FTP_Free(request);
+
+	request = FTP_Init();
+	CURL_AddHeader(request, "DELE get.txt");
+	EXPECT_TRUE(FTP_Shell(request));
+	FTP_Wait(request);
+	FTP_Free(request);
+
 	FILE_Delete("temp/test.txt");
 }
 
@@ -236,7 +305,7 @@ test_SQL_PrepareStatement()
 
 	expectedRow = [];
 	expectedRow[0] = "Iswenzz";
-	expectedRow[1] = "05a84e1d";
+	expectedRow[1] = "12345678";
 	expectedRow[2] = 1296000;
 	expectedRow[3] = 80;
 	expectedRow[4] = 10;
@@ -244,7 +313,7 @@ test_SQL_PrepareStatement()
 	// Insert Into
 	request = SQL_Prepare("INSERT INTO ranks (name, player, xp, level, prestige) VALUES (?, ?, ?, ?, ?)");
 	SQL_BindParam(request, "Iswenzz", level.MYSQL_TYPE_STRING);
-	SQL_BindParam(request, "05a84e1d", level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, "12345678", level.MYSQL_TYPE_STRING);
 	SQL_BindParam(request, 1296000, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, 80, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, 10, level.MYSQL_TYPE_LONG);
@@ -255,7 +324,8 @@ test_SQL_PrepareStatement()
 	SQL_Free(request);
 
 	// Select
-	request = SQL_Prepare("SELECT name, player, xp, level, prestige FROM ranks");
+	request = SQL_Prepare("SELECT name, player, xp, level, prestige FROM ranks WHERE player = ?");
+	SQL_BindParam(request, "12345678", level.MYSQL_TYPE_STRING);
 	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 36);
 	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 8);
 	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
@@ -292,7 +362,7 @@ test_SQL_PrepareStatementDict()
 
 	expectedRow = [];
 	expectedRow[0] = "Iswenzz";
-	expectedRow[1] = "05a84e1d";
+	expectedRow[1] = "12345678";
 	expectedRow[2] = 1296000;
 	expectedRow[3] = 80;
 	expectedRow[4] = 10;
@@ -300,7 +370,7 @@ test_SQL_PrepareStatementDict()
 	// Insert Into
 	request = SQL_Prepare("INSERT INTO ranks (name, player, xp, level, prestige) VALUES (?, ?, ?, ?, ?)");
 	SQL_BindParam(request, "Iswenzz", level.MYSQL_TYPE_STRING);
-	SQL_BindParam(request, "05a84e1d", level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, "12345678", level.MYSQL_TYPE_STRING);
 	SQL_BindParam(request, 1296000, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, 80, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, 10, level.MYSQL_TYPE_LONG);
@@ -311,7 +381,8 @@ test_SQL_PrepareStatementDict()
 	SQL_Free(request);
 
 	// Select
-	request = SQL_Prepare("SELECT name, player, xp, level, prestige FROM ranks");
+	request = SQL_Prepare("SELECT name, player, xp, level, prestige FROM ranks WHERE player = ?");
+	SQL_BindParam(request, "12345678", level.MYSQL_TYPE_STRING);
 	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 36);
 	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 8);
 	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
@@ -350,40 +421,41 @@ test_SQL_Query()
 
 	expectedRow = [];
 	expectedRow[0] = "Iswenzz";
-	expectedRow[1] = "05a84e1d";
+	expectedRow[1] = "12345678";
 	expectedRow[2] = "1296000";
 	expectedRow[3] = "80";
 	expectedRow[4] = "10";
 
 	// Insert Into
 	queryInsert = "INSERT INTO ranks (name, player, xp, level, prestige) " +
-		"VALUES ('Iswenzz', '05a84e1d', 1296000, 80, 10)";
+		"VALUES ('Iswenzz', '12345678', 1296000, 80, 10)";
 	request = SQL_Query(queryInsert);
 	SQL_Wait(request);
+
 	EXPECT_EQ(SQL_AffectedRows(request), 1);
 	SQL_Free(request);
 
-	// Select
-	request = SQL_Query("SELECT name, player, xp, level, prestige FROM ranks");
-	SQL_Wait(request);
+	// // Select
+	// request = SQL_Query("SELECT name, player, xp, level, prestige FROM ranks WHERE player = '12345678'");
+	// SQL_Wait(request);
 
-	fields = SQL_FetchFields(request);
-	rows = SQL_FetchRowsDict(request);
+	// fields = SQL_FetchFields(request);
+	// rows = SQL_FetchRowsDict(request);
 
-	for (i = 0; i < fields.size; i++)
-		EXPECT_EQ(fields[i], expectedFields[i]);
-	EXPECT_EQ(SQL_NumFields(request), 5);
+	// for (i = 0; i < fields.size; i++)
+	// 	EXPECT_EQ(fields[i], expectedFields[i]);
+	// EXPECT_EQ(SQL_NumFields(request), 5);
 
-	EXPECT_EQ(SQL_NumRows(request), 1);
-	for (i = 0; i < rows.size; i++)
-	{
-		row = rows[i];
-		keys = Reverse(getArrayKeys(row));
+	// EXPECT_EQ(SQL_NumRows(request), 1);
+	// for (i = 0; i < rows.size; i++)
+	// {
+	// 	row = rows[i];
+	// 	keys = Reverse(getArrayKeys(row));
 
-		for (j = 0; j < row.size; j++)
-			EXPECT_EQ(row[keys[j]], expectedRow[j]);
-	}
-	SQL_Free(request);
+	// 	for (j = 0; j < row.size; j++)
+	// 		EXPECT_EQ(row[keys[j]], expectedRow[j]);
+	// }
+	// SQL_Free(request);
 }
 
 test_SQL_HexString()
@@ -424,6 +496,39 @@ SQL_Wait(request)
 	{
 		wait 0.05;
 		status = SQL_Status(request);
+	}
+	return status;
+}
+
+CURL_Wait(request)
+{
+	status = CURL_Status(request);
+	while (status <= 1)
+	{
+		wait 0.05;
+		status = CURL_Status(request);
+	}
+	return status;
+}
+
+FTP_Wait(request)
+{
+	status = FTP_Status(request);
+	while (status <= 1)
+	{
+		wait 0.05;
+		status = FTP_Status(request);
+	}
+	return status;
+}
+
+HTTP_Wait(request)
+{
+	status = HTTP_Status(request);
+	while (status <= 1)
+	{
+		wait 0.05;
+		status = HTTP_Status(request);
 	}
 	return status;
 }
