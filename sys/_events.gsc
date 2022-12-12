@@ -137,3 +137,14 @@ mutex_release(id)
 	level.mutex[id].locked--;
 	level notify(fmt("mutex_%s", id));
 }
+
+AsyncWait(request)
+{
+	status = AsyncStatus(request);
+	while (status <= 1)
+	{
+		wait 0.05;
+		status = AsyncStatus(request);
+	}
+	return status;
+}

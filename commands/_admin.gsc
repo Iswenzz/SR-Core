@@ -1,6 +1,5 @@
 #include sr\sys\_admins;
 #include sr\sys\_events;
-#include sr\sys\_mysql;
 #include sr\utils\_common;
 
 main()
@@ -372,7 +371,7 @@ cmd_Role(args)
 	SQL_BindParam(request, role, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
-	SQL_Wait(request);
+	AsyncWait(request);
 
 	affected = SQL_AffectedRows(request);
 	SQL_Free(request);
@@ -384,7 +383,7 @@ cmd_Role(args)
 		SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(request, role, level.MYSQL_TYPE_STRING);
 		SQL_Execute(request);
-		SQL_Wait(request);
+		AsyncWait(request);
 		SQL_Free(request);
 	}
 	mutex_release("mysql");
@@ -412,7 +411,7 @@ cmd_VIP(args)
 	SQL_BindParam(request, vip, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
-	SQL_Wait(request);
+	AsyncWait(request);
 
 	affected = SQL_AffectedRows(request);
 	SQL_Free(request);
@@ -425,7 +424,7 @@ cmd_VIP(args)
 		SQL_BindParam(request, player.admin_role, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(request, vip, level.MYSQL_TYPE_LONG);
 		SQL_Execute(request);
-		SQL_Wait(request);
+		AsyncWait(request);
 		SQL_Free(request);
 	}
 	mutex_release("mysql");
@@ -473,7 +472,7 @@ cmd_Ban(args)
 	SQL_BindParam(request, steamId, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(request, ip, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
-	SQL_Wait(request);
+	AsyncWait(request);
 	SQL_Free(request);
 
 	mutex_release("mysql");

@@ -1,6 +1,5 @@
 #include sr\sys\_file;
 #include sr\sys\_events;
-#include sr\sys\_mysql;
 #include sr\utils\_common;
 
 initAdmins()
@@ -72,7 +71,7 @@ fetch()
 	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 20);
 	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
 	SQL_Execute(request);
-	SQL_Wait(request);
+	AsyncWait(request);
 
 	rows = SQL_FetchRowsDict(request);
 	for (i = 0; i < rows.size; i++)
@@ -91,7 +90,7 @@ fetch()
 	SQL_BindResult(request, level.MYSQL_TYPE_STRING);
 	SQL_BindResult(request, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
-	SQL_Wait(request);
+	AsyncWait(request);
 
 	rows = SQL_FetchRowsDict(request);
 	for (i = 0; i < rows.size; i++)

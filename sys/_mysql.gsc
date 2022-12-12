@@ -49,14 +49,3 @@ variables()
 	level.MYSQL_TYPE_TEXT         = 254;
 	level.MYSQL_TYPE_GEOMETRY     = 255;
 }
-
-SQL_Wait(request)
-{
-	status = SQL_Status(request);
-	while (status <= 1)
-	{
-		wait 0.05;
-		status = SQL_Status(request);
-	}
-	return status;
-}

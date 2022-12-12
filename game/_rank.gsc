@@ -1,5 +1,4 @@
 #include sr\sys\_events;
-#include sr\sys\_mysql;
 
 initRank()
 {
@@ -219,7 +218,7 @@ databaseSetRank(xp, rank, prestige)
 	SQL_BindParam(request, prestige, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, self.guid, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
-	SQL_Wait(request);
+	AsyncWait(request);
 
 	affected = SQL_AffectedRows(request);
 	SQL_Free(request);
@@ -234,7 +233,7 @@ databaseSetRank(xp, rank, prestige)
 		SQL_BindParam(request, rank + 1, level.MYSQL_TYPE_LONG);
 		SQL_BindParam(request, prestige, level.MYSQL_TYPE_LONG);
 		SQL_Execute(request);
-		SQL_Wait(request);
+		AsyncWait(request);
 		SQL_Free(request);
 	}
 	mutex_release("mysql");
@@ -256,7 +255,7 @@ databaseGetRank()
 	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
 	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
 	SQL_Execute(request);
-	SQL_Wait(request);
+	AsyncWait(request);
 
 	if (SQL_NumRows(request))
 	{

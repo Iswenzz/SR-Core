@@ -43,7 +43,7 @@ embed(webhook, title, message)
 	HTTP_JSON(request);
 
 	HTTP_Post(request, json, hook.url);
-	HTTP_Wait(request);
+	AsyncWait(request);
 
 	HTTP_Free(request);
 	mutex_release("http");
