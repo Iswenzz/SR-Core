@@ -44,6 +44,8 @@ Core mod for SR containing libraries, utilities, player movements, player huds, 
 * Random map rotation
 * Ranking, match and vote systems
 * Time played
+* Voice chat with proximity feature
+* Radio MP3 & WAV streaming
 
 ## Contributors:
 ***Note:*** If you would like to contribute to this repository, feel free to send a pull request, and I will review your code. Also feel free to post about any problems that may arise in the issues section of the repository.
