@@ -1,6 +1,9 @@
 initFiles()
 {
 	level.files = [];
+	level.directories = [];
+
+	level.directories["downloads"] = PATH_Mod("sr/data/downloads");
 
 	FILE_MkDir(PATH_Mod("sr/data"));
 	FILE_MkDir(PATH_Mod("sr/data/admin"));

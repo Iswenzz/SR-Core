@@ -7,6 +7,7 @@ main()
 	cmd("player", 		"!pm", 				::cmd_PM);
 	cmd("owner",        "cmd",				::cmd_Command);
 	cmd("admin",        "detail",			::cmd_Detail);
+	cmd("owner",        "download",			::cmd_Download);
 	cmd("masteradmin",  "end",				::cmd_End);
 	cmd("owner",  		"nextmap",			::cmd_NextMap);
 	cmd("owner",        "givexp",			::cmd_GiveXp);
@@ -82,6 +83,23 @@ cmd_Detail(args)
 
 	value = args[0];
 	self clientCmd(fmt("sr_admin_detail %d", value));
+}
+
+cmd_Download(args)
+{
+	if (args.size < 2)
+		return self pm("Usage: download <url> <file>");
+
+	url = args[0];
+	file = args[1];
+
+	request = HTTP_Init();
+	path = PathJoin(level.directories["downloads"], file);
+	HTTP_GetFile(request, path, "https://" + url);
+	AsyncWait(request);
+	HTTP_Free(request);
+
+	self pm(fmt("^2Downloaded %s", file));
 }
 
 cmd_GiveXp(args)

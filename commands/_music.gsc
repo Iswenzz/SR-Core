@@ -67,7 +67,7 @@ cmd_Radio(args)
 	file = fmt("%s.%s", toks[0], toks[1]);
 	type = toks[1];
 
-	path = PathJoin(PATH_Mod("sr/data/downloads"), file);
+	path = PathJoin(level.directories["downloads"], file);
 	self pm(fmt("^3Playing %s", file));
 
 	RadioPlay(path, type);
