@@ -477,9 +477,9 @@ cmd_Ban(args)
 
 	name = args[0];
 	guid = args[1];
-	id = args[2];
-	steamId = args[3];
-	ip = args[4];
+	id = IfUndef(args[2], "");
+	steamId = IfUndef(args[3], "");
+	ip = IfUndef(args[4], "");
 
 	mutex_acquire("mysql");
 

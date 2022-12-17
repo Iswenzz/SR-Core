@@ -85,10 +85,10 @@ fetch()
 	SQL_Free(request);
 
 	request = SQL_Prepare("SELECT guid, player, steamId, ip FROM bans");
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING);
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING);
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING);
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING);
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 8);
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 36);
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 50);
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 15);
 	SQL_Execute(request);
 	AsyncWait(request);
 
@@ -197,8 +197,6 @@ isVIP()
 
 isBanned()
 {
-	self.guid = getSubStr(self getGuid(), 24, 32);
-
 	for (i = 0; i < level.bans.size; i++)
 	{
 		entry = level.bans[i];

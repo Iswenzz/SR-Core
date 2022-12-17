@@ -147,7 +147,10 @@ getRankInfoIcon(rankId, prestigeId)
 onConnect()
 {
 	self databaseGetRank();
-	self.guid = getSubStr(self getGuid(), 24, 32);
+
+	if (!isDefined(self))
+		return;
+
 	self.pers["participation"] = 0;
 	self.rankUpdateTotal = 0;
 
@@ -173,16 +176,12 @@ onConnect()
 
 onChangedTeam()
 {
-	self endon("disconnect");
-
 	self thread removeRankHUD();
 }
 
 giveRankXP(type, value)
 {
-	self endon("disconnect");
-
-	if (isDefined(value) && value <= 0)
+	if (!isDefined(self) || isDefined(value) && value <= 0)
 		return;
 
 	value = int(value);
@@ -200,7 +199,7 @@ giveRankXP(type, value)
 	self thread updateRankScoreHUD(value);
 
 	if (self incRankXP(value))
-		self databaseSetRank(self.pers["rankxp"], self.pers["rank"], self.pers["prestige"]);
+		self thread databaseSetRank(self.pers["rankxp"], self.pers["rank"], self.pers["prestige"]);
 }
 
 databaseSetRank(xp, rank, prestige)
@@ -257,18 +256,21 @@ databaseGetRank()
 	SQL_Execute(request);
 	AsyncWait(request);
 
-	if (SQL_NumRows(request))
+	if (isDefined(self))
 	{
-		row = SQL_FetchRowDict(request);
-		self.pers["rankxp"] = row["xp"];
-		self.pers["rank"] = row["level"] - 1;
-		self.pers["prestige"] = row["prestige"];
-	}
-	else
-	{
-		self.pers["rankxp"] = 0;
-		self.pers["rank"] = 0;
-		self.pers["prestige"] = 0;
+		if (SQL_NumRows(request))
+		{
+			row = SQL_FetchRowDict(request);
+			self.pers["rankxp"] = row["xp"];
+			self.pers["rank"] = row["level"] - 1;
+			self.pers["prestige"] = row["prestige"];
+		}
+		else
+		{
+			self.pers["rankxp"] = 0;
+			self.pers["rank"] = 0;
+			self.pers["prestige"] = 0;
+		}
 	}
 
 	SQL_Free(request);
@@ -422,7 +424,7 @@ updateRank(rankId)
 		rankId = self getRankForXp(self getRankXP());
 		self setRank(rankId, self.pers["prestige"]);
 		self.pers["rank"] = rankId;
-		self updateRankAnnounceHUD();
+		self thread updateRankAnnounceHUD();
 	}
 	updateRankStats(self, rankId);
 }

@@ -272,12 +272,12 @@ isInArray(array)
 
 isReallyAlive()
 {
-	return isDefined(self.sessionstate) && self.sessionstate == "playing";
+	return isDefined(self) && isDefined(self.sessionstate) && self.sessionstate == "playing";
 }
 
 isPlaying()
 {
-	return isReallyAlive();
+	return self isReallyAlive();
 }
 
 waittill_any(a, b, c, d, e)
