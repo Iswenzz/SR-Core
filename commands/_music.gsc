@@ -1,4 +1,5 @@
 #include sr\sys\_admins;
+#include sr\sys\_file;
 #include sr\utils\_common;
 
 main()
@@ -11,6 +12,7 @@ main()
 	cmd("owner", 		"music_seqend", ::cmd_MusicSequenceEnd);
 	cmd("adminplus", 	"music_help", 	::cmd_MusicHelp);
 	cmd("player", 		"music_stop", 	::cmd_MusicStop);
+	cmd("owner",  		"radio",		::cmd_Radio);
 
 	// SFX
 	add("cosita");
@@ -44,6 +46,31 @@ main()
 	add("heya");
 	add("fak");
 	add("gf");
+}
+
+cmd_Radio(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: radio <file> (.wav/.mp3)");
+
+	if (args[0] == "stop")
+	{
+		self pm("^1Radio stop");
+		RadioPlay("stop", "null");
+		return;
+	}
+
+	toks = strTok(args[0], ".");
+	if (toks.size != 2)
+		return self pm("^1Wrong file name.");
+
+	file = fmt("%s.%s", toks[0], toks[1]);
+	type = toks[1];
+
+	path = PathJoin(PATH_Mod("sr/data/downloads"), file);
+	self pm(fmt("^3Playing %s", file));
+
+	RadioPlay(path, type);
 }
 
 cmd_MusicSequenceEnd(args)

@@ -9,6 +9,7 @@ initFiles()
 	FILE_MkDir(PATH_Mod("sr/data/match"));
 	FILE_MkDir(PATH_Mod("sr/data/kz"));
 	FILE_MkDir(PATH_Mod("sr/data/race"));
+	FILE_MkDir(PATH_Mod("sr/data/downloads"));
 	FILE_MkDir(PATH_Mod("demos"));
 }
 
