@@ -20,6 +20,8 @@ main()
 	settings(9,  "player_hide", "Hide Players", 1609, false, ::update_playerHide, ::toggle_playerHide);
 	settings(12, "player_knife", "Knife Only", 1612, false, ::update_playerKnife, ::toggle_playerKnife);
 	settings(19, "player_voice", "Voice chat", 1620, true, ::update_playerVoice, ::toggle_playerVoice);
+	settings(20, "player_proximity", "Voice proximity", 1621, true, ::update_playerProximity, ::toggle_playerProximity);
+	settings(21, "player_radio", "Radio", 1622, true, ::update_playerRadio, ::toggle_playerRadio);
 	settings(6,  "gfx_fov", "FOV Scale", 2630, 1000, ::update_gfxFOV, ::toggle_gfxFOV);
 	settings(2,  "gfx_fullbright", "Fullbright", 1602, false, ::update_gfxFullbright, ::toggle_gfxFullbright);
 	settings(5,  "gfx_distance", "Draw Distance", 1603, 0, ::update_gfxDistance, ::toggle_gfxDistance);
@@ -207,6 +209,20 @@ update_playerVoice(setting)
 	self updateHud(setting.index, value);
 }
 
+update_playerProximity(setting)
+{
+	value = self.settings["player_proximity"];
+	self ProximityEnable(value);
+	self updateHud(setting.index, value);
+}
+
+update_playerRadio(setting)
+{
+	value = self.settings["player_radio"];
+	self RadioEnable(value);
+	self updateHud(setting.index, value);
+}
+
 update_gfxFOV(setting)
 {
 	value = float(self.settings["gfx_fov"] / 1000);
@@ -351,6 +367,16 @@ toggle_playerKnife(setting)
 toggle_playerVoice(setting)
 {
 	self.settings["player_voice"] = !self.settings["player_voice"];
+}
+
+toggle_playerProximity(setting)
+{
+	self.settings["player_proximity"] = !self.settings["player_proximity"];
+}
+
+toggle_playerRadio(setting)
+{
+	self.settings["player_radio"] = !self.settings["player_radio"];
 }
 
 toggle_gfxDistance(setting)
