@@ -108,6 +108,10 @@ fetch()
 	SQL_Free(request);
 
 	mutex_release("mysql");
+
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+		players[i] thread connection();
 }
 
 connection()
