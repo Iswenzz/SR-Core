@@ -15,6 +15,7 @@ main()
 	maps\mp\gametypes\_quickmessages::init();
 	maps\mp\_weapons::init();
 
+	sr\sys\_env::initEnvs();
 	sr\sys\_dvar::initDvars();
 	sr\sys\_events::initEvents();
 	sr\sys\_file::initFiles();

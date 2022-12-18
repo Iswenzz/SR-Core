@@ -1,0 +1,28 @@
+#include sr\sys\_file;
+
+initEnvs()
+{
+	level.envs = [];
+
+	buildEnvs();
+}
+
+buildEnvs()
+{
+	file = FILE_Open(PATH_Mod("sr/data/system/env"), "r");
+	lines = FILE_ReadLines(file);
+
+	for (i = 0; i < lines.size; i++)
+	{
+		line = lines[i];
+		tokens = strTok(line, "=");
+		if (tokens.size < 2)
+			continue;
+
+		key = tokens[0];
+		value = tokens[1];
+
+		level.envs[key] = value;
+	}
+	FILE_Close(file);
+}

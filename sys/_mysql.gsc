@@ -2,7 +2,13 @@
 
 initMySQL()
 {
-	connection = SQL_Connect("iswenzz.com", 3306, "iswenzz", "Ln2UwU<t.Qze79:j");
+	connection = SQL_Connect(
+		level.envs["DB_HOST"],
+		ToInt(level.envs["DB_PORT"]),
+		level.envs["DB_USER"],
+		level.envs["DB_PASSWORD"]
+	);
+
 	if (!isDefined(connection) || !connection)
 	{
 		sysPrintLn("Database connection failed");
