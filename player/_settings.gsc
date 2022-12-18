@@ -20,7 +20,7 @@ main()
 	settings(9,  "player_hide", "Hide Players", 1609, false, ::update_playerHide, ::toggle_playerHide);
 	settings(12, "player_knife", "Knife Only", 1612, false, ::update_playerKnife, ::toggle_playerKnife);
 	settings(19, "player_voice", "Voice chat", 1620, true, ::update_playerVoice, ::toggle_playerVoice);
-	settings(20, "player_proximity", "Voice proximity", 1621, true, ::update_playerProximity, ::toggle_playerProximity);
+	settings(20, "player_proximity", "Voice proximity", 1621, false, ::update_playerProximity, ::toggle_playerProximity);
 	settings(21, "player_radio", "Radio", 1622, true, ::update_playerRadio, ::toggle_playerRadio);
 	settings(6,  "gfx_fov", "FOV Scale", 2630, 1000, ::update_gfxFOV, ::toggle_gfxFOV);
 	settings(2,  "gfx_fullbright", "Fullbright", 1602, false, ::update_gfxFullbright, ::toggle_gfxFullbright);
