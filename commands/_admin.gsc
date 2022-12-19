@@ -55,6 +55,9 @@ cmd_PM(args)
 		return self pm("Usage: !!pm <playerName> <message>");
 
 	player = getPlayerByName(args[0]);
+	if (!isDefined(player))
+		return pm("Could not find player");
+
 	msg = StrJoin(Range(args, 1, args.size), " ");
 
 	exec(fmt("tell %d ^2To %s:^7 %s", self getEntityNumber(), player.name, msg));

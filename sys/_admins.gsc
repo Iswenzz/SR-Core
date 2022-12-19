@@ -164,6 +164,8 @@ canExecuteCommand(cmd, index)
 
 isRole(name)
 {
+	if (!isDefined(self.admin_role))
+		self connection();
 	return level.admin_roles[self.admin_role] >= level.admin_roles[name];
 }
 

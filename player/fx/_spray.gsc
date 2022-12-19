@@ -40,6 +40,12 @@ spray()
 		sprayNum = self getStat(979);
 		asset = level.assets["spray"][sprayNum];
 
+		if (!isDefined(asset))
+		{
+			wait 0.5;
+			continue;
+		}
+
 		switch (asset["type"])
 		{
 			case "fx": 		self fx(asset, trace);		break;

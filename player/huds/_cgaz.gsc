@@ -42,6 +42,9 @@ hud()
 
 draw()
 {
+	if (!isDefined(self.cgaz.d_vel))
+		return;
+
 	yaw = atan2(self.cgaz.wishvel[1], self.cgaz.wishvel[0]) - self.cgaz.d_vel;
 
 	y = 2;

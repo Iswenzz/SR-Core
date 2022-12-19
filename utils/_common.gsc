@@ -518,10 +518,15 @@ getHitLocHeight(sHitLoc)
 
 ragdoll(sHitLoc, vDir, sWeapon, eInflictor, sMeansOfDeath, deathAnimDuration)
 {
+	self endon("disconnect");
+
 	body = self clonePlayer(deathAnimDuration);
 	body setContents(0);
 	body hide();
 	body.targetname = "ragdoll";
+
+	if (!isDefined(body))
+		return;
 
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
