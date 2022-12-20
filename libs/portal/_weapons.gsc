@@ -402,7 +402,7 @@ finishPlayerDamageWrapper(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath
 	else
 		sMeansOfDeath = "MOD_RIFLE_BULLET";
 
-	self finishPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
-
+	if (isDefined(self))
+		self finishPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
 	self maps\mp\gametypes\_shellshock::shellshockOnDamage(sMeansOfDeath, iDamage);
 }

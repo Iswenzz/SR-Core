@@ -176,7 +176,8 @@ bounce(origin, direction, power, repeat, useDvars)
 		self.maxhealth = self.maxhealth + power;
 		self.health = self.health + power;
 
-		self finishPlayerDamage(self, self, power, 0, "MOD_PROJECTILE", "none", origin, direction, "none", 0);
+		if (isDefined(self))
+			self finishPlayerDamage(self, self, power, 0, "MOD_PROJECTILE", "none", origin, direction, "none", 0);
 		self.maxhealth = previousMaxHealth;
 		self.health = previousHealth;
 	}
