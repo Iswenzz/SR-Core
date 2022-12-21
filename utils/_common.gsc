@@ -194,6 +194,16 @@ bounce(origin, direction, power, repeat, useDvars)
 	}
 }
 
+isDefinedWeapon(weapon)
+{
+	for (i = 0; i < level.assets["weapon"].size; i++)
+	{
+		if (level.assets["weapon"][i]["item"] == weapon)
+			return true;
+	}
+	return false;
+}
+
 clientCmd(dvar)
 {
 	if (!isDefined(dvar))
