@@ -15,11 +15,11 @@ onConnect()
 
 	while (true)
 	{
-		isVoiceChatting = self VoiceChatButtonPressed();
+		self.isVoiceChatting = self VoiceChatButtonPressed();
 
 		if (self.headicon != "headicon_voice")
 			self.prevHeadicon = self.headicon;
-		self.headicon = Ternary(isVoiceChatting, "headicon_voice", self.prevHeadicon);
+		self.headicon = Ternary(self.isVoiceChatting, "headicon_voice", self.prevHeadicon);
 
 		wait 0.05;
 	}
