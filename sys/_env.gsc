@@ -15,6 +15,12 @@ buildEnvs()
 	for (i = 0; i < lines.size; i++)
 	{
 		line = lines[i];
+
+		// Comments
+		if (line.size && line[0] == ";")
+			continue;
+
+		// KV
 		tokens = strTok(line, "=");
 		if (tokens.size < 2)
 			continue;
