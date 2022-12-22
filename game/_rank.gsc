@@ -50,8 +50,6 @@ buildRanks()
 		level.ranks[rankId][3] = tableLookup(tableName, 0, rankId, 3);
 		level.ranks[rankId][7] = tableLookup(tableName, 0, rankId, 7);
 
-		// precacheString(tableLookupIString(tableName, 0, rankId, 16));
-
 		rankId++;
 		rankName = tableLookup(tableName, 0, rankId, 1);
 	}
