@@ -476,7 +476,7 @@ cmd_ID(args)
 cmd_Ban(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: sr_ban <name> <guid> <id> <steamId> <ip>");
+		return self pm("Usage: sr_ban <name> <guid> <?id> <?steamId> <?ip>");
 
 	name = args[0];
 	guid = args[1];
