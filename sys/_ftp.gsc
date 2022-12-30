@@ -2,5 +2,5 @@
 
 initFTP()
 {
-	mutex("ftp");
+	critical("ftp");
 }

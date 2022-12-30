@@ -386,7 +386,7 @@ cmd_Role(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	mutex_acquire("mysql");
+	critical_enter("mysql");
 
 	request = SQL_Prepare("UPDATE admins SET role = ? WHERE player = ?");
 	SQL_BindParam(request, role, level.MYSQL_TYPE_STRING);
@@ -407,7 +407,7 @@ cmd_Role(args)
 		AsyncWait(request);
 		SQL_Free(request);
 	}
-	mutex_release("mysql");
+	critical_release("mysql");
 
 	player.admin_role = role;
 	message(fmt("Promoted %s ^7to %s", player.name, player getRoleName()));
@@ -426,7 +426,7 @@ cmd_VIP(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	mutex_acquire("mysql");
+	critical_enter("mysql");
 
 	request = SQL_Prepare("UPDATE admins SET vip = ? WHERE player = ?");
 	SQL_BindParam(request, vip, level.MYSQL_TYPE_STRING);
@@ -448,7 +448,7 @@ cmd_VIP(args)
 		AsyncWait(request);
 		SQL_Free(request);
 	}
-	mutex_release("mysql");
+	critical_release("mysql");
 
 	message(fmt("Promoted %s ^7to ^2VIP(%d)", player.name, vip));
 	player eventConnect();
@@ -484,7 +484,7 @@ cmd_Ban(args)
 	steamId = IfUndef(args[3], "");
 	ip = IfUndef(args[4], "");
 
-	mutex_acquire("mysql");
+	critical_enter("mysql");
 
 	request = SQL_Prepare("INSERT INTO bans (name, guid, player, steamId, ip) VALUES (?, ?, ?, ?, ?)");
 	SQL_BindParam(request, name, level.MYSQL_TYPE_STRING);
@@ -496,5 +496,5 @@ cmd_Ban(args)
 	AsyncWait(request);
 	SQL_Free(request);
 
-	mutex_release("mysql");
+	critical_release("mysql");
 }

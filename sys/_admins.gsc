@@ -64,7 +64,7 @@ precache()
 
 fetch()
 {
-	mutex_acquire("mysql");
+	critical_enter("mysql");
 
 	request = SQL_Prepare("SELECT player, role, vip FROM admins");
 	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 36);
@@ -107,7 +107,7 @@ fetch()
 	}
 	SQL_Free(request);
 
-	mutex_release("mysql");
+	critical_release("mysql");
 
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)

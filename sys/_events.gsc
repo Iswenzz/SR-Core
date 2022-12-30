@@ -108,34 +108,20 @@ eventConnect()
 	level notify("connected", self);
 }
 
-mutex(id, before, after)
+critical(id)
 {
-	level.mutex[id] = spawnStruct();
-	level.mutex[id].id = id;
-	level.mutex[id].locked = 0;
-	level.mutex[id].before = before;
-	level.mutex[id].after = after;
+	CriticalSection(id);
 }
 
-mutex_acquire(id)
+critical_enter(id)
 {
-	if (isDefined(level.mutex[id].before))
-		[[level.mutex[id].before]]();
-
-	index = level.mutex[id].locked;
-	level.mutex[id].locked++;
-
-	while (index > 0 && level.mutex[id].locked != index)
-		level waittill(fmt("mutex_%s", id));
+	while (!EnterCriticalSection(id))
+		wait 0.05;
 }
 
-mutex_release(id)
+critical_release(id)
 {
-	if (isDefined(level.mutex[id].after))
-		[[level.mutex[id].after]]();
-
-	level.mutex[id].locked--;
-	level notify(fmt("mutex_%s", id));
+	LeaveCriticalSection(id);
 }
 
 AsyncWait(request)

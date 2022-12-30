@@ -37,7 +37,7 @@ embed(webhook, title, message)
 	hook = level.discord["webhooks"][webhook];
 	json = fmt(template("embed"), level.discord["color"], title, message, level.discord["icon"]);
 
-	mutex_acquire("http");
+	critical_enter("http");
 
 	request = HTTP_Init();
 	HTTP_JSON(request);
@@ -46,5 +46,5 @@ embed(webhook, title, message)
 	AsyncWait(request);
 
 	HTTP_Free(request);
-	mutex_release("http");
+	critical_release("http");
 }

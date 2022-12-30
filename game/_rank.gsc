@@ -205,7 +205,7 @@ databaseSetRank(xp, rank, prestige)
 	if (self.isBot)
 		return;
 
-	mutex_acquire("mysql");
+	critical_enter("mysql");
 
 	// Update rank
 	request = SQL_Prepare("UPDATE ranks SET name = ?, xp = ?, level = ?, prestige = ? WHERE player = ?");
@@ -233,7 +233,7 @@ databaseSetRank(xp, rank, prestige)
 		AsyncWait(request);
 		SQL_Free(request);
 	}
-	mutex_release("mysql");
+	critical_release("mysql");
 }
 
 databaseGetRank()
@@ -244,7 +244,7 @@ databaseGetRank()
 		return;
 	}
 
-	mutex_acquire("mysql");
+	critical_enter("mysql");
 
 	request = SQL_Prepare("SELECT xp, level, prestige FROM ranks WHERE player = ?");
 	SQL_BindParam(request, getSubStr(self getGuid(), 24, 32), level.MYSQL_TYPE_STRING);
@@ -272,7 +272,7 @@ databaseGetRank()
 	}
 
 	SQL_Free(request);
-	mutex_release("mysql");
+	critical_release("mysql");
 }
 
 getBotRank()

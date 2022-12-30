@@ -2,7 +2,7 @@
 
 initHTTP()
 {
-	mutex("http");
+	critical("http");
 }
 
 HTTP_JSON(http)

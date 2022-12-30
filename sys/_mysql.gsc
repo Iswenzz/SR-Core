@@ -16,9 +16,27 @@ initMySQL()
 	}
 
 	SQL_SelectDB("speedrun");
-	mutex("mysql");
+	critical("mysql");
 
     variables();
+	// thread benchmark();
+}
+
+benchmark()
+{
+	critical_enter("mysql");
+
+	request = SQL_Prepare("select benchmark(99999999, md5('benchmark'))");
+	SQL_Execute(request);
+
+	while (AsyncStatus(request) <= 1)
+	{
+		comPrintLn("[SQL] Benchmark working...");
+		wait 0.05;
+	}
+	SQL_Free(request);
+
+	critical_release("mysql");
 }
 
 variables()

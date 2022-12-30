@@ -2,5 +2,5 @@
 
 initCURL()
 {
-	mutex("curl");
+	critical("curl");
 }
