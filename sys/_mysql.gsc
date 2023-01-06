@@ -19,7 +19,6 @@ initMySQL()
 	critical("mysql");
 
     variables();
-	// thread benchmark();
 }
 
 benchmark()

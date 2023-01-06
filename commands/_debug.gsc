@@ -125,14 +125,7 @@ cmd_DebugEntsSpawn(args)
 
 cmd_Test(args)
 {
-	request = HTTP_Init();
-	HTTP_Get(request, "http://localhost:3000");
-
-	wait 3;
-	HTTP_Cancel(request);
-
-	AsyncWait(request);
-	HTTP_Free(request);
-
-	iPrintLnBold("Done");
+	self command("bots", "1");
+	self command("killzone");
+	self command("cmd", "1 killzone");
 }

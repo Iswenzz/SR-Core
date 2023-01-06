@@ -74,7 +74,7 @@ leave()
 	self unlink();
 	self sr\game\_teams::setTeam("allies");
 	self.bombermanWon = false;
-	self.teamKill = undefined;
+	self.teamKill = false;
 
 	self sr\sys\_admins::pm("You left bomberman!");
 	self suicide();

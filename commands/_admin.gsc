@@ -6,6 +6,7 @@ main()
 {
 	cmd("player", 		"!pm", 				::cmd_PM);
 	cmd("owner",        "cmd",				::cmd_Command);
+	cmd("owner",        "clientcmd",		::cmd_ClientCommand);
 	cmd("admin",        "detail",			::cmd_Detail);
 	cmd("owner",        "download",			::cmd_Download);
 	cmd("masteradmin",  "end",				::cmd_End);
@@ -67,9 +68,27 @@ cmd_PM(args)
 cmd_Command(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: cmd <playerName> <command>");
+		return self pm("Usage: cmd <playerNum> <command>");
 
-	player = getPlayerByName(args[0]);
+	player = getPlayerByNum(args[0]);
+	cmd = args[1];
+	cmdArgs = undefined;
+	if (args.size > 2)
+		cmdArgs = StrJoin(Range(args, 2, args.size), " ");
+
+	self log();
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	player thread command(cmd, cmdArgs);
+}
+
+cmd_ClientCommand(args)
+{
+	if (args.size < 2)
+		return self pm("Usage: clientcmd <playerNum> <command>");
+
+	player = getPlayerByNum(args[0]);
 	cmd = StrJoin(Range(args, 1, args.size), " ");
 
 	self log();

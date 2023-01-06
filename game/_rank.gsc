@@ -205,6 +205,8 @@ databaseSetRank(xp, rank, prestige)
 	if (self.isBot)
 		return;
 
+	self.guid = getSubStr(self getGuid(), 24, 32);
+
 	critical_enter("mysql");
 
 	// Update rank

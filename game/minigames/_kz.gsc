@@ -103,7 +103,7 @@ leave()
 	self unlink();
 	self sr\game\_teams::setTeam("allies");
 	self.kzWon = false;
-	self.teamKill = undefined;
+	self.teamKill = false;
 
 	self sr\sys\_admins::pm("You left the killzone!");
 	self suicide();
@@ -179,9 +179,9 @@ spawnPlayerInRoom(spawnIndex)
 spawnPlayerInSpec()
 {
 	self endon("disconnect");
-	self.teamKill = undefined;
+	self.teamKill = false;
 	self sr\game\_teams::setTeam("spectator");
-	self eventSpectator(true);
+	self eventSpectator();
 }
 
 watchGameTimer()
