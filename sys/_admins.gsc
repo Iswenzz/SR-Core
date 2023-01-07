@@ -109,14 +109,13 @@ fetch()
 
 	critical_release("mysql");
 
-	players = getAllPlayers();
-	for (i = 0; i < players.size; i++)
-		players[i] thread connection();
+	level setLoading("admins", false);
 }
 
 connection()
 {
 	self endon("disconnect");
+	level loading("admins");
 
 	self banned();
 

@@ -288,7 +288,7 @@ cmd_ResetRank(args)
 		return pm("Could not find player");
 
 	player sr\game\_rank::reset();
-	player eventConnect();
+	player reconnect();
 }
 
 cmd_ResetSettings(args)
@@ -428,9 +428,10 @@ cmd_Role(args)
 	}
 	critical_release("mysql");
 
-	player.admin_role = role;
+	level.admins[player.id] = role;
+
 	message(fmt("Promoted %s ^7to %s", player.name, player getRoleName()));
-	player eventConnect();
+	player reconnect();
 }
 
 cmd_VIP(args)
@@ -469,8 +470,10 @@ cmd_VIP(args)
 	}
 	critical_release("mysql");
 
+	level.vips[player.id] = vip;
+
 	message(fmt("Promoted %s ^7to ^2VIP(%d)", player.name, vip));
-	player eventConnect();
+	player reconnect();
 }
 
 cmd_ID(args)

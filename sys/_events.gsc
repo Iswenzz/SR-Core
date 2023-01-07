@@ -5,6 +5,7 @@ initEvents()
 	level.huds = [];
 	level.mutex = [];
 	level.sections = [];
+	level.loadings = [];
 
 	event("connect", ::connect);
 }
@@ -21,7 +22,9 @@ event(name, callback)
 connect()
 {
 	self endon("disconnect");
+
 	self.huds = [];
+	self.loadings = [];
 
 	while (true)
 	{
@@ -112,9 +115,15 @@ eventTeam()
 	self notify("joined_team");
 }
 
-eventConnect()
+setLoading(id, state)
 {
-	level notify("connected", self);
+	self.loadings[id] = state;
+}
+
+loading(id)
+{
+	while (!isDefined(self.loadings[id]) || self.loadings[id])
+		wait 0.05;
 }
 
 critical(id, important)

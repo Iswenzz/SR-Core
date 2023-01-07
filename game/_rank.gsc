@@ -275,6 +275,8 @@ databaseGetRank()
 
 	SQL_Free(request);
 	critical_release("mysql");
+
+	self setLoading("rank", false);
 }
 
 getBotRank()
@@ -299,7 +301,7 @@ prestige()
 	self setrank(0, self.pers["prestige"]);
 	self maps\mp\gametypes\_persistence::statset("rankxp", 1);
 
-	updaterankstats(self, 0);
+	updateRankStats(self, 0);
 
 	iPrintLn(fmt("%s has entered prestige %d", self.name, self.pers["prestige"]));
 

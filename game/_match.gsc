@@ -39,6 +39,12 @@ start()
 	sr\game\_map::end();
 }
 
+waitMatchStart()
+{
+	while (game["state"] != "playing")
+		wait 0.05;
+}
+
 canStartGame(min)
 {
 	count = 0;
