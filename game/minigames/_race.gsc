@@ -157,7 +157,7 @@ spawnPlayer()
 
 	self sr\game\_teams::setTeam("axis");
 	self suicide();
-	self eventSpawn();
+	self eventSpawnSync();
 
 	self.inRace = true;
 	self.raceDead = false;

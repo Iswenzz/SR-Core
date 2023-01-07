@@ -86,6 +86,12 @@ eventSpawn(spawn)
 	self notify("spawned_player");
 }
 
+eventSpawnSync(spawn)
+{
+	self eventSpawn(spawn);
+	self waittill("spawned_player_after");
+}
+
 eventSpectator(spawn)
 {
 	if (isDefined(spawn))
@@ -93,6 +99,12 @@ eventSpectator(spawn)
 	self sr\game\_map::spawnSpectator();
 
 	self notify("joined_spectators");
+}
+
+eventSpectatorSync(spawn)
+{
+	self eventSpectator(spawn);
+	self waittill("joined_spectators_after");
 }
 
 eventTeam()

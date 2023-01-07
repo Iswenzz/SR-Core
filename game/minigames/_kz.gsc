@@ -166,7 +166,7 @@ spawnPlayerInRoom(spawnIndex)
 	self.kzWon = false;
 	self sr\game\_teams::setTeam("axis");
 
-	self eventSpawn(level.kzRandomPoints[spawnIndex]);
+	self eventSpawnSync(level.kzRandomPoints[spawnIndex]);
 	self takeAllWeapons();
 	self giveWeapon(level.kzWeapon);
 	self giveMaxAmmo(level.kzWeapon);
@@ -181,7 +181,7 @@ spawnPlayerInSpec()
 	self endon("disconnect");
 	self.teamKill = false;
 	self sr\game\_teams::setTeam("spectator");
-	self eventSpectator();
+	self eventSpectatorSync();
 }
 
 watchGameTimer()

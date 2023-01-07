@@ -74,13 +74,13 @@ setu(var, value)
 
 canSpawn()
 {
-	if (game["state"] == "endmap" || game["state"] == "round ended")
+	if (!level.allowSpawn)
 		return false;
-	if (self.sessionstate == "playing" && self.died)
+	if (game["state"] == "endmap" || game["state"] == "round ended")
 		return false;
 	if (level.freeRun)
 		return true;
-	if (!level.allowSpawn)
+	if (self.sessionstate == "playing" || self.died)
 		return false;
 	return true;
 }
@@ -274,6 +274,12 @@ isInArray(array)
 isReallyAlive()
 {
 	return isDefined(self) && isDefined(self.sessionstate) && self.sessionstate == "playing";
+}
+
+waitSessionState(state)
+{
+	while (self.sessionstate != state)
+		wait 0.05;
 }
 
 isPlaying()

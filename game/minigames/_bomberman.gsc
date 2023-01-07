@@ -92,7 +92,7 @@ sendPlayers()
 	for (i = 0; i < level.minigames["bomberman"].queue.size; i++)
 		level.minigames["bomberman"].queue[i] spawnPlayerInSpec();
 	for (i = 0; i < level.bombermanPlayersInRoom.size; i++)
-		level.bombermanPlayersInRoom[i] thread spawnPlayerInRoom(i);
+		level.bombermanPlayersInRoom[i] spawnPlayerInRoom(i);
 }
 
 spawnPlayerInRoom(spawnIndex)
@@ -112,7 +112,7 @@ spawnPlayerInRoom(spawnIndex)
 	spawn.origin = level.bombermanSpawns[spawnIndex].origin;
 	spawn.angles = (0, 0, 0);
 
-	self eventSpawn(spawn);
+	self eventSpawnSync(spawn);
 	self takeAllWeapons();
 	self thread watchPlayer();
 
@@ -125,7 +125,7 @@ spawnPlayerInSpec()
 	self endon("disconnect");
 	self.teamKill = undefined;
 	self sr\game\_teams::setTeam("spectator");
-	self eventSpectator();
+	self eventSpectatorSync();
 }
 
 watchGameTimer()

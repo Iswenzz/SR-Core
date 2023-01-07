@@ -45,7 +45,6 @@ setTeam(team)
 	if (self.pers["team"] == team)
 		return;
 
-	self.pers["weapon"] = "none";
 	self.pers["team"] = team;
 	self.team = team;
 	self.sessionteam = team;
