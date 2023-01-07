@@ -155,7 +155,7 @@ sendPlayers()
 	for (i = 0; i < level.minigames["kz"].queue.size; i++)
 		level.minigames["kz"].queue[i] spawnPlayerInSpec();
 	for (i = 0; i < level.kzPlayersInRoom.size; i++)
-		level.kzPlayersInRoom[i] thread spawnPlayerInRoom(i);
+		level.kzPlayersInRoom[i] spawnPlayerInRoom(i);
 }
 
 spawnPlayerInRoom(spawnIndex)
@@ -166,7 +166,7 @@ spawnPlayerInRoom(spawnIndex)
 	self.kzWon = false;
 	self sr\game\_teams::setTeam("axis");
 
-	self eventSpawn(true, level.kzRandomPoints[spawnIndex]);
+	self eventSpawn(level.kzRandomPoints[spawnIndex]);
 	self takeAllWeapons();
 	self giveWeapon(level.kzWeapon);
 	self giveMaxAmmo(level.kzWeapon);

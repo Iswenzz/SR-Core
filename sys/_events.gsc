@@ -4,6 +4,7 @@ initEvents()
 	level.menus = [];
 	level.huds = [];
 	level.mutex = [];
+	level.sections = [];
 
 	event("connect", ::connect);
 }
@@ -77,25 +78,21 @@ menu_callback(name, callback)
 	level.menus[name][index].type = "callback";
 }
 
-eventSpawn(sync, spawn)
+eventSpawn(spawn)
 {
 	if (isDefined(spawn))
 		self.spawnPoint = spawn;
 
 	self notify("spawned_player");
-	if (isDefined(sync) && sync)
-		self waittill("end_spawned_player");
 }
 
-eventSpectator(sync, spawn)
+eventSpectator(spawn)
 {
 	if (isDefined(spawn))
 		self.spawnPoint = spawn;
 	self sr\game\_map::spawnSpectator();
 
 	self notify("joined_spectators");
-	if (isDefined(sync) && sync)
-		self waittill("end_joined_spectators");
 }
 
 eventTeam()
@@ -108,9 +105,12 @@ eventConnect()
 	level notify("connected", self);
 }
 
-critical(id)
+critical(id, important)
 {
 	CriticalSection(id);
+
+	if (isDefined(important))
+		level.sections[level.sections.size] = id;
 }
 
 critical_enter(id)
@@ -122,6 +122,24 @@ critical_enter(id)
 critical_release(id)
 {
 	LeaveCriticalSection(id);
+}
+
+waitCriticalSections()
+{
+	while (!All(CriticalSections(), ::sectionDone))
+		wait 0.05;
+}
+
+sectionDone(section, index)
+{
+	sections = CriticalSections();
+	keys = getArrayKeys(sections);
+	locked = sections[keys[index]];
+
+	if (!Contains(level.sections, keys[index]))
+		return true;
+
+	return !locked;
 }
 
 AsyncWait(request)

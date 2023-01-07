@@ -83,7 +83,7 @@ end(map)
 
 	// Next map
 	setDvar("sv_maprotationcurrent", "gametype deathrun map " + map);
-	exitLevel(false);
+	sr\game\_map::levelRestart(false);
 }
 
 endMusic()
@@ -117,6 +117,13 @@ endSpectate()
 		players[i] allowSpectateTeam("none", true);
 	}
 	wait 3;
+}
+
+levelRestart(fastRestart)
+{
+	waitCriticalSections();
+
+	exitLevel(fastRestart);
 }
 
 displayMapScores()

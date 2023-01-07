@@ -48,8 +48,10 @@ display()
 			string = self.vote_maps[page][i];
 		self setClientDvar("sr_votemap_" + i, string);
 	}
-	self setClientDvar("sr_vote_selected", "");
-	self setClientDvar("sr_vote_page", fmt("%d/%d", page + 1, maxPage));
+	self setClientDvars(
+		"sr_vote_selected", "",
+		"sr_vote_page", fmt("%d/%d", page + 1, maxPage)
+	);
 }
 
 menu_Open(args)
@@ -96,8 +98,11 @@ menu_Select(args)
 
 	self.vote_selected = value;
 	selected = self.vote_maps[page][value];
-	self setClientDvar("sr_vote_selected", selected);
-	self setClientDvar("sr_vote_selected_material", "loadscreen_" + selected);
+
+	self setClientDvars(
+		"sr_vote_selected", selected,
+		"sr_vote_selected_material", "loadscreen_" + selected
+	);
 }
 
 menu_Vote(args)

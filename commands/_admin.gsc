@@ -47,7 +47,7 @@ cmd_NextMap(args)
 	maps = level.randomizedMaps;
 	map = maps[randomInt(maps.size)];
 	setDvar("sv_maprotationcurrent", "gametype deathrun map " + map);
-	exitLevel(false);
+	sr\game\_map::levelRestart(false);
 }
 
 cmd_PM(args)

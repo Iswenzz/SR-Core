@@ -451,15 +451,13 @@ fortniteDance()
 
 	wait 0.2;
 
-	self setClientDvar("cg_thirdperson", 1);
-	self setClientDvar("cg_thirdpersonangle", 180);
+	self setClientDvars("cg_thirdperson", 1, "cg_thirdpersonangle", 180);
 
 	wait 7;
 
 	self takeWeapon("fortnite_mp");
 	self switchToWeapon(weapon);
-	self setClientDvar("cg_thirdperson", 0);
-	self setClientDvar("cg_thirdpersonangle", 0);
+	self setClientDvars("cg_thirdperson", 0, "cg_thirdpersonangle", 0);
 }
 
 trooper()

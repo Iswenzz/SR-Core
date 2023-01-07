@@ -68,9 +68,13 @@ leave()
 {
 	level.bombermanPlayersInRoom = Remove(level.bombermanPlayersInRoom, self);
 	self removeFromQueue("bomberman");
-	self setClientDvar("cg_drawFriendlyNames", 1);
-	self setClientDvar("cg_thirdPerson", 0);
-	self setClientDvar("cg_thirdPersonRange", 120);
+
+	self setClientDvars(
+		"cg_drawFriendlyNames", 1,
+		"cg_thirdPerson", 0,
+		"cg_thirdPersonRange", 120
+	);
+
 	self unlink();
 	self sr\game\_teams::setTeam("allies");
 	self.bombermanWon = false;
@@ -108,7 +112,7 @@ spawnPlayerInRoom(spawnIndex)
 	spawn.origin = level.bombermanSpawns[spawnIndex].origin;
 	spawn.angles = (0, 0, 0);
 
-	self eventSpawn(true, spawn);
+	self eventSpawn(spawn);
 	self takeAllWeapons();
 	self thread watchPlayer();
 
@@ -121,7 +125,7 @@ spawnPlayerInSpec()
 	self endon("disconnect");
 	self.teamKill = undefined;
 	self sr\game\_teams::setTeam("spectator");
-	self eventSpectator(true);
+	self eventSpectator();
 }
 
 watchGameTimer()

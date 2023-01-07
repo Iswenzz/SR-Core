@@ -74,7 +74,7 @@ cmd_DebugRotation(args)
 
 	// Next map
 	if (isDefined(map))
-		exitLevel(false);
+		sr\game\_map::levelRestart(false);
 	else
 		exit(0);
 }
@@ -98,7 +98,7 @@ cmd_DebugSaveSpawn(args)
 
 	// Next map
 	if (isDefined(map))
-		exitLevel(false);
+		sr\game\_map::levelRestart(false);
 	else
 		exit(0);
 }

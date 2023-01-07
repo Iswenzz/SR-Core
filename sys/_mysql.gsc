@@ -16,7 +16,7 @@ initMySQL()
 	}
 
 	SQL_SelectDB("speedrun");
-	critical("mysql");
+	critical("mysql", true);
 
     variables();
 }

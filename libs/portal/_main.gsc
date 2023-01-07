@@ -33,8 +33,6 @@ onConnect()
 
 	wait 0.05;
 
-	self setClientDvar("r_distortion", 1);
-
 	self.portal = [];
 	self.portal["blue_exist"] = false;
 	self.portal["red_exist"] = false;
