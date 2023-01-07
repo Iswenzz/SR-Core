@@ -58,7 +58,9 @@ onSpawn()
 	self.run = "KZ";
 	self.huds["speedrun"]["name"] setText("^1Kill Zone");
 	self.huds["speedrun"]["row2"] setText(fmt("Health             ^2%d", self.health));
+	self.huds["speedrun"]["row2"].label = level.texts["empty"];
 	self.huds["speedrun"]["row3"] setText(fmt("K/D                    ^3%d/%d", self.kills, self.deaths));
+	self.huds["speedrun"]["row3"].label = level.texts["empty"];
 }
 
 load()

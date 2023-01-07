@@ -120,9 +120,14 @@ setLoading(id, state)
 	self.loadings[id] = state;
 }
 
+hasLoaded(id)
+{
+	return isDefined(self.loadings[id]) && !self.loadings[id];
+}
+
 loading(id)
 {
-	while (!isDefined(self.loadings[id]) || self.loadings[id])
+	while (!self hasLoaded(id))
 		wait 0.05;
 }
 

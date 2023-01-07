@@ -125,6 +125,7 @@ precache()
 
 precacheText()
 {
+	level.texts["empty"] 				= &"";
 	level.texts["round_begins_in"] 		= &"SR_ROUND_BEGINS_IN";
 	level.texts["waiting_for_players"] 	= &"SR_WAITING_FOR_PLAYERS";
 	level.texts["jumpers_count"] 		= &"SR_ALIVE_JUMPERS";
