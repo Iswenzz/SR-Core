@@ -171,7 +171,7 @@ isRole(name)
 
 getRoleName()
 {
-	role = Ternary(!self.isBot, "^7Player", "^8Speedrun Bot");
+	role = Ternary(!self.isBot, "^7Player", "^8Bot");
 	switch (self.admin_role)
 	{
 		case "owner":

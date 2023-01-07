@@ -68,8 +68,15 @@ getFPS()
 
 setu(var, value)
 {
+	if (self.isBot) return;
 	self clientCmd(fmt("setu %s %s", var, value));
 	wait 0.05;
+}
+
+respawn()
+{
+	self.died = false;
+	self sr\sys\_events::eventSpawn();
 }
 
 canSpawn()

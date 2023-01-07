@@ -19,7 +19,7 @@ record()
 	self endon("death");
 	self endon("disconnect");
 
-	if (self.isBot || self.sr_cheat)
+	if (self.sr_cheat)
 		return;
 
 	wait 1;
