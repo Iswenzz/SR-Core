@@ -59,14 +59,12 @@ playerTeleport(origin, angles, state)
 
 createSpawn(origin, angles)
 {
-	waitMapLoad();
 	level.spawn["player"] = spawn("script_origin", (origin[0], origin[1], origin[2] - 60));
 	level.spawn["player"].angles = (0, angles, 0);
 }
 
 createSpawnOrigin(origin, angles)
 {
-	waitMapLoad();
 	level.spawn["player"] = spawn("script_origin", origin);
 	level.spawn["player"].angles = (0, angles, 0);
 }

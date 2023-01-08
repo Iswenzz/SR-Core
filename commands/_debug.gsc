@@ -15,7 +15,9 @@ main()
 	cmd("owner",		"test",					::cmd_Test);
 
 	if (getDvarInt("debug_rotation"))
-		thread cmd_DebugRotation();
+		event("map", ::cmd_DebugRotation);
+	if (getDvarInt("debug_save_spawn"))
+		event("map", ::cmd_DebugSaveSpawn);
 }
 
 cmd_Bots(args)
@@ -74,7 +76,7 @@ cmd_DebugRotation(args)
 
 	// Next map
 	if (isDefined(map))
-		sr\game\_map::levelRestart(false);
+		sr\game\_map::levelExit(false);
 	else
 		exit(0);
 }
@@ -88,7 +90,7 @@ cmd_DebugSaveSpawn(args)
 	setDvar("sv_maprotationcurrent", "gametype deathrun map " + IfUndef(map, ""));
 
 	// Write map spawn
-	waitMapLoad(1);
+	wait 1;
 	origin = level.spawn["player"].origin;
 	angle = int(level.spawn["player"].angles[1]);
 	file = FILE_Open(sr\sys\_file::PATH_Mod("spawns.txt"), "a+");
@@ -98,7 +100,7 @@ cmd_DebugSaveSpawn(args)
 
 	// Next map
 	if (isDefined(map))
-		sr\game\_map::levelRestart(false);
+		sr\game\_map::levelExit(false);
 	else
 		exit(0);
 }
@@ -125,5 +127,5 @@ cmd_DebugEntsSpawn(args)
 
 cmd_Test(args)
 {
-	self.sessionstate = "intermission";
+
 }

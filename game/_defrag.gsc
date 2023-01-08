@@ -16,15 +16,13 @@ main()
 	defaultWeapons();
 
 	thread visuals();
-	thread triggers();
 
+	event("map", ::triggers);
 	event("spawn", ::onSpawn);
 }
 
 triggers()
 {
-	waitMapLoad();
-
 	sections = getEntArray("defrag_section", "targetname");
 	for (i = 0; i < sections.size; i++)
 		sections[i] thread triggerSection();

@@ -1,5 +1,7 @@
+#include sr\sys\_events;
 #include sr\sys\_admins;
 #include sr\sys\_file;
+#include sr\utils\_common;
 
 main()
 {
@@ -12,8 +14,8 @@ main()
 	cmd("owner", 	"chicken_save",	::cmd_ChickenSave);
 	cmd("owner",	"map_save", 	::cmd_MapSave);
 
-	thread spawnChickens();
-	thread spawnBrushes();
+	event("map", ::spawnChickens);
+	event("map", ::spawnBrushes);
 }
 
 cmd_Chicken(args)
@@ -78,8 +80,6 @@ spawnBrushes()
 {
 	if (!FILE_Exists(level.files["map"]))
 		return;
-
-	sr\utils\_common::waitMapLoad();
 
 	file = FILE_Open(level.files["map"], "r+");
 

@@ -1,3 +1,4 @@
+#include sr\sys\_events;
 #include sr\utils\_common;
 
 main()
@@ -5,13 +6,11 @@ main()
 	if (!getDvarInt("debug"))
 		return;
 
-	thread debugTriggers();
+	event("map", ::debugTriggers);
 }
 
 debugTriggers()
 {
-	waitMapLoad();
-
 	triggers = [];
 	triggers[triggers.size] = getEntArray("trigger_damage","classname");
 	triggers[triggers.size] = getEntArray("trigger_disk","classname");

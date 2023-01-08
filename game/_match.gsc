@@ -18,11 +18,10 @@ start()
 	level endon("endround");
 	level notify("kill logic");
 	level endon("kill logic");
-	waittillframeend;
 
-	matchStart();
-
-	if (!canStartGame(level.dvar["match_need_players"]))
+	if (level.dvar["match_need_players"])
+		matchStart();
+	if (!canStartGame())
 	{
 		level thread start();
 		return;
@@ -45,7 +44,7 @@ waitMatchStart()
 		wait 0.05;
 }
 
-canStartGame(min)
+canStartGame()
 {
 	count = 0;
 	players = getAllPlayers();
@@ -55,7 +54,7 @@ canStartGame(min)
 		if (players[i] isPlaying())
 			count++;
 	}
-	if (count >= min)
+	if (count >= level.dvar["match_need_players"])
 		return true;
 	return false;
 }
@@ -140,7 +139,7 @@ matchStartPlayers()
 	{
 		if (players[i] isPlaying())
 		{
-			players[i] freezeControls(0);
+			players[i] freezeControls(false);
 			players[i] unLink();
 			players[i] enableWeapons();
 		}

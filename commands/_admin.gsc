@@ -9,7 +9,8 @@ main()
 	cmd("owner",        "clientcmd",		::cmd_ClientCommand);
 	cmd("admin",        "detail",			::cmd_Detail);
 	cmd("owner",        "download",			::cmd_Download);
-	cmd("masteradmin",  "end",				::cmd_End);
+	cmd("owner",  		"end",				::cmd_End);
+	cmd("owner",  		"restart",			::cmd_FastRestart);
 	cmd("owner",  		"nextmap",			::cmd_NextMap);
 	cmd("owner",        "givexp",			::cmd_GiveXp);
 	cmd("owner",        "getdvar",			::cmd_GetDvar);
@@ -37,6 +38,11 @@ main()
 	cmd("masteradmin",  "sr_ban",			::cmd_Ban);
 }
 
+cmd_FastRestart(args)
+{
+	sr\game\_map::levelRestart(true);
+}
+
 cmd_End(args)
 {
 	thread sr\game\_map::end();
@@ -47,7 +53,7 @@ cmd_NextMap(args)
 	maps = level.randomizedMaps;
 	map = maps[randomInt(maps.size)];
 	setDvar("sv_maprotationcurrent", "gametype deathrun map " + map);
-	sr\game\_map::levelRestart(false);
+	sr\game\_map::levelExit(false);
 }
 
 cmd_PM(args)

@@ -11,9 +11,10 @@ main()
 	level.rotation = getRotation(false);
 	level.randomizedMaps = [];
 
-	placeSpawns();
-	thread deleteUnsupportedWeapons();
 	thread randomizeMaps(5);
+
+	event("map", ::placeSpawns);
+	event("map", ::deleteUnsupportedWeapons);
 }
 
 placeSpawns()
@@ -58,10 +59,12 @@ placeSpawns()
 
 		angles = level.spawn["allies"][0].angles;
 	}
-
-	level.spawn["player"] = spawn("script_origin", (x, y, z));
-	level.spawn["player"].angles = angles;
-	level.spawn["player"] placeSpawnPoint();
+	if (!isDefined(level.spawn["player"]))
+	{
+		level.spawn["player"] = spawn("script_origin", (x, y, z));
+		level.spawn["player"].angles = angles;
+		level.spawn["player"] placeSpawnPoint();
+	}
 }
 
 end(map)
@@ -86,7 +89,7 @@ end(map)
 
 	// Next map
 	setDvar("sv_maprotationcurrent", "gametype deathrun map " + map);
-	sr\game\_map::levelRestart(false);
+	sr\game\_map::levelExit(false);
 }
 
 endMusic()
@@ -122,11 +125,18 @@ endSpectate()
 	wait 3;
 }
 
-levelRestart(fastRestart)
+levelRestart(persist)
 {
 	waitCriticalSections();
 
-	exitLevel(fastRestart);
+	map_restart(persist);
+}
+
+levelExit(persist)
+{
+	waitCriticalSections();
+
+	exitLevel(persist);
 }
 
 displayMapScores()
@@ -225,7 +235,6 @@ getRotation(includeCurrent)
 
 deleteUnsupportedWeapons()
 {
-	waitMapLoad();
 	weapons = strTok("knife_mp,m16_gl_mp,ak74u_reflex_mp,ak74u_acog_mp,ak74u_silencer_mp,dog_mp,shovel_mp", ",");
 
 	for (i = 0; i < weapons.size; i++)

@@ -3,13 +3,11 @@
 
 weapons(list)
 {
-	waitMapLoad();
 	level.defragStartWeapons = strTok(list, ";");
 }
 
 perks(list)
 {
-	waitMapLoad();
 	level.mapPerks = strTok(list, ";");
 }
 

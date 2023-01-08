@@ -467,10 +467,9 @@ clearLowerMessage(fadetime)
 	self setLowerMessage("");
 }
 
-waitMapLoad(extraTime)
+waitMapLoad()
 {
-	time = IfUndef(extraTime, 0) + 3;
-	wait time; // Spastic map loading
+	level waittill("map_loaded");
 }
 
 cleanUp()

@@ -5,8 +5,6 @@ effect(trigger, fx)
 	if (!isDefined(trigger) || !isDefined(fx))
 		return;
 
-	waitMapLoad();
-
 	switch (fx)
 	{
 		case "yellow": 	fx = level.fx["yellow_fx"]; break;
