@@ -125,7 +125,5 @@ cmd_DebugEntsSpawn(args)
 
 cmd_Test(args)
 {
-	self command("bots", "1");
-	self command("killzone");
-	self command("cmd", "1 killzone");
+	self.sessionstate = "intermission";
 }
