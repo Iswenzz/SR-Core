@@ -81,32 +81,25 @@ menu_callback(name, callback)
 	level.menus[name][index].type = "callback";
 }
 
-eventSpawn(spawn)
+eventSpawn()
 {
-	if (isDefined(spawn))
-		self.spawnPoint = spawn;
-
 	self notify("spawned_player");
 }
 
-eventSpawnSync(spawn)
+eventSpawnSync()
 {
-	self eventSpawn(spawn);
+	self eventSpawn();
 	self waittill("spawned_player_after");
 }
 
-eventSpectator(spawn)
+eventSpectator()
 {
-	if (isDefined(spawn))
-		self.spawnPoint = spawn;
-	self sr\game\_map::spawnSpectator();
-
 	self notify("joined_spectators");
 }
 
-eventSpectatorSync(spawn)
+eventSpectatorSync()
 {
-	self eventSpectator(spawn);
+	self eventSpectator();
 	self waittill("joined_spectators_after");
 }
 

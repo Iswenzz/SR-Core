@@ -68,6 +68,7 @@ removeFromQueue(minigame)
 {
 	queue = Remove(level.minigames[minigame].queue, self);
 	level.minigames[minigame].queue = queue;
+	self minigameSpawn(undefined);
 }
 
 removeFromAllQueue()
@@ -80,4 +81,9 @@ removeFromAllQueue()
 pickRandomPlayers(minigame, amount)
 {
 	return pickRandom(level.minigames[minigame].queue, amount);
+}
+
+minigameSpawn(spawn)
+{
+	self.minigameSpawn = spawn;
 }

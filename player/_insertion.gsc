@@ -32,10 +32,12 @@ insertion()
 		entity.flareloop = false;
 		entity stopLoopSound();
 		entity waitTillNotMoving();
-		pos = entity.origin;
-		angle = entity.angles;
 
-		if (!self isOnGround() || distance(self.origin, pos) > 48)
+		spawn = spawnStruct();
+		spawn.origin = entity.origin;
+		spawn.angle = entity.angles;
+
+		if (!self isOnGround() || distance(self.origin, spawn.origin) > 48)
 		{
 			self iPrintln("^1You can't use insertion here");
 			entity delete();
@@ -45,7 +47,10 @@ insertion()
 		entity.flareloop = true;
 		entity thread flareFx();
 
-		self iPrintln("^2Insertion at " + pos);
+		self iPrintln("^2Insertion at " + spawn.origin);
+
+		if (level.dvar["insertion_spawn"])
+			self.insertionSpawn = spawn;
 	}
 }
 

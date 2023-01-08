@@ -108,11 +108,8 @@ spawnPlayerInRoom(spawnIndex)
 	self setClientDvar("cg_thirdPerson", 1);
 	self setClientDvar("cg_thirdPersonRange", 500);
 
-	spawn = spawnStruct();
-	spawn.origin = level.bombermanSpawns[spawnIndex].origin;
-	spawn.angles = (0, 0, 0);
-
-	self eventSpawnSync(spawn);
+	self minigameSpawn(level.bombermanSpawns[spawnIndex]);
+	self eventSpawnSync();
 	self takeAllWeapons();
 	self thread watchPlayer();
 
@@ -342,7 +339,13 @@ getSpawns()
 		for (y = 0; y < level.bombermanMaxY; y++)
 		{
 			if (level.bombermanGrid[x][y].isSpawn)
-				spawns[spawns.size] = level.bombermanGrid[x][y];
+			{
+				spawn = spawnStruct();
+				spawn.origin = level.bombermanGrid[x][y];
+				spawn.angles = (0, 0, 0);
+
+				spawns[spawns.size] = spawn;
+			}
 		}
 	}
 	return spawns;

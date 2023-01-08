@@ -46,7 +46,7 @@ cmd_RaceSpawn(args)
 {
 	if (args.size)
 	{
-		level.raceSpawn = level.masterspawn;
+		level.raceSpawn = level.spawn["player"];
 		self pm("Reset race spawn point");
 		return;
 	}

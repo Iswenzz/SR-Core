@@ -227,7 +227,7 @@ banned()
 	self setClientDvar("ui_sr_info2", "More info at https://discord.gg/76aHfGF");
 
 	// Use this instead of kick() to get the ui_sr_info menu
-	exec(fmt("kick %d banned.", self getEntityNumber()));
+	exec(fmt("kick %d banned", self getEntityNumber()));
 }
 
 log()

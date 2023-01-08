@@ -11,7 +11,7 @@ initRace()
 	createMinigame("race");
 
 	level.racePoints = [];
-	level.raceSpawn = level.masterspawn;
+	level.raceSpawn = level.spawn["player"];
 	level.raceEndTrig = getEnt("endmap_trig", "targetname");
 	level.racePlayersFinished = [];
 	level.raceScoreboard = [];
@@ -42,7 +42,7 @@ race()
 
 		sr\sys\_admins::message("^3Race start in 10sec! ^7[^2!race^7]");
 		ForEachCall(level.minigames["race"].queue, ::cleanRaceHud);
-		ForEachThread(level.minigames["race"].queue, ::spawnPlayer);
+		ForEachThread(level.minigames["race"].queue, ::raceSpawn);
 		countdown();
 
 		level.raceStarted = true;
@@ -151,7 +151,7 @@ death()
 	self.raceDead = true;
 }
 
-spawnPlayer()
+raceSpawn()
 {
 	self endon("disconnect");
 

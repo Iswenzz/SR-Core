@@ -59,13 +59,16 @@ placeSpawns()
 		angles = level.spawn["allies"][0].angles;
 	}
 
-	level.masterSpawn = spawn("script_origin", (x, y, z));
-	level.masterSpawn.angles = angles;
-	level.masterSpawn placeSpawnPoint();
+	level.spawn["player"] = spawn("script_origin", (x, y, z));
+	level.spawn["player"].angles = angles;
+	level.spawn["player"] placeSpawnPoint();
 }
 
 end(map)
 {
+	if (game["state"] == "endmap")
+		return;
+
 	game["state"] = "endmap";
 	level notify("intermission");
 	level notify("game over");
@@ -110,7 +113,7 @@ endSpectate()
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		players[i] spawnSpectator();
+		players[i] eventSpectator();
 		players[i] allowSpectateTeam("allies", false);
 		players[i] allowSpectateTeam("axis", false);
 		players[i] allowSpectateTeam("freelook", false);
@@ -151,10 +154,7 @@ intermission()
 {
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
-	{
-		players[i] spawnSpectator();
 		players[i].sessionstate = "intermission";
-	}
 	wait 10;
 }
 
@@ -221,20 +221,6 @@ getRotation(includeCurrent)
 		list[list.size] = maps[i];
 	}
 	return Sort(list);
-}
-
-spawnSpectator()
-{
-	self endon("disconnect");
-
-	self cleanUp();
-	self.sessionstate = "spectator";
-	self.spectatorclient = -1;
-	self.statusicon = "";
-	spawn = IfUndef(self.spawnPoint, level.spawn["spectator"]);
-	self spawn(spawn.origin, spawn.angles);
-	self sr\game\_teams::setSpectatePermissions();
-	self.spawnPoint = undefined;
 }
 
 deleteUnsupportedWeapons()

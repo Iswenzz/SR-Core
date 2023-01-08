@@ -9,6 +9,9 @@ spawn()
 {
 	wait 0.05;
 
+	if (!isDefined(self.viewKick))
+		self.viewKick = true;
+
 	if (!self.viewKick && self.sr_mode != "Defrag")
 	{
 		self setClientDvars(

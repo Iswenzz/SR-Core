@@ -168,7 +168,8 @@ spawnPlayerInRoom(spawnIndex)
 	self.kzWon = false;
 	self sr\game\_teams::setTeam("axis");
 
-	self eventSpawnSync(level.kzRandomPoints[spawnIndex]);
+	self minigameSpawn(level.kzRandomPoints[spawnIndex]);
+	self eventSpawnSync();
 	self takeAllWeapons();
 	self giveWeapon(level.kzWeapon);
 	self giveMaxAmmo(level.kzWeapon);

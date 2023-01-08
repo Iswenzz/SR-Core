@@ -493,6 +493,38 @@ spawnBots(number)
 	return bots;
 }
 
+spawnPlayer()
+{
+	spawn = spawnStruct();
+	spawn.origin = (0, 0, 0);
+	spawn.angles = (0, 0, 0);
+
+	if (isDefined(self.minigameSpawn))
+		spawn = self.minigameSpawn;
+	else if (isDefined(self.playerSpawn))
+		spawn = self.playerSpawn;
+	else if (isDefined(self.insertionSpawn))
+		spawn = self.insertionSpawn;
+	else if (isDefined(level.spawn["player"]))
+		spawn = level.spawn["player"];
+
+	self spawn(spawn.origin, spawn.angles);
+}
+
+spawnSpectator()
+{
+	spawn = spawnStruct();
+	spawn.origin = (0, 0, 0);
+	spawn.angles = (0, 0, 0);
+
+	if (isDefined(self.spectatorSpawn))
+		spawn = self.spectatorSpawn;
+	else if (isDefined(level.spawn["spectator"]))
+		spawn = level.spawn["spectator"];
+
+	self spawn(spawn.origin, spawn.angles);
+}
+
 getHitLocHeight(sHitLoc)
 {
 	switch (sHitLoc)

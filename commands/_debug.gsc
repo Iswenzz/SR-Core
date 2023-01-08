@@ -89,8 +89,8 @@ cmd_DebugSaveSpawn(args)
 
 	// Write map spawn
 	waitMapLoad(1);
-	origin = level.masterSpawn.origin;
-	angle = int(level.masterSpawn.angles[1]);
+	origin = level.spawn["player"].origin;
+	angle = int(level.spawn["player"].angles[1]);
 	file = FILE_Open(sr\sys\_file::PATH_Mod("spawns.txt"), "a+");
 	FILE_WriteLine(file, fmt("case %s\nthread sr\\api\\_map::createSpawn((%.3f, %.3f, %.3f), %d);\nbreak;",
 		level.map, origin[0], origin[1], origin[2], angle));
