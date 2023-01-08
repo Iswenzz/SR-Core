@@ -7,24 +7,38 @@ effect(trigger, fx)
 
 	switch (fx)
 	{
-		case "yellow": 	fx = level.fx["yellow_fx"]; break;
-		case "darkred": fx = level.fx["red_fx"]; 	break;
-		case "purple": 	fx = level.fx["purple_fx"]; break;
-		case "orange": 	fx = level.fx["orange_fx"]; break;
-		case "green": 	fx = level.fx["green_fx"]; 	break;
-		case "cyan": 	fx = level.fx["cyan_fx"]; 	break;
-
-		case "endtrig":
 		case "red":
+		case "endtrig":
 			fx = level.fx["endtrigcircle_fx"];
 			break;
-
 		case "blue":
 		case "secret":
-		default:
 			fx = level.fx["secrettrigcircle_fx"];
 			break;
+		case "yellow":
+			fx = level.fx["yellow_fx"];
+			break;
+		case "darkred":
+			fx = level.fx["red_fx"];
+			break;
+		case "purple":
+			fx = level.fx["purple_fx"];
+			break;
+		case "orange":
+			fx = level.fx["orange_fx"];
+			break;
+		case "green":
+			fx = level.fx["green_fx"];
+			break;
+		case "cyan":
+			fx = level.fx["cyan_fx"];
+			break;
+		default:
+			fx = undefined;
+			break;
 	}
+	if (!isDefined(fx))
+		return;
 	if (trigger.classname == "trigger_radius")
 	{
 		points = trigger circlePoints();
