@@ -29,7 +29,7 @@ initRank()
 	buildRanks();
 	buildRanksIcon();
 
-	menu("-1", "prestige", ::prestige);
+	menu("quickstuff", "prestige", ::prestige);
 
 	event("connect", ::onConnect);
 	event("team", ::onChangedTeam);
@@ -152,7 +152,7 @@ onConnect()
 	self.pers["participation"] = 0;
 	self.rankUpdateTotal = 0;
 
-	self setStat(251, self.pers["rank"]); // stock
+	self setStat(251, self.pers["rank"]);
 	self setStat(2326, self.pers["prestige"]);
 	self setStat(2350, self.pers["rank"]);
 	self setStat(2301, self.pers["rankxp"]);
@@ -196,8 +196,8 @@ giveRankXP(type, value)
 	self maps\mp\gametypes\_persistence::statSet("score", score + value);
 	self thread updateRankScoreHUD(value);
 
-	if (self incRankXP(value))
-		self thread databaseSetRank(self.pers["rankxp"], self.pers["rank"], self.pers["prestige"]);
+	self incRankXP(value);
+	self thread databaseSetRank(self.pers["rankxp"], self.pers["rank"], self.pers["prestige"]);
 }
 
 databaseSetRank(xp, rank, prestige)
@@ -286,19 +286,20 @@ getBotRank()
 	self.pers["prestige"] = 10;
 }
 
-prestige()
+prestige(args)
 {
 	if (!isDefined(self.pers["rank"]) || !isDefined(self.pers["rankxp"]) || !isDefined(self.pers["prestige"]))
 		return;
 	if (self.pers["prestige"] >= level.maxPrestige || self.pers["rankxp"] < getRankInfoMaxXP(level.maxRank))
 	{
-		self iprintlnbold("^1Prestige Mode^7 is unavailable!");
+		iPrintLnBold(fmt("%d %d", self.pers["rankxp"], getRankInfoMaxXP(level.maxRank)));
+		self iPrintLn("^1Prestige Mode^7 is unavailable!");
 		return;
 	}
 	self.pers["rankxp"] = 1;
 	self.pers["rank"] = 0;
 	self.pers["prestige"]++;
-	self setrank(0, self.pers["prestige"]);
+	self setRank(0, self.pers["prestige"]);
 	self maps\mp\gametypes\_persistence::statset("rankxp", 1);
 
 	updateRankStats(self, 0);
@@ -408,15 +409,14 @@ incRankXP(amount)
 	xp = self getRankXP();
 	newXp = (xp + amount);
 
-	if (self.pers["rank"] == level.maxRank && newXp >= getRankInfoMaxXP(level.maxRank))
-		return false;
+	if (newXp > getRankInfoMaxXP(level.maxRank))
+		newXp = getRankInfoMaxXP(level.maxRank);
 
 	self.pers["rankxp"] = newXp;
 	self maps\mp\gametypes\_persistence::statSet("rankxp", newXp);
 
 	rankId = self getRankForXp(self getRankXP());
 	self updateRank(rankId);
-	return true;
 }
 
 updateRank(rankId)
