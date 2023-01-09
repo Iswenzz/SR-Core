@@ -4,13 +4,12 @@
 main()
 {
 	event("connect", ::playedTime);
+	event("connected", ::updateMenuPT);
 }
 
 playedTime()
 {
 	self endon("disconnect");
-
-	self thread updateMenuPT();
 
 	while (true)
 	{

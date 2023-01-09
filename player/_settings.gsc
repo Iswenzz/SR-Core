@@ -57,8 +57,10 @@ menu_Setting(args)
 onConnect()
 {
 	self endon("disconnect");
-	self.settings = [];
+	self.settings = self getPersistence("settings", []);
 
+	if (!self isFirstConnection())
+		return;
 	if (isDefined(self.new))
 		self reset();
 	self load();
@@ -80,6 +82,7 @@ load()
 		self.settings[setting.id] = self getStat(setting.stat);
 		self [[setting.updateCallback]](setting);
 	}
+	self setPersistence("settings", self.settings);
 
 	wait 1;
 	for (i = 0; i < level.settings.size; i++)

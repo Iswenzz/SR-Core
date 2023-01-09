@@ -115,15 +115,24 @@ fetch()
 connection()
 {
 	self endon("disconnect");
+
+	if (!self isFirstConnection())
+	{
+		self.admin_role = self getPersistence("admin");
+		self.admin_vip = self getPersistence("vip");
+		return;
+	}
 	level loading("admins");
 
 	self banned();
-
 	self.admin_role = IfUndef(level.admins[self.id], "player");
 	self setClientDvar("sr_admin_role", self getRoleName());
+	self setPersistence("admin", self.admin_role);
 
 	self.admin_vip = IfUndef(level.vips[self.id], 0);
 	self setStat(2000, self.admin_vip);
+	self setPersistence("vip", self.admin_vip);
+
 }
 
 cmd(role, name, callback)
@@ -170,29 +179,22 @@ isRole(name)
 
 getRoleName()
 {
-	role = Ternary(!self.isBot, "^7Player", "^8Bot");
 	switch (self.admin_role)
 	{
 		case "owner":
-			role = "^5Owner";
-			break;
+			return "^5Owner";
 		case "masteradmin":
-			role = "^9Master Admin";
-			break;
+			return "^9Master Admin";
 		case "adminplus":
-			role = "^1Admin+";
-			break;
+			return "^1Admin+";
 		case "admin":
-			role = "^6Admin";
-			break;
+			return "^6Admin";
 		case "member":
-			role = "^3Member";
-			break;
+			return "^3Member";
 		case "trusted":
-			role = "^8Trusted";
-			break;
+			return "^8Trusted";
 	}
-	return role;
+	return Ternary(!self isBot(), "^7Player", "^8Bot");
 }
 
 isVIP()

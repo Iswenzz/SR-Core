@@ -1,5 +1,6 @@
 #include sr\sys\_file;
 #include sr\sys\_events;
+#include sr\utils\_common;
 
 initIds()
 {
@@ -10,7 +11,7 @@ initIds()
 
 load()
 {
-	if (self.isBot)
+	if (self isBot())
 	{
 		self.guid = "^5Speedrun";
 		self.id = "^8BOT";

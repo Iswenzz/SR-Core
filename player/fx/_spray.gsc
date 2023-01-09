@@ -12,7 +12,7 @@ main()
 spray()
 {
 	self endon("disconnect");
-	self endon("spawned_player");
+	self endon("spawned");
 	self endon("joined_spectators");
 	self endon("death");
 

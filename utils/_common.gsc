@@ -68,9 +68,16 @@ getFPS()
 
 setu(var, value)
 {
-	if (self.isBot) return;
+	if (self isBot())
+		return;
+
 	self clientCmd(fmt("setu %s %s", var, value));
 	wait 0.05;
+}
+
+isBot()
+{
+	return self.isBot;
 }
 
 respawn()
@@ -470,6 +477,21 @@ clearLowerMessage(fadetime)
 waitMapLoad()
 {
 	level waittill("map_loaded");
+}
+
+isFirstConnection()
+{
+	return !isDefined(self.pers["connected"]);
+}
+
+setPersistence(name, value)
+{
+	self.pers[name] = value;
+}
+
+getPersistence(name, defaultValue)
+{
+	return IfUndef(self.pers[name], defaultValue);
 }
 
 cleanUp()

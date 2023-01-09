@@ -64,7 +64,7 @@ loop()
 	{
 		if (!self isReallyAlive() || !self hasWeaponBT())
 		{
-			wait 1;
+			wait 0.05;
 			continue;
 		}
 		if (self attackButtonPressed() || self getDemoButtons() & 1)

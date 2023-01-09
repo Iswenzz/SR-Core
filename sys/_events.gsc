@@ -83,13 +83,13 @@ menu_callback(name, callback)
 
 eventSpawn()
 {
-	self notify("spawned_player");
+	self notify("spawned");
 }
 
 eventSpawnSync()
 {
 	self eventSpawn();
-	self waittill("spawned_player_after");
+	self waittill("spawned_after");
 }
 
 eventSpectator()

@@ -1,4 +1,5 @@
 #include sr\sys\_events;
+#include sr\utils\_common;
 
 initRank()
 {
@@ -31,7 +32,7 @@ initRank()
 
 	menu("quickstuff", "prestige", ::prestige);
 
-	event("connect", ::onConnect);
+	event("connected", ::onConnect);
 	event("team", ::onChangedTeam);
 	event("spectator", ::onChangedTeam);
 }
@@ -150,7 +151,7 @@ onConnect()
 		return;
 
 	self.pers["participation"] = 0;
-	self.rankUpdateTotal = 0;
+	self.pers["rankUpdateTotal"] = 0;
 
 	self setStat(251, self.pers["rank"]);
 	self setStat(2326, self.pers["prestige"]);
@@ -202,10 +203,8 @@ giveRankXP(type, value)
 
 databaseSetRank(xp, rank, prestige)
 {
-	if (self.isBot)
+	if (self isBot())
 		return;
-
-	self.guid = getSubStr(self getGuid(), 24, 32);
 
 	critical_enter("mysql");
 
@@ -240,7 +239,7 @@ databaseSetRank(xp, rank, prestige)
 
 databaseGetRank()
 {
-	if (self.isBot)
+	if (self isBot())
 	{
 		self getBotRank();
 		return;
@@ -282,8 +281,8 @@ databaseGetRank()
 getBotRank()
 {
 	self.pers["rankxp"] = 0;
-	self.pers["rank"] = 80;
-	self.pers["prestige"] = 10;
+	self.pers["rank"] = 0;
+	self.pers["prestige"] = 0;
 }
 
 prestige(args)
@@ -326,13 +325,13 @@ updateRankScoreHUD(amount)
 	self notify("update_score");
 	self endon("update_score");
 
-	self.rankUpdateTotal += amount;
+	self.pers["rankUpdateTotal"] += amount;
 
 	wait (0.05);
 
 	if (isDefined(self.huds["xp"]))
 	{
-		if (self.rankUpdateTotal < 0)
+		if (self.pers["rankUpdateTotal"] < 0)
 		{
 			self.huds["xp"].label = &"";
 			self.huds["xp"].color = (1, 0, 0);
@@ -343,7 +342,7 @@ updateRankScoreHUD(amount)
 			self.huds["xp"].color = (1, 1, 0.5);
 		}
 
-		self.huds["xp"] setValue(self.rankUpdateTotal);
+		self.huds["xp"] setValue(self.pers["rankUpdateTotal"]);
 		self.huds["xp"].alpha = 0.85;
 		self.huds["xp"] thread maps\mp\gametypes\_hud::fontPulse(self);
 
@@ -351,7 +350,7 @@ updateRankScoreHUD(amount)
 		self.huds["xp"] fadeOverTime(0.75);
 		self.huds["xp"].alpha = 0;
 
-		self.rankUpdateTotal = 0;
+		self.pers["rankUpdateTotal"] = 0;
 	}
 }
 

@@ -11,7 +11,7 @@ insertion()
 	if (!level.dvar["insertion"])
 		return;
 
-	self endon("spawned_player");
+	self endon("spawned");
 	self endon("disconnect");
 
 	insertionItem = "claymore_mp";
