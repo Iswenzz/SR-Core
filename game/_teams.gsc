@@ -51,8 +51,6 @@ setTeam(team)
 
 	if (isAlive(self))
 		self suicide();
-
-	self setClientDvars("g_scriptMainMenu", "main_mp");
 }
 
 setSpectatePermissions()

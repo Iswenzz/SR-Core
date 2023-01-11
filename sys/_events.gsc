@@ -128,7 +128,7 @@ critical(id, important)
 {
 	CriticalSection(id);
 
-	if (isDefined(important))
+	if (isDefined(important) && important)
 		level.sections[level.sections.size] = id;
 }
 
