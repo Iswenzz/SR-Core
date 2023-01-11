@@ -9,10 +9,10 @@ spawn()
 {
 	wait 0.05;
 
-	if (!isDefined(self.viewKick))
-		self.viewKick = true;
+	if (!isDefined(self.pers["viewkick"]))
+		self.pers["viewkick"] = true;
 
-	if (!self.viewKick && self.sr_mode != "Defrag")
+	if (!self.pers["viewkick"] && self.sr_mode != "Defrag")
 	{
 		self setClientDvars(
 			"bg_viewKickMax", 90,
@@ -20,9 +20,9 @@ spawn()
 			"bg_viewKickRandom", 0.4,
 			"bg_viewKickScale", 0.2
 		);
-		self.viewKick = true;
+		self.pers["viewkick"] = true;
 	}
-	else if (self.viewKick && self.sr_mode == "Defrag")
+	else if (self.pers["viewkick"] && self.sr_mode == "Defrag")
 	{
 		self setClientDvars(
 			"bg_viewKickMax", 0,
@@ -30,6 +30,6 @@ spawn()
 			"bg_viewKickRandom", 0,
 			"bg_viewKickScale", 0
 		);
-		self.viewKick = false;
+		self.pers["viewkick"] = false;
 	}
 }

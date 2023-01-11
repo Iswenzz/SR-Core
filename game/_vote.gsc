@@ -27,6 +27,7 @@ initVote()
 onConnect()
 {
 	self endon("disconnect");
+	self setu("sr_vote_search", "_");
 
 	wait 0.05;
 

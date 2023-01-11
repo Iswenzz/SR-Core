@@ -26,7 +26,6 @@ load()
 		self.new = true;
 	}
 	self.id = fmt("%d%d%d", self getStat(995), self getStat(996), self getStat(997));
-	self.guid = getSubStr(self getGuid(), 24, 32);
 }
 
 createId()

@@ -80,7 +80,7 @@ load()
 	{
 		setting = level.settings[i];
 		self.settings[setting.id] = self getStat(setting.stat);
-		self [[setting.updateCallback]](setting);
+		self thread [[setting.updateCallback]](setting);
 	}
 	self setPersistence("settings", self.settings);
 

@@ -68,10 +68,10 @@ getFPS()
 
 setu(var, value)
 {
-	if (self isBot())
+	if (!isDefined(var) || !isDefined(value) || self isBot())
 		return;
 
-	self clientCmd(fmt("setu %s %s", var, value));
+	self clientCmd(fmt("setu %s ", var) + value);
 	wait 0.05;
 }
 
@@ -210,7 +210,7 @@ bounce(origin, direction, power, repeat, useDvars)
 
 clientCmd(dvar)
 {
-	if (!isDefined(dvar))
+	if (!isDefined(self) || !isDefined(dvar))
 		return;
 
 	self setClientDvar("clientcmd", dvar);

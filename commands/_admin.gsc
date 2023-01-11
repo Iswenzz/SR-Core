@@ -278,7 +278,7 @@ cmd_Rank(args)
 	if (isDefined(prestige))
 		player.pers["prestige"] = prestige;
 	xp = int(TableLookup("mp/ranks.csv", 0, rank, 2));
-	player sr\game\_rank::databaseSetRank(xp, rank, prestige);
+	player sr\game\_rank::saveRank(xp, rank, prestige);
 	player reconnect();
 }
 

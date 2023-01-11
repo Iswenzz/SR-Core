@@ -32,7 +32,7 @@ initRank()
 
 	menu("quickstuff", "prestige", ::prestige);
 
-	event("connected", ::onConnect);
+	event("connect", ::onConnect);
 	event("team", ::onChangedTeam);
 	event("spectator", ::onChangedTeam);
 }
@@ -94,7 +94,7 @@ reset()
 	for (stat = 979; stat < 983; stat++)
 		self setStat(stat, 0);
 
-	self databaseSetRank(0, 0, 0);
+	self saveRank(0, 0, 0);
 	updateRankStats(self, 0);
 }
 
@@ -145,19 +145,8 @@ getRankInfoIcon(rankId, prestigeId)
 
 onConnect()
 {
-	self databaseGetRank();
-
-	if (!isDefined(self))
-		return;
-
 	self.pers["participation"] = 0;
 	self.pers["rankUpdateTotal"] = 0;
-
-	self setStat(251, self.pers["rank"]);
-	self setStat(2326, self.pers["prestige"]);
-	self setStat(2350, self.pers["rank"]);
-	self setStat(2301, self.pers["rankxp"]);
-	self setRank(self.pers["rank"], int(self.pers["prestige"]));
 
 	self.huds["xp"] = newClientHudElem(self);
 	self.huds["xp"].horzAlign = "center";
@@ -171,6 +160,50 @@ onConnect()
 	self.huds["xp"].archived = false;
 	self.huds["xp"].color = (0.5, 0.5, 0.5);
 	self.huds["xp"] maps\mp\gametypes\_hud::fontPulseInit();
+
+	if (self isBot())
+	{
+		self getBotRank();
+		self setLoading("rank", false);
+		return;
+	}
+	if (self isFirstConnection())
+		self loadRank();
+
+	if (!isDefined(self))
+		return;
+
+	self setStat(251, self.pers["rank"]);
+	self setStat(2326, self.pers["prestige"]);
+	self setStat(2350, self.pers["rank"]);
+	self setStat(2301, self.pers["rankxp"]);
+	self setRank(self.pers["rank"], int(self.pers["prestige"]));
+
+	self setLoading("rank", false);
+}
+
+loadRank()
+{
+	critical_enter("mysql");
+
+	request = SQL_Prepare("SELECT xp, level, prestige FROM ranks WHERE player = ?");
+	SQL_BindParam(request, self.guid, level.MYSQL_TYPE_STRING);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
+	SQL_Execute(request);
+	AsyncWait(request);
+	row = SQL_FetchRowDict(request);
+	SQL_Free(request);
+
+	critical_release("mysql");
+
+	if (!isDefined(self))
+		return;
+
+	self.pers["rankxp"] = IfUndef(row["xp"], 0);
+	self.pers["rank"] = IfUndef(row["level"], 1) - 1;
+	self.pers["prestige"] = IfUndef(row["prestige"], 0);
 }
 
 onChangedTeam()
@@ -198,17 +231,16 @@ giveRankXP(type, value)
 	self thread updateRankScoreHUD(value);
 
 	self incRankXP(value);
-	self thread databaseSetRank(self.pers["rankxp"], self.pers["rank"], self.pers["prestige"]);
+	self thread saveRank(self.pers["rankxp"], self.pers["rank"], self.pers["prestige"]);
 }
 
-databaseSetRank(xp, rank, prestige)
+saveRank(xp, rank, prestige)
 {
 	if (self isBot())
 		return;
 
 	critical_enter("mysql");
 
-	// Update rank
 	request = SQL_Prepare("UPDATE ranks SET name = ?, xp = ?, level = ?, prestige = ? WHERE player = ?");
 	SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(request, xp, level.MYSQL_TYPE_LONG);
@@ -221,7 +253,6 @@ databaseSetRank(xp, rank, prestige)
 	affected = SQL_AffectedRows(request);
 	SQL_Free(request);
 
-	// Insert new rank
 	if (!affected)
 	{
 		request = SQL_Prepare("INSERT INTO ranks (name, player, xp, level, prestige) VALUES (?, ?, ?, ?, ?)");
@@ -235,47 +266,6 @@ databaseSetRank(xp, rank, prestige)
 		SQL_Free(request);
 	}
 	critical_release("mysql");
-}
-
-databaseGetRank()
-{
-	if (self isBot())
-	{
-		self getBotRank();
-		return;
-	}
-
-	critical_enter("mysql");
-
-	request = SQL_Prepare("SELECT xp, level, prestige FROM ranks WHERE player = ?");
-	SQL_BindParam(request, getSubStr(self getGuid(), 24, 32), level.MYSQL_TYPE_STRING);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
-	SQL_Execute(request);
-	AsyncWait(request);
-
-	if (isDefined(self))
-	{
-		if (SQL_NumRows(request))
-		{
-			row = SQL_FetchRowDict(request);
-			self.pers["rankxp"] = row["xp"];
-			self.pers["rank"] = row["level"] - 1;
-			self.pers["prestige"] = row["prestige"];
-		}
-		else
-		{
-			self.pers["rankxp"] = 0;
-			self.pers["rank"] = 0;
-			self.pers["prestige"] = 0;
-		}
-	}
-
-	SQL_Free(request);
-	critical_release("mysql");
-
-	self setLoading("rank", false);
 }
 
 getBotRank()
@@ -310,7 +300,7 @@ prestige(args)
 	self setStat(981, 0);
 	self setStat(982, 0);
 
-	self databaseSetRank(self.pers["rankxp"], self.pers["rank"], self.pers["prestige"]);
+	self saveRank(self.pers["rankxp"], self.pers["rank"], self.pers["prestige"]);
 }
 
 updateRankScoreHUD(amount)
