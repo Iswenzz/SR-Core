@@ -148,7 +148,7 @@ impact(time)
 {
 	self.player endon("disconnect");
 	self.player endon("death");
-	self thread impactDelete();
+	self thread impactCleanup();
 
 	wait time;
 
@@ -165,13 +165,19 @@ impact(time)
 		playFXOnTag(self.weapon["impact"], self.model, "tag_origin");
 
 	wait 0.1;
-	if (isDefined(self.model))
-		self.model delete();
+	self notify("impact");
 }
 
-impactDelete()
+impactWaittill()
 {
-	self.player waittill_any("disconnect", "death");
+	self.player endon("death");
+	self.player endon("disconnect");
+	self waittill("impact");
+}
+
+impactCleanup()
+{
+	self impactWaittill();
 
 	if (isDefined(self.model))
 		self.model delete();

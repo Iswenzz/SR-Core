@@ -301,7 +301,7 @@ isPlaying()
 	return self isReallyAlive();
 }
 
-waittill_any(a, b, c, d, e)
+waittills(a, b, c, d, e)
 {
 	if (isDefined(b))
 		self endon(b);
