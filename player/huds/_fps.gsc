@@ -120,8 +120,8 @@ updateFps()
 			case 500:	self.fpsCombo += "5";		break;
 			case 1000: 	self.fpsCombo += "0";		break;
 		}
+		self.huds["fps_combo"] setText(self.fpsCombo);
 	}
-	self.huds["fps_combo"] setText(self.fpsCombo);
 }
 
 isBouncing()
