@@ -116,9 +116,8 @@ endSpectate()
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
+		players[i] sr\game\_teams::setTeam("spectator");
 		players[i] eventSpectator();
-		players[i] allowSpectateTeam("allies", false);
-		players[i] allowSpectateTeam("axis", false);
 		players[i] allowSpectateTeam("freelook", false);
 		players[i] allowSpectateTeam("none", true);
 	}

@@ -190,8 +190,7 @@ bounce(origin, direction, power, repeat, useDvars)
 		self.maxhealth = self.maxhealth + power;
 		self.health = self.health + power;
 
-		if (isDefined(self))
-			self finishPlayerDamage(self, self, power, 0, "MOD_PROJECTILE", "none", origin, direction, "none", 0);
+		self doPlayerDamage(self, self, power, 0, "MOD_PROJECTILE", "none", origin, direction, "none", 0);
 		self.maxhealth = previousMaxHealth;
 		self.health = previousHealth;
 	}
@@ -206,6 +205,14 @@ bounce(origin, direction, power, repeat, useDvars)
 			"bg_viewKickScale", 0.2
 		);
 	}
+}
+
+doPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime)
+{
+	if (!isDefined(self) || game["state"] == "endmap")
+		return;
+
+	self finishPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
 }
 
 clientCmd(dvar)

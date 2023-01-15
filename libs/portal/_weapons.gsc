@@ -382,7 +382,7 @@ damageEnt(eAttacker, iDamage, sMeansOfDeath, sWeapon, vPoint, vDir)
 			iDamage = int(iDamage * 1.4);
 		}
 
-		self thread finishPlayerDamageWrapper(eAttacker, eAttacker, iDamage, 0, sMeansOfDeath, sWeapon, vPoint, vDir, shitloc, 0);
+		self thread playerDamage(eAttacker, eAttacker, iDamage, 0, sMeansOfDeath, sWeapon, vPoint, vDir, shitloc, 0);
 
 		if (self.health - iDamage <= 0)
 			return true;
@@ -393,7 +393,7 @@ damageEnt(eAttacker, iDamage, sMeansOfDeath, sWeapon, vPoint, vDir)
 	return false;
 }
 
-finishPlayerDamageWrapper(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime)
+playerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime)
 {
 	if (sMeansOfDeath == "MOD_EXPLOSIVE" || sMeansOfDeath == "MOD_GRENADE")
 		self shellShock("damage_mp", 0.2);
@@ -402,7 +402,6 @@ finishPlayerDamageWrapper(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath
 	else
 		sMeansOfDeath = "MOD_RIFLE_BULLET";
 
-	if (isDefined(self))
-		self finishPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
+	self doPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
 	self maps\mp\gametypes\_shellshock::shellshockOnDamage(sMeansOfDeath, iDamage);
 }
