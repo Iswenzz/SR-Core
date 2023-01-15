@@ -435,6 +435,7 @@ cmd_Role(args)
 	critical_release("mysql");
 
 	level.admins[player.id] = role;
+	player.admin_role = role;
 
 	message(fmt("Promoted %s ^7to %s", player.name, player getRoleName()));
 	player reconnect();
