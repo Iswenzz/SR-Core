@@ -22,8 +22,6 @@ record()
 	if (self.sr_cheat)
 		return;
 
-	wait 1;
-
 	thread recordTimeout();
 
 	self.demoPath = PathJoin(PATH_Mod("demos"), self.id, level.map, self.run);
