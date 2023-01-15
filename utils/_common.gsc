@@ -474,9 +474,9 @@ clearLowerMessage(fadetime)
 	self setLowerMessage("");
 }
 
-waitMapLoad()
+waitMapLoad(time)
 {
-	level waittill("map_loaded");
+	wait time;
 }
 
 isFirstConnection()
