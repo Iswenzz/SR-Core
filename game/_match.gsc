@@ -1,5 +1,7 @@
-#include maps\mp\gametypes\_hud_util;
+#include sr\sys\_events;
 #include sr\utils\_common;
+
+#include maps\mp\gametypes\_hud_util;
 
 main()
 {
@@ -9,8 +11,8 @@ main()
 	game["roundStarted"] = false;
 	game["state"] = "readyup";
 
-	thread huds();
-	thread start();
+	event("map", ::huds);
+	event("map", ::start);
 }
 
 start()

@@ -281,7 +281,6 @@ prestige(args)
 		return;
 	if (self.pers["prestige"] >= level.maxPrestige || self.pers["rankxp"] < getRankInfoMaxXP(level.maxRank))
 	{
-		iPrintLnBold(fmt("%d %d", self.pers["rankxp"], getRankInfoMaxXP(level.maxRank)));
 		self iPrintLn("^1Prestige Mode^7 is unavailable!");
 		return;
 	}
