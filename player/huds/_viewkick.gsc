@@ -7,8 +7,6 @@ main()
 
 spawn()
 {
-	wait 0.05;
-
 	if (!isDefined(self.pers["viewkick"]))
 		self.pers["viewkick"] = true;
 

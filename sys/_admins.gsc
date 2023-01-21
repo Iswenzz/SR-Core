@@ -209,13 +209,13 @@ isBanned()
 	{
 		entry = level.bans[i];
 
-		if (entry[0] == self.guid)
+		if (entry[0].size > 1 && entry[0] == self.guid)
 			return true;
-		if (entry[1] == self.id)
+		if (entry[1].size > 1 && entry[1] == self.id)
 			return true;
-		if (entry[2] == self getSteamId())
+		if (entry[2].size > 1 && entry[2] == self getSteamId())
 			return true;
-		if (entry[3] == self getIP())
+		if (entry[3].size > 1 && entry[3] == self getIP())
 			return true;
 	}
 	return false;
