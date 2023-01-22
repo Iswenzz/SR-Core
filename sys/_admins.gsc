@@ -203,6 +203,18 @@ isVIP()
 	return self.admin_vip;
 }
 
+getPlayerInfo()
+{
+	return fmt("%s ^3PID:^7 %d ^5ID:^7 %s ^2GUID:^7 %s ^6STEAM:^7 %s ^1IP:^7 %s",
+		self.name,
+		self getEntityNumber(),
+		self.id,
+		self.guid,
+		self getSteamId(),
+		self getIP()
+	);
+}
+
 isBanned()
 {
 	for (i = 0; i < level.bans.size; i++)

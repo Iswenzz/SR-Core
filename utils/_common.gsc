@@ -61,6 +61,18 @@ getPlayingPlayers()
 	return array;
 }
 
+getDeadPlayers()
+{
+	players = getAllPlayers();
+	array = [];
+	for (i = 0; i < players.size; i++)
+	{
+		if (!players[i] isReallyAlive() && players[i].pers["team"] != "spectator")
+			array[array.size] = players[i];
+	}
+	return array;
+}
+
 getFPS()
 {
 	return self getCountedFPS();
@@ -92,9 +104,11 @@ canSpawn()
 		return false;
 	if (game["state"] == "endmap" || game["state"] == "round ended")
 		return false;
+	if (self.sessionstate == "playing")
+		return false;
 	if (level.freeRun)
 		return true;
-	if (self.sessionstate == "playing" || self.died)
+	if (self.died && !self.pers["lifes"])
 		return false;
 	return true;
 }
@@ -744,4 +758,25 @@ circlePoints()
 			idx++;
 	}
 	return points;
+}
+
+removeColorFromString(string)
+{
+	output = "";
+	for (i = 0; i < string.size; i++)
+	{
+		if (string[i] == "^")
+		{
+			if (i < string.size - 1)
+			{
+				if (string[i + 1] == "0" || string[i + 1] == "1" || string[i + 1] == "2" || string[i + 1] == "3" || string[i + 1] == "4" || string[i + 1] == "5" || string[i + 1] == "6" || string[i + 1] == "7" || string[i + 1] == "8" || string[i + 1] == "9")
+				{
+					i++;
+					continue;
+				}
+			}
+		}
+		output += string[i];
+	}
+	return output;
 }

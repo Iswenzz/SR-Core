@@ -254,12 +254,7 @@ cmd_PID(args)
 {
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
-	{
-		player = players[i];
-
-		self printLine(fmt("^2Name:^7 %s ^3PID:^7 %d ^5ID:^7 %s ^5GUID:^7 %s ^1FGUID:^7 %s",
-			player.name, player getEntityNumber(), player.id, player.guid, player getGuid()));
-	}
+		self printLine(players[i] getPlayerInfo());
 }
 
 cmd_Rank(args)
@@ -504,6 +499,7 @@ cmd_ID(args)
 
 cmd_Ban(args)
 {
+	self log();
 	if (args.size < 2)
 		return self pm("Usage: sr_ban <name> <guid> <?id> <?steamId> <?ip>");
 

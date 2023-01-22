@@ -22,6 +22,8 @@ main()
 	cmd("masteradmin", 	"sr_unfreeze",		::cmd_UnFreeze);
 	cmd("adminplus", 	"shock",			::cmd_Shock);
 	cmd("masteradmin", 	"shovel",			::cmd_Shovel);
+	cmd("masteradmin", 	"respawn",			::cmd_Respawn);
+	cmd("masteradmin", 	"respawnall",		::cmd_RespawnAll);
 	cmd("adminplus", 	"takeall",			::cmd_TakeAll);
 	cmd("owner", 		"trooper",			::cmd_Trooper);
 	cmd("player", 		"teleport",			::cmd_Teleport);
@@ -32,6 +34,34 @@ main()
 	cmd("adminplus", 	"weapon",			::cmd_Weapon);
 	cmd("adminplus", 	"weapon_all",		::cmd_WeaponAll);
 	cmd("adminplus", 	"weapon_acti",		::cmd_WeaponActi);
+}
+
+cmd_Respawn(args)
+{
+	player = IfUndef(getPlayerByName(args[0]), self);
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	self log();
+
+	if (!player isReallyAlive())
+	{
+		player.sr_cheat = true;
+		player respawn();
+	}
+}
+
+cmd_RespawnAll(args)
+{
+	self log();
+	players = getDeadPlayers();
+
+	for (i = 0; i < players.size; i++)
+	{
+		players[i].sr_cheat = true;
+		players[i] respawn();
+	}
+	level message("^5All players respawned.");
 }
 
 cmd_Teleport(args)

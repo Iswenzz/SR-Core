@@ -12,6 +12,7 @@ main()
 	cmd("owner",  		"debug_surface",		::cmd_DebugSurface);
 	cmd("owner",  		"debug_save_spawn",		::cmd_DebugSaveSpawn);
 	cmd("owner",  		"debug_rotation",		::cmd_DebugRotation);
+	cmd("owner",  		"debug_critical",		::cmd_DebugCriticalSections);
 	cmd("owner",		"test",					::cmd_Test);
 
 	if (getDvarInt("debug_rotation"))
@@ -125,7 +126,15 @@ cmd_DebugEntsSpawn(args)
 	self pm(fmt("Spawned %d chicken", amount));
 }
 
+cmd_DebugCriticalSections(args)
+{
+	sections = CriticalSections();
+	self pm("Critical sections: ^5%d", sections.size);
+}
+
 cmd_Test(args)
 {
-
+	self command("bots", "1");
+	self command("killzone");
+	self command("cmd", "1 killzone");
 }
