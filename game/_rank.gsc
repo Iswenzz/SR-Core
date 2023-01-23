@@ -196,8 +196,6 @@ loadRank()
 	row = IfUndef(SQL_FetchRowDict(request), []);
 	SQL_Free(request);
 
-	comPrintLn("[Debug] %s %d", GetType(row), row.size);
-
 	critical_release("mysql");
 
 	if (!isDefined(self))
