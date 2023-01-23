@@ -7,7 +7,7 @@ main()
 	cmd("masteradmin", 	"bounce",			::cmd_Bounce);
 	cmd("owner", 		"clone",			::cmd_Clone);
 	cmd("owner", 		"damage",			::cmd_Damage);
-	cmd("admin", 		"dance",			::cmd_Dance);
+	cmd("vip", 			"dance",			::cmd_Dance);
 	cmd("adminplus", 	"drop",				::cmd_Drop);
 	cmd("adminplus", 	"flash",			::cmd_Flash);
 	cmd("owner", 		"g_gravity",		::cmd_G_Gravity);
@@ -21,7 +21,7 @@ main()
 	cmd("masteradmin", 	"sr_freeze",		::cmd_Freeze);
 	cmd("masteradmin", 	"sr_unfreeze",		::cmd_UnFreeze);
 	cmd("adminplus", 	"shock",			::cmd_Shock);
-	cmd("masteradmin", 	"shovel",			::cmd_Shovel);
+	cmd("vip", 			"shovel",			::cmd_Shovel);
 	cmd("masteradmin", 	"respawn",			::cmd_Respawn);
 	cmd("masteradmin", 	"respawnall",		::cmd_RespawnAll);
 	cmd("adminplus", 	"takeall",			::cmd_TakeAll);

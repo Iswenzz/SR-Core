@@ -193,8 +193,10 @@ loadRank()
 	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
 	SQL_Execute(request);
 	AsyncWait(request);
-	row = SQL_FetchRowDict(request);
+	row = IfUndef(SQL_FetchRowDict(request), []);
 	SQL_Free(request);
+
+	comPrintLn("[Debug] %s %d", GetType(row), row.size);
 
 	critical_release("mysql");
 

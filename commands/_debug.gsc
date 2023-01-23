@@ -11,6 +11,7 @@ main()
 	cmd("owner",  		"debug_speed",			::cmd_DebugSpeed);
 	cmd("owner",  		"debug_surface",		::cmd_DebugSurface);
 	cmd("owner",  		"debug_save_spawn",		::cmd_DebugSaveSpawn);
+	cmd("owner",  		"debug_scriptusage",	::cmd_DebugScriptUsage);
 	cmd("owner",  		"debug_rotation",		::cmd_DebugRotation);
 	cmd("owner",  		"debug_critical",		::cmd_DebugCriticalSections);
 	cmd("owner",		"test",					::cmd_Test);
@@ -130,6 +131,11 @@ cmd_DebugCriticalSections(args)
 {
 	sections = CriticalSections();
 	self pm("Critical sections: ^5%d", sections.size);
+}
+
+cmd_DebugScriptUsage(args)
+{
+	self pm("Script usage: ^5%d", debug_scriptusage());
 }
 
 cmd_Test(args)
