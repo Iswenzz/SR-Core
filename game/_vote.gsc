@@ -5,12 +5,12 @@
 initVote()
 {
 	level.sr_map = undefined;
-	level.vote_max_entries = 24;
-	level.vote_maps = Chunk(level.rotation, level.vote_max_entries);
-	level.vote_progress = false;
-	level.vote_timer = 20;
-	level.vote_yes = 0;
-	level.vote_no = 0;
+	level.voteMaxEntries = 24;
+	level.voteMaps = Chunk(level.rotation, level.voteMaxEntries);
+	level.voteProgress = false;
+	level.voteTimer = 20;
+	level.voteYes = 0;
+	level.voteNo = 0;
 
 	menu_multiple("sr_votemap", "select", ::menu_Select);
 	menu_multiple("sr_votemap", "vote", ::menu_Vote);
@@ -31,22 +31,27 @@ onConnect()
 
 	wait 0.05;
 
-	self.vote_cd = getTime();
-	self.vote_page = 0;
-	self.vote_selected = 0;
-	self.vote_maps = level.vote_maps;
+	self.voteCooldown = getTime();
+	self.votePage = 0;
+	self.voteSelected = 0;
+	self.voteSearch = "";
 }
 
 display()
 {
-	page = self.vote_page;
-	maxPage = self.vote_maps.size;
+	maps = self getMaps();
+	page = self.votePage;
+	maxPage = maps.size;
 
-	for (i = 0; i < level.vote_max_entries; i++)
+	self.voteMaxPage = maxPage;
+
+	self iPrintLnBold(self.voteSearch);
+
+	for (i = 0; i < level.voteMaxEntries; i++)
 	{
 		string = "";
-		if (self.vote_maps.size && isDefined(self.vote_maps[page]) && isDefined(self.vote_maps[page][i]))
-			string = self.vote_maps[page][i];
+		if (maps.size && isDefined(maps[page]) && isDefined(maps[page][i]))
+			string = maps[page][i];
 		self setClientDvar("sr_votemap_" + i, string);
 	}
 	self setClientDvars(
@@ -57,8 +62,12 @@ display()
 
 menu_Open(args)
 {
-	self.vote_maps = level.vote_maps;
 	self setClientDvar("sr_vote_search", "");
+
+	self.votePage = 0;
+	self.voteSelected = 0;
+	self.voteSearch = "";
+
 	self display();
 
 	self thread searchBox();
@@ -71,62 +80,55 @@ menu_Close(args)
 
 menu_PageNext(args)
 {
-	page = self.vote_page;
-	maxPage = self.vote_maps.size;
-
-	if (page >= maxPage - 1)
+	if (self.votePage >= self.voteMaxPage - 1)
 		return;
 
-	self.vote_page++;
+	self.votePage++;
 	self display();
 }
 
 menu_PagePrev(arg)
 {
-	if (self.vote_page <= 0)
+	if (self.votePage <= 0)
 		return;
 
-	self.vote_page--;
+	self.votePage--;
 	self display();
 }
 
 menu_Select(args)
 {
 	value = ToInt(args[1]);
+	maps = self getMaps();
+	page = self.votePage;
 
-	page = self.vote_page;
-	maxPage = self.vote_maps.size;
-
-	self.vote_selected = value;
-	selected = self.vote_maps[page][value];
+	self.voteSelected = maps[page][value];
 
 	self setClientDvars(
-		"sr_vote_selected", selected,
-		"sr_vote_selected_material", "loadscreen_" + selected
+		"sr_vote_selected", self.voteSelected,
+		"sr_vote_selected_material", "loadscreen_" + self.voteSelected
 	);
 }
 
 menu_Vote(args)
 {
 	value = args[1];
+	page = self.votePage;
 
-	page = self.vote_page;
-	selected = self.vote_maps[page][self.vote_selected];
-
-	if ((getTime() - self.vote_cd) < 300000)
+	if ((getTime() - self.voteCooldown) < 300000)
 	{
 		self sr\sys\_admins::pm("You cannot vote yet");
 		return;
 	}
-	if (level.vote_progress)
+	if (level.voteProgress)
 	{
 		self sr\sys\_admins::pm("A vote is already in progress");
 		return;
 	}
 	if (!IsNullOrEmpty(value))
 	{
-		thread vote(value, selected);
-		self.vote_cd = getTime();
+		thread vote(value, self.voteSelected);
+		self.voteCooldown = getTime();
 	}
 	self closeMenu();
 	self closeInGameMenu();
@@ -141,8 +143,8 @@ menu_PlayerVote(arg)
 
 	switch (arg)
 	{
-		case "cjvoteyes": level.vote_yes++; break;
-		case "cjvoteno":  level.vote_no++;  break;
+		case "cjvoteyes": level.voteYes++; break;
+		case "cjvoteno":  level.voteNo++;  break;
 	}
 }
 
@@ -156,36 +158,40 @@ searchBox()
 	{
 		wait 0.2;
 
-		self.vote_search = toLower(self getUserInfo("sr_vote_search"));
-		if (previousSearch == self.vote_search)
+		self.voteSearch = toLower(self getUserInfo("sr_vote_search"));
+		if (previousSearch == self.voteSearch)
 			continue;
-		previousSearch = self.vote_search;
+		previousSearch = self.voteSearch;
 
-		maps = [];
-		for (i = 0; i < level.rotation.size; i++)
-		{
-			if (isSubStr(level.rotation[i], self.vote_search))
-				maps[maps.size] = level.rotation[i];
-		}
-		self.vote_page = 0;
-		self.vote_maps = Chunk(maps, level.vote_max_entries);
+		self.votePage = 0;
 		self display();
 
 		wait 1;
 	}
 }
 
+getMaps()
+{
+	maps = [];
+	for (i = 0; i < level.rotation.size; i++)
+	{
+		if (isSubStr(level.rotation[i], self.voteSearch))
+			maps[maps.size] = level.rotation[i];
+	}
+	return Chunk(maps, level.voteMaxEntries);
+}
+
 vote(vote, value)
 {
-	if (level.vote_progress || game["state"] == "end")
+	if (level.voteProgress || game["state"] == "end")
 		return;
 	if (vote == "src" && !isDefined(level.sr_map))
 		return;
 
-	level.vote_progress = true;
-	level.vote_timer = 20;
-	level.vote_yes = 0;
-	level.vote_no = 0;
+	level.voteProgress = true;
+	level.voteTimer = 20;
+	level.voteYes = 0;
+	level.voteNo = 0;
 
 	// Type
 	string = "";
@@ -208,9 +214,9 @@ vote(vote, value)
 	}
 
 	// Timer
-	while (level.vote_timer > 0)
+	while (level.voteTimer > 0)
 	{
-		level.vote_timer--;
+		level.voteTimer--;
 		wait 1;
 	}
 	level notify("vote_ended");
@@ -218,8 +224,8 @@ vote(vote, value)
 		players[i] hudDestroy();
 
 	// Result
-	level.vote_progress = false;
-	if (level.vote_yes <= level.vote_no)
+	level.voteProgress = false;
+	if (level.voteYes <= level.voteNo)
 	{
 		level sr\sys\_notifications::message("^1Vote Failed");
 		return;
@@ -258,24 +264,23 @@ vote(vote, value)
 
 hud(message)
 {
-	self.vote_hud = [];
-    self.vote_hud["time"] = addHud(self, 160, -42, 1, "left", "bottom", 1.4, 96);
-    self.vote_hud["title"] = addHud(self, 5, -42, 1, "left", "bottom", 1.4, 96);
-	self.vote_hud["title"] setText(message);
+    self.huds["vote"]["time"] = addHud(self, 160, -42, 1, "left", "bottom", 1.4, 96);
+    self.huds["vote"]["title"] = addHud(self, 5, -42, 1, "left", "bottom", 1.4, 96);
+	self.huds["vote"]["title"] setText(message);
 
-    self.vote_hud["background"] = addHud(self, -10, 0, 0.7, "left", "bottom", 1.8);
-    self.vote_hud["background"] setShader("black", 200, 40);
+    self.huds["vote"]["background"] = addHud(self, -10, 0, 0.7, "left", "bottom", 1.8);
+    self.huds["vote"]["background"] setShader("black", 200, 40);
 
-    self.vote_hud["header"] = addHud(self, -10, -40, 0.9, "left", "bottom", 1.8);
-    self.vote_hud["header"] setShader("black", 200, 20);
+    self.huds["vote"]["header"] = addHud(self, -10, -40, 0.9, "left", "bottom", 1.8);
+    self.huds["vote"]["header"] setShader("black", 200, 20);
 
-    self.vote_hud["yes"] = addHud(self, 40, 0, 1, "left", "bottom", 1.4, 96);
-    self.vote_hud["yes_label"] = addHud(self, 25, -20, 1, "left", "bottom", 1.4, 96);
-    self.vote_hud["yes_label"] setText("Yes: (^2[{openscriptmenu cjvote cjvoteyes}]^7)");
+    self.huds["vote"]["yes"] = addHud(self, 40, 0, 1, "left", "bottom", 1.4, 96);
+    self.huds["vote"]["yes_label"] = addHud(self, 25, -20, 1, "left", "bottom", 1.4, 96);
+    self.huds["vote"]["yes_label"] setText("Yes: (^2[{openscriptmenu cjvote cjvoteyes}]^7)");
 
-    self.vote_hud["no"] = addHud(self, 125, 0, 1, "left", "bottom", 1.4, 96);
-    self.vote_hud["no_label"] = addHud(self, 110, -20, 1, "left", "bottom", 1.4, 96);
-    self.vote_hud["no_label"] setText("No: (^1[{openscriptmenu cjvote cjvoteno}]^7)");
+    self.huds["vote"]["no"] = addHud(self, 125, 0, 1, "left", "bottom", 1.4, 96);
+    self.huds["vote"]["no_label"] = addHud(self, 110, -20, 1, "left", "bottom", 1.4, 96);
+    self.huds["vote"]["no_label"] setText("No: (^1[{openscriptmenu cjvote cjvoteno}]^7)");
 
     self hudUpdate();
 }
@@ -287,22 +292,22 @@ hudUpdate()
 
 	while (true)
 	{
-		self.vote_hud["yes"] setValue(level.vote_yes);
-		self.vote_hud["no"] setValue(level.vote_no);
-		self.vote_hud["time"] setValue(level.vote_timer);
+		self.huds["vote"]["yes"] setValue(level.voteYes);
+		self.huds["vote"]["no"] setValue(level.voteNo);
+		self.huds["vote"]["time"] setValue(level.voteTimer);
 		wait 0.1;
 	}
 }
 
 hudDestroy()
 {
-	if (isDefined(self.vote_hud))
+	if (isDefined(self.huds["vote"]))
 	{
-		keys = getArrayKeys(self.vote_hud);
+		keys = getArrayKeys(self.huds["vote"]);
 		for (i = 0; i < keys.size; i++)
 		{
-			if (isDefined(self.vote_hud[keys[i]]))
-				self.vote_hud[keys[i]] destroy();
+			if (isDefined(self.huds["vote"][keys[i]]))
+				self.huds["vote"][keys[i]] destroy();
 		}
 	}
 }

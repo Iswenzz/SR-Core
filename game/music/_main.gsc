@@ -37,7 +37,7 @@ add(alias, name, time, sequence)
 	level.music_sequence[alias].name = name;
 	level.music_sequence[alias].callback = sequence;
 	level.music_sequence[alias].time = time;
-	level.music_sequence[alias].keyframes = load(name);
+	level.music_sequence[alias].keyframes = undefined;
 }
 
 addEnt(ent)
@@ -118,6 +118,8 @@ play(alias)
 	}
 	if (!isDefined(sequence))
 		return;
+	if (!isDefined(sequence.keyframes))
+		sequence.keyframes = load(sequence.name);
 
 	ambientPlay(sequence.alias, 0.2);
 	wait 0.2;
@@ -127,9 +129,7 @@ play(alias)
 	visionSetNaked("null", 0);
 	level vision("default");
 	level thread [[sequence.callback]](sequence);
-
-	if (isDefined(sequence.keyframes))
-		level thread animateKeyframes(sequence.keyframes);
+	level thread animateKeyframes(sequence.keyframes);
 
 	wait sequence.time;
 

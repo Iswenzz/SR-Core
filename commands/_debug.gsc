@@ -130,12 +130,12 @@ cmd_DebugEntsSpawn(args)
 cmd_DebugCriticalSections(args)
 {
 	sections = CriticalSections();
-	self pm("Critical sections: ^5%d", sections.size);
+	self pm(fmt("Critical sections: ^5%d", sections.size));
 }
 
 cmd_DebugScriptUsage(args)
 {
-	self pm("Script usage: ^5%d", debug_scriptusage());
+	self pm(fmt("Script usage: ^5%d", debug_scriptusage()));
 }
 
 cmd_Test(args)

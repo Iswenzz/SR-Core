@@ -24,19 +24,19 @@ cmd_Vote(args)
 cmd_VoteCancel(args)
 {
 	level notify("vote_ended");
-	level.vote_no = 9999;
-	level.vote_timer = 0;
+	level.voteNo = 9999;
+	level.voteTimer = 0;
 }
 
 cmd_VoteCooldown(args)
 {
-	self.vote_cd = -1000000;
+	self.voteCooldown = -1000000;
 	self pm("^6Vote CD cleared");
 }
 
 cmd_VoteForce(args)
 {
 	level notify("vote_ended");
-	level.vote_yes = 9999;
-	level.vote_timer = 0;
+	level.voteYes = 9999;
+	level.voteTimer = 0;
 }
