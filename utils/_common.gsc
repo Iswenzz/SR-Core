@@ -102,7 +102,7 @@ canSpawn()
 {
 	if (!level.allowSpawn)
 		return false;
-	if (game["state"] == "endmap" || game["state"] == "round ended")
+	if (game["state"] == "end" || game["state"] == "round ended")
 		return false;
 	if (self.sessionstate == "playing")
 		return false;
@@ -223,7 +223,7 @@ bounce(origin, direction, power, repeat, useDvars)
 
 doPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime)
 {
-	if (!isDefined(self) || game["state"] == "endmap")
+	if (!isDefined(self) || game["state"] == "end")
 		return;
 
 	self finishPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);

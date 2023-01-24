@@ -177,7 +177,7 @@ searchBox()
 
 vote(vote, value)
 {
-	if (level.vote_progress || game["state"] == "endmap")
+	if (level.vote_progress || game["state"] == "end")
 		return;
 	if (vote == "src" && !isDefined(level.sr_map))
 		return;

@@ -69,10 +69,10 @@ placeSpawns()
 
 end(map)
 {
-	if (game["state"] == "endmap")
+	if (game["state"] == "end")
 		return;
 
-	game["state"] = "endmap";
+	game["state"] = "end";
 	level notify("intermission");
 	level notify("game over");
 
@@ -126,6 +126,7 @@ endSpectate()
 
 levelRestart(persist)
 {
+	game["ended"] = true;
 	waitCriticalSections();
 
 	map_restart(persist);
@@ -133,6 +134,7 @@ levelRestart(persist)
 
 levelExit(persist)
 {
+	game["ended"] = true;
 	waitCriticalSections();
 
 	exitLevel(persist);
