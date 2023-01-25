@@ -134,6 +134,8 @@ critical(id, important)
 
 critical_enter(id)
 {
+	comPrintLn("[Critical] %s", id);
+
 	while (!EnterCriticalSection(id))
 		wait 0.05;
 }
