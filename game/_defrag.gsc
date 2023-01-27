@@ -10,11 +10,9 @@ main()
 
 	addWeapon("rl", "gl_ak47_mp");
 	addWeapon("pl", "gl_g3_mp");
-
 	addPerk("haste", undefined, ::haste);
 
 	defaultWeapons();
-
 	thread visuals();
 
 	event("map", ::triggers);
@@ -56,7 +54,7 @@ visuals()
 {
 	while (true)
 	{
-		players = getPlayingPlayers();
+		players = getAllPlayers();
 
 		for (i = 0; i < level.defragVisuals.size; i++)
 		{
@@ -64,7 +62,8 @@ visuals()
 
 			for (j = 0; j < players.size; j++)
 			{
-				if (isDefined(players[j].sr_mode) && players[j].sr_mode == "Defrag")
+				player = IfUndef(players[j] getSpectatorClient(), players[j]);
+				if (player isDefrag())
 					level.defragVisuals[i] showToPlayer(players[j]);
 			}
 		}

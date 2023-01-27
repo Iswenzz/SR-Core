@@ -1,4 +1,5 @@
 #include sr\sys\_events;
+#include sr\utils\_common;
 
 main()
 {
@@ -10,7 +11,7 @@ spawn()
 	if (!isDefined(self.pers["viewkick"]))
 		self.pers["viewkick"] = true;
 
-	if (!self.pers["viewkick"] && self.sr_mode != "Defrag")
+	if (!self.pers["viewkick"] && !self isDefrag())
 	{
 		self setClientDvars(
 			"bg_viewKickMax", 90,
@@ -20,7 +21,7 @@ spawn()
 		);
 		self.pers["viewkick"] = true;
 	}
-	else if (self.pers["viewkick"] && self.sr_mode == "Defrag")
+	else if (self.pers["viewkick"] && self isDefrag())
 	{
 		self setClientDvars(
 			"bg_viewKickMax", 0,

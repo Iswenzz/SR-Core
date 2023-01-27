@@ -9,7 +9,7 @@ main()
 
 cmd_DefragMode(args)
 {
-	if (self sr\player\modes\_main::isInOtherMode("defrag") || self.sr_mode == "Defrag")
+	if (self.sr_mode == "Defrag" || self sr\player\modes\_main::isInOtherMode("defrag"))
 		return;
 
 	self sr\player\modes\_main::toggleMode("defrag");

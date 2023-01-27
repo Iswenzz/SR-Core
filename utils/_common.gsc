@@ -92,6 +92,16 @@ isBot()
 	return self.isBot;
 }
 
+isDefrag()
+{
+	return self.sr_mode == "Defrag" || self sr\player\modes\_main::isInMode("defrag");
+}
+
+isPortal()
+{
+	return self.sr_mode == "Portal" || self sr\player\modes\_main::isInMode("portal");
+}
+
 respawn()
 {
 	self.died = false;
@@ -183,7 +193,7 @@ bounce(origin, direction, power, repeat, useDvars)
 	self endon("death");
 
 	repeat = IfUndef(repeat, 1);
-	if (isDefined(self.sr_mode) && self.sr_mode == "Defrag")
+	if (self isDefrag())
 		useDvars = false;
 
 	if (!isDefined(useDvars))

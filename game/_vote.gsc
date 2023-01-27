@@ -45,8 +45,6 @@ display()
 
 	self.voteMaxPage = maxPage;
 
-	self iPrintLnBold(self.voteSearch);
-
 	for (i = 0; i < level.voteMaxEntries; i++)
 	{
 		string = "";

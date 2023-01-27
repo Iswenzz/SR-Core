@@ -80,7 +80,7 @@ resetPortals()
 	self thread portalDelete("blue");
 	self thread portalDelete("red");
 
-	if (self.sr_mode == "Portal")
+	if (self isPortal())
 		self thread updatehud("default");
 }
 

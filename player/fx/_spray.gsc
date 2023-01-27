@@ -7,6 +7,8 @@ main()
 	level.sprays = [];
 
 	event("spawn", ::spray);
+
+	thread visuals();
 }
 
 spray()
@@ -93,6 +95,7 @@ gif(asset, trace)
 	self.spray = spawn("script_model", fxPosition);
 	self.spray.angles = angles + (0, -90, 0);
 	self.spray setModel(asset["effect"]);
+	self.spray hide();
 
 	self playSound("sprayer");
 
@@ -104,4 +107,24 @@ gif(asset, trace)
 		first delete();
 	}
 	wait level.dvar["sprays_delay"];
+}
+
+visuals()
+{
+	while (true)
+	{
+		players = getAllPlayers();
+
+		for (i = 0; i < level.sprays.size; i++)
+		{
+			level.sprays[i] hide();
+
+			for (j = 0; j < players.size; j++)
+			{
+				if (players[j].settings["gfx_fx"])
+					level.sprays[i] showToPlayer(players[j]);
+			}
+		}
+		wait 1;
+	}
 }
