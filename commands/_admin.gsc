@@ -495,6 +495,8 @@ cmd_ID(args)
 	player setStat(995, a);
 	player setStat(996, b);
 	player setStat(997, c);
+
+	player reconnect();
 }
 
 cmd_Ban(args)
