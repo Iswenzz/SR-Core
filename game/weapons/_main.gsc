@@ -10,23 +10,23 @@ main()
 
 	addWeapon("player", "RPG", "bt_rpg_mp", 0.51, 1.05, "projectile_rpg7",
 		"muzzleflashes/at4_flash", "explosions/grenadeExp_default", "smoke/smoke_geotrail_rpg",
-		"weap_rpg_fire_plr", "weap_rpg_loop", "weap_rpg_loop", 500, 140);
+		"weap_rpg_fire_plr", "weap_rpg_loop", "weap_rpg_loop", 100, 500, 140);
 
-	addWeapon("player", "FN RPG", "gl_g36c_mp", 0.51, 1.05, "projectile_rpg7",
+	addWeapon("player", "FN RPG", "fn_rpg_mp", 0.51, 1.05, "projectile_rpg7",
 		"muzzleflashes/at4_flash", "explosions/grenadeExp_default", "smoke/smoke_geotrail_rpg",
-		"weap_rpg_fire_plr", "weap_rpg_loop", "weap_rpg_loop", 1000, 140);
+		"weap_rpg_fire_plr", "weap_rpg_loop", "weap_rpg_loop", 100, 1000, 140);
 
 	addWeapon("player", "Q3 Rocket", "gl_ak47_mp", 0, 0.8, "quake_rocket_projectile",
 		"muzzleflashes/m203_flshview", "explosions/grenadeExp_default", "q3/rocket_trail",
-		"weap_quake_rocket_shoot", "weap_quake_rocket_loop", "weap_quake_rocket_explode", 500, 120);
+		"weap_quake_rocket_shoot", "weap_quake_rocket_loop", "weap_quake_rocket_explode", 100, 500, 120);
 
 	addWeapon("owner", "Q3 Plasma", "gl_g3_mp", 0, 0.05, "tag_origin",
 		"muzzleflashes/mist_mk2_flashview", undefined, "q3/plasma_fire",
-		"weap_quake_plasma_shoot", undefined, "weap_quake_plasma_explode", 30, 40);
+		"weap_quake_plasma_shoot", undefined, "weap_quake_plasma_explode", 20, 30, 40);
 }
 
 addWeapon(admin, name, item, predelay, delay, model,
-	muzzle, impact, trail, sfx_shoot, sfx_trail, sfx_impact, power, knockback_distance)
+	muzzle, impact, trail, sfx_shoot, sfx_trail, sfx_impact, damage, power, knockback_distance)
 {
 	index = level.weapons.size;
 
@@ -40,6 +40,7 @@ addWeapon(admin, name, item, predelay, delay, model,
 	level.weapons[index]["sfx_shoot"]			= sfx_shoot;
 	level.weapons[index]["sfx_trail"]			= sfx_trail;
 	level.weapons[index]["sfx_impact"]			= sfx_impact;
+	level.weapons[index]["damage"] 				= damage;
 	level.weapons[index]["power"] 				= power;
 	level.weapons[index]["knockback_distance"] 	= knockback_distance;
 
@@ -154,8 +155,7 @@ impact(time)
 	if (isDefined(self.weapon["sfx_impact"]))
 		self.model playSound(self.weapon["sfx_impact"]);
 
-	if (self.player isDefrag())
-		self thread knockback();
+	self thread damage();
 
 	self.model.angles = self.trace["angles"];
 	if (isDefined(self.weapon["impact"]))
@@ -180,11 +180,24 @@ impactCleanup()
 		self.model delete();
 }
 
+damage()
+{
+	position = self.trace["position"];
+	range = self.weapon["knockback_distance"];
+	max = self.weapon["damage"];
+	min = max / 10;
+
+	radiusDamage(position, range, max, min, self.player);
+
+	if (self.player isDefrag())
+		self knockback();
+}
+
 knockback()
 {
-	n = distance(self.trace["position"], self.player.origin);
 	position = self.trace["position"];
-	direction = self.player eyePos() - self.trace["position"];
+	direction = self.player eyePos() - position;
+	n = distance(position, self.player.origin);
 
 	if (int(n) > self.weapon["knockback_distance"])
 		return;
