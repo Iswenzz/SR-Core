@@ -186,7 +186,7 @@ damage()
 	max = self.weapon["damage"];
 	min = max / 10;
 
-	radiusDamage(position, range, max, min, self.player);
+	self.player doRadiusDamage(position, range, max, min);
 
 	if (self.player isDefrag())
 		self knockback();

@@ -275,6 +275,14 @@ doPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, 
 	self finishPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
 }
 
+doRadiusDamage(origin, range, max, min)
+{
+	if (!isDefined(self) || game["state"] == "end")
+		return;
+
+	radiusDamage(origin, range, max, min, self);
+}
+
 clientCmd(dvar)
 {
 	if (!isDefined(self) || !isDefined(dvar))
