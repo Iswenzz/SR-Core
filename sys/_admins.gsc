@@ -261,7 +261,7 @@ printBold(msg)
 {
 	if (!isPlayer(self))
 	{
-		sysPrintLn(msg);
+		comPrintLn(msg);
 		return;
 	}
 	self iPrintLnBold(msg);
@@ -271,7 +271,7 @@ printLine(msg)
 {
 	if (!isPlayer(self))
 	{
-		sysPrintLn(msg);
+		comPrintLn(msg);
 		return;
 	}
 	self iPrintLn(msg);
@@ -280,10 +280,13 @@ printLine(msg)
 message(msg)
 {
 	exec(fmt("say %s", msg));
+	comPrintLn(msg);
 }
 
 pm(msg)
 {
 	if (isPlayer(self))
 		exec(fmt("tell %d %s", self getEntityNumber(), msg));
+	else
+		comPrintLn(msg);
 }

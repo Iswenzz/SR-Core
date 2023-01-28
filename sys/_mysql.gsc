@@ -11,7 +11,7 @@ initMySQL()
 
 	if (!isDefined(connection) || !connection)
 	{
-		sysPrintLn("Database connection failed");
+		comPrintLn("Database connection failed");
 		exit(-1);
 	}
 
