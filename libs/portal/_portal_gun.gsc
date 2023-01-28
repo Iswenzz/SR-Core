@@ -18,7 +18,6 @@ main()
 	level.portalgun_w = "w_portalgun";
 	level.portalgun_v = "v_portalgun";
 	level.portalgun = "portalgun_mp";
-	level.portalgun_bendi = "portalgun_bendi_mp";
 
 	event("death", ::onReset);
 	event("disconnect", ::onReset);

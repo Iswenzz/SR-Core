@@ -13,7 +13,7 @@ pickup(arg)
 {
 	if (!self sr\sys\_admins::isRole("owner"))
 		return;
-	if (self getCurrentWeapon() != level.portalgun_bendi)
+	if (self getCurrentWeapon() != level.portalgun)
 		return;
 	if (self isOnLadder() || self isMantling() || self.throwingGrenade)
 		return;
