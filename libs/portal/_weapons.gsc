@@ -333,7 +333,7 @@ explosionRadiusDamage(pos, radius, max_dmg, min_dmg, ignore_ents)
 		if (distancesquared(pos, ents[i].origin) > radius*radius)
 			continue;
 
-		trace = traceArray(pos, ents[i].origin + (0, 0, 20), false, ignore_ents);
+		trace = trace(pos, ents[i].origin + (0, 0, 20), false, ignore_ents);
 
 		if (!isDefined(trace["entity"]) || trace["entity"] != ents[i])
 			continue;
@@ -349,7 +349,7 @@ explosionRadiusDamage(pos, radius, max_dmg, min_dmg, ignore_ents)
 			continue;
 
 		player_center = players[i].origin + players[i] getcenter();
-		trace = traceArray(pos, player_center, false, ignore_ents);
+		trace = trace(pos, player_center, false, ignore_ents);
 
 		if (distancesquared(pos, trace["position"]) < (distancesquared(pos, player_center) - 8 * 8))
 			continue;

@@ -564,7 +564,7 @@ loopShoot(player)
 		self playSound("turret_fire");
 		playfx(level.fx["turret_light_flash"], self.eyepos);
 
-		trace = traceArray(self.eyepos, self.eyepos + dir*self.maxdist, true, self.physics["ignore_ents"]);
+		trace = trace(self.eyepos, self.eyepos + dir*self.maxdist, true, self.physics["ignore_ents"]);
 		killed_ent = false;
 
 		if (trace["fraction"] != 1)

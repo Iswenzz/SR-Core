@@ -28,8 +28,6 @@ portal()
 	self giveWeapon(weapon);
 	self setSpawnWeapon(weapon);
 	self giveMaxAmmo(weapon);
-
-	self sr\libs\portal\_portal_gun::watch();
 }
 
 death()

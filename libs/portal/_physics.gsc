@@ -15,8 +15,8 @@ portalObjectCollisionTrace(start, end)
 	trace["hit"] = false;
 	if (!trace["hit"])
 	{
-		ignore_ents = self portalAddIgnoreEnts();
-		trace = traceArray(start, end, false, ignore_ents);
+		ignore_ents = self portalIgnoreEnts();
+		trace = trace(start, end, false, ignore_ents);
 		trace["hit"] = (trace["fraction"] != 1);
 	}
 	else
@@ -25,7 +25,7 @@ portalObjectCollisionTrace(start, end)
 
 }
 
-portalAddIgnoreEnts()
+portalIgnoreEnts()
 {
 	ignore_ents = [];
 	ignore_ents[0] = self;
@@ -211,7 +211,7 @@ startGrenadePhysics(initial_vel, is_c4)
 			ignore_ent[0] = self;
 			if (isDefined(self.originalgrenade))
 				ignore_ent[1] = self.originalgrenade;
-			trace = self traceArray(pos1, pos2, false, ignore_ent);
+			trace = self trace(pos1, pos2, false, ignore_ent);
 
 			if (trace["fraction"] != 1)
 				break;
@@ -255,7 +255,7 @@ surfaceBounce(surfacetype)
 // Trace from player while he is holding an object using the given collision size
 playerPortalObjectCollisionTrace(start, angles, distance)
 {
-	ignore_ents = self portalAddIgnoreEnts();
+	ignore_ents = self portalIgnoreEnts();
 
 	colSize = self.physics["colSize"];
 	object_radius = self.physics["colSize_forward"];
@@ -283,7 +283,7 @@ playerPortalObjectCollisionTrace(start, angles, distance)
 		}
 	}
 
-	trace = traceArray(start, end, false, ignore_ents, ignore_ents[0]);
+	trace = trace(start, end, false, ignore_ents);
 	in_portal = false;
 	angles2 = (0, angles[1], 0);
 
@@ -293,11 +293,11 @@ playerPortalObjectCollisionTrace(start, angles, distance)
 		{
 			// Do a trace to the left
 			left = vectorprod((0, 0, 1), forward);
-			trace = traceArray(pos, pos + left * object_radius, false, ignore_ents, ignore_ents[1]);
+			trace = trace(pos, pos + left * object_radius, false, ignore_ents);
 			if (trace["fraction"] == 1)
 			{
 				// Do a trace to the right
-				trace = traceArray(pos, pos - left * object_radius, false, ignore_ents, ignore_ents[2]);
+				trace = trace(pos, pos - left * object_radius, false, ignore_ents);
 				if (trace["fraction"] == 1)
 				{
 					// No walls interfering, check for other objects
@@ -326,7 +326,7 @@ playerPortalObjectCollisionTrace(start, angles, distance)
 			b = sqrt((r + object_radius) * (r + object_radius) - a * a);
 
 		updatedpos = start - u * a - b * v * dir + w * c;
-		t = traceArray(updatedpos + u, updatedpos - v * dir * object_radius + u, false, ignore_ents, ignore_ents[1]);
+		t = trace(updatedpos + u, updatedpos - v * dir * object_radius + u, false, ignore_ents);
 
 		// Check if another wall is interfering at updatedpos
 		if (t["fraction"] != 1)

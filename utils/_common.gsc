@@ -180,6 +180,42 @@ playLoopSound(soundAlias, length)
 	}
 }
 
+playerButton(id)
+{
+	return buttonFlags(self getDemoButtons(), id);
+}
+
+demoButton(id)
+{
+	return buttonFlags(self getDemoButtons(), id);
+}
+
+buttonFlags(buttons, id)
+{
+	switch (id)
+	{
+		case "fire":			return buttons & 1;
+		case "sprint":			return buttons & 2;
+		case "melee":			return buttons & 4;
+		case "use":				return buttons & 8;
+		case "usereload":		return buttons & 32;
+		case "reload":			return buttons & 16;
+		case "leanleft":		return buttons & 64;
+		case "leanright":		return buttons & 128;
+		case "prone":			return buttons & 256;
+		case "crouch":			return buttons & 512;
+		case "jump":			return buttons & 1024;
+		case "adsmode":			return buttons & 2048;
+		case "tempaction":		return buttons & 4096;
+		case "holdbreath":		return buttons & 8192;
+		case "frag":			return buttons & 16384;
+		case "smoke":			return buttons & 32768;
+		case "nightvision":		return buttons & 262144;
+		case "ads":				return buttons & 524288;
+	}
+	return false;
+}
+
 playSoundOnAllPlayers(soundAlias)
 {
 	players = getAllPlayers();
@@ -406,40 +442,33 @@ reconnect()
 }
 
 // Trace allowing object arrays to be ignored
-traceArray(start, end, hit_players, ignore_array)
+trace(start, end, hitPlayers, ignoreArray)
 {
-	if (!isDefined(ignore_array))
-		ignore_ent = undefined;
-	else
-		ignore_ent = ignore_array[0];
+	ignoreEnt = undefined;
+	if (isDefined(ignoreArray))
+		ignoreEnt = ignoreArray[0];
 
-	if (!isDefined(hit_players))
-		hit_players = false;
+	hitPlayers = IfUndef(hitPlayers, false);
+	trace = bulletTrace(start, end, hitPlayers, ignoreEnt);
 
-	trace = bullettrace(start, end, hit_players, ignore_ent);
-
-	if (isDefined(ignore_array))
+	if (isDefined(ignoreArray) && isDefined(trace["entity"]))
 	{
-		if (isDefined(trace["entity"]))
-		{
-			if (Contains(ignore_array, trace["entity"]))
-				return traceArrayRaw(trace["position"], end, hit_players, ignore_array, trace["entity"], trace["fraction"]);
-		}
+		if (Contains(ignoreArray, trace["entity"]))
+			return traceCorrection(trace["position"], end, hitPlayers, ignoreArray, trace["entity"], trace["fraction"]);
 	}
 	return trace;
 }
 
-// Trace allowing object arrays to be ignored
-traceArrayRaw(start, end, hit_players, ignore_array, ignore_ent, fraction_add)
+traceCorrection(start, end, hitPlayers, ignoreArray, ignoreEnt, fraction)
 {
 	// Fraction needs to be corrected
-	trace = bullettrace(start, end, hit_players, ignore_ent);
-	trace["fraction"] = fraction_add + (1 - fraction_add) * trace["fraction"];
+	trace = bulletTrace(start, end, hitPlayers, ignoreEnt);
+	trace["fraction"] = fraction + (1 - fraction) * trace["fraction"];
 
 	if (isDefined(trace["entity"]))
 	{
-		if (Contains(ignore_array, trace["entity"]))
-			return traceArrayRaw(trace["position"], end, hit_players, ignore_array, trace["entity"], trace["fraction"]);
+		if (Contains(ignoreArray, trace["entity"]))
+			return traceCorrection(trace["position"], end, hitPlayers, ignoreArray, trace["entity"], trace["fraction"]);
 	}
 	return trace;
 }
@@ -671,7 +700,7 @@ getFloor()
 	if (isDefined(self.inAir) && self.inAir)
 		return self.origin[2] + ifUndef(self.inAirValue, 0);
 
-	trace = BulletTrace(self.origin, self.origin - (0, 0, 999999), false, undefined);
+	trace = bulletTrace(self.origin, self.origin - (0, 0, 999999), false, undefined);
 	return Ternary(trace["fraction"] != 1, trace["position"], self.origin)[2];
 }
 

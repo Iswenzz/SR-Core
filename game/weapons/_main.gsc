@@ -66,7 +66,7 @@ loop()
 			wait 0.05;
 			continue;
 		}
-		if (self attackButtonPressed() || self getDemoButtons() & 1)
+		if (self attackButtonPressed() || self demoButton("fire"))
 		{
 			weapon = self getWeaponBT();
 			if (!isDefined(weapon))
@@ -98,9 +98,8 @@ shoot(weapon)
 		bullet.model showToPlayer(self);
 	}
 
-	ignore = [];
-	ignore[ignore.size] = self;
-	trace = traceArray(eye, eye + forward, false, ignore);
+	hitPlayers = !self isDefrag();
+	trace = bulletTrace(eye, eye + forward, hitPlayers, self);
 
 	oldpos = trace["position"];
 	pos = oldpos;

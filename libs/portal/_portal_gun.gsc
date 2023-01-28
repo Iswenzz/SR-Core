@@ -19,27 +19,21 @@ main()
 	level.portalgun_v = "v_portalgun";
 	level.portalgun = "portalgun_mp";
 
+	event("spawn", ::onSpawn);
 	event("death", ::onReset);
 	event("disconnect", ::onReset);
 }
 
 onReset()
 {
-	if (!isDefined(self.portals))
-		return;
-
 	self thread resetPortals();
 }
 
-watch()
+onSpawn()
 {
 	self endon("disconnect");
 	self endon("death");
-
-	if (!isDefined(self.portals))
-		self.portals = [];
-
-	self thread updatehud("default");
+	self updateHud("default");
 
 	while (true)
 	{
@@ -47,27 +41,30 @@ watch()
 
 		if (self getCurrentWeapon() != level.portalgun)
 		{
-			self sr\libs\portal\_hud::updateHud("none");
+			self updateHud("none");
 			wait 1;
 			continue;
 		}
 
 		color = undefined;
-		if (self attackButtonPressed() || self getDemoButtons() & 1)
+		if (self attackButtonPressed() || self demoButton("fire"))
 			color = "blue";
-		else if (self aimButtonPressed() || self getDemoButtons() & 524288)
+		else if (self aimButtonPressed() || self demoButton("ads"))
 			color = "red";
-		else if (self fragButtonPressed() || self getDemoButtons() & 16384)
+		else if (self fragButtonPressed() || self demoButton("frag"))
 			self resetPortals();
 
 		if (isDefined(color))
 		{
 			self playLocalSound("portal_gun_shoot_" + color);
-			self thread portal(color);
+			if (self isPortal())
+				self thread portal(color);
+			else
+				self thread bullet(color);
 		}
-		while ((self attackButtonPressed() || self getDemoButtons() & 1)
-			|| (self aimButtonPressed() || self getDemoButtons() & 524288)
-			|| (self fragButtonPressed() || self getDemoButtons() & 16384))
+		while ((self attackButtonPressed() || self demoButton("fire"))
+			|| (self aimButtonPressed() || self demoButton("ads"))
+			|| (self fragButtonPressed() || self demoButton("frag")))
 			wait 0.05;
 	}
 }
@@ -79,8 +76,7 @@ resetPortals()
 	self thread portalDelete("blue");
 	self thread portalDelete("red");
 
-	if (self isPortal())
-		self thread updatehud("default");
+	self thread updateHud("default");
 }
 
 stopAll(delete_portals, disconnected)
@@ -115,8 +111,45 @@ stopAll(delete_portals, disconnected)
 	self.portal["inzoom"] = false;
 	self.portal["can_use"] = false;
 
-	self thread updatehud("none");
+	self thread updateHud("none");
 	self notify("stopAll");
+}
+
+bullet(color)
+{
+	bullet = spawn("script_model" , (-10000, 0, 0));
+	bullet setContents(0);
+	bullet setModel("collision_sphere");
+
+	eye = self eyepos();
+	angles = self getPlayerAngles();
+	forward = anglesToForward(angles) * level.maxdistance;
+	trace = bulletTrace(eye, eye + forward, true, self);
+	trace["fx_position"] = trace["position"] + trace["normal"];
+	trace["start_position"] = eye;
+
+	oldpos = trace["position"];
+	fxpos = trace["fx_position"];
+	p = trace["start_position"];
+	p += vectornormalize(oldpos - p) * 33;
+	speed = 2000;
+
+	t = length(fxpos - p) / speed * 1.5;
+	if (t > 0.5)
+		t = 0.5;
+
+	wait 0.05;
+
+	playFXOnTag(level.fx["portalball" + color], bullet, "collision_sphere");
+
+	f = anglestoforward(angles);
+	u = anglestoup(angles);
+	r = vectorprod(f, u);
+
+	bullet moveCurve(eye + f * 22 + u * -6 + r, oldpos, trace["position"], t);
+
+	playFX(level.fx[color + "portal_fail"], trace["position"] + trace["normal"]);
+	radiusDamage(oldpos, 80, 30, 10, self);
 }
 
 portal(color)
@@ -125,7 +158,7 @@ portal(color)
 
 	eye = self eyepos();
 	forward = anglesToForward(self getPlayerAngles()) * level.maxdistance;
-	trace = traceArray(eye, eye + forward, false, level.portal_objects);
+	trace = trace(eye, eye + forward, false, level.portal_objects);
 
 	if (trace["fraction"] == 1)
 		portalfailed = true;
@@ -206,7 +239,7 @@ portal(color)
 					else
 						pos = p + a * trans[0] + b * height * sign(trans[1]);
 
-					if (traceArray(p + forward, pos + forward, false, level.portal_objects)["fraction"] != 1)
+					if (trace(p + forward, pos + forward, false, level.portal_objects)["fraction"] != 1)
 					{
 						portalfailed = true;
 						break;
@@ -254,13 +287,13 @@ portal(color)
 
 		for (i = 1; i < 9 && !portalfailed; i++)
 		{
-			hit = 1 - traceArray(pos + forward, pos + forward + vec[i], false, level.portal_objects)["fraction"];
+			hit = 1 - trace(pos + forward, pos + forward + vec[i], false, level.portal_objects)["fraction"];
 
 			if (!hit)
 			{
-				tmp_ground_trace = traceArray(pos + forward + vec[i], pos + backward + vec[i], false, level.portal_objects);
+				tmp_ground_trace = trace(pos + forward + vec[i], pos + backward + vec[i], false, level.portal_objects);
 				if (tmp_ground_trace["fraction"] == 1)
-					hit = traceArray(pos + backward + vec[i], pos + backward, false, level.portal_objects)["fraction"];
+					hit = trace(pos + backward + vec[i], pos + backward, false, level.portal_objects)["fraction"];
 				if (hit == 1)
 					portalfailed = true;
 
@@ -400,7 +433,7 @@ portalCreate(color, trace)
 {
 	self.portal["inportal"] = false;
 
-	self updatehud(color);
+	self updateHud(color);
 	self portalDelete(color);
 
 	portal[color] = spawn("script_model", trace["fx_position"]);
@@ -463,7 +496,7 @@ portalFX()
 
 	f = anglestoforward(angles);
 	u = anglestoup(angles);
-	r = vectorprod(f,u);
+	r = vectorprod(f, u);
 
 	self.bullet moveCurve(self.owner eyepos() + f * 22 + u * -6 + r, oldpos, self.trace["position"], t);
 	self thread playOpenSound(self.color, fxpos + self.trace["normal"] * 2);

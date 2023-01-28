@@ -1,3 +1,5 @@
+#include sr\utils\_common;
+
 updateHud(color)
 {
 	shader = "";
@@ -18,6 +20,9 @@ updateHud(color)
 			shader = img + "_" + color;
 	}
 	else
+		return;
+
+	if (!self isPortal())
 		return;
 
 	size = 64;

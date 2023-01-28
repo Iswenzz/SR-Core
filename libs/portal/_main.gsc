@@ -33,7 +33,10 @@ onConnect()
 
 	wait 0.05;
 
+	self.portals = [];
 	self.portal = [];
+	self.turrets = [];
+
 	self.portal["blue_exist"] = false;
 	self.portal["red_exist"] = false;
 	self.portal["object"] = undefined;
@@ -49,7 +52,6 @@ onConnect()
 	self.portal["inportal"] = false;
 	self.portal["first_enter"] = true;
 	self.portal["hud"] = newClientHudElem(self);
-	self.turrets = [];
 }
 
 precache()
