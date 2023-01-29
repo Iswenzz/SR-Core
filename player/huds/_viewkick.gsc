@@ -6,17 +6,25 @@ main()
 	event("spawn", ::onSpawn);
 }
 
-needsViewkick()
+enableViewkick()
 {
-	return !self.pers["viewkick"] && !self isDefrag();
+	if (self.pers["viewkick"])
+		return false;
+	return !self isDefrag();
+}
+
+disableViewkick()
+{
+	if (!self.pers["viewkick"])
+		return false;
+	return self isDefrag();
 }
 
 onSpawn()
 {
 	self.pers["viewkick"] = IfUndef(self.pers["viewkick"], true);
-	viewkick = self.pers["viewkick"];
 
-	if (self needsViewkick())
+	if (self enableViewkick())
 	{
 		self setClientDvars(
 			"bg_viewKickMax", 90,
@@ -26,7 +34,7 @@ onSpawn()
 		);
 		self.pers["viewkick"] = true;
 	}
-	else
+	else if (self disableViewkick())
 	{
 		self setClientDvars(
 			"bg_viewKickMax", 0,
