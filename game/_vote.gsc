@@ -26,11 +26,6 @@ initVote()
 
 onConnect()
 {
-	self endon("disconnect");
-	self setu("sr_vote_search", "_");
-
-	wait 0.05;
-
 	self.voteCooldown = getTime();
 	self.votePage = 0;
 	self.voteSelected = 0;
@@ -60,11 +55,8 @@ display()
 
 menu_Open(args)
 {
-	self setClientDvar("sr_vote_search", "");
-
 	self.votePage = 0;
 	self.voteSelected = 0;
-	self.voteSearch = "";
 
 	self display();
 
@@ -73,7 +65,7 @@ menu_Open(args)
 
 menu_Close(args)
 {
-	self notify("menu_votemap_close");
+	self notify("votemap_close");
 }
 
 menu_PageNext(args)
@@ -115,12 +107,12 @@ menu_Vote(args)
 
 	if ((getTime() - self.voteCooldown) < 300000)
 	{
-		self sr\sys\_admins::pm("You cannot vote yet");
+		self pm("You cannot vote yet");
 		return;
 	}
 	if (level.voteProgress)
 	{
-		self sr\sys\_admins::pm("A vote is already in progress");
+		self pm("A vote is already in progress");
 		return;
 	}
 	if (!IsNullOrEmpty(value))
@@ -149,7 +141,7 @@ menu_PlayerVote(arg)
 searchBox()
 {
 	self endon("disconnect");
-	self endon("menu_votemap_close");
+	self endon("votemap_close");
 	previousSearch = "";
 
 	while (true)
@@ -225,10 +217,10 @@ vote(vote, value)
 	level.voteProgress = false;
 	if (level.voteYes <= level.voteNo)
 	{
-		level sr\sys\_notifications::message("^1Vote Failed");
+		level sr\sys\_notifications::show("^1Vote Failed");
 		return;
 	}
-	level sr\sys\_notifications::message("^2Vote Passed");
+	level sr\sys\_notifications::show("^2Vote Passed");
 	wait 2;
 
 	// Action

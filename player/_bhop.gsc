@@ -3,6 +3,7 @@
 
 loop()
 {
+	self endon("spawned");
 	self endon("disconnect");
 	self endon("death");
 

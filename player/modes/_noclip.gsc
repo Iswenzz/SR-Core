@@ -3,13 +3,14 @@
 
 main()
 {
-	event("spawn", ::noclip);
+	event("spawn", ::onSpawn);
 }
 
-noclip()
+onSpawn()
 {
-	self endon("disconnect");
+	self endon("spawned");
 	self endon("death");
+	self endon("disconnect");
 
 	if (!isInMode("practise"))
 		return;

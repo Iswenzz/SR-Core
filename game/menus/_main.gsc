@@ -13,7 +13,9 @@ initMenus()
 
 menuEvent(id, weapon)
 {
+	self endon("connect");
 	self endon("disconnect");
+
 	self.huds["script_menu"] = [];
 	self.script_menu_open = false;
 

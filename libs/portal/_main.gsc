@@ -29,6 +29,7 @@ main()
 
 onConnect()
 {
+	self endon("connect");
 	self endon("disconnect");
 
 	wait 0.05;

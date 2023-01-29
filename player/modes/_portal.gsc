@@ -5,20 +5,20 @@ main()
 {
 	createMode("portal");
 
-	event("spawn", ::portal);
-	event("death", ::death);
+	event("spawn", ::onSpawn);
+	event("death", ::onDeath);
 }
 
-portal()
+onSpawn()
 {
-	self endon("disconnect");
+	self endon("spawned");
 	self endon("death");
+	self endon("disconnect");
 
 	if (!IsInMode("portal"))
 		return;
 
-	self waittill("speedrun_hud");
-	self.run = "Portal";
+	self waittill("speedrun");
 	self.huds["speedrun"]["name"] setText("^5Portal");
 
 	self allowAds(true);
@@ -30,7 +30,7 @@ portal()
 	self giveMaxAmmo(weapon);
 }
 
-death()
+onDeath()
 {
 	self sr\libs\portal\_hud::updateHud("none");
 }

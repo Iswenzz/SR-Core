@@ -1,4 +1,5 @@
 #include sr\sys\_admins;
+#include sr\utils\_common;
 #include sr\game\_vote;
 
 main()

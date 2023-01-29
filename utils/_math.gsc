@@ -63,7 +63,7 @@ matrixMultiplyRow(M, n, s)
 	return M;
 }
 
-matrixSubstractRow(M,n,j)
+matrixSubstractRow(M, n, j)
 {
 	for (i = 0; i < 4; i++)
 		M[n][i] -= M[j][i];
@@ -577,6 +577,14 @@ getCenter()
 centerPos()
 {
 	return self.origin + self getcenter();
+}
+
+pow(base, exponent)
+{
+	result = 1.0;
+    for (i = 0; i < exponent; i++)
+        result *= base;
+    return result;
 }
 
 eye()

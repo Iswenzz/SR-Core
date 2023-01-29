@@ -10,17 +10,16 @@ main()
 
 practise()
 {
-	self endon("disconnect");
+	self endon("spawned");
 	self endon("death");
+	self endon("disconnect");
 
 	if (!IsInMode("practise"))
 		return;
 
-	self waittill("speedrun_hud");
-	self.run = "Practise";
+	self waittill("speedrun");
 	self.huds["speedrun"]["name"] setText("^5Practise Mode");
-	if (!isDefined(self.practise))
-		self.practise = [];
+	self.practise = IfUndef(self.practise, []);
 
 	wait 0.05;
 

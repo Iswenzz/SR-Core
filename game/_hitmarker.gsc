@@ -18,5 +18,5 @@ onDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint
 		return;
 
 	armor = self hasPerk("specialty_armorvest") && level.dvar["pi_hm_av"];
-	eAttacker thread maps\mp\gametypes\_damagefeedback::updateDamageFeedback(armor);
+	eAttacker maps\mp\gametypes\_damagefeedback::updateDamageFeedback(armor);
 }

@@ -24,7 +24,7 @@ isInOtherQueue(minigame)
 {
 	if (self sr\player\modes\_main::isInAnyMode())
 	{
-		self sr\sys\_admins::pm("^1Already in a different mode.");
+		self pm("^1Already in a different mode.");
 		return true;
 	}
 
@@ -36,7 +36,7 @@ isInOtherQueue(minigame)
 
 		if (self isInQueue(keys[i]))
 		{
-			self sr\sys\_admins::pm("^1Already in a different mode.");
+			self pm("^1Already in a different mode.");
 			return true;
 		}
 	}

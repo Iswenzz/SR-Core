@@ -115,6 +115,7 @@ fetch()
 
 connection()
 {
+	self endon("connect");
 	self endon("disconnect");
 
 	if (!self isFirstConnection())
@@ -133,7 +134,6 @@ connection()
 	self.admin_vip = IfUndef(level.vips[self.id], 0);
 	self setStat(2000, self.admin_vip);
 	self setPersistence("vip", self.admin_vip);
-
 }
 
 cmd(role, name, callback)
@@ -255,38 +255,4 @@ log()
 	file = FILE_Open(level.files["commands"], "a+");
 	FILE_WriteLine(file, line);
 	FILE_Close(file);
-}
-
-printBold(msg)
-{
-	if (!isPlayer(self))
-	{
-		comPrintLn(msg);
-		return;
-	}
-	self iPrintLnBold(msg);
-}
-
-printLine(msg)
-{
-	if (!isPlayer(self))
-	{
-		comPrintLn(msg);
-		return;
-	}
-	self iPrintLn(msg);
-}
-
-message(msg)
-{
-	exec(fmt("say %s", msg));
-	comPrintLn(msg);
-}
-
-pm(msg)
-{
-	if (isPlayer(self))
-		exec(fmt("tell %d %s", self getEntityNumber(), msg));
-	else
-		comPrintLn(msg);
 }

@@ -26,13 +26,15 @@ main()
 
 onReset()
 {
-	self thread resetPortals();
+	self resetPortals();
 }
 
 onSpawn()
 {
-	self endon("disconnect");
+	self endon("spawned");
 	self endon("death");
+	self endon("disconnect");
+
 	self updateHud("default");
 
 	while (true)
@@ -72,6 +74,9 @@ onSpawn()
 resetPortals()
 {
 	self notify("Deactivate_Portals");
+
+	if (!isDefined(self.portals))
+		return;
 
 	self thread portalDelete("blue");
 	self thread portalDelete("red");
@@ -399,7 +404,7 @@ portal(color)
 
 portalDelete(color)
 {
-	if (!self.portal[color + "_exist"])
+	if (!isDefined(self.portal) || !self.portal[color + "_exist"])
 		return;
 
 	level notify("portal_rearange");

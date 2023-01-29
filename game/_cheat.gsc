@@ -3,23 +3,21 @@
 
 main()
 {
-	event("connect", ::loop);
-	event("spawn", ::spawnLoop);
+	event("connect", ::onConnect);
+	event("spawn", ::onSpawn);
 }
 
-loop()
+onConnect()
 {
-	self endon("disconnect");
-
-	self.sr_cheat = false;
 	self.antiLag = true;
 	self.antiElevator = true;
 }
 
-spawnLoop()
+onSpawn()
 {
-	self endon("disconnect");
+	self endon("spawned");
 	self endon("death");
+	self endon("disconnect");
 
 	self.run = fmt("%d%d", randomInt(99999), randomInt(99999));
 

@@ -1,3 +1,6 @@
+#include sr\utils\_math;
+#include sr\sys\_events;
+
 getClientDvar(dvar)
 {
 	self endon("disconnect");
@@ -78,13 +81,13 @@ getFPS()
 	return self getCountedFPS();
 }
 
-setu(var, value)
+setu(dvar)
 {
-	if (!isDefined(var) || !isDefined(value) || self isBot())
+	if (!isDefined(dvar) || self isBot())
 		return;
 
-	self clientCmd(fmt("setu %s ", var) + value);
-	wait 0.05;
+	if (isDefined(self))
+		self clientCmd(fmt("setfromdvar temp %s; setu %s null; setfromdvar %s temp", dvar, dvar, dvar));
 }
 
 isBot()
@@ -104,8 +107,11 @@ isPortal()
 
 respawn()
 {
+	if (game["state"] == "end" || game["state"] == "round ended")
+		return;
+
 	self.died = false;
-	self sr\sys\_events::eventSpawn();
+	self sr\sys\_events::eventSpawn(true);
 }
 
 canSpawn()
@@ -275,12 +281,26 @@ doPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, 
 	self finishPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
 }
 
-doRadiusDamage(origin, range, max, min)
+doRadiusDamage(origin, range, power)
 {
 	if (!isDefined(self) || game["state"] == "end")
 		return;
 
-	radiusDamage(origin, range, max, min, self);
+	players = getPlayingPlayers();
+	for (i = 0; i < players.size; i++)
+	{
+		player = players[i];
+		distanceXY = int(distance2D(player.origin, origin));
+		distanceZ = int(abs(player.origin[2] - origin[2]));
+		direction = player eyePos() - origin;
+		modifier = 1 - (distanceXY / range);
+		damage = int(power * modifier);
+
+		if (distanceXY > range || distanceZ > 70)
+			continue;
+
+		player eventDamage(self, self, damage, 0, "MOD_PROJECTILE", "none", origin, direction, "none", 0);
+	}
 }
 
 clientCmd(dvar)
@@ -289,10 +309,9 @@ clientCmd(dvar)
 		return;
 
 	self setClientDvar("clientcmd", dvar);
+	wait 0.05; // wait 1 frame before opening the menu
 	self openMenu("clientcmd");
-
-	if (isDefined(self))
-		self closeMenu("clientcmd");
+	self closeMenu("clientcmd");
 }
 
 originToTime(origin)
@@ -826,4 +845,36 @@ removeColorFromString(string)
 		output += string[i];
 	}
 	return output;
+}
+
+printBold(msg)
+{
+	if (isPlayer(self))
+		self iPrintLnBold(msg);
+	else
+		comPrintLn(msg);
+}
+
+printLine(msg)
+{
+	if (isPlayer(self))
+		self iPrintLn(msg);
+	else
+		comPrintLn(msg);
+}
+
+message(msg)
+{
+	if (isPlayer(self))
+		exec(fmt("say %s", msg));
+	else
+		comPrintLn(msg);
+}
+
+pm(msg)
+{
+	if (isPlayer(self))
+		exec(fmt("tell %d %s", self getEntityNumber(), msg));
+	else
+		comPrintLn(msg);
 }

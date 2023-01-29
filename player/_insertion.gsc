@@ -3,15 +3,16 @@
 
 main()
 {
-	event("spawn", ::insertion);
+	event("spawn", ::onSpawn);
 }
 
-insertion()
+onSpawn()
 {
 	if (!level.dvar["insertion"])
 		return;
 
 	self endon("spawned");
+	self endon("death");
 	self endon("disconnect");
 
 	insertionItem = "claymore_mp";

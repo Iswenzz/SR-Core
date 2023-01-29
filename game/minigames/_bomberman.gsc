@@ -46,21 +46,24 @@ bomberman()
 
 onSpawn()
 {
+	self endon("spawned");
+	self endon("death");
+	self endon("disconnect");
+
 	if (!isInQueue("bomberman"))
 		return;
 
-	self waittill("speedrun_hud");
-	self.run = "Bomberman";
+	self waittill("speedrun");
 	self.huds["speedrun"]["name"] setText("^3Bomberman");
-	// self.huds["speedrun"]["row2"] setText(fmt("Bombs             ^2%d", self.health));
-	// self.huds["speedrun"]["row3"] setText(fmt("Bonus                    ^3%d/%d", self.kills, self.deaths));
+	self.huds["speedrun"]["row2"] setText(fmt("Bombs             ^2%d", self.bombs));
+	self.huds["speedrun"]["row3"] setText(fmt("Bonus                    ^3%d", 0));
 }
 
 join()
 {
 	self addToQueue("bomberman");
 
-	self sr\sys\_admins::message(fmt("%s ^7joined bomberman! [^3!bomberman^7] [^1%d^7]",
+	self message(fmt("%s ^7joined bomberman! [^3!bomberman^7] [^1%d^7]",
 		self.name, level.minigames["bomberman"].queue.size));
 }
 
@@ -80,7 +83,7 @@ leave()
 	self.bombermanWon = false;
 	self.teamKill = false;
 
-	self sr\sys\_admins::pm("You left bomberman!");
+	self pm("You left bomberman!");
 	self suicide();
 }
 
@@ -109,7 +112,7 @@ spawnPlayerInRoom(spawnIndex)
 	self setClientDvar("cg_thirdPersonRange", 500);
 
 	self minigameSpawn(level.bombermanSpawns[spawnIndex]);
-	self eventSpawnSync();
+	self eventSpawn(true);
 	self takeAllWeapons();
 	self thread watchPlayer();
 
@@ -122,7 +125,7 @@ spawnPlayerInSpec()
 	self endon("disconnect");
 	self.teamKill = undefined;
 	self sr\game\_teams::setTeam("spectator");
-	self eventSpectatorSync();
+	self eventSpectator(true);
 }
 
 watchGameTimer()

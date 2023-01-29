@@ -2,6 +2,7 @@
 #include sr\sys\_admins;
 #include sr\game\minigames\_main;
 #include sr\game\minigames\_race;
+#include sr\utils\_common;
 
 main()
 {

@@ -51,11 +51,14 @@ kz()
 
 onSpawn()
 {
+	self endon("spawned");
+	self endon("death");
+	self endon("disconnect");
+
 	if (!isInQueue("kz"))
 		return;
 
-	self waittill("speedrun_hud");
-	self.run = "KZ";
+	self waittill("speedrun");
 	self.huds["speedrun"]["name"] setText("^1Kill Zone");
 	self.huds["speedrun"]["row2"] setText(fmt("Health             ^2%d", self.health));
 	self.huds["speedrun"]["row2"].label = level.texts["empty"];
@@ -93,7 +96,7 @@ join()
 {
 	self addToQueue("kz");
 
-	self sr\sys\_admins::message(fmt("%s ^7joined the killzone! [^6!killzone^7] [^1%d^7]",
+	self message(fmt("%s ^7joined the killzone! [^6!killzone^7] [^1%d^7]",
 		self.name, level.minigames["kz"].queue.size));
 }
 
@@ -107,7 +110,7 @@ leave()
 	self.kzWon = false;
 	self.teamKill = false;
 
-	self sr\sys\_admins::pm("You left the killzone!");
+	self pm("You left the killzone!");
 	self suicide();
 }
 
@@ -133,8 +136,8 @@ onPlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHit
 
 		if (isAlive(attacker))
 		{
-			attacker.huds["speedrun"]["row3"] setText(fmt("K/D                    ^3%d/%d",
-				attacker.kills, attacker.deaths));
+			text = fmt("K/D                    ^3%d/%d", attacker.kills, attacker.deaths);
+			attacker.huds["speedrun"]["row3"] setText(text);
 			attacker.time = sr\utils\_common::originToTime(getTime() - attacker.time.origin);
 			attacker speedrun\player\huds\_speedrun::updateTime();
 		}
@@ -169,7 +172,7 @@ spawnPlayerInRoom(spawnIndex)
 	self sr\game\_teams::setTeam("axis");
 
 	self minigameSpawn(level.kzRandomPoints[spawnIndex]);
-	self eventSpawnSync();
+	self eventSpawn(true);
 	self takeAllWeapons();
 	self giveWeapon(level.kzWeapon);
 	self giveMaxAmmo(level.kzWeapon);
@@ -184,7 +187,7 @@ spawnPlayerInSpec()
 	self endon("disconnect");
 	self.teamKill = false;
 	self sr\game\_teams::setTeam("spectator");
-	self eventSpectatorSync();
+	self eventSpectator(true);
 }
 
 watchGameTimer()

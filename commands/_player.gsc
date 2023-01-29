@@ -45,10 +45,7 @@ cmd_Respawn(args)
 	self log();
 
 	if (!player isReallyAlive())
-	{
-		player.sr_cheat = true;
 		player respawn();
-	}
 }
 
 cmd_RespawnAll(args)
@@ -57,10 +54,7 @@ cmd_RespawnAll(args)
 	players = getDeadPlayers();
 
 	for (i = 0; i < players.size; i++)
-	{
-		players[i].sr_cheat = true;
 		players[i] respawn();
-	}
 	level message("^5All players respawned.");
 }
 

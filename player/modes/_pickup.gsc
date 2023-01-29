@@ -9,7 +9,9 @@ main()
 
 pickup()
 {
+	self endon("connect");
 	self endon("disconnect");
+
 	self.pickupMode = 0;
 
 	if (!self sr\sys\_admins::isRole("masteradmin"))
@@ -29,6 +31,8 @@ pickup()
 		ent = trace["entity"];
 		if (!isDefined(ent))
 			continue;
+
+		self.sr_cheat = true;
 		ent.distance = distance(start, trace["position"]);
 
 		if (IsPlayer(ent))

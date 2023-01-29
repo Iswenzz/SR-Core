@@ -21,6 +21,7 @@ event(name, callback)
 
 connect()
 {
+	self endon("connect");
 	self endon("disconnect");
 
 	self.huds = [];
@@ -47,7 +48,25 @@ connect()
 	}
 }
 
-_menu(name, response, callback)
+menu(name, response, callback)
+{
+	index = menu_new(name, response, callback);
+	level.menus[name][index].type = "response";
+}
+
+menu_multiple(name, response, callback)
+{
+	index = menu_new(name, response, callback);
+	level.menus[name][index].type = "multiple";
+}
+
+menu_callback(name, callback)
+{
+	index = menu_new(name, undefined, callback);
+	level.menus[name][index].type = "callback";
+}
+
+menu_new(name, response, callback)
 {
 	if (!isDefined(level.menus[name]))
 	{
@@ -63,49 +82,23 @@ _menu(name, response, callback)
 	return index;
 }
 
-menu(name, response, callback)
+eventDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime)
 {
-	index = _menu(name, response, callback);
-	level.menus[name][index].type = "response";
+	self notify("damage", eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
 }
 
-menu_multiple(name, response, callback)
-{
-	index = _menu(name, response, callback);
-	level.menus[name][index].type = "multiple";
-}
-
-menu_callback(name, callback)
-{
-	index = _menu(name, undefined, callback);
-	level.menus[name][index].type = "callback";
-}
-
-eventSpawn()
+eventSpawn(sync)
 {
 	self notify("spawned");
+	if (isDefined(sync) && sync)
+		self waittill("spawned_after");
 }
 
-eventSpawnSync()
-{
-	self eventSpawn();
-	self waittill("spawned_after");
-}
-
-eventSpectator()
+eventSpectator(sync)
 {
 	self notify("joined_spectators");
-}
-
-eventSpectatorSync()
-{
-	self eventSpectator();
-	self waittill("joined_spectators_after");
-}
-
-eventTeam()
-{
-	self notify("joined_team");
+	if (isDefined(sync) && sync)
+		self waittill("joined_spectators_after");
 }
 
 setLoading(id, state)

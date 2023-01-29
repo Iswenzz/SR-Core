@@ -1,4 +1,5 @@
 #include sr\sys\_events;
+#include sr\sys\_admins;
 #include sr\utils\_common;
 #include sr\utils\_hud;
 
@@ -56,7 +57,9 @@ menu_Setting(args)
 
 onConnect()
 {
+	self endon("connect");
 	self endon("disconnect");
+
 	self.settings = self getPersistence("settings", []);
 
 	if (!self isFirstConnection())
@@ -297,9 +300,9 @@ update_hudCgaz(setting)
 	self updateHud(setting.index, value);
 
 	if (value && !self getStat(2400) && !self getStat(2401))
-		self sr\sys\_admins::pm("^3CGAZ: Please set your screen resolution using ^7!hud_res <1920x1080>");
+		self pm("^3CGAZ: Please set your screen resolution using ^7!hud_res <1920x1080>");
 	if (value && !self getStat(2402))
-		self sr\sys\_admins::pm("^3CGAZ: Please set your fov using ^7!hud_fov <65-80>");
+		self pm("^3CGAZ: Please set your fov using ^7!hud_fov <65-80>");
 }
 
 toggle_hudCrosshair(setting)
@@ -392,7 +395,7 @@ toggle_gfxFOV(setting)
 	self closeMenu();
 	self closeInGameMenu();
 
-	self sr\sys\_admins::command("fov");
+	self command("fov");
 }
 
 toggle_gfxFullbright(setting)

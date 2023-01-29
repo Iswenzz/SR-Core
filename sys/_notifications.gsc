@@ -7,7 +7,7 @@ initNotifications()
 	level.max_notifications = 5;
 }
 
-message(message, duration)
+show(message, duration)
 {
 	notification = spawnStruct();
 	notification.message = message;

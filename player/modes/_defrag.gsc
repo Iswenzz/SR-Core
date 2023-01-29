@@ -5,19 +5,19 @@ main()
 {
 	createMode("defrag");
 
-	event("spawn", ::defrag);
+	event("spawn", ::onSpawn);
 }
 
-defrag()
+onSpawn()
 {
-	self endon("disconnect");
+	self endon("spawned");
 	self endon("death");
+	self endon("disconnect");
 
 	if (!IsInMode("defrag"))
 		return;
 
-	self waittill("speedrun_hud");
-	self.run = "Defrag";
+	self waittill("speedrun");
 	self.huds["speedrun"]["name"] setText("^3Defrag");
 
 	self takeAllWeapons();

@@ -208,7 +208,7 @@ loadRank()
 
 onChangedTeam()
 {
-	self thread removeRankHUD();
+	self removeRankHUD();
 }
 
 giveRankXP(type, value)
@@ -478,7 +478,7 @@ notifyUnlockNewItems()
 				continue;
 
 			if (self.pers["rank"] == asset["rank"] && self.pers["prestige"] != asset["prestige"])
-				self sr\sys\_notifications::message(fmt("^5Unlocked ^7%s", asset["name"]));
+				self sr\sys\_notifications::show(fmt("^5Unlocked ^7%s", asset["name"]));
 		}
 	}
 }

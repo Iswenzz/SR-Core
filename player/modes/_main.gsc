@@ -1,4 +1,5 @@
 #include sr\sys\_events;
+#include sr\utils\_common;
 
 initModes()
 {
@@ -38,7 +39,7 @@ isInOtherMode(name)
 {
 	if (self sr\game\minigames\_main::isInAnyQueue())
 	{
-		self sr\sys\_admins::pm("^1Already in a different mode.");
+		self pm("^1Already in a different mode.");
 		return true;
 	}
 
@@ -50,7 +51,7 @@ isInOtherMode(name)
 
 		if (self isInMode(keys[i]))
 		{
-			self sr\sys\_admins::pm("^1Already in a different mode.");
+			self pm("^1Already in a different mode.");
 			return true;
 		}
 	}

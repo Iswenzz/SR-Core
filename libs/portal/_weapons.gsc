@@ -2,6 +2,7 @@
 #include sr\libs\portal\_general;
 #include sr\utils\_math;
 #include sr\utils\_common;
+#include sr\sys\_events;
 
 trackGrenade(grenade, weaponName, cookTime)
 {
@@ -96,7 +97,7 @@ trackGrenade(grenade, weaponName, cookTime)
 					grenade.originalGrenade = original_grenade;
 
 					original_grenade hide();
-					original_grenade _linkto(grenade);
+					original_grenade linkToOrigin(grenade);
 
 					wait 0.05;
 
@@ -167,7 +168,7 @@ watchWeaponUsage()
 	self endon("disconnect");
 	level endon ("game_ended");
 
-	for (;;)
+	while (true)
 	{
 		self waittill ("weapon_fired");
 
@@ -218,7 +219,7 @@ watchCurrentFiringForPortals()
 				{
 					self maps\mp\gametypes\_damagefeedback::updateDamageFeedback(false);
 					damage = calculateWeaponDamage(weapon, length, max_dmg_range);
-					trace["entity"] notify("damage", damage, self);
+					trace["entity"] eventDamage(self, self, damage);
 					return;
 				}
 			}
@@ -318,7 +319,7 @@ explosionRadiusDamageTurrets(pos, radius, max_dmg, min_dmg)
 		s = level.portal_turrets[i] sightconetrace(pos, players[0]);
 		damage = max_dmg * s * calculateDamageFraction(distance(pos, level.portal_turrets[i].center), radius * 0.25, radius, min_dmg / max_dmg);
 
-		level.portal_turrets[i] notify("damage", int(damage), self, "MOD_EXPLOSIVE");
+		level.portal_turrets[i] eventDamage(self, self, int(damage), 0, "MOD_EXPLOSIVE");
 	}
 }
 
@@ -388,7 +389,7 @@ damageEnt(eAttacker, iDamage, sMeansOfDeath, sWeapon, vPoint, vDir)
 			return true;
 	}
 	else
-		self notify("damage", iDamage, eAttacker, vDir, vPoint, sMeansOfDeath, "", "");
+		self eventDamage(self, eAttacker, iDamage, 0, sMeansOfDeath, "none", vPoint, vDir, "none");
 
 	return false;
 }
@@ -402,6 +403,6 @@ playerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vP
 	else
 		sMeansOfDeath = "MOD_RIFLE_BULLET";
 
-	self doPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
+	self eventDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
 	self maps\mp\gametypes\_shellshock::shellshockOnDamage(sMeansOfDeath, iDamage);
 }

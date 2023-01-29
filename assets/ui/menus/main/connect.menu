@@ -20,6 +20,11 @@
 		style			WINDOW_STYLE_EMPTY
 		legacySplitScreenScale
 
+		onClose
+		{
+			exec "setfromdvar temp sr_vote_search; setu sr_vote_search _; setfromdvar sr_vote_search temp";
+		}
+
 		itemDef
 		{
 			style			WINDOW_STYLE_SHADER

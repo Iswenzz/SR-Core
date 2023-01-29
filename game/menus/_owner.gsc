@@ -42,30 +42,30 @@ onConnect()
 
 menu_God(arg)
 {
-	self sr\sys\_admins::command("god");
+	self command("god");
 }
 
 menu_Redirect(arg)
 {
-	self sr\sys\_admins::command("redirect_all", arg);
+	self command("redirect_all", arg);
 }
 
 menu_Speed(arg)
 {
-	self sr\sys\_admins::command("g_speed", arg);
+	self command("g_speed", arg);
 }
 
 menu_Knockback(arg)
 {
-	self sr\sys\_admins::command("practise");
-	self sr\sys\_admins::command("knockback");
+	self command("practise");
+	self command("knockback");
 
 	self close();
 }
 
 menu_Portal(arg)
 {
-	self sr\sys\_admins::command("portal_mode");
+	self command("portal_mode");
 
 	self close();
 }
@@ -82,12 +82,12 @@ menu_Weapon(arg)
 
 menu_UAmmo(arg)
 {
-	self sr\sys\_admins::command("uammo");
+	self command("uammo");
 }
 
 menu_Damage(arg)
 {
-	self sr\sys\_admins::command("damage");
+	self command("damage");
 }
 
 menu_Message(arg)

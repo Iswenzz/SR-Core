@@ -40,7 +40,7 @@ race()
 		if (!canStart())
 			continue;
 
-		sr\sys\_admins::message("^3Race start in 10sec! ^7[^2!race^7]");
+		message("^3Race start in 10sec! ^7[^2!race^7]");
 		ForEachCall(level.minigames["race"].queue, ::cleanRaceHud);
 		ForEachThread(level.minigames["race"].queue, ::raceSpawn);
 		countdown();
@@ -53,11 +53,14 @@ race()
 
 onSpawn()
 {
+	self endon("spawned");
+	self endon("death");
+	self endon("disconnect");
+
 	if (!isInQueue("race"))
 		return;
 
-	self waittill("speedrun_hud");
-	self.run = "Race";
+	self waittill("speedrun");
 	self.huds["speedrun"]["name"] setText("^2Race");
 }
 
@@ -86,14 +89,14 @@ join()
 {
 	if (level.raceStarted)
 	{
-		sr\sys\_admins::pm("^3Race already started!");
+		pm("^3Race already started!");
 		return;
 	}
 	self addToQueue("race");
 	self addToScoreboard();
 	self.raceWon = 0;
 
-	sr\sys\_admins::message(fmt("%s ^7joined the race! [^2!race^7] [^1%d^7]", self.name, level.minigames["race"].queue.size));
+	message(fmt("%s ^7joined the race! [^2!race^7] [^1%d^7]", self.name, level.minigames["race"].queue.size));
 }
 
 leave()
@@ -104,7 +107,7 @@ leave()
 	self sr\game\_teams::setTeam("allies");
 	self.inRace = false;
 
-	self sr\sys\_admins::pm("You left the race!");
+	self pm("You left the race!");
 	self suicide();
 }
 
@@ -157,7 +160,7 @@ raceSpawn()
 
 	self sr\game\_teams::setTeam("axis");
 	self suicide();
-	self eventSpawnSync();
+	self eventSpawn(true);
 
 	self.inRace = true;
 	self.raceDead = false;
@@ -351,7 +354,7 @@ countdownStop()
 	level endon("race ended");
 
 	wait 5;
-	sr\sys\_admins::message("^3Race end in 30secs!");
+	message("^3Race end in 30secs!");
 
 	wait 30;
 	level notify("race ended");

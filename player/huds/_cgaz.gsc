@@ -12,6 +12,7 @@ main()
 
 hud()
 {
+	self endon("spawned");
 	self endon("death");
 	self endon("disconnect");
 

@@ -3,7 +3,7 @@
 
 main()
 {
-	event("spawn", ::onConnect);
+	event("connect", ::onConnect);
 
 	precacheHeadIcon("headicon_voice");
 	precacheShader("voice_on");
@@ -11,6 +11,7 @@ main()
 
 onConnect()
 {
+	self endon("connect");
 	self endon("disconnect");
 
 	while (true)

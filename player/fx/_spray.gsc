@@ -6,17 +6,16 @@ main()
 {
 	level.sprays = [];
 
-	event("spawn", ::spray);
+	event("spawn", ::onSpawn);
 
 	thread visuals();
 }
 
-spray()
+onSpawn()
 {
-	self endon("disconnect");
 	self endon("spawned");
-	self endon("joined_spectators");
 	self endon("death");
+	self endon("disconnect");
 
 	if (!level.dvar["sprays"])
 		return;

@@ -16,6 +16,7 @@ main()
 
 record()
 {
+	self endon("spawned");
 	self endon("death");
 	self endon("disconnect");
 
@@ -24,15 +25,15 @@ record()
 
 	thread recordTimeout();
 
-	self.demoPath = PathJoin(PATH_Mod("demos"), self.id, level.map, self.run);
-	exec(fmt("record %d %s", self getEntityNumber(), self.demoPath));
+	self.recordPath = PathJoin(PATH_Mod("demos"), self.id, level.map, self.run);
+	exec(fmt("record %d %s", self getEntityNumber(), self.recordPath));
 }
 
 recordTimeout()
 {
 	self endon("death");
 	self endon("disconnect");
-	self endon("record_done");
+	self endon("record");
 
 	wait 120;
 	recordDelete();
@@ -40,17 +41,17 @@ recordTimeout()
 
 recordSave()
 {
-	self.demoPath = undefined;
-	self notify("record_done");
+	self.recordPath = undefined;
+	self notify("record");
 	exec("stoprecord " + self GetEntityNumber());
 }
 
 recordDelete()
 {
-	if (!isDefined(self.demoPath))
+	if (!isDefined(self.recordPath))
 		return;
 
-	path = self.demoPath + ".dm_1";
+	path = self.recordPath + ".dm_1";
 	exec("stoprecord " + self GetEntityNumber());
 
 	wait 0.2;

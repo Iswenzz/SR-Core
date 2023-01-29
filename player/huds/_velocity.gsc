@@ -11,14 +11,12 @@ main()
 
 hud()
 {
+	self endon("spawned");
 	self endon("death");
 	self endon("disconnect");
-	self endon("joined_spectators");
 
     if (!self.settings["hud_velocity"])
         return;
-
-	wait 0.1;
 
 	self clear();
 	self hudVelocity();

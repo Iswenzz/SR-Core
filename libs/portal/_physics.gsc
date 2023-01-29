@@ -19,8 +19,6 @@ portalObjectCollisionTrace(start, end)
 		trace = trace(start, end, false, ignore_ents);
 		trace["hit"] = (trace["fraction"] != 1);
 	}
-	else
-		iprintln("hit pobject");
 	return trace;
 
 }
@@ -278,8 +276,8 @@ playerPortalObjectCollisionTrace(start, angles, distance)
 		if (lengthsquared((vec[0], vec[1], 0)) < exp(r + obj_r, 2) && abs(vec[2] - obj_r) < playerheight)
 		{
 			obj_r = self givecollisionradius(vec);
-			if (lengthsquared((vec[0], vec[1], 0)) < exp(r + obj_r, 2) && abs(vec[2] - obj_r) < playerheight)
-				iprintln("hit player");
+			// if (lengthsquared((vec[0], vec[1], 0)) < exp(r + obj_r, 2) && abs(vec[2] - obj_r) < playerheight)
+			// 	iprintln("hit player");
 		}
 	}
 

@@ -43,12 +43,7 @@ launch(origin, direction, strength)
 	self setVelocity(direction);
 }
 
-_linkto(ent)
-{
-	self thread _linkto_thread(ent);
-}
-
-_linkto_thread(ent)
+linkToOrigin(ent)
 {
 	self notify("unlink");
 	self endon("unlink");

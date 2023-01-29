@@ -140,7 +140,9 @@ cmd_DebugScriptUsage(args)
 
 cmd_Test(args)
 {
-	self command("bots", "1");
-	self command("killzone");
-	self command("cmd", "1 killzone");
+	// self command("bots", "1");
+	// self command("killzone");
+	// self command("cmd", "1 killzone");
+
+	self eventSpawn();
 }
