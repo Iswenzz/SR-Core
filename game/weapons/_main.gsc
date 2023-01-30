@@ -6,128 +6,154 @@ main()
 {
 	level.weapons = [];
 
-	event("connect", ::loop);
+	event("spawn", ::onSpawn);
 
-	addWeapon("player", "RPG", "bt_rpg_mp", 0.51, 1.05, "projectile_rpg7",
-		"muzzleflashes/at4_flash", "explosions/grenadeExp_default", "smoke/smoke_geotrail_rpg",
-		"weap_rpg_fire_plr", "weap_rpg_loop", "weap_rpg_loop", 200, 500, 140);
-
-	addWeapon("player", "FN RPG", "fn_rpg_mp", 0.51, 1.05, "projectile_rpg7",
-		"muzzleflashes/at4_flash", "explosions/grenadeExp_default", "smoke/smoke_geotrail_rpg",
-		"weap_rpg_fire_plr", "weap_rpg_loop", "weap_rpg_loop", 200, 1000, 140);
-
-	addWeapon("player", "Q3 Rocket", "gl_ak47_mp", 0, 0.8, "quake_rocket_projectile",
-		"muzzleflashes/m203_flshview", "explosions/grenadeExp_default", "q3/rocket_trail",
-		"weap_quake_rocket_shoot", "weap_quake_rocket_loop", "weap_quake_rocket_explode", 200, 500, 120);
-
-	addWeapon("owner", "Q3 Plasma", "gl_g3_mp", 0, 0.05, "tag_origin",
-		"muzzleflashes/mist_mk2_flashview", undefined, "q3/plasma_fire",
-		"weap_quake_plasma_shoot", undefined, "weap_quake_plasma_explode", 40, 30, 40);
+	addWeapon(::RPG);
+	addWeapon(::FortniteRPG);
+	addWeapon(::Q3Rocket);
+	addWeapon(::Q3Plasma);
 }
 
-addWeapon(admin, name, item, predelay, delay, model, muzzle, impact, trail,
-	sfx_shoot, sfx_trail, sfx_impact, damage, power, knockback_distance)
+RPG()
 {
-	index = level.weapons.size;
+	weapon["type"] = "Stock";
+	weapon["name"] = "RPG";
+	weapon["item"] = "bt_rpg_mp";
+	weapon["predelay"] = 0;
+	weapon["delay"] = 0;
+	weapon["projectile"] = "projectile_rpg7";
+	weapon["muzzle"] = loadFX("muzzleflashes/at4_flash");
+	weapon["impact"] = loadFX("explosions/grenadeExp_default");
+	weapon["trail"] = loadFX("smoke/smoke_geotrail_rpg");
+	weapon["sfx_fire"] = "weap_rpg_fire_plr";
+	weapon["sfx_trail"] = "weap_rpg_loop";
+	weapon["sfx_impact"] = "weap_rpg_loop";
+	weapon["damage"] = 200;
+	weapon["knockback"] = 500;
+	weapon["knockback_range"] = 140;
+	weapon["fire"] = ::fire;
 
-	level.weapons[index] = [];
-	level.weapons[index]["admin"] = admin;
-	level.weapons[index]["name"] = name;
-	level.weapons[index]["item"] = item;
-	level.weapons[index]["predelay"] = predelay;
-	level.weapons[index]["delay"] = delay;
-	level.weapons[index]["model"] = model;
-	level.weapons[index]["sfx_shoot"] = sfx_shoot;
-	level.weapons[index]["sfx_trail"] = sfx_trail;
-	level.weapons[index]["sfx_impact"] = sfx_impact;
-	level.weapons[index]["damage"] = damage;
-	level.weapons[index]["power"] = power;
-	level.weapons[index]["knockback_distance"] = knockback_distance;
-
-	if (isDefined(muzzle))
-		level.weapons[index]["muzzle"] = loadFx(muzzle);
-	if (isDefined(impact))
-		level.weapons[index]["impact"] = loadFx(impact);
-	if (isDefined(trail))
-		level.weapons[index]["trail"] = loadFx(trail);
-
-	precacheModel(model);
+	return weapon;
 }
 
-loop()
+FortniteRPG()
 {
-	self endon("connect");
+	weapon["type"] = "Stock";
+	weapon["name"] = "Fortnite RPG";
+	weapon["item"] = "fn_rpg_mp";
+	weapon["predelay"] = 0;
+	weapon["delay"] = 0;
+	weapon["projectile"] = "projectile_rpg7";
+	weapon["muzzle"] = loadFX("muzzleflashes/at4_flash");
+	weapon["impact"] = loadFX("explosions/grenadeExp_default");
+	weapon["trail"] = loadFX("smoke/smoke_geotrail_rpg");
+	weapon["sfx_fire"] = "weap_rpg_fire_plr";
+	weapon["sfx_trail"] = "weap_rpg_loop";
+	weapon["sfx_impact"] = "weap_rpg_loop";
+	weapon["damage"] = 200;
+	weapon["knockback"] = 500;
+	weapon["knockback_range"] = 140;
+	weapon["fire"] = ::fire;
+
+	return weapon;
+}
+
+Q3Rocket()
+{
+	weapon["type"] = "BT";
+	weapon["name"] = "Q3 Rocket";
+	weapon["item"] = "gl_ak47_mp";
+	weapon["predelay"] = 0;
+	weapon["delay"] = 0.8;
+	weapon["projectile"] = "quake_rocket_projectile";
+	weapon["muzzle"] = loadFX("muzzleflashes/m203_flshview");
+	weapon["impact"] = loadFX("explosions/grenadeExp_default");
+	weapon["trail"] = loadFX("q3/rocket_trail");
+	weapon["sfx_fire"] = "weap_quake_rocket_shoot";
+	weapon["sfx_trail"] = "weap_quake_rocket_loop";
+	weapon["sfx_impact"] = "weap_quake_rocket_explode";
+	weapon["damage"] = 200;
+	weapon["knockback"] = 500;
+	weapon["knockback_range"] = 120;
+	weapon["fire"] = ::fire;
+
+	return weapon;
+}
+
+Q3Plasma()
+{
+	weapon["type"] = "BT";
+	weapon["name"] = "Q3 Plasma";
+	weapon["item"] = "gl_g3_mp";
+	weapon["predelay"] = 0;
+	weapon["delay"] = 0.05;
+	weapon["projectile"] = "tag_origin";
+	weapon["muzzle"] = loadFX("muzzleflashes/mist_mk2_flashview");
+	weapon["impact"] = undefined;
+	weapon["trail"] = loadFX("q3/plasma_fire");
+	weapon["sfx_fire"] = "weap_quake_plasma_shoot";
+	weapon["sfx_trail"] = "weap_quake_plasma_loop";
+	weapon["sfx_impact"] = "weap_quake_plasma_explode";
+	weapon["damage"] = 40;
+	weapon["knockback"] = 30;
+	weapon["knockback_range"] = 40;
+	weapon["fire"] = ::fire;
+
+	return weapon;
+}
+
+addWeapon(callback)
+{
+	weapon = [[callback]]();
+
+	precacheModel(weapon["projectile"]);
+	level.weapons[level.weapons.size] = weapon;
+}
+
+onSpawn()
+{
+	self endon("spawned");
+	self endon("death");
 	self endon("disconnect");
-
-	self thread test();
-
-	wait 0.05;
 
 	while (true)
 	{
-		if (!self isReallyAlive() || !self hasWeaponBT())
+		if (!self isReallyAlive() || !self playerHasWeapon())
 		{
 			wait 0.05;
 			continue;
 		}
+		weapon = self getPlayerWeapon();
+
 		if (self attackButtonPressed() || self demoButton("fire"))
 		{
-			weapon = self getWeaponBT();
-			if (!isDefined(weapon))
-				continue;
-
-			self shoot(weapon);
+			if (self canFireWeapon(weapon))
+				self [[weapon["fire"]]](weapon);
 		}
 		wait 0.05;
 	}
 }
 
-test()
+fire(weapon)
 {
-	self endon("disconnect");
+	wait self firePreDelay(weapon);
 
-	while (true)
-	{
-		self waittill("weapon_fired");
-
-		self iPrintLnBold("fired");
-	}
-}
-
-shoot(weapon)
-{
-	wait weapon["predelay"];
-
-	bullet = spawnStruct();
-	bullet.weapon = weapon;
-	bullet.player = self;
-
-	eye = self eyepos();
+	eye = self eyePos();
 	forward = anglesToForward(self getPlayerAngles()) * 999999;
-	bullet.model = spawn("script_model", eye);
-	bullet.model setContents(0);
-	bullet.model setModel(weapon["model"]);
-
-	if (self isDefrag())
-	{
-		bullet.model hide();
-		bullet.model showToPlayer(self);
-	}
-
-	hitPlayers = !self isDefrag();
+	hitPlayers = self stockMode();
+	bullet = weapon createBullet(self);
 	trace = bulletTrace(eye, eye + forward, hitPlayers, self);
 
-	oldpos = trace["position"];
-	pos = oldpos;
+	pos = trace["position"];
 	normal = trace["normal"];
-	angles = vectortoangles(normal);
-	right = anglestoright(angles);
-	up = anglestoup(angles);
+	angles = vectorToAngles(normal);
+	right = anglesToRight(angles);
+	up = anglesToUp(angles);
 
 	trace["position"] = pos;
-	trace["fx_position"] = pos + normal * 1;
+	trace["fx_position"] = pos + normal;
 	trace["start_position"] = eye;
-	trace["old_position"] = oldpos;
+	trace["old_position"] = pos;
 	trace["angles"] = angles;
 	trace["up"] = up;
 	bullet.trace = trace;
@@ -135,27 +161,17 @@ shoot(weapon)
 	oldpos = trace["old_position"];
 	fxpos = trace["fx_position"];
 	p = trace["start_position"];
-	p += vectornormalize(oldpos - p) * 33;
+	p += vectorNormalize(oldpos - p) * 33;
 	speed = 1500;
 	time = length(fxpos - p) / speed * 1.5;
 
-	// Shoot
-	if (isDefined(weapon["sfx_shoot"]))
-		self playSoundToPlayer(weapon["sfx_shoot"], self);
-	if (isDefined(weapon["sfx_trail"]) && !self isDefrag())
-		bullet.model playLoopSound(weapon["sfx_trail"]);
-	bullet.model.angles = self getPlayerAngles();
+	if (isDefined(weapon["sfx_fire"]))
+		self playSoundToPlayer(weapon["sfx_fire"], self);
 	bullet thread trailFX();
-
-	// Impact
 	bullet.model moveTo(trace["position"], time);
 	bullet thread impact(time);
 
-	delay = weapon["delay"];
-	if (self sr\game\_perks::playerHasPerk("haste"))
-		delay /= 1.3;
-	if (delay >= 0.05)
-		wait delay;
+	wait self fireDelay(weapon);
 }
 
 impact(time)
@@ -166,17 +182,20 @@ impact(time)
 
 	wait time;
 
-	self.model stopLoopSound();
-	if (isDefined(self.weapon["sfx_impact"]))
-		self.model playSound(self.weapon["sfx_impact"]);
+	if (isDefined(self.model))
+	{
+		self.model.origin = self.trace["position"];
+		self.model.angles = self.trace["angles"];
+		self.model stopLoopSound();
+
+		if (isDefined(self.weapon["sfx_impact"]))
+			self.model playSound(self.weapon["sfx_impact"]);
+		if (isDefined(self.weapon["impact"]))
+			playFXOnTag(self.weapon["impact"], self.model, "tag_origin");
+	}
 
 	self thread damage();
-
-	self.model.angles = self.trace["angles"];
-	if (isDefined(self.weapon["impact"]))
-		playFXOnTag(self.weapon["impact"], self.model, "tag_origin");
-
-	wait 0.1;
+	wait 0.05;
 	self notify("impact");
 }
 
@@ -197,7 +216,11 @@ impactCleanup()
 
 damage()
 {
-	self.player doRadiusDamage(self.trace["position"], self.weapon["knockback_distance"], self.weapon["damage"]);
+	position = self.trace["position"];
+	range = self.weapon["knockback_range"];
+	damage = self.weapon["damage"];
+
+	self.player doRadiusDamage(position, range, damage);
 
 	if (self.player isDefrag())
 		self knockback();
@@ -206,17 +229,26 @@ damage()
 knockback()
 {
 	position = self.trace["position"];
+	range =  self.weapon["knockback_range"];
+	knockback = self.weapon["knockback"];
 	direction = self.player eyePos() - position;
-	n = distance(position, self.player.origin);
+	distance = int(distance(position, self.player.origin));
+	multiplier = 2;
 
-	if (int(n) > self.weapon["knockback_distance"])
+	if (distance > range)
 		return;
 
-	self.player bounce(position, direction, self.weapon["power"], 2);
+	self.player bounce(position, direction, knockback, multiplier);
 }
 
 trailFX()
 {
+	if (isDefined(self.model))
+	{
+		self.model.angles = self.player getPlayerAngles();
+		if (isDefined(self.weapon["sfx_trail"]) && self.player stockMode())
+			self.model playLoopSound(self.weapon["sfx_trail"]);
+	}
 	wait 0.05;
 
 	if (isDefined(self.model))
@@ -228,7 +260,7 @@ trailFX()
 	}
 }
 
-hasWeaponBT()
+playerHasWeapon()
 {
 	self endon("disconnect");
 
@@ -240,7 +272,12 @@ hasWeaponBT()
 	return false;
 }
 
-getWeaponBT()
+stockMode()
+{
+	return !(self.player isDefrag());
+}
+
+getPlayerWeapon()
 {
 	self endon("disconnect");
 
@@ -250,4 +287,67 @@ getWeaponBT()
 			return level.weapons[i];
 	}
 	return undefined;
+}
+
+isSameWeapon(weapon)
+{
+	current = self getPlayerWeapon();
+	return isDefined(current) && current["item"] == weapon["item"];
+}
+
+createBullet(player)
+{
+	bullet = spawnStruct();
+	bullet.weapon = self;
+	bullet.player = player;
+
+	if (isDefined(bullet.weapon["projectile"]))
+	{
+		bullet.model = spawn("script_model", player eyepos());
+		bullet.model setContents(0);
+		bullet.model setModel(bullet.weapon["projectile"]);
+
+		if (bullet.player isDefrag())
+		{
+			bullet.model hide();
+			bullet.model showToPlayer(player);
+		}
+	}
+	return bullet;
+}
+
+waitStockFireAnimation()
+{
+	self endon("spawned");
+	self endon("death");
+	self endon("disconnect");
+	self endon("weapon_change");
+	self waittill("weapon_fired");
+}
+
+fireDelay(weapon)
+{
+	delay = weapon["delay"];
+	if (self sr\game\_perks::playerHasPerk("haste"))
+		delay /= 1.3;
+	if (delay < 0.05 || isDefined(self.instantBullet))
+		delay = 0;
+	return delay;
+}
+
+firePreDelay(weapon)
+{
+	delay = weapon["predelay"];
+	if (isDefined(self.instantBullet))
+		delay = 0;
+	return delay;
+}
+
+canFireWeapon(weapon)
+{
+	if (weapon["type"] == "Stock")
+		waitStockFireAnimation();
+	if (!isDefined(weapon["fire"]))
+		return false;
+	return self isSameWeapon(weapon);
 }

@@ -5,6 +5,7 @@ main()
 {
 	cmd("masteradmin", 	"angles",			::cmd_Angles);
 	cmd("masteradmin", 	"bounce",			::cmd_Bounce);
+	cmd("owner", 		"bullet",			::cmd_Bullet);
 	cmd("owner", 		"clone",			::cmd_Clone);
 	cmd("owner", 		"damage",			::cmd_Damage);
 	cmd("vip", 			"dance",			::cmd_Dance);
@@ -176,6 +177,20 @@ cmd_Bounce(args)
 	player bounce(player.origin, vectorNormalize((0, 0, 20)), 800);
 }
 
+cmd_Bullet(args)
+{
+	if (isDefined(self.instantBullet))
+	{
+		self.instantBullet = undefined;
+		self pm("^1Instant bullets");
+	}
+	else
+	{
+		self.instantBullet = true;
+		self pm("^2Instant bullets");
+	}
+}
+
 cmd_Clone(args)
 {
 	if (!isDefined(self.clone))
@@ -187,6 +202,8 @@ cmd_Clone(args)
 cmd_Damage(args)
 {
 	self.teamKill = !self.teamKill;
+
+	self pm(Ternary(self.teamKill, "^2Damage enabled", "^1Damage disabled"));
 }
 
 cmd_Dance(args)

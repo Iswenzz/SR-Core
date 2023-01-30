@@ -14,7 +14,6 @@ main()
 	menuOption(main, "Message", 		::menu_Message);
 	menuOption(main, "God", 			::menu_God);
 	menuOption(main, "Epic Speed", 		::menu_Speed, "500");
-	menuOption(main, "Knockback", 		::menu_Knockback);
 	menuOption(main, "Portal", 			::menu_Portal);
 	menuOption(main, "Unlimited Ammo", 	::menu_UAmmo);
 	menuOption(main, "Damage", 			::menu_Damage);
@@ -53,14 +52,6 @@ menu_Redirect(arg)
 menu_Speed(arg)
 {
 	self command("g_speed", arg);
-}
-
-menu_Knockback(arg)
-{
-	self command("practise");
-	self command("knockback");
-
-	self close();
 }
 
 menu_Portal(arg)
