@@ -97,12 +97,20 @@ isBot()
 
 isDefrag()
 {
-	return self.sr_mode == "Defrag" || self sr\player\modes\_main::isInMode("defrag");
+	if (isDefined(self.sr_mode) && self.sr_mode == "Defrag")
+		return true;
+	if (self sr\player\modes\_main::isInMode("defrag"))
+		return true;
+	return false;
 }
 
 isPortal()
 {
-	return self.sr_mode == "Portal" || self sr\player\modes\_main::isInMode("portal");
+	if (isDefined(self.sr_mode) && self.sr_mode == "Portal")
+		return true;
+	if (self sr\player\modes\_main::isInMode("portal"))
+		return true;
+	return false;
 }
 
 respawn()
@@ -877,4 +885,19 @@ pm(msg)
 		exec(fmt("tell %d %s", self getEntityNumber(), msg));
 	else
 		comPrintLn(msg);
+}
+
+noop()
+{
+
+}
+
+noopTrue()
+{
+	return true;
+}
+
+noopFalse()
+{
+	return false;
 }

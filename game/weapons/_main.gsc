@@ -16,13 +16,13 @@ main()
 
 RPG()
 {
-	weapon["type"] = "Stock";
+	weapon["type"] = "stock";
 	weapon["name"] = "RPG";
 	weapon["item"] = "bt_rpg_mp";
 	weapon["predelay"] = 0;
 	weapon["delay"] = 0;
 	weapon["projectile"] = "projectile_rpg7";
-	weapon["muzzle"] = loadFX("muzzleflashes/at4_flash");
+	weapon["muzzle"] = loadFX("muzzleflashes/at4_flafireReleasesh");
 	weapon["impact"] = loadFX("explosions/grenadeExp_default");
 	weapon["trail"] = loadFX("smoke/smoke_geotrail_rpg");
 	weapon["sfx_fire"] = "weap_rpg_fire_plr";
@@ -32,13 +32,14 @@ RPG()
 	weapon["knockback"] = 500;
 	weapon["knockback_range"] = 140;
 	weapon["fire"] = ::fire;
+	weapon["fire_condition"] = ::canFireStockWeapon;
 
 	return weapon;
 }
 
 FortniteRPG()
 {
-	weapon["type"] = "Stock";
+	weapon["type"] = "stock";
 	weapon["name"] = "Fortnite RPG";
 	weapon["item"] = "fn_rpg_mp";
 	weapon["predelay"] = 0;
@@ -54,13 +55,14 @@ FortniteRPG()
 	weapon["knockback"] = 500;
 	weapon["knockback_range"] = 140;
 	weapon["fire"] = ::fire;
+	weapon["fire_condition"] = ::canFireStockWeapon;
 
 	return weapon;
 }
 
 Q3Rocket()
 {
-	weapon["type"] = "BT";
+	weapon["type"] = "script";
 	weapon["name"] = "Q3 Rocket";
 	weapon["item"] = "gl_ak47_mp";
 	weapon["predelay"] = 0;
@@ -76,13 +78,14 @@ Q3Rocket()
 	weapon["knockback"] = 500;
 	weapon["knockback_range"] = 120;
 	weapon["fire"] = ::fire;
+	weapon["fire_condition"] = ::canFireWeapon;
 
 	return weapon;
 }
 
 Q3Plasma()
 {
-	weapon["type"] = "BT";
+	weapon["type"] = "script";
 	weapon["name"] = "Q3 Plasma";
 	weapon["item"] = "gl_g3_mp";
 	weapon["predelay"] = 0;
@@ -98,6 +101,7 @@ Q3Plasma()
 	weapon["knockback"] = 30;
 	weapon["knockback_range"] = 40;
 	weapon["fire"] = ::fire;
+	weapon["fire_condition"] = ::canFireWeapon;
 
 	return weapon;
 }
@@ -106,7 +110,23 @@ addWeapon(callback)
 {
 	weapon = [[callback]]();
 
-	precacheModel(weapon["projectile"]);
+	weapon["type"] = IfUndef(weapon["type"], "stock");
+	weapon["item"] = IfUndef(weapon["item"], "undefined");
+	weapon["predelay"] = IfUndef(weapon["predelay"], 0);
+	weapon["delay"] = IfUndef(weapon["delay"], 0);
+	weapon["damage"] = IfUndef(weapon["damage"], 0);
+	weapon["knockback"] = IfUndef(weapon["knockback"], 0);
+	weapon["knockback_range"] = IfUndef(weapon["knockback_range"], 0);
+	weapon["fire_condition"] = IfUndef(weapon["fire_condition"], ::noopFalse);
+	weapon["ads_condition"] = IfUndef(weapon["ads_condition"], ::noopFalse);
+	weapon["melee_condition"] = IfUndef(weapon["melee_condition"], ::noopFalse);
+	weapon["frag_condition"] = IfUndef(weapon["frag_condition"], ::noopFalse);
+	weapon["use_condition"] = IfUndef(weapon["use_condition"], ::noopFalse);
+	weapon["frame"] = IfUndef(weapon["frame"], ::noop);
+
+	if (isDefined(weapon["projectile"]))
+		precacheModel(weapon["projectile"]);
+
 	level.weapons[level.weapons.size] = weapon;
 }
 
@@ -123,19 +143,17 @@ onSpawn()
 			wait 0.05;
 			continue;
 		}
-		weapon = self getPlayerWeapon();
+		self.scriptedWeapon = self getPlayerWeapon();
 
-		if (self attackButtonPressed() || self demoButton("fire"))
-		{
-			if (self canFireWeapon(weapon))
-				self [[weapon["fire"]]](weapon);
-		}
+		if (self [[self.scriptedWeapon["fire_condition"]]]())
+			self [[self.scriptedWeapon["fire"]]]();
 		wait 0.05;
 	}
 }
 
-fire(weapon)
+fire()
 {
+	weapon = self.scriptedWeapon;
 	wait self firePreDelay(weapon);
 
 	eye = self eyePos();
@@ -289,10 +307,12 @@ getPlayerWeapon()
 	return undefined;
 }
 
-isSameWeapon(weapon)
+isSameWeapon()
 {
+	weapon = self.scriptedWeapon;
 	current = self getPlayerWeapon();
-	return isDefined(current) && current["item"] == weapon["item"];
+
+	return isDefined(weapon) && isDefined(current) && current["item"] == weapon["item"];
 }
 
 createBullet(player)
@@ -343,11 +363,17 @@ firePreDelay(weapon)
 	return delay;
 }
 
-canFireWeapon(weapon)
+canFireStockWeapon()
 {
-	if (weapon["type"] == "Stock")
-		waitStockFireAnimation();
-	if (!isDefined(weapon["fire"]))
+	waitStockFireAnimation();
+	return self canFireWeapon();
+}
+
+canFireWeapon()
+{
+	if (!isDefined(self.scriptedWeapon["fire"]))
 		return false;
-	return self isSameWeapon(weapon);
+	if (!self attackButtonPressed() && !self demoButton("fire"))
+		return false;
+	return self isSameWeapon();
 }

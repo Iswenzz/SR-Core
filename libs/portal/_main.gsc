@@ -32,8 +32,6 @@ onConnect()
 	self endon("connect");
 	self endon("disconnect");
 
-	wait 0.05;
-
 	self.portals = [];
 	self.portal = [];
 	self.turrets = [];
