@@ -6,6 +6,7 @@ initMusics()
 {
 	level.music_sequence = [];
 	level.music_sequence_ents = [];
+
 	precache();
 
 	add("end_map1", "moment", 56, sr\game\music\_moment::sequence);
@@ -24,10 +25,10 @@ initMusics()
 
 precache()
 {
-	level.fx["blue_particles"] = loadFX("deathrun/blue_particles");
-	level.fx["thunder"] = loadFX("weather/lightning_mp_farm");
-	level.fx["rain"] = loadFX("weather/rain_mp_farm");
-	level.fx["snow"] = loadFX("weather/snow_light_mp_bloc");
+	level.gfx["blue_particles"] = loadFX("deathrun/blue_particles");
+	level.gfx["thunder"] = loadFX("weather/lightning_mp_farm");
+	level.gfx["rain"] = loadFX("weather/rain_mp_farm");
+	level.gfx["snow"] = loadFX("weather/snow_light_mp_bloc");
 }
 
 add(alias, name, time, sequence)

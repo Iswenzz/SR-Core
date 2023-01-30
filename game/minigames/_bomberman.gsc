@@ -192,7 +192,7 @@ spawnBomb()
 	wait 3;
 
 	bomb bombRadius();
-	playFX(level.fx["explosion"], bomb.origin);
+	playFX(level.gfx["explosion"], bomb.origin);
 	bomb.model delete();
 
 	self.bombs++;

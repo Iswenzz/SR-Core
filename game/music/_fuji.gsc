@@ -14,7 +14,7 @@ sequence(animation)
 	while (true)
 	{
 		for (i = 0; i < 10; i++)
-			addFX(level.fx["blue_particles"], level.spawn["spectator"].origin);
+			addFX(level.gfx["blue_particles"], level.spawn["spectator"].origin);
 		wait 10;
 	}
 }

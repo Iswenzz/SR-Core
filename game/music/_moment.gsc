@@ -7,5 +7,5 @@ sequence(animation)
 
 	setExpFog(200, 500, 0, 0, 0, 0);
 
-	addFX(level.fx["snow"], level.spawn["spectator"].origin);
+	addFX(level.gfx["snow"], level.spawn["spectator"].origin);
 }

@@ -17,7 +17,7 @@ redlaserSpawn(start, angles)
 	if (distancesquared(start, end) > (maxdist * maxdist))
 		return;
 
-	self.laser = spawnfx(level.fx["redlaser"], start, forward);
+	self.laser = spawnfx(level.gfx["redlaser"], start, forward);
 	triggerfx(self.laser, -100);
 
 	self.nextlaser = spawnstruct();

@@ -9,29 +9,29 @@ effect(trigger, fx)
 	{
 		case "red":
 		case "endtrig":
-			fx = level.fx["endtrigcircle_fx"];
+			fx = level.gfx["endtrigcircle_fx"];
 			break;
 		case "blue":
 		case "secret":
-			fx = level.fx["secrettrigcircle_fx"];
+			fx = level.gfx["secrettrigcircle_fx"];
 			break;
 		case "yellow":
-			fx = level.fx["yellow_fx"];
+			fx = level.gfx["yellow_fx"];
 			break;
 		case "darkred":
-			fx = level.fx["red_fx"];
+			fx = level.gfx["red_fx"];
 			break;
 		case "purple":
-			fx = level.fx["purple_fx"];
+			fx = level.gfx["purple_fx"];
 			break;
 		case "orange":
-			fx = level.fx["orange_fx"];
+			fx = level.gfx["orange_fx"];
 			break;
 		case "green":
-			fx = level.fx["green_fx"];
+			fx = level.gfx["green_fx"];
 			break;
 		case "cyan":
-			fx = level.fx["cyan_fx"];
+			fx = level.gfx["cyan_fx"];
 			break;
 		default:
 			fx = undefined;

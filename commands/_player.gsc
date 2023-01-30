@@ -510,8 +510,8 @@ trooper()
 
 	while (true)
 	{
-		playFxOnTag(level.fx["jetpack"], self, "tag_jetpack_l");
-		playFxOnTag(level.fx["jetpack"], self, "tag_jetpack_r");
+		playFxOnTag(level.gfx["jetpack"], self, "tag_jetpack_l");
+		playFxOnTag(level.gfx["jetpack"], self, "tag_jetpack_r");
 		wait 3;
 	}
 }

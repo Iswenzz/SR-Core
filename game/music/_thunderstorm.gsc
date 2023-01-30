@@ -7,10 +7,10 @@ sequence(animation)
 	time = 0;
 
 	setExpFog(200, 500, 0, 0.04, 0.1, 0);
-	addFX(level.fx["rain"], level.spawn["spectator"].origin);
+	addFX(level.gfx["rain"], level.spawn["spectator"].origin);
 
 	time = timeline(time, 10.9);
 
 	for (i = 0; i < 30; i++)
-		addFX(level.fx["thunder"], level.spawn["spectator"].origin);
+		addFX(level.gfx["thunder"], level.spawn["spectator"].origin);
 }

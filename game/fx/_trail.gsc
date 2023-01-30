@@ -18,5 +18,5 @@ onSpawn()
 	if (!self sr\sys\_admins::isVIP() || !isDefined(self.vip_trail) || self.vip_trail < 1)
 		return;
 
-	playFXOnTag(level.fx["viptrail" + self.vip_trail], self, "tag_origin");
+	playFXOnTag(level.gfx["viptrail" + self.vip_trail], self, "tag_origin");
 }

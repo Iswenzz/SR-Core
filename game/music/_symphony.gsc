@@ -7,5 +7,5 @@ sequence(animation)
 
 	setExpFog(700, 500, 0, 0.1, 0, 0);
 
-	addFX(level.fx["endgame"], level.spawn["spectator"].origin);
+	addFX(level.gfx["endgame"], level.spawn["spectator"].origin);
 }

@@ -20,12 +20,12 @@ precache()
 	preCacheModel("turret_wing0_broken");
 	preCacheModel("turret_wing1_broken");
 
-	level.fx["turret_flash"] = loadfx("portal/turret_flash");
-	level.fx["turret_light_flash"] = loadfx("portal/turret_light_flash");
-	level.fx["turret_explode"] = loadfx("portal/turret_explosion");
-	level.fx["turret_sparks_pop"] = loadfx("portal/turret_sparks_pop");
-	level.fx["turret_sparks"] = loadfx("portal/turret_sparks");
-	level.fx["turret_cookoff"] = loadfx("portal/turret_cookoff");
+	level.gfx["turret_flash"] = loadfx("portal/turret_flash");
+	level.gfx["turret_light_flash"] = loadfx("portal/turret_light_flash");
+	level.gfx["turret_explode"] = loadfx("portal/turret_explosion");
+	level.gfx["turret_sparks_pop"] = loadfx("portal/turret_sparks_pop");
+	level.gfx["turret_sparks"] = loadfx("portal/turret_sparks");
+	level.gfx["turret_cookoff"] = loadfx("portal/turret_cookoff");
 
 	level.turret_killed_player_this_frame = false;
 }
@@ -210,7 +210,7 @@ damageListener(turret)
 				if (randomint(2))
 					turret thread shoutHurt();
 				if (!randomint(15))
-					playfx(level.fx["turret_sparks"], turret gettagorigin("tag_wing" + randomint(2)));
+					playfx(level.gfx["turret_sparks"], turret gettagorigin("tag_wing" + randomint(2)));
 			}
 			if (turret.active)
 			{
@@ -274,7 +274,7 @@ explode(meansofdeath)
 
 	self notify("destroyed");
 	self playsound("turret_ignite");
-	playfx(level.fx["turret_explode"], self.center);
+	playfx(level.gfx["turret_explode"], self.center);
 
 	wait 0.05;
 
@@ -294,14 +294,14 @@ explode(meansofdeath)
 		{
 			wait randomfloat(1.5);
 			self playsound("turret_sparks");
-			playfx(level.fx["turret_sparks_pop"], self gettagorigin("tag_wing0"));
-			playfx(level.fx["turret_sparks_pop"], self gettagorigin("tag_wing1"));
+			playfx(level.gfx["turret_sparks_pop"], self gettagorigin("tag_wing0"));
+			playfx(level.gfx["turret_sparks_pop"], self gettagorigin("tag_wing1"));
 		}
 		else
 		{
 			wait 0.05;
 			self playsound("turret_cookoff");
-			playfx(level.fx["turret_cookoff"], self.center);
+			playfx(level.gfx["turret_cookoff"], self.center);
 			wait 0.1;
 			self playsound("turret_sparks");
 		}
@@ -558,11 +558,11 @@ loopShoot(player)
 			for (i = 0; i < 2; i++)
 			{
 				pos = self.wings[n] gettagorigin("tag_flash" + i);
-				playfx(level.fx["turret_flash"], pos, dir + (vectorRandom(2) / 1000));
+				playfx(level.gfx["turret_flash"], pos, dir + (vectorRandom(2) / 1000));
 			}
 		}
 		self playSound("turret_fire");
-		playfx(level.fx["turret_light_flash"], self.eyepos);
+		playfx(level.gfx["turret_light_flash"], self.eyepos);
 
 		trace = trace(self.eyepos, self.eyepos + dir*self.maxdist, true, self.physics["ignore_ents"]);
 		killed_ent = false;

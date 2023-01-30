@@ -79,7 +79,7 @@ visualLoop(model)
 
 	level.defragVisuals[level.defragVisuals.size] = self.preview;
 	wait 0.05;
-	playLoopedFX(level.fx["pickup"], 3, self.preview.origin  - (0, 0, 30));
+	playLoopedFX(level.gfx["pickup"], 3, self.preview.origin  - (0, 0, 30));
 
 	while (true)
 	{

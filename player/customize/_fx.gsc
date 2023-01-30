@@ -70,7 +70,7 @@ pick(id)
 		self.customize_fx setmodel("tag_origin");
 		wait 0.05;
 
-		PlayFXOnTag(level.fx["viptrail" + self.vip_trail], self.customize_fx, "tag_origin");
+		PlayFXOnTag(level.gfx["viptrail" + self.vip_trail], self.customize_fx, "tag_origin");
 		self thread movePreview(self.customize_fx);
 	}
 }

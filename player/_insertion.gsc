@@ -61,7 +61,7 @@ flareFx()
 
 	while (isDefined(self))
 	{
-		playFxOnTag(level.fx["startnstop"], self, "tag_fx");
+		playFxOnTag(level.gfx["startnstop"], self, "tag_fx");
 		wait 0.2;
 	}
 }

@@ -145,7 +145,7 @@ bullet(color)
 
 	wait 0.05;
 
-	playFXOnTag(level.fx["portalball" + color], bullet, "collision_sphere");
+	playFXOnTag(level.gfx["portalball" + color], bullet, "collision_sphere");
 
 	f = anglestoforward(angles);
 	u = anglestoup(angles);
@@ -153,7 +153,7 @@ bullet(color)
 
 	bullet moveCurve(eye + f * 22 + u * -6 + r, oldpos, trace["position"], t);
 
-	playFX(level.fx[color + "portal_fail"], trace["position"] + trace["normal"]);
+	playFX(level.gfx[color + "portal_fail"], trace["position"] + trace["normal"]);
 	self doRadiusDamage(oldpos, 80, 30, 10);
 }
 
@@ -397,7 +397,7 @@ portal(color)
 		if (trace["fraction"] != 1)
 		{
 			self playSoundOnPosition("portal_invalid_surface", trace["position"], true);
-			playfx(level.fx[color + "portal_fail"], trace["position"] + trace["normal"]);
+			playfx(level.gfx[color + "portal_fail"], trace["position"] + trace["normal"]);
 		}
 	}
 }
@@ -427,7 +427,7 @@ portalDeleteFX(color)
 {
 	fx = self.close;
 	if (isDefined(fx))
-		playFXOnTag(level.fx[color + "portal_close"], fx, "tag_origin");
+		playFXOnTag(level.gfx[color + "portal_close"], fx, "tag_origin");
 
 	wait 0.3;
 	if (isDefined(fx))
@@ -495,7 +495,7 @@ portalFX()
 	if (t > 0.5)
 		t = 0.5;
 
-	playFXOnTag(level.fx["portalball" + self.color], self.bullet, "collision_sphere");
+	playFXOnTag(level.gfx["portalball" + self.color], self.bullet, "collision_sphere");
 
 	angles = self.owner getplayerangles();
 
@@ -511,7 +511,7 @@ portalFX()
 
 	wait 0.05;
 
-	playFXOnTag(level.fx[self.color + "portal_open"], self, "tag_origin");
+	playFXOnTag(level.gfx[self.color + "portal_open"], self, "tag_origin");
 }
 
 playOpenSound(color, soundPos)

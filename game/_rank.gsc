@@ -165,6 +165,7 @@ onConnect()
 	{
 		self getBotRank();
 		self setLoading("rank", false);
+		self setRank(self.pers["rank"], int(self.pers["prestige"]));
 		return;
 	}
 	if (self isFirstConnection())
@@ -271,7 +272,7 @@ saveRank(xp, rank, prestige)
 getBotRank()
 {
 	self.pers["rankxp"] = 0;
-	self.pers["rank"] = 0;
+	self.pers["rank"] = 1;
 	self.pers["prestige"] = 0;
 }
 

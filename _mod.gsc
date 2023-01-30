@@ -79,7 +79,7 @@ precache()
 {
 	level.assets = [];
 	level.texts = [];
-	level.fx = [];
+	level.gfx = [];
 
 	precacheItem("shop_mp");
 	precacheItem("vip_mp");
@@ -145,31 +145,31 @@ precacheText()
 
 precacheFx()
 {
-	level.fx["pickup"]					= loadfx("misc/ui_pickup_available");
-	level.fx["lasershow"] 				= loadFx("deathrun/lasershow");
-	level.fx["endgame"] 				= loadFx("deathrun/endgame_fx");
-	level.fx["light_blink"] 			= loadFx("misc/light_c4_blink");
-	level.fx["endtrig_fx"] 				= loadFx("deathrun/endtrig_fx");
-	level.fx["endtrigcircle_fx"] 		= loadFx("deathrun/endtrigcircle_fx");
-	level.fx["secrettrig_fx"] 			= loadFx("deathrun/secrettrig_fx");
-	level.fx["yellow_fx"] 				= loadFx("deathrun/yellow_fx");
-	level.fx["red_fx"] 					= loadFx("deathrun/red_fx");
-	level.fx["purple_fx"] 				= loadFx("deathrun/purple_fx");
-	level.fx["orange_fx"] 				= loadFx("deathrun/orange_fx");
-	level.fx["green_fx"] 				= loadFx("deathrun/green_fx");
-	level.fx["cyan_fx"] 				= loadFx("deathrun/cyan_fx");
-	level.fx["secrettrigcircle_fx"] 	= loadFx("deathrun/secrettrigcircle_fx");
-	level.fx["wr_event"] 				= loadFx("deathrun/wr_fx");
-	level.fx["viptrail1"] 				= loadFx("deathrun/vip_trail1");
-	level.fx["viptrail2"] 				= loadFx("deathrun/vip_trail2");
-	level.fx["viptrail3"] 				= loadFx("deathrun/vip_trail3");
-	level.fx["viptrail4"] 				= loadFx("deathrun/vip_trail4");
-	level.fx["viptrail5"] 				= loadFx("deathrun/vip_trail5");
-	level.fx["startnstop"] 				= loadFx("deathrun/flare_startnstop");
-	level.fx["jetpack"] 				= loadFx("smoke/jetpack");
-	level.fx["meteor"] 					= loadFx("fire/tank_fire_engine");
-	level.fx["explosion"] 				= loadfx("explosions/grenadeExp_default");
-	level.fx["flame"] 					= loadfx("fire/tank_fire_engine");
+	level.gfx["pickup"]					= loadfx("misc/ui_pickup_available");
+	level.gfx["lasershow"] 				= loadFx("deathrun/lasershow");
+	level.gfx["endgame"] 				= loadFx("deathrun/endgame_fx");
+	level.gfx["light_blink"] 			= loadFx("misc/light_c4_blink");
+	level.gfx["endtrig_fx"] 				= loadFx("deathrun/endtrig_fx");
+	level.gfx["endtrigcircle_fx"] 		= loadFx("deathrun/endtrigcircle_fx");
+	level.gfx["secrettrig_fx"] 			= loadFx("deathrun/secrettrig_fx");
+	level.gfx["yellow_fx"] 				= loadFx("deathrun/yellow_fx");
+	level.gfx["red_fx"] 					= loadFx("deathrun/red_fx");
+	level.gfx["purple_fx"] 				= loadFx("deathrun/purple_fx");
+	level.gfx["orange_fx"] 				= loadFx("deathrun/orange_fx");
+	level.gfx["green_fx"] 				= loadFx("deathrun/green_fx");
+	level.gfx["cyan_fx"] 				= loadFx("deathrun/cyan_fx");
+	level.gfx["secrettrigcircle_fx"] 	= loadFx("deathrun/secrettrigcircle_fx");
+	level.gfx["wr_event"] 				= loadFx("deathrun/wr_fx");
+	level.gfx["viptrail1"] 				= loadFx("deathrun/vip_trail1");
+	level.gfx["viptrail2"] 				= loadFx("deathrun/vip_trail2");
+	level.gfx["viptrail3"] 				= loadFx("deathrun/vip_trail3");
+	level.gfx["viptrail4"] 				= loadFx("deathrun/vip_trail4");
+	level.gfx["viptrail5"] 				= loadFx("deathrun/vip_trail5");
+	level.gfx["startnstop"] 				= loadFx("deathrun/flare_startnstop");
+	level.gfx["jetpack"] 				= loadFx("smoke/jetpack");
+	level.gfx["meteor"] 					= loadFx("fire/tank_fire_engine");
+	level.gfx["explosion"] 				= loadfx("explosions/grenadeExp_default");
+	level.gfx["flame"] 					= loadfx("fire/tank_fire_engine");
 
 	visionSetNaked(toLower(level.map), 0);
 }
