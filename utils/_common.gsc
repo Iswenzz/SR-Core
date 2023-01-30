@@ -687,9 +687,6 @@ ragdoll(sHitLoc, vDir, sWeapon, eInflictor, sMeansOfDeath, deathAnimDuration)
 	body hide();
 	body.targetname = "ragdoll";
 
-	if (!isDefined(body))
-		return;
-
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
@@ -706,6 +703,9 @@ ragdoll(sHitLoc, vDir, sWeapon, eInflictor, sMeansOfDeath, deathAnimDuration)
 			return;
 	}
 	wait 0.2;
+
+	if (!isDefined(body))
+		return;
 
 	if (!isDefined(vDir))
 		vDir = (0, 0, 0);

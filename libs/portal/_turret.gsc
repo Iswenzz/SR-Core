@@ -192,7 +192,7 @@ damageListener(turret)
 
 	while (true)
 	{
-		self waittill("damage", damage, player, this, nthat , meansofdeath);
+		self waittill("damage", damage, player, this, nthat, meansofdeath);
 
 		if (!isDefined(meansofdeath))
 			meansofdeath = "";

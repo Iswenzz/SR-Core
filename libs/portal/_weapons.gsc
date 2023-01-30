@@ -219,7 +219,7 @@ watchCurrentFiringForPortals()
 				{
 					self maps\mp\gametypes\_damagefeedback::updateDamageFeedback(false);
 					damage = calculateWeaponDamage(weapon, length, max_dmg_range);
-					trace["entity"] eventDamage(self, self, damage);
+					trace["entity"] notify("damage", damage, self);
 					return;
 				}
 			}
@@ -318,8 +318,7 @@ explosionRadiusDamageTurrets(pos, radius, max_dmg, min_dmg)
 
 		s = level.portal_turrets[i] sightconetrace(pos, players[0]);
 		damage = max_dmg * s * calculateDamageFraction(distance(pos, level.portal_turrets[i].center), radius * 0.25, radius, min_dmg / max_dmg);
-
-		level.portal_turrets[i] eventDamage(self, self, int(damage), 0, "MOD_EXPLOSIVE");
+		level.portal_turrets[i] notify("damage", int(damage), self, "MOD_EXPLOSIVE");
 	}
 }
 
@@ -362,7 +361,6 @@ explosionRadiusDamage(pos, radius, max_dmg, min_dmg, ignore_ents)
 
 damageEnt(eAttacker, iDamage, sMeansOfDeath, sWeapon, vPoint, vDir)
 {
-
 	if (!isDefined(self))
 		return;
 
@@ -374,7 +372,7 @@ damageEnt(eAttacker, iDamage, sMeansOfDeath, sWeapon, vPoint, vDir)
 	if (isplayer(eAttacker) && ((isDefined(self.teamKill) && self.teamKill) || isplayer(self)))
 		eAttacker maps\mp\gametypes\_damagefeedback::updateDamageFeedback(false);
 
-	if (isplayer(self))
+	if (isPlayer(self))
 	{
 		shitloc = "body";
 		if (distancesquared(self eyepos(), vPoint) < 16 * 16 && sMeansofDeath != "MOD_EXPLOSIVE" && sMeansofDeath != "MOD_GRENADE")
@@ -389,7 +387,7 @@ damageEnt(eAttacker, iDamage, sMeansOfDeath, sWeapon, vPoint, vDir)
 			return true;
 	}
 	else
-		self eventDamage(self, eAttacker, iDamage, 0, sMeansOfDeath, "none", vPoint, vDir, "none");
+		self notify("damage", iDamage, eAttacker, vDir, vPoint, sMeansOfDeath, "", "");
 
 	return false;
 }
