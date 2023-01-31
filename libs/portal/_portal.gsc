@@ -1,5 +1,4 @@
 #include sr\utils\_math;
-#include sr\libs\portal\_hud;
 
 isInPortal(x, y, rx_add, ry_add)
 {
@@ -107,4 +106,9 @@ setTriggerUse()
 			wait 0.1;
 		}
 	}
+}
+
+othercolor(color)
+{
+	return Ternary(color == "red", "blue", "red");
 }

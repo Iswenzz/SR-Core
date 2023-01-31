@@ -19,7 +19,7 @@ RPG()
 	weapon["type"] = "stock";
 	weapon["name"] = "RPG";
 	weapon["item"] = "bt_rpg_mp";
-	weapon["predelay"] = 0;
+	weapon["predelay"] = 0.55;
 	weapon["delay"] = 0;
 	weapon["projectile"] = "projectile_rpg7";
 	weapon["muzzle"] = loadFX("muzzleflashes/at4_flash");
@@ -32,7 +32,7 @@ RPG()
 	weapon["knockback"] = 500;
 	weapon["knockback_range"] = 140;
 	weapon["fire"] = ::fire;
-	weapon["fire_condition"] = ::canFireStockWeapon;
+	weapon["fire_condition"] = ::canFireWeapon;
 
 	return weapon;
 }
@@ -42,7 +42,7 @@ FortniteRPG()
 	weapon["type"] = "stock";
 	weapon["name"] = "Fortnite RPG";
 	weapon["item"] = "fn_rpg_mp";
-	weapon["predelay"] = 0;
+	weapon["predelay"] = 0.55;
 	weapon["delay"] = 0;
 	weapon["projectile"] = "projectile_rpg7";
 	weapon["muzzle"] = loadFX("muzzleflashes/at4_flash");
@@ -55,7 +55,7 @@ FortniteRPG()
 	weapon["knockback"] = 500;
 	weapon["knockback_range"] = 140;
 	weapon["fire"] = ::fire;
-	weapon["fire_condition"] = ::canFireStockWeapon;
+	weapon["fire_condition"] = ::canFireWeapon;
 
 	return weapon;
 }
@@ -234,6 +234,9 @@ impactCleanup()
 
 damage()
 {
+	self.player endon("disconnect");
+	self.player endon("death");
+
 	position = self.trace["position"];
 	range = self.weapon["knockback_range"];
 	damage = self.weapon["damage"];
@@ -336,37 +339,55 @@ createBullet(player)
 	return bullet;
 }
 
-waitStockFireAnimation()
+waitStockFireTimeout(timeout)
 {
 	self endon("spawned");
 	self endon("death");
 	self endon("disconnect");
 	self endon("weapon_change");
+	self endon("weapon_fired");
+
+	wait timeout;
+
+	self notify("weapon_fired");
+}
+
+waitStockFireAnimation(timeout)
+{
+	self thread waitStockFireTimeout(timeout);
+
+	self endon("spawned");
+	self endon("death");
+	self endon("disconnect");
+	self endon("weapon_change");
+
 	self waittill("weapon_fired");
 }
 
 fireDelay(weapon)
 {
+	if (isDefined(self.instantBullet))
+		return 0;
+
 	delay = weapon["delay"];
 	if (self sr\game\_perks::playerHasPerk("haste"))
 		delay /= 1.3;
-	if (delay < 0.05 || isDefined(self.instantBullet))
+	if (delay < 0.05)
 		delay = 0;
 	return delay;
 }
 
 firePreDelay(weapon)
 {
-	delay = weapon["predelay"];
 	if (isDefined(self.instantBullet))
+		return 0;
+
+	delay = weapon["predelay"];
+	if (weapon["type"] == "stock")
+		self waitStockFireAnimation(delay);
+	if (delay < 0.05)
 		delay = 0;
 	return delay;
-}
-
-canFireStockWeapon()
-{
-	waitStockFireAnimation();
-	return self canFireWeapon();
 }
 
 canFireWeapon()

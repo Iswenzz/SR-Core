@@ -1,5 +1,4 @@
 #include sr\libs\portal\_general;
-#include sr\libs\portal\_hud;
 #include sr\libs\portal\_portal;
 #include sr\utils\_common;
 #include sr\utils\_math;
@@ -27,6 +26,7 @@ main()
 onReset()
 {
 	self resetPortals();
+	self cleanHud();
 }
 
 onSpawn()
@@ -73,6 +73,34 @@ onSpawn()
 	}
 }
 
+updateHud()
+{
+	shader = "reticle_portal";
+	if (self.portal["blue_exist"] && self.portal["red_exist"])
+		shader = "reticle_portal_both";
+	else if (self.portal["blue_exist"])
+		shader = "reticle_portal_blue";
+	else if (self.portal["red_exist"])
+		shader = "reticle_portal_red";
+
+	if (!isDefined(self.portal["hud"]))
+		self.portal["hud"] = newClientHudElem(self);
+
+	self.portal["hud"] setShader(shader, 64, 64);
+	self.portal["hud"].AlignX = "center";
+	self.portal["hud"].AlignY = "middle";
+	self.portal["hud"].horzAlign = "center_safearea";
+	self.portal["hud"].vertAlign = "center_safearea";
+	self.portal["hud"].alpha = 1;
+}
+
+cleanHud()
+{
+	if (isDefined(self.portal["hud"]))
+		self.portal["hud"] destroy();
+	self.portal["hud"] = undefined;
+}
+
 resetPortals()
 {
 	self notify("Deactivate_Portals");
@@ -83,7 +111,7 @@ resetPortals()
 	self thread portalDelete("blue");
 	self thread portalDelete("red");
 
-	self thread updateHud();
+	self updateHud();
 }
 
 stopAll(delete_portals, disconnected)
