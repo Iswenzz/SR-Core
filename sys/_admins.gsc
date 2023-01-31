@@ -134,6 +134,8 @@ connection()
 	self.admin_vip = IfUndef(level.vips[self.id], 0);
 	self setStat(2000, self.admin_vip);
 	self setPersistence("vip", self.admin_vip);
+
+	self welcome();
 }
 
 cmd(role, name, callback)
@@ -243,6 +245,14 @@ banned()
 
 	// Use this instead of kick() to get the ui_sr_info menu
 	exec(fmt("kick %d banned", self getEntityNumber()));
+}
+
+welcome()
+{
+	role = self sr\sys\_admins::getRoleName();
+	geo = self getGeoLocation(2);
+
+	message(fmt("^2Welcome ^7%s ^7%s ^7from ^1%s", role, self.name, geo));
 }
 
 log()

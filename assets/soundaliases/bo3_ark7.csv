@@ -3,10 +3,8 @@ name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max
 #KN-44,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
 weap_arak_fire_plr,,weapons/arak/arak_fire.wav,0.9,1,max,1,1,5000,,local,,,,0.85,,,,,weapon2,,,,
-
 fly_arak_mag_out,,weapons/arak/fly_arak_mag_out_00.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
 fly_arak_mag_in,,weapons/arak/fly_arak_mag_in_00.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
 fly_arak_bolt_back,,weapons/arak/fly_arak_bolt_back_00.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
 fly_arak_bolt_release,,weapons/arak/fly_arak_bolt_forward_00.wav,1,1,wpnplyr,1,1,7,500,reload2d,,,,0.85,,,,,weapon2,
-
 weap_bo2_ar_fire_silenced_plr,,weps/bo2_ar_sounds/silenced/wpn_m27_sil_shot_plr.wav,0.9,1,max,1,1,5000,,local,,,,0.85,,,,,weapon2,,,,

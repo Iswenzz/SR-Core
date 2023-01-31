@@ -1,16 +1,23 @@
 #include sr\utils\_common;
 #include sr\utils\_math;
+#include sr\sys\_events;
 
-loop()
+main()
+{
+	event("spawn", ::onSpawn);
+}
+
+onSpawn()
 {
 	self endon("spawned");
 	self endon("disconnect");
 	self endon("death");
 
+	if (!self isDefrag())
+		return;
+
 	self.bhopPrevAirVelocity = (0, 0, 0);
 	self.bhopPrevOnGround = true;
-
-	wait 0.05;
 
 	while (true)
 	{

@@ -5,8 +5,6 @@
 initIds()
 {
 	level.files["playerIds"] = PATH_Mod("sr/data/admin/speedrun_player_ids.txt");
-
-	event("connect", ::load);
 }
 
 load()
@@ -14,8 +12,7 @@ load()
 	if (self isBot())
 	{
 		self.guid = "^5Speedrun";
-		self.id = "^8BOT";
-		return;
+		return "^8BOT";
 	}
 	if (self getStat(995) == 0 || self getStat(996) == 0 || self getStat(997) == 0)
 	{
@@ -25,7 +22,7 @@ load()
 		self setStat(997, id[2]);
 		self.new = true;
 	}
-	self.id = fmt("%d%d%d", self getStat(995), self getStat(996), self getStat(997));
+	return fmt("%d%d%d", self getStat(995), self getStat(996), self getStat(997));
 }
 
 createId()

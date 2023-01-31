@@ -14,6 +14,8 @@ onConnect()
 	self endon("connect");
 	self endon("disconnect");
 
+	self.prevHeadicon = self.headicon;
+
 	while (true)
 	{
 		self.isVoiceChatting = self VoiceChatButtonPressed();

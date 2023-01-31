@@ -1,43 +1,33 @@
 #include sr\utils\_common;
 
-updateHud(color)
+updateHud()
 {
-	shader = "";
-	img = "reticle_portal";
+	shader = "reticle_portal";
+	if (self.portal["blue_exist"] && self.portal["red_exist"])
+		shader = "reticle_portal_both";
+	else if (self.portal["blue_exist"])
+		shader = "reticle_portal_blue";
+	else if (self.portal["red_exist"])
+		shader = "reticle_portal_red";
 
-	if (color == "none")
-	{
-		self.portal["hud"].alpha = 0;
-		return;
-	}
-	else if (color == "default")
-		shader = img;
-	else if (color == "red" || color == "blue")
-	{
-		if (self.portal[othercolor(color) + "_exist"])
-			shader = img + "_both";
-		else
-			shader = img + "_" + color;
-	}
-	else
-		return;
+	if (!isDefined(self.portal["hud"]))
+		self.portal["hud"] = newClientHudElem(self);
 
-	if (!self isPortal())
-		return;
-
-	size = 64;
-	if (isDefined(self.portal["hud"]))
-	{
-		self.portal["hud"] setShader(shader, size, size);
-		self.portal["hud"].AlignX = "center";
-		self.portal["hud"].AlignY = "middle";
-		self.portal["hud"].horzAlign = "center_safearea";
-		self.portal["hud"].vertAlign = "center_safearea";
-		self.portal["hud"].alpha = 1;
-	}
+	self.portal["hud"] setShader(shader, 64, 64);
+	self.portal["hud"].AlignX = "center";
+	self.portal["hud"].AlignY = "middle";
+	self.portal["hud"].horzAlign = "center_safearea";
+	self.portal["hud"].vertAlign = "center_safearea";
+	self.portal["hud"].alpha = 1;
 }
 
-otherColor(color)
+cleanHud()
+{
+	if (isDefined(self.portal["hud"]))
+		self.portal["hud"] destroy();
+}
+
+othercolor(color)
 {
 	return Ternary(color == "red", "blue", "red");
 }

@@ -21,16 +21,15 @@ practise()
 	self.huds["speedrun"]["name"] setText("^5Practise Mode");
 	self.practise = IfUndef(self.practise, []);
 
-	wait 0.05;
-
 	self thread watchSave();
 	self thread watchLoad();
 }
 
 watchSave()
 {
-	self endon("disconnect");
+	self endon("spawned");
 	self endon("death");
+	self endon("disconnect");
 
 	while (true)
 	{
@@ -50,8 +49,9 @@ watchSave()
 
 watchLoad()
 {
-	self endon("disconnect");
+	self endon("spawned");
 	self endon("death");
+	self endon("disconnect");
 
 	while (true)
 	{

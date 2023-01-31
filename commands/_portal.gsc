@@ -18,8 +18,6 @@ cmd_Portal(args)
 	self suicide();
 
 	self pm(Ternary(self.modes["portal"], "^5Portal mode enabled!", "^1Portal mode disabled!"));
-	if (!self.modes["portal"])
-		self sr\libs\portal\_hud::updateHud("none");
 }
 
 cmd_Detonate(args)

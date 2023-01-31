@@ -460,7 +460,7 @@ deploying(woken_up)
 	self updatetargets();
 	self.last_target = self;
 
-	for (;;)
+	while (true)
 	{
 		if (!level.turret_killed_player_this_frame)
 			self.losttarget = true;

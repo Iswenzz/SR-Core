@@ -22,7 +22,7 @@ RPG()
 	weapon["predelay"] = 0;
 	weapon["delay"] = 0;
 	weapon["projectile"] = "projectile_rpg7";
-	weapon["muzzle"] = loadFX("muzzleflashes/at4_flafireReleasesh");
+	weapon["muzzle"] = loadFX("muzzleflashes/at4_flash");
 	weapon["impact"] = loadFX("explosions/grenadeExp_default");
 	weapon["trail"] = loadFX("smoke/smoke_geotrail_rpg");
 	weapon["sfx_fire"] = "weap_rpg_fire_plr";
@@ -97,7 +97,7 @@ Q3Plasma()
 	weapon["sfx_fire"] = "weap_quake_plasma_shoot";
 	weapon["sfx_trail"] = "weap_quake_plasma_loop";
 	weapon["sfx_impact"] = "weap_quake_plasma_explode";
-	weapon["damage"] = 40;
+	weapon["damage"] = 20;
 	weapon["knockback"] = 30;
 	weapon["knockback_range"] = 40;
 	weapon["fire"] = ::fire;

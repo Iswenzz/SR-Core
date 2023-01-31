@@ -306,8 +306,8 @@ prestige(args)
 updateRankScoreHUD(amount)
 {
 	self endon("disconnect");
-	self endon("joined_team");
-	self endon("joined_spectators");
+	self endon("team");
+	self endon("spectator");
 
 	if (amount == 0)
 		return;

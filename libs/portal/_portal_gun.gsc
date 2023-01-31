@@ -35,16 +35,16 @@ onSpawn()
 	self endon("death");
 	self endon("disconnect");
 
-	self updateHud("default");
-
 	while (true)
 	{
-		wait 0.05;
+		self.currentWeapon = self getCurrentWeapon();
+		if (self.currentWeapon == level.portalgun)
+			self updateHud();
 
-		if (self getCurrentWeapon() != level.portalgun)
+		if (self.currentWeapon != level.portalgun)
 		{
-			self updateHud("none");
-			wait 1;
+			self cleanHud();
+			wait 0.05;
 			continue;
 		}
 
@@ -68,6 +68,8 @@ onSpawn()
 			|| (self aimButtonPressed() || self demoButton("ads"))
 			|| (self fragButtonPressed() || self demoButton("frag")))
 			wait 0.05;
+
+		wait 0.05;
 	}
 }
 
@@ -81,7 +83,7 @@ resetPortals()
 	self thread portalDelete("blue");
 	self thread portalDelete("red");
 
-	self thread updateHud("default");
+	self thread updateHud();
 }
 
 stopAll(delete_portals, disconnected)
@@ -116,7 +118,7 @@ stopAll(delete_portals, disconnected)
 	self.portal["inzoom"] = false;
 	self.portal["can_use"] = false;
 
-	self thread updateHud("none");
+	self cleanHud();
 	self notify("stopAll");
 }
 
@@ -154,7 +156,7 @@ bullet(color)
 	bullet moveCurve(eye + f * 22 + u * -6 + r, oldpos, trace["position"], t);
 
 	playFX(level.gfx[color + "portal_fail"], trace["position"] + trace["normal"]);
-	self doRadiusDamage(oldpos, 80, 30, 10);
+	self doRadiusDamage(oldpos, 30, 30);
 }
 
 portal(color)
@@ -438,7 +440,6 @@ portalCreate(color, trace)
 {
 	self.portal["inportal"] = false;
 
-	self updateHud(color);
 	self portalDelete(color);
 
 	portal[color] = spawn("script_model", trace["fx_position"]);
@@ -473,6 +474,8 @@ portalCreate(color, trace)
 	self.portal[color] = portal[color];
 	self.portals[self.portals.size] = self.portal[color];
 	self.portal[color + "_exist"] = true;
+
+	self updateHud();
 
 	if (self.portal["blue_exist"] && self.portal["red_exist"])
 		self thread portalActivate();

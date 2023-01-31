@@ -1,100 +1,70 @@
 name,sequence,file,vol_max,dist_min,dist_max,startdelay,loop
 
-
-#Intro
+# Intro
 
 glados_first_intro,,portal/intro/glados_first_intro.wav,,,,,
-
 portalgun_intro,1,portal/intro/glados_surprise.wav,,,,,
 portalgun_intro,2,portal/intro/cave_intro.wav,,,,,
 portalgun_intro,3,portal/intro/glados_intro.wav,,,,,
 portalgun_intro,4,portal/intro/cave_intro2.wav,,,,,
 
-
-
-
-
-#PortalGun Sounds
-
-#unused: portal_open_red_rock
+# PortalGun Sounds
 
 portal_gun_activation,,portal/portalgun/wpn_portalgun_activation_01.wav,0.7,,,,,
-
 portal_gun_shoot_blue,,portal/portalgun/portalgun_shoot_blue1.wav,0.45,,,,
 portal_gun_shoot_red,,portal/portalgun/portalgun_shoot_red1.wav,0.45,,,,
-
-#portal_gun_shoot_blue,2,portal/portalgun/wpn_portal_gun_fire_blue_01.wav,0.1,100,800,,
-#portal_gun_shoot_blue,3,portal/portalgun/wpn_portal_gun_fire_blue_02.wav,0.1,100,800,,
-#portal_gun_shoot_blue,4,portal/portalgun/wpn_portal_gun_fire_blue_03.wav,0.1,100,800,,
-#portal_gun_fire_red,1,portal/portalgun/wpn_portal_gun_fire_red_01.wav,0.1,100,800,,
-#portal_gun_fire_red,2,portal/portalgun/wpn_portal_gun_fire_red_02.wav,0.1,100,800,,
-#portal_gun_fire_red,3,portal/portalgun/wpn_portal_gun_fire_red_03.wav,0.1,100,800,,
-
-
+# portal_gun_shoot_blue,2,portal/portalgun/wpn_portal_gun_fire_blue_01.wav,0.1,100,800,,
+# portal_gun_shoot_blue,3,portal/portalgun/wpn_portal_gun_fire_blue_02.wav,0.1,100,800,,
+# portal_gun_shoot_blue,4,portal/portalgun/wpn_portal_gun_fire_blue_03.wav,0.1,100,800,,
+# portal_gun_fire_red,1,portal/portalgun/wpn_portal_gun_fire_red_01.wav,0.1,100,800,,
+# portal_gun_fire_red,2,portal/portalgun/wpn_portal_gun_fire_red_02.wav,0.1,100,800,,
+# portal_gun_fire_red,3,portal/portalgun/wpn_portal_gun_fire_red_03.wav,0.1,100,800,,
 portal_open,1,portal/portalgun/portal_open1.wav,0.5,100,800,,
 portal_open,2,portal/portalgun/portal_open2.wav,0.5,100,800,,
 portal_open,3,portal/portalgun/portal_open3.wav,0.5,100,800,,
-
 portal_open_blue,,portal/portalgun/portal_open_blue_01.wav,0.8,100,800,80,
 portal_open_red,1,portal/portalgun/portal_open_red_01.wav,0.8,100,800,80,
 portal_open_red,2,portal/portalgun/portal_open_red_02.wav,0.8,100,800,80,
-
 portal_close,1,portal/portalgun/portal_close1.wav,0.3,100,800,,
 portal_close,2,portal/portalgun/portal_close2.wav,0.3,100,800,,
-
 portal_close_blue,,portal/portalgun/portal_fizzle_02.wav,1,300,1000,,
 portal_close_red,,portal/portalgun/portal_fizzle_01.wav,1,300,1000,,
-
 player_portal_enter,1,portal/player/portal_enter1.wav,0.8,,,,
 player_portal_enter,2,portal/player/portal_enter2.wav,0.8,,,,
 player_portal_enter,3,portal/player/portal_exit1.wav,0.8,,,,
 player_portal_enter,4,portal/player/portal_exit2.wav,0.8,,,,
-
 portal_enter,1,portal/portalgun/portal_enter_01.wav,0.2,100,800,,
 portal_enter,2,portal/portalgun/portal_enter_02.wav,0.2,100,800,,
 portal_enter,3,portal/portalgun/portal_enter_03.wav,0.2,100,800,,
 portal_exit,1,portal/portalgun/portal_exit_01.wav,0.2,100,800,,
 portal_exit,2,portal/portalgun/portal_exit_02.wav,0.2,100,800,,
-
-
 portal_invalid_surface,1,portal/portalgun/portal_invalid_surface_01.wav,0.6,100,800,,
 portal_invalid_surface,2,portal/portalgun/portal_invalid_surface_02.wav,0.6,100,800,,
 portal_invalid_surface,3,portal/portalgun/portal_invalid_surface_03.wav,0.6,100,800,,
 portal_invalid_surface,4,portal/portalgun/portal_invalid_surface_04.wav,0.6,100,800,,
-
 portal_invalid_surface_player,,portal/portalgun/portal_invalid_surface3.wav,0.5,,,,
-
 portal_ambient_loop,,portal/portalgun/wpn_portal_ambient_lp_01.wav,0.2,20,600,,rlooping
 
-
-
-#Player Sounds
+# Player Sounds
 
 object_use_failure,,portal/player/object_use_failure_01.wav,,100,800,,
 hold_loop,,portal/player/hold_loop.wav,,100,800,,
-
 fall_wind_sound_start,,portal/player/player_fall_whoosh_start.wav,,,,,
 fall_wind_sound_loop,,portal/player/player_fall_whoosh_lp.wav,,,,,
 fall_wind_sound_end,,portal/player/player_fall_whoosh_end.wav,,,,,
 fall_wind_sound_endfast,,portal/player/player_fall_whoosh_end_fast.wav,,,,,
+# player_breathing_better,1,misc/mrk_breathing_better10.wav,0.9,1,max,0.95,1.05,120,1200,hurt,,,,,!aftermath,,,
+# player_breathing_better,2,misc/mrk_breathing_better11.wav,0.9,1,max,0.95,1.05,120,1200,hurt,,,,,!aftermath,,,
+# player_breathing_better,3,misc/mrk_breathing_better12.wav,0.9,1,max,0.95,1.05,120,1200,hurt,,,,,!aftermath,,,
+# player_breathing_heartbeat,,weapons/foley/mrk_heartbeat_01.wav,0.9,1,max,0.9,1.2,7,500,ambient,,,,master,!aftermath,,,
+# breathing_hurt,,null.wav,0.9,1,max,0.95,1.05,120,1200,hurt,,,,master,!aftermath,,,breathing_heartbeat
+# breathing_better,,null.wav,0.9,1,max,0.95,1.05,120,1200,hurt,,,,,!aftermath,,,
+# breathing_heartbeat,,null.wav,0.9,1,max,0.9,1.2,7,500,ambient,,,,master,!aftermath,,,
+# breathing_hurt_start,,null.wav,0.6,0.8,max,1.05,1.15,120,1200,hurt,,,,master,!aftermath,,,breathing_heartbeat
 
-
-#player_breathing_better,1,misc/mrk_breathing_better10.wav,0.9,1,max,0.95,1.05,120,1200,hurt,,,,,!aftermath,,,
-#player_breathing_better,2,misc/mrk_breathing_better11.wav,0.9,1,max,0.95,1.05,120,1200,hurt,,,,,!aftermath,,,
-#player_breathing_better,3,misc/mrk_breathing_better12.wav,0.9,1,max,0.95,1.05,120,1200,hurt,,,,,!aftermath,,,
-#player_breathing_heartbeat,,weapons/foley/mrk_heartbeat_01.wav,0.9,1,max,0.9,1.2,7,500,ambient,,,,master,!aftermath,,,
-
-
-#breathing_hurt,,null.wav,0.9,1,max,0.95,1.05,120,1200,hurt,,,,master,!aftermath,,,breathing_heartbeat
-#breathing_better,,null.wav,0.9,1,max,0.95,1.05,120,1200,hurt,,,,,!aftermath,,,
-#breathing_heartbeat,,null.wav,0.9,1,max,0.9,1.2,7,500,ambient,,,,master,!aftermath,,,
-#breathing_hurt_start,,null.wav,0.6,0.8,max,1.05,1.15,120,1200,hurt,,,,master,!aftermath,,,breathing_heartbeat
-
-
-#Turret Sounds
+# Turret Sounds
 
 turret_active_sound,,portal/turret/active.wav,,300,900,,
-
 turret_active,1,portal/turret/turret_active_1.wav,,300,900,,
 turret_active,2,portal/turret/turret_active_2.wav,,300,900,,
 turret_active,3,portal/turret/turret_active_3.wav,,300,900,,
@@ -103,16 +73,12 @@ turret_active,5,portal/turret/turret_active_5.wav,,300,900,,
 turret_active,6,portal/turret/turret_active_6.wav,,300,900,,
 turret_active,7,portal/turret/turret_active_7.wav,,300,900,,
 turret_active,8,portal/turret/turret_active_8.wav,,300,900,,
-
 turret_deploy,,portal/turret/deploy.wav,,40,600,,
 turret_retract,,portal/turret/retract.wav,,40,600,150,
-
 turret_ping,,portal/turret/ping.wav,,50,600,,
-
 turret_fire,1,portal/turret/turret_fire_4x_01.wav,,20,800,,
 turret_fire,2,portal/turret/turret_fire_4x_02.wav,,20,800,,
 turret_fire,3,portal/turret/turret_fire_4x_03.wav,,20,800,,
-
 turret_search,1,portal/turret/turret_search_1.wav,,300,900,,
 turret_search,2,portal/turret/turret_search_2.wav,,300,900,,
 turret_search,3,portal/turret/turret_search_3.wav,,300,900,,
@@ -120,16 +86,13 @@ turret_search,4,portal/turret/turret_search_4.wav,,300,900,,
 turret_search,5,portal/turret/turret_autosearch_1.wav,,300,900,,
 turret_search,6,portal/turret/turret_autosearch_5.wav,,300,900,,
 turret_search,7,portal/turret/turret_autosearch_6.wav,,300,900,,
-
 turret_woken_up,1,portal/turret/turret_autosearch_5.wav,,300,900,1200,
 turret_woken_up,2,portal/turret/turret_autosearch_6.wav,,300,900,1200,
-
 turret_hurt,1,portal/turret/turret_shotat_1.wav,,300,900,,
 turret_hurt,2,portal/turret/turret_shotat_2.wav,,300,900,,
 turret_hurt,3,portal/turret/turret_shotat_3.wav,,300,900,,
 turret_hurt,4,portal/turret/turret_tipped_5.wav,,300,900,,
 turret_hurt,5,portal/turret/turret_tipped_6.wav,,300,900,,
-
 turret_destroyed,1,portal/turret/turret_disabled_1.wav,,300,900,,
 turret_destroyed,2,portal/turret/turret_disabled_2.wav,,300,900,,
 turret_destroyed,3,portal/turret/turret_disabled_3.wav,,300,900,,
@@ -138,10 +101,8 @@ turret_destroyed,5,portal/turret/turret_disabled_5.wav,,300,900,,
 turret_destroyed,6,portal/turret/turret_disabled_6.wav,,300,900,,
 turret_destroyed,7,portal/turret/turret_disabled_7.wav,,300,900,,
 turret_destroyed,8,portal/turret/turret_disabled_8.wav,,300,900,,
-
 turret_hurt_explosion,1,portal/turret/turret_pickup_9.wav,,300,900,,
 turret_hurt_explosion,2,portal/turret/turret_pickup_10.wav,,300,900,,
-
 turret_retire,1,portal/turret/turret_retire_1.wav,,300,900,,
 turret_retire,2,portal/turret/turret_retire_2.wav,,300,900,,
 turret_retire,3,portal/turret/turret_retire_3.wav,,300,900,,
@@ -149,7 +110,6 @@ turret_retire,4,portal/turret/turret_retire_4.wav,,300,900,,
 turret_retire,5,portal/turret/turret_retire_5.wav,,300,900,,
 turret_retire,6,portal/turret/turret_retire_6.wav,,300,900,,
 turret_retire,7,portal/turret/turret_retire_7.wav,,300,900,,
-
 turret_witnessdeath,1,portal/turret/turretwitnessdeath01.wav,,300,900,,
 turret_witnessdeath,2,portal/turret/turretwitnessdeath03.wav,,300,900,,
 turret_witnessdeath,3,portal/turret/turretwitnessdeath05.wav,,300,900,,
@@ -157,26 +117,19 @@ turret_witnessdeath,4,portal/turret/turretwitnessdeath08.wav,,300,900,,
 turret_witnessdeath,5,portal/turret/turretwitnessdeath09.wav,,300,900,,
 turret_witnessdeath,6,portal/turret/turretwitnessdeath12.wav,,300,900,,
 turret_witnessdeath,7,portal/turret/turretwitnessdeath15.wav,,300,900,,
-
-
 turret_loop,,portal/turret/turret_loop1.wav,0.2,20,180,,looping
-
 turret_ignite,,portal/gascan_ignite.wav,1,7,900,,
-
 turret_sparks,1,portal/exp_television_sparks1.wav,0.9,7,900,,
 turret_sparks,2,portal/exp_television_sparks2.wav,0.9,7,900,,
-
 turret_cookoff,,portal/turret_cookoff.wav,1,7,900,,
-
-//ammo_cookoff_pop,0,null.wav,0.9,450,2000,,
-
+# ammo_cookoff_pop,0,null.wav,0.9,450,2000,,
 ammo_cookoff_pop,1,portal/pop.wav,0.9,450,2000,,
 ammo_cookoff_pop,2,portal/pop2.wav,0.9,450,2000,,
 ammo_cookoff_pop,3,portal/pop3.wav,0.6,450,2000,,
 ammo_cookoff_pop,4,portal/pop4.wav,0.6,450,2000,,
 ammo_cookoff_pop,5,portal/pop5.wav,0.6,450,2000,,
 
-#Cube Sounds
+# Cube Sounds
 
 cube_hit_01,,portal/physics/cube/phys_cube_md_01.wav,,7,700,,
 cube_hit_02,,portal/physics/cube/phys_cube_md_02.wav,,7,700,,
@@ -188,8 +141,6 @@ cube_hit_07,,portal/physics/cube/phys_cube_md_07.wav,,7,700,,
 cube_hit_08,,portal/physics/cube/phys_cube_md_08.wav,,7,700,,
 cube_hit_09,,portal/physics/cube/phys_cube_md_09.wav,,7,700,,
 
-
-#Misc
-
+# Misc
 
 radio_mix,,portal/misc/looping_radio_mix.wav,0.5,,,,looping

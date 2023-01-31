@@ -50,7 +50,6 @@ onConnect()
 	self.portal["saved_ammostock"] = [];
 	self.portal["inportal"] = false;
 	self.portal["first_enter"] = true;
-	self.portal["hud"] = newClientHudElem(self);
 }
 
 precache()

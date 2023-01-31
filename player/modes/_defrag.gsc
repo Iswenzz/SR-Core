@@ -24,6 +24,4 @@ onSpawn()
 	self giveWeapon("gl_ak47_mp");
 	self giveWeapon("gl_g3_mp");
 	self setSpawnWeapon("gl_ak47_mp");
-
-	self thread sr\player\_bhop::loop();
 }

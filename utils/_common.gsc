@@ -155,7 +155,7 @@ playLoopSoundToPlayer(soundAlias, length)
 {
 	self endon("death");
 	self endon("disconnect");
-	self endon("joined_spectators");
+	self endon("spectator");
 	self endon("spawned");
 
 	while (true)
@@ -176,20 +176,6 @@ playLocalSoundLoop(soundAlias, length)
 	while (true)
 	{
 		self playlocalsound(soundAlias);
-		wait length;
-	}
-}
-
-playLoopSound(soundAlias, length)
-{
-	self notify("stopsoundloop_" + soundAlias);
-	self endon("stopsoundloop_" + soundAlias);
-
-	while (true)
-	{
-		if (!isDefined(self))
-			return;
-		self playsound(soundAlias);
 		wait length;
 	}
 }
@@ -728,6 +714,14 @@ ragdoll(sHitLoc, vDir, sWeapon, eInflictor, sMeansOfDeath, deathAnimDuration)
 		return;
 
 	physicsExplosionSphere(explosionPos, explosionRadius, explosionRadius / 2, explosionForce);
+}
+
+isWallKnifing(attacker, victim)
+{
+	start = attacker getEye();
+	end = victim getEye();
+
+	return !bulletTracePassed(start, end, false, attacker);
 }
 
 getFloor()

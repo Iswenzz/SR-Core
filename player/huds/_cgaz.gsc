@@ -13,13 +13,12 @@ main()
 hud()
 {
 	self endon("spawned");
+	self endon("spectator");
 	self endon("death");
 	self endon("disconnect");
 
 	if (!self.settings["hud_cgaz"])
 		return;
-
-	wait 0.1;
 
 	self clear();
 	self cgazHud();
@@ -37,6 +36,7 @@ hud()
 			self hide();
 
 		wait 0.05;
+
 		self.cgaz.previousVelocity = self.cgaz.velocity;
 	}
 }

@@ -19,9 +19,7 @@ onSpawn()
 	self giveWeapon(insertionItem);
 	self giveMaxAmmo(insertionItem);
 
-	wait 0.1;
-
-	while (self isReallyAlive())
+	while (true)
 	{
 		self waittill("grenade_fire", entity, weapName);
 

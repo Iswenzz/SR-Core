@@ -12,17 +12,17 @@ pickup()
 	self endon("connect");
 	self endon("disconnect");
 
-	self.pickupMode = 0;
-
 	if (!self sr\sys\_admins::isRole("masteradmin"))
 		return;
+
+	self.pickupMode = 0;
 
 	while (true)
 	{
 		wait 0.05;
 
-		while (!self secondaryOffHandButtonPressed())
-			wait 0.05;
+		if (!self secondaryOffHandButtonPressed())
+			continue;
 
 		start = self getEye();
 		end = start + vectorScale(anglesToForward(self getPlayerAngles()), 999999);

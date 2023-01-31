@@ -17,34 +17,23 @@ main()
 hud()
 {
 	self endon("spawned");
+	self endon("spectator");
 	self endon("death");
 	self endon("disconnect");
 
-    if (!self shouldRender())
+    if (!self.settings["hud_keys"])
 		return;
-
-	wait 0.3;
 
 	self clear();
 	self hudKeys();
 
-	while (self shouldRender())
+	while (true)
 	{
 		self.player = IfUndef(self getSpectatorClient(), self);
-
 		self updateKeys();
+
 		wait 0.05;
 	}
-}
-
-shouldRender()
-{
-    if (self.sessionstate != "spectator" && !self.settings["hud_keys"])
-    {
-        self clear();
-        return false;
-    }
-    return true;
 }
 
 hudKeys()

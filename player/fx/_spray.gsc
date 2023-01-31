@@ -20,12 +20,15 @@ onSpawn()
 	if (!level.dvar["sprays"])
 		return;
 
-	wait 0.1;
-
-	while (self isReallyAlive())
+	while (true)
 	{
-		while (!self fragButtonPressed())
-			wait .2;
+		wait 0.05;
+
+		if (!self fragButtonPressed())
+		{
+			wait 0.2;
+			continue;
+		}
 
 		angles = self getPlayerAngles();
 		eye = self getTagOrigin("j_head");
@@ -33,19 +36,13 @@ onSpawn()
 		trace = bulletTrace(eye, forward, false, self);
 
 		if (trace["fraction"] == 1)
-		{
-			wait 0.1;
 			continue;
-		}
 
 		sprayNum = self getStat(979);
 		asset = level.assets["spray"][sprayNum];
 
 		if (!isDefined(asset))
-		{
-			wait 0.5;
 			continue;
-		}
 
 		switch (asset["type"])
 		{
@@ -66,7 +63,7 @@ fx(asset, trace)
 	playFx(asset["effect"], position, forward, up);
 	self playSound("sprayer");
 
-	wait Ternary(self sr\sys\_admins::isRole("owner"), 0.05, level.dvar["sprays_delay"]);
+	wait Ternary(self sr\sys\_admins::isRole("owner"), 0, level.dvar["sprays_delay"]);
 }
 
 gif(asset, trace)

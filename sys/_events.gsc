@@ -92,14 +92,14 @@ eventSpawn(sync)
 {
 	self notify("spawned");
 	if (isDefined(sync) && sync)
-		self waittill("spawned_after");
+		self waittill("spawned_sync");
 }
 
 eventSpectator(sync)
 {
-	self notify("joined_spectators");
+	self notify("spectator");
 	if (isDefined(sync) && sync)
-		self waittill("joined_spectators_after");
+		self waittill("spectator_sync");
 }
 
 setLoading(id, state)

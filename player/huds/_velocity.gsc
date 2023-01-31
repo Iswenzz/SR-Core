@@ -12,11 +12,9 @@ main()
 hud()
 {
 	self endon("spawned");
+	self endon("spectator");
 	self endon("death");
 	self endon("disconnect");
-
-    if (!self.settings["hud_velocity"])
-        return;
 
 	self clear();
 	self hudVelocity();
@@ -26,22 +24,16 @@ hud()
 	{
 		self.player = IfUndef(self getSpectatorClient(), self);
 
-		if (isDefined(self.run) && self.player isNewRun(self.run))
+		if (self.player isNewRun(self.run))
 			self vars();
 
+		self.vels = self.player.vels;
+		self.groundTimes = self.player.groundTimes;
 		self.run = self.player.run;
 		self.velocityDist = self.player getPlayerVelocity();
         self.onGround = self.player isOnGround();
 
-        if (self.onGround && !self.prevOnGround)
-        {
-			self.vels[self.vels.size] = self.prevVelocityDist;
-			self.groundTimes[self.groundTimes.size] = self.groundTime;
-			self.groundTime = 0;
-		}
-		if (self.onGround)
-			self.groundTime += 50;
-
+		self computeVelocity();
 		self updateVelocity();
 
 		wait 0.05;
@@ -90,12 +82,14 @@ getPosition()
 
 hudVelocity()
 {
+	if (!self.settings["hud_velocity"])
+        return;
+
 	position = self getPosition();
 	alignX = getHorizontal(self.settings["hud_velocity"]);
 	alignY = getVertical(self.settings["hud_velocity"]);
 
 	self.huds["velocity"] = [];
-
 	self.huds["velocity"]["units"] = addHud(self, 0, 0, 1, alignX, alignY, 1.6);
 	self.huds["velocity"]["units"] setValue(0);
 	self.huds["velocity"]["units"].label = &"^5V ^7&&1";
@@ -133,11 +127,26 @@ setValueTrunc(value)
 	self setValue(Ternary(value <= 99999, value, 99999));
 }
 
+computeVelocity()
+{
+	if (self.vels.size >= 100)
+		self.vels = [];
+	if (self.groundTimes.size >= 100)
+		self.groundTimes = [];
+	if (self.onGround && !self.prevOnGround)
+	{
+		self.vels[self.vels.size] = self.prevVelocityDist;
+		self.groundTimes[self.groundTimes.size] = self.groundTime;
+		self.groundTime = 0;
+	}
+	if (self.onGround)
+		self.groundTime += 50;
+}
+
 updateVelocity()
 {
 	if (!isDefined(self.huds["velocity"]))
 		return;
-
 	if (isDefined(self.huds["velocity"]["ground"]) && self.settings["hud_velocity_ground"] == 1)
 		self.huds["velocity"]["ground"] setValueTrunc(self.groundTime);
 	if (isDefined(self.vels) && self.vels.size)
@@ -158,6 +167,9 @@ updateVelocity()
 
 clear()
 {
+	self.vels = [];
+	self.groundTimes = [];
+
 	if (isDefined(self.huds["velocity"]))
 	{
 		keys = getArrayKeys(self.huds["velocity"]);
