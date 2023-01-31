@@ -19,8 +19,6 @@ RPG()
 	weapon["type"] = "stock";
 	weapon["name"] = "RPG";
 	weapon["item"] = "bt_rpg_mp";
-	weapon["predelay"] = 0.55;
-	weapon["delay"] = 0;
 	weapon["projectile"] = "projectile_rpg7";
 	weapon["muzzle"] = loadFX("muzzleflashes/at4_flash");
 	weapon["impact"] = loadFX("explosions/grenadeExp_default");
@@ -42,8 +40,6 @@ FortniteRPG()
 	weapon["type"] = "stock";
 	weapon["name"] = "Fortnite RPG";
 	weapon["item"] = "fn_rpg_mp";
-	weapon["predelay"] = 0.55;
-	weapon["delay"] = 0;
 	weapon["projectile"] = "projectile_rpg7";
 	weapon["muzzle"] = loadFX("muzzleflashes/at4_flash");
 	weapon["impact"] = loadFX("explosions/grenadeExp_default");
@@ -65,7 +61,6 @@ Q3Rocket()
 	weapon["type"] = "script";
 	weapon["name"] = "Q3 Rocket";
 	weapon["item"] = "gl_ak47_mp";
-	weapon["predelay"] = 0;
 	weapon["delay"] = 0.8;
 	weapon["projectile"] = "quake_rocket_projectile";
 	weapon["muzzle"] = loadFX("muzzleflashes/m203_flshview");
@@ -88,11 +83,9 @@ Q3Plasma()
 	weapon["type"] = "script";
 	weapon["name"] = "Q3 Plasma";
 	weapon["item"] = "gl_g3_mp";
-	weapon["predelay"] = 0;
 	weapon["delay"] = 0.05;
 	weapon["projectile"] = "tag_origin";
 	weapon["muzzle"] = loadFX("muzzleflashes/mist_mk2_flashview");
-	weapon["impact"] = undefined;
 	weapon["trail"] = loadFX("q3/plasma_fire");
 	weapon["sfx_fire"] = "weap_quake_plasma_shoot";
 	weapon["sfx_trail"] = "weap_quake_plasma_loop";
@@ -339,28 +332,12 @@ createBullet(player)
 	return bullet;
 }
 
-waitStockFireTimeout(timeout)
+waitStockFireAnimation()
 {
 	self endon("spawned");
 	self endon("death");
 	self endon("disconnect");
 	self endon("weapon_change");
-	self endon("weapon_fired");
-
-	wait timeout;
-
-	self notify("weapon_fired");
-}
-
-waitStockFireAnimation(timeout)
-{
-	self thread waitStockFireTimeout(timeout);
-
-	self endon("spawned");
-	self endon("death");
-	self endon("disconnect");
-	self endon("weapon_change");
-
 	self waittill("weapon_fired");
 }
 
@@ -383,8 +360,6 @@ firePreDelay(weapon)
 		return 0;
 
 	delay = weapon["predelay"];
-	if (weapon["type"] == "stock")
-		self waitStockFireAnimation(delay);
 	if (delay < 0.05)
 		delay = 0;
 	return delay;
@@ -396,5 +371,7 @@ canFireWeapon()
 		return false;
 	if (!self attackButtonPressed() && !self demoButton("fire"))
 		return false;
+	if (self.scriptedWeapon["type"] == "stock")
+		self waitStockFireAnimation();
 	return self isSameWeapon();
 }
