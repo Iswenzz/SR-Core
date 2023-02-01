@@ -674,6 +674,7 @@ portalWait(color, othercolor)
 
 portalKick(p1, p2, vel)
 {
+	self endon("portal_deactivate");
 	self endon("death");
 	self endon("disconnect");
 
@@ -685,11 +686,6 @@ portalKick(p1, p2, vel)
 		wait 0.05;
 		self.portal["inportal"] = false;
 		return;
-	}
-	if (self.portal["first_enter"])
-	{
-		strength += 5;
-		self thread watchAirTime();
 	}
 
 	strength = int(strength * 0.2) * 5;
@@ -743,19 +739,6 @@ portalKick(p1, p2, vel)
 		wait 0.1;
 
 	self.portal["inportal"] = false;
-}
-
-watchAirTime()
-{
-	self endon("death");
-	self endon("disconnect");
-
-	self.portal["first_enter"] = false;
-
-	while (!self isOnGround())
-		wait 0.1;
-
-	self.portal["first_enter"] = true;
 }
 
 aimDownSight()

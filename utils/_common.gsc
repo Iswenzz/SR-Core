@@ -81,6 +81,25 @@ getFPS()
 	return self getCountedFPS();
 }
 
+getPlayerFPS()
+{
+	fps = self getFPS();
+
+	if (fps <= 10) 		return 0;
+	if (fps <= 20) 		return 20;
+	if (fps <= 30) 		return 30;
+	if (fps <= 125) 	return 125;
+	if (fps <= 142) 	return 142;
+	if (fps <= 166) 	return 166;
+	if (fps <= 200) 	return 200;
+	if (fps <= 250) 	return 250;
+	if (fps <= 333) 	return 333;
+	if (fps <= 500) 	return 500;
+	if (fps <= 1000) 	return 1000;
+
+	return 0;
+}
+
 setu(dvar)
 {
 	if (!isDefined(dvar) || self isBot())

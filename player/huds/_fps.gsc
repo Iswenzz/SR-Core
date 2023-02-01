@@ -38,7 +38,7 @@ hud()
 			self vars();
 
 		self.run = self.player.run;
-        self.fps = self.player getFPS();
+        self.fps = self.player getPlayerFPS();
         self.isOnGround = self.player isOnGround();
         self.isBouncing = self.player isBouncing();
 
@@ -114,6 +114,7 @@ updateFps()
 			case 125:	self.fpsCombo += "1";		break;
 			case 142:	self.fpsCombo += "4";		break;
 			case 166:	self.fpsCombo += "6";		break;
+			case 200:	self.fpsCombo += "(200)";	break;
 			case 250:	self.fpsCombo += "2";		break;
 			case 333:	self.fpsCombo += "3";		break;
 			case 500:	self.fpsCombo += "5";		break;
