@@ -486,7 +486,7 @@ notifyUnlockNewItems()
 
 processXpReward(sMeansOfDeath, attacker, victim)
 {
-	if (attacker.pers["team"] == victim.pers["team"])
+	if (attacker sameTeam(victim))
 		return;
 
 	kills = attacker maps\mp\gametypes\_persistence::statGet("kills");

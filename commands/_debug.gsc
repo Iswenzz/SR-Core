@@ -140,13 +140,13 @@ cmd_DebugScriptUsage(args)
 
 cmd_Test(args)
 {
-	// self command("bots", "1");
-	// self command("killzone");
-	// self command("cmd", "1 killzone");
+	self command("bots", "1");
+	self command("killzone");
+	self command("cmd", "1 killzone");
 
-	origin = spawn("script_model", self.origin);
-	origin setContents(0);
-	origin setModel("tag_origin");
-	wait 0.2;
-	origin playLoopSound("weap_quake_rocket_loop");
+	// origin = spawn("script_model", self.origin);
+	// origin setContents(0);
+	// origin setModel("tag_origin");
+	// wait 0.2;
+	// origin playLoopSound("weap_quake_rocket_loop");
 }

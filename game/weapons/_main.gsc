@@ -7,6 +7,7 @@ main()
 	level.weapons = [];
 
 	event("spawn", ::onSpawn);
+	event("connect", ::onConnect);
 
 	addWeapon(::RPG);
 	addWeapon(::FortniteRPG);
@@ -123,6 +124,11 @@ addWeapon(callback)
 	level.weapons[level.weapons.size] = weapon;
 }
 
+onConnect()
+{
+	self.scriptedBullets = 0;
+}
+
 onSpawn()
 {
 	self endon("spawned");
@@ -147,12 +153,13 @@ onSpawn()
 fire()
 {
 	weapon = self.scriptedWeapon;
+	bullet = weapon createBullet(self);
+
 	wait self firePreDelay(weapon);
 
 	eye = self eyePos();
 	forward = anglesToForward(self getPlayerAngles()) * 999999;
-	hitPlayers = self stockMode();
-	bullet = weapon createBullet(self);
+	hitPlayers = !bullet.run;
 	trace = bulletTrace(eye, eye + forward, hitPlayers, self);
 
 	pos = trace["position"];
@@ -188,7 +195,9 @@ fire()
 impact(time)
 {
 	self.player endon("disconnect");
-	self.player endon("death");
+	if (self.run)
+		self.player endon("death");
+
 	self thread impactCleanup();
 
 	wait time;
@@ -212,8 +221,11 @@ impact(time)
 
 impactWaittill()
 {
-	self.player endon("death");
 	self.player endon("disconnect");
+
+	if (self.run)
+		self.player endon("death");
+
 	self waittill("impact");
 }
 
@@ -223,6 +235,8 @@ impactCleanup()
 
 	if (isDefined(self.model))
 		self.model delete();
+
+	self.player.scriptedBullets--;
 }
 
 damage()
@@ -233,15 +247,17 @@ damage()
 	position = self.trace["position"];
 	range = self.weapon["knockback_range"];
 	damage = self.weapon["damage"];
+	knockback = Ternary(self.run || self.player.teamKill, self.weapon["knockback"], 0);
 
-	self.player doRadiusDamage(position, range, damage);
-
-	if (self.player isDefrag())
-		self knockback();
+	self.player doRadiusDamage(position, range, damage, knockback);
+	self runKnockback();
 }
 
-knockback()
+runKnockback()
 {
+	if (!self.run)
+		return;
+
 	position = self.trace["position"];
 	range =  self.weapon["knockback_range"];
 	knockback = self.weapon["knockback"];
@@ -260,7 +276,7 @@ trailFX()
 	if (isDefined(self.model))
 	{
 		self.model.angles = self.player getPlayerAngles();
-		if (isDefined(self.weapon["sfx_trail"]) && self.player stockMode())
+		if (isDefined(self.weapon["sfx_trail"]) && self.run)
 			self.model playLoopSound(self.weapon["sfx_trail"]);
 	}
 	wait 0.05;
@@ -286,11 +302,6 @@ playerHasWeapon()
 	return false;
 }
 
-stockMode()
-{
-	return !(self.player isDefrag());
-}
-
 getPlayerWeapon()
 {
 	self endon("disconnect");
@@ -303,6 +314,11 @@ getPlayerWeapon()
 	return undefined;
 }
 
+isRun()
+{
+	return self isDefrag() || self isPortal();
+}
+
 isSameWeapon()
 {
 	weapon = self.scriptedWeapon;
@@ -313,9 +329,12 @@ isSameWeapon()
 
 createBullet(player)
 {
+	player.scriptedBullets++;
+
 	bullet = spawnStruct();
 	bullet.weapon = self;
 	bullet.player = player;
+	bullet.run = player isRun();
 
 	if (isDefined(bullet.weapon["projectile"]))
 	{
@@ -323,7 +342,7 @@ createBullet(player)
 		bullet.model setContents(0);
 		bullet.model setModel(bullet.weapon["projectile"]);
 
-		if (bullet.player isDefrag())
+		if (bullet.run)
 		{
 			bullet.model hide();
 			bullet.model showToPlayer(player);
@@ -368,6 +387,8 @@ firePreDelay(weapon)
 canFireWeapon()
 {
 	if (!isDefined(self.scriptedWeapon["fire"]))
+		return false;
+	if (self.scriptedBullets >= 100)
 		return false;
 	if (!self attackButtonPressed() && !self demoButton("fire"))
 		return false;

@@ -184,7 +184,7 @@ bullet(color)
 	bullet moveCurve(eye + f * 22 + u * -6 + r, oldpos, trace["position"], t);
 
 	playFX(level.gfx[color + "portal_fail"], trace["position"] + trace["normal"]);
-	self doRadiusDamage(oldpos, 30, 30);
+	self doRadiusDamage(oldpos, 30, 30, 0);
 }
 
 portal(color)

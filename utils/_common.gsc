@@ -275,7 +275,9 @@ doPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, 
 	self finishPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
 }
 
-doRadiusDamage(origin, range, power)
+// Radius damage with knockback
+// This function is used for defrag and any knockback runs
+doRadiusDamage(position, range, power, knockback)
 {
 	if (!isDefined(self) || game["state"] == "end")
 		return;
@@ -284,16 +286,28 @@ doRadiusDamage(origin, range, power)
 	for (i = 0; i < players.size; i++)
 	{
 		player = players[i];
-		distanceXY = int(distance2D(player.origin, origin));
-		distanceZ = int(abs(player.origin[2] - origin[2]));
-		direction = player eyePos() - origin;
+		distance = int(distance(player.origin, position));
+		distanceXY = int(distance2D(player.origin, position));
+		distanceZ = int(abs(player.origin[2] - position[2]));
+		direction = player eyePos() - position;
 		modifier = 1 - (distanceXY / range);
 		damage = int(power * modifier);
+		multiplier = 2;
 
 		if (distanceXY > range || distanceZ > 70)
 			continue;
 
-		player eventDamage(self, self, damage, 0, "MOD_PROJECTILE", "none", origin, direction, "none", 0);
+		player eventDamage(self, self, damage, 0, "MOD_PROJECTILE", "none", position, direction, "none", 0);
+
+		if (distance > range || !knockback)
+			continue;
+		if (self sameTeam(player) && !self.teamKill)
+			continue;
+		if (self == player)
+			continue;
+
+		player.sr_cheat = true;
+		player bounce(position, direction, knockback, multiplier);
 	}
 }
 
@@ -847,6 +861,11 @@ removeColorFromString(string)
 		output += string[i];
 	}
 	return output;
+}
+
+sameTeam(player)
+{
+	return self.pers["team"] == player.pers["team"];
 }
 
 printBold(msg)
