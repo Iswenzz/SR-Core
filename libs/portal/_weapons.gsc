@@ -41,7 +41,7 @@ trackGrenade(grenade, weaponName, cookTime)
 			_info["model"] = "projectile_m67fraggrenade";
 			break;
 	}
-	grenade setcontents(0);
+	grenade setContents(0);
 	if (weaponName != "frag_grenade_mp")
 		cookTime = 0;
 
@@ -54,8 +54,8 @@ trackGrenade(grenade, weaponName, cookTime)
 	if (WeaponName != "c4_mp")
 		grenade notify("detonate");
 
-	old_pos = self eyepos();
-	vel = anglestoforward(self getplayerangles())*min_length;
+	old_pos = self eyePos();
+	vel = anglesToForward(self getPlayerAngles())*min_length;
 	firstloop = true;
 	original_grenade = grenade;
 
@@ -74,13 +74,13 @@ trackGrenade(grenade, weaponName, cookTime)
 					continue;
 
 				p1 = self.portals[n].trace;
-				if (vectordot(vel,p1["normal"]) >= 0 || vectordot(grenade.origin - self.portals[n].trace["position"], p1["normal"]) <= 0)
+				if (vectorDot(vel,p1["normal"]) >= 0 || vectorDot(grenade.origin - self.portals[n].trace["position"], p1["normal"]) <= 0)
 					continue;
 
 				vec = grenade.origin - p1["position"] - p1["normal"] * _info["radius"];
-				x = vectordot(vec, p1["right"]);
-				y = vectordot(vec, p1["up"]);
-				z = vectordot((vec + vel), p1["normal"]);
+				x = vectorDot(vec, p1["right"]);
+				y = vectorDot(vec, p1["up"]);
+				z = vectorDot((vec + vel), p1["normal"]);
 				inportal = isInPortal(x, y, -12, -12) && z <= 0;
 
 				if (inportal)
@@ -91,7 +91,7 @@ trackGrenade(grenade, weaponName, cookTime)
 
 					p2 = self.portals[n].otherportal.trace;
 					pos = p2["fx_position"] + x * p2["right"] * -1 + y * p2["up"];
-					vel_out = vectordot(vel, p1["right"] * -1) * p2["right"] + vectordot(vel, p1["up"]) * p2["up"] + vectordot(vel, p1["normal"] * -1) * p2["normal"];
+					vel_out = vectorDot(vel, p1["right"] * -1) * p2["right"] + vectorDot(vel, p1["up"]) * p2["up"] + vectorDot(vel, p1["normal"] * -1) * p2["normal"];
 
 					grenade = grenadeSpawn(pos, vel_out, _info["model"], _info["is_c4"]);
 					grenade.originalGrenade = original_grenade;
@@ -111,7 +111,7 @@ trackGrenade(grenade, weaponName, cookTime)
 			}
 		}
 		if (grenade != original_grenade && !_info["is_c4"])
-			grenade rotateto(original_grenade.angles, 0.05);
+			grenade rotateTo(original_grenade.angles, 0.05);
 		old_pos = grenade.origin;
 		wait 0.05;
 	}
@@ -122,7 +122,7 @@ trackGrenade(grenade, weaponName, cookTime)
 grenadeSpawn(pos, vel, model, is_c4)
 {
 	grenade = spawn("script_model", pos);
-	grenade setmodel(model);
+	grenade setModel(model);
 	grenade thread sr\libs\portal\_physics::startGrenadePhysics(vel * 20, is_c4);
 	grenade thread watchdetonation();
 
@@ -172,7 +172,7 @@ watchWeaponUsage()
 	{
 		self waittill ("weapon_fired");
 
-		if (!getdvarint("portal_block_bullet"))
+		if (!getDvarInt("portal_block_bullet"))
 			self thread watchCurrentFiringForPortals();
 	}
 }
@@ -191,7 +191,7 @@ watchCurrentFiringForPortals()
 	if (max_dmg_range > 4000)
 		max_checkrange = 4000;
 
-	angle_vec = anglestoforward(self getplayerangles());
+	angle_vec = anglesToForward(self getPlayerAngles());
 
 	for (n = 0; n < level.portal_turrets.size; n++)
 	{
@@ -199,22 +199,22 @@ watchCurrentFiringForPortals()
 			continue;
 
 		p = level.portal_turrets[n].center;
-		eyepos = self eyepos();
-		vec = eyepos - p;
+		eyePos = self eyePos();
+		vec = eyePos - p;
 
-		if (sign(vectordot(vec, angle_vec)) == -1)
+		if (sign(vectorDot(vec, angle_vec)) == -1)
 		{
-			length = vectordot(p - eyepos, angle_vec);
+			length = vectorDot(p - eyePos, angle_vec);
 			range_left = max_checkrange - length;
 
 			if (range_left < 0)
 				continue;
 
-			vecx2 = distancesquared(p, (eyepos + length * angle_vec));
+			vecx2 = distanceSquared(p, (eyePos + length * angle_vec));
 
 			if (vecx2 < 20 * 20)
 			{
-				trace = bullettrace(eyepos, eyepos + angle_vec * (length + 10), true, self);
+				trace = bulletTrace(eyePos, eyePos + angle_vec * (length + 10), true, self);
 				if (isDefined(trace["entity"]) && (trace["entity"] == level.portal_turrets[n] || trace["entity"] == level.portal_turrets[n].wings[0] || trace["entity"] == level.portal_turrets[n].wings[1]))
 				{
 					self maps\mp\gametypes\_damagefeedback::updateDamageFeedback(false);
@@ -232,35 +232,35 @@ watchCurrentFiringForPortals()
 
 		p1 = self.portals[n].trace;
 
-		eyepos = self eyepos();
-		vec = eyepos - p1["position"];
+		eyePos = self eyePos();
+		vec = eyePos - p1["position"];
 
 		w_normal = p1["normal"];
 		r = p1["right"];
 		u = p1["up"];
 
-		if (sign(vectordot(vec, w_normal)) == 1 && sign(vectordot(vec, angle_vec)) == -1)
+		if (sign(vectorDot(vec, w_normal)) == 1 && sign(vectorDot(vec, angle_vec)) == -1)
 		{
-			length = vectordot(vec ,w_normal) / vectordot(w_normal * -1, angle_vec);
+			length = vectorDot(vec ,w_normal) / vectorDot(w_normal * -1, angle_vec);
 
 			range_left = max_checkrange - length;
 			if (range_left < 0)
 				continue;
 
-			wallpos = eyepos + angle_vec*(length);
+			wallpos = eyePos + angle_vec*(length);
 			portaltowallpos = wallpos - p1["position"];
-			x = vectordot(portaltowallpos, r);
-			y = vectordot(portaltowallpos, u);
+			x = vectorDot(portaltowallpos, r);
+			y = vectorDot(portaltowallpos, u);
 
 			if (isInPortal(x, y, -12, -12))
 			{
-				if (physicstrace(eyepos, wallpos + w_normal * 2) != (wallpos + w_normal * 2))
+				if (physicstrace(eyePos, wallpos + w_normal * 2) != (wallpos + w_normal * 2))
 					continue;
 
 				p2 = self.portals[n].otherportal.trace;
 
 				pos = p2["fx_position"] + x * p2["right"] * -1 + y * p2["up"];
-				forward = vectordot(angle_vec, r * -1) * p2["right"] + vectordot(angle_vec, u) * p2["up"] + vectordot(angle_vec, w_normal * -1) * p2["normal"];
+				forward = vectorDot(angle_vec, r * -1) * p2["right"] + vectorDot(angle_vec, u) * p2["up"] + vectorDot(angle_vec, w_normal * -1) * p2["normal"];
 
 				self thread shootOutPortal(pos, forward, length, range_left, max_dmg_range, weapon);
 				return;
@@ -271,7 +271,7 @@ watchCurrentFiringForPortals()
 
 shootOutPortal(pos, vec, range_travelled, range_left, max_dmg_range, weapon)
 {
-	trace = bullettrace(pos, pos + vec*range_left, true, undefined);
+	trace = bulletTrace(pos, pos + vec*range_left, true, undefined);
 
 	if (trace["fraction"] == 1)
 		return;
@@ -313,7 +313,7 @@ explosionRadiusDamageTurrets(pos, radius, max_dmg, min_dmg)
 	{
 		if (!level.portal_turrets[i].alive)
 			continue;
-		if (distancesquared(pos, level.portal_turrets[i].center) > radius*radius)
+		if (distanceSquared(pos, level.portal_turrets[i].center) > radius*radius)
 			continue;
 
 		s = level.portal_turrets[i] sightconetrace(pos, players[0]);
@@ -327,10 +327,10 @@ explosionRadiusDamage(pos, radius, max_dmg, min_dmg, ignore_ents)
 	if (!isDefined(ignore_ents))
 		ignore_ents = [];
 
-	ents = getentarray("destructable", "targetname");
+	ents = getEntArray("destructable", "targetname");
 	for (i = 0; i < ents.size; i++)
 	{
-		if (distancesquared(pos, ents[i].origin) > radius*radius)
+		if (distanceSquared(pos, ents[i].origin) > radius*radius)
 			continue;
 
 		trace = trace(pos, ents[i].origin + (0, 0, 20), false, ignore_ents);
@@ -345,13 +345,13 @@ explosionRadiusDamage(pos, radius, max_dmg, min_dmg, ignore_ents)
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		if (distancesquared(pos, players[i].origin) > radius * radius)
+		if (distanceSquared(pos, players[i].origin) > radius * radius)
 			continue;
 
 		player_center = players[i].origin + players[i] getcenter();
 		trace = trace(pos, player_center, false, ignore_ents);
 
-		if (distancesquared(pos, trace["position"]) < (distancesquared(pos, player_center) - 8 * 8))
+		if (distanceSquared(pos, trace["position"]) < (distanceSquared(pos, player_center) - 8 * 8))
 			continue;
 
 		damage = max_dmg * calculateDamageFraction(distance(pos, player_center), radius * 0.25, radius, min_dmg / max_dmg);
@@ -375,7 +375,7 @@ damageEnt(eAttacker, iDamage, sMeansOfDeath, sWeapon, vPoint, vDir)
 	if (isPlayer(self))
 	{
 		shitloc = "body";
-		if (distancesquared(self eyepos(), vPoint) < 16 * 16 && sMeansofDeath != "MOD_EXPLOSIVE" && sMeansofDeath != "MOD_GRENADE")
+		if (distanceSquared(self eyePos(), vPoint) < 16 * 16 && sMeansofDeath != "MOD_EXPLOSIVE" && sMeansofDeath != "MOD_GRENADE")
 		{
 			shitloc = "head";
 			iDamage = int(iDamage * 1.4);

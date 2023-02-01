@@ -10,9 +10,9 @@ localToWorldCoordinates(vec, angles)
 	M[1] = [];
 	M[2] = [];
 
-	a = anglestoforward(angles);
-	b = anglestoright(angles) * -1;
-	c = vectorprod(a, b);
+	a = anglesToForward(angles);
+	b = anglesToRight(angles) * -1;
+	c = vectorProd(a, b);
 
 	M[0][0] = a[0];
 	M[0][1] = a[1];
@@ -92,16 +92,16 @@ matrixPivotRow(M, n)
 
 matrixPrint(A)
 {
-	iprintln(".");
+	iPrintLn(".");
 	for (i = 0; i < A.size; i++)
 	{
 		line = "";
 		for (j = 0; j < A[i].size; j++)
 			line += A[i][j] + " | ";
 
-		iprintln(line);
+		iPrintLn(line);
 	}
-	iprintln(".");
+	iPrintLn(".");
 }
 
 vectorProd(vec1, vec2)
@@ -115,7 +115,7 @@ vectorProd(vec1, vec2)
 
 vectorRandom(max)
 {
-	return (randomintrange(max * -1, max + 1), randomintrange(max * -1, max + 1), randomintrange(max * -1, max + 1));
+	return (randomIntRange(max * -1, max + 1), randomIntRange(max * -1, max + 1), randomIntRange(max * -1, max + 1));
 }
 
 vectorRotateX(vec, deg)
@@ -181,29 +181,29 @@ vectorScale(vec, scale)
 // The translation of point q from p oriented by the given angles
 vectorTranslationAngles(vec, angles)
 {
-	a = anglestoforward(angles);
-	b = anglestoright(angles);
-	c = vectornormalize(vectorprod(b, a));
+	a = anglesToForward(angles);
+	b = anglesToRight(angles);
+	c = vectorNormalize(vectorProd(b, a));
 
-	return (vectordot(vec, b), vectordot(vec, c), vectordot(vec, a));
+	return (vectorDot(vec, b), vectorDot(vec, c), vectorDot(vec, a));
 }
 
 // The actual translation of point q from p oriented by the given angles
 vectorTranslationAngles2(vec, angles)
 {
-	a = anglestoforward(angles);
-	b = anglestoright(angles) * -1;
-	c = vectorprod(a, b);
+	a = anglesToForward(angles);
+	b = anglesToRight(angles) * -1;
+	c = vectorProd(a, b);
 
-	return (vectordot(vec, a), vectordot(vec, b), vectordot(vec, c));
+	return (vectorDot(vec, a), vectorDot(vec, b), vectorDot(vec, c));
 }
 
 // return angles needed in order to look in vectors direction from angles point of view
 combinedAnglesToVector(vec, angles)
 {
 	a = vectorTranslationAngles(vec, angles);
-	//iprintln(a);
-	angles = anglesNormalize(vectortoangles(a));
+	//iPrintLn(a);
+	angles = anglesNormalize(vectorToAngles(a));
 	return (angles[0],angles[1]*-1,0);
 }
 
@@ -211,7 +211,7 @@ combinedAnglesToVector(vec, angles)
 pointTranslation(p, q, forward, right, up)
 {
 	vec = q - p;
-	return (vectordot(vec, right), vectordot(vec, up), vectordot(vec, forward));
+	return (vectorDot(vec, right), vectorDot(vec, up), vectorDot(vec, forward));
 }
 
 // The translation of point q from p oriented by the given angles
@@ -219,11 +219,11 @@ pointTranslationAngles(p, q, angles)
 {
 	vec = q - p;
 
-	a = anglestoforward(angles);
-	b = anglestoright(angles);
-	c = vectornormalize(vectorprod(b, a));
+	a = anglesToForward(angles);
+	b = anglesToRight(angles);
+	c = vectorNormalize(vectorProd(b, a));
 
-	return (vectordot(vec, b), vectordot(vec, c), vectordot(vec, a));
+	return (vectorDot(vec, b), vectorDot(vec, c), vectorDot(vec, a));
 }
 
 angleNormalize(angle)
@@ -289,7 +289,7 @@ drawPoint(pos, time, color)
 
 	for (i = 0; i < count * 2; i += 2)
 	{
-		l = vectornormalize(randomColor());
+		l = vectorNormalize(randomColor());
 		lines[i] = pos - l / 10;
 		lines[i + 1] = pos + l / 10;
 	}
@@ -331,9 +331,9 @@ drawAxis(time, pos)
 	if (!isDefined(pos))
 		return;
 
-	f = anglestoforward(self.angles) * 20;
-	r = anglestoright(self.angles) * -20;
-	u = anglestoup(self.angles) * 20;
+	f = anglesToForward(self.angles) * 20;
+	r = anglesToRight(self.angles) * -20;
+	u = anglesToUp(self.angles) * 20;
 
 	for (i = 1; i != time; i++)
 	{
@@ -357,9 +357,9 @@ drawCollision(color)
 	{
 		while (true)
 		{
-			f = anglestoforward(self.angles) * self.physics["colSize"];
-			r = anglestoright(self.angles) * self.physics["colSize"]*-1;
-			u = anglestoup(self.angles) * self.physics["colSize"];
+			f = anglesToForward(self.angles) * self.physics["colSize"];
+			r = anglesToRight(self.angles) * self.physics["colSize"]*-1;
+			u = anglesToUp(self.angles) * self.physics["colSize"];
 
 			thread drawLine(self.origin, self.origin + f / 2, 0.05, (1, 0, 0));
 			thread drawLine(self.origin, self.origin + r / 2, 0.05, (0, 0, 1));
@@ -388,7 +388,7 @@ drawCollision(color)
 debug_bulletTrace(start, end, hit_characters, ignore_entity)
 {
 	drawline(start, end, 0.1);
-	return bullettrace(start, end, hit_characters, ignore_entity);
+	return bulletTrace(start, end, hit_characters, ignore_entity);
 }
 
 debug_physicsTrace(start, end)

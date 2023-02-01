@@ -46,17 +46,17 @@ precache()
 	preCacheShader("reticle_portal_red");
 	preCacheShader("reticle_portal_both");
 
-	level.gfx["blueportal"]				= loadfx("portal/portal_blue");
-	level.gfx["redportal"]				= loadfx("portal/portal_red");
-	level.gfx["blueportal_open"]		= loadfx("portal/portal_blue_open");
-	level.gfx["redportal_open"]			= loadfx("portal/portal_red_open");
-	level.gfx["blueportal_close"]		= loadfx("portal/portal_blue_close");
-	level.gfx["redportal_close"]		= loadfx("portal/portal_red_close");
-	level.gfx["blueportal_fail"]		= loadfx("portal/portal_blue_fail");
-	level.gfx["redportal_fail"]			= loadfx("portal/portal_red_fail");
-	level.gfx["portalballblue"]			= loadfx("portal/portal_ball_blue");
-	level.gfx["portalballred"]			= loadfx("portal/portal_ball_red");
-	level.gfx["redlaser"]				= loadfx("portal/redlaser");
+	level.gfx["blueportal"]				= loadFx("portal/portal_blue");
+	level.gfx["redportal"]				= loadFx("portal/portal_red");
+	level.gfx["blueportal_open"]		= loadFx("portal/portal_blue_open");
+	level.gfx["redportal_open"]			= loadFx("portal/portal_red_open");
+	level.gfx["blueportal_close"]		= loadFx("portal/portal_blue_close");
+	level.gfx["redportal_close"]		= loadFx("portal/portal_red_close");
+	level.gfx["blueportal_fail"]		= loadFx("portal/portal_blue_fail");
+	level.gfx["redportal_fail"]			= loadFx("portal/portal_red_fail");
+	level.gfx["portalballblue"]			= loadFx("portal/portal_ball_blue");
+	level.gfx["portalballred"]			= loadFx("portal/portal_ball_red");
+	level.gfx["redlaser"]				= loadFx("portal/redlaser");
 }
 
 onConnect()

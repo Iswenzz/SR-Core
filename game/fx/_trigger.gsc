@@ -56,7 +56,7 @@ fxCircle(points, fx)
 	while (isDefined(self))
 	{
 		tag = spawn("script_model", points[0]);
-		tag setmodel("tag_origin");
+		tag setModel("tag_origin");
 		wait 0.1;
 		playFXOnTag(fx, tag, "tag_origin");
 
@@ -77,7 +77,7 @@ fxRect(points, fx)
 	while (isDefined(self))
 	{
 		tag = spawn("script_model", points[0]);
-		tag setmodel("tag_origin");
+		tag setModel("tag_origin");
 		wait 0.1;
 		playFXOnTag(fx, tag, "tag_origin");
 

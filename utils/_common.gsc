@@ -430,12 +430,12 @@ waitTillNotMoving()
 
 randomColor()
 {
-	return (randomint(100) / 100, randomint(100) / 100, randomint(100) / 100);
+	return (randomInt(100) / 100, randomInt(100) / 100, randomInt(100) / 100);
 }
 
 randomColorDark()
 {
-	return (randomint(50) / 100, randomint(50) / 100, randomint(50) / 100);
+	return (randomInt(50) / 100, randomInt(50) / 100, randomInt(50) / 100);
 }
 
 intRange(variable, min, max)

@@ -37,9 +37,9 @@ triggerPlayerLoop()
 		self waittill("trigger");
 
 		if (isDefined(self.targetname))
-			iprintlnbold("^5Targetname: ^7" + self.targetname);
+			iPrintLnBold("^5Targetname: ^7" + self.targetname);
 		if (isDefined(self.target))
-			iprintlnbold("^1Target: ^7" + self.target);
+			iPrintLnBold("^1Target: ^7" + self.target);
 
 		wait 0.5;
 	}

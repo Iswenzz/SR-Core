@@ -66,7 +66,7 @@ pickup()
 			if (!isDefined(ent.linker))
 			{
 				ent.linker = spawn("script_origin", trace["position"]);
-            	ent linkto(ent.linker);
+            	ent linkTo(ent.linker);
 			}
 			ent.linker.origin = trace["position"];
 

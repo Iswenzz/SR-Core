@@ -103,7 +103,7 @@ cleanHud()
 
 resetPortals()
 {
-	self notify("Deactivate_Portals");
+	self notify("portal_deactivate");
 
 	if (!isDefined(self.portals))
 		return;
@@ -118,7 +118,7 @@ stopAll(delete_portals, disconnected)
 {
 	if (delete_portals)
 	{
-		self notify("Deactivate_Portals");
+		self notify("portal_deactivate");
 
 		self thread portalDelete("blue");
 		self thread portalDelete("red");
@@ -132,22 +132,18 @@ stopAll(delete_portals, disconnected)
 
 		self.turrets = [];
 	}
-
-	self notify("stop_watch_button");
-	self notify("stop_watch_fps");
-
 	if (isDefined(disconnected))
 		return;
 
-	if (self hasweapon(level.portalgun) && !delete_portals)
-		self setweaponammoclip(level.portalgun, 0);
+	if (self hasWeapon(level.portalgun) && !delete_portals)
+		self setWeaponAmmoClip(level.portalgun, 0);
 
-	self allowads(true);
+	self allowAds(true);
 	self.portal["inzoom"] = false;
 	self.portal["can_use"] = false;
 
 	self cleanHud();
-	self notify("stopAll");
+	self notify("stop");
 }
 
 bullet(color)
@@ -156,7 +152,7 @@ bullet(color)
 	bullet setContents(0);
 	bullet setModel("collision_sphere");
 
-	eye = self eyepos();
+	eye = self eyePos();
 	angles = self getPlayerAngles();
 	forward = anglesToForward(angles) * level.maxdistance;
 	trace = bulletTrace(eye, eye + forward, true, self);
@@ -166,7 +162,7 @@ bullet(color)
 	oldpos = trace["position"];
 	fxpos = trace["fx_position"];
 	p = trace["start_position"];
-	p += vectornormalize(oldpos - p) * 33;
+	p += vectorNormalize(oldpos - p) * 33;
 	speed = 2000;
 
 	t = length(fxpos - p) / speed * 1.5;
@@ -177,9 +173,9 @@ bullet(color)
 
 	playFXOnTag(level.gfx["portalball" + color], bullet, "collision_sphere");
 
-	f = anglestoforward(angles);
-	u = anglestoup(angles);
-	r = vectorprod(f, u);
+	f = anglesToForward(angles);
+	u = anglesToUp(angles);
+	r = vectorProd(f, u);
 
 	bullet moveCurve(eye + f * 22 + u * -6 + r, oldpos, trace["position"], t);
 
@@ -191,7 +187,7 @@ portal(color)
 {
 	othercolor = othercolor(color);
 
-	eye = self eyepos();
+	eye = self eyePos();
 	forward = anglesToForward(self getPlayerAngles()) * level.maxdistance;
 	trace = trace(eye, eye + forward, false, level.portal_objects);
 
@@ -210,11 +206,11 @@ portal(color)
 		}
 	}
 
-	terrain = !getdvarint("portal_forbid_terrain");
+	terrain = !getDvarInt("portal_forbid_terrain");
 	oldpos = trace["position"];
 	pos = oldpos;
 	normal = trace["normal"];
-	angles = vectortoangles(normal);
+	angles = vectorToAngles(normal);
 
 	on_ground = false;
 	on_terrain = false;
@@ -225,8 +221,8 @@ portal(color)
 	if (on_ground)
 		angles = (angles[0], self getPlayerAngles()[1] - 180, 0);
 
-	right =	anglestoright(angles);
-	up = anglestoup(angles);
+	right =	anglesToRight(angles);
+	up = anglesToUp(angles);
 
 	if (!portalfailed)
 	{
@@ -258,7 +254,7 @@ portal(color)
 			b = self.portals[i].trace["up"];
 			c = self.portals[i].trace["normal"];
 
-			trans = (vectordot(vec, a), vectordot(vec, b), vectordot(vec, c));
+			trans = (vectorDot(vec, a), vectorDot(vec, b), vectorDot(vec, c));
 
 			if (!(round(trans[2], -1)))
 			{
@@ -386,8 +382,8 @@ portal(color)
 			vec = pos - portals[i].trace["position"];
 			a = portals[i].trace["right"];
 			b = portals[i].trace["up"];
-			x = vectordot(vec, a);
-			y = vectordot(vec, b);
+			x = vectorDot(vec, a);
+			y = vectorDot(vec, b);
 			if ((abs(x) < width - 1) && (abs(y) < height - 1))
 				portalfailed = true;
 		}
@@ -401,7 +397,7 @@ portal(color)
 		portal_out_pos = pos + normal * ((normal[2] >= 0) * (20 * (1 - normal[2])) + (-90 * normal[2]) * (normal[2] < 0));
 		safe_exit = portal_out_pos - 30 * (1 - abs(normal[2])) * up;
 
-		if (playerphysicstrace(safe_exit, safe_exit + normal) != (safe_exit + normal))
+		if (playerPhysicsTrace(safe_exit, safe_exit + normal) != (safe_exit + normal))
 			portalfailed = true;
 	}
 
@@ -427,7 +423,7 @@ portal(color)
 		if (trace["fraction"] != 1)
 		{
 			self playSoundOnPosition("portal_invalid_surface", trace["position"], true);
-			playfx(level.gfx[color + "portal_fail"], trace["position"] + trace["normal"]);
+			playFX(level.gfx[color + "portal_fail"], trace["position"] + trace["normal"]);
 		}
 	}
 }
@@ -441,7 +437,7 @@ portalDelete(color)
 
 	self.portal[color] playSound("portal_close");
 	self.portal[color] playSound("portal_close_" + color);
-	self.portal[color] notify("stop_fx");
+	self.portal[color] notify("fx");
 	self.portal[color] thread portalDeleteFX(color);
 
 	if (isDefined(self.portal[color].bullet))
@@ -513,13 +509,13 @@ portalCreate(color, trace)
 
 portalFX()
 {
-	self endon("stop_fx");
+	self endon("fx");
 	wait 0.05;
 
 	oldpos = self.trace["old_position"];
 	fxpos = self.trace["fx_position"];
 	p = self.trace["start_position"];
-	p += vectornormalize(oldpos - p) * 33;
+	p += vectorNormalize(oldpos - p) * 33;
 	speed = 50000;
 
 	t = length(fxpos - p) / speed * 1.5;
@@ -528,13 +524,13 @@ portalFX()
 
 	playFXOnTag(level.gfx["portalball" + self.color], self.bullet, "collision_sphere");
 
-	angles = self.owner getplayerangles();
+	angles = self.owner getPlayerAngles();
 
-	f = anglestoforward(angles);
-	u = anglestoup(angles);
-	r = vectorprod(f, u);
+	f = anglesToForward(angles);
+	u = anglesToUp(angles);
+	r = vectorProd(f, u);
 
-	self.bullet moveCurve(self.owner eyepos() + f * 22 + u * -6 + r, oldpos, self.trace["position"], t);
+	self.bullet moveCurve(self.owner eyePos() + f * 22 + u * -6 + r, oldpos, self.trace["position"], t);
 	self thread playOpenSound(self.color, fxpos + self.trace["normal"] * 2);
 
 	self setModel("portal_" + self.color);
@@ -547,7 +543,7 @@ portalFX()
 
 playOpenSound(color, soundPos)
 {
-	self endon("stop_fx");
+	self endon("fx");
 
 	wait 0.3;
 
@@ -583,7 +579,7 @@ moveCurve(p, q1, q2, t)
 		vec = vec2 * fraction + i * vec1 / n;
 		vecx = vec;
 		pos = p + vec;
-		self moveto(pos, t);
+		self moveTo(pos, t);
 	}
 	self thread deleteFXAfterTime(t);
 }
@@ -592,7 +588,7 @@ deleteFXAfterTime(t)
 {
 	wait t;
 	if (isDefined(self))
-		self moveto((0, 0, 100000), 0.05);
+		self moveTo((0, 0, 100000), 0.05);
 
 	wait 0.1;
 	if (isDefined(self))
@@ -601,7 +597,7 @@ deleteFXAfterTime(t)
 
 portalWait(color, othercolor)
 {
-	self endon("Deactivate_Portals");
+	self endon("portal_deactivate");
 	self endon("disconnect");
 	self endon("death");
 
@@ -619,25 +615,25 @@ portalWait(color, othercolor)
 		if (self.portal["inportal"])
 			continue;
 
-		player_on_ground = self isonground();
-		vel = self getvelocity() * 0.05;
+		player_on_ground = self isOnGround();
+		vel = self getVelocity() * 0.05;
 
 		check_dist = level.portal_check_dist;
 		if (player_on_ground)
 			check_dist *= 0.2;
-		else if (vectordot(vel, p1.trace["normal"]) > 60)
+		else if (vectorDot(vel, p1.trace["normal"]) > 60)
 			check_dist *= 1.5;
 
-		if (!(distancesquared(p1.trace["position"], self.origin) < check_dist * check_dist))
+		if (!(distanceSquared(p1.trace["position"], self.origin) < check_dist * check_dist))
 			continue;
 
 		// Player isn't coming at portal
-		if (vectordot(vel, p1.trace["normal"]) > 0 || vectordot(self.origin-p1.trace["position"] + (0, 0, 5),
+		if (vectorDot(vel, p1.trace["normal"]) > 0 || vectorDot(self.origin-p1.trace["position"] + (0, 0, 5),
 			p1.trace["normal"]) <= 0)
 			continue;
 
-		vec = self.origin + self getcenter() - p1.trace["position"] + vel + c * (vel[2] < 0);
-		offset = (vectordot(vec, p1.trace["right"]), vectordot(vec, p1.trace["up"]), vectordot(vec, p1.trace["normal"]));
+		vec = self.origin + self getCenter() - p1.trace["position"] + vel + c * (vel[2] < 0);
+		offset = (vectorDot(vec, p1.trace["right"]), vectorDot(vec, p1.trace["up"]), vectorDot(vec, p1.trace["normal"]));
 
 		z = abs(p1.trace["normal"][2]);
 
@@ -687,7 +683,7 @@ portalKick(p1, p2, vel)
 		self playLocalSound("player_portal_enter");
 
 	vec = self.origin - p1.trace["position"];
-	offset = (vectordot(vec, p1.trace["right"]), vectordot(vec, p1.trace["up"]), 0);
+	offset = (vectorDot(vec, p1.trace["right"]), vectorDot(vec, p1.trace["up"]), 0);
 	if (abs(offset[0]) > (level.portal_width / 2 - 16))
 		offset = ((level.portal_width / 2 - 16) * sign(offset[0]), offset[1], 0);
 
@@ -697,22 +693,22 @@ portalKick(p1, p2, vel)
 		offset = (offset[0], (level.portal_height / 2 - 72), 0);
 
 	position = p2.trace["portal_out"] + p2.trace["right"] * offset[0] * -1 + p2.trace["up"] * offset[1];
-	if (playerphysicstrace(position, position + p2.trace["normal"]) != position + p2.trace["normal"])
+	if (playerPhysicsTrace(position, position + p2.trace["normal"]) != position + p2.trace["normal"])
 		position = p2.trace["safe_exit"];
 
-	p1 playsound("portal_enter");
+	p1 playSound("portal_enter");
 	self setOrigin(position);
 
-	if (!(getdvarint("portal_help_orientation") && p1.trace["on_ground"] && p2.trace["on_ground"]))	//disable rotations completely if dvar is true and both portals on ground
-		self setplayerangles(playerPortalOutAngles(p1.trace["angles"], p2.trace["angles"], self getPlayerAngles()));
+	if (!(getDvarInt("portal_help_orientation") && p1.trace["on_ground"] && p2.trace["on_ground"]))	//disable rotations completely if dvar is true and both portals on ground
+		self setPlayerAngles(playerPortalOutAngles(p1.trace["angles"], p2.trace["angles"], self getPlayerAngles()));
 
-	earthquake(0.5, 0.2, self eyepos(), 100);
+	earthquake(0.5, 0.2, self eyePos(), 100);
 
 	self thread launch(self.origin, p2.trace["normal"], strength * multiplier);
 
 	wait 0.05;
 
-	p2 playsound("portal_exit");
+	p2 playSound("portal_exit");
 
 	if (p2.trace["normal"][2] >= 0)
 		wait 0.45;
@@ -729,7 +725,7 @@ watchAirTime()
 
 	self.portal["first_enter"] = false;
 
-	while (!self isonground())
+	while (!self isOnGround())
 		wait 0.1;
 
 	self.portal["first_enter"] = true;
@@ -745,21 +741,21 @@ aimDownSight()
 
 portalZoomIn()
 {
-	self allowads(true);
+	self allowAds(true);
 	self clientCmd("+toggleads_throw");
 	self.portal["inzoom"] = true;
 }
 
 portalZoomOut()
 {
-	self allowads(false);
+	self allowAds(false);
 	self clientCmd("-toggleads_throw");
 	self.portal["inzoom"] = false;
 }
 
 portalActivate()
 {
-	self notify("Deactivate_Portals");
+	self notify("portal_deactivate");
 
 	self thread portalWait("blue" ,"red");
 	self thread portalWait("red" ,"blue");

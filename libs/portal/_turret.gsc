@@ -20,12 +20,12 @@ precache()
 	preCacheModel("turret_wing0_broken");
 	preCacheModel("turret_wing1_broken");
 
-	level.gfx["turret_flash"] = loadfx("portal/turret_flash");
-	level.gfx["turret_light_flash"] = loadfx("portal/turret_light_flash");
-	level.gfx["turret_explode"] = loadfx("portal/turret_explosion");
-	level.gfx["turret_sparks_pop"] = loadfx("portal/turret_sparks_pop");
-	level.gfx["turret_sparks"] = loadfx("portal/turret_sparks");
-	level.gfx["turret_cookoff"] = loadfx("portal/turret_cookoff");
+	level.gfx["turret_flash"] = loadFx("portal/turret_flash");
+	level.gfx["turret_light_flash"] = loadFx("portal/turret_light_flash");
+	level.gfx["turret_explode"] = loadFx("portal/turret_explosion");
+	level.gfx["turret_sparks_pop"] = loadFx("portal/turret_sparks_pop");
+	level.gfx["turret_sparks"] = loadFx("portal/turret_sparks");
+	level.gfx["turret_cookoff"] = loadFx("portal/turret_cookoff");
 
 	level.turret_killed_player_this_frame = false;
 }
@@ -35,30 +35,30 @@ turret()
 	self endon("disconnect");
 	self endon("death");
 
-	if (!getdvarint("portal_allow_turrets"))
+	if (!getDvarInt("portal_allow_turrets"))
 	{
-		self iprintln("Turrets not allowed");
+		self iPrintLn("Turrets not allowed");
 		return;
 	}
-	if (self.turrets.size >= getdvarint("portal_max_turrets"))
+	if (self.turrets.size >= getDvarInt("portal_max_turrets"))
 	{
 		self notify("place_turret");
 
 		if (isDefined(self.test_turret))
 			self.test_turret delete();
 
-		self iprintln("You cannot spawn any more turrets");
+		self iPrintLn("You cannot spawn any more turrets");
 		return;
 	}
 	if (!isDefined(self.test_turret))
 	{
-		eye = self eyepos();
+		eye = self eyePos();
 		angles = self getPlayerAngles();
 
-		pos = eye + anglestoforward(angles) * (15 + level.pickup_object_distance + 17) - (0, 0, 30);
+		pos = eye + anglesToForward(angles) * (15 + level.pickup_object_distance + 17) - (0, 0, 30);
 		self.test_turret = spawn("script_model", pos);
-		self.test_turret setmodel("turret");
-		self.test_turret hidepart("tag_eye");
+		self.test_turret setModel("turret");
+		self.test_turret hidePart("tag_eye");
 
 		self endon("death");
 		self endon("disconnect");
@@ -69,14 +69,14 @@ turret()
 
 		while (true)
 		{
-			eye = self eyepos();
+			eye = self eyePos();
 			angles = self getPlayerAngles();
 
 			if (eye!=old_eye || angles!=old_ang)
 			{
-				self.test_turret moveto(playerphysicstrace(eye, eye + anglestoforward(angles)
+				self.test_turret moveTo(playerPhysicsTrace(eye, eye + anglesToForward(angles)
 					* (15 + level.pickup_object_distance + 17) - (0, 0, 30)), 0.1);
-				self.test_turret rotateto((0, angles[1], 0), 0.1);
+				self.test_turret rotateTo((0, angles[1], 0), 0.1);
 			}
 
 			old_eye = eye;
@@ -91,10 +91,10 @@ turret()
 		{
 			pos1 = players[i].origin;
 			pos2 = self.test_turret.origin;
-			if (distancesquared((pos1[0], pos1[1], 0), (pos2[0], pos2[1], 0)) < 37 * 37
+			if (distanceSquared((pos1[0], pos1[1], 0), (pos2[0], pos2[1], 0)) < 37 * 37
 				&& pos2[2] - pos1[2] > -40 && pos2[2] - pos1[2] < 60)
 			{
-				self iprintln("turret too close to player");
+				self iPrintLn("turret too close to player");
 				return;
 			}
 		}
@@ -106,14 +106,14 @@ turret()
 
 turretSpawn(pos, angles)
 {
-	if (getentarray().size > 700)
+	if (getEntArray().size > 700)
 	{
-		println("too many turrets spawned, deleting old turrets");
+		printLn("too many turrets spawned, deleting old turrets");
 		level.portal_turrets[0] turretDelete();
 	}
 
 	angles = (angles[0], angles[1], 0);
-	pos = bullettrace(pos, pos + (0,0,-1000), false, undefined)["position"];
+	pos = bulletTrace(pos, pos + (0,0,-1000), false, undefined)["position"];
 
 	if (!isDefined(pos))
 		return;
@@ -124,8 +124,8 @@ turretSpawn(pos, angles)
 	if (isDefined(self))
 		turret.owner = self;
 
-	turret.forward = anglestoforward(angles);
-	turret.up = anglestoup(angles);
+	turret.forward = anglesToForward(angles);
+	turret.up = anglesToUp(angles);
 	turret.center = pos + turret.forward * 5 + turret.up * 34;
 	turret.speed = 0.15;
 	turret.swayspeed = turret.speed * 8;
@@ -141,21 +141,21 @@ turretSpawn(pos, angles)
 	turret.targettime = turret.speed * 4;
 	turret.defaultangles = angles;
 	turret.angles = angles;
-	turret.aim = spawn("script_origin", turret gettagorigin("tag_aim"));
+	turret.aim = spawn("script_origin", turret getTagOrigin("tag_aim"));
 	turret.aim hide();
 	turret.aim.angles = angles;
-	turret.eyepos = turret gettagorigin("tag_eye");
+	turret.eyePos = turret getTagOrigin("tag_eye");
 
 	turret.wings = [];
 	turret.physics["ignore_ents"] = [];
 	for (i = 0; i < 2; i++)
 	{
-		turret.wings[i] = spawn("script_model", turret gettagorigin("tag_aim"));
-		turret.wings[i] setmodel("turret_wing" + i);
+		turret.wings[i] = spawn("script_model", turret getTagOrigin("tag_aim"));
+		turret.wings[i] setModel("turret_wing" + i);
 		turret.wings[i].angles = angles;
-		turret.wings[i] linkto(turret.aim);
+		turret.wings[i] linkTo(turret.aim);
 		turret.wings[i] hide();
-		turret.wings[i] setcontents(1);
+		turret.wings[i] setContents(1);
 		turret.wings[i].physics["name"] = "turret_wing" + i;
 		turret.physics["ignore_ents"][i] = turret.wings[i];
 	}
@@ -173,9 +173,9 @@ turretSpawn(pos, angles)
 	turret.health = 500;
 	turret.teamKill = true;
 
-	turret thread damagelistener(turret);
-	turret.wings[0] thread damagelistener(turret);
-	turret.wings[1] thread damagelistener(turret);
+	turret thread damageListener(turret);
+	turret.wings[0] thread damageListener(turret);
+	turret.wings[1] thread damageListener(turret);
 
 	turret playloopSound("turret_loop");
 	turret thread sleep();
@@ -207,10 +207,10 @@ damageListener(turret)
 		{
 			if (meansofdeath != "MOD_EXPLOSIVE")
 			{
-				if (randomint(2))
+				if (randomInt(2))
 					turret thread shoutHurt();
-				if (!randomint(15))
-					playfx(level.gfx["turret_sparks"], turret gettagorigin("tag_wing" + randomint(2)));
+				if (!randomInt(15))
+					playFX(level.gfx["turret_sparks"], turret getTagOrigin("tag_wing" + randomInt(2)));
 			}
 			if (turret.active)
 			{
@@ -237,9 +237,9 @@ shoutHurt()
 
 	if (self.shouttimeover && !self.activating && !self.firing)
 	{
-		self playsound("turret_hurt");
+		self playSound("turret_hurt");
 		self.shouttimeover = false;
-		self thread resetshouttime(2.2 + randomfloat(2));
+		self thread resetShoutTime(2.2 + randomFloat(2));
 	}
 	self.shotat = true;
 	self.swayspeed = self.speed * 4;
@@ -273,8 +273,8 @@ explode(meansofdeath)
 	self.alive = 0;
 
 	self notify("destroyed");
-	self playsound("turret_ignite");
-	playfx(level.gfx["turret_explode"], self.center);
+	self playSound("turret_ignite");
+	playFX(level.gfx["turret_explode"], self.center);
 
 	wait 0.05;
 
@@ -284,49 +284,49 @@ explode(meansofdeath)
 
 	sr\libs\portal\_weapons::explosionRadiusDamage(self.center+self.up * 40, self.explosionradius, self.explosiondamage, 10, ignore_ents);
 
-	self setmodel("turret_broken");
-	self.wings[0] setmodel("turret_wing0_broken");
-	self.wings[1] setmodel("turret_wing1_broken");
+	self setModel("turret_broken");
+	self.wings[0] setModel("turret_wing0_broken");
+	self.wings[1] setModel("turret_wing1_broken");
 
 	if (meansofdeath != "MOD_EXPLOSIVE")
 	{
-		if (randomintrange(0,5))
+		if (randomIntRange(0,5))
 		{
-			wait randomfloat(1.5);
-			self playsound("turret_sparks");
-			playfx(level.gfx["turret_sparks_pop"], self gettagorigin("tag_wing0"));
-			playfx(level.gfx["turret_sparks_pop"], self gettagorigin("tag_wing1"));
+			wait randomFloat(1.5);
+			self playSound("turret_sparks");
+			playFX(level.gfx["turret_sparks_pop"], self getTagOrigin("tag_wing0"));
+			playFX(level.gfx["turret_sparks_pop"], self getTagOrigin("tag_wing1"));
 		}
 		else
 		{
 			wait 0.05;
-			self playsound("turret_cookoff");
-			playfx(level.gfx["turret_cookoff"], self.center);
+			self playSound("turret_cookoff");
+			playFX(level.gfx["turret_cookoff"], self.center);
 			wait 0.1;
-			self playsound("turret_sparks");
+			self playSound("turret_sparks");
 		}
 	}
 	if (self.active)
 	{
-		wait (0.5 + randomfloat(1));
+		wait (0.5 + randomFloat(1));
 
-		self playsound("turret_hurt_explosion");
+		self playSound("turret_hurt_explosion");
 
-		if (randomint(3))
+		if (randomInt(3))
 		{
-			wait (1 + randomfloat(1.5));
-			self playsound("turret_destroyed");
+			wait (1 + randomFloat(1.5));
+			self playSound("turret_destroyed");
 			self deactivate(true);
 		}
 	}
 	else
 	{
 		wait 1.5;
-		self playsound("turret_destroyed");
+		self playSound("turret_destroyed");
 	}
 
-	self stoploopsound();
-	self hidepart("tag_eye");
+	self stopLoopSound();
+	self hidePart("tag_eye");
 
 	self.active = 0;
 	self.exploding = 0;
@@ -338,7 +338,7 @@ explode(meansofdeath)
 	{
 		if (level.portal_turrets[i] == self)
 			continue;
-		if (distancesquared(self.center, level.portal_turrets[i].center) < 600 * 600)
+		if (distanceSquared(self.center, level.portal_turrets[i].center) < 600 * 600)
 			turrets[turrets.size] = level.portal_turrets[i];
 	}
 	wait 1.2;
@@ -351,10 +351,10 @@ turretsTaunt(turrets, idx)
 	if (!isDefined(turrets[idx]))
 		return;
 
-	if (turrets[idx].alive && !turrets[idx].active && !turrets[idx].activating && !randomint(3))
+	if (turrets[idx].alive && !turrets[idx].active && !turrets[idx].activating && !randomInt(3))
 	{
-		turrets[idx] playsound("turret_witnessdeath");
-		wait 1.5 + randomfloat(1);
+		turrets[idx] playSound("turret_witnessdeath");
+		wait 1.5 + randomFloat(1);
 	}
 	thread turretsTaunt(turrets, idx + 1);
 }
@@ -366,22 +366,22 @@ updateTargets()
 
 	for (i = 0; i < players.size; i++)
 	{
-		if (!getdvarint("portal_turret_target_owner") && players[i] == self.owner)
+		if (!getDvarInt("portal_turret_target_owner") && players[i] == self.owner)
 			continue;
 
-		d2 = distancesquared(players[i].origin, self.aim.origin);
+		d2 = distanceSquared(players[i].origin, self.aim.origin);
 		if (d2 < self.maxdist * self.maxdist && players[i].health > 0)
 		{
 			if (d2 < 80 * 80)
-				aim_position = players[i] centerpos();
+				aim_position = players[i] centerPos();
 			else
-				aim_position = players[i] eyepos();
+				aim_position = players[i] eyePos();
 
-			angles = vectortoangles(aim_position - self.aim.origin);
+			angles = vectorToAngles(aim_position - self.aim.origin);
 
 			if (abs(angleNormalize(self.defaultangles[0] - angles[0])) < self.degreex && abs(angleNormalize(self.defaultangles[1] - angles[1])) < self.degreey)
 			{
-				if (players[i] SightConeTrace(self.eyepos, self) || players[i].portal["forceturretshoot"])
+				if (players[i] sightConeTrace(self.eyePos, self) || players[i].portal["forceturretshoot"])
 					self.targets[self.targets.size] = players[i];
 			}
 		}
@@ -395,11 +395,11 @@ sleep()
 	self endon("delete");
 	self endon("activated");
 
-	self hidepart("tag_eye");
+	self hidePart("tag_eye");
 
 	while (!self.targets.size)
 	{
-		self updatetargets();
+		self updateTargets();
 		wait self.targettime;
 	}
 	self thread activate(0);
@@ -416,32 +416,32 @@ activate(woken_up)
 	self notify("activated");
 
 	self.activating = true;
-	self hidepart("tag_aim");
-	self showpart("tag_eye");
+	self hidePart("tag_aim");
+	self showPart("tag_eye");
 
 	for (i = 0; i < self.wings.size; i++)
 	{
 		self.wings[i] unlink();
-		self.wings[i] setmodel("turret_wing" + i);
+		self.wings[i] setModel("turret_wing" + i);
 		self.wings[i] show();
-		self.wings[i] moveto(self gettagorigin("tag_wing" + i), self.activatespeed);
+		self.wings[i] moveTo(self getTagOrigin("tag_wing" + i), self.activatespeed);
 	}
 
-	self playsound("turret_active_sound");
-	if (randomintrange(0,4) && !woken_up)
-		self playsound("turret_active");
+	self playSound("turret_active_sound");
+	if (randomIntRange(0,4) && !woken_up)
+		self playSound("turret_active");
 
-	self playsound("turret_deploy");
+	self playSound("turret_deploy");
 
 	wait self.activatespeed;
 	for (i = 0; i < self.wings.size; i++)
-		self.wings[i] linkto(self.aim);
+		self.wings[i] linkTo(self.aim);
 
 
 	self.activating = false;
 	self.active = 1;
 
-	self playsound("turret_ping");
+	self playSound("turret_ping");
 
 	wait 0.3;
 
@@ -457,7 +457,7 @@ deploying(woken_up)
 	self.killedtarget = false;
 	self.losttarget = true;
 
-	self updatetargets();
+	self updateTargets();
 	self.last_target = self;
 
 	while (true)
@@ -465,12 +465,12 @@ deploying(woken_up)
 		if (!level.turret_killed_player_this_frame)
 			self.losttarget = true;
 
-		self updatetargets();
+		self updateTargets();
 
 		if (!self.targets.size)
 			break;
 
-		target = self.targets[randomint(self.targets.size)];
+		target = self.targets[randomInt(self.targets.size)];
 		self target(target);
 	}
 	self.firing = 0;
@@ -478,10 +478,10 @@ deploying(woken_up)
 	if ((self.killedtarget || level.turret_killed_player_this_frame) || (!self.losttarget && !woken_up))
 	{
 		wait 0.2;
-		self setangles(self.defaultangles, 0.2);
+		self setAngles(self.defaultangles, 0.2);
 		wait 0.1;
 		if (self.killedtarget)
-			self playsound("turret_retire");
+			self playSound("turret_retire");
 		wait 0.1;
 		self thread deactivate();
 	}
@@ -489,11 +489,11 @@ deploying(woken_up)
 	{
 		if (woken_up && !self.losttarget)
 		{
-			self playsound("turret_woken_up");
-			self thread searchmode(0);
+			self playSound("turret_woken_up");
+			self thread searchMode(0);
 		}
 		else
-			self thread searchmode(1);
+			self thread searchMode(1);
 	}
 }
 
@@ -520,13 +520,13 @@ target(player)
 
 	for (i = 0; i < count && isAlive(player) && player.sessionstate == "playing" && player.health > 0; i++)
 	{
-		d2 = distancesquared(player.origin, self.aim.origin);
+		d2 = distanceSquared(player.origin, self.aim.origin);
 		if (d2 < 80 * 80)
-			aim_position = player centerpos();
+			aim_position = player centerPos();
 		else
-			aim_position = player eyepos();
+			aim_position = player eyePos();
 
-		if (!self setangles(vectortoangles(aim_position - self.aim.origin)))
+		if (!self setAngles(vectorToAngles(aim_position - self.aim.origin)))
 		{
 			self.losttarget = true;
 			self notify("stop_target");
@@ -550,21 +550,21 @@ loopShoot(player)
 
 	while (true)
 	{
-		eye = player eyepos();
-		dir = anglestoforward(self.aim.angles);
+		eye = player eyePos();
+		dir = anglesToForward(self.aim.angles);
 
 		for (n = 0; n < 2; n++)
 		{
 			for (i = 0; i < 2; i++)
 			{
-				pos = self.wings[n] gettagorigin("tag_flash" + i);
-				playfx(level.gfx["turret_flash"], pos, dir + (vectorRandom(2) / 1000));
+				pos = self.wings[n] getTagOrigin("tag_flash" + i);
+				playFX(level.gfx["turret_flash"], pos, dir + (vectorRandom(2) / 1000));
 			}
 		}
 		self playSound("turret_fire");
-		playfx(level.gfx["turret_light_flash"], self.eyepos);
+		playFX(level.gfx["turret_light_flash"], self.eyePos);
 
-		trace = trace(self.eyepos, self.eyepos + dir*self.maxdist, true, self.physics["ignore_ents"]);
+		trace = trace(self.eyePos, self.eyePos + dir*self.maxdist, true, self.physics["ignore_ents"]);
 		killed_ent = false;
 
 		if (trace["fraction"] != 1)
@@ -591,11 +591,11 @@ loopShoot(player)
 		}
 		if (!isDefined(trace["entity"]) || isDefined(trace["entity"]) && trace["entity"] != player)
 		{
-			if (distancesquared(self.aim.origin, trace["position"]) > distancesquared(self.aim.origin, eye))
+			if (distanceSquared(self.aim.origin, trace["position"]) > distanceSquared(self.aim.origin, eye))
 			{
-				player_distance = vectordot(eye - self.aim.origin, dir);
+				player_distance = vectorDot(eye - self.aim.origin, dir);
 				sight_pos = self.aim.origin + player_distance * dir;
-				if (distancesquared(eye, sight_pos) < 32 * 32)
+				if (distanceSquared(eye, sight_pos) < 32 * 32)
 				{
 					damage = self.damage * 0.25 * sr\libs\portal\_weapons::calculateDamageFraction(player_distance, self.maxdist * 0.5, self.maxdist * 0.625, 0.5);
 					self.killedtarget = player sr\libs\portal\_weapons::damageEnt(self, int(damage), "TURRET_BULLET", "", sight_pos, dir);
@@ -608,13 +608,13 @@ loopShoot(player)
 		if (self.killedtarget)
 		{
 			level.turret_killed_player_this_frame = true;
-			thread resetplayerkilledvar();
+			thread resetPlayerKilled();
 		}
 		wait self.shootspeed;
 	}
 }
 
-resetPlayerKilleDvar()
+resetPlayerKilled()
 {
 	wait 0.1;
 	level.turret_killed_player_this_frame = false;
@@ -632,9 +632,9 @@ searchMode(play_sound)
 	for (i = 0; ((i < self.searchtime/checkspeed) || self.shotat) && !self.targets.size; i++)
 	{
 		wait checkspeed;
-		self updatetargets();
+		self updateTargets();
 		if (i == 18 && !self.targets.size && play_sound && !(isDefined(self.wakeup_means) && self.wakeup_means == "MOD_EXPLOSIVE"))
-			self playsound("turret_search");
+			self playSound("turret_search");
 	}
 
 	self notify("end_search");
@@ -659,7 +659,7 @@ sway()
 
 	while (true)
 	{
-		self setangles(self.defaultangles + (randomintrange(x_1, x_0), y, 0), self.swayspeed);
+		self setAngles(self.defaultangles + (randomIntRange(x_1, x_0), y, 0), self.swayspeed);
 		wait self.swayspeed;
 		y *= -1;
 	}
@@ -672,22 +672,22 @@ deactivate(destroyed)
 	self endon("delete");
 
 	self notify("stop_target");
-	self playsound("turret_retract");
-	self setangles(self.defaultangles);
+	self playSound("turret_retract");
+	self setAngles(self.defaultangles);
 	wait self.speed + 0.05;
 
 	for (i = 0; i < self.wings.size; i++)
 	{
 		self.wings[i] unlink();
-		self.wings[i] moveto(self gettagorigin("tag_aim"), self.activatespeed);
+		self.wings[i] moveTo(self getTagOrigin("tag_aim"), self.activatespeed);
 	}
 	wait self.activatespeed;
 
-	self showpart("tag_aim");
+	self showPart("tag_aim");
 	for (i = 0; i < self.wings.size; i++)
 	{
 		self.wings[i] hide();
-		self.wings[i] linkto(self.aim);
+		self.wings[i] linkTo(self.aim);
 	}
 	wait 0.05;
 
@@ -716,7 +716,7 @@ setAngles(angles, time)
 	if (!y_ok)
 		new_degree_y = sign(new_degree_y) * self.degreey;
 
-	self.aim rotateto(self.defaultangles + (new_degree_x, new_degree_y, 0), time);
+	self.aim rotateTo(self.defaultangles + (new_degree_x, new_degree_y, 0), time);
 
 	return (x_ok && y_ok);
 }
@@ -745,19 +745,19 @@ pickup(player)
 	self notify("picked_up");
 	self unlink();
 
-	self showpart("tag_eye");
-	self setcontents(0);
-	self hidepart("tag_aim");
+	self showPart("tag_eye");
+	self setContents(0);
+	self hidePart("tag_aim");
 
 	for (i = 0; i < self.wings.size; i++)
 	{
 		self.wings[i] unlink();
-		self.wings[i] setmodel("turret_wing"+i);
+		self.wings[i] setModel("turret_wing"+i);
 		self.wings[i] show();
-		self.wings[i] setcontents(0);
-		self.wings[i].origin = self gettagorigin("tag_wing" + i);
+		self.wings[i] setContents(0);
+		self.wings[i].origin = self getTagOrigin("tag_wing" + i);
 	}
-	self playsound("turret_pickup_" + randomintrange(1,11));
+	self playSound("turret_pickup_" + randomIntRange(1,11));
 	self.active = 0;
 	self thread followPlayer();
 }
@@ -782,43 +782,43 @@ followPlayer(player)
 
 	while (true)
 	{
-		eye = player eyepos();
+		eye = player eyePos();
 		angles = player getPlayerAngles();
 
 		if (eye != old_eye || angles != old_ang)
 		{
 			self.physics["sway"] = false;
 
-			forward = anglestoforward(angles);
-			pos = playerphysicstrace(self.origin - (0, 0, 20),
+			forward = anglesToForward(angles);
+			pos = playerPhysicsTrace(self.origin - (0, 0, 20),
 				eye - (0, 0, 20) + forward * (15 + level.pickup_object_distance + 17));
 			pos+= self.physics["sway_offset"];
-			forward = anglestoforward((angles[0], angles[1] + angle_offset,angles[2]));
+			forward = anglesToForward((angles[0], angles[1] + angle_offset,angles[2]));
 
-			r = vectorprod(forward, (0, 0, 1));
-			f = vectorprod((0, 0, 1), r);
+			r = vectorProd(forward, (0, 0, 1));
+			f = vectorProd((0, 0, 1), r);
 
-			self moveto(pos , 0.1);
-			self rotateto((0, angles[1] + angle_offset, 0), 0.1);
+			self moveTo(pos , 0.1);
+			self rotateTo((0, angles[1] + angle_offset, 0), 0.1);
 
-			self.wings[0] moveto(pos + r * -6 + f * 4 + (0, 0, 3.4), 0.1);
-			self.wings[1] moveto(pos + r * 6 + f * 4 + (0, 0, 3.4), 0.1);
+			self.wings[0] moveTo(pos + r * -6 + f * 4 + (0, 0, 3.4), 0.1);
+			self.wings[1] moveTo(pos + r * 6 + f * 4 + (0, 0, 3.4), 0.1);
 		}
 		else
 			self.physics["sway"] = true;
 
 		if (skip_arm_sway)
 		{
-			if (randomintrange(0, 4))
-				random_pos = (randomintrange(int(self.degreex * -0.5),
-					int(self.degreex * 0.5)), randomintrange(int(self.degreey * -0.5), int(self.degreey * 0.5)), 0);
+			if (randomIntRange(0, 4))
+				random_pos = (randomIntRange(int(self.degreex * -0.5),
+					int(self.degreex * 0.5)), randomIntRange(int(self.degreey * -0.5), int(self.degreey * 0.5)), 0);
 			skip_arm_sway++;
 		}
 		else
 			skip_arm_sway--;
 
-		self.wings[0] rotateto(random_pos + (0, angle_offset+angles[1], 0), 0.2, 0.05, 0.05);
-		self.wings[1] rotateto(random_pos + (0, angle_offset+angles[1], 0), 0.2, 0.05, 0.05);
+		self.wings[0] rotateTo(random_pos + (0, angle_offset+angles[1], 0), 0.2, 0.05, 0.05);
+		self.wings[1] rotateTo(random_pos + (0, angle_offset+angles[1], 0), 0.2, 0.05, 0.05);
 
 		wait 0.1;
 	}
@@ -836,7 +836,7 @@ swayPickup()
 		old_sway = self.physics["sway_offset"];
 
 		if (self.physics["sway"])
-			self moveto(self.origin + self.physics["sway_offset"] - old_sway, self.physics["sway_speed"] + 0.1);
+			self moveTo(self.origin + self.physics["sway_offset"] - old_sway, self.physics["sway_speed"] + 0.1);
 
 		wait self.physics["sway_speed"];
 		if (i >= 360)

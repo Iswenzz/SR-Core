@@ -146,7 +146,7 @@ precacheText()
 
 precacheFx()
 {
-	level.gfx["pickup"]					= loadfx("misc/ui_pickup_available");
+	level.gfx["pickup"]					= loadFx("misc/ui_pickup_available");
 	level.gfx["lasershow"] 				= loadFx("deathrun/lasershow");
 	level.gfx["endgame"] 				= loadFx("deathrun/endgame_fx");
 	level.gfx["light_blink"] 			= loadFx("misc/light_c4_blink");
@@ -169,8 +169,8 @@ precacheFx()
 	level.gfx["startnstop"] 				= loadFx("deathrun/flare_startnstop");
 	level.gfx["jetpack"] 				= loadFx("smoke/jetpack");
 	level.gfx["meteor"] 					= loadFx("fire/tank_fire_engine");
-	level.gfx["explosion"] 				= loadfx("explosions/grenadeExp_default");
-	level.gfx["flame"] 					= loadfx("fire/tank_fire_engine");
+	level.gfx["explosion"] 				= loadFx("explosions/grenadeExp_default");
+	level.gfx["flame"] 					= loadFx("fire/tank_fire_engine");
 
 	visionSetNaked(toLower(level.map), 0);
 }

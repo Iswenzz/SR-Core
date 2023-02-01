@@ -60,7 +60,7 @@ fx(asset, trace)
 	forward = anglesToForward(angles);
 	up = anglesToUp(angles);
 
-	playFx(asset["effect"], position, forward, up);
+	playFX(asset["effect"], position, forward, up);
 	self playSound("sprayer");
 
 	wait Ternary(self sr\sys\_admins::isRole("owner"), 0, level.dvar["sprays_delay"]);

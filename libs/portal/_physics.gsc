@@ -73,9 +73,9 @@ physicsStart(initial_vel)
 			pos2 = pos1 + vel;
 
 			if (self.physics["colType"] == "cube")
-				add = vectornormalize(vel) * colSize + ((0, 0, -1) * colSize / 2) * (sign2(vel[2]) != 1);
+				add = vectorNormalize(vel) * colSize + ((0, 0, -1) * colSize / 2) * (sign2(vel[2]) != 1);
 			else
-				add = vectornormalize(vel) * colSize;
+				add = vectorNormalize(vel) * colSize;
 
 			trace = self portalobjectCollisionTrace(pos1, pos2 + add);
 			if (trace["hit"])
@@ -84,7 +84,7 @@ physicsStart(initial_vel)
 		surfaceBounce = surfaceBounce(trace["surfacetype"]);
 
 		// Reflection vector projected at wallnormal
-		vel1 = vectordot(trace["normal"], vel) * trace["normal"] * -1;
+		vel1 = vectorDot(trace["normal"], vel) * trace["normal"] * -1;
 		// Reflection vector projected at wall (needed later for rotation)
 		vel2 = vel + vel1;
 		// Calculate the reflection vector
@@ -94,7 +94,7 @@ physicsStart(initial_vel)
 		strength = length(vel);
 
 		if (isDefined(self.physics["bounce_sound"]))
-			self playsound(self.physics["bounce_sound"]);
+			self playSound(self.physics["bounce_sound"]);
 	}
 	self.angles = anglesNormalize(self.angles);
 
@@ -106,22 +106,22 @@ physicsStart(initial_vel)
 		if (round(trace["normal"][2],1) != 1)
 		{
 			// Try to find the face that is the closest to ground
-			v[0] = anglestoforward(self.angles);
-			v[1] = anglestoright(self.angles) * -1;
-			v[2] = vectorprod(v[0], v[1]);
+			v[0] = anglesToForward(self.angles);
+			v[1] = anglesToRight(self.angles) * -1;
+			v[2] = vectorProd(v[0], v[1]);
 
 			inverted = [];
 			distances = [];
 			for (i = 0; i < 3; i++)
 			{
 				inverted[i] = 1;
-				distances[i] = distancesquared(v[i], trace["normal"]*-1);
+				distances[i] = distanceSquared(v[i], trace["normal"]*-1);
 
 				// Degree between wallnormal and vector > 90
 				if (distances[i] > 2)
 				{
 					inverted[i] = -1;
-					distances[i] = distancesquared(v[i], trace["normal"]);
+					distances[i] = distanceSquared(v[i], trace["normal"]);
 				}
 			}
 
@@ -133,11 +133,11 @@ physicsStart(initial_vel)
 
 				// Tried rotating the cube so that z will be up since it works then
 				x = vectorSmallestValueIndex(distances);
-				iprintln(x);
+				iPrintLn(x);
 				drawline(trace["position"] + (0, 0, 20), trace["position"] + (0, 0, 20) + v[x] * inverted[x] * 50);
 
 				self.origin = trace["position"] + (0, 0, 20);
-				iprintln("rotating z up");
+				iPrintLn("rotating z up");
 
 				wait 5;
 
@@ -151,11 +151,11 @@ physicsStart(initial_vel)
 			{
 				// Degree between wallnormal and vector > 90
 				x = -1;
-				if (distancesquared(v[0], trace["normal"] * -1) > 2)
+				if (distanceSquared(v[0], trace["normal"] * -1) > 2)
 					x = 1;
 
-				alpha = acos(vectordot(vectornormalize(vectorprod(v[1], trace["normal"])), v[0])) * x;
-				beta = acos(vectordot(vectornormalize(vectorprod(v[0], trace["normal"])), v[2]));
+				alpha = acos(vectorDot(vectorNormalize(vectorProd(v[1], trace["normal"])), v[0])) * x;
+				beta = acos(vectorDot(vectorNormalize(vectorProd(v[0], trace["normal"])), v[2]));
 			}
 		}
 		snap_angles = (angleSnap90(self.angles[0], alpha), self.angles[1], angleSnap90(self.angles[2], beta));
@@ -166,7 +166,7 @@ physicsStart(initial_vel)
 
 	self.origin = trace["position"]+(0,0,self.physics["colSize"]);
 
-	self rotateto(new_angles, 0.05);
+	self rotateTo(new_angles, 0.05);
 	self notify("physics_stop");
 }
 
@@ -224,11 +224,11 @@ startGrenadePhysics(initial_vel, is_c4)
 		if (is_c4)
 			break;
 
-		vel1 = vectordot(trace["normal"], vel) * trace["normal"] * -1;
+		vel1 = vectorDot(trace["normal"], vel) * trace["normal"] * -1;
 		vel2 = vel + vel1;
 		vel = vel1 * 0.25 + vel2 * 0.5;
 		strength = length(vel);
-		self playsound("grenade_bounce_" + trace["surfacetype"]);
+		self playSound("grenade_bounce_" + trace["surfacetype"]);
 
 		infinite_loop_stop--;
 	}
@@ -261,7 +261,7 @@ playerPortalObjectCollisionTrace(start, angles, distance)
 	r = 16;	// player radius
 	h = 15;	// height above start: player height
 
-	forward = anglestoforward(angles);
+	forward = anglesToForward(angles);
 	pos = start + forward*(r + distance + colSize);
 	object_radius = self givecollisionradius(forward);
 	end = pos + forward*object_radius;
@@ -273,11 +273,11 @@ playerPortalObjectCollisionTrace(start, angles, distance)
 	{
 		vec = players[i].origin + (0, 0, playerheight) - pos;
 		obj_r = self givemaxcollisionradius();
-		if (lengthsquared((vec[0], vec[1], 0)) < exp(r + obj_r, 2) && abs(vec[2] - obj_r) < playerheight)
+		if (lengthSquared((vec[0], vec[1], 0)) < exp(r + obj_r, 2) && abs(vec[2] - obj_r) < playerheight)
 		{
 			obj_r = self givecollisionradius(vec);
-			// if (lengthsquared((vec[0], vec[1], 0)) < exp(r + obj_r, 2) && abs(vec[2] - obj_r) < playerheight)
-			// 	iprintln("hit player");
+			// if (lengthSquared((vec[0], vec[1], 0)) < exp(r + obj_r, 2) && abs(vec[2] - obj_r) < playerheight)
+			// 	iPrintLn("hit player");
 		}
 	}
 
@@ -290,7 +290,7 @@ playerPortalObjectCollisionTrace(start, angles, distance)
 		if (trace["fraction"] == 1)
 		{
 			// Do a trace to the left
-			left = vectorprod((0, 0, 1), forward);
+			left = vectorProd((0, 0, 1), forward);
 			trace = trace(pos, pos + left * object_radius, false, ignore_ents);
 			if (trace["fraction"] == 1)
 			{
@@ -310,14 +310,14 @@ playerPortalObjectCollisionTrace(start, angles, distance)
 
 		q = trace["position"];
 		u = trace["normal"];
-		a = vectordot(u, (start - q)) - object_radius;
-		wall_angles = vectortoangles(u * -1);
+		a = vectorDot(u, (start - q)) - object_radius;
+		wall_angles = vectorToAngles(u * -1);
 		dir = sign(angleNormalize(angles[1] - wall_angles[1]));
 
-		v = vectorprod((0, 0, 1), u);
-		w = vectorprod(u, v);
-		c = vectordot((q - start), w);
-		b = abs(vectordot(q - start, v));
+		v = vectorProd((0, 0, 1), u);
+		w = vectorProd(u, v);
+		c = vectorDot((q - start), w);
+		b = abs(vectorDot(q - start, v));
 
 		touchingplayer = (a <= (r + object_radius) && b <= (r + object_radius) && c < h + object_radius);
 		if (touchingplayer)
@@ -356,17 +356,17 @@ portalObjectCollisionTraceOnly(pos)
 				continue;
 		}
 
-		if (exp(self givemaxcollisionradius() + level.portal_objects[i] givemaxcollisionradius(), 2) > distancesquared(pos, level.portal_objects[i].origin)) // cheap guess if objects might collide
+		if (exp(self givemaxcollisionradius() + level.portal_objects[i] givemaxcollisionradius(), 2) > distanceSquared(pos, level.portal_objects[i].origin)) // cheap guess if objects might collide
 		{
 			vec = pos - level.portal_objects[i].origin;
 			r1 = level.portal_objects[i] givecollisionradius(vec);
 			r2 = self givecollisionradius(vec*-1);
 
-			if (exp(r1 + r2, 2) > distancesquared(pos, level.portal_objects[i].origin))	// objects collide
+			if (exp(r1 + r2, 2) > distanceSquared(pos, level.portal_objects[i].origin))	// objects collide
 			{
 				trace["hit"] = true;
 				trace["hit_object"] = level.portal_objects[i];
-				trace["normal"] = vectornormalize(vec);
+				trace["normal"] = vectorNormalize(vec);
 				if (trace["normal"] == (0,0,0))
 					trace["normal"] = (0,0,1);
 
@@ -403,12 +403,12 @@ giveCollisionRadius(direction)
 		return self.physics["colSize"];
 	if (self.physics["colType"] == "cube")
 	{
-		a = anglestoforward(self.angles);
-		b = anglestoright(self.angles) * -1;
-		c = vectorprod(a, b);
+		a = anglesToForward(self.angles);
+		b = anglesToRight(self.angles) * -1;
+		c = vectorProd(a, b);
 
-		vec_dir = (vectordot(direction, a), vectordot(direction, b), vectordot(direction, c));
-		angles = anglesNormalize(vectortoangles(vec_dir));
+		vec_dir = (vectorDot(direction, a), vectorDot(direction, b), vectorDot(direction, c));
+		angles = anglesNormalize(vectorToAngles(vec_dir));
 
 		M = [];
 		M[0] = [];
@@ -459,7 +459,7 @@ mirrorObject(portal1, portal2, trans, angles)
 	if (!isDefined(self.physics["mirrorobject"]))
 	{
 		self.physics["mirrorobject"] = spawn("script_model", pos);
-		self.physics["mirrorobject"] setmodel(self.physics["name"]);
+		self.physics["mirrorobject"] setModel(self.physics["name"]);
 	}
 
 	self.physics["mirrorobject"].origin = pos;
@@ -472,9 +472,9 @@ mirrorObject(portal1, portal2, trans, angles)
 	{
 		self waittill("update_mirror_pos", trans, angles);
 
-		self.physics["mirrorobject"] moveto(portal2.origin + portal2.trace["right"] * trans[0] * -1
+		self.physics["mirrorobject"] moveTo(portal2.origin + portal2.trace["right"] * trans[0] * -1
 			+ portal2.trace["up"] * trans[1] + portal2.trace["normal"] * trans[2] * -1, 0.1);
-		self.physics["mirrorobject"] rotateto(portalOutAngles(portal2.angles, portal1.angles, angles), 0.1);
+		self.physics["mirrorobject"] rotateTo(portalOutAngles(portal2.angles, portal1.angles, angles), 0.1);
 	}
 }
 
@@ -491,9 +491,9 @@ boxCollisionTrace(pos, angles, colSize, ignore_ent)
 {
 	pos += (0, 0, colSize);
 
-	forward = anglestoforward(angles);
-	right = anglestoright(angles);
-	up = vectorprod(right, forward);
+	forward = anglesToForward(angles);
+	right = anglesToRight(angles);
+	up = vectorProd(right, forward);
 
 	vec = [];
 	vec[0] = forward * (1 + colSize);

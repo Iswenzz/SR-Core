@@ -338,7 +338,7 @@ createBullet(player)
 
 	if (isDefined(bullet.weapon["projectile"]))
 	{
-		bullet.model = spawn("script_model", player eyepos());
+		bullet.model = spawn("script_model", player eyePos());
 		bullet.model setContents(0);
 		bullet.model setModel(bullet.weapon["projectile"]);
 

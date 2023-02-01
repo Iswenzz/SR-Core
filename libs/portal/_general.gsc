@@ -25,13 +25,13 @@ coneTrace(pos, angles, objects, conedegree, maxlength)
 	for (i = 0; i < objects.size; i++)
 	{
 		q = objects[i].origin;
-		if (lengthsquared(q - pos) < maxlength*maxlength)
+		if (lengthSquared(q - pos) < maxlength*maxlength)
 		{
-			angles2 = vectortoangles(q - pos);
+			angles2 = vectorToAngles(q - pos);
 			if (abs(angleNormalize(angles[0] - angles2[0])) < conedegree &&
 				abs(angleNormalize(angles[1] - angles2[1])) < conedegree)
 			{
-				if (objects[i] SightConeTrace(pos, self))
+				if (objects[i] sightConeTrace(pos, self))
 					close[close.size] = objects[i];
 			}
 		}
@@ -42,7 +42,7 @@ coneTrace(pos, angles, objects, conedegree, maxlength)
 closestConeTrace(pos, angles, objects, conedegree, maxlength)
 {
 	// Get an array of the possible objects
-	close = ConeTrace(pos, angles, objects, conedegree, maxlength);
+	close = coneTrace(pos, angles, objects, conedegree, maxlength);
 	if (!close.size)
 		return;
 
@@ -51,7 +51,7 @@ closestConeTrace(pos, angles, objects, conedegree, maxlength)
 
 	for (i = 1; i < close.size; i++)
 	{
-		if (distancesquared(object.origin, pos) > distancesquared(close[i].origin, pos))
+		if (distanceSquared(object.origin, pos) > distanceSquared(close[i].origin, pos))
 			object = close[i];
 	}
 	return object;
@@ -60,7 +60,7 @@ closestConeTrace(pos, angles, objects, conedegree, maxlength)
 // True if point p and q are on the same wall given the wallnormal
 isOnSameWall(p, q, normal)
 {
-	return !(round(vectordot(q - p, normal), 2));
+	return !(round(vectorDot(q - p, normal), 2));
 }
 
 arrow(n, normal, pos)
@@ -68,7 +68,7 @@ arrow(n, normal, pos)
 	if (!isDefined(level.testarrow))
 		level.testarrow = [];
 	if (!isDefined(pos))
-		pos = self eyepos() + anglesToForward(self getPlayerAngles()) * 200;
+		pos = self eyePos() + anglesToForward(self getPlayerAngles()) * 200;
 	if (!isDefined(level.testarrow[n]))
 	{
 		level.testarrow[n] = spawn("script_model", pos);
@@ -76,5 +76,5 @@ arrow(n, normal, pos)
 	}
 	else
 		level.testarrow[n].origin = pos;
-	level.testarrow[n].angles =  (0, 90, 0) - vectortoangles(normal);
+	level.testarrow[n].angles =  (0, 90, 0) - vectorToAngles(normal);
 }

@@ -17,6 +17,4 @@ pickup(arg)
 		return;
 	if (self isOnLadder() || self isMantling() || self.throwingGrenade)
 		return;
-
-	// self thread pickupInit();
 }

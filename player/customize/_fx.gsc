@@ -67,7 +67,7 @@ pick(id)
 		oriLeft = forward + left + eye;
 
 		self.customize_fx = spawn("script_model", oriLeft);
-		self.customize_fx setmodel("tag_origin");
+		self.customize_fx setModel("tag_origin");
 		wait 0.05;
 
 		PlayFXOnTag(level.gfx["viptrail" + self.vip_trail], self.customize_fx, "tag_origin");

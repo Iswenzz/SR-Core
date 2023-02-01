@@ -13,7 +13,7 @@ isInPortal(x, y, rx_add, ry_add)
 
 isPortalGun(weapon)
 {
-	return issubstr(weapon, level.portalgun);
+	return isSubStr(weapon, level.portalgun);
 }
 
 launch(origin, direction, strength)
@@ -72,7 +72,7 @@ spawnObject(
 )
 {
 	model = spawn("script_model", pos);
-	model setmodel(name);
+	model setModel(name);
 	model.angles = angles;
 	model.physics = [];
 	model.physics["name"] = name;
@@ -100,7 +100,7 @@ setTriggerUse()
 	while (true)
 	{
 		self waittill("trigger", player);
-		if (player usebuttonpressed())
+		if (player useButtonPressed())
 		{
 			self notify("trigger_activate", player);
 			wait 0.1;

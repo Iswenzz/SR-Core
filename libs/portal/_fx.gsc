@@ -11,10 +11,10 @@ redlaserSpawn(start, angles)
 	self endon("kill_laser");
 
 	maxdist = 10000;
-	forward = anglestoforward(angles);
-	end = bullettrace(start, start + forward * maxdist, false, undefined)["position"];
+	forward = anglesToForward(angles);
+	end = bulletTrace(start, start + forward * maxdist, false, undefined)["position"];
 
-	if (distancesquared(start, end) > (maxdist * maxdist))
+	if (distanceSquared(start, end) > (maxdist * maxdist))
 		return;
 
 	self.laser = spawnfx(level.gfx["redlaser"], start, forward);
