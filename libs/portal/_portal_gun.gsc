@@ -1,5 +1,6 @@
 #include sr\libs\portal\_general;
 #include sr\libs\portal\_portal;
+#include sr\libs\portal\_physics;
 #include sr\utils\_common;
 #include sr\utils\_math;
 #include sr\sys\_events;
@@ -59,6 +60,7 @@ onSpawn()
 		if (isDefined(color))
 		{
 			self playLocalSound("portal_gun_shoot_" + color);
+
 			if (self isPortal())
 				self thread portal(color);
 			else
@@ -186,10 +188,13 @@ bullet(color)
 portal(color)
 {
 	othercolor = othercolor(color);
+	isRun = self isRun();
+	playersAllowed = self.portalPlayersAllowed;
 
 	eye = self eyePos();
 	forward = anglesToForward(self getPlayerAngles()) * level.maxdistance;
-	trace = trace(eye, eye + forward, false, level.portal_objects);
+	hitPlayers = !isRun;
+	trace = trace(eye, eye + forward, hitPlayers, self portalIgnoreEnts());
 
 	if (trace["fraction"] == 1)
 		portalfailed = true;
@@ -206,7 +211,7 @@ portal(color)
 		}
 	}
 
-	terrain = !getDvarInt("portal_forbid_terrain");
+	terrain = !level.dvar["portal_forbid_terrain"];
 	oldpos = trace["position"];
 	pos = oldpos;
 	normal = trace["normal"];
@@ -242,8 +247,10 @@ portal(color)
 		for (i = 0; i < self.portals.size; i++)
 		{
 			if (isDefined(self.portal[color]))
+			{
 				if (self.portal[color] == self.portals[i])
 					continue;
+			}
 
 			p = self.portals[i].trace["position"];
 			q = pos;
@@ -260,6 +267,7 @@ portal(color)
 			{
 				x = abs(trans[0]);
 				y = abs(trans[1]);
+
 				if (x < 2 * width && y < 2 * height)
 					portals[portals.size] = self.portals[i];
 
@@ -277,7 +285,6 @@ portal(color)
 					}
 				}
 			}
-
 		}
 
 		vec = [];
@@ -331,7 +338,6 @@ portal(color)
 				if (!on_terrain && on_ground && tmp_ground_trace["fraction"] == 1)
 					on_terrain = normal != tmp_ground_trace["normal"];
 			}
-
 			if (hit)
 			{
 				if (!on_ground || (on_ground && second_check))
@@ -342,7 +348,6 @@ portal(color)
 							portalfailed = true;
 					}
 				}
-
 				failed[i] = true;
 				if (portalfailed)
 					break;
@@ -362,7 +367,6 @@ portal(color)
 				else
 					pos = updated_pos;
 			}
-
 			if (i == 4)
 			{
 				pos = updated_pos;
@@ -376,7 +380,6 @@ portal(color)
 				}
 			}
 		}
-
 		for (i = 0; i < portals.size && !portalfailed; i++)
 		{
 			vec = pos - portals[i].trace["position"];
@@ -384,6 +387,7 @@ portal(color)
 			b = portals[i].trace["up"];
 			x = vectorDot(vec, a);
 			y = vectorDot(vec, b);
+
 			if ((abs(x) < width - 1) && (abs(y) < height - 1))
 				portalfailed = true;
 		}
@@ -400,23 +404,7 @@ portal(color)
 		if (playerPhysicsTrace(safe_exit, safe_exit + normal) != (safe_exit + normal))
 			portalfailed = true;
 	}
-
-	if (!portalfailed)
-	{
-		trace["position"] = pos;
-		trace["fx_position"] = pos + normal * (1 + on_terrain * 2);
-		trace["start_position"] = eye;
-		trace["old_position"] = oldpos;
-		trace["portal_out"] = portal_out_pos;
-		trace["safe_exit"] = safe_exit;
-		trace["on_ground"] = on_ground;
-		trace["angles"] = angles;
-		trace["right"] = right;
-		trace["up"] = up;
-
-		self portalCreate(color, trace);
-	}
-	else
+	if (portalfailed)
 	{
 		self playLocalSound("portal_invalid_surface_player");
 
@@ -425,7 +413,23 @@ portal(color)
 			self playSoundOnPosition("portal_invalid_surface", trace["position"], true);
 			playFX(level.gfx[color + "portal_fail"], trace["position"] + trace["normal"]);
 		}
+		return;
 	}
+
+	trace["position"] = pos;
+	trace["fx_position"] = pos + normal * (1 + on_terrain * 2);
+	trace["start_position"] = eye;
+	trace["old_position"] = oldpos;
+	trace["portal_out"] = portal_out_pos;
+	trace["safe_exit"] = safe_exit;
+	trace["on_ground"] = on_ground;
+	trace["angles"] = angles;
+	trace["right"] = right;
+	trace["up"] = up;
+	trace["run"] = isRun;
+	trace["playersAllowed"] = playersAllowed;
+
+	self portalCreate(color, trace);
 }
 
 portalDelete(color)
@@ -468,36 +472,34 @@ portalCreate(color, trace)
 
 	portal[color] = spawn("script_model", trace["fx_position"]);
 	portal[color] setContents(0);
-	portal[color] hide();
-	portal[color] showToPlayer(self);
+	portal[color] visibility(self, trace["run"]);
 	portal[color].angles = trace["angles"] + (180, 0, 0);
 	portal[color].trace = trace;
 	portal[color].color = color;
 	portal[color].active = false;
 	portal[color].owner = self;
+	portal[color].run = trace["run"];
+	portal[color].playersAllowed = trace["playersAllowed"];
 
 	portal[color].dummy = spawn("script_model", trace["fx_position"]);
-	portal[color].dummy.angles = trace["angles"];
 	portal[color].dummy setContents(0);
-	portal[color].dummy hide();
-	portal[color].dummy showToPlayer(self);
+	portal[color].dummy visibility(self, trace["run"]);
+	portal[color].dummy.angles = trace["angles"];
 
 	portal[color].bullet = spawn("script_model" , (-10000, 0, 0));
 	portal[color].bullet setContents(0);
 	portal[color].bullet setModel("collision_sphere");
-	portal[color].bullet hide();
-	portal[color].bullet showToPlayer(self);
+	portal[color].bullet visibility(self, trace["run"]);
 
 	portal[color].close = spawn("script_model", trace["fx_position"]);
-	portal[color].close.angles = trace["angles"];
 	portal[color].close setContents(0);
 	portal[color].close setModel("tag_origin");
-	portal[color].close hide();
-	portal[color].close showToPlayer(self);
+	portal[color].close visibility(self, trace["run"]);
+	portal[color].close.angles = trace["angles"];
 
 	self.portal[color] = portal[color];
-	self.portals[self.portals.size] = self.portal[color];
 	self.portal[color + "_exist"] = true;
+	self.portals[self.portals.size] = self.portal[color];
 
 	self updateHud();
 
@@ -505,6 +507,15 @@ portalCreate(color, trace)
 		self thread portalActivate();
 
 	portal[color] thread portalFX();
+}
+
+visibility(player, isRun)
+{
+	if (!isRun && !player.portalPlayersAllowed)
+		return;
+
+	self hide();
+	self showToPlayer(player);
 }
 
 portalFX()
@@ -532,9 +543,9 @@ portalFX()
 
 	self.bullet moveCurve(self.owner eyePos() + f * 22 + u * -6 + r, oldpos, self.trace["position"], t);
 	self thread playOpenSound(self.color, fxpos + self.trace["normal"] * 2);
-
 	self setModel("portal_" + self.color);
 	self.dummy setModel("portal_dummy_" + self.color);
+	self.owner doRadiusDamage(oldpos, 30, 30, 0);
 
 	wait 0.05;
 
@@ -604,6 +615,12 @@ portalWait(color, othercolor)
 	p1 = self.portal[color];
 	p2 = self.portal[othercolor];
 
+	playersAllowed = false;
+	if (isDefined(p1.playersAllowed))
+		playersAllowed = true;
+	if (isDefined(p2.playersAllowed))
+		playersAllowed = true;
+
 	self.portal[color].otherportal = self.portal[othercolor];
 
 	c = ((0, 0, sr\api\_map::getGravity(800)) + (0, 0, 15)) * -0.05;
@@ -612,36 +629,46 @@ portalWait(color, othercolor)
 	{
 		wait 0.05;
 
-		if (self.portal["inportal"])
-			continue;
+		players = getPlayingPlayers();
+		for (i = 0; i < players.size; i++)
+		{
+			player = players[i];
+			if (!playersAllowed && player != self)
+				continue;
+			if (player.portal["inportal"])
+				continue;
 
-		player_on_ground = self isOnGround();
-		vel = self getVelocity() * 0.05;
+			player_on_ground = player isOnGround();
+			vel = player getVelocity() * 0.05;
 
-		check_dist = level.portal_check_dist;
-		if (player_on_ground)
-			check_dist *= 0.2;
-		else if (vectorDot(vel, p1.trace["normal"]) > 60)
-			check_dist *= 1.5;
+			check_dist = level.portal_check_dist;
+			if (player_on_ground)
+				check_dist *= 0.2;
+			else if (vectorDot(vel, p1.trace["normal"]) > 60)
+				check_dist *= 1.5;
 
-		if (!(distanceSquared(p1.trace["position"], self.origin) < check_dist * check_dist))
-			continue;
+			if (!(distanceSquared(p1.trace["position"], player.origin) < check_dist * check_dist))
+				continue;
 
-		// Player isn't coming at portal
-		if (vectorDot(vel, p1.trace["normal"]) > 0 || vectorDot(self.origin-p1.trace["position"] + (0, 0, 5),
-			p1.trace["normal"]) <= 0)
-			continue;
+			// Player isn't coming at portal
+			if (vectorDot(vel, p1.trace["normal"]) > 0 || vectorDot(player.origin - p1.trace["position"] + (0, 0, 5),
+				p1.trace["normal"]) <= 0)
+				continue;
 
-		vec = self.origin + self getCenter() - p1.trace["position"] + vel + c * (vel[2] < 0);
-		offset = (vectorDot(vec, p1.trace["right"]), vectorDot(vec, p1.trace["up"]), vectorDot(vec, p1.trace["normal"]));
+			vec = player.origin + player getCenter() - p1.trace["position"] + vel + c * (vel[2] < 0);
+			offset = (vectorDot(vec, p1.trace["right"]), vectorDot(vec, p1.trace["up"]), vectorDot(vec, p1.trace["normal"]));
 
-		z = abs(p1.trace["normal"][2]);
+			z = abs(p1.trace["normal"][2]);
 
-		x_add = -16;
-		y_add = 0;
+			x_add = -16;
+			y_add = 0;
 
-		if (isInPortal(offset[0], offset[1], x_add,y_add) && offset[2] < (z * 40 + (1 - z) * 20))
-			self portalKick(p1, p2, vel);
+			if (isInPortal(offset[0], offset[1], x_add,y_add) && offset[2] < (z * 40 + (1 - z) * 20))
+			{
+				player.sr_cheat = playersAllowed;
+				player thread portalKick(p1, p2, vel);
+			}
+		}
 	}
 }
 
@@ -699,7 +726,7 @@ portalKick(p1, p2, vel)
 	p1 playSound("portal_enter");
 	self setOrigin(position);
 
-	if (!(getDvarInt("portal_help_orientation") && p1.trace["on_ground"] && p2.trace["on_ground"]))	//disable rotations completely if dvar is true and both portals on ground
+	if (!(level.dvar["portal_help_orientation"] && p1.trace["on_ground"] && p2.trace["on_ground"]))	//disable rotations completely if dvar is true and both portals on ground
 		self setPlayerAngles(playerPortalOutAngles(p1.trace["angles"], p2.trace["angles"], self getPlayerAngles()));
 
 	earthquake(0.5, 0.2, self eyePos(), 100);
@@ -774,4 +801,9 @@ portalCleanArray(portal)
 		newarray[newarray.size] = self.portals[i];
 	}
 	self.portals = newarray;
+}
+
+isRun()
+{
+	return self isPortal();
 }

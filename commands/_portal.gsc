@@ -4,6 +4,7 @@
 main()
 {
 	cmd("owner", 	"portal_mode",		::cmd_Portal);
+	cmd("owner", 	"portal_players",	::cmd_PortalPlayers);
 	cmd("owner", 	"detonate",			::cmd_Detonate);
     cmd("owner", 	"turret",			::cmd_Turret);
 	cmd("owner", 	"turret_delete",	::cmd_TurretDelete);
@@ -18,6 +19,16 @@ cmd_Portal(args)
 	self suicide();
 
 	self pm(Ternary(self.modes["portal"], "^5Portal mode enabled!", "^1Portal mode disabled!"));
+}
+
+cmd_PortalPlayers(args)
+{
+	if (isDefined(self.portalPlayersAllowed))
+		self.portalPlayersAllowed = undefined;
+	else
+		self.portalPlayersAllowed = true;
+
+	self pm(Ternary(isDefined(self.portalPlayersAllowed), "^5Portal players", "^1Portal players"));
 }
 
 cmd_Detonate(args)

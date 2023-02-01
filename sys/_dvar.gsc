@@ -24,15 +24,15 @@ reset()
 	setDvar("mod_author", "SuX Lolz");
 }
 
-addDvar(scriptName, varname, vardefault, min, max, type)
+addDvar(scriptName, dvarName, defaultValue, min, max, type)
 {
-	value = getDvar(varname);
+	value = getDvar(dvarName);
 
 	switch (type)
 	{
-		case "int":		definition = Ternary(IsNullOrEmpty(value), vardefault, getDvarInt(varname));	break;
-		case "float": 	definition = Ternary(IsNullOrEmpty(value), vardefault, getDvarFloat(varname));	break;
-		default: 		definition = Ternary(IsNullOrEmpty(value), vardefault, value);					break;
+		case "int":		definition = Ternary(IsNullOrEmpty(value), defaultValue, getDvarInt(dvarName));		break;
+		case "float": 	definition = Ternary(IsNullOrEmpty(value), defaultValue, getDvarFloat(dvarName));	break;
+		default: 		definition = Ternary(IsNullOrEmpty(value), defaultValue, value);					break;
 	}
 	if ((type == "int" || type == "float") && min != 0 && definition < min)
 		definition = min;
@@ -40,8 +40,9 @@ addDvar(scriptName, varname, vardefault, min, max, type)
 		definition = max;
 
 	if (isNullOrEmpty(value))
-		setDvar(varname, definition);
+		setDvar(dvarName, definition);
 
+	// Maps use level.dvar not level.dvars
 	level.dvar[scriptName] = definition;
 	return definition;
 }

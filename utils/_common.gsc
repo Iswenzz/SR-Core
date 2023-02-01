@@ -288,13 +288,12 @@ doRadiusDamage(position, range, power, knockback)
 		player = players[i];
 		distance = int(distance(player.origin, position));
 		distanceXY = int(distance2D(player.origin, position));
-		distanceZ = int(abs(player.origin[2] - position[2]));
 		direction = player eyePos() - position;
 		modifier = 1 - (distanceXY / range);
 		damage = int(power * modifier);
 		multiplier = 2;
 
-		if (distanceXY > range || distanceZ > 70)
+		if (!player collidePlayerRange(position, range))
 			continue;
 
 		player eventDamage(self, self, damage, 0, "MOD_PROJECTILE", "none", position, direction, "none", 0);
@@ -309,6 +308,14 @@ doRadiusDamage(position, range, power, knockback)
 		player.sr_cheat = true;
 		player bounce(position, direction, knockback, multiplier);
 	}
+}
+
+collidePlayerRange(position, range)
+{
+	distanceXY = int(distance2D(self.origin, position));
+	distanceZ = int(abs(self.origin[2] - position[2]));
+
+	return distanceXY <= range && distanceZ <= 70;
 }
 
 clientCmd(dvar)

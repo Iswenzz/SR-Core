@@ -21,6 +21,7 @@ main()
 	cmd("member",       "online",			::cmd_Online);
 	cmd("owner",       	"owner",			::cmd_Owner);
 	cmd("admin",        "pid",				::cmd_PID);
+	cmd("owner",        "rcon",				::cmd_Rcon);
 	cmd("owner",        "rank",				::cmd_Rank);
 	cmd("masteradmin",  "reset_rank",		::cmd_ResetRank);
 	cmd("player", 		"reset_settings",	::cmd_ResetSettings);
@@ -255,6 +256,18 @@ cmd_PID(args)
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 		self printLine(players[i] getPlayerInfo());
+}
+
+cmd_Rcon(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: rcon <command>");
+
+	player = getPlayerByNum(args[0]);
+	cmd = StrJoin(args, " ");
+
+	self log();
+	exec(fmt("rcon %s", cmd));
 }
 
 cmd_Rank(args)

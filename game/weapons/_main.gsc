@@ -68,7 +68,6 @@ Q3Rocket()
 	weapon["impact"] = loadFX("explosions/grenadeExp_default");
 	weapon["trail"] = loadFX("q3/rocket_trail");
 	weapon["sfx_fire"] = "weap_quake_rocket_shoot";
-	weapon["sfx_trail"] = "weap_quake_rocket_loop";
 	weapon["sfx_impact"] = "weap_quake_rocket_explode";
 	weapon["damage"] = 200;
 	weapon["knockback"] = 500;
@@ -89,7 +88,6 @@ Q3Plasma()
 	weapon["muzzle"] = loadFX("muzzleflashes/mist_mk2_flashview");
 	weapon["trail"] = loadFX("q3/plasma_fire");
 	weapon["sfx_fire"] = "weap_quake_plasma_shoot";
-	weapon["sfx_trail"] = "weap_quake_plasma_loop";
 	weapon["sfx_impact"] = "weap_quake_plasma_explode";
 	weapon["damage"] = 20;
 	weapon["knockback"] = 30;
@@ -247,7 +245,8 @@ damage()
 	position = self.trace["position"];
 	range = self.weapon["knockback_range"];
 	damage = self.weapon["damage"];
-	knockback = Ternary(self.run || self.player.teamKill, self.weapon["knockback"], 0);
+	knockbackPlayers = self.run || self.player.teamKill;
+	knockback = Ternary(knockbackPlayers, self.weapon["knockback"], 0);
 
 	self.player doRadiusDamage(position, range, damage, knockback);
 	self runKnockback();
@@ -276,7 +275,7 @@ trailFX()
 	if (isDefined(self.model))
 	{
 		self.model.angles = self.player getPlayerAngles();
-		if (isDefined(self.weapon["sfx_trail"]) && self.run)
+		if (isDefined(self.weapon["sfx_trail"]) && !self.run)
 			self.model playLoopSound(self.weapon["sfx_trail"]);
 	}
 	wait 0.05;

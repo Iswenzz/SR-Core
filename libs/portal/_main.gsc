@@ -14,7 +14,6 @@ initPortal()
 	sr\libs\portal\_portal_gun::main();
 	sr\libs\portal\_turret::main();
 
-	addDvar("portal_owner_walkthrough_only", 	"portal_owner_walkthrough_only", 	0, 0, 1, 	"int");
 	addDvar("portal_block_bullet", 				"portal_block_bullet", 				1, 0, 1, 	"int");
 	addDvar("portal_block_c4", 					"portal_block_c4", 					0, 0, 1, 	"int");
 	addDvar("portal_block_grenade", 			"portal_block_grenade", 			0, 0, 1, 	"int");
@@ -66,6 +65,7 @@ onConnect()
 
 	self.portals = [];
 	self.portal = [];
+	self.physics = [];
 	self.turrets = [];
 
 	self.portal["blue_exist"] = false;

@@ -35,12 +35,12 @@ turret()
 	self endon("disconnect");
 	self endon("death");
 
-	if (!getDvarInt("portal_allow_turrets"))
+	if (!level.dvar["portal_allow_turrets"])
 	{
 		self iPrintLn("Turrets not allowed");
 		return;
 	}
-	if (self.turrets.size >= getDvarInt("portal_max_turrets"))
+	if (self.turrets.size >= level.dvar["portal_max_turrets"])
 	{
 		self notify("place_turret");
 
@@ -366,7 +366,7 @@ updateTargets()
 
 	for (i = 0; i < players.size; i++)
 	{
-		if (!getDvarInt("portal_turret_target_owner") && players[i] == self.owner)
+		if (!level.dvar["portal_turret_target_owner"] && players[i] == self.owner)
 			continue;
 
 		d2 = distanceSquared(players[i].origin, self.aim.origin);

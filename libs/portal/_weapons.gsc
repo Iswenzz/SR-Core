@@ -172,7 +172,7 @@ watchWeaponUsage()
 	{
 		self waittill ("weapon_fired");
 
-		if (!getDvarInt("portal_block_bullet"))
+		if (!level.dvar["portal_block_bullet"])
 			self thread watchCurrentFiringForPortals();
 	}
 }
