@@ -511,7 +511,7 @@ portalCreate(color, trace)
 
 visibility(player)
 {
-	if (!player.portalPlayersAllowed)
+	if (!isDefined(player.portalPlayersAllowed))
 		return;
 
 	self hide();
