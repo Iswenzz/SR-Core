@@ -472,7 +472,7 @@ portalCreate(color, trace)
 
 	portal[color] = spawn("script_model", trace["fx_position"]);
 	portal[color] setContents(0);
-	portal[color] visibility(self, trace["run"]);
+	portal[color] visibility(self);
 	portal[color].angles = trace["angles"] + (180, 0, 0);
 	portal[color].trace = trace;
 	portal[color].color = color;
@@ -483,18 +483,18 @@ portalCreate(color, trace)
 
 	portal[color].dummy = spawn("script_model", trace["fx_position"]);
 	portal[color].dummy setContents(0);
-	portal[color].dummy visibility(self, trace["run"]);
+	portal[color].dummy visibility(self);
 	portal[color].dummy.angles = trace["angles"];
 
 	portal[color].bullet = spawn("script_model" , (-10000, 0, 0));
 	portal[color].bullet setContents(0);
 	portal[color].bullet setModel("collision_sphere");
-	portal[color].bullet visibility(self, trace["run"]);
+	portal[color].bullet visibility(self);
 
 	portal[color].close = spawn("script_model", trace["fx_position"]);
 	portal[color].close setContents(0);
 	portal[color].close setModel("tag_origin");
-	portal[color].close visibility(self, trace["run"]);
+	portal[color].close visibility(self);
 	portal[color].close.angles = trace["angles"];
 
 	self.portal[color] = portal[color];
@@ -509,9 +509,9 @@ portalCreate(color, trace)
 	portal[color] thread portalFX();
 }
 
-visibility(player, isRun)
+visibility(player)
 {
-	if (!isRun && !player.portalPlayersAllowed)
+	if (!player.portalPlayersAllowed)
 		return;
 
 	self hide();
