@@ -187,6 +187,7 @@ cmd_Bullet(args)
 	else
 	{
 		self.instantBullet = true;
+		self.sr_cheat = true;
 		self pm("^2Instant bullets");
 	}
 }

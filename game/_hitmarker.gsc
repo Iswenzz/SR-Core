@@ -1,5 +1,6 @@
 #include sr\sys\_dvar;
 #include sr\sys\_events;
+#include sr\utils\_common;
 
 main()
 {
@@ -15,6 +16,8 @@ main()
 onDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, timeOffset)
 {
 	if (!isPlayer(self) || !isPlayer(eAttacker) || self == eAttacker)
+		return;
+	if (self sameTeam(eAttacker))
 		return;
 
 	armor = self hasPerk("specialty_armorvest") && level.dvar["pi_hm_av"];
