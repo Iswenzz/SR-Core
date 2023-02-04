@@ -50,7 +50,9 @@ menuEvent(id, weapon)
 
 close(weapon)
 {
+	self endon("disconnect");
 	self notify("sr_menu_close");
+
 	self takeWeapon(weapon);
 
 	if (!isDefined(self.huds["script_menu"]))
@@ -126,9 +128,9 @@ getMenuOptions(id, menu)
 
 open(id, weapon)
 {
-	self endon("sr_menu_close");
 	self endon("disconnect");
 	self endon("death");
+	self endon("sr_menu_close");
 
 	submenu = "main";
 	menus = level.huds["script_menu"][id];

@@ -50,6 +50,17 @@ vars()
 	self.groundTimes = [];
     self.prevVelocityDist = 0;
     self.prevOnGround = true;
+
+	if (!self.settings["hud_velocity"])
+		return;
+
+	self.huds["velocity"]["units"] setValue(0);
+	if (self.settings["hud_velocity_ground"] >= 1)
+		self.huds["velocity"]["ground"] setValue(0);
+	if (self.settings["hud_velocity_info"] >= 1)
+		self.huds["velocity"]["average"] setValue(0);
+	if (self.settings["hud_velocity_info"] >= 2)
+		self.huds["velocity"]["max"] setValue(0);
 }
 
 getPosition()

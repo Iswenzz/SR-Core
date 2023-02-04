@@ -98,9 +98,11 @@ updateHud()
 
 cleanHud()
 {
-	if (isDefined(self.portal["hud"]))
+	if (isDefined(self.portal) && isDefined(self.portal["hud"]))
+	{
 		self.portal["hud"] destroy();
-	self.portal["hud"] = undefined;
+		self.portal["hud"] = undefined;
+	}
 }
 
 resetPortals()

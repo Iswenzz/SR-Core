@@ -109,29 +109,6 @@ setu(dvar)
 		self clientCmd(fmt("setfromdvar temp %s; setu %s null; setfromdvar %s temp", dvar, dvar, dvar));
 }
 
-isBot()
-{
-	return self.isBot;
-}
-
-isDefrag()
-{
-	if (isDefined(self.sr_mode) && self.sr_mode == "Defrag")
-		return true;
-	if (self sr\player\modes\_main::isInMode("defrag"))
-		return true;
-	return false;
-}
-
-isPortal()
-{
-	if (isDefined(self.sr_mode) && self.sr_mode == "Portal")
-		return true;
-	if (self sr\player\modes\_main::isInMode("portal"))
-		return true;
-	return false;
-}
-
 respawn()
 {
 	if (game["state"] == "end" || game["state"] == "round ended")
@@ -433,6 +410,29 @@ isSpectator()
 isDemo()
 {
 	return isDefined(self) && isDefined(self.demo);
+}
+
+isBot()
+{
+	return isDefined(self) && self.isBot;
+}
+
+isDefrag()
+{
+	if (isDefined(self.sr_mode) && self.sr_mode == "Defrag")
+		return true;
+	if (self sr\player\modes\_main::isInMode("defrag"))
+		return true;
+	return false;
+}
+
+isPortal()
+{
+	if (isDefined(self.sr_mode) && self.sr_mode == "Portal")
+		return true;
+	if (self sr\player\modes\_main::isInMode("portal"))
+		return true;
+	return false;
 }
 
 waitSessionState(state)

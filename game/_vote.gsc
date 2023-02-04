@@ -291,7 +291,7 @@ hudUpdate()
 
 hudDestroy()
 {
-	if (isDefined(self.huds["vote"]))
+	if (isDefined(self) && isDefined(self.huds["vote"]))
 	{
 		keys = getArrayKeys(self.huds["vote"]);
 		for (i = 0; i < keys.size; i++)

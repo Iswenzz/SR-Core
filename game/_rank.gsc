@@ -44,7 +44,7 @@ buildRanks()
 	rankId = 0;
 	rankName = tableLookup(tableName, 0, rankId, 1);
 
-	while (isDefined(rankName) && rankName != "")
+	while (!IsNullOrEmpty(rankName))
 	{
 		level.ranks[rankId][1] = tableLookup(tableName, 0, rankId, 1);
 		level.ranks[rankId][2] = tableLookup(tableName, 0, rankId, 2);
@@ -205,6 +205,9 @@ loadRank()
 	self.pers["rankxp"] = IfUndef(row["xp"], 0);
 	self.pers["rank"] = IfUndef(row["level"], 1) - 1;
 	self.pers["prestige"] = IfUndef(row["prestige"], 0);
+
+	if (self.pers["rankxp"] < getRankInfoMinXP(self.pers["rank"]))
+		self.pers["rankxp"] = getRankInfoMinXP(self.pers["rank"]);
 }
 
 onChangedTeam()
@@ -350,24 +353,12 @@ removeRankHUD()
 		self.huds["xp"].alpha = 0;
 }
 
-getRank()
-{
-	rankXp = self.pers["rankxp"];
-	rankId = self.pers["rank"];
-
-	if (rankXp < (getRankInfoMinXP(rankId) + getRankInfoXPAmt(rankId)))
-		return rankId;
-	else
-		return self getRankForXp(rankXp);
-}
-
 getRankForXp(xpVal)
 {
 	rankId = 0;
 	rankName = level.ranks[rankId][1];
-	assert(isDefined(rankName));
 
-	while (isDefined(rankName) && rankName != "")
+	while (!IsNullOrEmpty(rankName))
 	{
 		if (xpVal < getRankInfoMinXP(rankId) + getRankInfoXPAmt(rankId))
 			return rankId;
@@ -475,10 +466,10 @@ notifyUnlockNewItems()
 		for (j = 0; j < assets.size; j++)
 		{
 			asset = assets[j];
-			if (!isArray(asset))
+			if (!isArray(asset) || !isDefined(asset["name"]))
 				continue;
 
-			if (self.pers["rank"] == asset["rank"] && self.pers["prestige"] != asset["prestige"])
+			if (self.pers["rank"] == asset["rank"] && self.pers["prestige"] == asset["prestige"])
 				self sr\sys\_notifications::show(fmt("^5Unlocked ^7%s", asset["name"]));
 		}
 	}
