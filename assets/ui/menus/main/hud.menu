@@ -213,30 +213,30 @@
 	menuDef
 	{
 		name			"xpbar"
-		rect			BOTTOM_RECT_X -8 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
+		rect			BOTTOM_RECT_X -3 640 480 HORIZONTAL_ALIGN_FULLSCREEN VERTICAL_ALIGN_FULLSCREEN
 		fullScreen		0
 		visible 		1
 
 		itemDef
 		{
 			style			WINDOW_STYLE_SHADER
-			rect			0 0 854 8 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+			rect			0 0 854 3 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
 			origin			0 0
 			background		"white"
 			forecolor		0 0 0 0.25
-			visible			when(dvarString("sr_xp_bar")=="1")
+			visible			when(dvarString("sr_xp_bar") == "1")
 			decoration
 		}
 
 		itemDef
 		{
 			style			WINDOW_STYLE_SHADER
-			rect			0 2 720 4 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
-			exp				rect W(854 * ((stat(2301)-stat(2351))/(stat(2352)-stat(2351))));
+			rect			0 1 720 1 HORIZONTAL_ALIGN_LEFT VERTICAL_ALIGN_BOTTOM
+			exp				rect W(854 * ((stat(2301) - stat(2351)) / (stat(2352) - stat(2351))));
 			origin			0 0
 			background		"scorebar_fadein"
-			forecolor		1 0.8 0.4 HUD_ALPHA
-			visible			when(dvarString("sr_xp_bar")=="1")
+			forecolor		1 0.8 0.4 0.95
+			visible			when(dvarString("sr_xp_bar") == "1")
 			decoration
 		}
 	}
