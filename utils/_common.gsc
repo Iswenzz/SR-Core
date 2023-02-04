@@ -267,7 +267,7 @@ bounce(origin, direction, power, repeat, useDvars)
 
 doPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime)
 {
-	if (!isDefined(self) || game["state"] == "end")
+	if (!isDefined(self) || self isDemo() || game["state"] == "end")
 		return;
 
 	self finishPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
@@ -322,7 +322,7 @@ clientCmd(dvar)
 		return;
 
 	self setClientDvar("clientcmd", dvar);
-	wait 0.05; // wait 1 frame before opening the menu
+	wait 0.05; // Wait 1 frame before opening the menu
 	self openMenu("clientcmd");
 	self closeMenu("clientcmd");
 }

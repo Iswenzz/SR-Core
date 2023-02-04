@@ -150,7 +150,8 @@ cmd(role, name, callback)
 
 command(name, arg)
 {
-	wait 0.05; // CoD4x crash without delay in the callback
+	// CoD4x crash without delay in the callback
+	wait 0.05;
 
 	cmd = level.admin_commands[name];
 	args = strTok(IfUndef(arg, ""), " ");
