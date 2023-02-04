@@ -175,8 +175,7 @@ canExecuteCommand(cmd, index)
 
 isRole(name)
 {
-	if (!isDefined(self.admin_role))
-		self connection();
+	level loading("admins");
 	return level.admin_roles[self.admin_role] >= level.admin_roles[name];
 }
 
@@ -202,6 +201,7 @@ getRoleName()
 
 isVIP()
 {
+	level loading("admins");
 	return self.admin_vip;
 }
 
