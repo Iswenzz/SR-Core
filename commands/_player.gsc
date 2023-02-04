@@ -45,7 +45,7 @@ cmd_Respawn(args)
 
 	self log();
 
-	if (!player isReallyAlive())
+	if (!player isPlaying())
 		player respawn();
 }
 

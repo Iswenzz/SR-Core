@@ -222,7 +222,7 @@ watchGame()
 
 isRoomEmpty(player, index)
 {
-	return level.kzPlayersInRoom.size < 2 || !player isReallyAlive();
+	return level.kzPlayersInRoom.size < 2 || !player isPlaying();
 }
 
 gameRandomize()

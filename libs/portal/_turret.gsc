@@ -518,7 +518,7 @@ target(player)
 	self thread loopShoot(player);
 	count = self.targettime / self.speed;
 
-	for (i = 0; i < count && isAlive(player) && player.sessionstate == "playing" && player.health > 0; i++)
+	for (i = 0; i < count && player isPlaying() && player.health > 0; i++)
 	{
 		d2 = distanceSquared(player.origin, self.aim.origin);
 		if (d2 < 80 * 80)

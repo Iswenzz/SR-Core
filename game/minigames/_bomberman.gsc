@@ -356,7 +356,7 @@ getSpawns()
 
 isRoomEmpty(player, index)
 {
-	return level.bombermanPlayersInRoom.size < 2 || !player isReallyAlive();
+	return level.bombermanPlayersInRoom.size < 2 || !player isPlaying();
 }
 
 isBorder()

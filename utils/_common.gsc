@@ -45,7 +45,7 @@ getPlayerByName(nickname)
 
 getPlayerVelocity()
 {
-	if (isDefined(self.demo))
+	if (self isDemo())
 		return self getSpeedrunVelocity();
 
 	velocity = self getVelocity();
@@ -58,7 +58,7 @@ getPlayingPlayers()
 	array = [];
 	for (i = 0; i < players.size; i++)
 	{
-		if (players[i] isReallyAlive() && players[i].pers["team"] != "spectator")
+		if (players[i] isPlaying() && players[i].pers["team"] != "spectator")
 			array[array.size] = players[i];
 	}
 	return array;
@@ -70,7 +70,7 @@ getDeadPlayers()
 	array = [];
 	for (i = 0; i < players.size; i++)
 	{
-		if (!players[i] isReallyAlive() && players[i].pers["team"] != "spectator")
+		if (!players[i] isPlaying() && players[i].pers["team"] != "spectator")
 			array[array.size] = players[i];
 	}
 	return array;
@@ -149,7 +149,7 @@ canSpawn()
 		return false;
 	if (game["state"] == "end" || game["state"] == "round ended")
 		return false;
-	if (self.sessionstate == "playing")
+	if (self isPlaying())
 		return false;
 	if (level.freeRun)
 		return true;
@@ -415,20 +415,30 @@ isInArray(array)
 	return false;
 }
 
-isReallyAlive()
+isPlaying()
 {
-	return isDefined(self) && isDefined(self.sessionstate) && self.sessionstate == "playing";
+	return isDefined(self) && self.sessionstate == "playing";
+}
+
+isDead()
+{
+	return isDefined(self) && self.sessionstate == "dead";
+}
+
+isSpectator()
+{
+	return isDefined(self) && self.sessionstate == "spectator";
+}
+
+isDemo()
+{
+	return isDefined(self) && isDefined(self.demo);
 }
 
 waitSessionState(state)
 {
 	while (self.sessionstate != state)
 		wait 0.05;
-}
-
-isPlaying()
-{
-	return self isReallyAlive();
 }
 
 waittills(a, b, c, d, e)

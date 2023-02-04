@@ -30,7 +30,7 @@ menuEvent(id, weapon)
 			self.script_menu_open = true;
 			self notify("sr_menu_open");
 
-			while (self.sessionstate == "playing" && !self isOnGround())
+			while (self isPlaying() && !self isOnGround())
 				wait .05;
 
 			self open(id, weapon);

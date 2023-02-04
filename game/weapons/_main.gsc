@@ -135,7 +135,7 @@ onSpawn()
 
 	while (true)
 	{
-		if (!self isReallyAlive() || !self playerHasWeapon())
+		if (!self isPlaying() || !self playerHasWeapon())
 		{
 			wait 0.05;
 			continue;

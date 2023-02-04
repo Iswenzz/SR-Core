@@ -270,7 +270,7 @@ pm_cmdScale()
 	total = sqrt(self.cgaz.rightMove * self.cgaz.rightMove + self.cgaz.forwardMove * self.cgaz.forwardMove);
 
 	scale = self.cgaz.speed * max / (total * 127);
-	if (self.sessionstate == "spectator")
+	if (self isSpectator())
 		scale *= spectateSpeedScale;
 	return scale;
 }

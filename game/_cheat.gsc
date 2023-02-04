@@ -22,7 +22,7 @@ init()
 		cheat = true;
 	if (self sr\player\modes\_main::isInAnyMode())
 		cheat = true;
-	if (self isDemoPlaying())
+	if (self isDemo())
 		cheat = true;
 	if (self isBot())
 		cheat = true;
