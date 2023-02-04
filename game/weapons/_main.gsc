@@ -264,6 +264,9 @@ runKnockback()
 	distance = int(distance(position, self.player.origin));
 	multiplier = 2;
 
+	if (isDefined(self.player.instantBullet))
+		self.player cheat();
+
 	if (distance > range)
 		return;
 

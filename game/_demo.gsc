@@ -20,7 +20,7 @@ record()
 	self endon("death");
 	self endon("disconnect");
 
-	if (self.sr_cheat)
+	if (self isCheat())
 		return;
 
 	thread recordTimeout();

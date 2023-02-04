@@ -13,12 +13,8 @@ onConnect()
 	self.antiElevator = true;
 }
 
-onSpawn()
+init()
 {
-	self endon("spawned");
-	self endon("death");
-	self endon("disconnect");
-
 	self.run = fmt("%d%d", randomInt(99999), randomInt(99999));
 
 	cheat = false;
@@ -30,15 +26,22 @@ onSpawn()
 		cheat = true;
 	if (self isBot())
 		cheat = true;
-	self.sr_cheat = cheat;
+	self cheat(cheat);
+}
 
-	if (self.sr_cheat)
-		return;
+onSpawn()
+{
+	self endon("spawned");
+	self endon("death");
+	self endon("disconnect");
 
 	wait 1;
 
 	while (true)
 	{
+		while (self isCheat())
+			wait 0.05;
+
 		self.previousOrigin = self.origin;
 		self.previousVelocity = self getVelocity();
 		wait 0.05;
@@ -50,7 +53,7 @@ onSpawn()
 
 antiLag()
 {
-	if (self.sr_cheat || self.pers["team"] == "axis" || !self.antiLag)
+	if (self.pers["team"] == "axis" || !self.antiLag)
 		return;
 
 	if (self getFPS() <= 10 || self getPing() >= 800)
@@ -59,7 +62,7 @@ antiLag()
 
 antiElevator()
 {
-	if (self.sr_cheat || self.pers["team"] == "axis" || !self.antiElevator)
+	if (self.pers["team"] == "axis" || !self.antiElevator)
 		return;
 
 	inAir = !self isOnGround() && !self isOnLadder() && !self isMantling();

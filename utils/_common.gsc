@@ -136,6 +136,8 @@ respawn()
 {
 	if (game["state"] == "end" || game["state"] == "round ended")
 		return;
+	if (self.pers["team"] != "allies")
+		return;
 
 	self.died = false;
 	self sr\sys\_events::eventSpawn(true);
@@ -324,7 +326,7 @@ doRadiusDamage(position, range, power, knockback)
 		if (self == player)
 			continue;
 
-		player.sr_cheat = true;
+		player cheat();
 		player bounce(position, direction, knockback, multiplier);
 	}
 }
@@ -924,6 +926,18 @@ pm(msg)
 		exec(fmt("tell %d %s", self getEntityNumber(), msg));
 	else
 		comPrintLn(msg);
+}
+
+cheat(state)
+{
+	if (!isDefined(state))
+		state = true;
+	self.sr_cheat = state;
+}
+
+isCheat()
+{
+	return self.sr_cheat;
 }
 
 noop()

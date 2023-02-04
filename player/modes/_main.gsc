@@ -27,7 +27,7 @@ toggleMode(name)
 	self.modes[name] = !self.modes[name];
 
 	if (self.modes[name])
-		self.sr_cheat = true;
+		self cheat();
 }
 
 isInMode(name)

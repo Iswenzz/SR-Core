@@ -32,12 +32,12 @@ pickup()
 		if (!isDefined(ent))
 			continue;
 
-		self.sr_cheat = true;
+		self cheat();
 		ent.distance = distance(start, trace["position"]);
 
 		if (IsPlayer(ent))
 		{
-			ent.sr_cheat = true;
+			ent cheat();
 			ent sr\api\_player::antiElevator(false);
 		}
 		else if (!isDefined(ent.defaultOrigin))

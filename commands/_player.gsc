@@ -71,7 +71,7 @@ cmd_Teleport(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	self.sr_cheat = true;
+	self cheat();
 	self setOrigin(player.origin);
 }
 
@@ -87,7 +87,7 @@ cmd_TeleportPlayer(args)
 	if (!player sr\player\modes\_main::isInMode("practise"))
 		return self pm("^1Player need to be in practise mode");
 
-	player.sr_cheat = true;
+	player cheat();
 	player setOrigin(self.origin);
 }
 
@@ -102,7 +102,7 @@ cmd_TeleportAt(args)
 	y = ToFloat(args[1]);
 	z = ToFloat(args[2]);
 
-	self.sr_cheat = true;
+	self cheat();
 	self setOrigin((x, y, z));
 }
 
@@ -117,7 +117,7 @@ cmd_TeleportEnt(args)
 	if (!isDefined(ent) || !ent.size)
 		return;
 
-	self.sr_cheat = true;
+	self cheat();
 	self setOrigin(ent[0].origin);
 }
 
@@ -156,7 +156,7 @@ cmd_Angles(args)
 		return self pm("Usage: angles <player> <x> <y> <z>");
 
 	player = getPlayerByName(args[0]);
-	player.sr_cheat = true;
+	player cheat();
 
 	if (!isDefined(player))
 		return pm("Could not find player");
@@ -172,7 +172,7 @@ cmd_Bounce(args)
 {
 	self log();
 	player = IfUndef(getPlayerByName(args[0]), self);
-	player.sr_cheat = true;
+	player cheat();
 	player bounce(player.origin, vectorNormalize((0, 0, 20)), 800);
 	player bounce(player.origin, vectorNormalize((0, 0, 20)), 800);
 }
@@ -187,7 +187,7 @@ cmd_Bullet(args)
 	else
 	{
 		self.instantBullet = true;
-		self.sr_cheat = true;
+		self cheat();
 		self pm("^2Instant bullets");
 	}
 }
@@ -245,7 +245,7 @@ cmd_G_Gravity(args)
 
 	value = ToInt(args[0]);
 	player = IfUndef(getPlayerByName(args[1]), self);
-	player.sr_cheat = true;
+	player cheat();
 
 	self log();
 	if (!isDefined(player))
@@ -262,7 +262,7 @@ cmd_G_Speed(args)
 
 	value = ToInt(args[0]);
 	player = IfUndef(getPlayerByName(args[1]), self);
-	player.sr_cheat = true;
+	player cheat();
 
 	self log();
 	if (!isDefined(player))
@@ -275,7 +275,7 @@ cmd_G_Speed(args)
 cmd_God(args)
 {
 	player = IfUndef(getPlayerByName(args[0]), self);
-	player.sr_cheat = true;
+	player cheat();
 	player.godmode = Ternary(!isDefined(player.godmode), true, undefined);
 	player pm(Ternary(isDefined(player.godmode), "^3God mode enabled!", "^1God mode disabled!"));
 }
@@ -287,7 +287,7 @@ cmd_JumpHeight(args)
 
 	value = ToInt(args[0]);
 	player = IfUndef(getPlayerByName(args[1]), self);
-	player.sr_cheat = true;
+	player cheat();
 
 	self log();
 	if (!isDefined(player))
@@ -331,7 +331,7 @@ cmd_Freeze(args)
 		return self pm("Usage: sr_freeze <playerName>");
 
 	player = getPlayerByName(args[0]);
-	player.sr_cheat = true;
+	player cheat();
 
 	self log();
 	if (!isDefined(player))
@@ -346,7 +346,7 @@ cmd_UnFreeze(args)
 		return self pm("Usage: sr_unfreeze <playerName>");
 
 	player = getPlayerByName(args[0]);
-	player.sr_cheat = true;
+	player cheat();
 
 	self log();
 	if (!isDefined(player))
@@ -399,7 +399,7 @@ cmd_Trooper(args)
 cmd_UAmmo(args)
 {
 	self thread unlimitedAmmo();
-	self.sr_cheat = true;
+	self cheat();
 }
 
 cmd_Weapon(args)
@@ -408,7 +408,7 @@ cmd_Weapon(args)
 		return self pm("Usage: weapon <playerName> <weapon>");
 
 	player = getPlayerByName(args[0]);
-	player.sr_cheat = true;
+	player cheat();
 	weapon = args[1];
 
 	if (!isDefined(player))
@@ -430,7 +430,7 @@ cmd_WeaponAll(args)
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		players[i].sr_cheat = true;
+		players[i] cheat();
 		players[i] giveWeapon(weapon);
 		players[i] giveMaxAmmo(weapon);
 		wait 0.05;

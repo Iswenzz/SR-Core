@@ -665,7 +665,8 @@ portalWait(color, othercolor)
 
 			if (isInPortal(offset[0], offset[1], x_add,y_add) && offset[2] < (z * 40 + (1 - z) * 20))
 			{
-				player.sr_cheat = playersAllowed;
+				if (playersAllowed)
+					player cheat();
 				player thread portalKick(p1, p2, vel);
 			}
 		}
