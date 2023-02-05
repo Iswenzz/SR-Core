@@ -22,6 +22,9 @@
 
 		onClose
 		{
+			exec "setfromdvar temp cg_fov; setu cg_fov _; setfromdvar cg_fov temp";
+			exec "setfromdvar temp cg_fovScale; setu cg_fovScale _; setfromdvar cg_fovScale temp";
+			exec "setfromdvar temp r_mode; setu r_mode _; setfromdvar r_mode temp";
 			exec "setfromdvar temp sr_vote_search; setu sr_vote_search _; setfromdvar sr_vote_search temp";
 		}
 

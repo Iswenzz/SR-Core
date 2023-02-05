@@ -298,11 +298,6 @@ update_hudCgaz(setting)
 {
 	value = self.settings["hud_cgaz"];
 	self updateHud(setting.index, value);
-
-	if (value && !self getStat(2400) && !self getStat(2401))
-		self pm("^3CGAZ: Please set your screen resolution using ^7!hud_res <1920x1080>");
-	if (value && !self getStat(2402))
-		self pm("^3CGAZ: Please set your fov using ^7!hud_fov <65-80>");
 }
 
 toggle_hudCrosshair(setting)

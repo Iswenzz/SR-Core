@@ -616,17 +616,48 @@ neg(v)
 	return v * -1;
 }
 
+getResolution()
+{
+	resolution = strTok(self getUserInfo("r_mode"), "x");
+	if (resolution.size == 2)
+	{
+		resolution[0] = ToInt(resolution[0]);
+		resolution[1] = ToInt(resolution[1]);
+	}
+	else
+	{
+		resolution[0] = 1920;
+		resolution[1] = 1080;
+	}
+	return resolution;
+}
+
+getFov()
+{
+	fov = self getUserInfo("cg_fov");
+	if (IsStringInt(fov))
+		return ToInt(fov);
+	return 80;
+}
+
+getFovScale()
+{
+	fov = self getUserInfo("cg_fovScale");
+	if (IsStringFloat(fov))
+		return ToFloat(fov);
+	return self.settings["gfx_fov"] / 1000;
+}
+
 calculateFov()
 {
-	playerFov = Ternary(self getStat(2402), self getStat(2402), 80);
-	playerFovScale = float(self.settings["gfx_fov"] / 1000);
-	screenWidth = Ternary(self getStat(2400), self getStat(2400), 1920);
-	screenHeight = Ternary(self getStat(2401), self getStat(2401), 1080);
+	resolution = self getResolution();
+	playerFov = self getFov();
+	playerFovScale = self getFovScale();
 
 	fov = playerFov * playerFovScale;
 	wFov = tan1(fov * 0.01745329238474369 * 0.5) * 0.75;
 
-	tanHalfFovX = wFov * (screenWidth / screenHeight);
+	tanHalfFovX = wFov * (resolution[0] / resolution[1]);
 	tanHalfFovY = wFov;
 
 	return tanHalfFovX;

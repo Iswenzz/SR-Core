@@ -15,8 +15,6 @@ main()
 	cmd("owner", 		"g_gravity",		::cmd_G_Gravity);
 	cmd("owner", 		"g_speed",			::cmd_G_Speed);
 	cmd("owner", 		"god",				::cmd_God);
-	cmd("player", 		"hud_res",			::cmd_HudResolution);
-	cmd("player", 		"hud_fov",			::cmd_HudFov);
 	cmd("owner",		"jump_height",		::cmd_JumpHeight);
 	cmd("admin",        "kill",				::cmd_Kill);
 	cmd("owner", 		"model",			::cmd_Model);
@@ -120,35 +118,6 @@ cmd_TeleportEnt(args)
 
 	self cheat();
 	self setOrigin(ent[0].origin);
-}
-
-cmd_HudResolution(args)
-{
-	if (args.size < 1)
-		return self pm("Usage: hud_res <1920x1080>");
-
-	res = strTok(args[0], "x");
-	if (res.size != 2)
-		return self pm("Usage: hud_res <1920x1080>");
-
-	width = ToInt(res[0]);
-	height = ToInt(res[1]);
-
-	self setStat(2400, width);
-	self setStat(2401, height);
-
-	self pm(fmt("^3CGAZ: ^7Resolution %dx%d", width, height));
-}
-
-cmd_HudFov(args)
-{
-	if (args.size < 1 || !IsStringInt(args[0]))
-		return self pm("Usage: hud_fov <65-80>");
-
-	fov = ToInt(args[0]);
-
-	self setStat(2402, fov);
-	self pm(fmt("^3CGAZ: ^7FOV %d", fov));
 }
 
 cmd_Angles(args)
