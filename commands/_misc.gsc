@@ -8,5 +8,10 @@ main()
 
 cmd_Discord(args)
 {
-    message("Join Sr- Discord: ^5discord.gg/76aHfGF");
+	discord = "Join Sr- Discord: ^5discord.gg/76aHfGF";
+
+	if (self isRole("member"))
+    	self message(discord);
+	else
+		self pm(discord);
 }
