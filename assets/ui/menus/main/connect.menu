@@ -22,10 +22,10 @@
 
 		onClose
 		{
-			exec "setfromdvar temp cg_fov; setu cg_fov _; setfromdvar cg_fov temp";
-			exec "setfromdvar temp cg_fovScale; setu cg_fovScale _; setfromdvar cg_fovScale temp";
-			exec "setfromdvar temp r_mode; setu r_mode _; setfromdvar r_mode temp";
-			exec "setfromdvar temp sr_vote_search; setu sr_vote_search _; setfromdvar sr_vote_search temp";
+			exec "setfromdvar temp0 cg_fov; setu cg_fov _; setfromdvar cg_fov temp0";
+			exec "setfromdvar temp1 cg_fovScale; setu cg_fovScale _; setfromdvar cg_fovScale temp1";
+			exec "setfromdvar temp2 r_mode; setu r_mode _; setfromdvar r_mode temp2";
+			exec "setfromdvar temp3 sr_vote_search; setu sr_vote_search _; setfromdvar sr_vote_search temp3";
 		}
 
 		itemDef

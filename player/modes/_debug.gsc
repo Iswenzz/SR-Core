@@ -307,8 +307,10 @@ cleanMode()
 	self.debugActions = [];
 	self.debugInfos = [];
 
-	self.huds["debug"]["actions"] setText("");
-	self.huds["debug"]["infos"] setText("");
+	if (isDefined(self.huds["debug"]["actions"]))
+		self.huds["debug"]["actions"] setText("");
+	if (isDefined(self.huds["debug"]["infos"]))
+		self.huds["debug"]["infos"] setText("");
 
 	self setClientDvar("cg_drawmaterial", 0);
 	self setClientDvar("snd_draw3D", 0);

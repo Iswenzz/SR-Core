@@ -185,6 +185,8 @@ getMaps()
 
 start(type, value)
 {
+	if (type == "map" && IsNullOrEmpty(value))
+		return;
 	if (type == "src" && IsNullOrEmpty(level.sr_map))
 		return;
 
