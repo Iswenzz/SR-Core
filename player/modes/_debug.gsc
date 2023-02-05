@@ -333,6 +333,7 @@ checkModeChange()
 vars()
 {
 	self setClientDvars("developer", 2);
+	self setClientDvars("cl_showServerCommands", 1);
 	self.debugMode = 0;
 }
 

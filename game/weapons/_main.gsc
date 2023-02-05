@@ -233,8 +233,8 @@ impactCleanup()
 
 	if (isDefined(self.model))
 		self.model delete();
-
-	self.player.scriptedBullets--;
+	if (isDefined(self.player))
+		self.player.scriptedBullets--;
 }
 
 damage()

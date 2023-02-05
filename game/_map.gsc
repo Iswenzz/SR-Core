@@ -151,14 +151,14 @@ voteNextMap()
 	maps = level.randomizedMaps;
 
 	if (level.dvar["map_vote"])
-		return menuVote(maps);
+		return vote(maps);
+	wait 15;
 	return maps[randomInt(maps.size)];
 }
 
 credits()
 {
 	sr\game\_credits::start();
-	wait 14;
 }
 
 intermission()
@@ -169,18 +169,15 @@ intermission()
 	wait 10;
 }
 
-menuVote(maps)
+vote(maps)
 {
-
-}
-
-endEarthquake()
-{
-	while (true)
+	result = sr\game\_poll::poll("Next map", maps);
+	if (isDefined(result))
 	{
-		earthquake(0.05, 0.05, level.spawn["spectator"].origin, 20000);
-		wait 0.05;
+		level sr\sys\_notifications::show(fmt("^5Next map: ^7%s", result.label));
+		return result.label;
 	}
+	return maps[randomInt(maps.size)];
 }
 
 randomizeMaps(amount)
@@ -232,6 +229,13 @@ getRotation(includeCurrent)
 		list[list.size] = maps[i];
 	}
 	return Sort(list);
+}
+
+addTime(minutes)
+{
+	level.time += minutes * 60;
+	if (isDefined(level.huds["time"]))
+		level.huds["time"] setTimer(level.time);
 }
 
 deleteUnsupportedWeapons()

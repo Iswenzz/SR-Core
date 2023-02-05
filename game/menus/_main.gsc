@@ -62,7 +62,7 @@ close(weapon)
 	for (i = 0; i < huds.size; i++)
 	{
 		if (isDefined(self.huds["script_menu"][huds[i]]))
-			self.huds["script_menu"][huds[i]] thread fadeOut(1, "right");
+			self.huds["script_menu"][huds[i]] thread fadeOut(0, 1, "right");
 	}
 
 	self.script_menu_open = false;
@@ -137,27 +137,27 @@ open(id, weapon)
 
 	self.huds["script_menu"]["backround_night"] = addTextHud(self, -200, 0, .6, "left", "top", "right",0, 101);
 	self.huds["script_menu"]["backround_night"] setShader("nightvision_overlay_goggles", 400, 650);
-	self.huds["script_menu"]["backround_night"] thread fadeIn(.5, "right");
+	self.huds["script_menu"]["backround_night"] thread fadeIn(0, .5, "right");
 
 	self.huds["script_menu"]["backround"] = addTextHud(self, -200, 0, .5, "left", "top", "right", 0, 101);
 	self.huds["script_menu"]["backround"] setShader("black", 400, 650);
-	self.huds["script_menu"]["backround"] thread fadeIn(.5, "right");
+	self.huds["script_menu"]["backround"] thread fadeIn(0, .5, "right");
 
 	self.huds["script_menu"]["line"] = addTextHud(self, -200, 89, .5, "left", "top", "right", 0, 102);
 	self.huds["script_menu"]["line"] setShader("line_vertical", 600, 22);
-	self.huds["script_menu"]["line"] thread fadeIn(.5,"right");
+	self.huds["script_menu"]["line"] thread fadeIn(0, .5, "right");
 
 	self.huds["script_menu"]["select"] = addTextHud(self, -190, 93, 1, "left", "top", "right", 0, 104);
 	self.huds["script_menu"]["select"] setShader("ui_host", 14, 14);
-	self.huds["script_menu"]["select"] thread fadeIn(.5, "right");
+	self.huds["script_menu"]["select"] thread fadeIn(0, .5, "right");
 
 	self.huds["script_menu"]["options"] = addTextHud(self, -165, 100, 1, "left", "middle", "right", 1.4, 103);
 	self.huds["script_menu"]["options"] setText(getMenuOptions(id, submenu));
-	self.huds["script_menu"]["options"] thread fadeIn(.5, "right");
+	self.huds["script_menu"]["options"] thread fadeIn(0, .5, "right");
 
 	self.huds["script_menu"]["help"] = addTextHud(self, -170, 400, 1, "left", "middle", "right" ,1.4, 103);
 	self.huds["script_menu"]["help"] setText("^5Select: [Right or Left Mouse]\nUse: [[{+activate}]]\nLeave: [[{+melee}]]");
-	self.huds["script_menu"]["help"] thread fadeIn(.5, "right");
+	self.huds["script_menu"]["help"] thread fadeIn(0, .5, "right");
 
 	for (selected = 0; !self meleeButtonPressed(); wait .05)
 	{
@@ -200,19 +200,19 @@ open(id, weapon)
 
 				self.huds["script_menu"]["submenu"] = addTextHud(self, -430, abstand + 50, .5, "left", "top", "right", 0, 101);
 				self.huds["script_menu"]["submenu"] setShader("black", 200, 300);
-				self.huds["script_menu"]["submenu"] thread fadeIn(.5, "left");
+				self.huds["script_menu"]["submenu"] thread fadeIn(0, .5, "left");
 
 				self.huds["script_menu"]["submenu_line"] = addTextHud(self, -430, abstand + 60, .5, "left", "top", "right", 0, 102);
 				self.huds["script_menu"]["submenu_line"] setShader("line_vertical", 200, 22);
-				self.huds["script_menu"]["submenu_line"] thread fadeIn(.5, "left");
+				self.huds["script_menu"]["submenu_line"] thread fadeIn(0, .5, "left");
 
 				self.huds["script_menu"]["submenu_arrow"] = addTextHud(self, -219, 93 + (16.8 * selected), 1, "left", "top", "right", 0, 104);
 				self.huds["script_menu"]["submenu_arrow"] setShader("hud_arrow_left", 14, 14);
-				self.huds["script_menu"]["submenu_arrow"] thread fadeIn(.5, "left");
+				self.huds["script_menu"]["submenu_arrow"] thread fadeIn(0, .5, "left");
 
 				self.huds["script_menu"]["submenu_options"] = addTextHud(self, -420, abstand + 71, 1, "left", "middle", "right", 1.4, 103);
 				self.huds["script_menu"]["submenu_options"] setText(getMenuOptions(id, submenu));
-				self.huds["script_menu"]["submenu_options"] thread fadeIn(.5, "left");
+				self.huds["script_menu"]["submenu_options"] thread fadeIn(0, .5, "left");
 
 				selected = 0;
 				wait 0.2;

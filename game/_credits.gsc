@@ -41,7 +41,7 @@ fade(duration, startTime)
 	wait startTime;
 	self.alpha = 1;
 
-	self fadeIn(1, "right", 2);
+	self fadeIn(0, 1, "right", 2);
 	wait duration - startTime;
-	self fadeOut(1, "right", 2);
+	self fadeOut(0, 1, "right", 2);
 }

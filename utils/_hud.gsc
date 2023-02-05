@@ -68,7 +68,7 @@ getHorizontal(int)
 	return "left";
 }
 
-fadeOut(time, direction, speed)
+fadeOut(delay, time, direction, speed)
 {
 	if (!isDefined(self))
 		return;
@@ -84,6 +84,7 @@ fadeOut(time, direction, speed)
 			case "right": 	self.x += 600; 	break;
 		}
 	}
+	wait delay;
 	self fadeOverTime(time);
 	self.alpha = 0;
 
@@ -92,7 +93,7 @@ fadeOut(time, direction, speed)
 		self destroy();
 }
 
-fadeIn(time, direction, speed)
+fadeIn(delay, time, direction, speed)
 {
 	if (!isDefined(self))
 		return;
@@ -118,6 +119,7 @@ fadeIn(time, direction, speed)
 	}
 	alpha = self.alpha;
 	self.alpha = 0;
+	wait delay;
 	self fadeOverTime(time);
 	self.alpha = alpha;
 }

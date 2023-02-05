@@ -4,9 +4,9 @@
 
 initVote()
 {
-	level.sr_map = undefined;
+	level.sr_map = "";
+	level.voteLabels = [];
 	level.voteMaxEntries = 24;
-	level.voteMaps = Chunk(level.rotation, level.voteMaxEntries);
 	level.voteProgress = false;
 	level.voteTimer = 20;
 	level.voteYes = 0;
@@ -21,7 +21,19 @@ initVote()
 	menu("-1", "cjvoteyes", ::menu_PlayerVote);
 	menu("-1", "cjvoteno", ::menu_PlayerVote);
 
+	addVote("map");
+	addVote("msg");
+	addVote("endmap", "End map");
+	addVote("src", "^5[SR-C] ^7" + level.sr_map);
+	addVote("add10", "Time +10");
+	addVote("add20", "Time +20");
+
 	event("connect", ::onConnect);
+}
+
+addVote(type, name)
+{
+	level.voteLabels[type] = name;
 }
 
 onConnect()
@@ -102,7 +114,7 @@ menu_Select(args)
 
 menu_Vote(args)
 {
-	value = args[1];
+	type = args[1];
 	page = self.votePage;
 
 	if ((getTime() - self.voteCooldown) < 300000)
@@ -115,9 +127,9 @@ menu_Vote(args)
 		self pm("A vote is already in progress");
 		return;
 	}
-	if (!IsNullOrEmpty(value))
+	if (!IsNullOrEmpty(type))
 	{
-		thread vote(value, self.voteSelected);
+		thread start(type, self.voteSelected);
 		self.voteCooldown = getTime();
 	}
 	self closeMenu();
@@ -171,39 +183,42 @@ getMaps()
 	return Chunk(maps, level.voteMaxEntries);
 }
 
-vote(vote, value)
+start(type, value)
+{
+	if (type == "src" && IsNullOrEmpty(level.sr_map))
+		return;
+
+	label = IfUndef(level.voteLabels[type], value);
+	if (!vote(label))
+		return;
+
+	wait 2;
+	switch (type)
+	{
+		case "endmap":	thread sr\game\_map::end();				break;
+		case "map":		thread sr\game\_map::end(value);		break;
+		case "src":		thread sr\game\_map::end(level.sr_map);	break;
+		case "add10":	thread sr\game\_map::addTime(10);		break;
+		case "add20":	thread sr\game\_map::addTime(20);		break;
+	}
+}
+
+vote(label)
 {
 	if (level.voteProgress || game["state"] == "end")
-		return;
-	if (vote == "src" && !isDefined(level.sr_map))
-		return;
+		return false;
 
 	level.voteProgress = true;
 	level.voteTimer = 20;
 	level.voteYes = 0;
 	level.voteNo = 0;
 
-	// Type
-	string = "";
-	switch (vote)
-	{
-		case "map": 	string = value; 						break;
-		case "endmap": 	string = "End map"; 					break;
-		case "src": 	string = "^1SR-C ^7" + level.sr_map; 	break;
-		case "add10": 	string = "Time +10"; 					break;
-		case "add20": 	string = "Time +20"; 					break;
-		case "msg": 	string = value; 						break;
-	}
-
-	// Count
 	players = GetEntArray("player", "classname");
 	for (i = 0; i < players.size; i++)
 	{
 		players[i].sr_vote = undefined;
-		players[i] thread hud(string);
+		players[i] thread hud(label);
 	}
-
-	// Timer
 	while (level.voteTimer > 0)
 	{
 		level.voteTimer--;
@@ -211,45 +226,16 @@ vote(vote, value)
 	}
 	level notify("vote_ended");
 	for (i = 0; i < players.size; i++)
-		players[i] hudDestroy();
+		players[i] clean();
 
-	// Result
 	level.voteProgress = false;
 	if (level.voteYes <= level.voteNo)
 	{
 		level sr\sys\_notifications::show("^1Vote Failed");
-		return;
+		return false;
 	}
 	level sr\sys\_notifications::show("^2Vote Passed");
-	wait 2;
-
-	// Action
-	switch (vote)
-	{
-		case "endmap":
-			thread sr\game\_map::end();
-			break;
-
-		case "map":
-			thread sr\game\_map::end(string);
-			break;
-
-		case "src":
-			thread sr\game\_map::end(level.sr_map);
-			break;
-
-		case "add10":
-			level.time += 600;
-			if (isDefined(level.huds["time"]))
-				level.huds["time"] setTimer(level.time);
-			break;
-
-		case "add20":
-			level.time += 1200;
-			if (isDefined(level.huds["time"]))
-				level.huds["time"] setTimer(level.time);
-			break;
-	}
+	return true;
 }
 
 hud(message)
@@ -289,7 +275,7 @@ hudUpdate()
 	}
 }
 
-hudDestroy()
+clean()
 {
 	if (isDefined(self) && isDefined(self.huds["vote"]))
 	{

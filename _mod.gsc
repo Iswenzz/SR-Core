@@ -37,6 +37,7 @@ main()
 	sr\game\_teams::main();
 	sr\game\_time::main();
 	sr\game\_vote::initVote();
+	sr\game\_poll::initPoll();
 	sr\game\fx\_trail::main();
 	sr\game\menus\_main::initMenus();
 	sr\game\menus\_owner::main();

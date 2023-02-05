@@ -43,11 +43,11 @@ animate(notification)
 	notification.huds[1].y += y;
 
 	for (i = 0; i < notification.huds.size; i++)
-		notification.huds[i] thread fadeIn(0.2, "right", 1);
+		notification.huds[i] thread fadeIn(0, 0.2, "right", 1);
 	wait notification.duration;
 
 	for (i = 0; i < notification.huds.size; i++)
-		notification.huds[i] thread fadeOut(0.2, "left", 1);
+		notification.huds[i] thread fadeOut(0, 0.2, "left", 1);
 	wait 0.2;
 
 	level.notifications--;

@@ -728,8 +728,6 @@ portalKick(p1, p2, vel)
 	if (!(level.dvar["portal_help_orientation"] && p1.trace["on_ground"] && p2.trace["on_ground"]))	//disable rotations completely if dvar is true and both portals on ground
 		self setPlayerAngles(playerPortalOutAngles(p1.trace["angles"], p2.trace["angles"], self getPlayerAngles()));
 
-	earthquake(0.5, 0.2, self eyePos(), 100);
-
 	self thread launch(self.origin, p2.trace["normal"], strength * multiplier);
 
 	wait 0.05;
