@@ -12,7 +12,7 @@ onSpawn()
 	self endon("death");
 	self endon("disconnect");
 
-	if (!isInMode("practise"))
+	if (!isInMode("practise") && !isInMode("debug"))
 		return;
 
 	while (true)

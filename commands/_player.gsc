@@ -7,6 +7,7 @@ main()
 	cmd("masteradmin", 	"bounce",			::cmd_Bounce);
 	cmd("owner", 		"bullet",			::cmd_Bullet);
 	cmd("owner", 		"clone",			::cmd_Clone);
+	cmd("owner", 		"debug",			::cmd_Debug);
 	cmd("owner", 		"damage",			::cmd_Damage);
 	cmd("vip", 			"dance",			::cmd_Dance);
 	cmd("adminplus", 	"drop",				::cmd_Drop);
@@ -198,6 +199,17 @@ cmd_Clone(args)
 		clone();
 	else
 		cloneDespawn();
+}
+
+cmd_Debug(args)
+{
+	if (self sr\player\modes\_main::isInOtherMode("debug"))
+		return;
+
+	self sr\player\modes\_main::toggleMode("debug");
+	self suicide();
+
+	self pm(Ternary(self.modes["debug"], "^5Debug mode enabled!", "^1Debug mode disabled!"));
 }
 
 cmd_Damage(args)

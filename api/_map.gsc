@@ -19,6 +19,7 @@ createTeleporter(triggerOrigin, width, height, origin, angles, state, color)
 {
 	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
 	trigger.radius = width;
+	trigger.targetname = "sr_tp_" + randomInt(99999999);
 
 	thread watchTeleporter(trigger, origin, angles, state);
 	thread sr\game\fx\_trigger::effect(trigger, IfUndef(color, "blue"));

@@ -31,7 +31,6 @@ main()
 	sr\game\_map::main();
 	sr\game\_rank::initRank();
 	sr\game\_cheat::main();
-	sr\game\_debug::main();
 	sr\game\_demo::main();
 	sr\game\_perks::initPerks();
 	sr\game\_defrag::main();
@@ -67,6 +66,8 @@ main()
 	sr\player\modes\_noclip::main();
 	sr\player\modes\_pickup::main();
 	sr\player\modes\_portal::main();
+	sr\player\modes\_practise::main();
+	sr\player\modes\_debug::main();
 	sr\player\huds\_cgaz::main();
 	sr\player\huds\_crosshair::main();
 	sr\player\huds\_fps::main();
