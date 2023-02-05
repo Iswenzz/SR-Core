@@ -140,8 +140,7 @@ cmd_DebugScriptUsage(args)
 
 cmd_Test(args)
 {
-	// self command("bots", "1");
-	// self command("killzone");
-	// self command("cmd", "1 killzone");
-	self setClientDvar("cg_fov", "0");
+	self command("bots", "1");
+	self command("killzone");
+	self command("cmd", "1 killzone");
 }

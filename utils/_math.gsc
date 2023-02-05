@@ -654,8 +654,6 @@ calculateFov()
 	playerFov = self getFov();
 	playerFovScale = self getFovScale();
 
-	comPrintLn("[Debug] %dx%d %d %f", resolution[0], resolution[1], playerFov, playerFovScale);
-
 	fov = playerFov * playerFovScale;
 	wFov = tan1(fov * 0.01745329238474369 * 0.5) * 0.75;
 
