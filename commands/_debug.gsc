@@ -14,6 +14,7 @@ main()
 	cmd("owner",  		"debug_scriptusage",	::cmd_DebugScriptUsage);
 	cmd("owner",  		"debug_rotation",		::cmd_DebugRotation);
 	cmd("owner",  		"debug_critical",		::cmd_DebugCriticalSections);
+	cmd("owner",  		"debug_kz",				::cmd_DebugKZ);
 	cmd("owner",		"test",					::cmd_Test);
 
 	if (getDvarInt("debug_rotation"))
@@ -138,9 +139,14 @@ cmd_DebugScriptUsage(args)
 	self pm(fmt("Script usage: ^5%d", debug_scriptusage()));
 }
 
-cmd_Test(args)
+cmd_DebugKZ(args)
 {
 	self command("bots", "1");
 	self command("killzone");
 	self command("cmd", "1 killzone");
+}
+
+cmd_Test(args)
+{
+
 }
