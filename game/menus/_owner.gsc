@@ -36,7 +36,7 @@ onConnect()
 	if (!self sr\sys\_admins::isRole("owner"))
 		return;
 
-    self menuEvent("owner", "shop_mp");
+    self loop("owner", "shop_mp");
 }
 
 menu_God(arg)
@@ -56,19 +56,18 @@ menu_Speed(arg)
 
 menu_Portal(arg)
 {
+	self done();
 	self command("portal_mode");
-
-	self close();
 }
 
 menu_Weapon(arg)
 {
+	self done();
+
 	self giveWeapon(arg);
 	self giveMaxAmmo(arg);
 	wait 0.05;
 	self switchToWeapon(arg);
-
-	self close();
 }
 
 menu_UAmmo(arg)

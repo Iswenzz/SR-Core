@@ -11,71 +11,31 @@ initMenus()
 	precacheShader("hud_arrow_left");
 }
 
-menuEvent(id, weapon)
+loop(id, weapon)
 {
 	self endon("connect");
 	self endon("disconnect");
 
 	self.huds["script_menu"] = [];
-	self.script_menu_open = false;
 
 	while (isDefined(self))
 	{
-		currentWeapon = self GetCurrentWeapon();
-		if (!self.script_menu_open && currentWeapon == weapon)
+		if (!self isPlaying())
 		{
-			if (self.sessionstate != "playing" || self.pers["team"] == "spectator")
-				continue;
-
-			self.script_menu_open = true;
-			self notify("sr_menu_open");
-
-			while (self isPlaying() && !self isOnGround())
-				wait .05;
-
-			self open(id, weapon);
-
-			self allowSpectateTeam("allies", false);
-			self allowSpectateTeam("axis", false);
-			self allowSpectateTeam("none", false);
-			wait 1.3;
+			wait 1;
+			continue;
 		}
-		else if (self.script_menu_open && self meleeButtonPressed())
+
+		currentWeapon = self GetCurrentWeapon();
+		if (currentWeapon == weapon)
+		{
+			self open(id, weapon);
 			self close(weapon);
-
+			continue;
+		}
 		wait 0.2;
-		self.script_menu_prevWeapon = currentWeapon;
+		self.scriptMenuPrevWeapon = currentWeapon;
 	}
-}
-
-close(weapon)
-{
-	self endon("disconnect");
-	self notify("sr_menu_close");
-
-	self takeWeapon(weapon);
-
-	if (!isDefined(self.huds["script_menu"]))
-		return;
-
-	huds = getArrayKeys(self.huds["script_menu"]);
-	for (i = 0; i < huds.size; i++)
-	{
-		if (isDefined(self.huds["script_menu"][huds[i]]))
-			self.huds["script_menu"][huds[i]] thread fadeOut(0, 1, "right");
-	}
-
-	self.script_menu_open = false;
-	if (isDefined(self.script_menu_prevWeapon))
-		self switchToWeapon(self.script_menu_prevWeapon);
-
-	self allowSpectateTeam("allies", true);
-	self allowSpectateTeam("axis", true);
-	self allowSpectateTeam("none", true);
-
-	wait 0.5;
-
-	self giveWeapon(weapon);
 }
 
 menuOption(section, name, script, args)
@@ -128,9 +88,9 @@ getMenuOptions(id, menu)
 
 open(id, weapon)
 {
+	self endon("scriptmenu_done");
 	self endon("disconnect");
 	self endon("death");
-	self endon("sr_menu_close");
 
 	submenu = "main";
 	menus = level.huds["script_menu"][id];
@@ -139,7 +99,7 @@ open(id, weapon)
 	self.huds["script_menu"]["backround_night"] setShader("nightvision_overlay_goggles", 400, 650);
 	self.huds["script_menu"]["backround_night"] thread fadeIn(0, .5, "right");
 
-	self.huds["script_menu"]["backround"] = addTextHud(self, -200, 0, .5, "left", "top", "right", 0, 101);
+	self.huds["script_menu"]["backround"] = addTextHud(self, -200, 0, 0.5, "left", "top", "right", 0, 101);
 	self.huds["script_menu"]["backround"] setShader("black", 400, 650);
 	self.huds["script_menu"]["backround"] thread fadeIn(0, .5, "right");
 
@@ -159,20 +119,28 @@ open(id, weapon)
 	self.huds["script_menu"]["help"] setText("^5Select: [Right or Left Mouse]\nUse: [[{+activate}]]\nLeave: [[{+melee}]]");
 	self.huds["script_menu"]["help"] thread fadeIn(0, .5, "right");
 
-	for (selected = 0; !self meleeButtonPressed(); wait .05)
+	selected = 0;
+
+	while (true)
 	{
+		wait 0.05;
+
+		menu = menus[submenu][selected];
+		currentWeapon = self getCurrentWeapon();
+
+		if (self meleeButtonPressed() || currentWeapon != weapon)
+			break;
 		if (self attackButtonPressed())
 		{
 			self playLocalSound("mouse_over");
 			selected = Ternary(selected == menus[submenu].size - 1, 0, selected + 1);
 		}
-		if (self adsButtonPressed())
+		if (self aimButtonPressed())
 		{
-			self clientCmd("-speed_throw");
 			self playLocalSound("mouse_over");
-			selected = Ternary(selected == 0,  menus[submenu].size - 1, selected - 1);
+			selected = Ternary(selected == 0, menus[submenu].size - 1, selected - 1);
 		}
-		if (self adsButtonPressed() || self attackButtonPressed())
+		if (self aimButtonPressed() || self attackButtonPressed())
 		{
 			if (submenu == "main")
 			{
@@ -187,16 +155,19 @@ open(id, weapon)
 				self.huds["script_menu"]["submenu_line"].y = 10 + self.huds["script_menu"]["submenu"].y + (16.8 * selected);
 			}
 		}
-		if ((self adsButtonPressed() || self attackButtonPressed()) && !self useButtonPressed())
-			wait .15;
+		if ((self aimButtonPressed() || self attackButtonPressed()) && !self useButtonPressed())
+			wait 0.15;
 
 		if (self useButtonPressed())
 		{
-			// Combo
+			// Submenu
 			if (isString(menus[submenu][selected].script))
 			{
+				if (isDefined(self.huds["script_menu"]["submenu"]))
+					continue;
+
 				abstand = (16.8 * selected);
-				submenu = menus[submenu][selected].script;
+				submenu = menu.script;
 
 				self.huds["script_menu"]["submenu"] = addTextHud(self, -430, abstand + 50, .5, "left", "top", "right", 0, 101);
 				self.huds["script_menu"]["submenu"] setShader("black", 200, 300);
@@ -216,15 +187,38 @@ open(id, weapon)
 
 				selected = 0;
 				wait 0.2;
-
 				continue;
 			}
-			self thread [[menus[submenu][selected].script]](menus[submenu][selected].args);
-			submenu = "main";
-			wait 0.2;
+			self thread [[menu.script]](menu.args);
 		}
 	}
-	self thread close(weapon);
+}
+
+done()
+{
+	self notify("scriptmenu_done");
+}
+
+close(weapon)
+{
+	self endon("disconnect");
+
+	self takeWeapon(weapon);
+	if (isDefined(self.scriptMenuPrevWeapon))
+		self switchToWeapon(self.scriptMenuPrevWeapon);
+
+	if (!isDefined(self.huds["script_menu"]))
+		return;
+
+	huds = getArrayKeys(self.huds["script_menu"]);
+	for (i = 0; i < huds.size; i++)
+	{
+		if (isDefined(self.huds["script_menu"][huds[i]]))
+			self.huds["script_menu"][huds[i]] thread fadeOut(0, 1, "right");
+	}
+	wait 1;
+
+	self giveWeapon(weapon);
 }
 
 addTextHud(who, x, y, alpha, alignX, alignY, vert, fontScale, sort)

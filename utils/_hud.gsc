@@ -85,12 +85,17 @@ fadeOut(delay, time, direction, speed)
 		}
 	}
 	wait delay;
+	if (!isDefined(self))
+		return;
+
 	self fadeOverTime(time);
 	self.alpha = 0;
 
 	wait time;
-	if (isDefined(self))
-		self destroy();
+	if (!isDefined(self))
+		return;
+
+	self destroy();
 }
 
 fadeIn(delay, time, direction, speed)
@@ -119,7 +124,11 @@ fadeIn(delay, time, direction, speed)
 	}
 	alpha = self.alpha;
 	self.alpha = 0;
+
 	wait delay;
+	if (!isDefined(self))
+		return;
+
 	self fadeOverTime(time);
 	self.alpha = alpha;
 }
