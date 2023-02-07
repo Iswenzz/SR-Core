@@ -30,14 +30,14 @@ animate(notification)
 	text = splitTextByWidth(notification.message, 150);
 	width = getTextWidth(text, fontSize);
 	height = getTextHeight(text, fontSize);
-	y = level.notifications * 30;
+	y = (level.notifications * (height + 15));
 
 	notification.huds = [];
-	notification.huds[0] = addHud(self, 0, 100, 0.7, "left", "top", fontSize, 990);
+	notification.huds[0] = addHud(self, 0, 100, 1, "left", "top", fontSize, 1000);
 	notification.huds[0] setShader("black", width, height);
 	notification.huds[0].y += y;
 
-	notification.huds[1] = addHud(self, 2, 102, 1, "left", "top", fontSize, 993);
+	notification.huds[1] = addHud(self, 2, 102, 1, "left", "top", fontSize, 1001);
 	notification.huds[1].font = "objective";
 	notification.huds[1] setText(text);
 	notification.huds[1].y += y;
@@ -48,7 +48,7 @@ animate(notification)
 
 	for (i = 0; i < notification.huds.size; i++)
 		notification.huds[i] thread fadeOut(0, 0.2, "left", 1);
-	wait 0.2;
+	wait 2;
 
 	level.notifications--;
 }

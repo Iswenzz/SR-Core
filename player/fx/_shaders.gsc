@@ -14,6 +14,9 @@ initShaders()
 	precacheShader("sr_psy_edge");
 	precacheShader("sr_grid");
 	precacheShader("sr_loader");
+	precacheShader("sr_bokeh");
+	precacheShader("sr_bokeh_add");
+	precacheShader("sr_bokeh_multiply");
 
 	precacheModel("x_mirror");
 	precacheModel("x_volumetric_clouds");

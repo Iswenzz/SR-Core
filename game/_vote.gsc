@@ -246,10 +246,11 @@ hud(message)
     self.huds["vote"]["title"] = addHud(self, 5, -42, 1, "left", "bottom", 1.4, 96);
 	self.huds["vote"]["title"] setText(message);
 
-    self.huds["vote"]["background"] = addHud(self, -10, 0, 0.7, "left", "bottom", 1.8);
-    self.huds["vote"]["background"] setShader("black", 200, 40);
+    self.huds["vote"]["background"] = addHud(self, -10, 0, 1, "left", "bottom", 1.8);
+    self.huds["vote"]["background"].color = (0, 0, 0);
+    self.huds["vote"]["background"] setShader("sr_bokeh_multiply", 200, 60);
 
-    self.huds["vote"]["header"] = addHud(self, -10, -40, 0.9, "left", "bottom", 1.8);
+    self.huds["vote"]["header"] = addHud(self, -10, -40, 0.5, "left", "bottom", 1.8);
     self.huds["vote"]["header"] setShader("black", 200, 20);
 
     self.huds["vote"]["yes"] = addHud(self, 40, 0, 1, "left", "bottom", 1.4, 96);

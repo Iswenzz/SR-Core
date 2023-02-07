@@ -1,0 +1,17 @@
+{
+	stateMap "default2d";
+
+	vertexShader 3.0 "sr_bokeh_72a1bf12fc"
+    {
+
+	}
+
+	pixelShader 3.0 "sr_bokeh_72a1bf12fc"
+	{
+
+	}
+
+	vertex.position = code.position;
+	vertex.color[0] = code.color;
+	vertex.texcoord[0] = code.texcoord[0];
+}
