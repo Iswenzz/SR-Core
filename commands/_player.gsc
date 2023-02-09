@@ -471,15 +471,13 @@ fortniteDance()
 	self giveWeapon("fortnite_mp");
 	wait 0.05;
 	self switchToWeapon("fortnite_mp");
-
 	wait 0.2;
-
 	self setClientDvars("cg_thirdperson", 1, "cg_thirdpersonangle", 180);
-
 	wait 7;
-
 	self takeWeapon("fortnite_mp");
-	self switchToWeapon(weapon);
+
+	if (isDefined(weapon))
+		self switchToWeapon(weapon);
 	self setClientDvars("cg_thirdperson", 0, "cg_thirdpersonangle", 0);
 }
 

@@ -61,9 +61,9 @@ onConnect()
 	self endon("disconnect");
 
 	self.settings = self getPersistence("settings", []);
-
 	if (!self isFirstConnection())
 		return;
+
 	if (isDefined(self.new))
 		self reset();
 	self load();
@@ -75,6 +75,8 @@ save()
 
 	for (i = 0; i < level.settings.size; i++)
 		self setStat(level.settings[i].stat, self.settings[level.settings[i].id]);
+
+	self setPersistence("settings", self.settings);
 }
 
 load()
@@ -85,7 +87,6 @@ load()
 		self.settings[setting.id] = self getStat(setting.stat);
 		self thread [[setting.updateCallback]](setting);
 	}
-	self setPersistence("settings", self.settings);
 
 	wait 1;
 	for (i = 0; i < level.settings.size; i++)

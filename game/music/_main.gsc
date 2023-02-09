@@ -100,7 +100,7 @@ load(name)
 
 play(alias)
 {
-	level clear();
+	clear();
 	level endon("music_sequence_end");
 
 	sequence = undefined;
@@ -125,26 +125,35 @@ play(alias)
 	ambientPlay(sequence.alias, 0.2);
 	wait 0.2;
 
-	thread disableFullbright();
-	thread disablePlayersAnimation();
 	visionSetNaked("null", 0);
-	level vision("default");
 	level thread [[sequence.callback]](sequence);
-	level thread animateKeyframes(sequence.keyframes);
+	level thread animateKeyframes(sequence);
 
 	wait sequence.time;
 
 	ambientStop(2);
 	wait 2;
 
-	level thread clear();
+	thread clear();
 }
 
-animateKeyframes(keyframes)
+animateKeyframes(sequence)
 {
 	level endon("music_sequence_end");
 
+	players = getAllPlayers();
+	for (j = 0; j < players.size; j++)
+	{
+		player = players[j];
+		if (!player.settings["gfx_music_animation"])
+			continue;
+
+		player setClientDvar("r_fullbright", 0);
+		player vision();
+	}
+
 	startTime = getTime();
+	keyframes = sequence.keyframes;
 	time = 0;
 	i = 0;
 
@@ -162,10 +171,17 @@ animateKeyframes(keyframes)
 			continue;
 		}
 
-		self.huds["shader"] setShader(keyframe.name, 640, 480);
-		self.huds["shader"].color = keyframe.color;
-		self.huds["shader"].alpha = keyframe.alpha;
-		self updateStack(keyframe.id, keyframe.name);
+		players = getAllPlayers();
+		for (j = 0; j < players.size; j++)
+		{
+			player = players[j];
+			if (!player.settings["gfx_music_animation"])
+				continue;
+
+			player.huds["shader"] = player addShader(keyframe.name);
+			player.huds["shader"].color = keyframe.color;
+			player.huds["shader"].alpha = keyframe.alpha;
+		}
 		i++;
 
 		wait 0.05;
@@ -176,12 +192,11 @@ clear()
 {
 	level notify("music_sequence_end");
 
-	ambientStop(2);
-
-	level removeShaders();
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 		players[i] removeShaders();
+
+	ambientStop(2);
 
 	setExpFog(20000000, 10000000, 0, 0, 0, 2);
 	visionSetNaked(toLower(level.map), 0);
@@ -201,44 +216,6 @@ timeline(total, time)
 	return time;
 }
 
-disablePlayersAnimation()
-{
-	players = getAllPlayers();
-	for (i = 0; i < players.size; i++)
-		players[i] disableAnimation();
-}
-
-disableFullbright()
-{
-	level endon("music_sequence_end");
-
-	players = getAllPlayers();
-	for (i = 0; i < players.size; i++)
-		players[i] setClientDvar("r_fullbright", 0);
-}
-
-disableAnimation()
-{
-	if (self.settings["gfx_music_animation"])
-		return;
-
-	self.huds["vision"] = newClientHudElem(self);
-	self.huds["vision"].foreground = true;
-	self.huds["vision"].alignX = "left";
-	self.huds["vision"].alignY = "top";
-	self.huds["vision"].horzAlign = "fullscreen";
-	self.huds["vision"].vertAlign = "fullscreen";
-	self.huds["vision"].x = 0;
-	self.huds["vision"].y = 0;
-	self.huds["vision"].sort = -1;
-	self.huds["vision"].fontScale = 1.4;
-	self.huds["vision"].color = (0, 0, 0);
-	self.huds["vision"].hidewheninmenu = true;
-	self.huds["vision"].alpha = 1;
-	self.huds["vision"].archived = false;
-	self.huds["vision"] setShader("sr_translate", 640, 480);
-}
-
 vegas()
 {
 	level.huds["vegas"] = newHudElem();
@@ -249,12 +226,12 @@ vegas()
 	level.huds["vegas"].vertAlign = "fullscreen";
 	level.huds["vegas"].x = 0;
 	level.huds["vegas"].y = 0;
-	level.huds["vegas"].sort = -1;
+	level.huds["vegas"].sort = 0;
 	level.huds["vegas"].fontScale = 1.4;
 	level.huds["vegas"].color = (0, 0, 0);
 	level.huds["vegas"].hidewheninmenu = true;
 	level.huds["vegas"].alpha = 1;
-	level.huds["vegas"].archived = false;
+	level.huds["vegas"].archived = true;
 	level.huds["vegas"] setShader("sr_translate", 640, 480);
 
 	visionSetNaked("null", 0);

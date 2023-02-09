@@ -102,7 +102,7 @@ huds()
 	level.huds["time"].vertAlign = "bottom";
 	level.huds["time"].x = -10;
 	level.huds["time"].y = -2;
-	level.huds["time"].sort = 0;
+	level.huds["time"].sort = 100;
 	level.huds["time"].fontScale = 1.4;
 	level.huds["time"].color = (1, 1, 1);
 	level.huds["time"].font = "objective";

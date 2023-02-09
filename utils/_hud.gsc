@@ -18,7 +18,7 @@ addHud(who, x, y, alpha, alignX, alignY, fontScale, sort, archived)
 	hud.horzAlign = alignX;
 	hud.vertAlign = alignY;
 	hud.fontScale = Ternary(fontScale < 1.4, 1.4, fontScale);
-	hud.sort = IfUndef(sort, 0);
+	hud.sort = IfUndef(sort, 1);
 	hud.archived = IfUndef(archived, false);
 	hud.hidewheninmenu = true;
 	return hud;
