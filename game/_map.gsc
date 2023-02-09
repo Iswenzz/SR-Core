@@ -121,7 +121,6 @@ endSpectate()
 		players[i] allowSpectateTeam("freelook", false);
 		players[i] allowSpectateTeam("none", true);
 	}
-	wait 3;
 }
 
 levelRestart(persist)
@@ -152,7 +151,7 @@ voteNextMap()
 
 	if (level.dvar["map_vote"])
 		return vote(maps);
-	wait 15;
+	wait 18;
 	return maps[randomInt(maps.size)];
 }
 

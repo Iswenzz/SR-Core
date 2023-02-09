@@ -5,7 +5,7 @@
 initPoll()
 {
 	level.pollProgress = false;
-	level.pollTimer = 15;
+	level.pollTimer = 18;
 	level.pollTitle = "";
 	level.pollEntries = [];
 }
@@ -76,7 +76,7 @@ poll(title, values)
 
 	level.pollTitle = title;
 	level.pollProgress = true;
-	level.pollTimer = 15;
+	level.pollTimer = 18;
 
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
