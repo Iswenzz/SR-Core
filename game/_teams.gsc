@@ -1,3 +1,5 @@
+#include sr\utils\_common;
+
 main()
 {
 	game["menu_main"] = "main_mp";
@@ -49,7 +51,7 @@ setTeam(team)
 	self.team = team;
 	self.sessionteam = team;
 
-	if (isAlive(self))
+	if (self isPlaying())
 		self suicide();
 }
 

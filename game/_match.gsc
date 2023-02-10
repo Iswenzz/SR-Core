@@ -18,6 +18,7 @@ main()
 start()
 {
 	level endon("endround");
+	level endon("game over");
 	level notify("kill logic");
 	level endon("kill logic");
 
@@ -63,6 +64,8 @@ canStartGame()
 
 timer(time)
 {
+	level thread timerDelete();
+
 	level.time = time;
 	level.huds["time"] setTimer(time);
 
@@ -89,7 +92,16 @@ timer(time)
 			level.huds["time"].color = (1, 1, 1);
 	}
 	clock delete();
-	level.huds["time"] destroy();
+	if (isDefined(level.huds["time"]))
+		level.huds["time"] destroy();
+}
+
+timerDelete()
+{
+	level waittill("game over");
+
+	if (isDefined(level.huds["time"]))
+		level.huds["time"] destroy();
 }
 
 huds()

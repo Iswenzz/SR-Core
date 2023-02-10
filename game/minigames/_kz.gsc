@@ -116,7 +116,7 @@ leave()
 
 onPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, timeOffset)
 {
-	if (!self isInQueue("kz") || !level.kzStarted || !isAlive(self))
+	if (!self isInQueue("kz") || !level.kzStarted || !self isPlaying())
 		return;
 
 	self.huds["speedrun"]["row2"] setText(fmt("Health             ^2%d", self.health - iDamage));
@@ -134,7 +134,7 @@ onPlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHit
 		attacker.pers["kills"]++;
 		sr\game\_rank::processXpReward(sMeansOfDeath, attacker, self);
 
-		if (isAlive(attacker))
+		if (attacker isPlaying())
 		{
 			text = fmt("K/D                    ^3%d/%d", attacker.kills, attacker.deaths);
 			attacker.huds["speedrun"]["row3"] setText(text);
