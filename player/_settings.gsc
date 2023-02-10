@@ -89,6 +89,8 @@ load()
 
 dvars()
 {
+	self endon("disconnect");
+
 	wait 1;
 	for (i = 0; i < level.settings.size; i++)
 	{
