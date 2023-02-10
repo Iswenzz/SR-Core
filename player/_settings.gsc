@@ -31,7 +31,6 @@ main()
 	settings(18, "gfx_music_animation", "Music Animations", 1619, true, ::update_gfxMusicAnimation, ::toggle_gfxMusicAnimation);
 
 	menu_multiple("sr_settings", "setting", ::menu_Setting);
-	event("connect", ::onConnect);
 }
 
 settings(index, id, name, stat, value, updateCallback, toggleCallback)
@@ -55,11 +54,8 @@ menu_Setting(args)
 	toggle(setting.id);
 }
 
-onConnect()
+init()
 {
-	self endon("connect");
-	self endon("disconnect");
-
 	self.settings = self getPersistence("settings", []);
 	if (!self isFirstConnection())
 		return;
@@ -87,7 +83,12 @@ load()
 		self.settings[setting.id] = self getStat(setting.stat);
 		self thread [[setting.updateCallback]](setting);
 	}
+	self setPersistence("settings", self.settings);
+	self thread dvars();
+}
 
+dvars()
+{
 	wait 1;
 	for (i = 0; i < level.settings.size; i++)
 	{

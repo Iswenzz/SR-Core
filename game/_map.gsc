@@ -141,6 +141,8 @@ levelExit(persist)
 
 displayMapScores()
 {
+	wait 1;
+
 	if (!level.dvar["map_scores"])
 		return;
 }
