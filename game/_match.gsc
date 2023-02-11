@@ -38,7 +38,7 @@ start()
 
 	matchStartPlayers();
 	timer(level.dvar["time"]);
-	sr\game\_map::end();
+	thread sr\game\_map::end();
 }
 
 waitMatchStart()

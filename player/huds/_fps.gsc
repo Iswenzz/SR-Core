@@ -107,6 +107,8 @@ updateFps()
 	}
 	if (self.fps != self.prevFps || !self.fpsCombo.size)
 	{
+		if (self.fpsCombo.size > 400)
+			return;
 		switch (self.fps)
 		{
 			case 20:	self.fpsCombo += "(20)";	break;

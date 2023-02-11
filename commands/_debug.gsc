@@ -148,5 +148,6 @@ cmd_DebugKZ(args)
 
 cmd_Test(args)
 {
-
+	self setMoveSpeedScale(1.0);
+	self setMoveSpeed(230);
 }
