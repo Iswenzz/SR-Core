@@ -53,8 +53,6 @@ main()
 	sr\commands\_vote::main();
 	sr\commands\_map::main();
 
-	sr\libs\portal\_main::initPortal();
-
 	sr\player\_bhop::main();
 	sr\player\_hide::main();
 	sr\player\_insertion::main();
