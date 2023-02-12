@@ -88,8 +88,8 @@ end(map)
 	intermission();
 
 	// Next map
-	setDvar("sv_maprotationcurrent", "gametype deathrun map " + map);
-	sr\game\_map::levelExit(false);
+	setDvar("sv_maprotationcurrent", fmt("gametype %s map %s", getDvar("g_gametype"), map));
+	levelExit(false);
 }
 
 endMusic()

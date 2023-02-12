@@ -117,7 +117,7 @@ respawn()
 		return;
 
 	self.died = false;
-	self sr\sys\_events::eventSpawn(true);
+	eventSpawn(true);
 }
 
 canSpawn()
@@ -390,6 +390,17 @@ isInArray(array)
 			return true;
 	}
 	return false;
+}
+
+removeFromArray(array, value)
+{
+	filters = [];
+	for (i = 0; i < array.size; i++)
+	{
+		if (array[i] != value)
+			filters[filters.size] = array[i];
+	}
+	return filters;
 }
 
 isPlaying()
