@@ -15,7 +15,7 @@ initMySQL()
 		exit(-1);
 	}
 
-	SQL_SelectDB("speedrun");
+	SQL_SelectDB(level.envs["DB"]);
 	critical("mysql", true);
 
     variables();

@@ -16,7 +16,6 @@ main()
 	maps\mp\_weapons::init();
 
 	sr\sys\_env::initEnvs();
-	sr\sys\_dvar::initDvars();
 	sr\sys\_events::initEvents();
 	sr\sys\_file::initFiles();
 	sr\sys\_ftp::initFTP();
@@ -84,18 +83,9 @@ precache()
 	level.texts = [];
 	level.gfx = [];
 
-	precacheItem("shop_mp");
-	precacheItem("vip_mp");
-	precacheItem("tomahawk_mp");
-	precacheItem("fortnite_mp");
-	precacheItem("colt45_mp");
 	precacheItem("claymore_mp");
-	precacheItem("knife_mp");
-	precacheItem("dog_mp");
-	precacheItem("shovel_mp");
-	precacheItem("rpg_mp");
 	precacheItem("c4_mp");
-	precacheItem("rtd_mp");
+	precacheItem("rpg_mp");
 	precacheItem("frag_grenade_short_mp");
 	precacheItem("frag_grenade_mp");
 	precacheItem("smoke_grenade_mp");
