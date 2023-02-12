@@ -4,7 +4,7 @@
 
 initIds()
 {
-	level.files["playerIds"] = PATH_Mod("sr/data/admin/speedrun_player_ids.txt");
+	level.files["playerIds"] = PATH_Mod("sr/data/admin/ids.txt");
 }
 
 load()
