@@ -91,7 +91,6 @@ precache()
 
 	precacheShader("black");
 	precacheShader("white");
-	precacheShader("time_hud");
 	precacheShader("killiconsuicide");
 	precacheShader("killiconmelee");
 	precacheShader("killiconheadshot");
@@ -99,19 +98,10 @@ precache()
 	precacheShader("stance_stand");
 	precacheShader("hudstopwatch");
 	precacheShader("score_icon");
-	precacheShader("sr_shop");
-	precacheShader("sr_dice");
-	precacheShader("sr_vip");
-	precacheShader("sr_insert");
-	precacheShader("speedrunner_logo");
 
 	precacheModel("tag_origin");
-	precacheModel("german_sheperd_dog");
 	precacheModel("viewmodel_hands_zombie");
 	precacheModel("body_mp_usmc_cqb");
-	precacheModel("collision_sphere");
-	precacheModel("mil_frame_charge");
-	precacheModel("ch_crate64x64");
 }
 
 precacheText()
@@ -125,11 +115,12 @@ precacheText()
 	level.texts["ended_game"]			= &"MP_HOST_ENDED_GAME";
 	level.texts["endgame"]				= &"MP_HOST_ENDGAME_RESPONSE";
 
-	precacheString(level.texts["time"]);
+	precacheString(level.texts["empty"]);
 	precacheString(level.texts["round_begins_in"]);
 	precacheString(level.texts["waiting_for_players"]);
 	precacheString(level.texts["jumpers_count"]);
 	precacheString(level.texts["call_freeround"]);
+	precacheString(level.texts["time"]);
 	precacheString(level.texts["ended_game"]);
 	precacheString(level.texts["endgame"]);
 }
