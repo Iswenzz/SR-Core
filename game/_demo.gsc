@@ -35,7 +35,7 @@ recordTimeout()
 	self endon("disconnect");
 	self endon("record");
 
-	wait 120;
+	wait level.dvar["demos_timeout"];
 	recordDelete();
 }
 
