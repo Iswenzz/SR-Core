@@ -16,7 +16,6 @@ main()
 	sr\sys\_admins::initAdmins();
 	sr\sys\_notifications::initNotifications();
 
-	sr\game\_rank::initRank();
 	sr\game\_cheat::main();
 	sr\game\_demo::main();
 	sr\game\_perks::initPerks();
@@ -30,15 +29,6 @@ main()
 	sr\game\minigames\_main::initMinigames();
 	sr\game\music\_main::initMusics();
 	sr\game\weapons\_main::main();
-
-	sr\commands\_admin::main();
-	sr\commands\_debug::main();
-	sr\commands\_graphics::main();
-	sr\commands\_misc::main();
-	sr\commands\_music::main();
-	sr\commands\_player::main();
-	sr\commands\_vote::main();
-	sr\commands\_map::main();
 
 	sr\player\_hide::main();
 	sr\player\_insertion::main();
@@ -59,6 +49,15 @@ main()
 	sr\player\huds\_velocity::main();
 	sr\player\huds\_viewkick::main();
 	sr\player\huds\_voice::main();
+
+	sr\commands\_admin::main();
+	sr\commands\_debug::main();
+	sr\commands\_graphics::main();
+	sr\commands\_misc::main();
+	sr\commands\_music::main();
+	sr\commands\_player::main();
+	sr\commands\_vote::main();
+	sr\commands\_map::main();
 }
 
 precache()
