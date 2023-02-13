@@ -4,16 +4,6 @@
 
 main()
 {
-	precacheShader("fps_20");
-	precacheShader("fps_30");
-	precacheShader("fps_125");
-	precacheShader("fps_142");
-	precacheShader("fps_166");
-	precacheShader("fps_250");
-	precacheShader("fps_333");
-	precacheShader("fps_500");
-	precacheShader("fps_1000");
-
 	event("spawn", ::hud);
 	event("spectator", ::hud);
 	event("death", ::clear);
@@ -63,7 +53,8 @@ vars()
 
 hudFps()
 {
-	self.huds["fps"] = addHud(self, -15, -26, 1, "right", "bottom", 1.8);
+	self.huds["fps"] = addHud(self, -55, 0, 1, "right", "bottom", 1.4);
+	self.huds["fps"].font = "objective";
 
     if (self.settings["hud_fps_combo"])
         self.huds["fps_combo"] = addHud(self, 150, 80, 0.8, "center", "middle", 1.4);
@@ -80,11 +71,12 @@ updateFps()
 			case 125:
 			case 142:
 			case 166:
+			case 200:
 			case 250:
 			case 333:
 			case 500:
 			case 1000:
-				self.huds["fps"] setShader("fps_" + self.fps, 90, 60);
+				self.huds["fps"] setValue(self.fps);
 				break;
 		}
 	}

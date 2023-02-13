@@ -76,18 +76,31 @@ getPosition()
 	{
 		position.x = 50;
 		if (vertical == "top")
-			position.y = 100;
+			position.y = 102;
+		if (vertical == "middle")
+			position.y = 32;
+		if (vertical == "bottom")
+			position.y = 1;
 	}
 	if (horizontal == "right")
 	{
 		position.x = -100;
 		if (vertical == "top")
-			position.y = 35;
+			position.y = 42;
 		if (vertical == "bottom")
-			position.y = -15;
+			position.y = -26;
+		if (vertical == "middle")
+			position.y = 32;
 	}
-	if (vertical == "middle")
-		position.y = 30;
+	if (horizontal == "center")
+	{
+		if (vertical == "top")
+			position.y = 0;
+		if (vertical == "bottom")
+			position.y = 1;
+		if (vertical == "middle")
+			position.y = 32;
+	}
 	return position;
 }
 
