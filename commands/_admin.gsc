@@ -41,12 +41,12 @@ main()
 
 cmd_FastRestart(args)
 {
-	sr\game\_map::levelRestart(true);
+	levelRestart(true);
 }
 
 cmd_End(args)
 {
-	thread sr\game\_map::end();
+	eventEnd();
 }
 
 cmd_NextMap(args)
@@ -54,7 +54,7 @@ cmd_NextMap(args)
 	maps = level.randomizedMaps;
 	map = maps[randomInt(maps.size)];
 	setDvar("sv_maprotationcurrent", "gametype deathrun map " + map);
-	sr\game\_map::levelExit(false);
+	levelExit(false);
 }
 
 cmd_PM(args)

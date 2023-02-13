@@ -82,6 +82,11 @@ menu_new(name, response, callback)
 	return index;
 }
 
+eventEnd(map)
+{
+	level notify("end", map);
+}
+
 eventDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime)
 {
 	// Players already have the "damage" callback but is only execute from engine damage
@@ -164,4 +169,20 @@ AsyncWait(request)
 		status = AsyncStatus(request);
 	}
 	return status;
+}
+
+levelRestart(persist)
+{
+	game["ended"] = true;
+	waitCriticalSections();
+
+	map_restart(persist);
+}
+
+levelExit(persist)
+{
+	game["ended"] = true;
+	waitCriticalSections();
+
+	exitLevel(persist);
 }

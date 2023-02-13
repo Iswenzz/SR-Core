@@ -4,17 +4,6 @@ main()
 	precacheText();
 	precacheFx();
 
-	maps\mp\gametypes\_hud::init();
-	maps\mp\gametypes\_hud_message::init();
-	maps\mp\gametypes\_damagefeedback::init();
-	maps\mp\gametypes\_clientids::init();
-	maps\mp\gametypes\_gameobjects::init();
-	maps\mp\gametypes\_spawnlogic::init();
-	maps\mp\gametypes\_oldschool::deletePickups();
-	maps\mp\gametypes\_hud::init();
-	maps\mp\gametypes\_quickmessages::init();
-	maps\mp\_weapons::init();
-
 	sr\sys\_env::initEnvs();
 	sr\sys\_events::initEvents();
 	sr\sys\_file::initFiles();
@@ -27,13 +16,11 @@ main()
 	sr\sys\_admins::initAdmins();
 	sr\sys\_notifications::initNotifications();
 
-	sr\game\_map::main();
 	sr\game\_rank::initRank();
 	sr\game\_cheat::main();
 	sr\game\_demo::main();
 	sr\game\_perks::initPerks();
 	sr\game\_defrag::main();
-	sr\game\_teams::main();
 	sr\game\_time::main();
 	sr\game\_vote::initVote();
 	sr\game\_poll::initPoll();
@@ -53,7 +40,6 @@ main()
 	sr\commands\_vote::main();
 	sr\commands\_map::main();
 
-	sr\player\_bhop::main();
 	sr\player\_hide::main();
 	sr\player\_insertion::main();
 	sr\player\_settings::main();

@@ -11,17 +11,16 @@ initRace()
 	createMinigame("race");
 
 	level.racePoints = [];
-	level.raceSpawn = level.spawn["player"];
+	level.raceSpawn = (0, 0, 0);
 	level.raceEndTrig = getEnt("endmap_trig", "targetname");
 	level.racePlayersFinished = [];
 	level.raceScoreboard = [];
 	level.racePoints = [];
 	level.raceStarted = false;
 
+	event("map", ::race);
 	event("spawn", ::onSpawn);
 	event("death", ::death);
-
-	thread race();
 }
 
 race()
@@ -66,6 +65,8 @@ onSpawn()
 
 load()
 {
+	level.raceSpawn = level.spawn["player"];
+
 	if (!FILE_Exists(level.files["race"]))
 		return;
 

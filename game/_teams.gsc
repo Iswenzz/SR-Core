@@ -1,10 +1,5 @@
 #include sr\utils\_common;
 
-main()
-{
-	game["menu_main"] = "main_mp";
-}
-
 setPlayerModel()
 {
 	if (self getStat(980) > level.assets["character"].size)

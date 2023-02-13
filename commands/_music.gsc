@@ -9,7 +9,6 @@ main()
 	// Commands
 	cmd("adminplus", 	"music", 		::cmd_Music);
 	cmd("adminplus", 	"music_seq", 	::cmd_MusicSequence);
-	cmd("owner", 		"music_seqend", ::cmd_MusicSequenceEnd);
 	cmd("adminplus", 	"music_help", 	::cmd_MusicHelp);
 	cmd("player", 		"music_stop", 	::cmd_MusicStop);
 	cmd("owner",  		"radio",		::cmd_Radio);
@@ -71,17 +70,6 @@ cmd_Radio(args)
 	self pm(fmt("^3Playing %s", file));
 
 	RadioPlay(path, type);
-}
-
-cmd_MusicSequenceEnd(args)
-{
-	if (args.size < 1)
-		return self pm("Usage: music_seqend <name>");
-
-	name = args[0];
-
-	level thread sr\game\_map::end();
-	level thread sr\game\music\_main::play(name);
 }
 
 cmd_MusicSequence(args)
