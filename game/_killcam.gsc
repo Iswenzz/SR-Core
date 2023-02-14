@@ -1,16 +1,10 @@
 #include sr\sys\_dvar;
-#include sr\sys\_events;
 
 main()
 {
 	addDvar("pi_kc", "plugin_killcam_enable", 1, 0, 1, "int");
-	addDvar("pi_kc_show", "plugin_killcam_show", 2, 0, 2, "int");
 	addDvar("pi_kc_tp", "plugin_killcam_thirdperson", 0, 0, 0, "int");
 	addDvar("pi_kc_blur", "plugin_killcam_blur", 0, 0, 5.0, "float");
-
-	//0 = When Jumper killed Acti
-	//1 = When Activator killed jumper
-	//2 = Every Kill
 
 	if (!level.dvar["pi_kc"])
 		return;
@@ -24,10 +18,6 @@ start(eInflictor, attacker, sWeapon)
 		|| !isPlayer(self) || !isPlayer(attacker) || self == attacker)
 		return;
 	if (getTeamPlayersAlive("axis") > 0 && getTeamPlayersAlive("allies") > 0)
-		return;
-	if (!((level.dvar["pi_kc_show"] == 0 && (isDefined(level.activ) && self == level.activ) && attacker.pers["team"] == "allies")
-		|| (level.dvar["pi_kc_show"] == 1 && self.pers["team"] == "allies" && (isDefined(level.activ) && level.activ == attacker))
-		|| level.dvar["pi_kc_show"] == 2))
 		return;
 
 	wait 2;

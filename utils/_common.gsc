@@ -487,6 +487,11 @@ randomColorDark()
 	return (randomInt(50) / 100, randomInt(50) / 100, randomInt(50) / 100);
 }
 
+addHealth(health)
+{
+	self.health += clampValue(self.health, health, 0, self.maxhealth);
+}
+
 intRange(variable, min, max)
 {
 	variable++;
@@ -495,6 +500,16 @@ intRange(variable, min, max)
 	if (variable > max)
 		return min;
 	return variable;
+}
+
+clampValue(number, value, min, max)
+{
+	result = number + value;
+	if (result < min)
+		return min - number;
+	if (result > max)
+		return max - number;
+	return result - number;
 }
 
 cleanScreen()

@@ -30,7 +30,6 @@ main()
 	sr\game\music\_main::initMusics();
 	sr\game\weapons\_main::main();
 
-	sr\player\_hide::main();
 	sr\player\_insertion::main();
 	sr\player\_settings::main();
 	sr\player\fx\_spray::main();
