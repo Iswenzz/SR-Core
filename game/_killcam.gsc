@@ -17,16 +17,12 @@ start(eInflictor, attacker, sWeapon)
 	if (!isDefined(self) || !isDefined(attacker) || !isDefined(eInflictor)
 		|| !isPlayer(self) || !isPlayer(attacker) || self == attacker)
 		return;
-	if (getTeamPlayersAlive("axis") > 0 && getTeamPlayersAlive("allies") > 0)
-		return;
 
-	wait 2;
 	players = getEntArray("player", "classname");
-
 	for (i = 0; i < players.size; i++)
 	{
 		players[i] setClientDvars("cg_thirdperson", int(level.dvar["pi_kc_tp"]), "r_blur", level.dvar["pi_kc_blur"]);
-		players[i] thread killcam(attacker getEntityNumber(), -1, sWeapon, 0, 0, 0, 10, undefined, attacker);
+		players[i] thread killcam(attacker getEntityNumber(), -1, sWeapon, 1, 0, 0, 0, 10, undefined, attacker);
 	}
 }
 
@@ -34,6 +30,7 @@ killcam(
 	attackerNum, 	// Entity number of the attacker
 	killcamentity, 	// Entity number of the attacker's killer entity aka helicopter or airstrike
 	sWeapon, 		// Killing weapon
+	startDelay,		// Time to wait before killcam starts
 	predelay, 		// Time between player death and beginning of killcam
 	offsetTime, 	// Something to do with how far back in time the killer was seeing the world when he made the kill; latency related, sorta
 	respawn, 		// Will the player be allowed to respawn after the killcam?
@@ -46,10 +43,10 @@ killcam(
 	self endon("spawned");
 	level endon("game_ended");
 
-	if (attackerNum < 0)
+	if (game["state"] == "end" || attackerNum < 0)
 		return;
 
-	camtime = 4.9;
+	camtime = 5;
 
 	if (isDefined(maxtime))
 	{
@@ -58,6 +55,8 @@ killcam(
 		if (camtime < .05)
 			camtime = .05;
 	}
+	if (isDefined(startDelay))
+		wait startDelay;
 
 	// Time after player death that killcam continues for
 	if (getdvar("scr_killcam_posttime") == "")
