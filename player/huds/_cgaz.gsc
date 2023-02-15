@@ -60,6 +60,26 @@ draw()
 	self.huds["cgaz"]["turnZoneNeg"] fillAngleYaw(self, neg(self.cgaz.d_max), neg(self.cgaz.d_max_cos), yaw, y, h);
 }
 
+accuracy()
+{
+	if (self.player isOnGround() && self.cgaz.accuracy.size < 5000)
+		return;
+
+	accuracy = 0;
+
+	if (self.huds["cgaz"]["accel"].x > 0)
+		accuracy = (100 - (self.huds["cgaz"]["accelPartialPos"].x / 320) * 100) + 100;
+	else
+		accuracy = (self.huds["cgaz"]["accelPartialNeg"].x / 320) * 100;
+
+	if (accuracy > 100)
+		accuracy = 100 - (accuracy - 100);
+
+	self.cgaz.accuracy[self.cgaz.accuracy.size] = accuracy;
+	self.huds["cgaz"]["accuracy"] setValue(int(Average(self.cgaz.accuracy)));
+	self.huds["cgaz"]["accuracy"].alpha = 1;
+}
+
 hide()
 {
 	self.huds["cgaz"]["accel"].alpha = 0;
@@ -69,6 +89,7 @@ hide()
 	self.huds["cgaz"]["accelFullNeg"].alpha = 0;
 	self.huds["cgaz"]["turnZonePos"].alpha = 0;
 	self.huds["cgaz"]["turnZoneNeg"].alpha = 0;
+	// self.huds["cgaz"]["accuracy"].alpha = 0;
 }
 
 cgazHud()
@@ -77,6 +98,7 @@ cgazHud()
 	self.cgaz.wishvel = [];
 	self.cgaz.wishvel[0] = 0;
 	self.cgaz.wishvel[1] = 0;
+	self.cgaz.accuracy = [];
 	self.cgaz.forwardMove = 0;
 	self.cgaz.rightMove = 0;
 	self.cgaz.velocity = (0, 0, 0);
@@ -110,6 +132,9 @@ cgazHud()
 	self.huds["cgaz"]["turnZoneNeg"] = addHud(self, 0, 0, 0.5, "left", "middle", 1.4, 90);
 	self.huds["cgaz"]["turnZoneNeg"].horzAlign = "fullscreen";
 	self.huds["cgaz"]["turnZoneNeg"].color = (1, 1, 0);
+
+	// self.huds["cgaz"]["accuracy"] = addHud(self, -30, 20, 0.8, "center", "middle", 1.4, 90);
+	// self.huds["cgaz"]["accuracy"] setValue(100);
 }
 
 pmove()
