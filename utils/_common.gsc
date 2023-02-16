@@ -906,6 +906,62 @@ circlePoints()
 	return points;
 }
 
+getCustomizeWeapon()
+{
+	num = self getStat(981);
+	if (self sr\game\_rank::isWeaponUnlocked(num))
+		return level.assets["weapon"][num];
+	return level.assets["weapon"][0];
+}
+
+getCustomizeCharacter()
+{
+	num = self getStat(980);
+	if (self sr\game\_rank::isCharacterUnlocked(num))
+		return level.assets["character"][num];
+	return level.assets["character"][0];
+}
+
+getCustomizeKnife()
+{
+	num = self getStat(982);
+	if (self sr\game\_rank::isKnifeUnlocked(num))
+		return level.assets["knife"][num];
+	return level.assets["knife"][0];
+}
+
+getCustomizeKnifeSkin()
+{
+	num = self getStat(983);
+	if (self sr\game\_rank::isKnifeSkinUnlocked(num))
+		return level.assets["knife_skin"][num];
+	return level.assets["knife_skin"][0];
+}
+
+getCustomizeSpray()
+{
+	num = self getStat(979);
+	if (self sr\game\_rank::isSprayUnlocked(num))
+		return level.assets["spray"][num];
+	return level.assets["spray"][0];
+}
+
+getCustomizeGlove()
+{
+	num = self getStat(985);
+	if (self sr\game\_rank::isGloveUnlocked(num))
+		return level.assets["glove"][num];
+	return level.assets["glove"][0];
+}
+
+getCustomizeFx()
+{
+	num = self getStat(986);
+	if (self sr\game\_rank::isFxUnlocked(num))
+		return level.assets["fx"][num];
+	return level.assets["fx"][0];
+}
+
 removeColorFromString(string)
 {
 	output = "";

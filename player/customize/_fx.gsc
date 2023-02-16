@@ -16,6 +16,7 @@ precache()
 	for (idx = 1; !IsNullOrEmpty(tableLookup(tableName, 0, idx, 0)); idx++)
 	{
 		id = int(tableLookup(tableName, 0, idx, 1));
+		level.assets["fx"][id]["id"] = id;
 		level.assets["fx"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
 		level.assets["fx"][id]["prestige"] = int(tableLookup(tableName, 0, idx, 3));
 		level.assets["fx"][id]["name"] = tableLookup(tableName, 0, idx, 4);
@@ -55,11 +56,9 @@ pick(id)
 	if (isDefined(self.customize_fx))
 		self.customize_fx delete();
 
-	self.vip_trail = id;
 	self setStat(986, id);
-	self setClientDvar("drui_fx", id);
 
-	if (self.vip_trail > 0)
+	if (id > 0)
 	{
 		eye = self sr\utils\_math::eyePos();
 		forward = anglesToForward(self getPlayerAngles()) * 70;
@@ -70,7 +69,7 @@ pick(id)
 		self.customize_fx setModel("tag_origin");
 		wait 0.05;
 
-		PlayFXOnTag(level.gfx["viptrail" + self.vip_trail], self.customize_fx, "tag_origin");
+		PlayFXOnTag(level.gfx["viptrail" + id], self.customize_fx, "tag_origin");
 		self thread movePreview(self.customize_fx);
 	}
 }

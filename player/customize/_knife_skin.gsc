@@ -16,10 +16,11 @@ precache()
 	for (idx = 1; !IsNullOrEmpty(tableLookup(tableName, 0, idx, 0)); idx++)
 	{
 		id = int(tableLookup(tableName, 0, idx, 1));
+		level.assets["knife_skin"][id]["id"] = id;
 		level.assets["knife_skin"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
 		level.assets["knife_skin"][id]["prestige"] = 0;
 		level.assets["knife_skin"][id]["shader"] = tableLookup(tableName, 0, idx, 3);
-		level.assets["knife_skin"][id]["item"] = tableLookup(tableName, 0, idx, 4);
+		level.assets["knife_skin"][id]["item"] = int(tableLookup(tableName, 0, idx, 4));
 		level.assets["knife_skin"][id]["name"] = tableLookup(tableName, 0, idx, 5);
 		level.assets["knife_skin"][id]["model"] = tableLookup(tableName, 0, idx, 6);
 		level.assets["knife_skin"][id]["callback"] = sr\player\customize\_knife_skin::pick;
@@ -62,7 +63,6 @@ pick(id)
 		return;
 
 	self setStat(983, id);
-	self setClientDvar("drui_knife_skin", id);
 
 	if (isDefined(self.customize_preview))
 		self.customize_preview setModel(level.assets["knife_skin"][id]["model"]);

@@ -2,24 +2,13 @@
 
 setPlayerModel()
 {
-	if (self getStat(980) > level.assets["character"].size)
-		self setStat(980, 0);
-	if (self getStat(985) > level.assets["glove"].size)
-		self setStat(985, 0);
-
 	self detachAll();
-	cid = self getStat(980);
-	hid = self getStat(985);
 
-	// If a player doesnt have a character model, he will have unlimited health and can cause bugs
-	if (!isDefined(level.assets["character"][cid]))
-	{
-		self setStat(980, 0);
-		cid = 0;
-	}
+	character = self getCustomizeCharacter();
+	glove = self getCustomizeGlove();
 
-	self setModel(level.assets["character"][cid]["model"]);
-	self setViewModel(level.assets["glove"][hid]["model"]);
+	self setModel(character["model"]);
+	self setViewModel(glove["model"]);
 }
 
 setHealth()
@@ -54,5 +43,6 @@ setSpectatePermissions()
 {
 	self allowSpectateTeam("allies", true);
 	self allowSpectateTeam("axis", true);
+	self allowSpectateTeam("freelook", true);
 	self allowSpectateTeam("none", false);
 }

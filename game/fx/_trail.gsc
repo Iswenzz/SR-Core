@@ -1,4 +1,5 @@
 #include sr\sys\_events;
+#include sr\utils\_common;
 
 main()
 {
@@ -11,10 +12,11 @@ onSpawn()
 	self endon("death");
 	self endon("disconnect");
 
-	self.vip_trail = self getStat(986);
+	trail = self getCustomizeFx();
 
-	if (!self sr\sys\_admins::isVIP() || !isDefined(self.vip_trail) || self.vip_trail < 1)
+	if (!self sr\sys\_admins::isVIP() || !trail["id"])
 		return;
 
-	playFXOnTag(level.gfx["viptrail" + self.vip_trail], self, "tag_origin");
+	wait 0.05;
+	playFXOnTag(level.gfx["viptrail" + trail["id"]], self, "tag_origin");
 }

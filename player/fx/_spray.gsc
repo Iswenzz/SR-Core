@@ -38,21 +38,16 @@ onSpawn()
 		if (trace["fraction"] == 1)
 			continue;
 
-		sprayNum = self getStat(979);
-		asset = level.assets["spray"][sprayNum];
-
-		if (!isDefined(asset))
-			continue;
-
-		switch (asset["type"])
+		spray = self getCustomizeSpray();
+		switch (spray["type"])
 		{
-			case "fx": 		self fx(asset, trace);		break;
-			case "gif": 	self gif(asset, trace);		break;
+			case "fx": 		self fx(spray, trace);		break;
+			case "gif": 	self gif(spray, trace);		break;
 		}
 	}
 }
 
-fx(asset, trace)
+fx(spray, trace)
 {
 	eye = self getTagOrigin("j_head");
 	position = trace["position"] - vectorScale(anglesToForward(self getPlayerAngles()), -2);
@@ -60,13 +55,13 @@ fx(asset, trace)
 	forward = anglesToForward(angles);
 	up = anglesToUp(angles);
 
-	playFX(asset["effect"], position, forward, up);
+	playFX(spray["effect"], position, forward, up);
 	self playSound("sprayer");
 
 	wait Ternary(self sr\sys\_admins::isRole("owner"), 0, level.dvar["sprays_delay"]);
 }
 
-gif(asset, trace)
+gif(spray, trace)
 {
 	if (isDefined(self.spray))
 	{
@@ -90,7 +85,7 @@ gif(asset, trace)
 
 	self.spray = spawn("script_model", fxPosition);
 	self.spray.angles = angles + (0, -90, 0);
-	self.spray setModel(asset["effect"]);
+	self.spray setModel(spray["effect"]);
 	self.spray hide();
 
 	self playSound("sprayer");

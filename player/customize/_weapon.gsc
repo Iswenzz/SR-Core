@@ -16,6 +16,7 @@ precache()
 	for (idx = 1; !IsNullOrEmpty(tableLookup(tableName, 0, idx, 0)); idx++)
 	{
 		id = int(tableLookup(tableName, 0, idx, 1));
+		level.assets["weapon"][id]["id"] = id;
 		level.assets["weapon"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
 		level.assets["weapon"][id]["prestige"] = int(tableLookup(tableName, 0, idx, 3));
 		level.assets["weapon"][id]["item"] = (tableLookup(tableName, 0, idx, 4) + "_mp");
@@ -63,7 +64,6 @@ pick(id)
 		return;
 
 	self setStat(981, id);
-	self setClientDvar("drui_weapon", id);
 
 	if (isDefined(self.customize_preview))
 		self.customize_preview setModel(level.assets["weapon"][id]["model"]);

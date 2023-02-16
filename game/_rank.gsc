@@ -91,7 +91,7 @@ reset()
 	for (stat = 3200; stat < 3208; stat++)
 		self setStat(stat, 0);
 
-	for (stat = 979; stat < 983; stat++)
+	for (stat = 979; stat < 987; stat++)
 		self setStat(stat, 0);
 
 	self saveRank(0, 0, 0);
@@ -521,37 +521,37 @@ processXpReward(sMeansOfDeath, attacker, victim)
 
 isCharacterUnlocked(num)
 {
-	return isUnlocked(level.assets["character"], num);
+	return self isUnlocked(level.assets["character"], num);
 }
 
 isWeaponUnlocked(num)
 {
-	return isUnlocked(level.assets["weapon"], num);
+	return self isUnlocked(level.assets["weapon"], num);
 }
 
 isSprayUnlocked(num)
 {
-	return isUnlocked(level.assets["spray"], num);
+	return self isUnlocked(level.assets["spray"], num);
 }
 
 isKnifeSkinUnlocked(num)
 {
-	return isUnlocked(level.assets["knife_skin"], num, 1);
+	return self isUnlocked(level.assets["knife_skin"], num, 1);
 }
 
 isKnifeUnlocked(num)
 {
-	return isUnlocked(level.assets["knife"], num);
+	return self isUnlocked(level.assets["knife"], num);
 }
 
 isGloveUnlocked(num)
 {
-	return isUnlocked(level.assets["glove"], num);
+	return self isUnlocked(level.assets["glove"], num);
 }
 
 isFxUnlocked(num)
 {
-	return isUnlocked(level.assets["fx"], num);
+	return self isUnlocked(level.assets["fx"], num);
 }
 
 isUnlocked(assets, num, vip)
