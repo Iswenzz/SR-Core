@@ -13,15 +13,14 @@ precache()
 	level.assets["fx"] = [];
 	tableName = "mp/fxTable.csv";
 
-	for (idx = 1; !IsNullOrEmpty(tableLookup(tableName, 0, idx, 0)); idx++)
+	for (i = 0; !IsNullOrEmpty(tableLookup(tableName, 0, i, 0)); i++)
 	{
-		id = int(tableLookup(tableName, 0, idx, 1));
-		level.assets["fx"][id]["id"] = id;
-		level.assets["fx"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
-		level.assets["fx"][id]["prestige"] = int(tableLookup(tableName, 0, idx, 3));
-		level.assets["fx"][id]["name"] = tableLookup(tableName, 0, idx, 4);
-		level.assets["fx"][id]["callback"] = sr\player\customize\_fx::pick;
-		level.assets["fx"][id]["unlock"] = sr\game\_rank::isFxUnlocked;
+		level.assets["fx"][i]["id"] = i;
+		level.assets["fx"][i]["rank"] = (int(tableLookup(tableName, 0, i, 1)) - 1);
+		level.assets["fx"][i]["prestige"] = int(tableLookup(tableName, 0, i, 2));
+		level.assets["fx"][i]["name"] = tableLookup(tableName, 0, i, 3);
+		level.assets["fx"][i]["callback"] = sr\player\customize\_fx::pick;
+		level.assets["fx"][i]["unlock"] = sr\game\_rank::isFxUnlocked;
 	}
 }
 

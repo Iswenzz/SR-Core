@@ -13,20 +13,19 @@ precache()
 	level.assets["knife"] = [];
 	tableName = "mp/knifeTable.csv";
 
-	for (idx = 1; !IsNullOrEmpty(tableLookup(tableName, 0, idx, 0)); idx++)
+	for (i = 0; !IsNullOrEmpty(tableLookup(tableName, 0, i, 0)); i++)
 	{
-		id = int(tableLookup(tableName, 0, idx, 1));
-		level.assets["knife"][id]["id"] = id;
-		level.assets["knife"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
-		level.assets["knife"][id]["prestige"] = int(tableLookup(tableName, 0, idx, 3));
-		level.assets["knife"][id]["item"] = (tableLookup(tableName, 0, idx, 4) + "_mp");
-		level.assets["knife"][id]["name"] = tableLookup(tableName, 0, idx, 5);
-		level.assets["knife"][id]["model"] = tableLookup(tableName, 0, idx, 6);
-		level.assets["knife"][id]["callback"] = sr\player\customize\_knife::pick;
-		level.assets["knife"][id]["unlock"] = sr\game\_rank::isKnifeUnlocked;
+		level.assets["knife"][i]["id"] = i;
+		level.assets["knife"][i]["rank"] = (int(tableLookup(tableName, 0, i, 1)) - 1);
+		level.assets["knife"][i]["prestige"] = int(tableLookup(tableName, 0, i, 2));
+		level.assets["knife"][i]["item"] = (tableLookup(tableName, 0, i, 3) + "_mp");
+		level.assets["knife"][i]["name"] = tableLookup(tableName, 0, i, 4);
+		level.assets["knife"][i]["model"] = tableLookup(tableName, 0, i, 5);
+		level.assets["knife"][i]["callback"] = sr\player\customize\_knife::pick;
+		level.assets["knife"][i]["unlock"] = sr\game\_rank::isKnifeUnlocked;
 
-		precacheItem(level.assets["knife"][id]["item"]);
-		precacheModel(level.assets["knife"][id]["model"]);
+		precacheItem(level.assets["knife"][i]["item"]);
+		precacheModel(level.assets["knife"][i]["model"]);
 	}
 }
 

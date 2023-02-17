@@ -13,21 +13,19 @@ precache()
 	level.assets["weapon"] = [];
 	tableName = "mp/itemTable.csv";
 
-	for (idx = 1; !IsNullOrEmpty(tableLookup(tableName, 0, idx, 0)); idx++)
+	for (i = 0; !IsNullOrEmpty(tableLookup(tableName, 0, i, 0)); i++)
 	{
-		id = int(tableLookup(tableName, 0, idx, 1));
-		level.assets["weapon"][id]["id"] = id;
-		level.assets["weapon"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
-		level.assets["weapon"][id]["prestige"] = int(tableLookup(tableName, 0, idx, 3));
-		level.assets["weapon"][id]["item"] = (tableLookup(tableName, 0, idx, 4) + "_mp");
-		level.assets["weapon"][id]["name"] = tableLookup(tableName, 0, idx, 5);
-		level.assets["weapon"][id]["desc"] = tableLookup(tableName, 0, idx, 6);
-		level.assets["weapon"][id]["model"] = getWeaponModel(level.assets["weapon"][id]["item"]);
-		level.assets["weapon"][id]["callback"] = sr\player\customize\_weapon::pick;
-		level.assets["weapon"][id]["unlock"] = sr\game\_rank::isWeaponUnlocked;
+		level.assets["weapon"][i]["id"] = i;
+		level.assets["weapon"][i]["rank"] = (int(tableLookup(tableName, 0, i, 1)) - 1);
+		level.assets["weapon"][i]["prestige"] = int(tableLookup(tableName, 0, i, 2));
+		level.assets["weapon"][i]["item"] = (tableLookup(tableName, 0, i, 3) + "_mp");
+		level.assets["weapon"][i]["name"] = tableLookup(tableName, 0, i, 4);
+		level.assets["weapon"][i]["model"] = getWeaponModel(level.assets["weapon"][i]["item"]);
+		level.assets["weapon"][i]["callback"] = sr\player\customize\_weapon::pick;
+		level.assets["weapon"][i]["unlock"] = sr\game\_rank::isWeaponUnlocked;
 
-		precacheItem(level.assets["weapon"][id]["item"]);
-		precacheModel(level.assets["weapon"][id]["model"]);
+		precacheItem(level.assets["weapon"][i]["item"]);
+		precacheModel(level.assets["weapon"][i]["model"]);
 	}
 }
 

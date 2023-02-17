@@ -13,20 +13,17 @@ precache()
 	level.assets["knife_skin"] = [];
 	tableName = "mp/knifeSkinTable.csv";
 
-	for (idx = 1; !IsNullOrEmpty(tableLookup(tableName, 0, idx, 0)); idx++)
+	for (i = 0; !IsNullOrEmpty(tableLookup(tableName, 0, i, 0)); i++)
 	{
-		id = int(tableLookup(tableName, 0, idx, 1));
-		level.assets["knife_skin"][id]["id"] = id;
-		level.assets["knife_skin"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
-		level.assets["knife_skin"][id]["prestige"] = 0;
-		level.assets["knife_skin"][id]["shader"] = tableLookup(tableName, 0, idx, 3);
-		level.assets["knife_skin"][id]["item"] = int(tableLookup(tableName, 0, idx, 4));
-		level.assets["knife_skin"][id]["name"] = tableLookup(tableName, 0, idx, 5);
-		level.assets["knife_skin"][id]["model"] = tableLookup(tableName, 0, idx, 6);
-		level.assets["knife_skin"][id]["callback"] = sr\player\customize\_knife_skin::pick;
-		level.assets["knife_skin"][id]["unlock"] = sr\game\_rank::isKnifeSkinUnlocked;
+		level.assets["knife_skin"][i]["id"] = i;
+		level.assets["knife_skin"][i]["rank"] = (int(tableLookup(tableName, 0, i, 1)) - 1);
+		level.assets["knife_skin"][i]["prestige"] = int(tableLookup(tableName, 0, i, 2));
+		level.assets["knife_skin"][i]["name"] = tableLookup(tableName, 0, i, 3);
+		level.assets["knife_skin"][i]["model"] = tableLookup(tableName, 0, i, 4);
+		level.assets["knife_skin"][i]["callback"] = sr\player\customize\_knife_skin::pick;
+		level.assets["knife_skin"][i]["unlock"] = sr\game\_rank::isKnifeSkinUnlocked;
 
-		precacheModel(level.assets["knife_skin"][id]["model"]);
+		precacheModel(level.assets["knife_skin"][i]["model"]);
 	}
 }
 

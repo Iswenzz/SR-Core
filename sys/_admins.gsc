@@ -132,7 +132,6 @@ connection()
 	self setPersistence("admin", self.admin_role);
 
 	self.admin_vip = IfUndef(level.vips[self.id], 0);
-	self setStat(2000, self.admin_vip);
 	self setPersistence("vip", self.admin_vip);
 
 	self welcome();

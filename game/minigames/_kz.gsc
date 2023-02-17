@@ -142,8 +142,8 @@ onPlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHit
 			attacker speedrun\player\huds\_speedrun::updateTime();
 		}
 	}
-	deaths = self maps\mp\gametypes\_persistence::statGet("deaths");
-	self maps\mp\gametypes\_persistence::statSet("deaths", deaths + 1);
+	deaths = self maps\mp\gametypes\_persistence::statGet("DEATHS");
+	self maps\mp\gametypes\_persistence::statSet("DEATHS", deaths + 1);
 	self.deaths++;
 	self.pers["deaths"]++;
 }
@@ -222,7 +222,7 @@ watchGame()
 
 isRoomEmpty(player, index)
 {
-	return level.kzPlayersInRoom.size < 2 || !player isPlaying();
+	return level.kzPlayersInRoom.size < 2 || (isDefined(player) && !player isPlaying());
 }
 
 gameRandomize()

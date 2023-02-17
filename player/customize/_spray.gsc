@@ -13,25 +13,24 @@ precache()
 	level.assets["spray"] = [];
 	tableName = "mp/sprayTable.csv";
 
-	for (idx = 1; !IsNullOrEmpty(tableLookup(tableName, 0, idx, 0)); idx++)
+	for (i = 0; !IsNullOrEmpty(tableLookup(tableName, 0, i, 0)); i++)
 	{
-		id = int(tableLookup(tableName, 0, idx, 1));
-		level.assets["spray"][id]["id"] = id;
-		level.assets["spray"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
-		level.assets["spray"][id]["prestige"] = int(tableLookup(tableName, 0, idx, 3));
-		level.assets["spray"][id]["type"] = tableLookup(tableName, 0, idx, 4);
-		level.assets["spray"][id]["effect"] = tableLookup(tableName, 0, idx, 5);
-		level.assets["spray"][id]["name"] = tableLookup(tableName, 0, idx, 6);
-		level.assets["spray"][id]["callback"] = sr\player\customize\_spray::pick;
-		level.assets["spray"][id]["unlock"] = sr\game\_rank::isSprayUnlocked;
+		level.assets["spray"][i]["id"] = i;
+		level.assets["spray"][i]["rank"] = (int(tableLookup(tableName, 0, i, 1)) - 1);
+		level.assets["spray"][i]["prestige"] = int(tableLookup(tableName, 0, i, 2));
+		level.assets["spray"][i]["type"] = tableLookup(tableName, 0, i, 3);
+		level.assets["spray"][i]["effect"] = tableLookup(tableName, 0, i, 4);
+		level.assets["spray"][i]["name"] = tableLookup(tableName, 0, i, 5);
+		level.assets["spray"][i]["callback"] = sr\player\customize\_spray::pick;
+		level.assets["spray"][i]["unlock"] = sr\game\_rank::isSprayUnlocked;
 
-		switch (level.assets["spray"][id]["type"])
+		switch (level.assets["spray"][i]["type"])
 		{
 			case "fx":
-				level.assets["spray"][id]["effect"] = loadFX(level.assets["spray"][id]["effect"]);
+				level.assets["spray"][i]["effect"] = loadFX(level.assets["spray"][i]["effect"]);
 				break;
 			case "gif":
-				precacheModel(level.assets["spray"][id]["effect"]);
+				precacheModel(level.assets["spray"][i]["effect"]);
 				break;
 		}
 	}

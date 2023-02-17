@@ -464,7 +464,7 @@ cmd_VIP(args)
 	critical_enter("mysql");
 
 	request = SQL_Prepare("UPDATE admins SET vip = ? WHERE player = ?");
-	SQL_BindParam(request, vip, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, vip, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
 	AsyncWait(request);

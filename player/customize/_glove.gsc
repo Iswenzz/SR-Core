@@ -13,18 +13,17 @@ precache()
 	level.assets["glove"] = [];
 	tableName = "mp/gloveTable.csv";
 
-	for (idx = 1; !IsNullOrEmpty(tableLookup(tableName, 0, idx, 0)); idx++)
+	for (i = 0; !IsNullOrEmpty(tableLookup(tableName, 0, i, 0)); i++)
 	{
-		id = int(tableLookup(tableName, 0, idx, 1));
-		level.assets["glove"][id]["id"] = id;
-		level.assets["glove"][id]["rank"] = (int(tableLookup(tableName, 0, idx, 2)) - 1);
-		level.assets["glove"][id]["prestige"] = int(tableLookup(tableName, 0, idx, 3));
-		level.assets["glove"][id]["model"] = tableLookup(tableName, 0, idx, 4);
-		level.assets["glove"][id]["name"] = tableLookup(tableName, 0, idx, 5);
-		level.assets["glove"][id]["callback"] = sr\player\customize\_glove::pick;
-		level.assets["glove"][id]["unlock"] = sr\game\_rank::isGloveUnlocked;
+		level.assets["glove"][i]["id"] = i;
+		level.assets["glove"][i]["rank"] = (int(tableLookup(tableName, 0, i, 1)) - 1);
+		level.assets["glove"][i]["prestige"] = int(tableLookup(tableName, 0, i, 2));
+		level.assets["glove"][i]["model"] = tableLookup(tableName, 0, i, 3);
+		level.assets["glove"][i]["name"] = tableLookup(tableName, 0, i, 4);
+		level.assets["glove"][i]["callback"] = sr\player\customize\_glove::pick;
+		level.assets["glove"][i]["unlock"] = sr\game\_rank::isGloveUnlocked;
 
-		precacheModel(level.assets["glove"][id]["model"]);
+		precacheModel(level.assets["glove"][i]["model"]);
 	}
 }
 
