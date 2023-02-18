@@ -30,7 +30,6 @@ initAdmins()
 	level.special_roles["donator"] 		= 3;
 
 	event("command", ::command);
-	event("connect", ::connection);
 
 	thread fetch();
 }
