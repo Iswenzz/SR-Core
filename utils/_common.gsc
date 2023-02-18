@@ -1029,7 +1029,7 @@ cheat(state)
 
 isCheat()
 {
-	return self.sr_cheat;
+	return isDefined(self.sr_cheat) && self.sr_cheat;
 }
 
 noop()
