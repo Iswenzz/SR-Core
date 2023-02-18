@@ -6,8 +6,6 @@ main()
 {
     cmd("player", 		"fov",			::cmd_FOV);
 	cmd("player", 		"fps",			::cmd_FPS);
-	cmd("player", 		"sheep",		::cmd_Sheep);
-	cmd("player", 		"fxenable",		::cmd_FX);
 	cmd("vip", 			"color",		::cmd_Color);
 	cmd("owner", 		"shader",		::cmd_Shader);
 	cmd("owner", 		"spawn_model",	::cmd_SpawnModel);
@@ -107,25 +105,6 @@ cmd_FPS(args)
 	self sr\player\_settings::toggle("gfx_fullbright");
 
 	msg = Ternary(self.settings["gfx_fullbright"], "^2Fullbright On", "^1Fullbright Off");
-	self pm(msg);
-}
-
-cmd_Sheep(args)
-{
-	for (i = 0; i < 25; i++)
-	{
-		self iPrintLnBold("^3S^2h^1e^4e^6p ^3w^2i^1z^4a^6r^5d");
-		wait 0.1;
-	}
-	self setClientDvar("r_specular", 1);
-	self setClientDvar("r_specularmap", 2);
-}
-
-cmd_FX(args)
-{
-	self sr\player\_settings::toggle("gfx_fx");
-
-	msg = Ternary(self.settings["gfx_fx"], "^2FX On", "^1FX Off");
 	self pm(msg);
 }
 

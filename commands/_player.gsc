@@ -26,7 +26,6 @@ main()
 	cmd("masteradmin", 	"respawnall",		::cmd_RespawnAll);
 	cmd("adminplus", 	"takeall",			::cmd_TakeAll);
 	cmd("owner", 		"trooper",			::cmd_Trooper);
-	cmd("player", 		"teleport",			::cmd_Teleport);
 	cmd("admin", 		"teleport_player",	::cmd_TeleportPlayer);
 	cmd("admin", 		"teleport_at",		::cmd_TeleportAt);
 	cmd("admin", 		"teleport_ent",		::cmd_TeleportEnt);
@@ -56,22 +55,6 @@ cmd_RespawnAll(args)
 	for (i = 0; i < players.size; i++)
 		players[i] respawn();
 	level message("^5All players respawned.");
-}
-
-cmd_Teleport(args)
-{
-	if (args.size < 1)
-		return self pm("Usage: teleport <playerName>");
-	if (!self sr\player\modes\_main::isInMode("practise"))
-		return self pm("^1Player need to be in practise mode");
-
-	player = getPlayerByName(args[0]);
-
-	if (!isDefined(player))
-		return pm("Could not find player");
-
-	self cheat();
-	self setOrigin(player.origin);
 }
 
 cmd_TeleportPlayer(args)
