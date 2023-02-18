@@ -8,19 +8,14 @@
 
 main
 {
-	//
 	// Torso Animations
-	//
 	torso
 	{
 		// Temp placeholder anims
 		pt_chicken_dance		 // Animation which indicates another animation is not completed yet
-		pt_chicken_dance_crouch // ditto for this one
+		pt_chicken_dance_crouch  // ditto for this one
 
-		//
 		// Shooting anims
-		//
-
 		pt_stand_shoot_RPG
 		pt_stand_shoot
 		pt_stand_shoot_auto
@@ -46,7 +41,7 @@ main
 		pt_stand_grenade_pullpin
 		pt_crouch_grenade_throw
 		pt_stand_stickgrenade_throw
-		//crouch_grenade_throw
+		// crouch_grenade_throw
 		pt_prone_grenade_throw
 		pt_prone_grenade_pullpin
 		pt_rifle_fire_prone
@@ -60,15 +55,11 @@ main
 		pt_hold_throw
 		pt_hold_prone_throw
 
-		//
 		// Reload anims
-		//
-
 		pt_reload_stand_RPG
 		pt_reload_crouch_pistol
 		pt_reload_stand_pistol
 		pt_reload_prone_pistol
-
 		pt_reload_crouch_rifle
 		pt_reload_stand_rifle
 		pt_reload_prone_rifle
@@ -82,61 +73,42 @@ main
 		pt_reload_crouchwalk
 		pt_reload_crouchwalk_pistol
 
-		//
 		// Prone anims
-		//
-
 		pt_prone_shoot
 		pt_prone_shoot_pistol
 		pt_prone_shoot_auto
 
-		//
-		// held object anims
-		//
-
+		// Held object anims
 		pt_hold_setup
 
-		//
 		// Melee anims
-		//
-
 		german_shepherd_attack_player
 		german_shepherd_run_attack
-
 		pt_melee_right2right_1
 		pt_melee_right2right_2
 		pt_melee_right2left
 		pt_melee_left2left_1
 		pt_melee_left2right
-
 		pt_melee_crouch_left2left
 		pt_melee_crouch_left2right
 		pt_melee_crouch_right2left
-
 		pt_melee_pistol_1
 		pt_melee_pistol_2
 		pt_melee_pistol_3
 		pt_melee_pistol_4
-
 		pt_melee_prone
 		pt_melee_prone_pistol
 
-		//
-		// pullout poses
-		//
-
+		// Pullout poses
 		pt_crouch_pullout_pose
 		pt_stand_pullout_pose
 		pt_prone_pullout_pose
 
-		// shellshock anims
+		// Shellshock anims
 		pb_stand_shellshock
 		pb_crouch_shellshock
 
-		//
 		// Flinch
-		//
-
 		pt_flinch_forward			// PI - RIFLE
 		pt_flinch_back
 		pt_flinch_left
@@ -149,24 +121,16 @@ main
 		pt_flinch_grenade_left
 		pt_flinch_grenade_forward
 		pt_flinch_grenade_back
-
 	}
 
-	//
 	// Legs Animations (also full body anims)
-	//
 	legs
 	{
-		//
 		// Idle anims
-		//
-
 		german_shepherd_idle
 		german_shepherd_sitting_looking_idle
 		german_shepherd_sleeping
-
 		fortnitedefault
-
 		pb_stand_alert_RPG
 		pb_stand_alert
 		pb_stand_ads
@@ -182,18 +146,14 @@ main
 		pb_crouch_grenade_idle
 		pb_crouch_stickgrenade_idle
 		pb_crouch_grenade_pullpin
-
 		pb_crouch_alert
 		pb_crouch_ads
 		pb_crouch_alert_pistol
 		pb_crouch_ads_pistol
 		pb_crouch_alert_unarmed
 		pb_prone_hold
-
-
 		pb_chicken_dance		 // Animation which indicates another animation is not completed yet
 		pb_chicken_dance_crouch  // ditto for this one
-
 		pb_prone_bombplant
 		pb_stand_bombplant
 		pb_crouch_bombplant
@@ -205,14 +165,10 @@ main
 		pb_stand_ads_RPG
 		pb_prone_aim_RPG
 
-		//
 		// Movement anims
-		//
-
 		german_shepherd_walk
 		german_shepherd_run
 		german_shepherd_run_jump_40
-
 		pb_pistol_run_fast
 		pb_run_fast
 		pb_run_rifle
@@ -222,7 +178,6 @@ main
 		pb_run_right_m
 		pb_run_left_m
 		pb_run_back_m
-
 		pb_crouchwalk_loop
 		pb_sprint
 		pb_sprint_B
@@ -232,7 +187,6 @@ main
 		pb_sprint_RPG
 		pb_sprint_pistol
 		pb_sprint_hold
-
 		pb_runjump_takeoff
 		pb_runjump_land
 		pb_standjump_takeoff
@@ -241,7 +195,6 @@ main
 		pb_runjump_land_pistol
 		pb_standjump_takeoff_pistol
 		pb_standjump_land_pistol
-
 		pb_combatrun_forward_loop
 		pb_combatrun_back_loop
 		pb_combatrun_left_loop
@@ -258,7 +211,6 @@ main
 		pb_combatrun_left_loop_grenade
 		pb_combatrun_right_loop_grenade
 		pb_combatrun_back_loop_grenade
-
 		pb_combatrun_forward_RPG
 		pb_combatrun_back_RPG
 		pb_combatrun_left_RPG
@@ -267,8 +219,6 @@ main
 		pb_walk_back_RPG_ads
 		pb_walk_left_RPG_ads
 		pb_walk_right_RPG_ads
-
-
 		pb_crouch_run_forward
 		pb_crouch_run_back
 		pb_crouch_run_left
@@ -287,17 +237,14 @@ main
 		pb_crouch_run_back_grenade
 		pb_crouch_run_left_grenade
 		pb_crouch_run_right_grenade
-
 		pb_crouch_shoot_run_forward
 		pb_crouch_shoot_run_back
 		pb_crouch_shoot_run_left
 		pb_crouch_shoot_run_right
 		pb_crouch_walk_forward_unarmed
-
 		pb_crouch_grenade_throw
 		pb_stand_grenade_throw
 		pb_stand_stickgrenade_throw
-
 		pb_stand_shoot_walk_forward
 		pb_stand_shoot_walk_back
 		pb_stand_shoot_walk_left
@@ -311,7 +258,6 @@ main
 		pb_walk_left
 		pb_walk_back
 		pb_walk_forward
-
 		pb_pull_stand_intro
 		pb_pull_stand_loop
 		pb_pull_stand_end
@@ -323,34 +269,25 @@ main
 		pb_crouch_hold_run_back
 		pb_crouch_hold_run_left
 		pb_crouch_hold_run_right
-
 		pb_crouch_run_back_RPG
 		pb_crouch_run_forward_RPG
 		pb_crouch_run_left_RPG
 		pb_crouch_run_right_RPG
-
 		pb_crouch_walk_right_RPG
 		pb_crouch_walk_left_RPG
 		pb_crouch_walk_forward_RPG
 		pb_crouch_walk_back_RPG
-
 		pb_prone_crawl_hold
 		pb_prone_crawl_back_hold
 		pb_prone_crawl_left_hold
 		pb_prone_crawl_right_hold
-		// pb_wounded_walk_loop // the temp ladder climbing anim
+		// pb_wounded_walk_loop // The temp ladder climbing anim
 
-		//
 		// Ladder Climbing anims
-		//
-
 		pb_climbdown
 		pb_climbup
 
-		//
 		// Prone anims
-		//
-
 		german_shepherd_wakeup_fast
 		pb_prone_crawl
 		pb_prone_grenade_crawl
@@ -371,10 +308,7 @@ main
 		pb_prone2crouch
 		pb_prone2crouchrun
 
-		//
 		// Mantle anims
-		//
-
 		mp_mantle_up_57
 		mp_mantle_up_51
 		mp_mantle_up_45
@@ -386,9 +320,7 @@ main
 		mp_mantle_over_mid
 		mp_mantle_over_low
 
-		//
 		// MG42 anims
-		//
 		standSAWgunner_aim : complete nonloopsync
 		{
 			standSAWgunner_aim_15down
@@ -551,7 +483,6 @@ main
 			}
 		}
 
-
 		standMG42_fire : complete loopsync
 		{
 			standMG42_fire_15down
@@ -624,10 +555,7 @@ main
 			}
 		}
 
-		//
 		// Death
-		//
-
 		german_shepherd_death_front
 		pb_prone_death_quickdeath
 		pb_laststand_death
@@ -659,40 +587,33 @@ main
 		MP_shotgun_death_left
 		MP_shotgun_death_right
 
-		//
 		// Stumble
-		//
-
-		pb_stumble_forward			// RUNNING
+		pb_stumble_forward
 		pb_stumble_back
 		pb_stumble_left
 		pb_stumble_right
-		pb_stumble_walk_forward		// WALKING
+		pb_stumble_walk_forward
 		pb_stumble_walk_back
 		pb_stumble_walk_left
 		pb_stumble_walk_right
-
-		pb_stumble_pistol_walk_right	// WALKING w/pistol
+		pb_stumble_pistol_walk_right
 		pb_stumble_pistol_walk_left
 		pb_stumble_pistol_walk_forward
 		pb_stumble_pistol_walk_back
-		pb_stumble_pistol_right			// RUNNING w/pistol
+		pb_stumble_pistol_right
 		pb_stumble_pistol_left
 		pb_stumble_pistol_forward
 		pb_stumble_pistol_back
-
 		pb_stumble_grenade_right
 		pb_stumble_grenade_left
 		pb_stumble_grenade_forward
 		pb_stumble_grenade_back
 
-		//
 		// Pain
-		//
 		german_shepherd_run_pain
 		pb_prone_painA_holdchest
 		pb_prone_painB_holdhead
-		//crouchrun_painfall
+		// crouchrun_painfall
 		// crouch_pain_fallToGround				// Shot from front, backs back and slightly right.
 		pb_crouch_pain_holdStomach				// Shot in torso.
 		// crouch_pain_crouch2crawl_ktwist		// extended pain. Ends in crawl (backwards).
@@ -721,9 +642,7 @@ main
 	}
 }
 
-//
 // Turning animations (played on the legs, but handled seperatly)
-//
 turning
 {
 	pl_turn_90left

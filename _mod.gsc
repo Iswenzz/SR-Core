@@ -61,9 +61,9 @@ main()
 
 precache()
 {
-	level.assets = [];
-	level.texts = [];
-	level.gfx = [];
+	level.assets = IfUndef(level.assets, []);
+	level.texts = IfUndef(level.texts, []);
+	level.gfx =  IfUndef(level.gfx, []);
 
 	precacheItem("claymore_mp");
 	precacheItem("c4_mp");
