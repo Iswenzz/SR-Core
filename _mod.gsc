@@ -15,48 +15,6 @@ main()
 	sr\sys\_discord::initDiscord();
 	sr\sys\_admins::initAdmins();
 	sr\sys\_notifications::initNotifications();
-
-	sr\game\_cheat::main();
-	sr\game\_demo::main();
-	sr\game\_perks::initPerks();
-	sr\game\_defrag::main();
-	sr\game\_time::main();
-	sr\game\_vote::initVote();
-	sr\game\_poll::initPoll();
-	sr\game\fx\_trail::main();
-	sr\game\menus\_main::initMenus();
-	sr\game\menus\_owner::main();
-	sr\game\minigames\_main::initMinigames();
-	sr\game\music\_main::initMusics();
-	sr\game\weapons\_main::main();
-
-	sr\player\_insertion::main();
-	sr\player\_settings::main();
-	sr\player\fx\_spray::main();
-	sr\player\fx\_shaders::initShaders();
-	sr\player\modes\_main::initModes();
-	sr\player\modes\_defrag::main();
-	sr\player\modes\_noclip::main();
-	sr\player\modes\_pickup::main();
-	sr\player\modes\_portal::main();
-	sr\player\modes\_practise::main();
-	sr\player\modes\_debug::main();
-	sr\player\huds\_cgaz::main();
-	sr\player\huds\_crosshair::main();
-	sr\player\huds\_fps::main();
-	sr\player\huds\_keys::main();
-	sr\player\huds\_velocity::main();
-	sr\player\huds\_viewkick::main();
-	sr\player\huds\_voice::main();
-
-	sr\commands\_admin::main();
-	sr\commands\_debug::main();
-	sr\commands\_graphics::main();
-	sr\commands\_misc::main();
-	sr\commands\_music::main();
-	sr\commands\_player::main();
-	sr\commands\_vote::main();
-	sr\commands\_map::main();
 }
 
 precache()
@@ -115,11 +73,11 @@ precacheFx()
 	level.gfx["lasershow"] 				= loadFx("deathrun/lasershow");
 	level.gfx["endgame"] 				= loadFx("deathrun/endgame_fx");
 	level.gfx["light_blink"] 			= loadFx("misc/light_c4_blink");
-	level.gfx["endtrig_fx"] 				= loadFx("deathrun/endtrig_fx");
+	level.gfx["endtrig_fx"] 			= loadFx("deathrun/endtrig_fx");
 	level.gfx["endtrigcircle_fx"] 		= loadFx("deathrun/endtrigcircle_fx");
 	level.gfx["secrettrig_fx"] 			= loadFx("deathrun/secrettrig_fx");
 	level.gfx["yellow_fx"] 				= loadFx("deathrun/yellow_fx");
-	level.gfx["red_fx"] 					= loadFx("deathrun/red_fx");
+	level.gfx["red_fx"] 				= loadFx("deathrun/red_fx");
 	level.gfx["purple_fx"] 				= loadFx("deathrun/purple_fx");
 	level.gfx["orange_fx"] 				= loadFx("deathrun/orange_fx");
 	level.gfx["green_fx"] 				= loadFx("deathrun/green_fx");
@@ -131,9 +89,9 @@ precacheFx()
 	level.gfx["viptrail3"] 				= loadFx("deathrun/vip_trail3");
 	level.gfx["viptrail4"] 				= loadFx("deathrun/vip_trail4");
 	level.gfx["viptrail5"] 				= loadFx("deathrun/vip_trail5");
-	level.gfx["startnstop"] 				= loadFx("deathrun/flare_startnstop");
+	level.gfx["startnstop"] 			= loadFx("deathrun/flare_startnstop");
 	level.gfx["jetpack"] 				= loadFx("smoke/jetpack");
-	level.gfx["meteor"] 					= loadFx("fire/tank_fire_engine");
+	level.gfx["meteor"] 				= loadFx("fire/tank_fire_engine");
 	level.gfx["explosion"] 				= loadFx("explosions/grenadeExp_default");
 	level.gfx["flame"] 					= loadFx("fire/tank_fire_engine");
 

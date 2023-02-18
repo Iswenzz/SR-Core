@@ -127,25 +127,28 @@ onPlayerKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHit
 	if (!self isInQueue("kz") || !level.kzStarted)
 		return;
 
-	if (attacker != self && isPlayer(attacker))
+	if (sMeansOfDeath != "MOD_SUICIDE")
 	{
-		attacker.kzWon = true;
-		attacker.kills++;
-		attacker.pers["kills"]++;
-		sr\game\_rank::processXpReward(sMeansOfDeath, attacker, self);
-
-		if (attacker isPlaying())
-		{
-			text = fmt("K/D                    ^3%d/%d", attacker.kills, attacker.deaths);
-			attacker.huds["speedrun"]["row3"] setText(text);
-			attacker.time = sr\utils\_common::originToTime(getTime() - attacker.time.origin);
-			attacker speedrun\player\huds\_speedrun::updateTime();
-		}
+		deaths = self maps\mp\gametypes\_persistence::statGet("DEATHS");
+		self maps\mp\gametypes\_persistence::statSet("DEATHS", deaths + 1);
+		self.deaths++;
+		self.pers["deaths"]++;
 	}
-	deaths = self maps\mp\gametypes\_persistence::statGet("DEATHS");
-	self maps\mp\gametypes\_persistence::statSet("DEATHS", deaths + 1);
-	self.deaths++;
-	self.pers["deaths"]++;
+	if (!isPlayer(attacker) || attacker == self)
+		return;
+
+	attacker.kzWon = true;
+	attacker.kills++;
+	attacker.pers["kills"]++;
+	sr\game\_rank::processXpReward(sMeansOfDeath, attacker, self);
+
+	if (attacker isPlaying())
+	{
+		text = fmt("K/D                    ^3%d/%d", attacker.kills, attacker.deaths);
+		attacker.huds["speedrun"]["row3"] setText(text);
+		attacker.time = sr\utils\_common::originToTime(getTime() - attacker.time.origin);
+		attacker speedrun\player\huds\_speedrun::updateTime();
+	}
 }
 
 setWeapon(weapon)
