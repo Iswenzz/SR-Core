@@ -4,7 +4,7 @@
 main()
 {
 	event("connect", ::playedTime);
-	event("connected", ::updateMenuPT);
+	event("connected", ::updateMenu);
 }
 
 playedTime()
@@ -25,7 +25,7 @@ playedTime()
 	}
 }
 
-updateMenuPT()
+updateMenu()
 {
 	self setClientDvar("sr_info_timePlayed", self getStat(2629));
 }
