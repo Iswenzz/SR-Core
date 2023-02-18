@@ -254,7 +254,7 @@ update_gfxDistance(setting)
 	labels = strTok("^3MAX;^25000;^22500;^21250;^2500;", ";");
 
 	distance = distances[value];
-	self setClientDvar("r_zfar", distance);
+	self setClientDvar("r_zfar", IfUndef(distance, 0));
 	self updateHud(setting.index, value, labels[value]);
 }
 
