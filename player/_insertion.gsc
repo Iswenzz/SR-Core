@@ -27,9 +27,6 @@ onSpawn()
 			continue;
 
 		self giveMaxAmmo(insertionItem);
-
-		entity.flareloop = false;
-		entity stopLoopSound();
 		entity waitTillNotMoving();
 
 		spawn = spawnStruct();
@@ -42,8 +39,6 @@ onSpawn()
 			entity delete();
 			continue;
 		}
-
-		entity.flareloop = true;
 		entity thread flareFx();
 
 		self iPrintln("^2Insertion at " + spawn.origin);
@@ -55,8 +50,6 @@ onSpawn()
 
 flareFx()
 {
-	self endon("disconnect");
-
 	while (isDefined(self))
 	{
 		playFxOnTag(level.gfx["startnstop"], self, "tag_fx");

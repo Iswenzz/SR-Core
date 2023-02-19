@@ -8,6 +8,8 @@ health_pickup_small,,speedrun/pu_health01.wav,0.45,0.53,na,0.9,0.9,60,120,item
 health_pickup_medium,,speedrun/pu_health01.wav,0.45,0.53,na,0.9,0.9,60,120,item
 health_pickup_large,,speedrun/pu_health01.wav,0.45,0.53,na,0.9,0.9,60,120,item
 grenade_pickup,,speedrun/pu_grenade.wav,0.58,0.71,na,0.9,0.9,60,120,item
+wpfoly_uav_control_unit_pullout,,weapons/unit/wpfoly_uav_control_unit_pullout.wav,1,1,,,,200,300,auto,streamed
+wpfoly_uav_control_unit_putaway,,weapons/unit/wpfoly_uav_control_unit_putaway.wav,1,1,,,,200,300,auto,streamed
 
 end_map1,,misc/endmap1.mp3,1,1,na,1,1,,,auto2d,streamed,,nonlooping,,all_mp,,,,,,,nowetlevel fulldrylevel,,,,,,
 end_map2,,misc/endmap2.mp3,1,1,na,1,1,,,auto2d,streamed,,nonlooping,,all_mp,,,,,,,nowetlevel fulldrylevel,,,,,,
