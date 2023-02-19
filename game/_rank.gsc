@@ -16,16 +16,16 @@ initRank()
 	precacheString(&"RANK_PROMOTED");
 	precacheString(&"MP_PLUS");
 
-	registerScoreInfo("kill", 10);
-	registerScoreInfo("headshot", 25);
-	registerScoreInfo("melee", 15);
+	registerScoreInfo("kill", 100);
+	registerScoreInfo("headshot", 250);
+	registerScoreInfo("melee", 150);
 	registerScoreInfo("activator", 0);
-	registerScoreInfo("trap_activation", 10);
-	registerScoreInfo("jumper_died", 10);
+	registerScoreInfo("trap_activation", 100);
+	registerScoreInfo("jumper_died", 100);
 
-	registerScoreInfo("win", 0);
+	registerScoreInfo("win", 1000);
 	registerScoreInfo("loss", 0);
-	registerScoreInfo("tie", 0);
+	registerScoreInfo("tie", 500);
 
 	buildRanks();
 	buildRanksIcon();

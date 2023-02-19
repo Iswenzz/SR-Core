@@ -214,7 +214,7 @@ cmd_MyID(args)
 {
 	self pm(fmt("Your ID is ^2%s", self.id));
 	wait 0.5;
-	self pm("Please make a note of your ID");
+	self pm("ID is a private information, ^1don't share it^7 to anyone.");
 }
 
 cmd_Notification(args)
