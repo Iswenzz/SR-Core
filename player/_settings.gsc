@@ -62,11 +62,18 @@ dvars()
 	self endon("disconnect");
 
 	wait 1;
-	for (i = 0; i < level.settings.size; i++)
+	for (i = 0; i < level.settingsMax; i++)
 	{
+		setting = level.settings[i];
+
+		name = "";
+		if (isDefined(setting))
+			name = setting.name;
+
 		if (!(i % 5))
 			wait 0.05;
-		self setClientDvar(fmt("sr_setting_%d", i), level.settings[i].name);
+
+		self setClientDvar(fmt("sr_setting_%d", i), name);
 	}
 }
 
