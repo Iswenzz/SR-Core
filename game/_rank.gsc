@@ -77,13 +77,7 @@ reset()
 	self.pers["rankxp"] = 0;
 
 	self setRank(self.pers["rank"], self.pers["prestige"]);
-
-	self setStat(2326, self.pers["prestige"]);
-	self setStat(2350, self.pers["rank"]);
-	self setStat(2301, self.pers["rankxp"]);
-
-	self saveRank(0, 0, 0);
-	updateRankStats(self, 0);
+	self saveRank();
 }
 
 registerScoreInfo(type, value)
@@ -155,9 +149,8 @@ onConnect()
 
 	if (self isBot())
 	{
-		self getBotRank();
+		self setBotRank();
 		self setLoading("rank", false);
-		self setRank(self.pers["rank"], int(self.pers["prestige"]));
 		return;
 	}
 	if (self isFirstConnection())
@@ -165,11 +158,6 @@ onConnect()
 
 	if (!isDefined(self))
 		return;
-
-	self setStat(2326, self.pers["prestige"]);
-	self setStat(2350, self.pers["rank"]);
-	self setStat(2301, self.pers["rankxp"]);
-	self setRank(self.pers["rank"], int(self.pers["prestige"]));
 
 	self setLoading("rank", false);
 }
@@ -197,8 +185,14 @@ loadRank()
 	self.pers["rank"] = IfUndef(row["level"], 1) - 1;
 	self.pers["prestige"] = IfUndef(row["prestige"], 0);
 
-	if (self.pers["rankxp"] < getRankInfoMinXP(self.pers["rank"]))
-		self.pers["rankxp"] = getRankInfoMinXP(self.pers["rank"]);
+	self.pers["rankxp"] = clamp(self.pers["rankxp"], getRankInfoMinXP(self.pers["rank"]), getRankInfoMaxXP(self.pers["rank"]));
+	self.pers["rank"] = clamp(self.pers["rank"], 0, level.maxRank);
+	self.pers["prestige"] = clamp(self.pers["prestige"], 0, level.maxPrestige);
+
+	self setStat(2326, self.pers["prestige"]);
+	self setStat(2350, self.pers["rank"]);
+	self setStat(2301, self.pers["rankxp"]);
+	self setRank(self.pers["rank"], self.pers["prestige"]);
 }
 
 onChangedTeam()
@@ -208,12 +202,14 @@ onChangedTeam()
 
 giveRankXP(type, value)
 {
-	if (!isDefined(self) || isDefined(value) && value <= 0)
+	if (!isDefined(self))
 		return;
 
-	value = int(value);
-	if (!isDefined(value))
+	if (!IsNullOrEmpty(type))
 		value = getScoreInfoValue(type);
+
+	value = IfUndef(value, 0);
+	value = int(value);
 
 	if (value <= 0)
 		return;
@@ -226,21 +222,26 @@ giveRankXP(type, value)
 	self thread updateRankScoreHUD(value);
 
 	self incRankXP(value);
-	self thread saveRank(self.pers["rankxp"], self.pers["rank"], self.pers["prestige"]);
 }
 
-saveRank(xp, rank, prestige)
+saveRank()
 {
 	if (self isBot())
 		return;
+
+	self maps\mp\gametypes\_persistence::statSet("RANK", self.pers["rank"]);
+	self maps\mp\gametypes\_persistence::statSet("RANKXP", self.pers["rankxp"]);
+	self maps\mp\gametypes\_persistence::statSet("MINXP", getRankInfoMinXp(self.pers["rank"]));
+	self maps\mp\gametypes\_persistence::statSet("MAXXP", getRankInfoMaxXp(self.pers["rank"]));
+	self maps\mp\gametypes\_persistence::statSet("PRESTIGE", self.pers["prestige"]);
 
 	critical_enter("mysql");
 
 	request = SQL_Prepare("UPDATE ranks SET name = ?, xp = ?, level = ?, prestige = ? WHERE player = ?");
 	SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(request, xp, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(request, rank + 1, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(request, prestige, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, self.pers["rankxp"], level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, self.pers["rank"] + 1, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, self.pers["prestige"], level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, self.guid, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
 	AsyncWait(request);
@@ -253,9 +254,9 @@ saveRank(xp, rank, prestige)
 		request = SQL_Prepare("INSERT INTO ranks (name, player, xp, level, prestige) VALUES (?, ?, ?, ?, ?)");
 		SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(request, self.guid, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, xp, level.MYSQL_TYPE_LONG);
-		SQL_BindParam(request, rank + 1, level.MYSQL_TYPE_LONG);
-		SQL_BindParam(request, prestige, level.MYSQL_TYPE_LONG);
+		SQL_BindParam(request, self.pers["rankxp"], level.MYSQL_TYPE_LONG);
+		SQL_BindParam(request, self.pers["rank"] + 1, level.MYSQL_TYPE_LONG);
+		SQL_BindParam(request, self.pers["prestige"], level.MYSQL_TYPE_LONG);
 		SQL_Execute(request);
 		AsyncWait(request);
 		SQL_Free(request);
@@ -263,11 +264,13 @@ saveRank(xp, rank, prestige)
 	critical_release("mysql");
 }
 
-getBotRank()
+setBotRank()
 {
 	self.pers["rankxp"] = 0;
-	self.pers["rank"] = 1;
+	self.pers["rank"] = 0;
 	self.pers["prestige"] = 0;
+
+	self setRank(self.pers["rank"], self.pers["prestige"]);
 }
 
 prestige(args)
@@ -283,12 +286,9 @@ prestige(args)
 	self.pers["rank"] = 0;
 	self.pers["prestige"]++;
 	self setRank(0, self.pers["prestige"]);
-	self maps\mp\gametypes\_persistence::statset("RANKXP", 1);
-
-	updateRankStats(self, 0);
 
 	iPrintLn(fmt("%s has entered prestige %d", self.name, self.pers["prestige"]));
-	self saveRank(self.pers["rankxp"], self.pers["rank"], self.pers["prestige"]);
+	self saveRank();
 }
 
 updateRankScoreHUD(amount)
@@ -374,6 +374,9 @@ incRankXP(amount)
 	xp = self getRankXP();
 	newXp = (xp + amount);
 
+	if (xp >= getRankInfoMaxXP(level.maxRank))
+		return;
+
 	if (newXp > getRankInfoMaxXP(level.maxRank))
 		newXp = getRankInfoMaxXP(level.maxRank);
 
@@ -393,15 +396,7 @@ updateRank(rankId)
 		self.pers["rank"] = rankId;
 		self thread updateRankAnnounceHUD();
 	}
-	updateRankStats(self, rankId);
-}
-
-updateRankStats(player, rankId)
-{
-	player maps\mp\gametypes\_persistence::statSet("RANK", rankId);
-	player maps\mp\gametypes\_persistence::statSet("MINXP", getRankInfoMinXp(rankId));
-	player maps\mp\gametypes\_persistence::statSet("MAXXP", getRankInfoMaxXp(rankId));
-	player maps\mp\gametypes\_persistence::statSet("PRESTIGE", player.pers["prestige"]);
+	self thread saveRank();
 }
 
 updateRankAnnounceHUD()

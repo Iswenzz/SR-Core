@@ -277,16 +277,18 @@ cmd_Rank(args)
 
 	player = getPlayerByName(args[0]);
 	rank = ToInt(args[1]) - 1;
-	prestige = ToInt(args[2]);
 
 	self log();
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	if (isDefined(prestige))
-		player.pers["prestige"] = prestige;
-	xp = int(TableLookup("mp/ranks.csv", 0, rank, 2));
-	player sr\game\_rank::saveRank(xp, rank, prestige);
+	prestige = ToInt(IfUndef(args[2], player.pers["prestige"]));
+
+	player.pers["rankxp"] = sr\game\_rank::getRankInfoMinXP(rank);
+	player.pers["rank"] = rank;
+	player.pers["prestige"] = prestige;
+
+	player sr\game\_rank::saveRank();
 	player reconnect();
 }
 
