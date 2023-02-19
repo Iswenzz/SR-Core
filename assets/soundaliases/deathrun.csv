@@ -1,6 +1,1 @@
 name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage
-
-scn_dcwhite_flare_end_cloth,,deathrun/scn_dcwhite_flare_end_cloth.wav,0.2,0.2,,,,200,300,auto,,,looping,master,all_mp
-insertion_strike,,deathrun/insertion_strike.wav,0.6,0.6,,,,200,300,auto,streamed
-wpfoly_uav_control_unit_pullout,,weapons/unit/wpfoly_uav_control_unit_pullout.wav,1,1,,,,200,300,auto,streamed
-wpfoly_uav_control_unit_putaway,,weapons/unit/wpfoly_uav_control_unit_putaway.wav,1,1,,,,200,300,auto,streamed
