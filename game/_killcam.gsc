@@ -106,6 +106,6 @@ killcam(
 	self.archivetime = 0;
 	self.psoffsettime = 0;
 
-	self battleroyale\game\_teams::setSpectatePermissions();
+	self sr\game\_teams::setSpectatePermissions();
 	self eventSpectator();
 }
