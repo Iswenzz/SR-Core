@@ -37,11 +37,11 @@ onSpawn()
 
 	wait 1;
 
+	if (self isCheat())
+		return;
+
 	while (true)
 	{
-		while (self isCheat())
-			wait 0.05;
-
 		self.previousOrigin = self.origin;
 		self.previousVelocity = self getVelocity();
 		wait 0.05;
