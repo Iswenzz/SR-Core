@@ -1,5 +1,6 @@
 #include sr\sys\_admins;
 #include sr\sys\_events;
+#include sr\sys\_file;
 #include sr\utils\_common;
 #include sr\utils\_math;
 
@@ -14,6 +15,7 @@ main()
 	cmd("owner",  		"debug_scriptusage",	::cmd_DebugScriptUsage);
 	cmd("owner",  		"debug_rotation",		::cmd_DebugRotation);
 	cmd("owner",  		"debug_critical",		::cmd_DebugCriticalSections);
+	cmd("masteradmin",  "debug_origin",			::cmd_DebugOrigin);
 	cmd("owner",  		"debug_kz",				::cmd_DebugKZ);
 	cmd("owner",		"test",					::cmd_Test);
 
@@ -137,6 +139,20 @@ cmd_DebugCriticalSections(args)
 cmd_DebugScriptUsage(args)
 {
 	self pm(fmt("Script usage: ^5%d", debug_scriptusage()));
+}
+
+cmd_DebugOrigin(args)
+{
+	file = FILE_Open(PATH_Mod(fmt("sr/data/debug/origins/%s", level.map)), "a");
+
+	x = int(self.origin[0]);
+	y = int(self.origin[1]);
+	z = int(self.origin[2]) + 60;
+
+	FILE_WriteLine(file, fmt("%d/%d/%d", x, y, z));
+	FILE_Close(file);
+
+	self pm(fmt("Saved origin: ^5%d %d %d", x, y, z));
 }
 
 cmd_DebugKZ(args)
