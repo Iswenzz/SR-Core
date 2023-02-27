@@ -267,7 +267,7 @@ bounce(origin, direction, power, repeat, useDvars)
 
 doPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime)
 {
-	if (!isDefined(self) || self isDemo() || game["state"] == "end")
+	if (!isDefined(self) || !self isPlaying() || self isDemo() || game["state"] == "end")
 		return;
 
 	self finishPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
@@ -519,6 +519,11 @@ clampValue(number, value, min, max)
 	if (result > max)
 		return max - number;
 	return result - number;
+}
+
+linearScale(value, min, max, rangeMin, rangeMax)
+{
+	return clamp((value - min) * (rangeMax - rangeMin) / (max - min) + rangeMin, rangeMin, rangeMax);
 }
 
 cleanScreen()
