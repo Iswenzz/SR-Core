@@ -11,6 +11,9 @@ LANG_ENGLISH        "^5Welcome to Sr- Speedrun\n^7This is a mod where players tr
 REFERENCE           BATTLEROYALE_DESC
 LANG_ENGLISH        "^5Welcome to Sr- BattleRoyale\n^7The popular battle royale gamemode from other games such as \nPlayer Unknown's Battlegrounds, Fortnite, H1Z1, recreated on Call of Duty 4!\n\n^5Contact:\n^7You can visit our discord server for updates and help:\n^8https://discord.gg/76aHfGF"
 
+REFERENCE           DEV_DESC
+LANG_ENGLISH        "^5Welcome to Sr- Dev\n^7This mod is made for developping maps using the SR API.\n\n^5Contact:\n^7You can visit our discord server for updates and help:\n^8https://discord.gg/76aHfGF"
+
 REFERENCE           MOTD
 LANG_ENGLISH        ""
 

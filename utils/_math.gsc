@@ -262,27 +262,24 @@ angleSnap90(angle, offset)
 
 drawText(pos, text, time, color, alpha, scale)
 {
+	time = IfUndef(time, 0) * 20;
+
 	if (!isDefined(color))
 		color = randomColorDark();
 
-	if (!isDefined(time) || time == 0)
-		time = -1;
-
-	time = int(time * 20);
 	for (i = 0; i != time; i++)
 	{
-		print3d(pos, text, color, alpha, scale);
+		print3D(pos, text, color, alpha, scale);
 		wait 0.05;
 	}
 }
 
 drawPoint(pos, time, color)
 {
+	time = IfUndef(time, 0) * 20;
+
 	if (!isDefined(color))
 		color = randomColorDark();
-
-	if (!isDefined(time))
-		time = 0;
 
 	lines = [];
 	count = 5;
@@ -293,8 +290,7 @@ drawPoint(pos, time, color)
 		lines[i] = pos - l / 10;
 		lines[i + 1] = pos + l / 10;
 	}
-
-	for (j = 1; j != 20 * time; j++)
+	for (j = 0; j != time; j++)
 	{
 		for (i = 0; i < count * 2; i += 2)
 			line(lines[i], lines[i + 1], color, true);
@@ -304,13 +300,10 @@ drawPoint(pos, time, color)
 
 drawLine(from, to, time, color)
 {
+	time = IfUndef(time, 0) * 20;
+
 	if (!isDefined(color))
 		color = randomColorDark();
-
-	if (!isDefined(time) || time == 0)
-		time = -1;
-
-	time = int(time * 20);
 
 	for (i = 0; i != time; i++)
 	{
@@ -319,23 +312,49 @@ drawLine(from, to, time, color)
 	}
 }
 
-drawAxis(time, pos)
+drawCircle(start, radius, height, time, color)
 {
-	if (!isDefined(time))
-		time = 0;
+	time = IfUndef(time, 0) * 20;
 
-	time = int(time*20);
+	if (!isDefined(color))
+		color = randomColorDark();
 
-	if (!isDefined(pos))
-		pos = self.origin;
-	if (!isDefined(pos))
-		return;
+	points = [];
+	r = radius;
+	z = start[2];
+	idx = 0;
+
+	for (q = 0; q < 2; q++)
+	{
+		h = start[0];
+		k = start[1];
+
+		for (i = 0; i < 360; i++)
+		{
+			x = h + r * cos(i);
+			y = k - r * sin(i);
+			points[idx] = (x, y, z);
+			idx++;
+		}
+		z += height;
+	}
+	for (i = 0; i != time; i++)
+	{
+		for (p = 0; p < points.size - 1; p++)
+			thread drawLine(points[p], points[p + 1], 0.05, color);
+		wait 0.05;
+	}
+}
+
+drawAxis(pos, time)
+{
+	time = IfUndef(time, 0) * 20;
 
 	f = anglesToForward(self.angles) * 20;
 	r = anglesToRight(self.angles) * -20;
 	u = anglesToUp(self.angles) * 20;
 
-	for (i = 1; i != time; i++)
+	for (i = 0; i != time; i++)
 	{
 		thread drawLine(pos, pos + f, 0.05, (1, 0, 0));
 		thread drawLine(pos, pos + r, 0.05, (0, 0, 1));
@@ -345,43 +364,42 @@ drawAxis(time, pos)
 	}
 }
 
-drawCollision(color)
+drawCollision(color, time)
 {
 	self notify("drawCollision");
 	self endon("drawCollision");
 
+	time = IfUndef(time, 0) * 20;
+
 	if (!isDefined(color))
 		color = randomColorDark();
 
-	if (self.physics["colType"] == "cube")
+	for (i = 0; i != time; i++)
 	{
-		while (true)
-		{
-			f = anglesToForward(self.angles) * self.physics["colSize"];
-			r = anglesToRight(self.angles) * self.physics["colSize"]*-1;
-			u = anglesToUp(self.angles) * self.physics["colSize"];
+		f = anglesToForward(self.angles) * self.physics["colSize"];
+		r = anglesToRight(self.angles) * self.physics["colSize"] * -1;
+		u = anglesToUp(self.angles) * self.physics["colSize"];
 
-			thread drawLine(self.origin, self.origin + f / 2, 0.05, (1, 0, 0));
-			thread drawLine(self.origin, self.origin + r / 2, 0.05, (0, 0, 1));
-			thread drawLine(self.origin, self.origin + u / 2, 0.05, (0, 1, 0));
+		thread drawLine(self.origin, self.origin + f / 2, 0.05, (1, 0, 0));
+		thread drawLine(self.origin, self.origin + r / 2, 0.05, (0, 0, 1));
+		thread drawLine(self.origin, self.origin + u / 2, 0.05, (0, 1, 0));
 
-			thread drawLine(self.origin - f - u - r, self.origin + f - u - r, 0.05, color);
-			thread drawLine(self.origin - f + u - r, self.origin + f + u - r, 0.05, color);
-			thread drawLine(self.origin - f - u + r, self.origin + f - u + r, 0.05, color);
-			thread drawLine(self.origin - f + u + r, self.origin + f + u + r, 0.05, color);
+		thread drawLine(self.origin - f - u - r, self.origin + f - u - r, 0.05, color);
+		thread drawLine(self.origin - f + u - r, self.origin + f + u - r, 0.05, color);
+		thread drawLine(self.origin - f - u + r, self.origin + f - u + r, 0.05, color);
+		thread drawLine(self.origin - f + u + r, self.origin + f + u + r, 0.05, color);
 
-			thread drawLine(self.origin - f - u - r, self.origin - f - u + r, 0.05, color);
-			thread drawLine(self.origin + f - u - r, self.origin + f - u + r, 0.05, color);
-			thread drawLine(self.origin - f + u - r, self.origin - f + u + r, 0.05, color);
-			thread drawLine(self.origin + f + u - r, self.origin + f + u + r, 0.05, color);
+		thread drawLine(self.origin - f - u - r, self.origin - f - u + r, 0.05, color);
+		thread drawLine(self.origin + f - u - r, self.origin + f - u + r, 0.05, color);
+		thread drawLine(self.origin - f + u - r, self.origin - f + u + r, 0.05, color);
+		thread drawLine(self.origin + f + u - r, self.origin + f + u + r, 0.05, color);
 
-			thread drawLine(self.origin - f - u - r, self.origin - f + u - r, 0.05, color);
-			thread drawLine(self.origin + f - u - r, self.origin + f + u - r, 0.05, color);
-			thread drawLine(self.origin - f - u + r, self.origin - f + u + r, 0.05, color);
-			thread drawLine(self.origin + f - u + r, self.origin + f + u + r, 0.05, color);
+		thread drawLine(self.origin - f - u - r, self.origin - f + u - r, 0.05, color);
+		thread drawLine(self.origin + f - u - r, self.origin + f + u - r, 0.05, color);
+		thread drawLine(self.origin - f - u + r, self.origin - f + u + r, 0.05, color);
+		thread drawLine(self.origin + f - u + r, self.origin + f + u + r, 0.05, color);
 
-			wait 0.05;
-		}
+		wait 0.05;
 	}
 }
 
