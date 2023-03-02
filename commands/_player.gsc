@@ -15,6 +15,7 @@ main()
 	cmd("owner", 		"g_gravity",		::cmd_G_Gravity);
 	cmd("owner", 		"g_speed",			::cmd_G_Speed);
 	cmd("owner", 		"god",				::cmd_God);
+	cmd("admin", 		"heal",				::cmd_Heal);
 	cmd("owner",		"jump_height",		::cmd_JumpHeight);
 	cmd("admin",        "kill",				::cmd_Kill);
 	cmd("owner", 		"model",			::cmd_Model);
@@ -251,6 +252,21 @@ cmd_God(args)
 	player cheat();
 	player.godmode = Ternary(!isDefined(player.godmode), true, undefined);
 	player pm(Ternary(isDefined(player.godmode), "^3God mode enabled!", "^1God mode disabled!"));
+}
+
+cmd_Heal(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: heal <playerName>");
+
+	player = getPlayerByName(args[0]);
+
+	self log();
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	player cheat();
+	player.health = player.maxhealth;
 }
 
 cmd_JumpHeight(args)
