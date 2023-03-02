@@ -27,6 +27,7 @@ main()
 	cmd("adminplus", 	"takeall",			::cmd_TakeAll);
 	cmd("owner", 		"trooper",			::cmd_Trooper);
 	cmd("admin", 		"teleport_player",	::cmd_TeleportPlayer);
+	cmd("admin", 		"teleport_to",		::cmd_TeleportTo);
 	cmd("admin", 		"teleport_at",		::cmd_TeleportAt);
 	cmd("admin", 		"teleport_ent",		::cmd_TeleportEnt);
 	cmd("owner", 		"uammo",			::cmd_UAmmo);
@@ -66,19 +67,29 @@ cmd_TeleportPlayer(args)
 
 	if (!isDefined(player))
 		return pm("Could not find player");
-	if (!player sr\player\modes\_main::isInMode("practise"))
-		return self pm("^1Player need to be in practise mode");
 
 	player cheat();
 	player setOrigin(self.origin);
+}
+
+cmd_TeleportTo(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: teleport_to <playerName>");
+
+	player = getPlayerByName(args[0]);
+
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	self cheat();
+	self setOrigin(player.origin);
 }
 
 cmd_TeleportAt(args)
 {
 	if (args.size < 3)
 		return self pm("Usage: teleport_at <X> <Y> <Z>");
-	if (!self sr\player\modes\_main::isInMode("practise"))
-		return self pm("^1Player need to be in practise mode");
 
 	x = ToFloat(args[0]);
 	y = ToFloat(args[1]);
@@ -92,8 +103,6 @@ cmd_TeleportEnt(args)
 {
 	if (args.size < 1)
 		return self pm("Usage: teleport_ent <targetname>");
-	if (!self sr\player\modes\_main::isInMode("practise"))
-		return self pm("^1Player need to be in practise mode");
 
 	ent = getEntArray(args[0], "targetname");
 	if (!isDefined(ent) || !ent.size)
