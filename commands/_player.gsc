@@ -19,6 +19,7 @@ main()
 	cmd("owner",		"jump_height",		::cmd_JumpHeight);
 	cmd("admin",        "kill",				::cmd_Kill);
 	cmd("owner", 		"model",			::cmd_Model);
+	cmd("masteradmin", 	"practise_mode",	::cmd_PractiseMode);
 	cmd("masteradmin", 	"sr_freeze",		::cmd_Freeze);
 	cmd("masteradmin", 	"sr_unfreeze",		::cmd_UnFreeze);
 	cmd("adminplus", 	"shock",			::cmd_Shock);
@@ -312,6 +313,17 @@ cmd_Model(args)
 		return pm("Could not find player");
 
 	player setModel(model);
+}
+
+cmd_PractiseMode(args)
+{
+	if (self sr\player\modes\_main::isInOtherMode("practise"))
+		return;
+
+	self sr\player\modes\_main::toggleMode("practise");
+	self suicide();
+
+	self pm(Ternary(self.modes["practise"], "^5Practise mode enabled!", "^1Practise mode disabled!"));
 }
 
 cmd_Freeze(args)

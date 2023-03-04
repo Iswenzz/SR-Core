@@ -17,12 +17,13 @@ practise()
 	if (!IsInMode("practise"))
 		return;
 
-	self waittill("speedrun");
-	self.huds["speedrun"]["name"] setText("^5Practise Mode");
 	self.practise = IfUndef(self.practise, []);
 
 	self thread watchSave();
 	self thread watchLoad();
+
+	self waittill("speedrun");
+	self.huds["speedrun"]["name"] setText("^5Practise Mode");
 }
 
 watchSave()
