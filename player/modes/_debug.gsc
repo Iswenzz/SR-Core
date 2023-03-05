@@ -342,7 +342,7 @@ vars()
 huds()
 {
 	self waittill("speedrun");
-	self.huds["speedrun"]["name"] setText("^8Debug Mode");
+	self.huds["speedrun"]["name"] setText("^8Debug");
 
 	self.huds["debug"] = [];
 	self.huds["debug"]["title"] = addHud(self, -3, 50, 1, "right", "top", 1.4, 90, true);
