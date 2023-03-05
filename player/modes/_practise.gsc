@@ -23,7 +23,7 @@ practise()
 	self thread watchLoad();
 
 	self waittill("speedrun");
-	self.huds["speedrun"]["name"] setText("^5Practise Mode");
+	self.huds["speedrun"]["name"] setText("^5Practise");
 }
 
 watchSave()
