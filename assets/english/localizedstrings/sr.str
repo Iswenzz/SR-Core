@@ -9,7 +9,7 @@ REFERENCE           SPEEDRUN_DESC
 LANG_ENGLISH        "^5Welcome to Sr- Speedrun\n^7This is a mod where players try to complete the map in the fastest time possible and\n compete for the top spot on the leaderboard. \n^5How to level up:\n^7Getting a time on the leaderboard will give you XP. You get more XP depending \non how high up your time is and how many times have already been set.\n^5Contact:\n^7You can visit our discord server for updates and help:\n^8https://discord.gg/76aHfGF"
 
 REFERENCE           DEATHRUN_DESC
-LANG_ENGLISH        "^5Welcome to Sr- Deathrun\n^7The classical mod in which a single player fights alone against the other team, his only weapons are his deadly traps. \nThe players in the opposite team have to kill the trapmaster after finishing his course without dying.\n\n^5Contact:\n^7You can visit our discord server for updates and help:\n^8https://discord.gg/76aHfGF"
+LANG_ENGLISH        "^5Welcome to Sr- Deathrun\n^7The classical mod in which a single player fights alone against the other team, his only weapons \nare his deadly traps. The players in the opposite team have to kill the trapmaster after \nfinishing his course without dying.\n\n^5Contact:\n^7You can visit our discord server for updates and help:\n^8https://discord.gg/76aHfGF"
 
 REFERENCE           BATTLEROYALE_DESC
 LANG_ENGLISH        "^5Welcome to Sr- BattleRoyale\n^7The popular battle royale gamemode from other games such as \nPlayer Unknown's Battlegrounds, Fortnite, H1Z1, recreated on Call of Duty 4!\n\n^5Contact:\n^7You can visit our discord server for updates and help:\n^8https://discord.gg/76aHfGF"
