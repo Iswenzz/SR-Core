@@ -10481,6 +10481,33 @@
 		"boneStabilizers" ""
 		"physicsPreset" ""
 	}
+	"sr_zonetrig_625" ( "xmodel.gdf" )
+	{
+		"type" "rigid"
+		"filename" "battleroyale\\sr_zone_625.xmodel_export"
+		"highLodDist" "0"
+		"forceMediumLodRigid" "0"
+		"mediumLod" ""
+		"mediumLodDist" "0"
+		"forceLowLodRigid" "0"
+		"lowLod" ""
+		"lowLodDist" "0"
+		"forceLowestLodRigid" "0"
+		"lowestLod" ""
+		"lowestLodDist" "0"
+		"groundLit" "0"
+		"noRadialNormals" "0"
+		"radialOriginX" "0"
+		"radialOriginY" "0"
+		"radialOriginZ" "0"
+		"allowHidingAllParts" "0"
+		"collisionLOD" "None"
+		"hitBoxModel" ""
+		"skinOverride" ""
+		"boneControllers" ""
+		"boneStabilizers" ""
+		"physicsPreset" ""
+	}
 	"sr_zonetrig_final" ( "xmodel.gdf" )
 	{
 		"type" "rigid"
