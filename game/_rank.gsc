@@ -160,6 +160,7 @@ onConnect()
 		return;
 
 	self setLoading("rank", false);
+	self setRank(self.pers["rank"], self.pers["prestige"]);
 }
 
 loadRank()
@@ -192,7 +193,6 @@ loadRank()
 	self setStat(2326, self.pers["prestige"]);
 	self setStat(2350, self.pers["rank"]);
 	self setStat(2301, self.pers["rankxp"]);
-	self setRank(self.pers["rank"], self.pers["prestige"]);
 }
 
 onChangedTeam()
