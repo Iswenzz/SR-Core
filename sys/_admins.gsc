@@ -10,6 +10,7 @@ initAdmins()
 
 	level.admins = [];
 	level.vips = [];
+	level.tas = [];
 	level.bans = [];
 	level.admin_commands = [];
 	level.admin_roles = [];
@@ -25,6 +26,7 @@ initAdmins()
 	level.admin_roles["masteradmin"] 	= 60;
 	level.admin_roles["owner"] 			= 100;
 
+	level.special_roles["tas"] 			= 0;
 	level.special_roles["vip"] 			= 1;
 	level.special_roles["vip_plus"] 	= 2;
 	level.special_roles["donator"] 		= 3;
@@ -66,9 +68,10 @@ fetch()
 {
 	critical_enter("mysql");
 
-	request = SQL_Prepare("SELECT player, role, vip FROM admins");
+	request = SQL_Prepare("SELECT player, role, vip, tas FROM admins");
 	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 36);
 	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 20);
+	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
 	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
 	SQL_Execute(request);
 	AsyncWait(request);
@@ -81,6 +84,7 @@ fetch()
 
 		level.admins[player] = row["role"];
 		level.vips[player] = row["vip"];
+		level.tas[player] = row["tas"];
 	}
 	SQL_Free(request);
 
@@ -121,17 +125,21 @@ connection()
 	{
 		self.admin_role = self getPersistence("admin");
 		self.admin_vip = self getPersistence("vip");
+		self.admin_tas = self getPersistence("tas");
 		return;
 	}
 	level loading("admins");
-
 	self banned();
+
 	self.admin_role = IfUndef(level.admins[self.id], "player");
 	self setClientDvar("sr_admin_role", self getRoleName());
 	self setPersistence("admin", self.admin_role);
 
 	self.admin_vip = IfUndef(level.vips[self.id], 0);
 	self setPersistence("vip", self.admin_vip);
+
+	self.admin_tas = IfUndef(level.tas[self.id], 0);
+	self setPersistence("tas", self.admin_tas);
 
 	self welcome();
 }
@@ -202,6 +210,11 @@ isVIP()
 	return self.admin_vip;
 }
 
+isTAS()
+{
+	return self.admin_tas;
+}
+
 getPlayerInfo()
 {
 	return fmt("%s ^3PID:^7 %d ^5ID:^7 %s ^2GUID:^7 %s ^6STEAM:^7 %s ^1IP:^7 %s",
@@ -246,8 +259,11 @@ banned()
 
 welcome()
 {
-	role = self sr\sys\_admins::getRoleName();
+	role = self getRoleName();
 	geo = self getGeoLocation(2);
+
+	if (self isTAS())
+		role = fmt("^5[TAS] ^7%s", role);
 
 	message(fmt("^2Welcome ^7%s ^7%s ^7from ^1%s", role, self.name, geo));
 }

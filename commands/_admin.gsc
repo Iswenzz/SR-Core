@@ -35,6 +35,7 @@ main()
 	cmd("admin",        "sr_kick",			::cmd_Kick);
 	cmd("owner",        "sr_role",			::cmd_Role);
 	cmd("owner",        "sr_vip",			::cmd_VIP);
+	cmd("owner",        "sr_tas",			::cmd_TAS);
 	cmd("owner",        "sr_id",			::cmd_ID);
 	cmd("masteradmin",  "sr_ban",			::cmd_Ban);
 }
@@ -490,6 +491,57 @@ cmd_VIP(args)
 	level.vips[player.id] = vip;
 
 	message(fmt("Promoted %s ^7to ^2VIP(%d)", player.name, vip));
+	player reconnect();
+}
+
+cmd_TAS(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: sr_tas <playerNum> <tas>");
+
+	player = getPlayerByNum(args[0]);
+	tas = IfUndef(ToInt(args[1]), 1);
+
+	self log();
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	critical_enter("mysql");
+
+	request = SQL_Prepare("UPDATE admins SET tas = ? WHERE player = ?");
+	SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
+	SQL_Execute(request);
+	AsyncWait(request);
+
+	affected = SQL_AffectedRows(request);
+	SQL_Free(request);
+
+	if (!affected)
+	{
+		request = SQL_Prepare("INSERT INTO admins (name, player, role, tas) VALUES (?, ?, ?, ?)");
+		SQL_BindParam(request, player.name, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, player.admin_role, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
+		SQL_Execute(request);
+		AsyncWait(request);
+		SQL_Free(request);
+	}
+
+	// Update entries
+	request = SQL_Prepare("UPDATE leaderboards SET tas = ? WHERE player = ?");
+	SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
+	SQL_Execute(request);
+	AsyncWait(request);
+	SQL_Free(request);
+
+	critical_release("mysql");
+
+	level.tas[player.id] = tas;
+
+	message(fmt("Registred %s ^7to ^2TAS(%d)", player.name, tas));
 	player reconnect();
 }
 
