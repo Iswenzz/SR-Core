@@ -40,6 +40,12 @@ setTeam(team)
 		self suicide();
 }
 
+setDead()
+{
+	self.died = true;
+	self.statusicon = "hud_status_dead";
+}
+
 setSpectator()
 {
 	self setTeam("spectator");
