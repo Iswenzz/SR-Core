@@ -160,8 +160,7 @@ setWeapon(weapon)
 
 sendPlayers()
 {
-	for (i = 0; i < level.minigames["kz"].queue.size; i++)
-		level.minigames["kz"].queue[i] spawnPlayerInSpec();
+	ForEachCall(level.minigames["kz"].queue, ::spawnPlayerInSpec);
 	for (i = 0; i < level.kzPlayersInRoom.size; i++)
 		level.kzPlayersInRoom[i] spawnPlayerInRoom(i);
 }
@@ -182,15 +181,14 @@ spawnPlayerInRoom(spawnIndex)
 	wait 0.05;
 	self switchToWeapon(level.kzWeapon);
 	self setClientDvar("cg_drawFriendlyNames", 0);
-	self thread sr\player\huds\_card::hud(level.kzPlayersInRoom[0], level.kzPlayersInRoom[1]);
 }
 
 spawnPlayerInSpec()
 {
 	self endon("disconnect");
 	self.teamKill = false;
-	self sr\game\_teams::setTeam("spectator");
-	self eventSpectator(true);
+	self sr\game\_teams::setSpectator();
+	self thread sr\player\huds\_card::hud(level.kzPlayersInRoom[0], level.kzPlayersInRoom[1]);
 }
 
 watchGameTimer()

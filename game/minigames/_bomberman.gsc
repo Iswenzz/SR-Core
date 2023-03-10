@@ -55,8 +55,10 @@ onSpawn()
 
 	self waittill("speedrun");
 	self.huds["speedrun"]["name"] setText("^3Bomberman");
-	self.huds["speedrun"]["row2"] setText(fmt("Bombs             ^2%d", self.bombs));
-	self.huds["speedrun"]["row3"] setText(fmt("Bonus                    ^3%d", 0));
+	self.huds["speedrun"]["row2"] setText(fmt("Bombs            ^2%d", self.bombs));
+	self.huds["speedrun"]["row2"].label = level.texts["empty"];
+	self.huds["speedrun"]["row3"] setText(fmt("Bonus             ^3%d", 0));
+	self.huds["speedrun"]["row3"].label = level.texts["empty"];
 }
 
 join()
@@ -92,8 +94,7 @@ sendPlayers()
 	level.bombermanSpawns = pickRandom(getSpawns(), 4);
 	level.bombermanPlayersInRoom = pickRandomPlayers("bomberman", 1);
 
-	for (i = 0; i < level.minigames["bomberman"].queue.size; i++)
-		level.minigames["bomberman"].queue[i] spawnPlayerInSpec();
+	ForEachCall(level.minigames["bomberman"].queue, ::spawnPlayerInSpec);
 	for (i = 0; i < level.bombermanPlayersInRoom.size; i++)
 		level.bombermanPlayersInRoom[i] spawnPlayerInRoom(i);
 }
@@ -124,8 +125,7 @@ spawnPlayerInSpec()
 {
 	self endon("disconnect");
 	self.teamKill = undefined;
-	self sr\game\_teams::setTeam("spectator");
-	self eventSpectator(true);
+	self sr\game\_teams::setSpectator();
 }
 
 watchGameTimer()
@@ -140,7 +140,6 @@ watchGame()
 	level endon("end map");
 	level endon("game over");
 	level endon("intermission");
-	level notify("bomberman ended");
 	level endon("bomberman ended");
 
 	level.bombermanStarted = true;
@@ -344,7 +343,7 @@ getSpawns()
 			if (level.bombermanGrid[x][y].isSpawn)
 			{
 				spawn = spawnStruct();
-				spawn.origin = level.bombermanGrid[x][y];
+				spawn.origin = level.bombermanGrid[x][y].origin;
 				spawn.angles = (0, 0, 0);
 
 				spawns[spawns.size] = spawn;

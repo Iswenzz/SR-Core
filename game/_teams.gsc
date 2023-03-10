@@ -1,3 +1,4 @@
+#include sr\sys\_events;
 #include sr\utils\_common;
 
 setPlayerModel()
@@ -37,6 +38,14 @@ setTeam(team)
 
 	if (self isPlaying())
 		self suicide();
+}
+
+setSpectator()
+{
+	self setTeam("spectator");
+	self setSpectatePermissions();
+	self eventSpectator(true);
+	self spawnSpectator();
 }
 
 setSpectatePermissions()

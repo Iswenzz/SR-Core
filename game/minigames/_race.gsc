@@ -43,6 +43,7 @@ race()
 		ForEachCall(level.minigames["race"].queue, ::cleanRaceHud);
 		ForEachThread(level.minigames["race"].queue, ::raceSpawn);
 		countdown();
+		ForEachThread(level.minigames["race"].queue, ::raceSpawn);
 
 		level.raceStarted = true;
 		ForEachThread(level.minigames["race"].queue, ::raceHud);
@@ -384,7 +385,7 @@ isInRace(player, index)
 
 isRacing(player, index)
 {
-	return !player.raceDead;
+	return isDefined(player.raceDead) && !player.raceDead;
 }
 
 watchTimer()
