@@ -39,7 +39,7 @@ REFERENCE           ABOUT_HEADER
 LANG_ENGLISH        "About the Mod..."
 
 REFERENCE           CALL_FREEROUND
-LANG_ENGLISH        ""
+LANG_ENGLISH        "Press ^5[{+attack}] ^7to select ^2FREE RUN ^7round"
 
 REFERENCE           ALIVE_JUMPERS
 LANG_ENGLISH        ""
