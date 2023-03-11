@@ -113,8 +113,6 @@ respawn()
 {
 	if (game["state"] == "end" || game["state"] == "round ended")
 		return;
-	if (self.pers["team"] != "allies")
-		return;
 
 	self.died = false;
 	eventSpawn(true);

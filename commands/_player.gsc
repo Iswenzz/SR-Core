@@ -1,4 +1,5 @@
 #include sr\sys\_admins;
+#include sr\sys\_events;
 #include sr\utils\_common;
 
 main()
@@ -26,6 +27,7 @@ main()
 	cmd("vip", 			"shovel",			::cmd_Shovel);
 	cmd("masteradmin", 	"respawn",			::cmd_Respawn);
 	cmd("masteradmin", 	"respawnall",		::cmd_RespawnAll);
+	cmd("adminplus", 	"team",				::cmd_Team);
 	cmd("adminplus", 	"takeall",			::cmd_TakeAll);
 	cmd("owner", 		"trooper",			::cmd_Trooper);
 	cmd("admin", 		"teleport_player",	::cmd_TeleportPlayer);
@@ -377,6 +379,21 @@ cmd_Shovel(args)
 	self giveMaxAmmo("shovel_mp");
 	wait 0.05;
 	self switchToWeapon("shovel_mp");
+}
+
+cmd_Team(args)
+{
+	if (args.size < 2)
+		return self pm("Usage: team <playerName> <team>");
+
+	player = getPlayerByName(args[0]);
+	team = args[1];
+
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	player sr\game\_teams::setTeam(team);
+	player eventSpawn();
 }
 
 cmd_TakeAll(args)
