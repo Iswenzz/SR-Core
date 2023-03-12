@@ -34,4 +34,6 @@ hud()
 	}
 	level.huds["event"]["text"] destroy();
 	level.huds["event"]["timer"] destroy();
+
+	level.dvar["event"] = false;
 }
