@@ -47,6 +47,8 @@ save()
 
 load()
 {
+	self setStat(1610, 1);
+
 	for (i = 0; i < level.settings.size; i++)
 	{
 		setting = level.settings[i];
