@@ -9,6 +9,7 @@ main()
 	cmd("owner",        "clientcmd",		::cmd_ClientCommand);
 	cmd("admin",        "detail",			::cmd_Detail);
 	cmd("owner",        "download",			::cmd_Download);
+	cmd("owner",  		"event",			::cmd_Event);
 	cmd("owner",  		"end",				::cmd_End);
 	cmd("owner",  		"restart",			::cmd_FastRestart);
 	cmd("owner",  		"nextmap",			::cmd_NextMap);
@@ -43,6 +44,15 @@ main()
 cmd_FastRestart(args)
 {
 	levelRestart(true);
+}
+
+cmd_Event(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: !event <minutes>");
+
+	minutes = ToInt(args[0]);
+	level.eventTime = int(minutes * 60);
 }
 
 cmd_End(args)
