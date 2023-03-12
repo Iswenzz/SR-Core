@@ -16,7 +16,7 @@ hud()
 	eventTime = level.eventTime;
 	time = eventTime;
 
-	level.huds["event"]["text"] = addHud(level, 0, 20, 1, "center", "middle", 1.6, 1000, true);
+	level.huds["event"]["text"] = addHud(level, 0, 70, 1, "center", "middle", 1.6, 1000, true);
 	level.huds["event"]["text"] setText("^2Event starts in");
 	level.huds["event"]["timer"] = addHud(level, 0, 90, 1, "center", "middle", 1.4, 1000, true);
 	level.huds["event"]["timer"] setTimer(time);
