@@ -13,7 +13,7 @@ initGPT()
 
 json()
 {
-	level.gpt["json"]["completions"] = FILE_OpenJSON(PATH_Mod("sr/data/json/gpt/completions.json"));
+	level.gpt["json"]["chat"] = FILE_OpenJSON(PATH_Mod("sr/data/json/gpt/chat.json"));
 }
 
 template(id)
@@ -27,8 +27,8 @@ completions(message)
 
 	critical_enter("http");
 
-	url = "https://api.openai.com/v1/completions";
-	json = fmt(template("completions"), message);
+	url = "https://api.openai.com/v1/chat/completions";
+	json = fmt(template("chat"), message);
 
 	request = HTTP_Init();
 	HTTP_JSON(request);
@@ -39,10 +39,9 @@ completions(message)
 	response = HTTP_Response(request);
 	HTTP_Free(request);
 
-	start = stringIndex(response, "\"text\"");
-	end = stringIndex(response, "\"index\"");
-	if (start != -1) start += 8;
-	if (end != -1) end -= 2;
+	start = stringIndex(response, "\"content\"");
+	end = stringIndex(response, "\"},");
+	if (start != -1) start += 11;
 
 	critical_release("http");
 
