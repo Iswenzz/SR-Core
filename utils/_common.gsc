@@ -995,6 +995,35 @@ removeColorFromString(string)
 	return output;
 }
 
+stringIndex(string, match)
+{
+	for (i = 0; i < string.size; i++)
+	{
+		if (getSubStr(string, i, i + match.size) == match)
+			return i;
+	}
+	return -1;
+}
+
+stringChunk(string, maxchars)
+{
+	result = [];
+	chunk = "";
+
+	for (i = 0; i < string.size; i++)
+	{
+		chunk += string[i];
+		if (chunk.size == maxchars)
+		{
+			result[result.size] = chunk;
+			chunk = "";
+		}
+	}
+	if (chunk.size > 0)
+		result[result.size] = chunk;
+	return result;
+}
+
 sameTeam(player)
 {
 	return self.pers["team"] == player.pers["team"];

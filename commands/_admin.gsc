@@ -13,6 +13,7 @@ main()
 	cmd("owner",  		"end",				::cmd_End);
 	cmd("owner",  		"restart",			::cmd_FastRestart);
 	cmd("owner",  		"nextmap",			::cmd_NextMap);
+	cmd("owner",        "gpt",				::cmd_GPT);
 	cmd("owner",        "givexp",			::cmd_GiveXp);
 	cmd("owner",        "getdvar",			::cmd_GetDvar);
 	cmd("player", 		"help",				::cmd_Help);
@@ -141,6 +142,15 @@ cmd_Download(args)
 	HTTP_Free(request);
 
 	self pm(fmt("^2Downloaded %s", file));
+}
+
+cmd_GPT(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: gpt <message>");
+
+	message = StrJoin(args, " ");
+	self sr\sys\_gpt::completions(message);
 }
 
 cmd_GiveXp(args)
