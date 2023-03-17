@@ -17,32 +17,19 @@ playersVisibility()
         players = getAllPlayers();
         for (i = 0; i < players.size; i++)
         {
-            if (!isDefined(players[i].pers["team"]))
-                continue;
-
-			players[i] hide();
-            // Activator should be visible to everyone
-            if (players[i].pers["team"] == "axis")
-                players[i] show();
-        }
-        for (i = 0; i < players.size; i++)
-        {
             current = players[i];
+			current hide();
 
             for (j = 0; j < players.size; j++)
             {
                 player = players[j];
-
                 if (current == player)
                     continue;
 
-                if (!current.settings["player_hide"])
+                if (current.settings["player_hide"] == 0 || !player sameTeam(current))
                     player showToPlayer(current);
-                else if (current.settings["player_hide"] == 1)
-                {
-                    if (distance(current.origin, player.origin) > 100)
-                        player showToPlayer(current);
-                }
+                if (current.settings["player_hide"] == 1 && distance(current.origin, player.origin) > 100)
+					player showToPlayer(current);
             }
         }
     }
