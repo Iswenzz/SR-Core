@@ -115,11 +115,13 @@ open(id, weapon)
 	self.huds["script_menu"]["options"] setText(getMenuOptions(id, submenu));
 	self.huds["script_menu"]["options"] thread fadeIn(0, .5, "right");
 
-	self.huds["script_menu"]["help"] = addTextHud(self, -170, 400, 1, "left", "middle", "right" ,1.4, 103);
+	self.huds["script_menu"]["help"] = addTextHud(self, -170, 375, 1, "left", "middle", "right" ,1.4, 103);
 	self.huds["script_menu"]["help"] setText("^5Select: [Right or Left Mouse]\nUse: [[{+activate}]]\nLeave: [[{+melee}]]");
 	self.huds["script_menu"]["help"] thread fadeIn(0, .5, "right");
 
 	selected = 0;
+
+	self notify("scriptmenu_open", id);
 
 	while (true)
 	{

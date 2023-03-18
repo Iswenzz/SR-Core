@@ -540,7 +540,12 @@ unlimitedAmmo()
 
 	while (isDefined(self))
 	{
-		self SetWeaponAmmoClip(self GetCurrentWeapon(), WeaponClipSize(self GetCurrentWeapon()));
 		wait 0.05;
+
+		weapon = self getCurrentWeapon();
+		if (weapon == "none")
+			continue;
+
+		self setWeaponAmmoClip(weapon, weaponClipSize(weapon));
 	}
 }
