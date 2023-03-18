@@ -56,14 +56,14 @@ takeDefragWeapon(name)
 	self takeWeapon(level.defragWeapons[name]);
 }
 
-takeAllPerks(name)
+takeAllPerks()
 {
 	self.perks = [];
 }
 
-takeDefragPerk(name)
+takeDefragPerk(id)
 {
-	self playerRemovePerk(name);
+	self playerRemovePerk(id);
 }
 
 giveDefragWeapon(name, ammo)
@@ -77,13 +77,13 @@ giveDefragWeapon(name, ammo)
 		self setWeaponAmmoClip(weapon, ammo);
 }
 
-giveDefragPerk(name, time)
+giveDefragPerk(id, time)
 {
-	self playerSetPerk(name);
+	self playerSetPerk(id);
 
 	if (isDefined(time))
 	{
 		wait time;
-		self takeDefragPerk(name);
+		self takeDefragPerk(id);
 	}
 }

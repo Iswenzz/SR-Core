@@ -10,7 +10,8 @@ main()
 
 	addWeapon("rl", "gl_ak47_mp");
 	addWeapon("pl", "gl_g3_mp");
-	addPerk("haste", undefined, ::haste);
+
+	addPerk("haste", "Haste", undefined, ::haste);
 
 	defaultWeapons();
 	thread visuals();

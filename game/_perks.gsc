@@ -5,7 +5,12 @@ initPerks()
 	level.perks = [];
 	level.mapPerks = [];
 
-	addPerk("health", undefined, ::health);
+	addPerk("specialty_bulletdamage", "Stopping Power", undefined, ::stock);
+	addPerk("specialty_bulletaccuracy", "Steady Aim", undefined, ::stock);
+	addPerk("specialty_armorvest", "Juggernaut", undefined, ::stock);
+	addPerk("specialty_rof", "Rapid Fire", undefined, ::stock);
+	addPerk("specialty_grenadepulldeath", "Martyrdom", undefined, ::stock);
+	addPerk("specialty_gpsjammer", "Cold Blooded", undefined, ::stock);
 
 	event("spawn", ::spawn);
 }
@@ -18,38 +23,38 @@ spawn()
 		self playerSetPerk(level.mapPerks[i]);
 }
 
-addPerk(name, model, callback)
+addPerk(id, name, model, callback)
 {
 	perk = spawnStruct();
+	perk.id = id;
 	perk.name = name;
 	perk.callback = callback;
 	perk.model = model;
 
-	level.perks[name] = perk;
+	level.perks[id] = perk;
 
 	if (isDefined(model))
 		precacheModel(model);
 }
 
-playerSetPerk(name)
+playerSetPerk(id)
 {
-	perk = level.perks[name];
-	self.perks[self.perks.size] = name;
-	self thread [[perk.callback]]();
+	perk = level.perks[id];
+	self.perks[self.perks.size] = id;
+	self thread [[perk.callback]](perk);
 }
 
-playerRemovePerk(name)
+playerRemovePerk(id)
 {
-	self.perks = Remove(self.perks, name);
+	self.perks = Remove(self.perks, id);
 }
 
-playerHasPerk(name)
+playerHasPerk(id)
 {
-	return Contains(self.perks, name);
+	return Contains(self.perks, id);
 }
 
-health()
+stock(perk)
 {
-	self.maxhealth *= 2;
-	self.health = self.maxhealth;
+	self setPerk(perk.id);
 }
