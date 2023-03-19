@@ -96,7 +96,7 @@ buildSpectateList()
 		}
 	}
 	if (self.spectatorWatching)
-		self.spectatorList = fmt("Spectating %s (%d)\n%s", self.name, self.spectatorWatching, self.spectatorList);
+		self.spectatorList = fmt("Spectating (%d)\n%s", self.spectatorWatching, self.spectatorList);
 }
 
 clear()
