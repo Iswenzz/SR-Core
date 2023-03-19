@@ -12,6 +12,7 @@ main()
 	cmd("owner", 		"damage",			::cmd_Damage);
 	cmd("vip", 			"dance",			::cmd_Dance);
 	cmd("adminplus", 	"drop",				::cmd_Drop);
+	cmd("owner", 		"dog",				::cmd_Dog);
 	cmd("adminplus", 	"flash",			::cmd_Flash);
 	cmd("owner", 		"g_gravity",		::cmd_G_Gravity);
 	cmd("owner", 		"g_speed",			::cmd_G_Speed);
@@ -200,6 +201,11 @@ cmd_Drop(args)
 		return pm("Could not find player");
 
 	player dropItem(player getCurrentWeapon());
+}
+
+cmd_Dog(args)
+{
+    self thread dog();
 }
 
 cmd_Flash(args)
@@ -417,7 +423,6 @@ cmd_Trooper(args)
 cmd_UAmmo(args)
 {
 	self thread unlimitedAmmo();
-	self cheat();
 }
 
 cmd_Weapon(args)
@@ -538,6 +543,8 @@ unlimitedAmmo()
 	self endon("death");
 	self endon("disconnect");
 
+	self cheat();
+
 	while (isDefined(self))
 	{
 		wait 0.05;
@@ -547,5 +554,26 @@ unlimitedAmmo()
 			continue;
 
 		self setWeaponAmmoClip(weapon, weaponClipSize(weapon));
+	}
+}
+
+dog()
+{
+	self endon("disconnect");
+    self endon("death");
+
+	self.pers["isDog"] = true;
+
+	self giveWeapon("shepherd_mp");
+	self switchToWeapon("shepherd_mp");
+
+	while (true)
+	{
+		if (self getCurrentWeapon() != "shepherd_mp" || self isOnLadder())
+			self sr\game\_teams::setPlayerModel();
+		else
+			self setModel("german_sheperd_dog");
+
+		wait 0.05;
 	}
 }
