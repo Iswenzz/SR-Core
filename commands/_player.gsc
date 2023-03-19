@@ -26,7 +26,7 @@ main()
 	cmd("adminplus", 	"shock",			::cmd_Shock);
 	cmd("vip", 			"shovel",			::cmd_Shovel);
 	cmd("masteradmin", 	"respawn",			::cmd_Respawn);
-	cmd("masteradmin", 	"respawnall",		::cmd_RespawnAll);
+	cmd("masteradmin", 	"respawn_all",		::cmd_RespawnAll);
 	cmd("adminplus", 	"team",				::cmd_Team);
 	cmd("adminplus", 	"takeall",			::cmd_TakeAll);
 	cmd("owner", 		"trooper",			::cmd_Trooper);
@@ -59,7 +59,7 @@ cmd_RespawnAll(args)
 
 	for (i = 0; i < players.size; i++)
 		players[i] respawn();
-	level message("^5All players respawned.");
+	message("^5All players respawned.");
 }
 
 cmd_TeleportPlayer(args)

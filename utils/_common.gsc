@@ -806,7 +806,7 @@ ragdoll(sHitLoc, vDir, sWeapon, eInflictor, sMeansOfDeath, deathAnimDuration)
 	physicsExplosionSphere(explosionPos, explosionRadius, explosionRadius / 2, explosionForce);
 }
 
-isWallKnifing(attacker, victim)
+isWallbang(attacker, victim)
 {
 	start = attacker getEye();
 	end = victim getEye();

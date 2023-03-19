@@ -31,7 +31,7 @@ onSpawn()
 
 		spawn = spawnStruct();
 		spawn.origin = entity.origin;
-		spawn.angle = entity.angles;
+		spawn.angles = entity.angles;
 
 		if (!self isOnGround() || distance(self.origin, spawn.origin) > 48)
 		{

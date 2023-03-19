@@ -3,6 +3,11 @@ antiElevator(state)
 	self.antiElevator = state;
 }
 
+antiLag(state)
+{
+	self.antiLag = state;
+}
+
 setPlayerSpeed(speed)
 {
 	self.speed = int(ceil(speed * (self.spawnSpeed / 190)));
