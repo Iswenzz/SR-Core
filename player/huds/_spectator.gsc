@@ -41,14 +41,14 @@ hud()
 		if (self.player.spectatorList != self.player.prevSpectatorList && self.settings["hud_spectating"])
 			self.huds["spectator"] setText(self.player.spectatorList);
 
-		wait 0.2;
+		wait 0.5;
 		self.prevSpectatorList = self.spectatorList;
 	}
 }
 
 vars()
 {
-	self.huds["spectator"] = addHud(self, 4, 80, 1, "left", "top", 1.4, 1000);
+	self.huds["spectator"] = addHud(self, 4, 85, 1, "left", "top", 1.4, 1000);
 
 	self.spectatorList = "";
 	self.spectatorWatching = 0;
