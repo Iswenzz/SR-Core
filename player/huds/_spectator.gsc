@@ -21,27 +21,18 @@ hud()
 
 	while (true)
 	{
-		players = getAllPlayers();
+		client = self getSpectatorClient();
+		self.player = IfUndef(client, self);
 
-		self.player = IfUndef(self getSpectatorClient(), self);
-		self.spectatorList = "";
-		self.spectatorWatching = 0;
+		self.spectatorPlayer = -1;
+		if (isDefined(client))
+			self.spectatorPlayer = client.number;
 
-		for (i = 0; i < players.size; i++)
-		{
-			if (players[i].spectatorclient == self.number)
-			{
-				self.spectatorWatching++;
-				if (self.spectatorWatching <= 5)
-					self.spectatorList += " " + players[i].name + "^7\n";
-			}
-		}
-		if (self.spectatorWatching)
-			self.spectatorList = fmt("Spectating (%d)\n%s", self.spectatorWatching, self.spectatorList);
-		if (self.player.spectatorList != self.player.prevSpectatorList && self.settings["hud_spectating"])
-			self.huds["spectator"] setText(self.player.spectatorList);
+		self renderSpectateList();
 
-		wait 0.5;
+		wait 0.4;
+
+		self.prevSpectatorPlayer = self.spectatorPlayer;
 		self.prevSpectatorList = self.spectatorList;
 	}
 }
@@ -52,7 +43,60 @@ vars()
 
 	self.spectatorList = "";
 	self.spectatorWatching = 0;
+	self.spectatorPlayer = -1;
 	self.prevSpectatorList = "";
+	self.prevSpectatorPlayer = -1;
+}
+
+renderSpectateList()
+{
+	startSpectate = self isSpectator() && self.spectatorPlayer != -1 && self.prevSpectatorPlayer == -1;
+	endSpectate = self isSpectator() && self.spectatorPlayer == -1 && self.prevSpectatorPlayer != -1;
+
+	if (self.spectatorList == "" && self.prevSpectatorList != "" || endSpectate)
+	{
+		self.huds["spectator"].x = 4;
+		self.huds["spectator"] moveOut(0, 1, "left", 1, false);
+		wait 0.05;
+	}
+	if (self.prevSpectatorList == "" && self.spectatorList != "" || startSpectate)
+	{
+		self updateSpectatorList();
+
+		self.huds["spectator"].x = 4;
+		self.huds["spectator"] moveIn(0, 1, "right", 1);
+		wait 0.05;
+	}
+	self updateSpectatorList();
+}
+
+updateSpectatorList()
+{
+	self.player buildSpectateList();
+	if (self.player.spectatorList != self.player.prevSpectatorList && self.settings["hud_spectating"])
+		self.huds["spectator"] setText(self.player.spectatorList);
+}
+
+buildSpectateList()
+{
+	players = getAllPlayers();
+
+	self.spectatorWatching = 0;
+	self.spectatorList = "";
+
+	for (i = 0; i < players.size; i++)
+	{
+		if (players[i] == self)
+			continue;
+		if (players[i].player == self)
+		{
+			self.spectatorWatching++;
+			if (self.spectatorWatching <= 5)
+				self.spectatorList += " " + players[i].name + "^7\n";
+		}
+	}
+	if (self.spectatorWatching)
+		self.spectatorList = fmt("Spectating %s (%d)\n%s", self.name, self.spectatorWatching, self.spectatorList);
 }
 
 clear()

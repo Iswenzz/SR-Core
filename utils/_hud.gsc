@@ -68,38 +68,58 @@ getHorizontal(int)
 	return "left";
 }
 
-fadeOut(delay, time, direction, speed)
+moveIn(delay, time, direction, speed)
 {
-	if (!isDefined(self))
-		return;
-	if (isDefined(direction))
-	{
-		self moveOverTime(IfUndef(speed, 0.2));
-
-		switch (direction)
-		{
-			case "top": 	self.y -= 600; 	break;
-			case "left": 	self.x -= 600; 	break;
-			case "bottom": 	self.y += 600; 	break;
-			case "right": 	self.x += 600; 	break;
-		}
-	}
 	wait delay;
 	if (!isDefined(self))
 		return;
 
-	self fadeOverTime(time);
-	self.alpha = 0;
+	switch (direction)
+	{
+		case "top": 	self.y += 600; 	break;
+		case "left": 	self.x += 600; 	break;
+		case "bottom": 	self.y -= 600; 	break;
+		case "right": 	self.x -= 600; 	break;
+	}
+	self moveOverTime(IfUndef(speed, 0.2));
 
+	switch (direction)
+	{
+		case "top": 	self.y -= 600; 	break;
+		case "left": 	self.x -= 600; 	break;
+		case "bottom": 	self.y += 600; 	break;
+		case "right": 	self.x += 600; 	break;
+	}
+	wait time;
+}
+
+moveOut(delay, time, direction, speed, remove)
+{
+	remove = IfUndef(remove, true);
+
+	wait delay;
+	if (!isDefined(self))
+		return;
+	self moveOverTime(IfUndef(speed, 0.2));
+
+	switch (direction)
+	{
+		case "top": 	self.y -= 600; 	break;
+		case "left": 	self.x -= 600; 	break;
+		case "bottom": 	self.y += 600; 	break;
+		case "right": 	self.x += 600; 	break;
+	}
 	wait time;
 	if (!isDefined(self))
 		return;
 
-	self destroy();
+	if (remove)
+		self destroy();
 }
 
 fadeIn(delay, time, direction, speed)
 {
+	wait delay;
 	if (!isDefined(self))
 		return;
 	if (isDefined(direction))
@@ -124,13 +144,39 @@ fadeIn(delay, time, direction, speed)
 	}
 	alpha = self.alpha;
 	self.alpha = 0;
+	self fadeOverTime(time);
+	self.alpha = alpha;
+	wait time;
+}
+
+fadeOut(delay, time, direction, speed, remove)
+{
+	remove = IfUndef(remove, true);
 
 	wait delay;
 	if (!isDefined(self))
 		return;
+	if (isDefined(direction))
+	{
+		self moveOverTime(IfUndef(speed, 0.2));
 
+		switch (direction)
+		{
+			case "top": 	self.y -= 600; 	break;
+			case "left": 	self.x -= 600; 	break;
+			case "bottom": 	self.y += 600; 	break;
+			case "right": 	self.x += 600; 	break;
+		}
+	}
 	self fadeOverTime(time);
-	self.alpha = alpha;
+	self.alpha = 0;
+
+	wait time;
+	if (!isDefined(self))
+		return;
+
+	if (remove)
+		self destroy();
 }
 
 fillAngleYaw(player, start, end, yaw, y, h)

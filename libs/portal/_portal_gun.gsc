@@ -36,6 +36,8 @@ onSpawn()
 	self endon("death");
 	self endon("disconnect");
 
+	self.portal["inportal"] = false;
+
 	while (true)
 	{
 		self.currentWeapon = self getCurrentWeapon();
