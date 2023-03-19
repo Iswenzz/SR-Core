@@ -124,6 +124,9 @@ addWeapon(callback)
 
 onConnect()
 {
+	self.forceWeaponVisual = false;
+	self.forceWeaponKnockback = false;
+	self.forceWeaponHitPlayers = false;
 	self.scriptedBullets = 0;
 }
 
@@ -157,7 +160,7 @@ fire()
 
 	eye = self eyePos();
 	forward = anglesToForward(self getPlayerAngles()) * 999999;
-	hitPlayers = !bullet.run;
+	hitPlayers = self shouldHitPlayers();
 	trace = bulletTrace(eye, eye + forward, hitPlayers, self);
 
 	pos = trace["position"];
@@ -193,7 +196,7 @@ fire()
 impact(time)
 {
 	self.player endon("disconnect");
-	if (self.run)
+	if (self.player isDefrag())
 		self.player endon("death");
 
 	self thread impactCleanup();
@@ -220,8 +223,7 @@ impact(time)
 impactWaittill()
 {
 	self.player endon("disconnect");
-
-	if (self.run)
+	if (self.player isDefrag())
 		self.player endon("death");
 
 	self waittill("impact");
@@ -245,16 +247,16 @@ damage()
 	position = self.trace["position"];
 	range = self.weapon["knockback_range"];
 	damage = self.weapon["damage"];
-	knockbackPlayers = self.run || self.player.teamKill;
+	knockbackPlayers = self.player shouldKnockback();
 	knockback = Ternary(knockbackPlayers, self.weapon["knockback"], 0);
 
 	self.player doRadiusDamage(position, range, damage, knockback);
-	self runKnockback();
+	self knockback();
 }
 
-runKnockback()
+knockback()
 {
-	if (!self.run)
+	if (!self.player shouldKnockback())
 		return;
 
 	position = self.trace["position"];
@@ -278,7 +280,7 @@ trailFX()
 	if (isDefined(self.model))
 	{
 		self.model.angles = self.player getPlayerAngles();
-		if (isDefined(self.weapon["sfx_trail"]) && !self.run)
+		if (isDefined(self.weapon["sfx_trail"]) && self.player showVisual())
 			self.model playLoopSound(self.weapon["sfx_trail"]);
 	}
 	wait 0.05;
@@ -316,11 +318,6 @@ getPlayerWeapon()
 	return undefined;
 }
 
-isRun()
-{
-	return self isDefrag() || self isPortal();
-}
-
 isSameWeapon()
 {
 	weapon = self.scriptedWeapon;
@@ -336,7 +333,6 @@ createBullet(player)
 	bullet = spawnStruct();
 	bullet.weapon = self;
 	bullet.player = player;
-	bullet.run = player isRun();
 
 	if (isDefined(bullet.weapon["projectile"]))
 	{
@@ -344,7 +340,7 @@ createBullet(player)
 		bullet.model setContents(0);
 		bullet.model setModel(bullet.weapon["projectile"]);
 
-		if (bullet.run)
+		if (!player showVisual())
 		{
 			bullet.model hide();
 			bullet.model showToPlayer(player);
@@ -397,4 +393,19 @@ canFireWeapon()
 	if (self.scriptedWeapon["type"] == "stock")
 		self waitStockFireAnimation();
 	return self isSameWeapon();
+}
+
+showVisual()
+{
+	return self.forceWeaponVisual || !self isDefrag();
+}
+
+shouldKnockback()
+{
+	return self.forceWeaponKnockback || self.teamKill || self isDefrag();
+}
+
+shouldHitPlayers()
+{
+	return self.forceWeaponHitPlayers || self.teamKill || !self isDefrag();
 }

@@ -23,12 +23,17 @@ cmd_Portal(args)
 
 cmd_PortalPlayers(args)
 {
-	if (isDefined(self.portalPlayersAllowed))
-		self.portalPlayersAllowed = undefined;
+	if (self.forcePortalPlayersAllowed)
+	{
+		self.forcePortalPlayersAllowed = false;
+		self.forcePortalVisual = false;
+	}
 	else
-		self.portalPlayersAllowed = true;
-
-	self pm(Ternary(isDefined(self.portalPlayersAllowed), "^5Portal players", "^1Portal players"));
+	{
+		self.forcePortalPlayersAllowed = true;
+		self.forcePortalVisual = true;
+	}
+	self pm(Ternary(self.forcePortalPlayersAllowed, "^5Portal players", "^1Portal players"));
 }
 
 cmd_Detonate(args)

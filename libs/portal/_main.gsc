@@ -68,6 +68,10 @@ onConnect()
 	self.physics = [];
 	self.turrets = [];
 
+	self.forcePortalVisual = false;
+	self.forcePortalPlayersAllowed = false;
+	self.forcePortalHitPlayers = false;
+
 	self.portal["blue_exist"] = false;
 	self.portal["red_exist"] = false;
 	self.portal["object"] = undefined;

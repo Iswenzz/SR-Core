@@ -190,12 +190,10 @@ bullet(color)
 portal(color)
 {
 	othercolor = othercolor(color);
-	isRun = self isRun();
-	playersAllowed = self.portalPlayersAllowed;
 
 	eye = self eyePos();
 	forward = anglesToForward(self getPlayerAngles()) * level.maxdistance;
-	hitPlayers = !isRun;
+	hitPlayers = self shouldHitPlayers();
 	trace = trace(eye, eye + forward, hitPlayers, self portalIgnoreEnts());
 
 	if (trace["fraction"] == 1)
@@ -428,8 +426,6 @@ portal(color)
 	trace["angles"] = angles;
 	trace["right"] = right;
 	trace["up"] = up;
-	trace["run"] = isRun;
-	trace["playersAllowed"] = playersAllowed;
 
 	self portalCreate(color, trace);
 }
@@ -480,8 +476,6 @@ portalCreate(color, trace)
 	portal[color].color = color;
 	portal[color].active = false;
 	portal[color].owner = self;
-	portal[color].run = trace["run"];
-	portal[color].playersAllowed = trace["playersAllowed"];
 
 	portal[color].dummy = spawn("script_model", trace["fx_position"]);
 	portal[color].dummy setContents(0);
@@ -513,7 +507,7 @@ portalCreate(color, trace)
 
 visibility(player)
 {
-	if (isDefined(player.portalPlayersAllowed))
+	if (player showVisual())
 		return;
 
 	self hide();
@@ -617,11 +611,7 @@ portalWait(color, othercolor)
 	p1 = self.portal[color];
 	p2 = self.portal[othercolor];
 
-	playersAllowed = false;
-	if (isDefined(p1.playersAllowed))
-		playersAllowed = true;
-	if (isDefined(p2.playersAllowed))
-		playersAllowed = true;
+	playersAllowed = self shouldAllowPlayers();
 
 	self.portal[color].otherportal = self.portal[othercolor];
 
@@ -787,7 +777,17 @@ portalCleanArray(portal)
 	self.portals = newarray;
 }
 
-isRun()
+showVisual()
 {
-	return self isPortal();
+	return self.forcePortalVisual || !self isPortal();
+}
+
+shouldHitPlayers()
+{
+	return self.forcePortalHitPlayers || self.teamKill || !self isPortal();
+}
+
+shouldAllowPlayers()
+{
+	return self.forcePortalPlayersAllowed;
 }
