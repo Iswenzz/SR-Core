@@ -51,6 +51,12 @@ onSpawn()
 
 	while (true)
 	{
+		if (!isDefined(self.jumpHeight) || !isDefined(self.gravity))
+		{
+			wait 0.05;
+			continue;
+		}
+
 		self.bhopAirVelocity = self getVelocity();
 		self.bhopOnGround = self isOnGround();
 		self.bhopHeight = sqrt((self.jumpHeight * 2) * self.gravity);
