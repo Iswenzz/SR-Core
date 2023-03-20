@@ -4,9 +4,17 @@
 
 main()
 {
+	event("connect", ::onConnect);
 	event("spawn", ::hud);
 	event("spectator", ::hud);
 	event("death", ::clear);
+}
+
+onConnect()
+{
+	self.spectatorList = "";
+	self.prevSpectatorList = "";
+	self.spectatorWatching = 0;
 }
 
 hud()
@@ -40,16 +48,17 @@ hud()
 vars()
 {
 	self.huds["spectator"] = addHud(self, 4, 85, 1, "left", "top", 1.4, 1000);
+	if (self.spectatorList != "" && self.settings["hud_spectating"])
+		self.huds["spectator"] setText(self.spectatorList);
 
-	self.spectatorList = "";
-	self.spectatorWatching = 0;
 	self.spectatorPlayer = -1;
-	self.prevSpectatorList = "";
 	self.prevSpectatorPlayer = -1;
 }
 
 renderSpectateList()
 {
+	self buildSpectateList();
+
 	startSpectate = self isSpectator() && self.spectatorPlayer != -1 && self.prevSpectatorPlayer == -1;
 	endSpectate = self isSpectator() && self.spectatorPlayer == -1 && self.prevSpectatorPlayer != -1;
 
@@ -57,17 +66,16 @@ renderSpectateList()
 	{
 		self.huds["spectator"].x = 4;
 		self.huds["spectator"] moveOut(0, 1, "left", 1, false);
+		self updateSpectatorList();
 		wait 0.05;
 	}
 	if (self.prevSpectatorList == "" && self.spectatorList != "" || startSpectate)
 	{
 		self updateSpectatorList();
-
 		self.huds["spectator"].x = 4;
 		self.huds["spectator"] moveIn(0, 1, "right", 1);
 		wait 0.05;
 	}
-	self updateSpectatorList();
 }
 
 updateSpectatorList()

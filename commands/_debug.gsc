@@ -17,6 +17,7 @@ main()
 	cmd("owner",  		"debug_critical",		::cmd_DebugCriticalSections);
 	cmd("masteradmin",  "debug_origin",			::cmd_DebugOrigin);
 	cmd("owner",  		"debug_kz",				::cmd_DebugKZ);
+	cmd("owner",  		"debug_spectate",		::cmd_DebugSpectate);
 	cmd("owner",		"test",					::cmd_Test);
 
 	if (getDvarInt("debug_rotation"))
@@ -160,6 +161,24 @@ cmd_DebugKZ(args)
 	self command("bots", "1");
 	self command("killzone");
 	self command("cmd", "1 killzone");
+}
+
+cmd_DebugSpectate(args)
+{
+	bots = spawnBots(1);
+	wait 1;
+
+	while (true)
+	{
+		bots[0] eventSpectator(true);
+		bots[0].spectatorclient = 0;
+
+		wait 5;
+
+		bots[0] eventSpawn(true);
+
+		wait 5;
+	}
 }
 
 cmd_Test(args)
