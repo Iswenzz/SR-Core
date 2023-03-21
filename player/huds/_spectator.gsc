@@ -76,13 +76,17 @@ renderSpectateList()
 		self.huds["spectator"] moveIn(0, 1, "right", 1);
 		wait 0.05;
 	}
+	self updateSpectatorList();
 }
 
 updateSpectatorList()
 {
 	self.player buildSpectateList();
 	if (self.player.spectatorList != self.player.prevSpectatorList && self.settings["hud_spectating"])
+	{
 		self.huds["spectator"] setText(self.player.spectatorList);
+		wait 0.05;
+	}
 }
 
 buildSpectateList()
