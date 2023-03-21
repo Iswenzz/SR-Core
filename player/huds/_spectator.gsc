@@ -4,88 +4,73 @@
 
 main()
 {
-	event("connect", ::onConnect);
-	event("spawn", ::hud);
-	event("spectator", ::hud);
-	event("death", ::clear);
-}
-
-onConnect()
-{
-	self.spectatorList = "";
-	self.prevSpectatorList = "";
-	self.spectatorWatching = 0;
+	event("connect", ::hud);
+	event("spawn", ::clear);
+	event("spectate", ::clear);
 }
 
 hud()
 {
-	self endon("spawned");
-	self endon("spectator");
-	self endon("death");
 	self endon("disconnect");
-
-	self clear();
 	self vars();
 
 	while (true)
 	{
-		client = self getSpectatorClient();
-		self.player = IfUndef(client, self);
-
-		self.spectatorPlayer = -1;
-		if (isDefined(client))
-			self.spectatorPlayer = client.number;
-
+		self.player = IfUndef(self getSpectatorClient(), self);
 		self renderSpectateList();
 
 		wait 0.4;
 
-		self.prevSpectatorPlayer = self.spectatorPlayer;
 		self.prevSpectatorList = self.spectatorList;
 	}
 }
 
 vars()
 {
-	self.huds["spectator"] = addHud(self, 4, 85, 1, "left", "top", 1.4, 1000);
-	if (self.spectatorList != "" && self.settings["hud_spectating"])
-		self.huds["spectator"] setText(self.spectatorList);
-
-	self.spectatorPlayer = -1;
-	self.prevSpectatorPlayer = -1;
+	if (self.settings["hud_spectating"])
+	{
+		self.huds["spectator"] = addHud(self, 4, 85, 0, "left", "top", 1.4, 1000);
+		self.huds["spectator"].spectator = false;
+	}
+	self.spectatorList = "";
+	self.spectatorWatching = 0;
+	self.prevSpectatorList = "";
 }
 
 renderSpectateList()
 {
 	self buildSpectateList();
 
-	startSpectate = self isSpectator() && self.spectatorPlayer != -1 && self.prevSpectatorPlayer == -1;
-	endSpectate = self isSpectator() && self.spectatorPlayer == -1 && self.prevSpectatorPlayer != -1;
+	spectator = self isSpectator();
+	spectatingStart = spectator && self.player != self && self.player.spectatorList != "";
+	spectatingEnd = spectator && self.player == self;
+	playStart = self.spectatorList != "" && self.prevSpectatorList == "";
+	playEnd = self.spectatorList == "" && self.prevSpectatorList != "";
 
-	if (self.spectatorList == "" && self.prevSpectatorList != "" || endSpectate)
+	if (isDefined(self.huds["spectator"]))
 	{
-		self.huds["spectator"].x = 4;
-		self.huds["spectator"] moveOut(0, 1, "left", 1, false);
-		self updateSpectatorList();
-		wait 0.05;
-	}
-	if (self.prevSpectatorList == "" && self.spectatorList != "" || startSpectate)
-	{
-		self updateSpectatorList();
-		self.huds["spectator"].x = 4;
-		self.huds["spectator"] moveIn(0, 1, "right", 1);
-		wait 0.05;
-	}
-	self updateSpectatorList();
-}
+		moveIn = !self.huds["spectator"].alpha && (playStart || spectatingStart);
+		moveOut = self.huds["spectator"].alpha && (playEnd || spectatingEnd);
 
-updateSpectatorList()
-{
-	self.player buildSpectateList();
-	if (self.player.spectatorList != self.player.prevSpectatorList && self.settings["hud_spectating"])
-	{
-		self.huds["spectator"] setText(self.player.spectatorList);
-		wait 0.05;
+		if (moveIn)
+		{
+			self.huds["spectator"].x = 4;
+			self.huds["spectator"].alpha = 1;
+			self.huds["spectator"] setText(self.player.spectatorList);
+			self.huds["spectator"] moveIn(0, 1, "right", 1);
+			self.huds["spectator"].spectator = spectator;
+			wait 0.05;
+		}
+		else if (moveOut)
+		{
+			self.huds["spectator"].x = 4;
+			self.huds["spectator"] moveOut(0, 1, "left", 1, false);
+			self.huds["spectator"].alpha = 0;
+			self.huds["spectator"].spectator = spectator;
+			wait 0.05;
+		}
+		else if (self.player.spectatorList != self.player.prevSpectatorList)
+			self.huds["spectator"] setText(self.player.spectatorList);
 	}
 }
 
@@ -113,6 +98,6 @@ buildSpectateList()
 
 clear()
 {
-	if (isDefined(self.huds["spectator"]))
-		self.huds["spectator"] destroy();
+	if (isDefined(self.huds["spectator"]) && self.huds["spectator"].spectator)
+		self.huds["spectator"].alpha = 0;
 }
