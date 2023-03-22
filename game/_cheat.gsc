@@ -53,7 +53,7 @@ onSpawn()
 
 antiLag()
 {
-	if (self.pers["team"] == "axis" || !self.antiLag)
+	if (self isAxis() || !self.antiLag)
 		return;
 
 	if (self getFPS() <= 10 || self getPing() >= 800)
@@ -62,7 +62,7 @@ antiLag()
 
 antiElevator()
 {
-	if (self.pers["team"] == "axis" || !self.antiElevator)
+	if (self isAxis() || !self.antiElevator)
 		return;
 
 	inAir = !self isOnGround() && !self isOnLadder() && !self isMantling();

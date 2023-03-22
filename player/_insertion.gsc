@@ -41,6 +41,10 @@ onSpawn()
 		}
 		entity thread flareFx();
 
+		if (isDefined(self.insertion))
+			self.insertion delete();
+		self.insertion = entity;
+
 		self iPrintln("^2Insertion at " + spawn.origin);
 
 		if (level.dvar["insertion_spawn"])

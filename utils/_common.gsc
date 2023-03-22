@@ -70,7 +70,7 @@ getDeadPlayers()
 	array = [];
 	for (i = 0; i < players.size; i++)
 	{
-		if (!players[i] isPlaying() && players[i].pers["team"] != "spectator")
+		if (!players[i] isPlaying())
 			array[array.size] = players[i];
 	}
 	return array;
@@ -414,6 +414,16 @@ isDead()
 isSpectator()
 {
 	return isDefined(self) && self.sessionstate == "spectator";
+}
+
+isAllies()
+{
+	return isDefined(self) && self.pers["team"] == "allies";
+}
+
+isAxis()
+{
+	return isDefined(self) && self.pers["team"] == "axis";
 }
 
 isDemo()
