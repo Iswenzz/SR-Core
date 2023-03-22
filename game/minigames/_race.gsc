@@ -167,6 +167,7 @@ raceSpawn()
 	self.inRace = true;
 	self.raceDead = false;
 	self.raceFinish = false;
+	self.racePrevPlacement = 0;
 	self.huds["speedrun"]["row1"] setText("^50:00.0");
 }
 
@@ -219,9 +220,9 @@ sortScores(array)
 
 raceHud()
 {
-	self.huds["race"] = addHud(self, 18, -15, 1, "left", "bottom", 4);
+	self.huds["race"] = addHud(self, 100, 0, 1, "left", "bottom", 1.6, 100, true);
 	if (!isDefined(self.huds["race_score"]))
-		self.huds["race_score"] = addHud(self, -2, -20, 1, "right", "middle", 1.4);
+		self.huds["race_score"] = addHud(self, -2, -20, 1, "right", "middle", 1.4, 100, true);
 }
 
 cleanRaceHud()
@@ -483,8 +484,14 @@ watchRace()
 
 updateRaceHud(player, index)
 {
-	if (isDefined(player.huds["race"]))
-		player.huds["race"] setText(getPlacementString(index + 1));
+	placement = index + 1;
+	text = getPlacementString(placement);
+
+	if (isDefined(player.huds["race"]) && player.racePrevPlacement != placement)
+	{
+		player.huds["race"] setText(text);
+		player.racePrevPlacement = placement;
+	}
 }
 
 getPlacementString(index)
