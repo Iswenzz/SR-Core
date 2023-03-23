@@ -31,8 +31,8 @@ main()
 	cmd("owner",        "redirect_all",		::cmd_RedirectAll);
 	cmd("masteradmin",  "reconnect",		::cmd_Reconnect);
 	cmd("admin",        "rename",			::cmd_Rename);
-	cmd("member",       "report_player",	::cmd_ReportPlayer);
-	cmd("member",       "report_bug",		::cmd_ReportBug);
+	cmd("trusted",      "report_player",	::cmd_ReportPlayer);
+	cmd("trusted",      "report_bug",		::cmd_ReportBug);
 	cmd("member",       "timeplayed",		::cmd_TimePlayed);
 	cmd("admin",        "tas",				::cmd_TAS);
 	cmd("owner",        "setdvar",			::cmd_SetDvar);

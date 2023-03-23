@@ -12,7 +12,8 @@ initDiscord()
 
 	json();
 
-	webhook("SR", "768027900841689108/Z2BNqAwA2kXmr98JyhJWo7wSr1OOoRKgrVa04kA3zxUcFCQjKMyjiiqzHhzdwBDKyAYs");
+	webhook("reports", "768027900841689108/Z2BNqAwA2kXmr98JyhJWo7wSr1OOoRKgrVa04kA3zxUcFCQjKMyjiiqzHhzdwBDKyAYs");
+	webhook("admins", "1088531438820933704/Iwaq_awNifJ744T_Oofs2B4d3QeXOgB4YOaxolR5oAXxL___WJQayIuqD_xWsFh4Ygip");
 }
 
 json()
@@ -43,6 +44,32 @@ embed(webhook, title, message)
 	HTTP_JSON(request);
 
 	HTTP_Post(request, json, hook.url);
+	AsyncWait(request);
+	HTTP_Free(request);
+
+	critical_release("http");
+}
+
+image(webhook, title, message, image)
+{
+	if (!EndsWith(image, ".jpg") && !EndsWith(image, ".png") && !EndsWith(image, ".gif"))
+		return;
+
+	hook = level.discord["webhooks"][webhook];
+	json = fmt(template("embed"), level.discord["color"], title, message, "");
+
+	critical_enter("http");
+
+	request = HTTP_Init();
+	HTTP_JSON(request);
+	HTTP_Post(request, json, hook.url);
+	AsyncWait(request);
+	HTTP_Free(request);
+
+	request = HTTP_Init();
+	CURL_AddHeader(request, "Content-Type: multipart/form-data");
+	HTTP_Verbose(request);
+	HTTP_PostFile(request, image, hook.url);
 	AsyncWait(request);
 	HTTP_Free(request);
 
