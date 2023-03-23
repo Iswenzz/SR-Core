@@ -12,13 +12,13 @@ main()
 	cmd("owner",  		"event",			::cmd_Event);
 	cmd("owner",  		"end",				::cmd_End);
 	cmd("owner",  		"restart",			::cmd_FastRestart);
-	cmd("owner",  		"nextmap",			::cmd_NextMap);
 	cmd("owner",        "gpt",				::cmd_GPT);
 	cmd("owner",        "givexp",			::cmd_GiveXp);
 	cmd("owner",        "getdvar",			::cmd_GetDvar);
 	cmd("player", 		"help",				::cmd_Help);
 	cmd("member", 		"msg",				::cmd_Msg);
 	cmd("player",       "myid",				::cmd_MyID);
+	cmd("owner",  		"nextmap",			::cmd_NextMap);
 	cmd("owner",		"notification",		::cmd_Notification);
 	cmd("member",       "online",			::cmd_Online);
 	cmd("owner",       	"owner",			::cmd_Owner);
@@ -34,11 +34,11 @@ main()
 	cmd("member",       "report_player",	::cmd_ReportPlayer);
 	cmd("member",       "report_bug",		::cmd_ReportBug);
 	cmd("member",       "timeplayed",		::cmd_TimePlayed);
+	cmd("admin",        "tas",				::cmd_TAS);
 	cmd("owner",        "setdvar",			::cmd_SetDvar);
 	cmd("admin",        "sr_kick",			::cmd_Kick);
 	cmd("owner",        "sr_role",			::cmd_Role);
 	cmd("owner",        "sr_vip",			::cmd_VIP);
-	cmd("owner",        "sr_tas",			::cmd_TAS);
 	cmd("owner",        "sr_id",			::cmd_ID);
 	cmd("masteradmin",  "sr_ban",			::cmd_Ban);
 }
@@ -526,20 +526,22 @@ cmd_VIP(args)
 cmd_TAS(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: sr_tas <playerNum> <tas>");
-
-	player = getPlayerByNum(args[0]);
-	tas = IfUndef(ToInt(args[1]), 1);
+		return self pm("Usage: tas <playerName> <playerId>");
 
 	self log();
-	if (!isDefined(player))
-		return pm("Could not find player");
+
+	name = args[0];
+	player = args[1];
+	role = "player";
+	tas = !(isDefined(level.tas[player]) && level.tas[player]);
+
+	level.tas[player] = tas;
 
 	critical_enter("mysql");
 
 	request = SQL_Prepare("UPDATE admins SET tas = ? WHERE player = ?");
 	SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, player, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
 	AsyncWait(request);
 
@@ -549,9 +551,9 @@ cmd_TAS(args)
 	if (!affected)
 	{
 		request = SQL_Prepare("INSERT INTO admins (name, player, role, tas) VALUES (?, ?, ?, ?)");
-		SQL_BindParam(request, player.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, player.admin_role, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, name, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, player, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, role, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
 		SQL_Execute(request);
 		AsyncWait(request);
@@ -561,17 +563,21 @@ cmd_TAS(args)
 	// Update entries
 	request = SQL_Prepare("UPDATE leaderboards SET tas = ? WHERE player = ?");
 	SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, player, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
 	AsyncWait(request);
 	SQL_Free(request);
 
 	critical_release("mysql");
 
-	level.tas[player.id] = tas;
+	message(fmt("Registred %s ^7to ^2TAS(%d)", name, tas));
 
-	message(fmt("Registred %s ^7to ^2TAS(%d)", player.name, tas));
-	player reconnect();
+	player = getPlayerById(player);
+	if (!isDefined(player))
+		return;
+
+	player.admin_tas = tas;
+	player suicide();
 }
 
 cmd_ID(args)

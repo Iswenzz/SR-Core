@@ -15,6 +15,20 @@ getAllPlayers()
 	return getEntArray("player", "classname");
 }
 
+getPlayerById(id)
+{
+	if (!isDefined(id))
+		return undefined;
+
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+	{
+		if (players[i].id == id)
+			return players[i];
+	}
+	return undefined;
+}
+
 getPlayerByNum(pNum)
 {
 	if (!isDefined(pNum))
