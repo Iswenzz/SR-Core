@@ -59,6 +59,7 @@ cmd_Event(args)
 
 cmd_End(args)
 {
+	game["roundsplayed"] = 99;
 	eventEnd();
 }
 

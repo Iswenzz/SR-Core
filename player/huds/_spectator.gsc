@@ -12,6 +12,8 @@ main()
 hud()
 {
 	self endon("disconnect");
+	self endon("killcam");
+
 	self vars();
 
 	while (true)
