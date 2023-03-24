@@ -7,6 +7,7 @@ main()
 	cmd("player", 		"!pm", 				::cmd_PM);
 	cmd("owner",        "cmd",				::cmd_Command);
 	cmd("owner",        "clientcmd",		::cmd_ClientCommand);
+	cmd("player",       "confirm",			::cmd_Confirm);
 	cmd("admin",        "detail",			::cmd_Detail);
 	cmd("owner",        "download",			::cmd_Download);
 	cmd("owner",  		"event",			::cmd_Event);
@@ -34,8 +35,10 @@ main()
 	cmd("trusted",      "report_player",	::cmd_ReportPlayer);
 	cmd("trusted",      "report_bug",		::cmd_ReportBug);
 	cmd("member",       "timeplayed",		::cmd_TimePlayed);
-	cmd("admin",        "tas",				::cmd_TAS);
+	cmd("player",       "tas",				::cmd_TAS);
 	cmd("owner",        "setdvar",			::cmd_SetDvar);
+	cmd("member",       "sr_tas",			::cmd_RegisterTAS);
+	cmd("member",       "sr_tas_id",		::cmd_RegisterTASID);
 	cmd("admin",        "sr_kick",			::cmd_Kick);
 	cmd("owner",        "sr_role",			::cmd_Role);
 	cmd("owner",        "sr_vip",			::cmd_VIP);
@@ -117,6 +120,11 @@ cmd_ClientCommand(args)
 		return pm("Could not find player");
 
 	player clientCmd(cmd);
+}
+
+cmd_Confirm(args)
+{
+	self notify("confirmed");
 }
 
 cmd_Detail(args)
@@ -526,58 +534,83 @@ cmd_VIP(args)
 
 cmd_TAS(args)
 {
-	if (args.size < 1)
-		return self pm("Usage: tas <playerName> <playerId>");
+	name = self.name;
+	id = self.id;
 
-	self log();
+	if (isRegisterTAS(id))
+		return;
 
-	name = args[0];
-	player = args[1];
-	role = "player";
-	tas = !(isDefined(level.tas[player]) && level.tas[player]);
+	self pm("You are about to register as a ^5TAS ^7user. This is an ^1irreversible action^7. To confirm that you understand, type ^2!confirm");
 
-	level.tas[player] = tas;
+	response = self confirmation();
+	if (!hasConfirmed(response))
+		return;
 
-	critical_enter("mysql");
+	sr\sys\_admins::tas(name, id);
 
-	request = SQL_Prepare("UPDATE admins SET tas = ? WHERE player = ?");
-	SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(request, player, level.MYSQL_TYPE_STRING);
-	SQL_Execute(request);
-	AsyncWait(request);
-
-	affected = SQL_AffectedRows(request);
-	SQL_Free(request);
-
-	if (!affected)
-	{
-		request = SQL_Prepare("INSERT INTO admins (name, player, role, tas) VALUES (?, ?, ?, ?)");
-		SQL_BindParam(request, name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, player, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, role, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
-		SQL_Execute(request);
-		AsyncWait(request);
-		SQL_Free(request);
-	}
-
-	// Update entries
-	request = SQL_Prepare("UPDATE leaderboards SET tas = ? WHERE player = ?");
-	SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(request, player, level.MYSQL_TYPE_STRING);
-	SQL_Execute(request);
-	AsyncWait(request);
-	SQL_Free(request);
-
-	critical_release("mysql");
-
-	message(fmt("Registred %s ^7to ^2TAS(%d)", name, tas));
-
-	player = getPlayerById(player);
+	player = getPlayerById(id);
 	if (!isDefined(player))
 		return;
 
-	player.admin_tas = tas;
+	player.admin_tas = true;
+	player suicide();
+}
+
+cmd_RegisterTAS(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: sr_tas <playerNum>");
+
+	player = getPlayerByNum(args[0]);
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	name = player.name;
+	id = player.id;
+
+	if (!isRegisterTAS(id))
+		self pm(fmt("You are about to register %s a ^5TAS ^7user. To confirm that you understand, please type ^2!confirm", name));
+	else
+		self pm(fmt("You are about to unregister %s from ^5TAS ^7user. To confirm that you understand, please type ^2!confirm", name));
+
+	response = self confirmation();
+	if (!hasConfirmed(response))
+		return;
+
+	sr\sys\_admins::tas(name, id);
+
+	player = getPlayerById(id);
+	if (!isDefined(player))
+		return;
+
+	player.admin_tas = isRegisterTAS(id);
+	player suicide();
+}
+
+cmd_RegisterTASID(args)
+{
+	if (args.size < 2)
+		return self pm("Usage: sr_tas_id <playerName> <playerId>");
+
+	name = args[0];
+	id = args[1];
+
+	if (!isRegisterTAS(id))
+		self pm(fmt("You are about to register %s a ^5TAS ^7user. To confirm that you understand, please type ^2!confirm", name));
+	else
+		self pm(fmt("You are about to unregister %s from ^5TAS ^7user. To confirm that you understand, please type ^2!confirm", name));
+
+	response = self confirmation();
+	if (!hasConfirmed(response))
+		return;
+
+	sr\sys\_admins::tas(name, id);
+
+	player = getPlayerById(id);
+	if (!isDefined(player))
+		return;
+
+	player.admin_tas = isRegisterTAS(id);
 	player suicide();
 }
 

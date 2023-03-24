@@ -215,6 +215,11 @@ isTAS()
 	return self.admin_tas;
 }
 
+isRegisterTAS(id)
+{
+	return isDefined(level.tas[id]) && level.tas[id];
+}
+
 getPlayerInfo()
 {
 	return fmt("%s ^3PID:^7 %d ^5ID:^7 %s ^2GUID:^7 %s ^6STEAM:^7 %s ^1IP:^7 %s",
@@ -255,6 +260,48 @@ banned()
 
 	// Use this instead of kick() to get the ui_sr_info menu
 	exec(fmt("kick %d banned", self getEntityNumber()));
+}
+
+tas(name, player)
+{
+	self log();
+
+	tas = !isRegisterTAS(player);
+	level.tas[player] = tas;
+
+	critical_enter("mysql");
+
+	request = SQL_Prepare("UPDATE admins SET tas = ? WHERE player = ?");
+	SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, player, level.MYSQL_TYPE_STRING);
+	SQL_Execute(request);
+	AsyncWait(request);
+
+	affected = SQL_AffectedRows(request);
+	SQL_Free(request);
+
+	if (!affected)
+	{
+		request = SQL_Prepare("INSERT INTO admins (name, player, tas) VALUES (?, ?, ?, ?)");
+		SQL_BindParam(request, name, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, player, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
+		SQL_Execute(request);
+		AsyncWait(request);
+		SQL_Free(request);
+	}
+
+	// Update entries
+	request = SQL_Prepare("UPDATE leaderboards SET tas = ? WHERE player = ?");
+	SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, player, level.MYSQL_TYPE_STRING);
+	SQL_Execute(request);
+	AsyncWait(request);
+	SQL_Free(request);
+
+	critical_release("mysql");
+
+	comPrintLn(fmt("^2Registred %s ^2%s to TAS(%d)", name, player, tas));
 }
 
 welcome()

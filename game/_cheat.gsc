@@ -24,6 +24,8 @@ init()
 		cheat = true;
 	if (isDefined(self.insertionSpawn))
 		cheat = true;
+	if (isDefined(self.tasing))
+		cheat = true;
 	if (self isDemo())
 		cheat = true;
 	if (self isBot())

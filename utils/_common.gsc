@@ -1085,6 +1085,23 @@ pm(msg)
 		comPrintLn(msg);
 }
 
+confirmation()
+{
+	self notify("confirmation");
+	wait 0.05;
+	self endon("confirmation");
+	self endon("disconnect");
+
+	self waittill("confirmed");
+	self pm("^2Confirmed.");
+	return true;
+}
+
+hasConfirmed(confirmation)
+{
+	return isDefined(confirmation) && confirmation;
+}
+
 cheat(state)
 {
 	if (!isDefined(state))
