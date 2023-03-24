@@ -540,7 +540,7 @@ cmd_TAS(args)
 	if (isRegisterTAS(id))
 		return;
 
-	self pm("You are about to register as a ^5TAS ^7user. This is an ^1irreversible action^7. To confirm that you understand, type ^2!confirm");
+	self pm("You are about to register as a ^5TAS ^7user. This is an ^1irreversible action^7. To confirm that you agree, type ^2!confirm");
 
 	response = self confirmation();
 	if (!hasConfirmed(response))
@@ -569,9 +569,9 @@ cmd_RegisterTAS(args)
 	id = player.id;
 
 	if (!isRegisterTAS(id))
-		self pm(fmt("You are about to register %s a ^5TAS ^7user. To confirm that you understand, please type ^2!confirm", name));
+		self pm(fmt("You are about to register %s a ^5TAS ^7user. To confirm that you agree, please type ^2!confirm", name));
 	else
-		self pm(fmt("You are about to unregister %s from ^5TAS ^7user. To confirm that you understand, please type ^2!confirm", name));
+		self pm(fmt("You are about to unregister %s from ^5TAS ^7user. To confirm that you agree, please type ^2!confirm", name));
 
 	response = self confirmation();
 	if (!hasConfirmed(response))
@@ -596,9 +596,9 @@ cmd_RegisterTASID(args)
 	id = args[1];
 
 	if (!isRegisterTAS(id))
-		self pm(fmt("You are about to register %s a ^5TAS ^7user. To confirm that you understand, please type ^2!confirm", name));
+		self pm(fmt("You are about to register %s a ^5TAS ^7user. To confirm that you agree, please type ^2!confirm", name));
 	else
-		self pm(fmt("You are about to unregister %s from ^5TAS ^7user. To confirm that you understand, please type ^2!confirm", name));
+		self pm(fmt("You are about to unregister %s from ^5TAS ^7user. To confirm that you agree, please type ^2!confirm", name));
 
 	response = self confirmation();
 	if (!hasConfirmed(response))
