@@ -78,7 +78,7 @@ cmd_MapSave(args)
 
 spawnBrushes()
 {
-	if (!FILE_Exists(level.files["map"]))
+	if (!FILE_Exists(level.files["map"]) || !level.dvar["map_edition"])
 		return;
 
 	file = FILE_Open(level.files["map"], "r+");
