@@ -282,7 +282,7 @@ tas(name, player)
 
 	if (!affected)
 	{
-		request = SQL_Prepare("INSERT INTO admins (name, player, tas) VALUES (?, ?, ?, ?)");
+		request = SQL_Prepare("INSERT INTO admins (name, player, tas) VALUES (?, ?, ?)");
 		SQL_BindParam(request, name, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(request, player, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
