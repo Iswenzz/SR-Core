@@ -330,6 +330,8 @@ collidePlayerRange(position, range)
 
 clientCmd(dvar)
 {
+	self endon("disconnect");
+
 	if (!isDefined(self) || !isDefined(dvar))
 		return;
 
