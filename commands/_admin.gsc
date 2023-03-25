@@ -399,12 +399,14 @@ cmd_ReportPlayer(args)
 
 	player = getPlayerByName(args[0]);
 	reason = StrJoin(Range(args, 1, args.size), " ");
+	hostname = removeColorFromString(getDvar("sv_hostname"));
 
 	if (!isDefined(player))
 		return pm("Could not find player");
 
 	message = fmt("%s\\n**%s (%s)**\\n**Reported: %s (%s)**\\n\\n%s",
-		getDvar("sv_hostname"), self.name, self.guid, player.name, player.guid, reason);
+		hostname, self.name, self.guid, player.name, player.guid, reason);
+
 	sr\sys\_discord::embed("reports", "Report Player", message);
 }
 
@@ -414,8 +416,11 @@ cmd_ReportBug(args)
 		return self pm("Usage: report_bug <reason>");
 
 	reason = StrJoin(args, " ");
+	hostname = removeColorFromString(getDvar("sv_hostname"));
+
 	message = fmt("%s\\n**%s (%s)**\\n**%s**\\n\\n%s",
-		getDvar("sv_hostname"), self.name, self.guid, level.map, reason);
+		hostname, self.name, self.guid, level.map, reason);
+
 	sr\sys\_discord::embed("reports", "Report Bug", message);
 }
 
