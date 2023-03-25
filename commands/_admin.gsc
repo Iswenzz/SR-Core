@@ -403,11 +403,9 @@ cmd_ReportPlayer(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	message = fmt("**%s (%s)**\\n**Reported: %s (%s)**\\n\\n%s",
-		self.name, self.guid,
-		player.name, player.guid,
-		reason);
-	sr\sys\_discord::embed("SR", "Report Player", message);
+	message = fmt("%s\\n**%s (%s)**\\n**Reported: %s (%s)**\\n\\n%s",
+		getDvar("sv_hostname"), self.name, self.guid, player.name, player.guid, reason);
+	sr\sys\_discord::embed("reports", "Report Player", message);
 }
 
 cmd_ReportBug(args)
@@ -416,9 +414,9 @@ cmd_ReportBug(args)
 		return self pm("Usage: report_bug <reason>");
 
 	reason = StrJoin(args, " ");
-	message = fmt("**%s (%s)**\\n**%s**\\n\\n%s", self.name, self.guid, level.map, reason);
-
-	sr\sys\_discord::embed("SR", "Report Bug", message);
+	message = fmt("%s\\n**%s (%s)**\\n**%s**\\n\\n%s",
+		getDvar("sv_hostname"), self.name, self.guid, level.map, reason);
+	sr\sys\_discord::embed("reports", "Report Bug", message);
 }
 
 cmd_TimePlayed(args)
