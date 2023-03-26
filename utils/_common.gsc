@@ -129,6 +129,7 @@ respawn()
 		return;
 
 	self.died = false;
+	self.cheating = true;
 	eventSpawn(true);
 }
 
