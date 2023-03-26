@@ -9,24 +9,20 @@ main()
 
 	level.demos = [];
 
-	event("spawn", ::record);
+	event("connect", ::recordDelete);
 	event("death", ::recordDelete);
 	event("disconnect", ::recordDelete);
 }
 
 record()
 {
-	self endon("spawned");
-	self endon("death");
-	self endon("disconnect");
-
 	if (self isCheat())
 		return;
 
 	thread recordTimeout();
 
-	self.recordPath = PathJoin(PATH_Mod("demos"), self.id, level.map, self.run);
-	exec(fmt("record %d %s", self getEntityNumber(), self.recordPath));
+	self.pers["record_path"] = PathJoin(PATH_Mod("demos"), self.id, level.map, self.run);
+	exec(fmt("record %d %s", self getEntityNumber(), self.pers["record_path"]));
 }
 
 recordTimeout()
@@ -41,17 +37,17 @@ recordTimeout()
 
 recordSave()
 {
-	self.recordPath = undefined;
+	self.pers["record_path"] = undefined;
 	self notify("record");
 	exec("stoprecord " + self GetEntityNumber());
 }
 
 recordDelete()
 {
-	if (!isDefined(self.recordPath))
+	if (!isDefined(self.pers["record_path"]))
 		return;
 
-	path = self.recordPath + ".dm_1";
+	path = self.pers["record_path"] + ".dm_1";
 	exec("stoprecord " + self GetEntityNumber());
 
 	wait 0.2;
