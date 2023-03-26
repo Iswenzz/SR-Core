@@ -48,7 +48,10 @@ onSpawn()
 		self iPrintln("^2Insertion at " + spawn.origin);
 
 		if (level.dvar["insertion_spawn"])
+		{
 			self.insertionSpawn = spawn;
+			self.cheating = true;
+		}
 	}
 }
 

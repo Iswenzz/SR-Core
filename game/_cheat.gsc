@@ -22,9 +22,7 @@ init()
 		cheat = true;
 	if (self sr\player\modes\_main::isInAnyMode())
 		cheat = true;
-	if (isDefined(self.insertionSpawn))
-		cheat = true;
-	if (isDefined(self.tasing))
+	if (isDefined(self.cheating))
 		cheat = true;
 	if (self isDemo())
 		cheat = true;
