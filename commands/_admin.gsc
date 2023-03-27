@@ -13,7 +13,7 @@ main()
 	cmd("owner",  		"event",			::cmd_Event);
 	cmd("owner",  		"end",				::cmd_End);
 	cmd("owner",  		"restart",			::cmd_FastRestart);
-	cmd("owner",        "gpt",				::cmd_GPT);
+	cmd("adminplus",    "gpt",				::cmd_GPT);
 	cmd("owner",        "givexp",			::cmd_GiveXp);
 	cmd("owner",        "getdvar",			::cmd_GetDvar);
 	cmd("player", 		"help",				::cmd_Help);
