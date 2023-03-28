@@ -408,6 +408,7 @@ portal(color)
 	}
 	if (portalfailed)
 	{
+		self doRadiusDamage(trace["position"], 30, 15, 0);
 		self playLocalSound("portal_invalid_surface_player");
 
 		if (trace["fraction"] != 1)
@@ -543,7 +544,6 @@ portalFX()
 	self thread playOpenSound(self.color, fxpos + self.trace["normal"] * 2);
 	self setModel("portal_" + self.color);
 	self.dummy setModel("portal_dummy_" + self.color);
-	self.owner doRadiusDamage(oldpos, 30, 30, 0);
 
 	wait 0.05;
 
