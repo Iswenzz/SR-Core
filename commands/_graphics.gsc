@@ -120,5 +120,9 @@ cmd_Color(args)
 	self setStat(1650, r);
 	self setStat(1651, g);
 	self setStat(1652, b);
+
+	if (self isAxis())
+		return;
+
 	self suicide();
 }
