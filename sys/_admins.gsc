@@ -264,8 +264,6 @@ banned()
 
 tas(name, player)
 {
-	self log();
-
 	tas = !isRegisterTAS(player);
 	level.tas[player] = tas;
 

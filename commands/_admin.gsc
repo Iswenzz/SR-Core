@@ -570,6 +570,7 @@ cmd_RegisterTAS(args)
 	name = player.name;
 	id = player.id;
 
+	self log();
 	if (!isRegisterTAS(id))
 		self pm(fmt("You are about to register %s a ^5TAS ^7user. To confirm that you agree, please type ^2!confirm", name));
 	else
@@ -597,6 +598,7 @@ cmd_RegisterTASID(args)
 	name = args[0];
 	id = args[1];
 
+	self log();
 	if (!isRegisterTAS(id))
 		self pm(fmt("You are about to register %s a ^5TAS ^7user. To confirm that you agree, please type ^2!confirm", name));
 	else
