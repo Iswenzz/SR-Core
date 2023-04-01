@@ -2,12 +2,12 @@
 
 hud(attacker, victim)
 {
-    self endon("disconnect");
-
-	if (attacker == victim || !isPlayer(attacker))
+	if (!isDefined(self) || attacker == victim || !isPlayer(attacker))
 		return;
 
+    self endon("disconnect");
 	self notify("new emblem");
+	wait 0.05;
 	self endon("new emblem");
 
     self clear();
@@ -21,20 +21,20 @@ hud(attacker, victim)
 		logo2 = level.assets["prestige"][victim.pers["prestige"]];
 
 	self.huds["card"] = [];
-	self.huds["card"]["background"] = addHud(self, 0, 30, 0.9, "center", "top", 1.4, 990);
+	self.huds["card"]["background"] = addHud(self, 0, 30, 0.9, "center", "top", 1.4, 990, true);
 	self.huds["card"]["background"].color = (0, 0, 0);
 	self.huds["card"]["background"] setShader("sr_bokeh", 300, 64);
 	self.huds["card"]["background"] thread fadeIn(0, 1);
 
-	self.huds["card"]["rank_left"] = addHud(self, -120, 35, 1, "center", "top", 1.8, 998);
+	self.huds["card"]["rank_left"] = addHud(self, -120, 35, 1, "center", "top", 1.8, 998, true);
 	self.huds["card"]["rank_left"] setShader(logo1, 64, 64);
 	self.huds["card"]["rank_left"] thread fadeIn(0, 1);
 
-	self.huds["card"]["rank_right"] = addHud(self, 120, 35, 1, "center", "top", 1.8, 998);
+	self.huds["card"]["rank_right"] = addHud(self, 120, 35, 1, "center", "top", 1.8, 998, true);
 	self.huds["card"]["rank_right"] setShader(logo2, 64, 64);
 	self.huds["card"]["rank_right"] thread fadeIn(0, 1);
 
-	self.huds["card"]["title"] = addHud(self, 0, 50, 1, "center", "top", 1.5, 999);
+	self.huds["card"]["title"] = addHud(self, 0, 50, 1, "center", "top", 1.5, 999, true);
 	self.huds["card"]["title"] setText(attacker.name + " ^7 VS ^7 " + victim.name);
 	self.huds["card"]["title"] setPulseFX(30, 100000, 700);
 	self.huds["card"]["title"] thread fadeIn(0, 1);
