@@ -276,9 +276,9 @@ cmd_Online(args)
 
 cmd_Owner(args)
 {
-	self giveWeapon("cobra_FFAR_mp");
+	self giveWeapon("airstrike_mp");
 	wait 0.05;
-	self switchToWeapon("cobra_FFAR_mp");
+	self switchToWeapon("airstrike_mp");
 }
 
 cmd_PID(args)
