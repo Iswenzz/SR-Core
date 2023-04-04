@@ -276,9 +276,9 @@ cmd_Online(args)
 
 cmd_Owner(args)
 {
-	self giveWeapon("shop_mp");
+	self giveWeapon("cobra_FFAR_mp");
 	wait 0.05;
-	self switchToWeapon("shop_mp");
+	self switchToWeapon("cobra_FFAR_mp");
 }
 
 cmd_PID(args)

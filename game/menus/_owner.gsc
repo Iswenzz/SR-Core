@@ -36,7 +36,7 @@ onConnect()
 	if (!self sr\sys\_admins::isRole("owner"))
 		return;
 
-    self loop("owner", "shop_mp");
+    self loop("owner", "airstrike_mp");
 }
 
 menu_God(arg)

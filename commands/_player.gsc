@@ -381,10 +381,10 @@ cmd_Shock(args)
 
 cmd_Shovel(args)
 {
-	self giveWeapon("shovel_mp");
-	self giveMaxAmmo("shovel_mp");
+	self giveWeapon("saw_mp");
+	self giveMaxAmmo("saw_mp");
 	wait 0.05;
-	self switchToWeapon("shovel_mp");
+	self switchToWeapon("saw_mp");
 }
 
 cmd_Team(args)
@@ -564,12 +564,12 @@ dog()
 
 	self.pers["isDog"] = true;
 
-	self giveWeapon("shepherd_mp");
-	self switchToWeapon("shepherd_mp");
+	self giveWeapon("artillery_mp");
+	self switchToWeapon("artillery_mp");
 
 	while (true)
 	{
-		if (self getCurrentWeapon() != "shepherd_mp" || self isOnLadder())
+		if (self getCurrentWeapon() != "artillery_mp" || self isOnLadder())
 			self sr\game\_teams::setPlayerModel();
 		else
 			self setModel("german_sheperd_dog");

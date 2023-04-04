@@ -19,7 +19,7 @@ RPG()
 {
 	weapon["type"] = "stock";
 	weapon["name"] = "RPG";
-	weapon["item"] = "bt_rpg_mp";
+	weapon["item"] = "m60e4_reflex_mp";
 	weapon["projectile"] = "projectile_rpg7";
 	weapon["muzzle"] = loadFX("muzzleflashes/at4_flash");
 	weapon["impact"] = loadFX("explosions/grenadeExp_default");
@@ -40,7 +40,7 @@ FortniteRPG()
 {
 	weapon["type"] = "stock";
 	weapon["name"] = "Fortnite RPG";
-	weapon["item"] = "fn_rpg_mp";
+	weapon["item"] = "m60e4_acog_mp";
 	weapon["projectile"] = "projectile_rpg7";
 	weapon["muzzle"] = loadFX("muzzleflashes/at4_flash");
 	weapon["impact"] = loadFX("explosions/grenadeExp_default");
