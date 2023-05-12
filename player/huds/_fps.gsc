@@ -67,7 +67,6 @@ updateFps()
 		switch (self.fps)
 		{
 			case 20:
-			case 30:
 			case 125:
 			case 142:
 			case 166:
@@ -104,7 +103,6 @@ updateFps()
 		switch (self.fps)
 		{
 			case 20:	self.fpsCombo += "(20)";	break;
-			case 30:	self.fpsCombo += "(30)";	break;
 			case 125:	self.fpsCombo += "1";		break;
 			case 142:	self.fpsCombo += "4";		break;
 			case 166:	self.fpsCombo += "6";		break;
