@@ -100,8 +100,7 @@ getPlayerFPS()
 	fps = self getFPS();
 
 	if (fps <= 10) 		return 0;
-	if (fps <= 20) 		return 20;
-	if (fps <= 30) 		return 30;
+	if (fps <= 30) 		return 20;
 	if (fps <= 125) 	return 125;
 	if (fps <= 142) 	return 142;
 	if (fps <= 166) 	return 166;
