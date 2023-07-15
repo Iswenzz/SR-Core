@@ -200,7 +200,9 @@ cmd_Drop(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	player dropItem(player getCurrentWeapon());
+	entity = player dropItem(player getCurrentWeapon());
+	if (isDefined(entity))
+		entity thread dropPickup();
 }
 
 cmd_Dog(args)
@@ -422,6 +424,7 @@ cmd_Trooper(args)
 
 cmd_UAmmo(args)
 {
+	self cheat();
 	self thread unlimitedAmmo();
 }
 
@@ -554,6 +557,16 @@ unlimitedAmmo()
 			continue;
 
 		self setWeaponAmmoClip(weapon, weaponClipSize(weapon));
+	}
+}
+
+dropPickup()
+{
+	self.cheat = true;
+	while (isDefined(self))
+	{
+		self waittill("trigger", player);
+		player cheat();
 	}
 }
 

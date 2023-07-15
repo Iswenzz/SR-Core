@@ -59,7 +59,7 @@ FortniteRPG()
 
 Q3Rocket()
 {
-	weapon["type"] = "script";
+	weapon["type"] = "defrag";
 	weapon["name"] = "Q3 Rocket";
 	weapon["item"] = "gl_ak47_mp";
 	weapon["delay"] = 0.8;
@@ -73,14 +73,14 @@ Q3Rocket()
 	weapon["knockback"] = 500;
 	weapon["knockback_range"] = 120;
 	weapon["fire"] = ::fire;
-	weapon["fire_condition"] = ::canFireWeapon;
+	weapon["fire_condition"] = ::canFireDefragWeapon;
 
 	return weapon;
 }
 
 Q3Plasma()
 {
-	weapon["type"] = "script";
+	weapon["type"] = "defrag";
 	weapon["name"] = "Q3 Plasma";
 	weapon["item"] = "gl_g3_mp";
 	weapon["delay"] = 0.05;
@@ -93,7 +93,7 @@ Q3Plasma()
 	weapon["knockback"] = 30;
 	weapon["knockback_range"] = 40;
 	weapon["fire"] = ::fire;
-	weapon["fire_condition"] = ::canFireWeapon;
+	weapon["fire_condition"] = ::canFireDefragWeapon;
 
 	return weapon;
 }
@@ -296,8 +296,6 @@ trailFX()
 
 playerHasWeapon()
 {
-	self endon("disconnect");
-
 	for (i = 0; i < level.weapons.size; i++)
 	{
 		if (level.weapons[i]["item"] == self getCurrentWeapon())
@@ -308,8 +306,6 @@ playerHasWeapon()
 
 getPlayerWeapon()
 {
-	self endon("disconnect");
-
 	for (i = 0; i < level.weapons.size; i++)
 	{
 		if (level.weapons[i]["item"] == self getCurrentWeapon())
@@ -386,13 +382,33 @@ canFireWeapon()
 {
 	if (!isDefined(self.scriptedWeapon["fire"]))
 		return false;
-	if (self.scriptedBullets >= 100)
+	if (!self getWeaponAmmoClip(self.scriptedWeapon["item"]))
 		return false;
 	if (!self attackButtonPressed() && !self demoButton("fire"))
 		return false;
+	if (self.scriptedBullets >= 100)
+		return false;
 	if (self.scriptedWeapon["type"] == "stock")
+	{
 		self waitStockFireAnimation();
-	return self isSameWeapon();
+		return self isSameWeapon();
+	}
+	return true;
+}
+
+canFireDefragWeapon()
+{
+	// Using stocks as clips for defrag from asset manager limitation
+	if (!isDefined(self.scriptedWeapon["fire"]))
+		return false;
+	if (!self getWeaponAmmoStock(self.scriptedWeapon["item"]))
+		return false;
+	if (!self attackButtonPressed() && !self demoButton("fire"))
+		return false;
+	if (self.scriptedBullets >= 100)
+		return false;
+	self setWeaponAmmoStock(self.scriptedWeapon["item"], self getWeaponAmmoStock(self.scriptedWeapon["item"]) - 1);
+	return true;
 }
 
 showVisual()

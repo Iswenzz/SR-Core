@@ -182,7 +182,7 @@ playerWeapon(trigger)
 	self switchToWeapon(weapon);
 
 	if (trigger.ammo > 0)
-		self setWeaponAmmoClip(weapon, trigger.ammo);
+		self setWeaponAmmoStock(weapon, trigger.ammo);
 
 	self removeCooldown(trigger);
 }
