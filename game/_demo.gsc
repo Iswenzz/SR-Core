@@ -22,7 +22,7 @@ record()
 	thread recordTimeout();
 
 	self.pers["record_path"] = PathJoin(PATH_Mod("demos"), self.id, level.map, self.run);
-	exec(fmt("record %d %s", self getEntityNumber(), self.pers["record_path"]));
+	exec(fmt("record %d %s", self.number, self.pers["record_path"]));
 }
 
 recordTimeout()
@@ -39,7 +39,7 @@ recordSave()
 {
 	self.pers["record_path"] = undefined;
 	self notify("record");
-	exec("stoprecord " + self GetEntityNumber());
+	exec("stoprecord " + self.number);
 }
 
 recordDelete()
@@ -48,7 +48,7 @@ recordDelete()
 		return;
 
 	path = self.pers["record_path"] + ".dm_1";
-	exec("stoprecord " + self GetEntityNumber());
+	exec("stoprecord " + self.number);
 
 	wait 0.2;
 	if (FILE_Exists(path))

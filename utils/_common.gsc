@@ -37,7 +37,7 @@ getPlayerByNum(pNum)
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		if (players[i] getEntityNumber() == IfUndef(ToInt(pNum), -1))
+		if (players[i].number == IfUndef(ToInt(pNum), -1))
 			return players[i];
 	}
 	return undefined;
@@ -1082,7 +1082,7 @@ message(msg)
 pm(msg)
 {
 	if (isPlayer(self))
-		exec(fmt("tell %d %s", self getEntityNumber(), msg));
+		exec(fmt("tell %d %s", self.number, msg));
 	else
 		comPrintLn(msg);
 }

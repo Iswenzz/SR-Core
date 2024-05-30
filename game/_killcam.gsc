@@ -25,7 +25,7 @@ start(startDelay, time, eInflictor, attacker, sWeapon)
 	for (i = 0; i < players.size; i++)
 	{
 		players[i] setClientDvars("cg_thirdperson", int(level.dvar["pi_kc_tp"]), "r_blur", level.dvar["pi_kc_blur"]);
-		players[i] thread killcam(attacker getEntityNumber(), -1, sWeapon, startDelay, 0, 0, 0, time, undefined, attacker);
+		players[i] thread killcam(attacker.number, -1, sWeapon, startDelay, 0, 0, 0, time, undefined, attacker);
 	}
 }
 

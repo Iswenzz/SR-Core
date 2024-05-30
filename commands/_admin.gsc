@@ -19,6 +19,7 @@ main()
 	cmd("player", 		"help",				::cmd_Help);
 	cmd("member", 		"msg",				::cmd_Msg);
 	cmd("player",       "myid",				::cmd_MyID);
+	cmd("masteradmin", 	"module", 			::cmd_Module);
 	cmd("owner",  		"nextmap",			::cmd_NextMap);
 	cmd("owner",		"notification",		::cmd_Notification);
 	cmd("member",       "online",			::cmd_Online);
@@ -37,6 +38,7 @@ main()
 	cmd("member",       "timeplayed",		::cmd_TimePlayed);
 	cmd("player",       "tas",				::cmd_TAS);
 	cmd("owner",        "setdvar",			::cmd_SetDvar);
+	cmd("masteradmin", 	"screenshot", 		::cmd_Screenshot);
 	cmd("member",       "sr_tas",			::cmd_RegisterTAS);
 	cmd("member",       "sr_tas_id",		::cmd_RegisterTASID);
 	cmd("admin",        "sr_kick",			::cmd_Kick);
@@ -84,8 +86,8 @@ cmd_PM(args)
 
 	msg = StrJoin(Range(args, 1, args.size), " ");
 
-	exec(fmt("tell %d ^2To %s:^7 %s", self getEntityNumber(), player.name, msg));
-	exec(fmt("tell %d ^2%s:^7 %s", player getEntityNumber(), self.name, msg));
+	exec(fmt("tell %d ^2To %s:^7 %s", self.number, player.name, msg));
+	exec(fmt("tell %d ^2%s:^7 %s", player.number, self.name, msg));
 }
 
 cmd_Command(args)
@@ -193,6 +195,20 @@ cmd_SetDvar(args)
 	self pm(fmt("%s: %s", dvar, value));
 }
 
+cmd_Screenshot(args)
+{
+	self log();
+	if (args.size < 1)
+		return self pm("Usage: screenshot <playerId>");
+
+	player = getPlayerByNum(args[0]);
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	exec(fmt("getss %d %s_%d", player.number, player.id, randomInt(999999)));
+	self pm("^5Screenshot request sent.");
+}
+
 cmd_GetDvar(args)
 {
 	if (args.size < 2)
@@ -245,6 +261,20 @@ cmd_MyID(args)
 	self pm(fmt("Your ID is ^2%s", self.id));
 	wait 0.5;
 	self pm("ID is a private information, ^1don't share it^7 to anyone.");
+}
+
+cmd_Module(args)
+{
+	self log();
+	if (args.size < 1)
+		return self pm("Usage: module <playerId>");
+
+	player = getPlayerByNum(args[0]);
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	exec(fmt("getmodules %d %s_%d", player.number, player.id, randomInt(999999)));
+	self pm("^5Module request sent.");
 }
 
 cmd_Notification(args)
@@ -447,7 +477,7 @@ cmd_Kick(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	kick(player getEntityNumber());
+	kick(player.number);
 }
 
 cmd_Role(args)
