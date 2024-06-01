@@ -42,14 +42,15 @@ onSpawn()
 	if (self isCheat())
 		return;
 
+	self setRollback();
+
 	while (true)
 	{
-		self.previousOrigin = self.origin;
-		self.previousVelocity = self getVelocity();
+		if (self antiLag() || self antiElevator())
+			self rollback();
+		else if (self isOnGround())
+			self setRollback();
 		wait 0.05;
-
-		self antiLag();
-		self antiElevator();
 	}
 }
 
@@ -58,22 +59,33 @@ antiLag()
 	if (self isAxis() || !self.antiLag)
 		return;
 
-	if (self getFPS() <= 10 || self getPing() >= 800)
-		self suicide();
+	return self getFPS() <= 10 || self getPing() >= 800;
 }
 
 antiElevator()
 {
 	if (self isAxis() || !self.antiElevator)
-		return;
+		return false;
 
-	inAir = !self isOnGround() && !self isOnLadder() && !self isMantling();
-	isMovingZ = self.origin[2] != self.previousOrigin[2];
-	isVelocityNullZ = self getVelocity()[2] == 0 && self.previousVelocity[2] == 0;
+	position = self.origin + (0, 0, 35);
+    surface = self findClosestSurface(position);
 
-	if (inAir && isMovingZ && isVelocityNullZ)
-	{
-		self iPrintLn("^3ANTI-ELE");
-		self suicide();
-	}
+    if (!isDefined(surface))
+        return false;
+
+	return distance(surface, position) == 14.875;
+}
+
+rollback()
+{
+	self setOrigin(self.previousOrigin);
+	self setVelocity(self.previousVelocity);
+	self setStance(self.previousStance);
+}
+
+setRollback()
+{
+	self.previousOrigin = self getOrigin();
+	self.previousVelocity = self getVelocity();
+	self.previousStance = self getStance();
 }
