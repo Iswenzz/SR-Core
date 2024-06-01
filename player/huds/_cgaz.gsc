@@ -105,23 +105,23 @@ cgazHud()
 	self.cgaz.previousVelocity = (0, 0, 0);
 
 	self.huds["cgaz"] = [];
-	self.huds["cgaz"]["accel"] = addHud(self, 0, 0, 0.5, "left", "middle", 1.4, 90);
+	self.huds["cgaz"]["accel"] = addHud(self, 0, 0, 0.7, "left", "middle", 1.4, 90);
 	self.huds["cgaz"]["accel"].horzAlign = "fullscreen";
 	self.huds["cgaz"]["accel"].color = (0.25, 0.25, 0.25);
 
-	self.huds["cgaz"]["accelPartialPos"] = addHud(self, 0, 0, 0.5, "left", "middle", 1.4, 90);
+	self.huds["cgaz"]["accelPartialPos"] = addHud(self, 0, 0, 0.7, "left", "middle", 1.4, 90);
 	self.huds["cgaz"]["accelPartialPos"].horzAlign = "fullscreen";
 	self.huds["cgaz"]["accelPartialPos"].color = (0, 1, 0);
 
-	self.huds["cgaz"]["accelPartialNeg"] = addHud(self, 0, 0, 0.5, "left", "middle", 1.4, 90);
+	self.huds["cgaz"]["accelPartialNeg"] = addHud(self, 0, 0, 0.7, "left", "middle", 1.4, 90);
 	self.huds["cgaz"]["accelPartialNeg"].horzAlign = "fullscreen";
 	self.huds["cgaz"]["accelPartialNeg"].color = (0, 1, 0);
 
-	self.huds["cgaz"]["accelFullPos"] = addHud(self, 0, 0, 0.5, "left", "middle", 1.4, 90);
+	self.huds["cgaz"]["accelFullPos"] = addHud(self, 0, 0, 0.7, "left", "middle", 1.4, 90);
 	self.huds["cgaz"]["accelFullPos"].horzAlign = "fullscreen";
 	self.huds["cgaz"]["accelFullPos"].color = (0, 0.25, 0.25);
 
-	self.huds["cgaz"]["accelFullNeg"] = addHud(self, 0, 0, 0.5, "left", "middle", 1.4, 90);
+	self.huds["cgaz"]["accelFullNeg"] = addHud(self, 0, 0, 0.7, "left", "middle", 1.4, 90);
 	self.huds["cgaz"]["accelFullNeg"].horzAlign = "fullscreen";
 	self.huds["cgaz"]["accelFullNeg"].color = (0, 0.25, 0.25);
 

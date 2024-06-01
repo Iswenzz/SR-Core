@@ -260,6 +260,11 @@ angleSnap90(angle, offset)
 	return round((angle - offset) / 90, 0) * 90 + offset;
 }
 
+angleToVector(angle)
+{
+    return vectorNormalize((cos(angle), sin(angle), 0));
+}
+
 drawText(pos, text, time, color, alpha, scale)
 {
 	time = IfUndef(time, 0) * 20;
@@ -639,31 +644,28 @@ getResolution()
 	resolution = strTok(self getUserInfo("r_mode"), "x");
 	if (resolution.size == 2)
 	{
-		resolution[0] = ToInt(resolution[0]);
-		resolution[1] = ToInt(resolution[1]);
+		self.resolution[0] = ToInt(resolution[0]);
+		self.resolution[1] = ToInt(resolution[1]);
 	}
-	else
-	{
-		resolution[0] = 1920;
-		resolution[1] = 1080;
-	}
-	return resolution;
+	resolution[0] = 1920;
+	resolution[1] = 1080;
+	return IfUndef(self.resolution, resolution);
 }
 
 getFov()
 {
 	fov = self getUserInfo("cg_fov");
-	if (IsStringInt(fov))
-		return ToInt(fov);
-	return 80;
+	if (!IsNullOrEmpty(fov))
+		self.fov = ToInt(fov);
+	return IfUndef(self.fov, 80);
 }
 
 getFovScale()
 {
-	fov = self getUserInfo("cg_fovScale");
-	if (IsStringFloat(fov))
-		return ToFloat(fov);
-	return self.settings["gfx_fov"] / 1000;
+	scale = self getUserInfo("cg_fovScale");
+	if (!IsNullOrEmpty(scale))
+		self.fovScale = ToFloat(scale);
+	return IfUndef(self.fovScale, 1.0);
 }
 
 calculateFov()
@@ -675,16 +677,16 @@ calculateFov()
 	fov = playerFov * playerFovScale;
 	wFov = tan1(fov * 0.01745329238474369 * 0.5) * 0.75;
 
-	tanHalfFovX = wFov * (resolution[0] / resolution[1]);
-	tanHalfFovY = wFov;
+	tanHalfFov[0] = wFov * (resolution[0] / resolution[1]);
+	tanHalfFov[1] = wFov;
 
-	return tanHalfFovX;
+	return tanHalfFov;
 }
 
 angleScreenProjection(angle)
 {
-	tanHalfFovX = self calculateFov();
-	halfFovX = atan1(tanHalfFovX);
+	tanHalfFov = self calculateFov();
+	halfFovX = atan1(tanHalfFov[0]);
 
 	if (angle >= halfFovX)
 		return 0;
@@ -693,6 +695,40 @@ angleScreenProjection(angle)
 		return 640;
 
 	return 640 / 2 * (1 - tan1(angle) / tan1(halfFovX));
+}
+
+worldToScreen(position)
+{
+	tanHalfFov = self calculateFov();
+    angles = self getPlayerAngles();
+
+	center[0] = 640 / 2;
+	center[1] = 480 / 2;
+
+    viewAxis[0] = anglesToForward(angles);
+    viewAxis[1] = anglesToRight(angles) * -1;
+    viewAxis[2] = anglesToUp(angles);
+
+    local = position - self eyePos();
+
+    transform[0] = vectorDot(local, viewAxis[1]);
+    transform[1] = vectorDot(local, viewAxis[2]);
+    transform[2] = vectorDot(local, viewAxis[0]);
+
+	if (transform[2] < 0.01 || !tanHalfFov[0] || !tanHalfFov[1])
+		return undefined;
+
+	screen[0] = center[0] * (1 - (transform[0] / tanHalfFov[0] / transform[2]));
+	screen[1] = center[1] * (1 - (transform[1] / tanHalfFov[1] / transform[2]));
+
+	comPrintLn("transform x " + transform[0]);
+	comPrintLn("transform y " + transform[1]);
+	comPrintLn("transform z " + transform[2]);
+
+	comPrintLn("screen x " + screen[0]);
+	comPrintLn("screen y " + screen[1]);
+
+    return screen;
 }
 
 angleNormalizePi(angle)
@@ -727,4 +763,9 @@ rad2short(x)
 angleNormalize65536(angle)
 {
 	return angle & 65535;
+}
+
+lerp(from, to, value)
+{
+    return from + (to - from) * value;
 }

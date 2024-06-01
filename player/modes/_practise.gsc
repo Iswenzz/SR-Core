@@ -66,8 +66,8 @@ watchLoad()
 			}
 
 			self freezeControls(1);
-			self SetOrigin(self.practise["origin"]);
-			self SetPlayerAngles(self.practise["angle"]);
+			self setOrigin(self.practise["origin"]);
+			self setPlayerAngles(self.practise["angle"]);
 			self iPrintLn("^5Position loaded");
 			wait 0.05;
 			self freezeControls(0);

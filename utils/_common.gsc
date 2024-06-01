@@ -849,6 +849,26 @@ getFloor()
 	return Ternary(trace["fraction"] != 1, trace["position"], self.origin)[2];
 }
 
+findClosestSurface(origin)
+{
+	directions = 8;
+    fraction = 1;
+	position = undefined;
+
+    for (i = 0; i < directions; i++)
+    {
+        direction = angleToVector(i * (360 / directions));
+        trace = bulletTrace(origin, origin + vectorScale(direction, 15), false, self);
+
+        if (trace["fraction"] < fraction)
+        {
+            fraction = trace["fraction"];
+            position = trace["position"];
+        }
+    }
+    return position;
+}
+
 rectanglePoints()
 {
 	size = [];
