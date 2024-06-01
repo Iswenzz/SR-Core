@@ -12,11 +12,14 @@ initRace()
 
 	level.racePoints = [];
 	level.raceSpawn = (0, 0, 0);
-	level.raceEndTrig = getEnt("endmap_trig", "targetname");
 	level.racePlayersFinished = [];
 	level.raceScoreboard = [];
 	level.racePoints = [];
 	level.raceStarted = false;
+
+	array = getEntArray("endmap_trig", "targetname");
+	if (array.size)
+		level.raceEndTrig = array[0];
 
 	event("map", ::race);
 	event("spawn", ::onSpawn);

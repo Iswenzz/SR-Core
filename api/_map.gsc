@@ -2,11 +2,9 @@
 
 createEndMap(origin, width, height)
 {
-	if (isDefined(getEnt("endmap_trig", "targetname")))
-	{
-		temp = getEnt("endmap_trig", "targetname");
-		temp delete();
-	}
+	array = getEntArray("endmap_trig", "targetname");
+	for (i = 0; i < array.size; i++)
+		array[i] delete();
 
 	trigger = spawn("trigger_radius", origin, 0, width, height);
 	trigger.targetname = "endmap_trig";

@@ -81,10 +81,12 @@ cmd_DebugRotation(args)
 	setDvar("sv_maprotationcurrent", "gametype deathrun map " + IfUndef(map, ""));
 
 	// Next map
-	if (isDefined(map))
-		levelExit(false);
-	else
+	if (!isDefined(map))
+	{
+		comPrintLn("^5Debug operation completed");
 		exit(0);
+	}
+	levelExit(false);
 }
 
 cmd_DebugSaveSpawn(args)
@@ -105,10 +107,12 @@ cmd_DebugSaveSpawn(args)
 	FILE_Close(file);
 
 	// Next map
-	if (isDefined(map))
-		levelExit(false);
-	else
+	if (!isDefined(map))
+	{
+		comPrintLn("^5Debug operation completed");
 		exit(0);
+	}
+	levelExit(false);
 }
 
 cmd_DebugEntsSpawn(args)

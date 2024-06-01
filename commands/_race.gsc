@@ -29,7 +29,11 @@ cmd_RaceTrig(args)
 
 	if (args.size)
 	{
-		level.raceEndTrig = getEnt("endmap_trig", "targetname");
+		array = getEntArray("endmap_trig", "targetname");
+		if (!array.size)
+			return;
+
+		level.raceEndTrig = array[0];
 		self pm("Reset race end trigger");
 		return;
 	}
