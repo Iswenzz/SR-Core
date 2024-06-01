@@ -50,7 +50,6 @@ onSpawn()
 			wait 0.05;
 			continue;
 		}
-
 		color = undefined;
 		if (self attackButtonPressed() || self demoButton("fire"))
 			color = "blue";
@@ -79,6 +78,9 @@ onSpawn()
 
 updateHud()
 {
+	if (self.currentWeapon != level.portalgun)
+		return;
+
 	shader = "reticle_portal";
 	if (self.portal["blue_exist"] && self.portal["red_exist"])
 		shader = "reticle_portal_both";
