@@ -18,10 +18,20 @@ createTeleporter(triggerOrigin, width, height, origin, angles, state, color)
 {
 	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
 	trigger.radius = width;
-	trigger.targetname = "sr_tp_" + randomInt(99999999);
+	trigger.targetname = "sr_teleport";
 
 	thread watchTeleporter(trigger, origin, angles, state);
 	thread sr\game\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
+	return trigger;
+}
+
+createDeath(triggerOrigin, width, height)
+{
+	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
+	trigger.radius = width;
+	trigger.targetname = "sr_death";
+
+	thread watchDeath(trigger);
 	return trigger;
 }
 
@@ -31,6 +41,15 @@ watchTeleporter(trigger, origin, angles, state)
 	{
 		trigger waittill("trigger", player);
 		player thread playerTeleport(origin, angles, state);
+	}
+}
+
+watchDeath(trigger)
+{
+	while (true)
+	{
+		trigger waittill("trigger", player);
+		player suicide();
 	}
 }
 
