@@ -41,19 +41,14 @@ randomizeMaps(amount)
 
 getRotation(includeCurrent)
 {
-	list = [];
-	currentMap = level.map;
-	maps = StrTok(getDvar("sv_maprotation"), " ");
-	maps = Remove(maps, "gametype");
-	maps = Remove(maps, "map");
+	file = FILE_Open(level.files["maps"], "r");
+	maps = FILE_ReadLines(file);
+	FILE_Close(file);
 
-	for (i = 0; i < maps.size; i++)
-	{
-		if (currentMap == maps[i] && !includeCurrent)
-			continue;
-		list[list.size] = maps[i];
-	}
-	return Sort(list);
+	if (!includeCurrent)
+		maps = Remove(maps, level.map);
+
+	return Sort(maps);
 }
 
 addTime(minutes)

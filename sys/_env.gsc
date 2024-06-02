@@ -9,7 +9,7 @@ initEnvs()
 
 buildEnvs()
 {
-	file = FILE_Open(PATH_Mod("sr/data/system/.env"), "r");
+	file = FILE_Open(PATH_Mod(".env"), "r");
 	lines = FILE_ReadLines(file);
 
 	for (i = 0; i < lines.size; i++)

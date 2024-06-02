@@ -5,7 +5,7 @@
 
 main()
 {
-	level.files["map"] = fmt(PATH_Mod("sr/data/maps/%s.txt"), level.map);
+	level.files["map"] = fmt(PATH_Mod("data/maps/%s.txt"), level.map);
 	level.files["chicken"] = fmt(PATH_Mod("sr/data/chickens/%s.txt"), level.map);
 
 	precacheModel("chicken");

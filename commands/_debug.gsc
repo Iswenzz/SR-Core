@@ -148,7 +148,7 @@ cmd_DebugScriptUsage(args)
 
 cmd_DebugOrigin(args)
 {
-	file = FILE_Open(PATH_Mod(fmt("sr/data/debug/origins/%s", level.map)), "a");
+	file = FILE_Open(PATH_Mod(fmt("data/debug/origins/%s", level.map)), "a");
 
 	x = int(self.origin[0]);
 	y = int(self.origin[1]);

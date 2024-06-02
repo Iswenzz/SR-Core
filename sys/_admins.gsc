@@ -4,7 +4,7 @@
 
 initAdmins()
 {
-	level.files["commands"] = PATH_Mod("sr/data/admin/commands.txt");
+	level.files["commands"] = PATH_Mod("data/logs/commands.txt");
 
 	precache();
 

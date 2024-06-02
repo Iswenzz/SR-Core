@@ -3,19 +3,22 @@ initFiles()
 	level.files = [];
 
 	level.directories = [];
-	level.directories["downloads"] = PATH_Mod("sr/data/downloads");
+	level.directories["downloads"] = PATH_Mod("data/downloads");
+
+	FILE_MkDir(PATH_Mod("data"));
+	FILE_MkDir(PATH_Mod("data/logs"));
+	FILE_MkDir(PATH_Mod("data/maps"));
+	FILE_MkDir(PATH_Mod("data/match"));
+	FILE_MkDir(PATH_Mod("data/downloads"));
 
 	FILE_MkDir(PATH_Mod("sr/data"));
 	FILE_MkDir(PATH_Mod("sr/data/admin"));
-	FILE_MkDir(PATH_Mod("sr/data/downloads"));
 	FILE_MkDir(PATH_Mod("sr/data/chickens"));
 	FILE_MkDir(PATH_Mod("sr/data/json"));
 	FILE_MkDir(PATH_Mod("sr/data/keyframes"));
-	FILE_MkDir(PATH_Mod("sr/data/maps"));
-	FILE_MkDir(PATH_Mod("sr/data/match"));
 	FILE_MkDir(PATH_Mod("sr/data/kz"));
 	FILE_MkDir(PATH_Mod("sr/data/race"));
-	FILE_MkDir(PATH_Mod("sr/data/system"));
+
 	FILE_MkDir(PATH_Mod("demos"));
 }
 
