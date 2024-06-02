@@ -57,7 +57,7 @@ onSpawn()
 antiLag()
 {
 	if (self isAxis() || !self.antiLag)
-		return;
+		return false;
 
 	return self getFPS() <= 10 || self getPing() >= 800;
 }
