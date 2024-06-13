@@ -40,11 +40,11 @@ onSpawn()
 
 	while (true)
 	{
-		self.currentWeapon = self getCurrentWeapon();
-		if (self.currentWeapon == level.portalgun)
+		weapon = self getCurrentWeapon();
+		if (weapon == level.portalgun)
 			self updateHud();
 
-		if (self.currentWeapon != level.portalgun)
+		if (weapon != level.portalgun)
 		{
 			self cleanHud();
 			wait 0.05;
@@ -78,7 +78,7 @@ onSpawn()
 
 updateHud()
 {
-	if (self.currentWeapon != level.portalgun)
+	if (self getCurrentWeapon() != level.portalgun)
 		return;
 
 	shader = "reticle_portal";
