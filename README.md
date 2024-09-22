@@ -1,7 +1,5 @@
 # SR Core
 
-[![License](https://img.shields.io/github/license/Iswenzz/SR-Core?color=blue&logo=gitbook&logoColor=white)](https://github.com/Iswenzz/SR-Core/blob/master/LICENSE)
-
 ![](https://i.imgur.com/1iYxwMa.jpg)
 
 Core mod for SR containing libraries, utilities, player movements, player huds, game modes and system code for administration, database access, APIs, and file system.
