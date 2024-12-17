@@ -25,6 +25,7 @@ load()
 	return fmt("%d%d%d", self getStat(995), self getStat(996), self getStat(997));
 }
 
+// Replace with SQL
 createId()
 {
 	file = FILE_Open(level.files["playerIds"], "a+");
