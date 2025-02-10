@@ -100,7 +100,7 @@ playerAddPoints(points)
 {
 	self.pers["kills"] += points;
 
-	if (isDefined(self.huds["speedrun"]))
+	if (isDefined(self.huds["speedrun"]) && isDefined(self.huds["speedrun"]["row3"]))
 		self.huds["speedrun"]["row3"] setText(fmt("Points             ^2%d", self.pers["kills"]));
 }
 
@@ -255,7 +255,7 @@ onDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint
 	if (!isEventStarted())
 		return;
 
-	if (isDefined(self.huds["speedrun"]))
+	if (isDefined(self.huds["speedrun"]) && isDefined(self.huds["speedrun"]["row2"]))
 		self.huds["speedrun"]["row2"] setText(fmt("Health             ^2%d", self.health - iDamage));
 }
 
