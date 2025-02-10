@@ -18,11 +18,13 @@ init()
 	self.run = fmt("%d%d", randomInt(99999), randomInt(99999));
 
 	cheat = false;
+	if (sr\game\_event::isEventStarted())
+		cheat = true;
 	if (self sr\game\minigames\_main::isInAnyQueue())
 		cheat = true;
 	if (self sr\player\modes\_main::isInAnyMode())
 		cheat = true;
-	if (isDefined(self.cheating))
+	if (self isCheating())
 		cheat = true;
 	if (self isDemo())
 		cheat = true;
@@ -88,4 +90,9 @@ setRollback()
 	self.previousOrigin = self getOrigin();
 	self.previousVelocity = self getVelocity();
 	self.previousStance = self getStance();
+}
+
+isCheating()
+{
+	return isDefined(self.cheating);
 }

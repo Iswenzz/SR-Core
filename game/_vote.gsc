@@ -117,6 +117,9 @@ menu_Vote(args)
 	type = args[1];
 	page = self.votePage;
 
+	if (sr\game\_event::isEvent())
+		return;
+
 	if ((getTime() - self.voteCooldown) < 300000)
 	{
 		self pm("You cannot vote yet");

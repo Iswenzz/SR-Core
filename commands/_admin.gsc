@@ -11,6 +11,9 @@ main()
 	cmd("admin",        "detail",			::cmd_Detail);
 	cmd("owner",        "download",			::cmd_Download);
 	cmd("owner",  		"event",			::cmd_Event);
+	cmd("owner",  		"event_next",		::cmd_EventNext);
+	cmd("owner",  		"event_round",		::cmd_EventRound);
+	cmd("owner",  		"event_stop",		::cmd_EventStop);
 	cmd("owner",  		"end",				::cmd_End);
 	cmd("owner",  		"restart",			::cmd_FastRestart);
 	cmd("adminplus",    "gpt",				::cmd_GPT);
@@ -55,11 +58,27 @@ cmd_FastRestart(args)
 
 cmd_Event(args)
 {
-	if (args.size < 1)
-		return self pm("Usage: !event <minutes>");
+	if (sr\game\_event::isEvent())
+		return self pm("^1Event already started");
 
-	minutes = ToInt(args[0]);
-	level.eventTime = int(minutes * 60);
+	sr\game\_event::start();
+}
+
+cmd_EventNext(args)
+{
+	level.eventGame++;
+	level notify("event_game_end");
+}
+
+cmd_EventRound(args)
+{
+	level notify("event_round_end");
+}
+
+cmd_EventStop(args)
+{
+	level.eventGame = level.eventGames;
+	level notify("event_game_end");
 }
 
 cmd_End(args)

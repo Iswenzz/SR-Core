@@ -42,7 +42,7 @@ isInMode(name)
 
 isInOtherMode(name)
 {
-	if (self sr\game\minigames\_main::isInAnyQueue())
+	if (self sr\game\minigames\_main::isInAnyQueue() || self sr\game\_event::isEventStarted())
 	{
 		self pm("^1Already in a different mode.");
 		return true;
