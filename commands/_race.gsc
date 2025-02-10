@@ -17,6 +17,7 @@ cmd_Race(args)
 {
 	if (self isInOtherQueue("race"))
 		return;
+
 	if (!self isInQueue("race"))
 		join();
 	else

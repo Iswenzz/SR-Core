@@ -16,6 +16,7 @@ cmd_Kz(args)
 {
 	if (self isInOtherQueue("kz"))
 		return;
+
 	if (!self isInQueue("kz"))
 		join();
 	else
