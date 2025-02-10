@@ -160,7 +160,7 @@ setWeapon(weapon)
 
 sendPlayers()
 {
-	ForEachCall(level.minigames["kz"].queue, ::spawnPlayerInSpec);
+	foreachCall(level.minigames["kz"].queue, ::spawnPlayerInSpec);
 	for (i = 0; i < level.kzPlayersInRoom.size; i++)
 		level.kzPlayersInRoom[i] spawnPlayerInRoom(i);
 }
@@ -249,7 +249,7 @@ canStart()
 	if (level.kzPoints.size <= 0)
 	{
 		iPrintLn("^1KZ ERROR: Kz points not found.");
-		ForEachThread(level.minigames["kz"].queue, ::leave);
+		foreachThread(level.minigames["kz"].queue, ::leave);
 		return false;
 	}
 	return true;

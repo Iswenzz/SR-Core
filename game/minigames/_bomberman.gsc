@@ -94,7 +94,7 @@ sendPlayers()
 	level.bombermanSpawns = pickRandom(getSpawns(), 4);
 	level.bombermanPlayersInRoom = pickRandomPlayers("bomberman", 1);
 
-	ForEachCall(level.minigames["bomberman"].queue, ::spawnPlayerInSpec);
+	foreachCall(level.minigames["bomberman"].queue, ::spawnPlayerInSpec);
 	for (i = 0; i < level.bombermanPlayersInRoom.size; i++)
 		level.bombermanPlayersInRoom[i] spawnPlayerInRoom(i);
 }
