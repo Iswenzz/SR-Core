@@ -15,11 +15,7 @@ createMode(name)
 
 onConnect()
 {
-	self.modes = [];
-
-	keys = getArrayKeys(level.modes);
-	for (i = 0; i < level.modes.size; i++)
-		self.modes[keys[i]] = false;
+	self cleanModes();
 }
 
 toggleMode(name)
@@ -28,6 +24,15 @@ toggleMode(name)
 
 	if (self.modes[name])
 		self cheat();
+}
+
+cleanModes()
+{
+	self.modes = [];
+
+	keys = getArrayKeys(level.modes);
+	for (i = 0; i < level.modes.size; i++)
+		self.modes[keys[i]] = false;
 }
 
 isInMode(name)
