@@ -5,8 +5,7 @@
 start()
 {
 	event("spawn", ::onSpawn);
-	event("damage", ::onDamage);
-	event("killed", ::onKilled);
+	event("death", ::onDeath);
 
 	sr\game\_map::addTime(30);
 
@@ -16,12 +15,13 @@ start()
 
 	level.eventInitialized = true;
 	level.eventStarted = false;
-	level.eventStartIn = 10;
+	level.eventStartIn = 5;
 	level.eventGame = 0;
 	level.eventGames = 5;
 	level.eventGameTitle = "Event";
 	level.eventRounds = 2;
 	level.eventRound = 0;
+	level.eventWave = 1;
 
 	hud();
 
@@ -41,7 +41,7 @@ start()
 	foreachCall(getAllPlayers(), ::playerEventEnd);
 }
 
-startGame(title, spawnPoint, messages)
+startGame(title, spawnPoint, messages, resetRoundCallback, startRoundCallback)
 {
 	if (level.eventGame >= level.eventGames)
 		return;
@@ -52,29 +52,39 @@ startGame(title, spawnPoint, messages)
 	foreachCall(getAllPlayers(), ::playerEventGame);
 
 	level.eventRound = 0;
+	level.eventWave = 1;
 	level.eventGameTitle = title;
 
 	while (level.eventRound < level.eventRounds)
 	{
+		[[resetRoundCallback]]();
 		foreachCall(getAllPlayers(), ::playerSpawnAt, spawnPoint);
+
+		cleanScreen();
 		thread hudIntro(title, messages);
 		wait 1;
 
-		cleanScreen();
 		for (i = 0; i < messages.size; i++)
 		{
 			iPrintLnBold(messages[i]);
 			wait 5;
 		}
 		wait 5;
-		iPrintLnBold("^2Round start!");
+		iPrintLnBold("^2Round started!");
+		wait 1;
 		level notify("event_round");
+		thread [[startRoundCallback]]();
+
 		level waittill("event_round_end");
 		level.eventRound++;
+		wait 5;
 	}
+	[[resetRoundCallback]]();
 	level.eventGame++;
+
 	hudScoreboard();
 	wait 5;
+
 	level notify("event_game_end");
 }
 
@@ -88,6 +98,7 @@ playerEventEnd()
 {
 	self.playerSpawn = undefined;
 	self playerResetScore();
+	self suicide();
 }
 
 playerSpawnAt(entity)
@@ -98,6 +109,7 @@ playerSpawnAt(entity)
 
 playerAddPoints(points)
 {
+	self.kills += points;
 	self.pers["kills"] += points;
 
 	if (isDefined(self.huds["speedrun"]) && isDefined(self.huds["speedrun"]["row3"]))
@@ -106,12 +118,11 @@ playerAddPoints(points)
 
 playerResetScore()
 {
-	self.pers["score"] = 0;
+	self.kills = 0;
 	self.pers["kills"] = 0;
+
+	self.deaths = 0;
 	self.pers["deaths"] = 0;
-	self.pers["assists"] = 0;
-	self.pers["headshots"] = 0;
-	self.pers["knifes"] = 0;
 }
 
 hud()
@@ -134,6 +145,8 @@ hud()
 
 hudIntro(title, messages)
 {
+	level endon("event_game");
+
 	time = messages.size * 7;
 
 	if (isDefined(level.huds["event"]["title"]))
@@ -192,7 +205,7 @@ hudScoreboard()
 	level.huds["event"]["title"] setText("Scoreboard");
 	level.huds["event"]["title"] thread moveIn(0, 1, "bottom", 1);
 
-	level.huds["event"]["scoreboard"] = addHud(level, -90, 102, 1, "center", "top", 1.4, 96);
+	level.huds["event"]["scoreboard"] = addHud(level, -90, 110, 1, "center", "top", 1.4, 96);
 	level.huds["event"]["scoreboard"] setText(scores);
 	level.huds["event"]["scoreboard"] thread moveIn(0, 1, "bottom", 1);
 
@@ -243,27 +256,22 @@ onSpawn()
 	if (isDefined(self.huds["speedrun"]))
 	{
 		self.huds["speedrun"]["name"] setText(fmt("^5%s", level.eventGameTitle));
-		self.huds["speedrun"]["row2"] setText(fmt("Health             ^2%d", self.health));
+		self.huds["speedrun"]["row2"] setText(fmt("Round             ^2%d/%d", level.eventRound + 1, level.eventRounds));
 		self.huds["speedrun"]["row2"].label = level.texts["empty"];
 		self.huds["speedrun"]["row3"] setText(fmt("Points             ^2%d", self.pers["kills"]));
 		self.huds["speedrun"]["row3"].label = level.texts["empty"];
 	}
 }
 
-onDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, timeOffset)
+onDeath()
 {
+	self endon("spawned");
+	self endon("disconnect");
+
 	if (!isEventStarted())
 		return;
 
-	if (isDefined(self.huds["speedrun"]) && isDefined(self.huds["speedrun"]["row2"]))
-		self.huds["speedrun"]["row2"] setText(fmt("Health             ^2%d", self.health - iDamage));
-}
-
-onKilled(eInflictor, attacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHitLoc, psOffsetTime, deathAnimDuration)
-{
-	if (!isEventStarted())
-		return;
-
+	self.deaths++;
 	self.pers["deaths"]++;
 
 	self sr\game\_teams::setDead();

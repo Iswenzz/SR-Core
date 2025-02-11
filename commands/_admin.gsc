@@ -61,6 +61,7 @@ cmd_Event(args)
 	if (sr\game\_event::isEvent())
 		return self pm("^1Event already started");
 
+	self command("bots", "6");
 	sr\game\_event::start();
 }
 
@@ -68,6 +69,7 @@ cmd_EventNext(args)
 {
 	level.eventGame++;
 	level notify("event_game_end");
+	level notify("event_round_end");
 }
 
 cmd_EventRound(args)
@@ -79,6 +81,7 @@ cmd_EventStop(args)
 {
 	level.eventGame = level.eventGames;
 	level notify("event_game_end");
+	level notify("event_round_end");
 }
 
 cmd_End(args)
