@@ -58,10 +58,13 @@ cmd_FastRestart(args)
 
 cmd_Event(args)
 {
+	if (!isDefined(level.eventMap))
+		return self pm("^1This map is not an event map");
+
 	if (sr\game\_event::isEvent())
 		return self pm("^1Event already started");
 
-	self command("bots", "6");
+	self command("bots", "9");
 	sr\game\_event::start();
 }
 

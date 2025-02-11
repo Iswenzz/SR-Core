@@ -19,7 +19,7 @@ start()
 	level.eventGame = 0;
 	level.eventGames = 5;
 	level.eventGameTitle = "Event";
-	level.eventRounds = 2;
+	level.eventRounds = 10;
 	level.eventRound = 0;
 	level.eventWave = 1;
 
@@ -198,7 +198,7 @@ hudScoreboard()
 			case 1: color = "^8"; break;
 			case 2: color = "^9"; break;
 		}
-		scores += fmt("%s%d. [%d] %s\n", color, i + 1, players[i].pers["kills"], players[i].name);
+		scores += fmt("%s#%d (%d) %s\n", color, i + 1, players[i].pers["kills"], players[i].name);
 	}
 
 	level.huds["event"]["title"] = addHud(level, 0, 82, 1, "center", "top", 1.4, 96);
@@ -211,7 +211,7 @@ hudScoreboard()
 
     level.huds["event"]["background"] = addHud(level, 0, 80, 1, "center", "top", 1.8);
     level.huds["event"]["background"].color = (0, 0, 0);
-    level.huds["event"]["background"] setShader("sr_bokeh_multiply", 300, 200);
+    level.huds["event"]["background"] setShader("sr_bokeh_multiply", 300, 210);
     level.huds["event"]["background"] thread moveIn(0, 1, "bottom", 1);
 
     level.huds["event"]["header"] = addHud(level, 0, 80, 0.5, "center", "top", 1.8);
@@ -287,4 +287,9 @@ isEvent()
 isEventStarted()
 {
 	return isEvent() && level.eventStarted;
+}
+
+registerEventMap()
+{
+	level.eventMap = true;
 }
