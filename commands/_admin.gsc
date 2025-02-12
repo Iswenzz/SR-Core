@@ -64,6 +64,7 @@ cmd_Event(args)
 	if (sr\game\_event::isEvent())
 		return self pm("^1Event already started");
 
+	// self command("bots", "9");
 	sr\game\_event::start();
 }
 

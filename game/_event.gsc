@@ -71,7 +71,7 @@ startGame(title, spawnPoint, messages, resetRoundCallback, startRoundCallback)
 		}
 		wait 5;
 		iPrintLnBold("^2Round started!");
-		wait 1;
+		wait 3;
 		level notify("event_round");
 		thread [[startRoundCallback]]();
 
@@ -287,6 +287,11 @@ isEvent()
 isEventStarted()
 {
 	return isEvent() && level.eventStarted;
+}
+
+isEventGame(number)
+{
+	return isEventStarted() && level.eventGame == number;
 }
 
 registerEventMap()
