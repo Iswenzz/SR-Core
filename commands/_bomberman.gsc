@@ -19,6 +19,7 @@ cmd_Bomberman(args)
 	}
 	if (self isInOtherQueue("bomberman"))
 		return;
+
 	if (!self isInQueue("bomberman"))
 		join();
 	else

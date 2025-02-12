@@ -15,11 +15,7 @@ createMode(name)
 
 onConnect()
 {
-	self.modes = [];
-
-	keys = getArrayKeys(level.modes);
-	for (i = 0; i < level.modes.size; i++)
-		self.modes[keys[i]] = false;
+	self cleanModes();
 }
 
 toggleMode(name)
@@ -30,6 +26,15 @@ toggleMode(name)
 		self cheat();
 }
 
+cleanModes()
+{
+	self.modes = [];
+
+	keys = getArrayKeys(level.modes);
+	for (i = 0; i < level.modes.size; i++)
+		self.modes[keys[i]] = false;
+}
+
 isInMode(name)
 {
 	return self.modes[name];
@@ -37,7 +42,7 @@ isInMode(name)
 
 isInOtherMode(name)
 {
-	if (self sr\game\minigames\_main::isInAnyQueue())
+	if (self sr\game\minigames\_main::isInAnyQueue() || self sr\game\_event::isEventStarted())
 	{
 		self pm("^1Already in a different mode.");
 		return true;

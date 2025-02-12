@@ -43,13 +43,13 @@ race()
 			continue;
 
 		message("^3Race start in 10sec! ^7[^2!race^7]");
-		ForEachCall(level.minigames["race"].queue, ::cleanRaceHud);
-		ForEachThread(level.minigames["race"].queue, ::raceSpawn);
+		foreachCall(level.minigames["race"].queue, ::cleanRaceHud);
+		foreachThread(level.minigames["race"].queue, ::raceSpawn);
 		countdown();
-		ForEachThread(level.minigames["race"].queue, ::raceSpawn);
+		foreachThread(level.minigames["race"].queue, ::raceSpawn);
 
 		level.raceStarted = true;
-		ForEachThread(level.minigames["race"].queue, ::raceHud);
+		foreachThread(level.minigames["race"].queue, ::raceHud);
 		watchRace();
 	}
 }
@@ -125,11 +125,11 @@ countdown()
 	for (i = 10; i != 0; i--)
 	{
 		wait 1;
-		ForEachCall(level.minigames["race"].queue, ::setLowerMessage, Ternary(i == 1, "^3GO", i - 1));
+		foreachCall(level.minigames["race"].queue, ::setLowerMessage, Ternary(i == 1, "^3GO", i - 1));
 		if (i == 7)
-			ForEachCall(level.minigames["race"].queue, ::playerFreeze);
+			foreachCall(level.minigames["race"].queue, ::playerFreeze);
 	}
-	ForEachThread(level.minigames["race"].queue, ::go);
+	foreachThread(level.minigames["race"].queue, ::go);
 }
 
 playerFreeze()
@@ -258,15 +258,15 @@ canStart()
 	if (!isDefined(level.raceEndTrig))
 	{
 		iPrintLn("^1RACE ERROR: Race end trig not found.");
-		ForEachThread(level.minigames["race"].queue, ::cleanRaceHud);
-		ForEachThread(level.minigames["race"].queue, ::leave);
+		foreachThread(level.minigames["race"].queue, ::cleanRaceHud);
+		foreachThread(level.minigames["race"].queue, ::leave);
 		return false;
 	}
 	if (level.racePoints.size <= 0)
 	{
 		iPrintLn("^1RACE ERROR: Race points not found.");
-		ForEachThread(level.minigames["race"].queue, ::cleanRaceHud);
-		ForEachThread(level.minigames["race"].queue, ::leave);
+		foreachThread(level.minigames["race"].queue, ::cleanRaceHud);
+		foreachThread(level.minigames["race"].queue, ::leave);
 		return false;
 	}
 	return true;
@@ -376,8 +376,8 @@ watchLobbyCount()
 	while (Count(level.minigames["race"].queue, ::isInRace) >= 2)
 		wait 1;
 
-	ForEachThread(level.minigames["race"].queue, ::cleanRaceHud);
-	ForEachThread(level.minigames["race"].queue, ::leave);
+	foreachThread(level.minigames["race"].queue, ::cleanRaceHud);
+	foreachThread(level.minigames["race"].queue, ::leave);
 	level.raceScoreboard = [];
 	level notify("race ended");
 }
