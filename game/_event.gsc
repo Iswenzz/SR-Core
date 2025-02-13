@@ -15,7 +15,7 @@ start()
 
 	level.eventInitialized = true;
 	level.eventStarted = false;
-	level.eventStartIn = 5;
+	level.eventStartIn = 30;
 	level.eventGame = 0;
 	level.eventGames = 5;
 	level.eventGameTitle = "Event";
