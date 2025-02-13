@@ -205,7 +205,7 @@ hudScoreboard()
 	level.huds["event"]["title"] setText("Scoreboard");
 	level.huds["event"]["title"] thread moveIn(0, 1, "bottom", 1);
 
-	level.huds["event"]["scoreboard"] = addHud(level, -90, 110, 1, "center", "top", 1.4, 96);
+	level.huds["event"]["scoreboard"] = addHud(level, -80, 110, 1, "center", "top", 1.4, 96);
 	level.huds["event"]["scoreboard"] setText(scores);
 	level.huds["event"]["scoreboard"] thread moveIn(0, 1, "bottom", 1);
 
