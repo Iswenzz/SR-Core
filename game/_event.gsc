@@ -19,7 +19,7 @@ start()
 	level.eventGame = 0;
 	level.eventGames = 5;
 	level.eventGameTitle = "Event";
-	level.eventRounds = 10;
+	level.eventRounds = 6;
 	level.eventRound = 0;
 	level.eventWave = 1;
 
