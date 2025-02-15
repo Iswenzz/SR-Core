@@ -111,7 +111,7 @@ playerAddPoints(points)
 {
 	self.kills += points;
 	self.pers["kills"] += points;
-	self sr\game\_rank::giveRankXP("", points * 2000);
+	self sr\game\_rank::giveRankXP("", points * 1000);
 
 	if (isDefined(self.huds["speedrun"]) && isDefined(self.huds["speedrun"]["row3"]))
 		self.huds["speedrun"]["row3"] setText(fmt("Points             ^2%d", self.pers["kills"]));
