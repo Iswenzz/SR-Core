@@ -233,25 +233,12 @@ playSoundOnAllPlayers(soundAlias)
 		players[i] playLocalSound(soundAlias);
 }
 
-bounce(origin, direction, power, repeat, useDvars)
+bounce(origin, direction, power, repeat)
 {
 	self endon("disconnect");
 	self endon("death");
 
 	repeat = IfUndef(repeat, 1);
-	if (self isDefrag())
-		useDvars = false;
-
-	if (!isDefined(useDvars))
-	{
-		self setClientDvars(
-			"bg_viewKickMax", 0,
-			"bg_viewKickMin", 0,
-			"bg_viewKickRandom", 0,
-			"bg_viewKickScale", 0
-		);
-	}
-
 	for (i = 0; i < repeat; i++)
 	{
 		previousMaxHealth = self.maxhealth;
@@ -263,17 +250,6 @@ bounce(origin, direction, power, repeat, useDvars)
 		self doPlayerDamage(self, self, power, 0, "MOD_PROJECTILE", "none", origin, direction, "none", 0);
 		self.maxhealth = previousMaxHealth;
 		self.health = previousHealth;
-	}
-
-	if (!isDefined(useDvars))
-	{
-		wait .05;
-		self setClientDvars(
-			"bg_viewKickMax", 90,
-			"bg_viewKickMin", 5,
-			"bg_viewKickRandom", 0.4,
-			"bg_viewKickScale", 0.2
-		);
 	}
 }
 
@@ -450,6 +426,13 @@ isDemo()
 isBot()
 {
 	return isDefined(self) && self.isBot;
+}
+
+isBhop()
+{
+	if (isDefined(self.sr_mode) && self.sr_mode == "Bhop")
+		return true;
+	return false;
 }
 
 isDefrag()
