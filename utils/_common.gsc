@@ -78,6 +78,18 @@ getPlayingPlayers()
 	return array;
 }
 
+getAlliesPlayers()
+{
+	players = getAllPlayers();
+	array = [];
+	for (i = 0; i < players.size; i++)
+	{
+		if (players[i] isAllies())
+			array[array.size] = players[i];
+	}
+	return array;
+}
+
 getDeadPlayers()
 {
 	players = getAllPlayers();

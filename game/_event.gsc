@@ -38,7 +38,7 @@ start()
 	level.eventInitialized = undefined;
 	level.allowSpawn = true;
 
-	foreachCall(getAllPlayers(), ::playerEventEnd);
+	foreachCall(getAlliesPlayers(), ::playerEventEnd);
 }
 
 startGame(title, spawnPoint, messages, resetRoundCallback, startRoundCallback)
@@ -49,7 +49,7 @@ startGame(title, spawnPoint, messages, resetRoundCallback, startRoundCallback)
 	level endon("event_game_end");
 	level notify("event_game");
 
-	foreachCall(getAllPlayers(), ::playerEventGame);
+	foreachCall(getAlliesPlayers(), ::playerEventGame);
 
 	level.eventRound = 0;
 	level.eventWave = 1;
@@ -58,7 +58,7 @@ startGame(title, spawnPoint, messages, resetRoundCallback, startRoundCallback)
 	while (level.eventRound < level.eventRounds)
 	{
 		[[resetRoundCallback]]();
-		foreachCall(getAllPlayers(), ::playerSpawnAt, spawnPoint);
+		foreachCall(getAlliesPlayers(), ::playerSpawnAt, spawnPoint);
 
 		cleanScreen();
 		thread hudIntro(title, messages);
@@ -229,7 +229,7 @@ hudScoreboard()
 
 sortPlayersByKills()
 {
-    players = getAllPlayers();
+    players = getAlliesPlayers();
     for (i = 0; i < players.size - 1; i++)
     {
         for (j = 0; j < players.size - i - 1; j++)
