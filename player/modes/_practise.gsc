@@ -36,13 +36,12 @@ watchSave()
 	{
 		if (self meleeButtonPressed())
 		{
-			if (self isOnGround() && !self isMantling() && !self isOnLadder())
-			{
-				self.practise["origin"] = self getOrigin();
-				self.practise["angle"] = self getPlayerAngles();
-				self iPrintLn("^2Position saved");
-				wait 0.2;
-			}
+			self.practise["origin"] = self getOrigin();
+			self.practise["angles"] = self getPlayerAngles();
+			self.practise["velocity"] = self getVelocity();
+			self.practise["flags"] = self pmFlags();
+			self iPrintLn("^2Position saved");
+			wait 0.2;
 		}
 		wait 0.05;
 	}
@@ -58,19 +57,17 @@ watchLoad()
 	{
 		if (self useButtonPressed())
 		{
-			if (!isDefined(self.practise["origin"]) || !isDefined(self.practise["angle"]))
+			if (!isDefined(self.practise["origin"]) || !isDefined(self.practise["angles"]))
 			{
 				self iPrintLn("^1No position saved");
 				wait 0.2;
 				continue;
 			}
-
-			self freezeControls(1);
 			self setOrigin(self.practise["origin"]);
-			self setPlayerAngles(self.practise["angle"]);
+			self setPlayerAngles(self.practise["angles"]);
+			self setVelocity(self.practise["velocity"]);
+			self setPmFlags(self.practise["flags"]);
 			self iPrintLn("^5Position loaded");
-			wait 0.05;
-			self freezeControls(0);
 			wait 0.2;
 		}
 		wait 0.05;
