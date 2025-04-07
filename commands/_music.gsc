@@ -38,13 +38,22 @@ main()
 	add("fortnite");
 	add("wide");
 	add("dame");
-	add("sometime");
+	add("wasted");
 	add("trap");
 	add("bing");
 	add("redsun");
 	add("heya");
 	add("fak");
 	add("gf");
+	add("auf");
+	add("boom");
+	add("nae");
+	add("rap");
+	add("ocean");
+	add("ksi");
+	add("lighthouse");
+	add("farted");
+	add("melodica");
 }
 
 cmd_Radio(args)
