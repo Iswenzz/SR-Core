@@ -48,11 +48,11 @@ main()
 	add("auf");
 	add("boom");
 	add("nae");
-	add("rap");
+	add("diamond");
 	add("ocean");
 	add("ksi");
 	add("lighthouse");
-	add("farted");
+	add("dj");
 	add("melodica");
 }
 
