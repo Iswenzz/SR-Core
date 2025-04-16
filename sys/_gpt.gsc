@@ -27,7 +27,7 @@ completions(message)
 
 	critical_enter("http");
 
-	url = "https://api.openai.com/v1/chat/completions";
+	url = "https://openrouter.ai/api/v1/chat/completions";
 	json = fmt(template("chat"), message);
 
 	request = HTTP_Init();
@@ -40,22 +40,21 @@ completions(message)
 	HTTP_Free(request);
 
 	start = stringIndex(response, "\"content\"");
-	end = stringIndex(response, "\"},");
+	end = stringIndex(response, ",\"refusal\":null");
 	if (start != -1) start += 11;
 
 	critical_release("http");
 
-	if (status != 2 || start == -1 || end == -1)
+	if (status != 2 || start == -1 || end == -1 || start > end)
 	{
-		message("^1[GPT] Error");
+		message("^1[AI] Error");
 		return;
 	}
-
 	response = getSubStr(response, start, end);
 	while (isSubStr(response, "\\n"))
 		response = Replace(response, "\\n", "");
 
 	chunks = stringChunk(response, 128);
 	for (i = 0; i < chunks.size; i++)
-		message(fmt("^2[GPT] ^7%s", chunks[i]));
+		message(fmt("^5[AI] ^7%s", chunks[i]));
 }
