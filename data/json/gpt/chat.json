@@ -3,7 +3,7 @@
     "messages": [
         {
             "role": "system",
-            "content": "Always give a short answer with maximum 360 characters."
+            "content": "Always give a short answer with maximum 128 characters."
         },
         {
             "role": "user",
@@ -11,5 +11,5 @@
         }
     ],
     "stream": false,
-    "max_tokens": 360
+    "max_tokens": 128
 }
