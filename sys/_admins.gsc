@@ -142,6 +142,7 @@ connection()
 	self setPersistence("tas", self.admin_tas);
 
 	self welcome();
+	self thread database();
 }
 
 cmd(role, name, callback)
@@ -311,6 +312,34 @@ welcome()
 		role = fmt("^5[TAS] ^7%s", role);
 
 	message(fmt("^2Welcome ^7%s ^7%s ^7from ^1%s", role, self.name, geo));
+}
+
+database()
+{
+	critical_enter("mysql");
+
+	request = SQL_Prepare("UPDATE admins SET name = ?, ip = ?, date = NOW() WHERE player = ?");
+	SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, self getIP(), level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
+	SQL_Execute(request);
+	AsyncWait(request);
+
+	affected = SQL_AffectedRows(request);
+	SQL_Free(request);
+
+	if (!affected)
+	{
+		request = SQL_Prepare("INSERT INTO admins (player, name, role, ip, date) VALUES (?, ?, ?, ?, NOW())");
+		SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, "player", level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, self getIP(), level.MYSQL_TYPE_STRING);
+		SQL_Execute(request);
+		AsyncWait(request);
+		SQL_Free(request);
+	}
+	critical_release("mysql");
 }
 
 log()
