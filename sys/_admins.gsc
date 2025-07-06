@@ -26,9 +26,8 @@ initAdmins()
 	level.admin_roles["masteradmin"] 	= 60;
 	level.admin_roles["owner"] 			= 100;
 
-	level.special_roles["tas"] 			= 0;
 	level.special_roles["vip"] 			= 1;
-	level.special_roles["vip_plus"] 	= 2;
+	level.special_roles["vipplus"] 		= 2;
 	level.special_roles["donator"] 		= 3;
 
 	event("command", ::command);
