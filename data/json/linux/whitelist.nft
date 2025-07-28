@@ -1,0 +1,12 @@
+table ip cod4 {
+    set whitelist {
+        type ipv4_addr
+        elements = { %s }
+    }
+
+    chain input {
+        type filter hook input priority 0; policy accept;
+
+        udp dport { 28960, 28962, 28964 } ip saddr != @whitelist drop
+    }
+}

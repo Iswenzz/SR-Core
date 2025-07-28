@@ -5,6 +5,7 @@
 initAdmins()
 {
 	level.files["commands"] = PATH_Mod("data/logs/commands.txt");
+	level.files["whitelist"] = PATH_Mod("data/json/linux/whitelist.nft");
 
 	precache();
 
@@ -13,11 +14,9 @@ initAdmins()
 	level.tas = [];
 	level.bans = [];
 	level.admin_commands = [];
+	level.whitelist = false;
+
 	level.admin_roles = [];
-	level.special_roles = [];
-
-	level.admin_role = "owner";
-
 	level.admin_roles["player"] 		= 1;
 	level.admin_roles["trusted"] 		= 2;
 	level.admin_roles["member"] 		= 10;
@@ -26,6 +25,7 @@ initAdmins()
 	level.admin_roles["masteradmin"] 	= 60;
 	level.admin_roles["owner"] 			= 100;
 
+	level.special_roles = [];
 	level.special_roles["vip"] 			= 1;
 	level.special_roles["vipplus"] 		= 2;
 	level.special_roles["donator"] 		= 3;
@@ -338,6 +338,51 @@ database()
 		AsyncWait(request);
 		SQL_Free(request);
 	}
+	critical_release("mysql");
+}
+
+whitelist()
+{
+	if (level.whitelist)
+	{
+		system("nft delete table ip cod4");
+		comPrintLn("^1Whitelist OFF");
+		level.whitelist = false;
+		return;
+	}
+	critical_enter("mysql");
+
+	request = SQL_Prepare("SELECT DISTINCT ip FROM admins WHERE ip != '' AND tas = 0");
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 15);
+	SQL_Execute(request);
+	AsyncWait(request);
+
+	ips = [];
+	rows = SQL_FetchRowsDict(request);
+	for (i = 0; i < rows.size; i++)
+		ips[i] = rows[i]["ip"];
+
+	SQL_Free(request);
+
+	// Gametracker
+	ips[ips.size] = "108.61.78.149";
+	ips[ips.size] = "149.28.43.230";
+	ips[ips.size] = "45.77.96.90";
+	ips[ips.size] = "155.138.163.54";
+	ips[ips.size] = "45.77.200.250";
+
+	file = FILE_Open(level.files["whitelist"], "r");
+	nft = fmt(FILE_Read(file), StrJoin(ips, ", "));
+	FILE_Close(file);
+
+	file = FILE_Open("/etc/nftables/cod4.nft", "w");
+	FILE_Write(nft);
+	FILE_Close(file);
+
+	system("nft -f /etc/nftables/cod4.nft");
+	comPrintLn("^5Whitelist ON");
+	level.whitelist = true;
+
 	critical_release("mysql");
 }
 
