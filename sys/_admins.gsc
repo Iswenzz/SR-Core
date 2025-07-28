@@ -5,7 +5,7 @@
 initAdmins()
 {
 	level.files["commands"] = PATH_Mod("data/logs/commands.txt");
-	level.files["whitelist"] = PATH_Mod("data/json/linux/whitelist.nft");
+	level.files["whitelist"] = PATH_Mod("sr/data/json/linux/whitelist.nft");
 
 	precache();
 
