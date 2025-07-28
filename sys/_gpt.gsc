@@ -13,7 +13,7 @@ initGPT()
 
 json()
 {
-	level.gpt["json"]["chat"] = FILE_OpenJSON(PATH_Mod("sr/data/json/gpt/chat.json"));
+	level.gpt["json"]["chat"] = FILE_ReadAll(PATH_Mod("sr/data/files/gpt/chat.json"));
 }
 
 template(id)

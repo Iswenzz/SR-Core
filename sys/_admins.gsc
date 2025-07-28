@@ -5,7 +5,6 @@
 initAdmins()
 {
 	level.files["commands"] = PATH_Mod("data/logs/commands.txt");
-	level.files["whitelist"] = PATH_Mod("sr/data/json/linux/whitelist.nft");
 
 	precache();
 
@@ -13,6 +12,7 @@ initAdmins()
 	level.vips = [];
 	level.tas = [];
 	level.bans = [];
+	level.admin_role = "owner";
 	level.admin_commands = [];
 	level.whitelist = false;
 
@@ -364,6 +364,11 @@ whitelist()
 
 	SQL_Free(request);
 
+	// Local
+	ips[ips.size] = "0.0.0.0";
+	ips[ips.size] = "127.0.0.1";
+	ips[ips.size] = "213.32.18.205";
+
 	// Gametracker
 	ips[ips.size] = "108.61.78.149";
 	ips[ips.size] = "149.28.43.230";
@@ -371,14 +376,24 @@ whitelist()
 	ips[ips.size] = "155.138.163.54";
 	ips[ips.size] = "45.77.200.250";
 
-	file = FILE_Open(level.files["whitelist"], "r");
-	nft = fmt(FILE_Read(file), StrJoin(ips, ", "));
-	FILE_Close(file);
-
 	file = FILE_Open("/etc/nftables/cod4.nft", "w");
-	FILE_Write(nft);
+
+	FILE_WriteLine(file, "table ip cod4 {");
+	FILE_WriteLine(file, "	set whitelist {");
+	FILE_WriteLine(file, "		type ipv4_addr");
+	FILE_Write(file, "		elements = { ");
+	for (i = 0; i < ips.size; i++)
+		FILE_Write(file, ips[i] + ", ");
+	FILE_WriteLine(file, "0.0.0.0 }");
+	FILE_WriteLine(file, "	}");
+	FILE_WriteLine(file, "	chain input {");
+	FILE_WriteLine(file, "		type filter hook input priority 0; policy accept;");
+	FILE_WriteLine(file, "		udp dport { 28960, 28962, 28964 } ip saddr != @whitelist drop");
+	FILE_WriteLine(file, "	}");
+	FILE_WriteLine(file, "}");
 	FILE_Close(file);
 
+	system("nft delete table ip cod4");
 	system("nft -f /etc/nftables/cod4.nft");
 	comPrintLn("^5Whitelist ON");
 	level.whitelist = true;

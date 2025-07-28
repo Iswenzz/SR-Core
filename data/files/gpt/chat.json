@@ -7,7 +7,7 @@
         },
         {
             "role": "user",
-            "content": "<string>"
+            "content": "%s"
         }
     ],
     "stream": false,
