@@ -346,7 +346,7 @@ whitelist()
 	if (level.whitelist)
 	{
 		system("nft delete table ip cod4");
-		comPrintLn("^1Whitelist OFF");
+		message("^1Whitelist OFF");
 		level.whitelist = false;
 		return;
 	}
@@ -395,7 +395,7 @@ whitelist()
 
 	system("nft delete table ip cod4");
 	system("nft -f /etc/nftables/cod4.nft");
-	comPrintLn("^5Whitelist ON");
+	message("^5Whitelist ON");
 	level.whitelist = true;
 
 	critical_release("mysql");
