@@ -725,5 +725,14 @@ cmd_Ban(args)
 cmd_Whitelist(args)
 {
 	self log();
+	if (!level.whitelist)
+		self pm("You are about to ^2enable ^7the whitelist. To confirm that you agree, please type ^2!confirm");
+	else
+		self pm("You are about to ^1disable ^7the whitelist. To confirm that you agree, please type ^2!confirm");
+
+	response = self confirmation();
+	if (!hasConfirmed(response))
+		return;
+
 	sr\sys\_admins::whitelist();
 }

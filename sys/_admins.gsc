@@ -14,7 +14,7 @@ initAdmins()
 	level.bans = [];
 	level.admin_role = "owner";
 	level.admin_commands = [];
-	level.whitelist = false;
+	level.whitelist = FILE_Exists("/etc/nftables/cod4.nft");
 
 	level.admin_roles = [];
 	level.admin_roles["player"] 		= 1;
@@ -345,8 +345,9 @@ whitelist()
 {
 	if (level.whitelist)
 	{
+		FILE_Delete("/etc/nftables/cod4.nft");
 		system("nft delete table ip cod4");
-		message("^1Whitelist OFF");
+		message("Whitelist ^1disabled");
 		level.whitelist = false;
 		return;
 	}
@@ -395,7 +396,7 @@ whitelist()
 
 	system("nft delete table ip cod4");
 	system("nft -f /etc/nftables/cod4.nft");
-	message("^5Whitelist ON");
+	message("Whitelist ^5enabled");
 	level.whitelist = true;
 
 	critical_release("mysql");
