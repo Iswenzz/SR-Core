@@ -12,12 +12,11 @@ initAdmins()
 	level.vips = [];
 	level.tas = [];
 	level.bans = [];
-	level.admin_commands = [];
-	level.admin_roles = [];
-	level.special_roles = [];
-
 	level.admin_role = "owner";
+	level.admin_commands = [];
+	level.whitelist = FILE_Exists("/etc/nftables/cod4.nft");
 
+	level.admin_roles = [];
 	level.admin_roles["player"] 		= 1;
 	level.admin_roles["trusted"] 		= 2;
 	level.admin_roles["member"] 		= 10;
@@ -26,6 +25,7 @@ initAdmins()
 	level.admin_roles["masteradmin"] 	= 60;
 	level.admin_roles["owner"] 			= 100;
 
+	level.special_roles = [];
 	level.special_roles["vip"] 			= 1;
 	level.special_roles["vipplus"] 		= 2;
 	level.special_roles["donator"] 		= 3;
@@ -338,6 +338,67 @@ database()
 		AsyncWait(request);
 		SQL_Free(request);
 	}
+	critical_release("mysql");
+}
+
+whitelist()
+{
+	if (level.whitelist)
+	{
+		FILE_Delete("/etc/nftables/cod4.nft");
+		system("nft delete table ip cod4");
+		message("Whitelist ^1disabled");
+		level.whitelist = false;
+		return;
+	}
+	critical_enter("mysql");
+
+	request = SQL_Prepare("SELECT DISTINCT ip FROM admins WHERE ip != '' AND tas = 0");
+	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 15);
+	SQL_Execute(request);
+	AsyncWait(request);
+
+	ips = [];
+	rows = SQL_FetchRowsDict(request);
+	for (i = 0; i < rows.size; i++)
+		ips[i] = rows[i]["ip"];
+
+	SQL_Free(request);
+
+	// Local
+	ips[ips.size] = "0.0.0.0";
+	ips[ips.size] = "127.0.0.1";
+	ips[ips.size] = "213.32.18.205";
+
+	// Gametracker
+	ips[ips.size] = "108.61.78.149";
+	ips[ips.size] = "149.28.43.230";
+	ips[ips.size] = "45.77.96.90";
+	ips[ips.size] = "155.138.163.54";
+	ips[ips.size] = "45.77.200.250";
+
+	file = FILE_Open("/etc/nftables/cod4.nft", "w");
+
+	FILE_WriteLine(file, "table ip cod4 {");
+	FILE_WriteLine(file, "	set whitelist {");
+	FILE_WriteLine(file, "		type ipv4_addr");
+	FILE_Write(file, "		elements = { ");
+	for (i = 0; i < ips.size; i++)
+		FILE_Write(file, ips[i] + ", ");
+	FILE_WriteLine(file, "0.0.0.0 }");
+	FILE_WriteLine(file, "	}");
+	FILE_WriteLine(file, "	chain input {");
+	FILE_WriteLine(file, "		type filter hook input priority 0; policy accept;");
+	FILE_WriteLine(file, "		udp dport { 28960, 28962, 28964 } ip saddr != @whitelist drop");
+	FILE_WriteLine(file, "	}");
+	FILE_WriteLine(file, "}");
+	FILE_Close(file);
+
+	system("nft delete table ip cod4");
+	system("nft -f /etc/nftables/cod4.nft");
+	message("Whitelist ^5enabled");
+	level.whitelist = true;
+
 	critical_release("mysql");
 }
 

@@ -49,6 +49,7 @@ main()
 	cmd("owner",        "sr_vip",			::cmd_VIP);
 	cmd("owner",        "sr_id",			::cmd_ID);
 	cmd("masteradmin",  "sr_ban",			::cmd_Ban);
+	cmd("member",       "whitelist",		::cmd_Whitelist);
 }
 
 cmd_FastRestart(args)
@@ -719,4 +720,19 @@ cmd_Ban(args)
 	SQL_Free(request);
 
 	critical_release("mysql");
+}
+
+cmd_Whitelist(args)
+{
+	self log();
+	if (!level.whitelist)
+		self pm("You are about to ^2enable ^7the whitelist. To confirm that you agree, please type ^2!confirm");
+	else
+		self pm("You are about to ^1disable ^7the whitelist. To confirm that you agree, please type ^2!confirm");
+
+	response = self confirmation();
+	if (!hasConfirmed(response))
+		return;
+
+	sr\sys\_admins::whitelist();
 }

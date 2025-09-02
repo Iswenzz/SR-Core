@@ -18,7 +18,7 @@ initDiscord()
 
 json()
 {
-	level.discord["json"]["embed"] = FILE_OpenJSON(PATH_Mod("sr/data/json/discord/embed.json"));
+	level.discord["json"]["embed"] = FILE_ReadAll(PATH_Mod("sr/data/files/discord/embed.json"));
 }
 
 template(id)

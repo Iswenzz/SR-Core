@@ -1,0 +1,12 @@
+{
+    "embeds": [
+        {
+            "color": %d,
+            "title": %s,
+            "description": %s,
+            "thumbnail": {
+                "url": %s
+            }
+        }
+    ]
+}
