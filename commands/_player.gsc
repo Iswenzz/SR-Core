@@ -16,6 +16,7 @@ main()
 	cmd("adminplus", 	"flash",			::cmd_Flash);
 	cmd("owner", 		"g_gravity",		::cmd_G_Gravity);
 	cmd("owner", 		"g_speed",			::cmd_G_Speed);
+	cmd("owner", 		"dr_jumpers_speed",	::cmd_Dr_Jumpers_Speed);
 	cmd("owner", 		"god",				::cmd_God);
 	cmd("admin", 		"heal",				::cmd_Heal);
 	cmd("owner",		"jump_height",		::cmd_JumpHeight);
@@ -255,6 +256,23 @@ cmd_G_Speed(args)
 
 	player.moveSpeed = value;
 	player setMoveSpeed(player.moveSpeed);
+}
+
+cmd_Dr_Jumpers_Speed(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: dr_jumpers_speed <value> <playerName>");
+
+	value = ToInt(args[0]);
+	player = IfUndef(getPlayerByName(args[1]), self);
+	player cheat();
+
+	self log();
+	if (!isDefined(player))
+		return pm("Could not find player");
+
+	player.moveSpeedScale = value;
+	player setMoveSpeedScale(player.moveSpeedScale);
 }
 
 cmd_God(args)
