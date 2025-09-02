@@ -263,7 +263,7 @@ cmd_Dr_Jumpers_Speed(args)
 	if (args.size < 1)
 		return self pm("Usage: dr_jumpers_speed <value> <playerName>");
 
-	value = ToInt(args[0]);
+	value = ToFloat(args[0]);
 	player = IfUndef(getPlayerByName(args[1]), self);
 	player cheat();
 
