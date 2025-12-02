@@ -10,9 +10,6 @@ output = Image.new("RGBA", (size, size), color="black")
 
 
 def computeSpritesheet():
-    """
-    Compute a GIF into a spritesheet.
-    """
     image = Image.open(gifPath)
 
     rows = ceil(sqrt(image.n_frames))
@@ -31,9 +28,6 @@ def computeSpritesheet():
 
 
 def saveToIWI():
-    """
-    Save image to IWI.
-    """
     output.save("output/{}.png".format(imageName))
     with wandImage.Image(filename="output/{}.png".format(imageName)) as image:
         image.compression = "dxt5"
@@ -42,9 +36,6 @@ def saveToIWI():
 
 
 def main():
-    """
-    Program entry.
-    """
     global imageName
     global gifPath
 
