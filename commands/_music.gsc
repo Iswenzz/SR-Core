@@ -12,6 +12,7 @@ main()
 	cmd("adminplus", 	"music_help", 	::cmd_MusicHelp);
 	cmd("player", 		"music_stop", 	::cmd_MusicStop);
 	cmd("owner",  		"radio",		::cmd_Radio);
+	cmd("adminplus",	"soundalias", 	::cmd_SoundAlias);
 
 	// SFX
 	add("cosita");
@@ -113,6 +114,16 @@ cmd_MusicHelp(args)
 cmd_MusicStop(args)
 {
 	self clientcmd("snd_stopambient");
+}
+
+cmd_SoundAlias(args)
+{
+	aliases = SoundAlias();
+	for (i = 0; i < aliases.size; i++)
+	{
+		self pm(aliases[i]);
+		wait 0.05;
+	}
 }
 
 play(name)
