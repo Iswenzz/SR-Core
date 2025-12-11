@@ -1,0 +1,16 @@
+{
+	stateMap "default";
+
+	vertexShader 3.0 "sr_screen_6d3cd4cb"
+    {
+
+	}
+
+	pixelShader 3.0 "sr_screen_6d3cd4cb"
+	{
+		colorMapSampler = material.colorMap;
+	}
+
+	vertex.position = code.position;
+	vertex.texcoord[0] = code.texcoord[0];
+}

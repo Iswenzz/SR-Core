@@ -216,9 +216,7 @@ float4		envMapParms2;
 float4		envMapParms3;
 float4		envMapParms4;
 
-
 float4		filterTap[8] : register(c9); // VERTEX_REGISTER(c10) PIXEL_REGISTER(c20); //: register(c10);
-
 
 #define MENU_HIGHLIGHT_RADIUS       filterTap[6][0]
 #define MENU_HIGHLIGHT_BRIGHTNESS   filterTap[6][1]

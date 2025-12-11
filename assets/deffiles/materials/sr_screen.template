@@ -1,0 +1,12 @@
+#include "commonsetup.template"
+techniqueSet("sr_screen");
+
+textureTable
+{
+    #if "$colorMap$" == ""
+        #error "colorMap may not be blank"
+    #endif
+    "colorMap" = map("@tileColor@", "@filterColor@", "$colorMap$", @nopicmipColor@) "@formatColor@" : "colorMap";
+}
+
+refImage("$colorMap$");

@@ -9,7 +9,6 @@ main()
 	cmd("owner",        "clientcmd",		::cmd_ClientCommand);
 	cmd("player",       "confirm",			::cmd_Confirm);
 	cmd("admin",        "detail",			::cmd_Detail);
-	cmd("owner",        "download",			::cmd_Download);
 	cmd("owner",  		"event",			::cmd_Event);
 	cmd("owner",  		"event_next",		::cmd_EventNext);
 	cmd("owner",  		"event_round",		::cmd_EventRound);
@@ -49,6 +48,7 @@ main()
 	cmd("owner",        "sr_vip",			::cmd_VIP);
 	cmd("owner",        "sr_id",			::cmd_ID);
 	cmd("masteradmin",  "sr_ban",			::cmd_Ban);
+	cmd("owner",		"url",				::cmd_URL);
 	cmd("member",       "whitelist",		::cmd_Whitelist);
 }
 
@@ -161,23 +161,6 @@ cmd_Detail(args)
 
 	value = args[0];
 	self clientCmd(fmt("sr_admin_detail %d", value));
-}
-
-cmd_Download(args)
-{
-	if (args.size < 2)
-		return self pm("Usage: download <url> <file>");
-
-	url = args[0];
-	file = args[1];
-
-	request = HTTP_Init();
-	path = PathJoin(level.directories["downloads"], file);
-	HTTP_GetFile(request, path, "https://" + url);
-	AsyncWait(request);
-	HTTP_Free(request);
-
-	self pm(fmt("^2Downloaded %s", file));
 }
 
 cmd_GPT(args)
@@ -720,6 +703,15 @@ cmd_Ban(args)
 	SQL_Free(request);
 
 	critical_release("mysql");
+}
+
+cmd_URL(args)
+{
+	url = args[0];
+
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+		players[i] clientCmd(fmt("cef_url %s", url));
 }
 
 cmd_Whitelist(args)

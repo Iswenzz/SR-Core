@@ -27,8 +27,8 @@ main()
 	cmd("masteradmin", 	"sr_unfreeze",		::cmd_UnFreeze);
 	cmd("adminplus", 	"shock",			::cmd_Shock);
 	cmd("vip", 			"shovel",			::cmd_Shovel);
-	cmd("masteradmin", 	"respawn",			::cmd_Respawn);
-	cmd("masteradmin", 	"respawn_all",		::cmd_RespawnAll);
+	cmd("masteradmin", 	"spawn",			::cmd_Spawn);
+	cmd("masteradmin", 	"spawn_all",		::cmd_SpawnAll);
 	cmd("adminplus", 	"team",				::cmd_Team);
 	cmd("adminplus", 	"takeall",			::cmd_TakeAll);
 	cmd("owner", 		"trooper",			::cmd_Trooper);
@@ -42,7 +42,7 @@ main()
 	cmd("adminplus", 	"weapon_acti",		::cmd_WeaponActi);
 }
 
-cmd_Respawn(args)
+cmd_Spawn(args)
 {
 	player = IfUndef(getPlayerByName(args[0]), self);
 	if (!isDefined(player))
@@ -54,7 +54,7 @@ cmd_Respawn(args)
 		player respawn();
 }
 
-cmd_RespawnAll(args)
+cmd_SpawnAll(args)
 {
 	self log();
 	players = getDeadPlayers();
