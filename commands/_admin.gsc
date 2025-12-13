@@ -48,7 +48,6 @@ main()
 	cmd("owner",        "sr_vip",			::cmd_VIP);
 	cmd("owner",        "sr_id",			::cmd_ID);
 	cmd("masteradmin",  "sr_ban",			::cmd_Ban);
-	cmd("owner",		"url",				::cmd_URL);
 	cmd("member",       "whitelist",		::cmd_Whitelist);
 }
 
@@ -703,15 +702,6 @@ cmd_Ban(args)
 	SQL_Free(request);
 
 	critical_release("mysql");
-}
-
-cmd_URL(args)
-{
-	url = args[0];
-
-	players = getAllPlayers();
-	for (i = 0; i < players.size; i++)
-		players[i] clientCmd(fmt("cef_url %s", url));
 }
 
 cmd_Whitelist(args)
