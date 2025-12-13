@@ -10,7 +10,6 @@ main()
 	cmd("owner", 		"shader",		::cmd_Shader);
 	cmd("owner", 		"spawn_model",	::cmd_SpawnModel);
 	cmd("owner", 		"mirror",		::cmd_Mirror);
-	cmd("owner", 		"screen",		::cmd_Screen);
 	cmd("owner", 		"vision",		::cmd_Vision);
 }
 
@@ -49,15 +48,6 @@ cmd_Mirror(args)
 	model.targetname = "spawned_model";
 	model.angles = (0, 90 + angles[1], 0);
 	model setModel("x_mirror");
-}
-
-cmd_Screen(args)
-{
-	angles = self getPlayerAngles();
-	model = spawn("script_model", self.origin + (0, 0, 100));
-	model.targetname = "spawned_model";
-	model.angles = (180, 180 + (90 + angles[1]), 0);
-	model setModel("x_screen");
 }
 
 cmd_Shader(args)

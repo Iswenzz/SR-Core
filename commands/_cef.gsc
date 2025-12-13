@@ -5,22 +5,23 @@
 
 main()
 {
-	cmd("owner",		"cef",				::cmd_CEF);
+	cmd("member",		"screen",			::cmd_Screen);
 	cmd("member",		"video",			::cmd_Video);
 	cmd("member",		"pause",			::cmd_Pause);
 	cmd("member",		"seek",				::cmd_Seek);
 	cmd("member",		"short",			::cmd_Short);
 	cmd("member",		"short_next",		::cmd_ShortNext);
 	cmd("member",		"short_prev",		::cmd_ShortPrev);
+	cmd("owner",		"cef",				::cmd_CEF);
 }
 
-cmd_CEF(args)
+cmd_Screen(args)
 {
-	url = args[0];
-
-	players = getAllPlayers();
-	for (i = 0; i < players.size; i++)
-		players[i] clientCmd(fmt("cef_url %s", url));
+	angles = self getPlayerAngles();
+	model = spawn("script_model", self.origin + (0, 0, 100));
+	model.targetname = "spawned_model";
+	model.angles = (180, 180 + (90 + angles[1]), 0);
+	model setModel("x_screen");
 }
 
 cmd_Video(args)
@@ -108,4 +109,13 @@ cmd_ShortPrev(args)
 	HTTP_Free(request);
 
 	critical_release("http");
+}
+
+cmd_CEF(args)
+{
+	url = args[0];
+
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+		players[i] clientCmd(fmt("cef_url %s", url));
 }
