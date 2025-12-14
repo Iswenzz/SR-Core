@@ -45,10 +45,9 @@ cmd_Video(args)
 cmd_Shorts(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: !shorts <,keywords> <?page>");
+		return self pm("Usage: !shorts <keywords>");
 
-	keywords = args[0];
-	page = IfUndef(args[1], "0");
+	keywords = StrJoin(args, ",");
 
 	critical_enter("http");
 
@@ -66,7 +65,7 @@ cmd_Playlist(args)
 		return self pm("Usage: !playlist <id> <?page>");
 
 	id = args[0];
-	page = IfUndef(args[1], "0");
+	page = IfUndef(args[1], "1");
 
 	critical_enter("http");
 
