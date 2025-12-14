@@ -52,7 +52,7 @@ cmd_Shorts(args)
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/shorts?keywords=%s&page=%s", keywords, page));
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/shorts?keywords=%s", keywords));
 	AsyncWait(request);
 	HTTP_Free(request);
 
