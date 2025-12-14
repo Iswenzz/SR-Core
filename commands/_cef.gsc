@@ -7,11 +7,12 @@ main()
 {
 	cmd("member",		"screen",			::cmd_Screen);
 	cmd("member",		"video",			::cmd_Video);
+	cmd("member",		"shorts",			::cmd_Shorts);
+	cmd("member",		"playlist",			::cmd_Playlist);
 	cmd("member",		"pause",			::cmd_Pause);
 	cmd("member",		"seek",				::cmd_Seek);
-	cmd("member",		"short",			::cmd_Short);
-	cmd("member",		"short_next",		::cmd_ShortNext);
-	cmd("member",		"short_prev",		::cmd_ShortPrev);
+	cmd("member",		"next",				::cmd_Next);
+	cmd("member",		"prev",				::cmd_Prev);
 	cmd("owner",		"cef",				::cmd_CEF);
 }
 
@@ -34,7 +35,43 @@ cmd_Video(args)
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", fmt("http://localhost:9000/api/video/youtube?id=%s", id));
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/video?id=%s", id));
+	AsyncWait(request);
+	HTTP_Free(request);
+
+	critical_release("http");
+}
+
+cmd_Shorts(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: !shorts <,keywords> <?page>");
+
+	keywords = args[0];
+	page = IfUndef(args[1], "0");
+
+	critical_enter("http");
+
+	request = HTTP_Init();
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/shorts?keywords=%s&page=%s", keywords, page));
+	AsyncWait(request);
+	HTTP_Free(request);
+
+	critical_release("http");
+}
+
+cmd_Playlist(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: !playlist <id> <?page>");
+
+	id = args[0];
+	page = IfUndef(args[1], "0");
+
+	critical_enter("http");
+
+	request = HTTP_Init();
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/playlist?id=%s&page=%s", id, page));
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -70,41 +107,24 @@ cmd_Seek(args)
 	critical_release("http");
 }
 
-cmd_Short(args)
+cmd_Next(args)
 {
-	if (args.size < 1)
-		return self pm("Usage: !short <keywords> (separated by comma)");
-
-	keywords = args[0];
-
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", fmt("http://localhost:9000/api/shorts/youtube?keywords=%s", keywords));
+	HTTP_Post(request, "", "http://localhost:9000/api/video/next");
 	AsyncWait(request);
 	HTTP_Free(request);
 
 	critical_release("http");
 }
 
-cmd_ShortNext(args)
+cmd_Prev(args)
 {
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", "http://localhost:9000/api/shorts/next");
-	AsyncWait(request);
-	HTTP_Free(request);
-
-	critical_release("http");
-}
-
-cmd_ShortPrev(args)
-{
-	critical_enter("http");
-
-	request = HTTP_Init();
-	HTTP_Post(request, "", "http://localhost:9000/api/shorts/prev");
+	HTTP_Post(request, "", "http://localhost:9000/api/video/prev");
 	AsyncWait(request);
 	HTTP_Free(request);
 
