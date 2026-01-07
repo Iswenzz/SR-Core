@@ -3,41 +3,37 @@
 
 main()
 {
-	suite("GSCLIB Net");
+	suite("GSCLIB Network");
+
 	setup();
 
-	beforeAll();
-
-	// net/curl
-	it(::test_CURL_Version, "CURL_Version");
-	it(::test_CURL_HeaderCleanup, "CURL_HeaderCleanup");
-	it(::test_CURL_OptCleanup, "CURL_OptCleanup");
-	it(::test_CURL_AddOpt, "CURL_AddOpt");
-
-	// net/ftp
-	it(::test_SFTP_Shell, "SFTP_Shell", ::beforeSFTP, ::afterSFTP);
-	it(::test_SFTP_PostGetFile, "SFTP_PostGetFile", ::beforeSFTP, ::afterSFTP);
-	it(::test_FTP_Shell, "FTP_Shell", ::beforeFTP, ::afterFTP);
+	// Network/FTP
 	it(::test_FTP_PostGetFile, "FTP_PostGetFile", ::beforeFTP, ::afterFTP);
+	it(::test_SFTP_Shell, "SFTP_Shell", ::beforeSFTP, ::afterSFTP);
+	it(::test_FTP_PostGetFile, "FTP_PostGetFile", ::beforeFTP, ::afterFTP);
+	it(::test_FTP_Shell, "FTP_Shell", ::beforeFTP, ::afterFTP);
+	it(::test_FTP_HeaderCleanup, "FTP_HeaderCleanup", ::beforeFTP, ::afterFTP);
+	it(::test_FTP_OptCleanup, "FTP_OptCleanup", ::beforeFTP, ::afterFTP);
+	it(::test_FTP_AddOpt, "FTP_AddOpt", ::beforeFTP, ::afterFTP);
 
-	// net/http
+	// Network/HTTP
 	it(::test_HTTP_Get, "HTTP_Get");
 	it(::test_HTTP_GetFile, "HTTP_GetFile");
 	it(::test_HTTP_Post, "HTTP_Post");
 	it(::test_HTTP_PostFile, "HTTP_PostFile");
+	it(::test_HTTP_HeaderCleanup, "HTTP_HeaderCleanup");
+	it(::test_HTTP_OptCleanup, "HTTP_OptCleanup");
+	it(::test_HTTP_AddOpt, "HTTP_AddOpt");
 
-	// net/mysql
-	it(::test_SQL_Version, "SQL_Version", ::beforeMySQL);
-	it(::test_SQL_HexString, "SQL_HexString", ::beforeMySQL);
-	it(::test_SQL_EscapeString, "SQL_EscapeString", ::beforeMySQL);
-	it(::test_SQL_SelectDB, "SQL_SelectDB", ::beforeMySQL);
-	it(::test_SQL_ListDB, "SQL_ListDB", ::beforeMySQL);
-	it(::test_SQL_ListTables, "SQL_ListTables", ::beforeMySQL);
-	it(::test_SQL_PrepareStatement, "SQL_PrepareStatement", ::beforeMySQL);
-	it(::test_SQL_PrepareStatementDict, "SQL_PrepareStatementDict", ::beforeMySQL);
-	it(::test_SQL_Query, "SQL_Query", ::beforeMySQL);
-
-	afterAll();
+	// Network/MySQL
+	it(::test_SQL_Version, "SQL_Version", ::beforeMySQL, ::afterMySQL);
+	it(::test_SQL_HexString, "SQL_HexString", ::beforeMySQL, ::afterMySQL);
+	it(::test_SQL_EscapeString, "SQL_EscapeString", ::beforeMySQL, ::afterMySQL);
+	it(::test_SQL_SelectDB, "SQL_SelectDB", ::beforeMySQL, ::afterMySQL);
+	it(::test_SQL_ListDB, "SQL_ListDB", ::beforeMySQL, ::afterMySQL);
+	it(::test_SQL_ListTables, "SQL_ListTables", ::beforeMySQL, ::afterMySQL);
+	it(::test_SQL_PrepareStatement, "SQL_PrepareStatement", ::beforeMySQL, ::afterMySQL);
+	it(::test_SQL_Query, "SQL_Query", ::beforeMySQL, ::afterMySQL);
 }
 
 setup()
@@ -75,87 +71,48 @@ setup()
 	level.MYSQL_TYPE_GEOMETRY     = 255;
 }
 
-beforeAll()
-{
-	if (hasMySQL())
-	{
-		SQL_Connect("127.0.0.1", 3306, "root", "rootpassword");
-		SQL_SelectDB("speedrun");
-	}
-}
-
-afterAll()
-{
-	if (hasMySQL())
-		SQL_Close();
-}
-
-beforeMySQL()
-{
-	if (!hasMySQL())
-		return false;
-	request = SQL_Query("DELETE FROM ranks WHERE player = '12345678'");
-	AsyncWait(request);
-	SQL_Free(request);
-	return true;
-}
-
 beforeSFTP()
 {
 	if (!hasSFTP())
 		return false;
-	SFTP_Connect("192.168.1.86", "root", "rootpassword", 22);
-	return true;
+	return SFTP_Connect("127.0.0.1", "root", "rootpassword", 22);
 }
 
 afterSFTP()
 {
 	if (!hasSFTP())
 		return false;
-	FTP_Close();
-	return true;
+	return FTP_Close();
 }
 
 beforeFTP()
 {
 	if (!hasFTP())
 		return false;
-	FTP_Connect("192.168.1.86", "root", "rootpassword", 21);
-	return true;
+	return FTP_Connect("127.0.0.1", "root", "rootpassword", 21);
 }
 
 afterFTP()
 {
 	if (!hasFTP())
 		return false;
-	FTP_Close();
-	return true;
+	return FTP_Close();
 }
 
-test_CURL_Version()
+beforeMySQL()
 {
-	EXPECT_EQ(CURL_Version(), "8.2.1-DEV");
+	if (!hasMySQL())
+		return false;
+	if (!SQL_Connect("127.0.0.1", 3306, "root", "rootpassword"))
+		return false;
+	return SQL_SelectDB("speedrun");
 }
 
-test_CURL_HeaderCleanup()
+afterMySQL()
 {
-	request = CURL_Init();
-	EXPECT_UNDEFINED(CURL_HeaderCleanup(request));
-	CURL_Free(request);
-}
-
-test_CURL_OptCleanup()
-{
-	request = CURL_Init();
-	EXPECT_UNDEFINED(CURL_OptCleanup(request));
-	CURL_Free(request);
-}
-
-test_CURL_AddOpt()
-{
-	request = CURL_Init();
-	EXPECT_UNDEFINED(CURL_AddOpt(request, 41, 1));
-	CURL_Free(request);
+	if (!hasMySQL())
+		return false;
+	return SQL_Close();
 }
 
 test_HTTP_Get()
@@ -164,10 +121,10 @@ test_HTTP_Get()
 
 	request = HTTP_Init();
 	HTTP_Get(request, url);
-	AsyncWait(request);
+	EXPECT_EQ(AsyncWait(request), 2);
 
 	EXPECT_CONTAIN(HTTP_Response(request), "httpbin.org");
-	HTTP_Free(request);
+	EXPECT_TRUE(HTTP_Free(request));
 }
 
 test_HTTP_GetFile()
@@ -176,8 +133,8 @@ test_HTTP_GetFile()
 
 	request = HTTP_Init();
 	EXPECT_TRUE(HTTP_GetFile(request, "temp/iswenzz.html", url));
-	AsyncWait(request);
-	HTTP_Free(request);
+	EXPECT_EQ(AsyncWait(request), 2);
+	EXPECT_TRUE(HTTP_Free(request));
 }
 
 test_HTTP_Post()
@@ -186,12 +143,12 @@ test_HTTP_Post()
 	url = "http://httpbin.org/post";
 
 	request = HTTP_Init();
-	CURL_AddHeader(request, "Accept: application/json,Content-Type: application/json");
+	HTTP_AddHeader(request, "Accept: application/json,Content-Type: application/json");
 	HTTP_Post(request, json, url);
-	AsyncWait(request);
+	EXPECT_EQ(AsyncWait(request), 2);
 
 	EXPECT_CONTAIN(HTTP_Response(request), "password");
-	HTTP_Free(request);
+	EXPECT_TRUE(HTTP_Free(request));
 }
 
 test_HTTP_PostFile()
@@ -200,98 +157,103 @@ test_HTTP_PostFile()
 
 	request = HTTP_Init();
 	HTTP_PostFile(request, "temp/iswenzz.html", url);
-	AsyncWait(request);
+	EXPECT_EQ(AsyncWait(request), 2);
 
 	EXPECT_CONTAIN(HTTP_Response(request), "Iswenzz");
-	HTTP_Free(request);
+	EXPECT_TRUE(HTTP_Free(request));
 	FILE_Delete("temp/iswenzz.html");
+}
+
+test_HTTP_HeaderCleanup()
+{
+	request = HTTP_Init();
+	EXPECT_UNDEFINED(HTTP_HeaderCleanup(request));
+	EXPECT_TRUE(HTTP_Free(request));
+}
+
+test_HTTP_OptCleanup()
+{
+	request = HTTP_Init();
+	EXPECT_UNDEFINED(HTTP_OptCleanup(request));
+	EXPECT_TRUE(HTTP_Free(request));
+}
+
+test_HTTP_AddOpt()
+{
+	request = HTTP_Init();
+	EXPECT_UNDEFINED(HTTP_AddOpt(request, 41, 1));
+	EXPECT_TRUE(HTTP_Free(request));
 }
 
 test_SFTP_Shell()
 {
-	FILE_Create("temp/test.txt");
-
 	request = FTP_Init();
-	EXPECT_TRUE(FTP_PostFile(request, "temp/test.txt", "test.txt"));
-	AsyncWait(request);
-	FTP_Free(request);
-
-	request = FTP_Init();
-	CURL_AddHeader(request, "rename test.txt new.txt");
+	FTP_AddHeader(request, "rename ftp.txt new.txt");
 	EXPECT_TRUE(FTP_Shell(request));
-	AsyncWait(request);
-	FTP_Free(request);
+	EXPECT_EQ(AsyncWait(request), 2);
+	EXPECT_TRUE(FTP_Free(request));
 
 	request = FTP_Init();
-	CURL_AddHeader(request, "rm new.txt");
+	FTP_AddHeader(request, "rm new.txt");
 	EXPECT_TRUE(FTP_Shell(request));
-	AsyncWait(request);
-	FTP_Free(request);
-}
-
-test_SFTP_PostGetFile()
-{
-	request = FTP_Init();
-	EXPECT_TRUE(FTP_PostFile(request, "temp/test.txt", "get.txt"));
-	AsyncWait(request);
-	FTP_Free(request);
-
-	request = FTP_Init();
-	EXPECT_TRUE(FTP_GetFile(request, "temp/test.txt", "get.txt"));
-	AsyncWait(request);
-	FTP_Free(request);
-
-	request = FTP_Init();
-	CURL_AddHeader(request, "rm get.txt");
-	EXPECT_TRUE(FTP_Shell(request));
-	AsyncWait(request);
-	FTP_Free(request);
-
-	FILE_Delete("temp/test.txt");
+	EXPECT_EQ(AsyncWait(request), 2);
+	EXPECT_TRUE(FTP_Free(request));
 }
 
 test_FTP_Shell()
 {
-	FILE_Create("temp/test.txt");
-
 	request = FTP_Init();
-	EXPECT_TRUE(FTP_PostFile(request, "temp/test.txt", "test.txt"));
-	AsyncWait(request);
-	FTP_Free(request);
-
-	request = FTP_Init();
-	CURL_AddHeader(request, "RNFR test.txt");
-	CURL_AddHeader(request, "RNTO new.txt");
+	FTP_AddHeader(request, "RNFR ftp.txt");
+	FTP_AddHeader(request, "RNTO new.txt");
 	EXPECT_TRUE(FTP_Shell(request));
-	AsyncWait(request);
-	FTP_Free(request);
+	EXPECT_EQ(AsyncWait(request), 2);
+	EXPECT_TRUE(FTP_Free(request));
 
 	request = FTP_Init();
-	CURL_AddHeader(request, "DELE new.txt");
+	FTP_AddHeader(request, "DELE new.txt");
 	EXPECT_TRUE(FTP_Shell(request));
-	AsyncWait(request);
-	FTP_Free(request);
+	EXPECT_EQ(AsyncWait(request), 2);
+	EXPECT_TRUE(FTP_Free(request));
 }
 
 test_FTP_PostGetFile()
 {
-	request = FTP_Init();
-	EXPECT_TRUE(FTP_PostFile(request, "temp/test.txt", "get.txt"));
-	AsyncWait(request);
-	FTP_Free(request);
+	FILE_Create("temp/test.txt");
 
 	request = FTP_Init();
-	EXPECT_TRUE(FTP_GetFile(request, "temp/test.txt", "get.txt"));
-	AsyncWait(request);
-	FTP_Free(request);
-
-	request = FTP_Init();
-	CURL_AddHeader(request, "DELE get.txt");
-	EXPECT_TRUE(FTP_Shell(request));
-	AsyncWait(request);
-	FTP_Free(request);
+	EXPECT_TRUE(FTP_PostFile(request, "temp/test.txt", "ftp.txt"));
+	EXPECT_EQ(AsyncWait(request), 2);
+	EXPECT_TRUE(FTP_Free(request));
 
 	FILE_Delete("temp/test.txt");
+
+	request = FTP_Init();
+	EXPECT_TRUE(FTP_GetFile(request, "temp/ftp.txt", "ftp.txt"));
+	EXPECT_EQ(AsyncWait(request), 2);
+	EXPECT_TRUE(FTP_Free(request));
+
+	FILE_Delete("temp/ftp.txt");
+}
+
+test_FTP_HeaderCleanup()
+{
+	request = FTP_Init();
+	EXPECT_UNDEFINED(FTP_HeaderCleanup(request));
+	EXPECT_TRUE(FTP_Free(request));
+}
+
+test_FTP_OptCleanup()
+{
+	request = FTP_Init();
+	EXPECT_UNDEFINED(FTP_OptCleanup(request));
+	EXPECT_TRUE(FTP_Free(request));
+}
+
+test_FTP_AddOpt()
+{
+	request = FTP_Init();
+	EXPECT_UNDEFINED(FTP_AddOpt(request, 41, 1));
+	EXPECT_TRUE(FTP_Free(request));
 }
 
 test_SQL_PrepareStatement()
@@ -310,7 +272,14 @@ test_SQL_PrepareStatement()
 	expectedRow[3] = 80;
 	expectedRow[4] = 10;
 
-	// Insert Into
+	// Delete
+	request = SQL_Prepare("DELETE FROM ranks WHERE player = ?");
+	SQL_BindParam(request, "12345678", level.MYSQL_TYPE_STRING);
+	EXPECT_TRUE(SQL_Execute(request));
+	EXPECT_EQ(AsyncWait(request), 2);
+	EXPECT_TRUE(SQL_Free(request));
+
+	// Insert
 	request = SQL_Prepare("INSERT INTO ranks (name, player, xp, level, prestige) VALUES (?, ?, ?, ?, ?)");
 	SQL_BindParam(request, "Iswenzz", level.MYSQL_TYPE_STRING);
 	SQL_BindParam(request, "12345678", level.MYSQL_TYPE_STRING);
@@ -318,22 +287,15 @@ test_SQL_PrepareStatement()
 	SQL_BindParam(request, 80, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, 10, level.MYSQL_TYPE_LONG);
 	EXPECT_TRUE(SQL_Execute(request));
-	AsyncWait(request);
-
+	EXPECT_EQ(AsyncWait(request), 2);
 	EXPECT_EQ(SQL_AffectedRows(request), 1);
-	SQL_Free(request);
+	EXPECT_TRUE(SQL_Free(request));
 
 	// Select
 	request = SQL_Prepare("SELECT name, player, xp, level, prestige FROM ranks WHERE player = ?");
 	SQL_BindParam(request, "12345678", level.MYSQL_TYPE_STRING);
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 36);
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 8);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
 	EXPECT_TRUE(SQL_Execute(request));
-	AsyncWait(request);
-
+	EXPECT_EQ(AsyncWait(request), 2);
 	fields = SQL_FetchFields(request);
 	rows = SQL_FetchRows(request);
 
@@ -348,10 +310,33 @@ test_SQL_PrepareStatement()
 		for (j = 0; j < row.size; j++)
 			EXPECT_EQ(row[j], expectedRow[j]);
 	}
-	SQL_Free(request);
+	EXPECT_TRUE(SQL_Free(request));
+
+	// Select
+	request = SQL_Prepare("SELECT name, player, xp, level, prestige FROM ranks WHERE player = ?");
+	SQL_BindParam(request, "12345678", level.MYSQL_TYPE_STRING);
+	EXPECT_TRUE(SQL_Execute(request));
+	EXPECT_EQ(AsyncWait(request), 2);
+	fields = SQL_FetchFields(request);
+	rows = SQL_FetchRowsDict(request);
+
+	for (i = 0; i < fields.size; i++)
+		EXPECT_EQ(fields[i], expectedFields[i]);
+	EXPECT_EQ(SQL_NumFields(request), 5);
+
+	EXPECT_EQ(SQL_NumRows(request), 1);
+	for (i = 0; i < rows.size; i++)
+	{
+		row = rows[i];
+		keys = Reverse(getArrayKeys(row));
+
+		for (j = 0; j < row.size; j++)
+			EXPECT_EQ(row[keys[j]], expectedRow[j]);
+	}
+	EXPECT_TRUE(SQL_Free(request));
 }
 
-test_SQL_PrepareStatementDict()
+test_SQL_Query()
 {
 	expectedFields = [];
 	expectedFields[0] = "name";
@@ -367,78 +352,20 @@ test_SQL_PrepareStatementDict()
 	expectedRow[3] = 80;
 	expectedRow[4] = 10;
 
-	// Insert Into
-	request = SQL_Prepare("INSERT INTO ranks (name, player, xp, level, prestige) VALUES (?, ?, ?, ?, ?)");
-	SQL_BindParam(request, "Iswenzz", level.MYSQL_TYPE_STRING);
-	SQL_BindParam(request, "12345678", level.MYSQL_TYPE_STRING);
-	SQL_BindParam(request, 1296000, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(request, 80, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(request, 10, level.MYSQL_TYPE_LONG);
-	EXPECT_TRUE(SQL_Execute(request));
-	AsyncWait(request);
+	// Delete
+	request = SQL_Query("DELETE FROM ranks WHERE player = '12345678'");
+	EXPECT_EQ(AsyncWait(request), 2);
+	EXPECT_TRUE(SQL_Free(request));
 
+	// Insert
+	request = SQL_Query("INSERT INTO ranks (name, player, xp, level, prestige) VALUES ('Iswenzz', '12345678', 1296000, 80, 10)");
+	EXPECT_EQ(AsyncWait(request), 2);
 	EXPECT_EQ(SQL_AffectedRows(request), 1);
-	SQL_Free(request);
-
-	// Select
-	request = SQL_Prepare("SELECT name, player, xp, level, prestige FROM ranks WHERE player = ?");
-	SQL_BindParam(request, "12345678", level.MYSQL_TYPE_STRING);
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 36);
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 8);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
-	EXPECT_TRUE(SQL_Execute(request));
-	AsyncWait(request);
-
-	fields = SQL_FetchFields(request);
-	rows = SQL_FetchRowsDict(request);
-
-	for (i = 0; i < fields.size; i++)
-		EXPECT_EQ(fields[i], expectedFields[i]);
-	EXPECT_EQ(SQL_NumFields(request), 5);
-
-	EXPECT_EQ(SQL_NumRows(request), 1);
-	for (i = 0; i < rows.size; i++)
-	{
-		row = rows[i];
-		keys = Reverse(getArrayKeys(row));
-
-		for (j = 0; j < row.size; j++)
-			EXPECT_EQ(row[keys[j]], expectedRow[j]);
-	}
-	SQL_Free(request);
-}
-
-test_SQL_Query()
-{
-	expectedFields = [];
-	expectedFields[0] = "name";
-	expectedFields[1] = "player";
-	expectedFields[2] = "xp";
-	expectedFields[3] = "level";
-	expectedFields[4] = "prestige";
-
-	expectedRow = [];
-	expectedRow[0] = "Iswenzz";
-	expectedRow[1] = "12345678";
-	expectedRow[2] = "1296000";
-	expectedRow[3] = "80";
-	expectedRow[4] = "10";
-
-	// Insert Into
-	queryInsert = "INSERT INTO ranks (name, player, xp, level, prestige) " +
-		"VALUES ('Iswenzz', '12345678', 1296000, 80, 10)";
-	request = SQL_Query(queryInsert);
-	AsyncWait(request);
-
-	EXPECT_EQ(SQL_AffectedRows(request), 1);
-	SQL_Free(request);
+	EXPECT_TRUE(SQL_Free(request));
 
 	// Select
 	request = SQL_Query("SELECT name, player, xp, level, prestige FROM ranks WHERE player = '12345678'");
-	AsyncWait(request);
-
+	EXPECT_EQ(AsyncWait(request), 2);
 	fields = SQL_FetchFields(request);
 	rows = SQL_FetchRowsDict(request);
 
@@ -455,7 +382,7 @@ test_SQL_Query()
 		for (j = 0; j < row.size; j++)
 			EXPECT_EQ(row[keys[j]], expectedRow[j]);
 	}
-	SQL_Free(request);
+	EXPECT_TRUE(SQL_Free(request));
 }
 
 test_SQL_HexString()
@@ -486,16 +413,5 @@ test_SQL_ListTables()
 
 test_SQL_Version()
 {
-	EXPECT_EQ(SQL_Version(), "3.3.1");
-}
-
-AsyncWait(request)
-{
-	status = AsyncStatus(request);
-	while (status <= 1)
-	{
-		wait 0.05;
-		status = AsyncStatus(request);
-	}
-	return status;
+	EXPECT_EQ(SQL_Version(), "1.1");
 }

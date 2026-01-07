@@ -32,7 +32,7 @@ completions(message)
 
 	request = HTTP_Init();
 	HTTP_JSON(request);
-	CURL_AddHeader(request, fmt("Authorization: Bearer %s", level.envs["API_GPT"]));
+	HTTP_AddHeader(request, fmt("Authorization: Bearer %s", level.envs["API_GPT"]));
 
 	HTTP_Post(request, json, url);
 	status = AsyncWait(request);

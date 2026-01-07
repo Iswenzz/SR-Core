@@ -68,10 +68,6 @@ fetch()
 	critical_enter("mysql");
 
 	request = SQL_Prepare("SELECT player, role, vip, tas FROM admins");
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 36);
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 20);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
 	SQL_Execute(request);
 	AsyncWait(request);
 
@@ -88,10 +84,6 @@ fetch()
 	SQL_Free(request);
 
 	request = SQL_Prepare("SELECT guid, player, steamId, ip FROM bans");
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 8);
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 36);
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 50);
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 15);
 	SQL_Execute(request);
 	AsyncWait(request);
 
@@ -354,7 +346,6 @@ whitelist()
 	critical_enter("mysql");
 
 	request = SQL_Prepare("SELECT DISTINCT ip FROM admins WHERE ip != '' AND tas = 0");
-	SQL_BindResult(request, level.MYSQL_TYPE_STRING, 15);
 	SQL_Execute(request);
 	AsyncWait(request);
 

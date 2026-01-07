@@ -3,10 +3,11 @@
 
 main()
 {
-	suite("GSCLIB Data");
+	suite("GSCLIB IO");
+
 	beforeAll();
 
-	// data/file
+	// IO/File
 	it(::test_FILE_Create, "FILE_Create");
 	it(::test_FILE_Open, "FILE_Open");
 	it(::test_FILE_Exists, "FILE_Exists");
@@ -23,12 +24,7 @@ main()
 	it(::test_FILE_ReadDir, "FILE_ReadDir");
 	it(::test_FILE_RmDir, "FILE_RmDir");
 
-	// data/regex
-	it(::test_RegexMatch, "RegexMatch");
-	it(::test_RegexReplace, "RegexReplace");
-	it(::test_RegexSplit, "RegexSplit");
-
-	// data/zip
+	// IO/Zip
 	it(::test_ZIP_Open, "ZIP_Open");
 	it(::test_ZIP_Add, "ZIP_Add");
 	it(::test_ZIP_Rename, "ZIP_Rename");
@@ -127,29 +123,6 @@ test_FILE_Write()
 test_FILE_Delete()
 {
 	EXPECT_TRUE(FILE_Delete("temp/test.txt"));
-}
-
-test_RegexMatch()
-{
-	matches = RegexMatch("hello123world456", "\\d+");
-	EXPECT_CONTAIN(matches, "123");
-	EXPECT_CONTAIN(matches, "456");
-
-	emailPattern = "^([a-z0-9\\+_\\-]+)(\\.[a-z0-9\\+_\\-]+)*@([a-z0-9\\-]+\\.)+[a-z]{2,6}$";
-	matches = RegexMatch("suxlolz1528@gmail.com", emailPattern);
-	EXPECT_CONTAIN(matches, "suxlolz1528@gmail.com");
-}
-
-test_RegexSplit()
-{
-	matches = RegexSplit("hello123world456", "\\d+");
-	EXPECT_CONTAIN(matches, "hello");
-	EXPECT_CONTAIN(matches, "world");
-}
-
-test_RegexReplace()
-{
-	EXPECT_EQ(RegexReplace("123hello456world789", "_", "\\d+"), "_hello_world_");
 }
 
 test_ZIP_Open()

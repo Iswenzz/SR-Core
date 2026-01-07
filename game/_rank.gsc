@@ -169,9 +169,6 @@ loadRank()
 
 	request = SQL_Prepare("SELECT xp, level, prestige FROM ranks WHERE player = ?");
 	SQL_BindParam(request, self.guid, level.MYSQL_TYPE_STRING);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
-	SQL_BindResult(request, level.MYSQL_TYPE_LONG);
 	SQL_Execute(request);
 	AsyncWait(request);
 	row = IfUndef(SQL_FetchRowDict(request), []);

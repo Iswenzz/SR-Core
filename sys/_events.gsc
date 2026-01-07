@@ -89,7 +89,7 @@ eventEnd(map)
 
 eventDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime)
 {
-	// Players already have the "damage" callback but is only execute from engine damage
+	// Players already have the "damage" callback but is only executed from engine damage
 	self notify("damaged", eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
 }
 
@@ -163,7 +163,7 @@ sectionDone(section, index)
 AsyncWait(request)
 {
 	status = AsyncStatus(request);
-	while (status <= 1)
+	while (status == 0 || status == 1)
 	{
 		wait 0.05;
 		status = AsyncStatus(request);

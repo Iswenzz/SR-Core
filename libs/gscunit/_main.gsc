@@ -247,7 +247,7 @@ EXPECT_TRUE(a)
 			break;
 	}
 
-	error_expect(true, a);
+	error_expect(a, true);
 	return FAIL();
 }
 
@@ -270,7 +270,7 @@ EXPECT_FALSE(a)
 			break;
 	}
 
-	error_expect(false, a);
+	error_expect(a, false);
 	return FAIL();
 }
 
@@ -279,7 +279,7 @@ EXPECT_UNDEFINED(a)
 	gscunit_debug(a);
 	if (!isDefined(a)) return true;
 
-	error_expect(undefined, a);
+	error_expect(a, undefined);
 	return FAIL();
 }
 
@@ -380,7 +380,7 @@ EXPECT_TYPE(a, b)
 	gscunit_debug(a);
 	if (GetType(a) != GetType(b)) return true;
 
-	error_expect(GetType(a), GetType(a));
+	error_expect(GetType(a), GetType(b));
 	return FAIL();
 }
 

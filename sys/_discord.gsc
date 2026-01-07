@@ -67,7 +67,7 @@ image(webhook, title, message, image)
 	HTTP_Free(request);
 
 	request = HTTP_Init();
-	CURL_AddHeader(request, "Content-Type: multipart/form-data");
+	HTTP_AddHeader(request, "Content-Type: multipart/form-data");
 	HTTP_Verbose(request);
 	HTTP_PostFile(request, image, hook.url);
 	AsyncWait(request);
