@@ -149,10 +149,8 @@ AsyncWait(request)
 	while (status == 0 || status == 1)
 	{
 		wait 0.05;
-		sysPrintLn("^5WAIT");
 		status = AsyncStatus(request);
 	}
-	sysPrintLn("^5DONE");
 	return status;
 }
 
