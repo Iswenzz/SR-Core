@@ -16,7 +16,7 @@ initMySQL()
 	}
 
 	SQL_SelectDB(level.envs["DB"]);
-	critical("mysql", true);
+	critical("mysql");
 
     variables();
 }

@@ -3,8 +3,6 @@ initEvents()
 	level.events = [];
 	level.menus = [];
 	level.huds = [];
-	level.mutex = [];
-	level.sections = [];
 	level.loadings = [];
 
 	event("connect", ::connect);
@@ -123,12 +121,9 @@ loading(id)
 		wait 0.05;
 }
 
-critical(id, important)
+critical(id)
 {
 	CriticalSection(id);
-
-	if (isDefined(important) && important)
-		level.sections[level.sections.size] = id;
 }
 
 critical_enter(id)
@@ -144,20 +139,8 @@ critical_release(id)
 
 waitCriticalSections()
 {
-	while (!All(CriticalSections(), ::sectionDone))
+	while (!StatusCriticalSections())
 		wait 0.05;
-}
-
-sectionDone(section, index)
-{
-	sections = CriticalSections();
-	keys = getArrayKeys(sections);
-	locked = sections[keys[index]];
-
-	if (!Contains(level.sections, keys[index]))
-		return true;
-
-	return !locked;
 }
 
 AsyncWait(request)
@@ -166,8 +149,10 @@ AsyncWait(request)
 	while (status == 0 || status == 1)
 	{
 		wait 0.05;
+		sysPrintLn("^5WAIT");
 		status = AsyncStatus(request);
 	}
+	sysPrintLn("^5DONE");
 	return status;
 }
 

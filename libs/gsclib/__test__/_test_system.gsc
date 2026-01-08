@@ -31,13 +31,17 @@ test_Version()
 test_CriticalSection()
 {
 	CriticalSection("gscunit");
-	EXPECT_GE(CriticalSections().size, 1);
+	EXPECT_EQ(CriticalSections().size, 1);
 
 	EnterCriticalSection("gscunit");
 	sections = CriticalSections();
 	EXPECT_TRUE(sections["gscunit"]);
 
+	EXPECT_FALSE(StatusCriticalSections());
+
 	LeaveCriticalSection("gscunit");
 	sections = CriticalSections();
 	EXPECT_FALSE(sections["gscunit"]);
+
+	EXPECT_TRUE(StatusCriticalSections());
 }
