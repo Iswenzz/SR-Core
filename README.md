@@ -45,5 +45,9 @@ Core mod for SR containing libraries, utilities, player movements, player huds, 
 * Voice chat with proximity feature
 * Radio MP3 & WAV streaming
 
+## Building (Windows)
+_Pre-Requisites:_
+1. [CoD4 Mod Tools](https://github.com/promod/CoD4-Mod-Tools)
+
 ## Contributors:
 ***Note:*** If you would like to contribute to this repository, feel free to send a pull request, and I will review your code. Also feel free to post about any problems that may arise in the issues section of the repository.
