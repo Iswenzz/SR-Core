@@ -53,8 +53,6 @@ main()
 	add("ocean");
 	add("ksi");
 	add("lighthouse");
-	add("dj");
-	add("melodica");
 }
 
 cmd_Radio(args)
