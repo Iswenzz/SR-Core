@@ -68,6 +68,7 @@ buildRanksIcon()
 		level.assets["prestige"][pId] = icon;
 		precacheShader(icon);
 	}
+	precacheShader("rank_special1");
 }
 
 reset()
@@ -185,7 +186,7 @@ loadRank()
 
 	self.pers["rankxp"] = clamp(self.pers["rankxp"], getRankInfoMinXP(self.pers["rank"]), getRankInfoMaxXP(self.pers["rank"]));
 	self.pers["rank"] = clamp(self.pers["rank"], 0, level.maxRank);
-	self.pers["prestige"] = clamp(self.pers["prestige"], 0, level.maxPrestige);
+	self.pers["prestige"] = self.pers["prestige"];
 
 	self setStat(2326, self.pers["prestige"]);
 	self setStat(2350, self.pers["rank"]);

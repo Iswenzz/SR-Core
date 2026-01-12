@@ -187,5 +187,5 @@ cmd_DebugSpectate(args)
 
 cmd_Test(args)
 {
-
+	self setRank(79, 21);
 }
