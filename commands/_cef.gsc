@@ -44,9 +44,6 @@ cmd_Video(args)
 
 cmd_Shorts(args)
 {
-	if (args.size < 1)
-		return self pm("Usage: !shorts <keywords>");
-
 	keywords = StrJoin(args, ",");
 
 	critical_enter("http");
