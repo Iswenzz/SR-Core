@@ -79,7 +79,7 @@ cmd_Pause(args)
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", "http://localhost:9000/api/video/pause");
+	HTTP_Post(request, "", "http://localhost:9000/api/youtube/pause");
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -96,7 +96,7 @@ cmd_Seek(args)
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", fmt("http://localhost:9000/api/video/seek?time=%s", time));
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/seek?time=%s", time));
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -108,7 +108,7 @@ cmd_Next(args)
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", "http://localhost:9000/api/video/next");
+	HTTP_Post(request, "", "http://localhost:9000/api/youtube/next");
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -120,7 +120,7 @@ cmd_Prev(args)
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", "http://localhost:9000/api/video/prev");
+	HTTP_Post(request, "", "http://localhost:9000/api/youtube/prev");
 	AsyncWait(request);
 	HTTP_Free(request);
 
