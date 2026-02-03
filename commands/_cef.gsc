@@ -6,7 +6,7 @@
 main()
 {
 	cmd("member",		"screen",			::cmd_Screen);
-	cmd("member",		"video",			::cmd_Video);
+	cmd("player",		"video",			::cmd_Video);
 	cmd("member",		"shorts",			::cmd_Shorts);
 	cmd("member",		"playlist",			::cmd_Playlist);
 	cmd("member",		"pause",			::cmd_Pause);
@@ -31,11 +31,12 @@ cmd_Video(args)
 		return self pm("Usage: !video <id>");
 
 	id = args[0];
+	ifEnded = Ternary(self isRole("player"), "&ifEnded=true", "");
 
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/video?id=%s", id));
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/video?id=%s%s", id, ifEnded));
 	AsyncWait(request);
 	HTTP_Free(request);
 
