@@ -31,7 +31,7 @@ cmd_Video(args)
 		return self pm("Usage: !video <id>");
 
 	id = args[0];
-	ifEnded = Ternary(self isRole("player"), "&ifEnded=true", "");
+	ifEnded = Ternary(self.admin_role == "player", "&ifEnded=true", "");
 
 	critical_enter("http");
 
