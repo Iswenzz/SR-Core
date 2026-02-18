@@ -9,6 +9,8 @@ main()
 	cmd("player",		"video",			::cmd_Video);
 	cmd("member",		"shorts",			::cmd_Shorts);
 	cmd("member",		"playlist",			::cmd_Playlist);
+	cmd("member",		"tg_channel",		::cmd_TelegramChannel);
+	cmd("member",		"tg_video",			::cmd_TelegramVideo);
 	cmd("member",		"pause",			::cmd_Pause);
 	cmd("member",		"seek",				::cmd_Seek);
 	cmd("member",		"next",				::cmd_Next);
@@ -75,12 +77,46 @@ cmd_Playlist(args)
 	critical_release("http");
 }
 
+cmd_TelegramChannel(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: !tg_channel <name>");
+
+	name = args[0];
+
+	critical_enter("http");
+
+	request = HTTP_Init();
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/telegram/channel?name=%s", name));
+	AsyncWait(request);
+	HTTP_Free(request);
+
+	critical_release("http");
+}
+
+cmd_TelegramVideo(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: !tg_video <messageId>");
+
+	messageId = args[0];
+
+	critical_enter("http");
+
+	request = HTTP_Init();
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/telegram/video?messageId=%s", messageId));
+	AsyncWait(request);
+	HTTP_Free(request);
+
+	critical_release("http");
+}
+
 cmd_Pause(args)
 {
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", "http://localhost:9000/api/youtube/pause");
+	HTTP_Post(request, "", "http://localhost:9000/api/video/pause");
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -97,7 +133,7 @@ cmd_Seek(args)
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/seek?time=%s", time));
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/video/seek?time=%s", time));
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -109,7 +145,7 @@ cmd_Next(args)
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", "http://localhost:9000/api/youtube/next");
+	HTTP_Post(request, "", "http://localhost:9000/api/video/next");
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -121,7 +157,7 @@ cmd_Prev(args)
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", "http://localhost:9000/api/youtube/prev");
+	HTTP_Post(request, "", "http://localhost:9000/api/video/prev");
 	AsyncWait(request);
 	HTTP_Free(request);
 
