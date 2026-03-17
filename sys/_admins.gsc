@@ -254,34 +254,17 @@ banned()
 	exec(fmt("kick %d banned", self.number));
 }
 
-tas(name, player)
+tas(player, tas)
 {
-	tas = !isRegisterTAS(player);
-	level.tas[player] = tas;
-
 	critical_enter("mysql");
 
-	request = SQL_Prepare("UPDATE admins SET tas = ? WHERE player = ?");
+	request = SQL_Prepare("UPDATE players SET tas = ? WHERE player = ?");
 	SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, player, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
 	AsyncWait(request);
-
-	affected = SQL_AffectedRows(request);
 	SQL_Free(request);
 
-	if (!affected)
-	{
-		request = SQL_Prepare("INSERT INTO admins (name, player, tas) VALUES (?, ?, ?)");
-		SQL_BindParam(request, name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, player, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
-		SQL_Execute(request);
-		AsyncWait(request);
-		SQL_Free(request);
-	}
-
-	// Update entries
 	request = SQL_Prepare("UPDATE leaderboards SET tas = ? WHERE player = ?");
 	SQL_BindParam(request, tas, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, player, level.MYSQL_TYPE_STRING);
@@ -290,8 +273,6 @@ tas(name, player)
 	SQL_Free(request);
 
 	critical_release("mysql");
-
-	comPrintLn(fmt("^2Registred %s ^2%s to TAS(%d)", name, player, tas));
 }
 
 welcome()

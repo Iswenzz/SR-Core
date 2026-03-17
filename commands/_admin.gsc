@@ -20,7 +20,6 @@ main()
 	cmd("owner",        "getdvar",			::cmd_GetDvar);
 	cmd("player", 		"help",				::cmd_Help);
 	cmd("member", 		"msg",				::cmd_Msg);
-	cmd("player",       "myid",				::cmd_MyID);
 	cmd("masteradmin", 	"module", 			::cmd_Module);
 	cmd("owner",  		"nextmap",			::cmd_NextMap);
 	cmd("owner",		"notification",		::cmd_Notification);
@@ -41,14 +40,14 @@ main()
 	cmd("player",       "tas",				::cmd_TAS);
 	cmd("owner",        "setdvar",			::cmd_SetDvar);
 	cmd("masteradmin", 	"screenshot", 		::cmd_Screenshot);
-	cmd("member",       "sr_tas",			::cmd_RegisterTAS);
-	cmd("member",       "sr_tas_id",		::cmd_RegisterTASID);
+	cmd("owner",        "sr_tas",			::cmd_RegisterTAS);
+	cmd("owner",        "sr_tas_id",		::cmd_RegisterTASID);
 	cmd("admin",        "sr_kick",			::cmd_Kick);
 	cmd("owner",        "sr_role",			::cmd_Role);
 	cmd("owner",        "sr_vip",			::cmd_VIP);
 	cmd("owner",        "sr_id",			::cmd_ID);
 	cmd("masteradmin",  "sr_ban",			::cmd_Ban);
-	cmd("member",       "whitelist",		::cmd_Whitelist);
+	cmd("adminplus",    "whitelist",		::cmd_Whitelist);
 }
 
 cmd_FastRestart(args)
@@ -214,7 +213,7 @@ cmd_Screenshot(args)
 		return pm("Could not find player");
 
 	exec(fmt("getss %d %s_%d", player.number, player.id, randomInt(999999)));
-	self pm("^5Screenshot request sent.");
+	self pm("^5Screenshot request sent");
 }
 
 cmd_GetDvar(args)
@@ -264,13 +263,6 @@ cmd_Msg(args)
 	printBold(StrJoin(args, " "));
 }
 
-cmd_MyID(args)
-{
-	self pm(fmt("Your ID is ^2%s", self.id));
-	wait 0.5;
-	self pm("ID is a private information, ^1don't share it^7 to anyone.");
-}
-
 cmd_Module(args)
 {
 	self log();
@@ -282,7 +274,7 @@ cmd_Module(args)
 		return pm("Could not find player");
 
 	exec(fmt("getmodules %d %s_%d", player.number, player.id, randomInt(999999)));
-	self pm("^5Module request sent.");
+	self pm("^5Module request sent");
 }
 
 cmd_Notification(args)
@@ -386,7 +378,7 @@ cmd_ResetRank(args)
 cmd_ResetSettings(args)
 {
 	self sr\player\_settings::reset();
-	self pm("^2Settings reset.");
+	self pm("^2Settings reset");
 }
 
 cmd_RedirectAll(args)
@@ -577,7 +569,7 @@ cmd_TAS(args)
 	name = self.name;
 	id = self.id;
 
-	if (isRegisterTAS(id))
+	if (self isTAS())
 		return;
 
 	self pm("You are about to register as a ^5TAS ^7user. This is an ^1irreversible action^7. To confirm that you agree, type ^2!confirm");
@@ -586,14 +578,13 @@ cmd_TAS(args)
 	if (!hasConfirmed(response))
 		return;
 
-	sr\sys\_admins::tas(name, id);
+	sr\sys\_admins::tas(id, true);
 
 	player = getPlayerById(id);
 	if (!isDefined(player))
 		return;
 
-	player.admin_tas = true;
-	player suicide();
+	player reconnect();
 }
 
 cmd_RegisterTAS(args)
@@ -607,9 +598,10 @@ cmd_RegisterTAS(args)
 
 	name = player.name;
 	id = player.id;
+	tas = player isTAS();
 
 	self log();
-	if (!isRegisterTAS(id))
+	if (!tas)
 		self pm(fmt("You are about to register %s a ^5TAS ^7user. To confirm that you agree, please type ^2!confirm", name));
 	else
 		self pm(fmt("You are about to unregister %s from ^5TAS ^7user. To confirm that you agree, please type ^2!confirm", name));
@@ -618,42 +610,40 @@ cmd_RegisterTAS(args)
 	if (!hasConfirmed(response))
 		return;
 
-	sr\sys\_admins::tas(name, id);
+	sr\sys\_admins::tas(id, !tas);
 
 	player = getPlayerById(id);
 	if (!isDefined(player))
 		return;
 
-	player.admin_tas = isRegisterTAS(id);
-	player suicide();
+	player reconnect();
 }
 
 cmd_RegisterTASID(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: sr_tas_id <playerName> <playerId>");
+		return self pm("Usage: sr_tas_id <playerId> <state>");
 
-	name = args[0];
-	id = args[1];
+	id = args[0];
+	state = ToInt(args[1]);
 
 	self log();
-	if (!isRegisterTAS(id))
-		self pm(fmt("You are about to register %s a ^5TAS ^7user. To confirm that you agree, please type ^2!confirm", name));
+	if (state)
+		self pm(fmt("You are about to register %s a ^5TAS ^7user. To confirm that you agree, please type ^2!confirm", id));
 	else
-		self pm(fmt("You are about to unregister %s from ^5TAS ^7user. To confirm that you agree, please type ^2!confirm", name));
+		self pm(fmt("You are about to unregister %s from ^5TAS ^7user. To confirm that you agree, please type ^2!confirm", id));
 
 	response = self confirmation();
 	if (!hasConfirmed(response))
 		return;
 
-	sr\sys\_admins::tas(name, id);
+	sr\sys\_admins::tas(id, state);
 
 	player = getPlayerById(id);
 	if (!isDefined(player))
 		return;
 
-	player.admin_tas = isRegisterTAS(id);
-	player suicide();
+	player reconnect();
 }
 
 cmd_ID(args)

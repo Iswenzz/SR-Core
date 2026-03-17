@@ -24,7 +24,7 @@ init()
 		cheat = true;
 	if (self sr\player\modes\_main::isInAnyMode())
 		cheat = true;
-	if (self isCheating())
+	if (isDefined(self.cheating))
 		cheat = true;
 	if (self isDemo())
 		cheat = true;
@@ -90,9 +90,4 @@ setRollback()
 	self.previousOrigin = self getOrigin();
 	self.previousVelocity = self getVelocity();
 	self.previousStance = self getStance();
-}
-
-isCheating()
-{
-	return isDefined(self.cheating);
 }
