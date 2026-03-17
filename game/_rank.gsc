@@ -168,8 +168,9 @@ loadRank()
 {
 	critical_enter("mysql");
 
-	request = SQL_Prepare("SELECT xp, level, prestige FROM ranks WHERE player = ?");
+	request = SQL_Prepare("SELECT xp, level, prestige FROM ranks WHERE player IN (?, ?)");
 	SQL_BindParam(request, self.guid, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
 	AsyncWait(request);
 	row = IfUndef(SQL_FetchRowDict(request), []);
@@ -240,7 +241,7 @@ saveRank()
 	SQL_BindParam(request, self.pers["rankxp"], level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, self.pers["rank"] + 1, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, self.pers["prestige"], level.MYSQL_TYPE_LONG);
-	SQL_BindParam(request, self.guid, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
 	AsyncWait(request);
 
@@ -251,7 +252,7 @@ saveRank()
 	{
 		request = SQL_Prepare("INSERT INTO ranks (name, player, xp, level, prestige) VALUES (?, ?, ?, ?, ?)");
 		SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, self.guid, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(request, self.pers["rankxp"], level.MYSQL_TYPE_LONG);
 		SQL_BindParam(request, self.pers["rank"] + 1, level.MYSQL_TYPE_LONG);
 		SQL_BindParam(request, self.pers["prestige"], level.MYSQL_TYPE_LONG);

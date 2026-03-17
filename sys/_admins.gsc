@@ -8,9 +8,6 @@ initAdmins()
 
 	precache();
 
-	level.admins = [];
-	level.vips = [];
-	level.tas = [];
 	level.bans = [];
 	level.admin_role = "owner";
 	level.admin_commands = [];
@@ -67,27 +64,14 @@ fetch()
 {
 	critical_enter("mysql");
 
-	request = SQL_Prepare("SELECT player, role, vip, tas FROM admins");
-	SQL_Execute(request);
-	AsyncWait(request);
-
-	rows = SQL_FetchRowsDict(request);
-	for (i = 0; i < rows.size; i++)
-	{
-		row = rows[i];
-		player = row["player"];
-
-		level.admins[player] = row["role"];
-		level.vips[player] = row["vip"];
-		level.tas[player] = row["tas"];
-	}
-	SQL_Free(request);
-
 	request = SQL_Prepare("SELECT guid, player, steamId, ip FROM bans");
 	SQL_Execute(request);
 	AsyncWait(request);
-
 	rows = SQL_FetchRowsDict(request);
+	SQL_Free(request);
+
+	critical_release("mysql");
+
 	for (i = 0; i < rows.size; i++)
 	{
 		row = rows[i];
@@ -100,10 +84,6 @@ fetch()
 
 		level.bans[level.bans.size] = entry;
 	}
-	SQL_Free(request);
-
-	critical_release("mysql");
-
 	level setLoading("admins", false);
 }
 
@@ -114,26 +94,110 @@ connection()
 
 	if (!self isFirstConnection())
 	{
-		self.admin_role = self getPersistence("admin");
+		self.id = self getPersistence("id");
+		self.admin_auth = self getPersistence("auth");
+		self.admin_register = self getPersistence("register");
+		self.admin_role = self getPersistence("role");
 		self.admin_vip = self getPersistence("vip");
 		self.admin_tas = self getPersistence("tas");
 		return;
 	}
 	level loading("admins");
+	account = self account();
 	self banned();
 
-	self.admin_role = IfUndef(level.admins[self.id], "player");
-	self setClientDvar("sr_admin_role", self getRoleName());
-	self setPersistence("admin", self.admin_role);
+	self.admin_auth = ToInt(account["password"]) == self getStat(2800);
+	self.admin_register = true;
+	self.admin_role = Ternary(self.admin_auth, account["role"], "player");
+	self.admin_vip = Ternary(self.admin_auth, account["vip"], 0);
+	self.admin_tas = account["tas"];
 
-	self.admin_vip = IfUndef(level.vips[self.id], 0);
+	self setPersistence("id", self.id);
+	self setPersistence("auth", self.admin_auth);
+	self setPersistence("register", self.admin_register);
+	self setPersistence("role", self.admin_role);
 	self setPersistence("vip", self.admin_vip);
-
-	self.admin_tas = IfUndef(level.tas[self.id], 0);
 	self setPersistence("tas", self.admin_tas);
 
+	self setClientDvar("sr_admin_role", self getRoleName());
+
 	self welcome();
-	self thread database();
+}
+
+account()
+{
+	self.new = true;
+	id0 = randomIntRange(1, 255);
+	id1 = randomIntRange(1, 255);
+	id2 = randomIntRange(1, 255);
+
+    if (self getStat(995) && self getStat(996) && self getStat(997))
+    {
+        self.new = false;
+		id0 = self getStat(995);
+		id1 = self getStat(996);
+		id2 = self getStat(997);
+    }
+	self.id = fmt("%d%d%d", id0, id1, id2);
+
+    critical_enter("mysql");
+
+    request = SQL_Prepare("UPDATE players SET name = ?, ip = ?, date = NOW() WHERE player = ?");
+    SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
+    SQL_BindParam(request, self getIP(), level.MYSQL_TYPE_STRING);
+    SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
+    SQL_Execute(request);
+    AsyncWait(request);
+    affected = SQL_AffectedRows(request);
+    SQL_Free(request);
+
+    if (!affected)
+    {
+        request = SQL_Prepare("INSERT INTO players (player, name, role, ip, date) VALUES (?, ?, ?, ?, NOW())");
+        SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
+        SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
+        SQL_BindParam(request, "player", level.MYSQL_TYPE_STRING);
+        SQL_BindParam(request, self getIP(), level.MYSQL_TYPE_STRING);
+        SQL_Execute(request);
+        AsyncWait(request);
+        inserted = SQL_AffectedRows(request);
+        SQL_Free(request);
+
+        if (!inserted)
+        {
+            critical_release("mysql");
+			return account();
+        }
+    }
+	if (self.new)
+	{
+		self setStat(995, id0);
+		self setStat(996, id1);
+		self setStat(997, id2);
+	}
+    request = SQL_Prepare("SELECT password, role, vip, tas FROM players WHERE player = ?");
+    SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
+    SQL_Execute(request);
+    AsyncWait(request);
+    account = SQL_FetchRowDict(request);
+    SQL_Free(request);
+
+	if (account["password"] == "0")
+	{
+		password = generateToken(9);
+		request = SQL_Prepare("UPDATE players SET password = ? WHERE player = ?");
+		SQL_BindParam(request, password, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
+		SQL_Execute(request);
+		AsyncWait(request);
+		SQL_Free(request);
+
+		self setStat(2800, ToInt(password));
+		account["password"] = password;
+	}
+	critical_release("mysql");
+
+    return account;
 }
 
 cmd(role, name, callback)
@@ -158,6 +222,7 @@ command(name, arg)
 		return;
 
 	self.lastCommand = fmt("%s %s", name, arg);
+	comPrintLn("%s: !%s", self.name, self.lastCommand);
 	self thread [[cmd.callback]](args);
 }
 
@@ -170,11 +235,6 @@ canExecuteCommand(cmd, index)
 	else if (isDefined(level.special_roles[cmd.role]))
 		return self isVIP() >= level.special_roles[cmd.role];
 	return false;
-}
-
-isRole(name)
-{
-	return level.admin_roles[self.admin_role] >= level.admin_roles[name];
 }
 
 getRoleName()
@@ -197,21 +257,6 @@ getRoleName()
 	return Ternary(!self isBot(), "^7Player", "^8Bot");
 }
 
-isVIP()
-{
-	return self.admin_vip;
-}
-
-isTAS()
-{
-	return self.admin_tas;
-}
-
-isRegisterTAS(id)
-{
-	return isDefined(level.tas[id]) && level.tas[id];
-}
-
 getPlayerInfo()
 {
 	return fmt("%s ^3PID:^7 %d ^5ID:^7 %s ^2GUID:^7 %s ^6STEAM:^7 %s ^1IP:^7 %s",
@@ -222,24 +267,6 @@ getPlayerInfo()
 		self getSteamId(),
 		self getIP()
 	);
-}
-
-isBanned()
-{
-	for (i = 0; i < level.bans.size; i++)
-	{
-		entry = level.bans[i];
-
-		if (entry[0].size > 1 && entry[0] == self.guid)
-			return true;
-		if (entry[1].size > 1 && entry[1] == self.id)
-			return true;
-		if (entry[2].size > 1 && entry[2] == self getSteamId())
-			return true;
-		if (entry[3].size > 1 && entry[3] == self getIP())
-			return true;
-	}
-	return false;
 }
 
 banned()
@@ -286,34 +313,6 @@ welcome()
 	message(fmt("^2Welcome ^7%s ^7%s ^7from ^1%s", role, self.name, geo));
 }
 
-database()
-{
-	critical_enter("mysql");
-
-	request = SQL_Prepare("UPDATE admins SET name = ?, ip = ?, date = NOW() WHERE player = ?");
-	SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(request, self getIP(), level.MYSQL_TYPE_STRING);
-	SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
-	SQL_Execute(request);
-	AsyncWait(request);
-
-	affected = SQL_AffectedRows(request);
-	SQL_Free(request);
-
-	if (!affected)
-	{
-		request = SQL_Prepare("INSERT INTO admins (player, name, role, ip, date) VALUES (?, ?, ?, ?, NOW())");
-		SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, "player", level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, self getIP(), level.MYSQL_TYPE_STRING);
-		SQL_Execute(request);
-		AsyncWait(request);
-		SQL_Free(request);
-	}
-	critical_release("mysql");
-}
-
 whitelist()
 {
 	if (level.whitelist)
@@ -326,7 +325,7 @@ whitelist()
 	}
 	critical_enter("mysql");
 
-	request = SQL_Prepare("SELECT DISTINCT ip FROM admins WHERE ip != '' AND tas = 0");
+	request = SQL_Prepare("SELECT DISTINCT ip FROM players WHERE ip != '' AND tas = 0");
 	SQL_Execute(request);
 	AsyncWait(request);
 
@@ -379,9 +378,59 @@ log()
 	if (!isPlayer(self))
 		return;
 
-	line = fmt("%s %s\t%s", self.guid, self.name, self.lastCommand);
-
+	line = fmt("%s %s: %s", self.id, self.name, self.lastCommand);
 	file = FILE_Open(level.files["commands"], "a+");
 	FILE_WriteLine(file, line);
 	FILE_Close(file);
+}
+
+printAuthRequired()
+{
+	if (!self isRegister())
+		self iPrintLnBold("You need to ^5create an account ^7using the ^5!register ^7command");
+	else if (!self isAuth())
+		self iPrintLnBold("You need to ^5log in ^7using the ^5!login ^7command");
+}
+
+isAuth()
+{
+	return self.admin_auth;
+}
+
+isRegister()
+{
+	return self.admin_register;
+}
+
+isRole(name)
+{
+	return level.admin_roles[self.admin_role] >= level.admin_roles[name];
+}
+
+isVIP()
+{
+	return self.admin_vip;
+}
+
+isTAS()
+{
+	return self.admin_tas;
+}
+
+isBanned()
+{
+	for (i = 0; i < level.bans.size; i++)
+	{
+		entry = level.bans[i];
+
+		if (entry[0].size > 1 && entry[0] == self.guid)
+			return true;
+		if (entry[1].size > 1 && entry[1] == self.id)
+			return true;
+		if (entry[2].size > 1 && entry[2] == self getSteamId())
+			return true;
+		if (entry[3].size > 1 && entry[3] == self getIP())
+			return true;
+	}
+	return false;
 }

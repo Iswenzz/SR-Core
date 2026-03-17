@@ -9,7 +9,6 @@ main()
 	sr\sys\_file::initFiles();
 	sr\sys\_ftp::initFTP();
 	sr\sys\_http::initHTTP();
-	sr\sys\_ids::initIds();
     sr\sys\_mysql::initMySQL();
 	sr\sys\_gpt::initGPT();
 	sr\sys\_discord::initDiscord();

@@ -494,7 +494,7 @@ cmd_Role(args)
 
 	critical_enter("mysql");
 
-	request = SQL_Prepare("UPDATE admins SET role = ? WHERE player = ?");
+	request = SQL_Prepare("UPDATE players SET role = ? WHERE player = ?");
 	SQL_BindParam(request, role, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
@@ -505,7 +505,7 @@ cmd_Role(args)
 
 	if (!affected)
 	{
-		request = SQL_Prepare("INSERT INTO admins (name, player, role) VALUES (?, ?, ?)");
+		request = SQL_Prepare("INSERT INTO players (name, player, role) VALUES (?, ?, ?)");
 		SQL_BindParam(request, player.name, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(request, role, level.MYSQL_TYPE_STRING);
@@ -514,9 +514,6 @@ cmd_Role(args)
 		SQL_Free(request);
 	}
 	critical_release("mysql");
-
-	level.admins[player.id] = role;
-	player.admin_role = role;
 
 	message(fmt("Promoted %s ^7to %s", player.name, player getRoleName()));
 	player reconnect();
@@ -536,7 +533,7 @@ cmd_VIP(args)
 
 	critical_enter("mysql");
 
-	request = SQL_Prepare("UPDATE admins SET vip = ? WHERE player = ?");
+	request = SQL_Prepare("UPDATE players SET vip = ? WHERE player = ?");
 	SQL_BindParam(request, vip, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
@@ -547,7 +544,7 @@ cmd_VIP(args)
 
 	if (!affected)
 	{
-		request = SQL_Prepare("INSERT INTO admins (name, player, role, vip) VALUES (?, ?, ?, ?)");
+		request = SQL_Prepare("INSERT INTO players (name, player, role, vip) VALUES (?, ?, ?, ?)");
 		SQL_BindParam(request, player.name, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
 		SQL_BindParam(request, player.admin_role, level.MYSQL_TYPE_STRING);
@@ -557,8 +554,6 @@ cmd_VIP(args)
 		SQL_Free(request);
 	}
 	critical_release("mysql");
-
-	level.vips[player.id] = vip;
 
 	message(fmt("Promoted %s ^7to ^2VIP(%d)", player.name, vip));
 	player reconnect();
@@ -707,4 +702,123 @@ cmd_Whitelist(args)
 		return;
 
 	sr\sys\_admins::whitelist();
+}
+
+cmd_Link(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: !sr_link <playerNum>");
+
+	player = getPlayerByNum(args[0]);
+
+	if (!isDefined(player))
+		return self pm("^1Could not find player");
+
+	self pm(fmt("You are about to link ^5%s ^7to account ^5%s^7.", player.name, player.id));
+	wait 0.05;
+	self pm("Make sure this is the right person, this will ^5grant them the password to this account. ^7Type ^2!confirm ^7to proceed");
+
+	response = self confirmation();
+	if (!hasConfirmed(response))
+		return;
+
+	critical_enter("mysql");
+
+	password = generateToken(9);
+
+	request = SQL_Prepare("UPDATE players SET password = ? WHERE player = ?");
+	SQL_BindParam(request, password, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
+	SQL_Execute(request);
+	AsyncWait(request);
+	SQL_Free(request);
+
+	critical_release("mysql");
+
+	player.admin_register = true;
+	player setPersistence("register", player.admin_register);
+	player clientcmd(fmt("bind F9 say $login %s", password));
+
+	player pm("^2An admin has verified your account. Press ^5F9 ^2to log in");
+	wait 0.05;
+	player pm(fmt("^2Player: ^5%s ^2Password: ^5%s", player.id, password));
+	wait 0.05;
+	player pm("^5Take a screenshot in case you lose your profile");
+	wait 0.05;
+
+	self pm(fmt("^5Account linked. %s has received their password", player.name));
+}
+
+cmd_Register(args)
+{
+	if (self isRegister())
+		return self pm("This account already exists");
+
+	password = generateToken(9);
+
+	critical_enter("mysql");
+
+	request = SQL_Prepare("UPDATE players SET password = ? WHERE player = ?");
+	SQL_BindParam(request, password, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
+	SQL_Execute(request);
+	AsyncWait(request);
+	SQL_Free(request);
+
+	critical_release("mysql");
+
+	self.admin_register = true;
+	self setPersistence("register", self.admin_register);
+	self clientcmd(fmt("bind F9 say $login %s", password));
+
+	self pm("^2Account created! Press ^5F9 ^2to log in");
+	wait 0.05;
+	self pm(fmt("^2Player: ^5%s ^2Password: ^5%s", self.id, password));
+	wait 0.05;
+	self pm("^5Take a screenshot in case you lose your profile");
+}
+
+cmd_Login(args)
+{
+	if (self isAuth())
+		return self pm("You are already logged in");
+
+	if (args.size < 1)
+	{
+		self pm("Usage: !login <password>");
+		self pm("You can also press the ^5F9 ^7key");
+		self pm("Contact an admin if this account ^5is not linked yet^7 or if you ^1lost your password");
+		return;
+	}
+	password = args[0];
+
+	critical_enter("mysql");
+
+	request = SQL_Prepare("SELECT role, vip FROM players WHERE player = ? AND password = ?");
+	SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, password, level.MYSQL_TYPE_STRING);
+	SQL_Execute(request);
+	AsyncWait(request);
+	row = SQL_FetchRowDict(request);
+	SQL_Free(request);
+
+	critical_release("mysql");
+
+	if (!isDefined(row))
+	{
+		self pm("^1Incorrect password");
+		return;
+	}
+	self.admin_auth = true;
+	self.admin_role = row["role"];
+	self.admin_vip = row["vip"];
+
+	self setPersistence("auth", self.admin_auth);
+	self setPersistence("role", self.admin_role);
+	self setPersistence("vip", self.admin_vip);
+
+	self setClientDvar("sr_admin_role", self getRoleName());
+
+	self playLocalSound("change_way");
+	self pm("^5Logged in");
 }

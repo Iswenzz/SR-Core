@@ -185,6 +185,31 @@ cmd_DebugSpectate(args)
 	}
 }
 
+cmd_ResetPasswords(args)
+{
+	critical_enter("mysql");
+
+	request = SQL_Prepare("SELECT player FROM players");
+	SQL_Execute(request);
+	AsyncWait(request);
+	rows = SQL_FetchRowsDict(request);
+	SQL_Free(request);
+
+	for (i = 0; i < rows.size; i++)
+	{
+		password = generateToken(9);
+		request = SQL_Prepare("UPDATE players SET password = ? WHERE player = ?");
+		SQL_BindParam(request, password, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, rows[i]["player"], level.MYSQL_TYPE_STRING);
+		SQL_Execute(request);
+		AsyncWait(request);
+		SQL_Free(request);
+	}
+	self pm("^5Done");
+
+	critical_release("mysql");
+}
+
 cmd_Test(args)
 {
 

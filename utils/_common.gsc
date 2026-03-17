@@ -1109,6 +1109,14 @@ hasConfirmed(confirmation)
 	return isDefined(confirmation) && confirmation;
 }
 
+generateToken(digits)
+{
+    token = "" + randomIntRange(1, 10);
+    for (i = 1; i < digits; i++)
+        token += randomInt(10);
+    return token;
+}
+
 cheat(state)
 {
 	if (!isDefined(state))

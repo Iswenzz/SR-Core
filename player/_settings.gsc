@@ -30,7 +30,7 @@ init()
 	if (!self isFirstConnection())
 		return;
 
-	if (isDefined(self.new))
+	if (self.new)
 		self reset();
 	self load();
 }
