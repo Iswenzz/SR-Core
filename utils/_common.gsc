@@ -5,9 +5,8 @@ getClientDvar(dvar)
 {
 	self endon("disconnect");
 
-	self clientCmd(fmt("setu %s 0", dvar));
-	value = self getuserinfo(dvar);
-	return value;
+	self clientCmd(fmt("setu temp null; setfromdvar temp %s; setu %s null; setfromdvar %s temp", dvar, dvar, dvar));
+	return self getUserInfo(dvar);
 }
 
 getAllPlayers()
@@ -123,15 +122,6 @@ getPlayerFPS()
 	if (fps <= 1000) 	return 1000;
 
 	return 0;
-}
-
-setu(dvar)
-{
-	if (!isDefined(dvar) || self isBot())
-		return;
-
-	if (isDefined(self))
-		self clientCmd(fmt("setfromdvar temp %s; setu %s null; setfromdvar %s temp", dvar, dvar, dvar));
 }
 
 respawn()
