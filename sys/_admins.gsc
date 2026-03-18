@@ -103,49 +103,36 @@ connection()
 		return;
 	}
 	level loading("admins");
-	account = self account();
+	self thread account();
+	self loading("account");
 	self banned();
-
-	self.admin_auth = ToInt(account["password"]) == self getStat(2800);
-	self.admin_register = true;
-	self.admin_role = Ternary(self.admin_auth, account["role"], "player");
-	self.admin_vip = Ternary(self.admin_auth, account["vip"], 0);
-	self.admin_tas = account["tas"];
-
-	self setPersistence("id", self.id);
-	self setPersistence("auth", self.admin_auth);
-	self setPersistence("register", self.admin_register);
-	self setPersistence("role", self.admin_role);
-	self setPersistence("vip", self.admin_vip);
-	self setPersistence("tas", self.admin_tas);
-
-	self setClientDvar("sr_admin_role", self getRoleName());
-
 	self welcome();
 }
 
 account()
 {
-	self.new = true;
+	new = true;
 	id0 = randomIntRange(1, 255);
 	id1 = randomIntRange(1, 255);
 	id2 = randomIntRange(1, 255);
 
     if (self getStat(995) && self getStat(996) && self getStat(997))
     {
-        self.new = false;
+        new = false;
 		id0 = self getStat(995);
 		id1 = self getStat(996);
 		id2 = self getStat(997);
     }
-	self.id = fmt("%d%d%d", id0, id1, id2);
+	id = fmt("%d%d%d", id0, id1, id2);
+	name = self.name;
+	ip = self getIP();
 
     critical_enter("mysql");
 
     request = SQL_Prepare("UPDATE players SET name = ?, ip = ?, date = NOW() WHERE player = ?");
-    SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
-    SQL_BindParam(request, self getIP(), level.MYSQL_TYPE_STRING);
-    SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
+    SQL_BindParam(request, name, level.MYSQL_TYPE_STRING);
+    SQL_BindParam(request, ip, level.MYSQL_TYPE_STRING);
+    SQL_BindParam(request, id, level.MYSQL_TYPE_STRING);
     SQL_Execute(request);
     AsyncWait(request);
     affected = SQL_AffectedRows(request);
@@ -154,10 +141,10 @@ account()
     if (!affected)
     {
         request = SQL_Prepare("INSERT INTO players (player, name, role, ip, date) VALUES (?, ?, ?, ?, NOW())");
-        SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
-        SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
+        SQL_BindParam(request, id, level.MYSQL_TYPE_STRING);
+        SQL_BindParam(request, name, level.MYSQL_TYPE_STRING);
         SQL_BindParam(request, "player", level.MYSQL_TYPE_STRING);
-        SQL_BindParam(request, self getIP(), level.MYSQL_TYPE_STRING);
+        SQL_BindParam(request, ip, level.MYSQL_TYPE_STRING);
         SQL_Execute(request);
         AsyncWait(request);
         inserted = SQL_AffectedRows(request);
@@ -166,17 +153,12 @@ account()
         if (!inserted)
         {
             critical_release("mysql");
-			return account();
+			account();
+			return;
         }
     }
-	if (self.new)
-	{
-		self setStat(995, id0);
-		self setStat(996, id1);
-		self setStat(997, id2);
-	}
     request = SQL_Prepare("SELECT password, role, vip, tas FROM players WHERE player = ?");
-    SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
+    SQL_BindParam(request, id, level.MYSQL_TYPE_STRING);
     SQL_Execute(request);
     AsyncWait(request);
     account = SQL_FetchRowDict(request);
@@ -187,17 +169,45 @@ account()
 		password = generateToken(9);
 		request = SQL_Prepare("UPDATE players SET password = ? WHERE player = ?");
 		SQL_BindParam(request, password, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
+		SQL_BindParam(request, id, level.MYSQL_TYPE_STRING);
 		SQL_Execute(request);
 		AsyncWait(request);
 		SQL_Free(request);
 
-		self setStat(2800, ToInt(password));
+		if (isDefined(self))
+			self setStat(2800, ToInt(password));
+
 		account["password"] = password;
 	}
 	critical_release("mysql");
 
-    return account;
+	if (isDefined(self))
+	{
+		self.id = id;
+		self.new = new;
+		self.admin_auth = ToInt(account["password"]) == self getStat(2800);
+		self.admin_register = true;
+		self.admin_role = Ternary(self.admin_auth, account["role"], "player");
+		self.admin_vip = Ternary(self.admin_auth, account["vip"], 0);
+		self.admin_tas = account["tas"];
+
+		self setPersistence("id", self.id);
+		self setPersistence("auth", self.admin_auth);
+		self setPersistence("register", self.admin_register);
+		self setPersistence("role", self.admin_role);
+		self setPersistence("vip", self.admin_vip);
+		self setPersistence("tas", self.admin_tas);
+
+		self setClientDvar("sr_admin_role", self getRoleName());
+
+		if (new)
+		{
+			self setStat(995, id0);
+			self setStat(996, id1);
+			self setStat(997, id2);
+		}
+		self setLoading("account", false);
+	}
 }
 
 cmd(role, name, callback)

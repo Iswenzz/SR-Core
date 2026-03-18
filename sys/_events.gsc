@@ -117,6 +117,9 @@ hasLoaded(id)
 
 loading(id)
 {
+	if (!isDefined(self.loadings))
+		self.loadings = [];
+
 	while (!self hasLoaded(id))
 		wait 0.05;
 }
