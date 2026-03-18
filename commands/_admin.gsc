@@ -47,6 +47,7 @@ main()
 	cmd("owner",        "sr_vip",			::cmd_VIP);
 	cmd("owner",        "sr_id",			::cmd_ID);
 	cmd("masteradmin",  "sr_ban",			::cmd_Ban);
+	cmd("masteradmin",  "sr_link",			::cmd_Link);
 	cmd("adminplus",    "whitelist",		::cmd_Whitelist);
 }
 
@@ -499,23 +500,13 @@ cmd_Role(args)
 	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
 	AsyncWait(request);
-
-	affected = SQL_AffectedRows(request);
 	SQL_Free(request);
 
-	if (!affected)
-	{
-		request = SQL_Prepare("INSERT INTO players (name, player, role) VALUES (?, ?, ?)");
-		SQL_BindParam(request, player.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, role, level.MYSQL_TYPE_STRING);
-		SQL_Execute(request);
-		AsyncWait(request);
-		SQL_Free(request);
-	}
 	critical_release("mysql");
 
+	level.accounts[player.id].role = role;
 	player.admin_role = role;
+
 	message(fmt("Promoted %s ^7to %s", player.name, player getRoleName()));
 	player reconnect();
 }
@@ -539,22 +530,12 @@ cmd_VIP(args)
 	SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
 	AsyncWait(request);
-
-	affected = SQL_AffectedRows(request);
 	SQL_Free(request);
 
-	if (!affected)
-	{
-		request = SQL_Prepare("INSERT INTO players (name, player, role, vip) VALUES (?, ?, ?, ?)");
-		SQL_BindParam(request, player.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, player.id, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, player.admin_role, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, vip, level.MYSQL_TYPE_LONG);
-		SQL_Execute(request);
-		AsyncWait(request);
-		SQL_Free(request);
-	}
 	critical_release("mysql");
+
+	level.accounts[player.id].vip = vip;
+	player.admin_vip = vip;
 
 	message(fmt("Promoted %s ^7to ^2VIP(%d)", player.name, vip));
 	player reconnect();
@@ -645,20 +626,26 @@ cmd_RegisterTASID(args)
 cmd_ID(args)
 {
 	if (args.size < 4)
-		return self pm("Usage: sr_vip <playerNum> <stat 1> <stat 2> <stat 3>");
+		return self pm("Usage: sr_id <playerNum> <stat 1> <stat 2> <stat 3>");
 
 	player = getPlayerByNum(args[0]);
-	a = ToInt(args[1]);
-	b = ToInt(args[2]);
-	c = ToInt(args[3]);
+	id0 = ToInt(args[1]);
+	id1 = ToInt(args[2]);
+	id2 = ToInt(args[3]);
 
 	self log();
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	player setStat(995, a);
-	player setStat(996, b);
-	player setStat(997, c);
+	id = fmt("%d%d%d", id0, id1, id2);
+	account = level.accounts[id];
+
+	player setStat(995, id0);
+	player setStat(996, id1);
+	player setStat(997, id2);
+
+	if (isDefined(account))
+		player setStat(2800, account.password);
 
 	player reconnect();
 }
@@ -723,6 +710,35 @@ cmd_Link(args)
 	if (!hasConfirmed(response))
 		return;
 
+	password = ToInt(generateToken(9));
+	account = level.accounts[player.id];
+	account.password = password;
+	level.accounts[player.id] = account;
+
+	player setStat(2800, password);
+	player reconnect();
+
+	self pm(fmt("^5Account linked. %s has received their password", player.name));
+}
+
+cmd_FutureLink(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: !sr_link <playerNum>");
+
+	player = getPlayerByNum(args[0]);
+
+	if (!isDefined(player))
+		return self pm("^1Could not find player");
+
+	self pm(fmt("You are about to link ^5%s ^7to account ^5%s^7.", player.name, player.id));
+	wait 0.05;
+	self pm("Make sure this is the right person, this will ^5grant them the password to this account. ^7Type ^2!confirm ^7to proceed");
+
+	response = self confirmation();
+	if (!hasConfirmed(response))
+		return;
+
 	critical_enter("mysql");
 
 	password = generateToken(9);
@@ -750,7 +766,7 @@ cmd_Link(args)
 	self pm(fmt("^5Account linked. %s has received their password", player.name));
 }
 
-cmd_Register(args)
+cmd_FutureRegister(args)
 {
 	if (self isRegister())
 		return self pm("This account already exists");
@@ -779,7 +795,7 @@ cmd_Register(args)
 	self pm("^5Take a screenshot in case you lose your profile");
 }
 
-cmd_Login(args)
+cmd_FutureLogin(args)
 {
 	if (self isAuth())
 		return self pm("You are already logged in");

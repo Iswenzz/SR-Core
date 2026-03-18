@@ -8,6 +8,8 @@ initAdmins()
 
 	precache();
 
+	level.ids = [];
+	level.accounts = [];
 	level.bans = [];
 	level.admin_role = "owner";
 	level.admin_commands = [];
@@ -64,23 +66,43 @@ fetch()
 {
 	critical_enter("mysql");
 
+	request = SQL_Prepare("SELECT password, player, role, vip, tas FROM players");
+	SQL_Execute(request);
+	AsyncWait(request);
+	accounts = SQL_FetchRowsDict(request);
+	SQL_Free(request);
+
 	request = SQL_Prepare("SELECT guid, player, steamId, ip FROM bans");
 	SQL_Execute(request);
 	AsyncWait(request);
-	rows = SQL_FetchRowsDict(request);
+	bans = SQL_FetchRowsDict(request);
 	SQL_Free(request);
 
 	critical_release("mysql");
 
-	for (i = 0; i < rows.size; i++)
+	for (i = 0; i < accounts.size; i++)
 	{
-		row = rows[i];
+		row = accounts[i];
 
-		entry = [];
-		entry[entry.size] = row["guid"];
-		entry[entry.size] = row["player"];
-		entry[entry.size] = row["steamId"];
-		entry[entry.size] = row["ip"];
+		account = spawnStruct();
+		account.id = row["player"];
+		account.password = ToInt(row["password"]);
+		account.role = row["role"];
+		account.vip = row["vip"];
+		account.tas = row["tas"];
+
+		level.ids[level.ids.size] = account.id;
+		level.accounts[account.id] = account;
+	}
+	for (i = 0; i < bans.size; i++)
+	{
+		row = bans[i];
+
+		entry = spawnStruct();
+		entry.id = row["player"];
+		entry.guid = row["guid"];
+		entry.steamId = row["steamId"];
+		entry.ip = row["ip"];
 
 		level.bans[level.bans.size] = entry;
 	}
@@ -103,36 +125,103 @@ connection()
 		return;
 	}
 	level loading("admins");
-	self thread account();
-	self loading("account");
+	account = self account();
 	self banned();
+
+	self.admin_auth = account.password == self getStat(2800);
+	self.admin_register = true;
+	self.admin_role = Ternary(self.admin_auth, account.role, "player");
+	self.admin_vip = Ternary(self.admin_auth, account.vip, 0);
+	self.admin_tas = account.tas;
+
+	self setPersistence("id", self.id);
+	self setPersistence("auth", self.admin_auth);
+	self setPersistence("register", self.admin_register);
+	self setPersistence("role", self.admin_role);
+	self setPersistence("vip", self.admin_vip);
+	self setPersistence("tas", self.admin_tas);
+
+	self setClientDvar("sr_admin_role", self getRoleName());
+
 	self welcome();
+	self thread database();
+}
+
+createAccount()
+{
+	account = spawnStruct();
+	account.id = self.id;
+	account.password = ToInt(generateToken(9));
+	account.role = "player";
+	account.vip = 0;
+	account.tas = 0;
+
+	self setStat(2800, account.password);
+
+	return account;
 }
 
 account()
 {
-	new = true;
-	id0 = randomIntRange(1, 255);
-	id1 = randomIntRange(1, 255);
-	id2 = randomIntRange(1, 255);
-
-    if (self getStat(995) && self getStat(996) && self getStat(997))
+ 	if (self getStat(995) && self getStat(996) && self getStat(997))
     {
-        new = false;
-		id0 = self getStat(995);
-		id1 = self getStat(996);
-		id2 = self getStat(997);
+		self.new = false;
+		self.id = fmt("%d%d%d", self getStat(995), self getStat(996), self getStat(997));
+
+		account = level.accounts[self.id];
+		if (!isDefined(account))
+			account = self createAccount();
+
+		comPrintLn("^5TEST %d", account.password);
+
+		if (account.password == 0)
+		{
+			account.password = ToInt(generateToken(9));
+			self setStat(2800, account.password);
+		}
+		level.accounts[self.id] = account;
+		return account;
     }
-	id = fmt("%d%d%d", id0, id1, id2);
+	id0 = 0;
+	id1 = 0;
+	id2 = 0;
+
+	while (true)
+	{
+		id0 = randomIntRange(1, 255);
+		id1 = randomIntRange(1, 255);
+		id2 = randomIntRange(1, 255);
+
+		self.new = true;
+		self.id = fmt("%d%d%d", id0, id1, id2);
+
+		if (!Contains(level.ids, self.id))
+			break;
+	}
+	account = self createAccount();
+
+	self setStat(995, id0);
+	self setStat(996, id1);
+	self setStat(997, id2);
+
+	level.ids[level.ids.size] = account.id;
+	level.accounts[self.id] = account;
+	return account;
+}
+
+database()
+{
+	account = level.accounts[self.id];
 	name = self.name;
 	ip = self getIP();
 
     critical_enter("mysql");
 
-    request = SQL_Prepare("UPDATE players SET name = ?, ip = ?, date = NOW() WHERE player = ?");
+    request = SQL_Prepare("UPDATE players SET password = ?, name = ?, ip = ?, date = NOW() WHERE player = ?");
+    SQL_BindParam(request, account.password, level.MYSQL_TYPE_STRING);
     SQL_BindParam(request, name, level.MYSQL_TYPE_STRING);
     SQL_BindParam(request, ip, level.MYSQL_TYPE_STRING);
-    SQL_BindParam(request, id, level.MYSQL_TYPE_STRING);
+    SQL_BindParam(request, account.id, level.MYSQL_TYPE_STRING);
     SQL_Execute(request);
     AsyncWait(request);
     affected = SQL_AffectedRows(request);
@@ -140,74 +229,17 @@ account()
 
     if (!affected)
     {
-        request = SQL_Prepare("INSERT INTO players (player, name, role, ip, date) VALUES (?, ?, ?, ?, NOW())");
-        SQL_BindParam(request, id, level.MYSQL_TYPE_STRING);
+        request = SQL_Prepare("INSERT INTO players (password, player, name, role, ip, date) VALUES (?, ?, ?, ?, ?, NOW())");
+        SQL_BindParam(request, account.password, level.MYSQL_TYPE_STRING);
+        SQL_BindParam(request, account.id, level.MYSQL_TYPE_STRING);
         SQL_BindParam(request, name, level.MYSQL_TYPE_STRING);
-        SQL_BindParam(request, "player", level.MYSQL_TYPE_STRING);
+        SQL_BindParam(request, account.role, level.MYSQL_TYPE_STRING);
         SQL_BindParam(request, ip, level.MYSQL_TYPE_STRING);
         SQL_Execute(request);
         AsyncWait(request);
-        inserted = SQL_AffectedRows(request);
         SQL_Free(request);
-
-        if (!inserted)
-        {
-            critical_release("mysql");
-			account();
-			return;
-        }
     }
-    request = SQL_Prepare("SELECT password, role, vip, tas FROM players WHERE player = ?");
-    SQL_BindParam(request, id, level.MYSQL_TYPE_STRING);
-    SQL_Execute(request);
-    AsyncWait(request);
-    account = SQL_FetchRowDict(request);
-    SQL_Free(request);
-
-	if (account["password"] == "0")
-	{
-		password = generateToken(9);
-		request = SQL_Prepare("UPDATE players SET password = ? WHERE player = ?");
-		SQL_BindParam(request, password, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, id, level.MYSQL_TYPE_STRING);
-		SQL_Execute(request);
-		AsyncWait(request);
-		SQL_Free(request);
-
-		if (isDefined(self))
-			self setStat(2800, ToInt(password));
-
-		account["password"] = password;
-	}
 	critical_release("mysql");
-
-	if (isDefined(self))
-	{
-		self.id = id;
-		self.new = new;
-		self.admin_auth = ToInt(account["password"]) == self getStat(2800);
-		self.admin_register = true;
-		self.admin_role = Ternary(self.admin_auth, account["role"], "player");
-		self.admin_vip = Ternary(self.admin_auth, account["vip"], 0);
-		self.admin_tas = account["tas"];
-
-		self setPersistence("id", self.id);
-		self setPersistence("auth", self.admin_auth);
-		self setPersistence("register", self.admin_register);
-		self setPersistence("role", self.admin_role);
-		self setPersistence("vip", self.admin_vip);
-		self setPersistence("tas", self.admin_tas);
-
-		self setClientDvar("sr_admin_role", self getRoleName());
-
-		if (new)
-		{
-			self setStat(995, id0);
-			self setStat(996, id1);
-			self setStat(997, id2);
-		}
-		self setLoading("account", false);
-	}
 }
 
 cmd(role, name, callback)
@@ -293,6 +325,8 @@ banned()
 
 tas(player, tas)
 {
+	level.accounts[player.id].tas = tas;
+
 	critical_enter("mysql");
 
 	request = SQL_Prepare("UPDATE players SET tas = ? WHERE player = ?");
@@ -402,6 +436,12 @@ printAuthRequired()
 		self iPrintLnBold("You need to ^5log in ^7using the ^5!login ^7command");
 }
 
+printLinkRequired()
+{
+	if (!self isAuth())
+		self iPrintLnBold("You need to ^5contact an admin ^7to link this account");
+}
+
 isAuth()
 {
 	return self.admin_auth;
@@ -433,13 +473,13 @@ isBanned()
 	{
 		entry = level.bans[i];
 
-		if (entry[0].size > 1 && entry[0] == self.guid)
+		if (entry.id.size && entry.id == self.id)
 			return true;
-		if (entry[1].size > 1 && entry[1] == self.id)
+		if (entry.guid.size && entry.guid == self.guid)
 			return true;
-		if (entry[2].size > 1 && entry[2] == self getSteamId())
+		if (entry.steamId.size && entry.steamId == self getSteamId())
 			return true;
-		if (entry[3].size > 1 && entry[3] == self getIP())
+		if (entry.ip.size && entry.ip == self getIP())
 			return true;
 	}
 	return false;
