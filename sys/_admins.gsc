@@ -172,8 +172,6 @@ account()
 		if (!isDefined(account))
 			account = self createAccount();
 
-		comPrintLn("^5TEST %d", account.password);
-
 		if (account.password == 0)
 		{
 			account.password = ToInt(generateToken(9));
