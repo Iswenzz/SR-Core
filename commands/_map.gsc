@@ -27,7 +27,6 @@ cmd_Chicken(args)
 
 cmd_ChickenSave(args)
 {
-	index = 0;
 	models = getEntArray("script_model", "classname");
 	file = FILE_Open(level.files["chicken"], "w+");
 
@@ -38,9 +37,8 @@ cmd_ChickenSave(args)
 
 		c = models[i];
 
-		line = fmt("%d/%f/%f/%f", index, c.origin[0], c.origin[1], c.origin[2]);
+		line = fmt("%f/%f/%f", c.origin[0], c.origin[1], c.origin[2]);
 		FILE_WriteLine(file, line);
-		index++;
 	}
 	FILE_Close(file);
 
@@ -49,7 +47,6 @@ cmd_ChickenSave(args)
 
 cmd_MapSave(args)
 {
-	index = 0;
 	brushes = getEntArray("script_brushmodel", "classname");
 	file = FILE_Open(level.files["map"], "w+");
 
@@ -63,12 +60,11 @@ cmd_MapSave(args)
 		for (j = 0; j < ents.size; j++)
 		{
 			e = ents[j];
-			line = fmt("%d/%f/%f/%f/%f/%f/%f/%s/%d", index,
+			line = fmt("%f/%f/%f/%f/%f/%f/%s/%d",
 				e.origin[0], e.origin[1], e.origin[2],
 				e.angles[0], e.angles[1], e.angles[2],
 				targetName, j);
 			FILE_WriteLine(file, line);
-			index++;
 		}
 	}
 	FILE_Close(file);
