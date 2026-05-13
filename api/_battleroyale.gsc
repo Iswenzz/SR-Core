@@ -107,7 +107,7 @@ createAmmo(id, model, sound, icon, count, rng)
 	item.count = count;
 	item.model = model;
 	item.rng = rng;
-	item.give = ::givePlayerAmmo;
+	item.give = battleroyale\core\_game::givePlayerAmmo;
 
 	level.items[id] = item;
 	return item;
@@ -124,7 +124,7 @@ createWeapon(id, mag, sound, icon, weapon, rng)
 	item.weapon = weapon;
 	item.model = getWeaponModel(weapon);
 	item.rng = rng;
-	item.give = ::givePlayerWeapon;
+	item.give = battleroyale\core\_game::givePlayerWeapon;
 
 	level.items[id] = item;
 	return item;
@@ -139,7 +139,7 @@ createSpecial(id, model, sound, icon, rng)
 	item.icon = icon;
 	item.model = model;
 	item.rng = rng;
-	item.give = ::givePlayerSpecial;
+	item.give = battleroyale\core\_game::givePlayerSpecial;
 
 	level.items[id] = item;
 	return item;
@@ -155,7 +155,7 @@ createGrenade(id, sound, icon, weapon, rng)
 	item.weapon = weapon;
 	item.model = getWeaponModel(weapon);
 	item.rng = rng;
-	item.give = ::givePlayerGrenade;
+	item.give = battleroyale\core\_game::givePlayerGrenade;
 
 	level.items[id] = item;
 	return item;
