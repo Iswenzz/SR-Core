@@ -10,10 +10,10 @@ main()
 
 cmd_DefragMode(args)
 {
-	if (self.sr_mode == "Defrag" || self sr\player\modes\_main::isInOtherMode("defrag"))
+	if (self.sr_mode == "Defrag" || self sr\core\_modes::isInOtherMode("defrag"))
 		return;
 
-	self sr\player\modes\_main::toggleMode("defrag");
+	self sr\core\_modes::toggleMode("defrag");
 	self suicide();
 
 	self pm(Ternary(self.modes["defrag"], "^3Defrag mode enabled!", "^1Defrag mode disabled!"));
@@ -34,7 +34,7 @@ cmd_DefragWeapon(args)
 	trigger.ammo = ammo;
 	trigger.id = ToString(randomInt(999999));
 
-	trigger thread sr\game\_defrag::triggerWeapon();
+	trigger thread sr\core\_defrag::triggerWeapon();
 }
 
 cmd_DefragPerk(args)
@@ -52,5 +52,5 @@ cmd_DefragPerk(args)
 	trigger.time = time;
 	trigger.id = ToString(randomInt(999999));
 
-	trigger thread sr\game\_defrag::triggerPerk();
+	trigger thread sr\core\_defrag::triggerPerk();
 }

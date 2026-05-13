@@ -61,11 +61,11 @@ cmd_Event(args)
 	if (!isDefined(level.eventMap))
 		return self pm("^1This map is not an event map");
 
-	if (sr\game\_event::isEvent())
+	if (sr\core\_event::isEvent())
 		return self pm("^1Event already started");
 
 	// self command("bots", "9");
-	sr\game\_event::start();
+	sr\core\_event::start();
 }
 
 cmd_EventNext(args)
@@ -183,7 +183,7 @@ cmd_GiveXp(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	player sr\game\_rank::giveRankXP("", xp);
+	player sr\core\_rank::giveRankXP("", xp);
 }
 
 cmd_SetDvar(args)
@@ -283,7 +283,7 @@ cmd_Notification(args)
 	if (args.size < 1)
 		return self pm("Usage: notification <message>");
 
-	level sr\sys\_notifications::show(StrJoin(args, " "));
+	level sr\huds\_notifications::show(StrJoin(args, " "));
 }
 
 cmd_Online(args)
@@ -353,11 +353,11 @@ cmd_Rank(args)
 
 	prestige = ToInt(IfUndef(args[2], player.pers["prestige"]));
 
-	player.pers["rankxp"] = sr\game\_rank::getRankInfoMinXP(rank);
+	player.pers["rankxp"] = sr\core\_rank::getRankInfoMinXP(rank);
 	player.pers["rank"] = rank;
 	player.pers["prestige"] = prestige;
 
-	player sr\game\_rank::saveRank();
+	player sr\core\_rank::saveRank();
 	player reconnect();
 }
 
@@ -372,13 +372,13 @@ cmd_ResetRank(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	player sr\game\_rank::reset();
+	player sr\core\_rank::reset();
 	player reconnect();
 }
 
 cmd_ResetSettings(args)
 {
-	self sr\player\_settings::reset();
+	self sr\core\_settings::reset();
 	self pm("^2Settings reset");
 }
 

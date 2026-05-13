@@ -22,9 +22,9 @@ cmd_Poll(args)
 	title = StrJoin(Range(args, 0, delimiter), " ");
 	values = Range(args, delimiter + 1, args.size);
 
-	result = sr\game\_poll::poll(title, values);
+	result = sr\core\_poll::poll(title, values);
 	if (isDefined(result))
-		level sr\sys\_notifications::show(fmt("^5[%d] Poll result: ^7%s", result.votes, result.label));
+		level sr\huds\_notifications::show(fmt("^5[%d] Poll result: ^7%s", result.votes, result.label));
 }
 
 cmd_Vote(args)
@@ -36,7 +36,7 @@ cmd_Vote(args)
 	type = Ternary(StartsWith(value, "mp_"), "map", "msg");
 
 	self log();
-	sr\game\_vote::start(type, value);
+	sr\core\_vote::start(type, value);
 }
 
 cmd_VoteFail(args)

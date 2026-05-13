@@ -4,55 +4,12 @@
 
 main()
 {
-	level.sr_music = [];
-
-	// Commands
 	cmd("adminplus", 	"music", 		::cmd_Music);
 	cmd("adminplus", 	"music_seq", 	::cmd_MusicSequence);
 	cmd("adminplus", 	"music_help", 	::cmd_MusicHelp);
 	cmd("player", 		"music_stop", 	::cmd_MusicStop);
 	cmd("owner",  		"radio",		::cmd_Radio);
 	cmd("adminplus",	"soundalias", 	::cmd_SoundAlias);
-
-	// SFX
-	add("cosita");
-	add("ways_to_die");
-	add("this_is_minecraft");
-	add("stal");
-	add("fn_despacito");
-	add("omg");
-	add("minecraft");
-	add("wario");
-	add("pipe");
-	add("dead");
-	add("delfino");
-	add("ninja");
-	add("xina");
-	add("wii");
-	add("ricardo");
-	add("fishe");
-	add("tense");
-	add("cow");
-	add("polish");
-	add("minion");
-	add("laogan");
-	add("fortnite");
-	add("wide");
-	add("dame");
-	add("wasted");
-	add("trap");
-	add("bing");
-	add("redsun");
-	add("heya");
-	add("fak");
-	add("gf");
-	add("auf");
-	add("boom");
-	add("nae");
-	add("diamond");
-	add("ocean");
-	add("ksi");
-	add("lighthouse");
 }
 
 cmd_Radio(args)
@@ -87,7 +44,7 @@ cmd_MusicSequence(args)
 
 	name = args[0];
 
-	level thread sr\game\music\_main::play(name);
+	level thread sr\core\_music::playSequence(name);
 }
 
 cmd_Music(args)
@@ -96,12 +53,12 @@ cmd_Music(args)
 		return self pm("Usage: music <name>");
 
 	name = args[0];
-	play(name);
+	sr\core\_music::playAmbient(name);
 }
 
 cmd_MusicHelp(args)
 {
-	aliases = StrJoin(getArrayKeys(level.sr_music), ", ");
+	aliases = StrJoin(getArrayKeys(level.music_ambient), ", ");
 	aliases = strTokByPixLen(aliases, 500);
 
 	self pm("Music aliases:");
@@ -122,25 +79,4 @@ cmd_SoundAlias(args)
 		self pm(aliases[i]);
 		wait 0.05;
 	}
-}
-
-play(name)
-{
-	stop();
-
-	if (name == "stop")
-		return;
-
-	AmbientPlay(IfUndef(level.sr_music[name], name), 0.05);
-}
-
-stop()
-{
-	AmbientStop(0.05);
-}
-
-add(name)
-{
-	index = level.sr_music.size + 1;
-	level.sr_music[name] = fmt("srm%d", index);
 }

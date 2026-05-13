@@ -1,5 +1,4 @@
 #include sr\utils\_common;
-#include sr\game\_perks;
 
 weapons(list)
 {
@@ -63,7 +62,7 @@ takeAllPerks()
 
 takeDefragPerk(id)
 {
-	self playerRemovePerk(id);
+	self sr\core\_perks::playerRemovePerk(id);
 }
 
 giveDefragWeapon(name, ammo)
@@ -79,7 +78,7 @@ giveDefragWeapon(name, ammo)
 
 giveDefragPerk(id, time)
 {
-	self playerSetPerk(id);
+	self sr\core\_perks::playerSetPerk(id);
 
 	if (isDefined(time))
 	{

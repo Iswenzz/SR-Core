@@ -1,0 +1,75 @@
+#include sr\sys\_events;
+#include sr\utils\_common;
+
+main()
+{
+	level.modes = [];
+
+	event("connect", ::onConnect);
+}
+
+createMode(name)
+{
+	level.modes[name] = name;
+}
+
+onConnect()
+{
+	self cleanModes();
+}
+
+toggleMode(name)
+{
+	self.modes[name] = !self.modes[name];
+
+	if (self.modes[name])
+		self cheat();
+}
+
+cleanModes()
+{
+	self.modes = [];
+
+	keys = getArrayKeys(level.modes);
+	for (i = 0; i < level.modes.size; i++)
+		self.modes[keys[i]] = false;
+}
+
+isInMode(name)
+{
+	return self.modes[name];
+}
+
+isInOtherMode(name)
+{
+	if (self sr\core\_minigames::isInAnyQueue() || self sr\core\_event::isEventStarted())
+	{
+		self pm("^1Already in a different mode.");
+		return true;
+	}
+
+	keys = getArrayKeys(level.modes);
+	for (i = 0; i < keys.size; i++)
+	{
+		if (keys[i] == name)
+			continue;
+
+		if (self isInMode(keys[i]))
+		{
+			self pm("^1Already in a different mode.");
+			return true;
+		}
+	}
+	return false;
+}
+
+isInAnyMode()
+{
+	keys = getArrayKeys(level.modes);
+	for (i = 0; i < keys.size; i++)
+	{
+		if (self isInMode(keys[i]))
+			return true;
+	}
+	return false;
+}

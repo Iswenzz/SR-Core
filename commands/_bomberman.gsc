@@ -1,7 +1,5 @@
 #include sr\sys\_file;
 #include sr\sys\_admins;
-#include sr\game\minigames\_main;
-#include sr\game\minigames\_bomberman;
 #include sr\utils\_common;
 
 main()
@@ -17,13 +15,13 @@ cmd_Bomberman(args)
 		self pm("^3Bomberman ^7is not activated!");
 		return;
 	}
-	if (self isInOtherQueue("bomberman"))
+	if (self sr\core\_minigames::isInOtherQueue("bomberman"))
 		return;
 
-	if (!self isInQueue("bomberman"))
-		join();
+	if (!self sr\core\_minigames::isInQueue("bomberman"))
+		sr\minigames\_bomberman::join();
 	else
-		leave();
+		sr\minigames\_bomberman::leave();
 }
 
 cmd_BombermanSpawn(args)

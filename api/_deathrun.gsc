@@ -1,8 +1,8 @@
-#include deathrun\game\_leaderboards;
+#include sr\utils\_common;
 
 order()
 {
-	return deathrun\game\_order::order();
+	return deathrun\core\_order::order();
 }
 
 createNormalWays(token)
@@ -14,7 +14,7 @@ createNormalWays(token)
 	{
 		way = fmt("normal_%d", i);
 		name = names[i];
-		addWay(way, name);
+		deathrun\core\_leaderboards::addWay(way, name);
 	}
 }
 
@@ -27,7 +27,7 @@ createSecretWays(token)
 	{
 		way = fmt("secret_%d", i);
 		name = names[i];
-		addWay(way, name);
+		deathrun\core\_leaderboards::addWay(way, name);
 	}
 }
 
@@ -37,13 +37,13 @@ changeWay(way)
 
 	self.sr_way = way;
 	self playLocalSound("change_way");
-	self thread deathrun\player\huds\_speedrun::updateWay();
+	self thread deathrun\huds\_speedrun::updateWay();
 }
 
 finishWay(way)
 {
 	if (self.sr_way == way)
-		self thread deathrun\player\run\_main::endTimer();
+		self thread deathrun\core\_run::endTimer();
 }
 
 createEndMap(origin, width, height, way)
@@ -56,7 +56,7 @@ createEndMap(origin, width, height, way)
 	trigger.targetname = "sr_" + way;
 
 	thread watchTriggerEndMap(trigger, way);
-	thread sr\game\fx\_trigger::effect(trigger, "red");
+	thread sr\fx\_trigger::effect(trigger, "red");
 	return trigger;
 }
 
@@ -76,7 +76,7 @@ createWay(triggerOrigin, width, height, color, way)
 	trigger.targetname = "sr_" + way;
 
 	thread watchWay(trigger, way);
-	thread sr\game\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
+	thread sr\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
 	return trigger;
 }
 
@@ -101,7 +101,7 @@ createTeleporter(triggerOrigin, width, height, origin, angles, state, color, way
 	trigger.targetname = "sr_" + way;
 
 	thread watchTeleporter(trigger, origin, angles, state, way);
-	thread sr\game\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
+	thread sr\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
 	return trigger;
 }
 

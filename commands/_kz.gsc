@@ -1,7 +1,5 @@
 #include sr\sys\_file;
 #include sr\sys\_admins;
-#include sr\game\minigames\_main;
-#include sr\game\minigames\_kz;
 #include sr\utils\_common;
 
 main()
@@ -14,13 +12,13 @@ main()
 
 cmd_Kz(args)
 {
-	if (self isInOtherQueue("kz"))
+	if (self sr\core\_minigames::isInOtherQueue("kz"))
 		return;
 
-	if (!self isInQueue("kz"))
-		join();
+	if (!self sr\core\_minigames::isInQueue("kz"))
+		sr\minigames\_kz::join();
 	else
-		leave();
+		sr\minigames\_kz::leave();
 }
 
 cmd_KzSpawn(args)
@@ -52,7 +50,7 @@ cmd_KzSave(args)
 	FILE_Close(file);
 	self pm("Points saved");
 
-	load();
+	sr\minigames\_kz::load();
 	self pm("Points loaded");
 }
 
@@ -62,5 +60,5 @@ cmd_KzWeapon(args)
 		return self pm("Usage: kz_weapon <name>");
 
 	weapon = args[0];
-	setWeapon(weapon);
+	sr\minigames\_kz::setWeapon(weapon);
 }

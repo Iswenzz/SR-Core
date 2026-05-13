@@ -13,7 +13,6 @@ main()
 	sr\sys\_gpt::initGPT();
 	sr\sys\_discord::initDiscord();
 	sr\sys\_admins::initAdmins();
-	sr\sys\_notifications::initNotifications();
 }
 
 precache()

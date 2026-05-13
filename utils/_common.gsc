@@ -441,7 +441,7 @@ isDefrag()
 {
 	if (isDefined(self.sr_mode) && self.sr_mode == "Defrag")
 		return true;
-	if (self sr\player\modes\_main::isInMode("defrag"))
+	if (self sr\core\_modes::isInMode("defrag"))
 		return true;
 	return false;
 }
@@ -450,7 +450,7 @@ isPortal()
 {
 	if (isDefined(self.sr_mode) && self.sr_mode == "Portal")
 		return true;
-	if (self sr\player\modes\_main::isInMode("portal"))
+	if (self sr\core\_modes::isInMode("portal"))
 		return true;
 	return false;
 }
@@ -952,7 +952,7 @@ circlePoints()
 getCustomizeWeapon()
 {
 	num = self getStat(981);
-	if (self sr\game\_rank::isWeaponUnlocked(num))
+	if (self sr\core\_rank::isWeaponUnlocked(num))
 		return level.assets["weapon"][num];
 	return level.assets["weapon"][0];
 }
@@ -960,7 +960,7 @@ getCustomizeWeapon()
 getCustomizeCharacter()
 {
 	num = self getStat(980);
-	if (self sr\game\_rank::isCharacterUnlocked(num))
+	if (self sr\core\_rank::isCharacterUnlocked(num))
 		return level.assets["character"][num];
 	return level.assets["character"][0];
 }
@@ -968,7 +968,7 @@ getCustomizeCharacter()
 getCustomizeKnife()
 {
 	num = self getStat(982);
-	if (self sr\game\_rank::isKnifeUnlocked(num))
+	if (self sr\core\_rank::isKnifeUnlocked(num))
 		return level.assets["knife"][num];
 	return level.assets["knife"][0];
 }
@@ -976,7 +976,7 @@ getCustomizeKnife()
 getCustomizeKnifeSkin()
 {
 	num = self getStat(983);
-	if (self sr\game\_rank::isKnifeSkinUnlocked(num))
+	if (self sr\core\_rank::isKnifeSkinUnlocked(num))
 		return level.assets["knife_skin"][num];
 	return level.assets["knife_skin"][0];
 }
@@ -984,7 +984,7 @@ getCustomizeKnifeSkin()
 getCustomizeSpray()
 {
 	num = self getStat(979);
-	if (self sr\game\_rank::isSprayUnlocked(num))
+	if (self sr\core\_rank::isSprayUnlocked(num))
 		return level.assets["spray"][num];
 	return level.assets["spray"][0];
 }
@@ -992,7 +992,7 @@ getCustomizeSpray()
 getCustomizeGlove()
 {
 	num = self getStat(985);
-	if (self sr\game\_rank::isGloveUnlocked(num))
+	if (self sr\core\_rank::isGloveUnlocked(num))
 		return level.assets["glove"][num];
 	return level.assets["glove"][0];
 }
@@ -1000,7 +1000,7 @@ getCustomizeGlove()
 getCustomizeFx()
 {
 	num = self getStat(986);
-	if (self sr\game\_rank::isFxUnlocked(num))
+	if (self sr\core\_rank::isFxUnlocked(num))
 		return level.assets["fx"][num];
 	return level.assets["fx"][0];
 }

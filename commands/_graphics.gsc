@@ -1,5 +1,4 @@
 #include sr\sys\_admins;
-#include sr\player\fx\_shaders;
 #include sr\utils\_common;
 
 main()
@@ -61,34 +60,34 @@ cmd_Shader(args)
 	switch (name)
 	{
 		case "translate":
-			player translate(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
+			player sr\fx\_shaders::translate(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
 		case "shake":
-			player shake(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]), ToFloat(args[5]));
+			player sr\fx\_shaders::shake(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]), ToFloat(args[5]));
 			break;
 		case "zoom":
-			player zoom(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
+			player sr\fx\_shaders::zoom(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
 		case "edge":
-			player edge((ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4])), ToFloat(args[5]));
+			player sr\fx\_shaders::edge((ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4])), ToFloat(args[5]));
 			break;
 		case "vhs":
-			player vhs(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]), ToFloat(args[5]));
+			player sr\fx\_shaders::vhs(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]), ToFloat(args[5]));
 			break;
 		case "blur":
-			player blur(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
+			player sr\fx\_shaders::blur(ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4]));
 			break;
 		case "psy_glass":
-			player psyGlass(ToFloat(args[2]), ToFloat(args[3]));
+			player sr\fx\_shaders::psyGlass(ToFloat(args[2]));
 			break;
 		case "psy_edge":
-			player psyEdge((ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4])));
+			player sr\fx\_shaders::psyEdge((ToFloat(args[2]), ToFloat(args[3]), ToFloat(args[4])));
 			break;
 		case "glitch":
-			player glitch(ToFloat(args[2]), ToFloat(args[3]));
+			player sr\fx\_shaders::glitch(ToFloat(args[2]), ToFloat(args[3]));
 			break;
 		default:
-			player removeShaders();
+			player sr\fx\_shaders::removeShaders();
 			break;
 	}
 }
@@ -107,12 +106,12 @@ cmd_FOV(args)
 
 	self pm("FOV scale ^5" + value);
 	self.settings["gfx_fov"] = normalized;
-	self sr\player\_settings::update("gfx_fov");
+	self sr\core\_settings::update("gfx_fov");
 }
 
 cmd_FPS(args)
 {
-	self sr\player\_settings::toggle("gfx_fullbright");
+	self sr\core\_settings::toggle("gfx_fullbright");
 
 	msg = Ternary(self.settings["gfx_fullbright"], "^2Fullbright On", "^1Fullbright Off");
 	self pm(msg);

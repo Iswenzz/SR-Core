@@ -1,0 +1,232 @@
+#include sr\utils\_common;
+#include sr\utils\_hud;
+
+main()
+{
+	level.huds["script_menu"] = [];
+
+	precacheShader("ui_host");
+	precacheShader("line_vertical");
+	precacheShader("nightvision_overlay_goggles");
+	precacheShader("hud_arrow_left");
+}
+
+loop(id, weapon)
+{
+	self endon("connect");
+	self endon("disconnect");
+
+	self.huds["script_menu"] = [];
+
+	while (isDefined(self))
+	{
+		if (!self isPlaying())
+		{
+			wait 1;
+			continue;
+		}
+
+		currentWeapon = self GetCurrentWeapon();
+		if (currentWeapon == weapon)
+		{
+			self open(id, weapon);
+			self close(weapon);
+			continue;
+		}
+		wait 0.2;
+		self.scriptMenuPrevWeapon = currentWeapon;
+	}
+}
+
+menuOption(section, name, script, args)
+{
+	id = section.id;
+	menu = section.script;
+
+	if (!isDefined(level.huds["script_menu"][id][menu]))
+		level.huds["script_menu"][id][menu] = [];
+	index = level.huds["script_menu"][id][menu].size;
+
+	option = spawnStruct();
+	option.name = name;
+	option.script = script;
+	option.args = args;
+
+	level.huds["script_menu"][id][menu][index] = option;
+}
+
+menuElement(name, id, script)
+{
+	menu = "main";
+
+	if (!isDefined(level.huds["script_menu"][id]))
+	{
+		level.huds["script_menu"][id] = [];
+		level.huds["script_menu"][id][menu] = [];
+	}
+
+	section = spawnStruct();
+	section.id = id;
+	section.name = name;
+	section.script = script;
+
+	if (script != menu)
+	{
+		index = level.huds["script_menu"][id][menu].size;
+		level.huds["script_menu"][id][menu][index] = section;
+	}
+	return section;
+}
+
+getMenuOptions(id, menu)
+{
+	options = "";
+	for (i = 0; i < level.huds["script_menu"][id][menu].size; i++)
+		options += level.huds["script_menu"][id][menu][i].name + "\n";
+	return options;
+}
+
+open(id, weapon)
+{
+	self endon("scriptmenu_done");
+	self endon("disconnect");
+	self endon("death");
+
+	submenu = "main";
+	menus = level.huds["script_menu"][id];
+
+	self.huds["script_menu"]["backround_night"] = addTextHud(self, -200, 0, .6, "left", "top", "right",0, 101);
+	self.huds["script_menu"]["backround_night"] setShader("nightvision_overlay_goggles", 400, 650);
+	self.huds["script_menu"]["backround_night"] thread fadeIn(0, .5, "right");
+
+	self.huds["script_menu"]["backround"] = addTextHud(self, -200, 0, 0.5, "left", "top", "right", 0, 101);
+	self.huds["script_menu"]["backround"] setShader("black", 400, 650);
+	self.huds["script_menu"]["backround"] thread fadeIn(0, .5, "right");
+
+	self.huds["script_menu"]["line"] = addTextHud(self, -200, 89, .5, "left", "top", "right", 0, 102);
+	self.huds["script_menu"]["line"] setShader("line_vertical", 600, 22);
+	self.huds["script_menu"]["line"] thread fadeIn(0, .5, "right");
+
+	self.huds["script_menu"]["select"] = addTextHud(self, -190, 93, 1, "left", "top", "right", 0, 104);
+	self.huds["script_menu"]["select"] setShader("ui_host", 14, 14);
+	self.huds["script_menu"]["select"] thread fadeIn(0, .5, "right");
+
+	self.huds["script_menu"]["options"] = addTextHud(self, -165, 100, 1, "left", "middle", "right", 1.4, 103);
+	self.huds["script_menu"]["options"] setText(getMenuOptions(id, submenu));
+	self.huds["script_menu"]["options"] thread fadeIn(0, .5, "right");
+
+	self.huds["script_menu"]["help"] = addTextHud(self, -170, 375, 1, "left", "middle", "right" ,1.4, 103);
+	self.huds["script_menu"]["help"] setText("^5Select: [Right or Left Mouse]\nUse: [[{+activate}]]\nLeave: [[{+melee}]]");
+	self.huds["script_menu"]["help"] thread fadeIn(0, .5, "right");
+
+	selected = 0;
+
+	self notify("scriptmenu_open", id);
+
+	while (true)
+	{
+		wait 0.05;
+
+		menu = menus[submenu][selected];
+		currentWeapon = self getCurrentWeapon();
+
+		if (self meleeButtonPressed() || currentWeapon != weapon)
+			break;
+		if (self attackButtonPressed())
+		{
+			self playLocalSound("mouse_over");
+			selected = Ternary(selected == menus[submenu].size - 1, 0, selected + 1);
+		}
+		if (self aimButtonPressed())
+		{
+			self playLocalSound("mouse_over");
+			selected = Ternary(selected == 0, menus[submenu].size - 1, selected - 1);
+		}
+		if (self aimButtonPressed() || self attackButtonPressed())
+		{
+			if (submenu == "main")
+			{
+				self.huds["script_menu"]["line"] moveOverTime(.05);
+				self.huds["script_menu"]["line"].y = 89 + (16.8 * selected);
+				self.huds["script_menu"]["select"] moveOverTime(.05);
+				self.huds["script_menu"]["select"].y = 93 + (16.8 * selected);
+			}
+			else
+			{
+				self.huds["script_menu"]["submenu_line"] moveOverTime(.05);
+				self.huds["script_menu"]["submenu_line"].y = 10 + self.huds["script_menu"]["submenu"].y + (16.8 * selected);
+			}
+		}
+		if ((self aimButtonPressed() || self attackButtonPressed()) && !self useButtonPressed())
+			wait 0.15;
+
+		if (self useButtonPressed())
+		{
+			// Submenu
+			if (isString(menus[submenu][selected].script))
+			{
+				if (isDefined(self.huds["script_menu"]["submenu"]))
+					continue;
+
+				abstand = (16.8 * selected);
+				submenu = menu.script;
+
+				self.huds["script_menu"]["submenu"] = addTextHud(self, -430, abstand + 50, .5, "left", "top", "right", 0, 101);
+				self.huds["script_menu"]["submenu"] setShader("black", 200, 300);
+				self.huds["script_menu"]["submenu"] thread fadeIn(0, .5, "left");
+
+				self.huds["script_menu"]["submenu_line"] = addTextHud(self, -430, abstand + 60, .5, "left", "top", "right", 0, 102);
+				self.huds["script_menu"]["submenu_line"] setShader("line_vertical", 200, 22);
+				self.huds["script_menu"]["submenu_line"] thread fadeIn(0, .5, "left");
+
+				self.huds["script_menu"]["submenu_arrow"] = addTextHud(self, -219, 93 + (16.8 * selected), 1, "left", "top", "right", 0, 104);
+				self.huds["script_menu"]["submenu_arrow"] setShader("hud_arrow_left", 14, 14);
+				self.huds["script_menu"]["submenu_arrow"] thread fadeIn(0, .5, "left");
+
+				self.huds["script_menu"]["submenu_options"] = addTextHud(self, -420, abstand + 71, 1, "left", "middle", "right", 1.4, 103);
+				self.huds["script_menu"]["submenu_options"] setText(getMenuOptions(id, submenu));
+				self.huds["script_menu"]["submenu_options"] thread fadeIn(0, .5, "left");
+
+				selected = 0;
+				wait 0.2;
+				continue;
+			}
+			self thread [[menu.script]](menu.args);
+		}
+	}
+}
+
+done()
+{
+	self notify("scriptmenu_done");
+}
+
+close(weapon)
+{
+	self endon("disconnect");
+
+	self takeWeapon(weapon);
+	if (isDefined(self.scriptMenuPrevWeapon))
+		self switchToWeapon(self.scriptMenuPrevWeapon);
+
+	if (!isDefined(self.huds["script_menu"]))
+		return;
+
+	huds = getArrayKeys(self.huds["script_menu"]);
+	for (i = 0; i < huds.size; i++)
+	{
+		if (isDefined(self.huds["script_menu"][huds[i]]))
+			self.huds["script_menu"][huds[i]] thread fadeOut(0, 1, "right");
+	}
+	wait 1;
+
+	self giveWeapon(weapon);
+}
+
+addTextHud(who, x, y, alpha, alignX, alignY, vert, fontScale, sort)
+{
+	hud = addHud(who, x, y, alpha, alignX, alignY, fontScale, sort);
+	hud.horzAlign = IfUndef(vert, "left");
+	hud.vertAlign = "top";
+	return hud;
+}

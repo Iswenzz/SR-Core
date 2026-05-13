@@ -1,7 +1,5 @@
 #include sr\sys\_file;
 #include sr\sys\_admins;
-#include sr\game\minigames\_main;
-#include sr\game\minigames\_race;
 #include sr\utils\_common;
 
 main()
@@ -15,13 +13,13 @@ main()
 
 cmd_Race(args)
 {
-	if (self isInOtherQueue("race"))
+	if (self sr\core\_minigames::isInOtherQueue("race"))
 		return;
 
-	if (!self isInQueue("race"))
-		join();
+	if (!self sr\core\_minigames::isInQueue("race"))
+		sr\minigames\_race::join();
 	else
-		leave();
+		sr\minigames\_race::leave();
 }
 
 cmd_RaceTrig(args)
@@ -81,6 +79,6 @@ cmd_RaceSave(args)
 	FILE_Close(file);
 	self pm("Points saved");
 
-	load();
+	sr\minigames\_race::load();
 	self pm("Points loaded");
 }

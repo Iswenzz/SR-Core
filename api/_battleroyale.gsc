@@ -1,4 +1,4 @@
-#include battleroyale\game\_game;
+#include sr\utils\_common;
 
 removeAllMapTriggers()
 {

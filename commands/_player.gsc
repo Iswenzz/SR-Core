@@ -170,10 +170,10 @@ cmd_Clone(args)
 
 cmd_Debug(args)
 {
-	if (self sr\player\modes\_main::isInOtherMode("debug"))
+	if (self sr\core\_modes::isInOtherMode("debug"))
 		return;
 
-	self sr\player\modes\_main::toggleMode("debug");
+	self sr\core\_modes::toggleMode("debug");
 	self suicide();
 
 	self pm(Ternary(self.modes["debug"], "^5Debug mode enabled!", "^1Debug mode disabled!"));
@@ -345,10 +345,10 @@ cmd_Model(args)
 
 cmd_PractiseMode(args)
 {
-	if (self sr\player\modes\_main::isInOtherMode("practise"))
+	if (self sr\core\_modes::isInOtherMode("practise"))
 		return;
 
-	self sr\player\modes\_main::toggleMode("practise");
+	self sr\core\_modes::toggleMode("practise");
 	self suicide();
 
 	self pm(Ternary(self.modes["practise"], "^5Practise mode enabled!", "^1Practise mode disabled!"));
@@ -418,7 +418,7 @@ cmd_Team(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	player sr\game\_teams::setTeam(team);
+	player sr\core\_teams::setTeam(team);
 	player eventSpawn();
 }
 
@@ -601,7 +601,7 @@ dog()
 	while (true)
 	{
 		if (self getCurrentWeapon() != "artillery_mp" || self isOnLadder())
-			self sr\game\_teams::setPlayerModel();
+			self sr\core\_teams::setPlayerModel();
 		else
 			self setModel("german_sheperd_dog");
 

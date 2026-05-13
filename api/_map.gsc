@@ -19,7 +19,7 @@ createTeleporter(triggerOrigin, width, height, origin, angles, state, color)
 	trigger.targetname = "sr_teleport";
 
 	thread watchTeleporter(trigger, origin, angles, state);
-	thread sr\game\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
+	thread sr\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
 	return trigger;
 }
 
@@ -87,7 +87,7 @@ createSpawnOrigin(origin, angles)
 
 createTriggerFx(trigger, fx)
 {
-	thread sr\game\fx\_trigger::effect(trigger, fx);
+	thread sr\fx\_trigger::effect(trigger, fx);
 }
 
 noFallDamage()
