@@ -69,6 +69,7 @@ onSpawn()
   			flags |= 16384;
 			self SetPmFlags(flags);
 			self SetPmTime(0);
+			self SetJumpOrigin(self.origin[2] + 200);
 
 			self setVelocity((self.bhopAirVelocity[0], self.bhopAirVelocity[1], 0)
 				+ (velocity[0], velocity[1], self.bhopHeight));
