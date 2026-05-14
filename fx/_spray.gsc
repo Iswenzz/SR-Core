@@ -38,7 +38,7 @@ onSpawn()
 		if (trace["fraction"] == 1)
 			continue;
 
-		spray = self getCustomizeSpray();
+		spray = self sr\core\_assets::getCustomizeSpray();
 		if (!isDefined(spray))
 			continue;
 

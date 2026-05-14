@@ -23,7 +23,7 @@ precacheCharacter()
 		level.assets["character"][i]["handsModel"] = tableLookup(tableName, 0, i, 4);
 		level.assets["character"][i]["name"] = tableLookup(tableName, 0, i, 5);
 		level.assets["character"][i]["callback"] = sr\menus\_customize::pickCharacter;
-		level.assets["character"][i]["unlock"] = sr\core\_rank::isCharacterUnlocked;
+		level.assets["character"][i]["unlock"] = ::isCharacterUnlocked;
 
 		precacheModel(level.assets["character"][i]["model"]);
 		precacheModel(level.assets["character"][i]["handsModel"]);
@@ -42,7 +42,7 @@ precacheFx()
 		level.assets["fx"][i]["prestige"] = int(tableLookup(tableName, 0, i, 2));
 		level.assets["fx"][i]["name"] = tableLookup(tableName, 0, i, 3);
 		level.assets["fx"][i]["callback"] = sr\menus\_customize::pickFx;
-		level.assets["fx"][i]["unlock"] = sr\core\_rank::isFxUnlocked;
+		level.assets["fx"][i]["unlock"] = ::isFxUnlocked;
 	}
 }
 
@@ -59,7 +59,7 @@ precacheGlove()
 		level.assets["glove"][i]["model"] = tableLookup(tableName, 0, i, 3);
 		level.assets["glove"][i]["name"] = tableLookup(tableName, 0, i, 4);
 		level.assets["glove"][i]["callback"] = sr\menus\_customize::pickGlove;
-		level.assets["glove"][i]["unlock"] = sr\core\_rank::isGloveUnlocked;
+		level.assets["glove"][i]["unlock"] = ::isGloveUnlocked;
 
 		precacheModel(level.assets["glove"][i]["model"]);
 	}
@@ -79,7 +79,7 @@ precacheKnife()
 		level.assets["knife"][i]["name"] = tableLookup(tableName, 0, i, 4);
 		level.assets["knife"][i]["model"] = tableLookup(tableName, 0, i, 5);
 		level.assets["knife"][i]["callback"] = sr\menus\_customize::pickKnife;
-		level.assets["knife"][i]["unlock"] = sr\core\_rank::isKnifeUnlocked;
+		level.assets["knife"][i]["unlock"] = ::isKnifeUnlocked;
 
 		precacheItem(level.assets["knife"][i]["item"]);
 		precacheModel(level.assets["knife"][i]["model"]);
@@ -99,7 +99,7 @@ precacheKnifeSkin()
 		level.assets["knife_skin"][i]["name"] = tableLookup(tableName, 0, i, 3);
 		level.assets["knife_skin"][i]["model"] = tableLookup(tableName, 0, i, 4);
 		level.assets["knife_skin"][i]["callback"] = sr\menus\_customize::pickKnifeSkin;
-		level.assets["knife_skin"][i]["unlock"] = sr\core\_rank::isKnifeSkinUnlocked;
+		level.assets["knife_skin"][i]["unlock"] = ::isKnifeSkinUnlocked;
 
 		precacheModel(level.assets["knife_skin"][i]["model"]);
 	}
@@ -119,7 +119,7 @@ precacheSpray()
 		level.assets["spray"][i]["effect"] = tableLookup(tableName, 0, i, 4);
 		level.assets["spray"][i]["name"] = tableLookup(tableName, 0, i, 5);
 		level.assets["spray"][i]["callback"] = sr\menus\_customize::pickSpray;
-		level.assets["spray"][i]["unlock"] = sr\core\_rank::isSprayUnlocked;
+		level.assets["spray"][i]["unlock"] = ::isSprayUnlocked;
 
 		switch (level.assets["spray"][i]["type"])
 		{
@@ -147,9 +147,113 @@ precacheWeapon()
 		level.assets["weapon"][i]["name"] = tableLookup(tableName, 0, i, 4);
 		level.assets["weapon"][i]["model"] = getWeaponModel(level.assets["weapon"][i]["item"]);
 		level.assets["weapon"][i]["callback"] = sr\menus\_customize::pickWeapon;
-		level.assets["weapon"][i]["unlock"] = sr\core\_rank::isWeaponUnlocked;
+		level.assets["weapon"][i]["unlock"] = ::isWeaponUnlocked;
 
 		precacheItem(level.assets["weapon"][i]["item"]);
 		precacheModel(level.assets["weapon"][i]["model"]);
 	}
+}
+
+getCustomizeWeapon()
+{
+	num = self getStat(981);
+	if (self isWeaponUnlocked(num))
+		return level.assets["weapon"][num];
+	return level.assets["weapon"][0];
+}
+
+getCustomizeCharacter()
+{
+	num = self getStat(980);
+	if (self isCharacterUnlocked(num))
+		return level.assets["character"][num];
+	return level.assets["character"][0];
+}
+
+getCustomizeKnife()
+{
+	num = self getStat(982);
+	if (self isKnifeUnlocked(num))
+		return level.assets["knife"][num];
+	return level.assets["knife"][0];
+}
+
+getCustomizeKnifeSkin()
+{
+	num = self getStat(983);
+	if (self isKnifeSkinUnlocked(num))
+		return level.assets["knife_skin"][num];
+	return level.assets["knife_skin"][0];
+}
+
+getCustomizeSpray()
+{
+	num = self getStat(979);
+	if (self isSprayUnlocked(num))
+		return level.assets["spray"][num];
+	return level.assets["spray"][0];
+}
+
+getCustomizeGlove()
+{
+	num = self getStat(985);
+	if (self isGloveUnlocked(num))
+		return level.assets["glove"][num];
+	return level.assets["glove"][0];
+}
+
+getCustomizeFx()
+{
+	num = self getStat(986);
+	if (self isFxUnlocked(num))
+		return level.assets["fx"][num];
+	return level.assets["fx"][0];
+}
+
+isCharacterUnlocked(num)
+{
+	return self isUnlocked(level.assets["character"], num);
+}
+
+isWeaponUnlocked(num)
+{
+	return self isUnlocked(level.assets["weapon"], num);
+}
+
+isSprayUnlocked(num)
+{
+	return self isUnlocked(level.assets["spray"], num);
+}
+
+isKnifeSkinUnlocked(num)
+{
+	return self isUnlocked(level.assets["knife_skin"], num, level.special_roles["vip"]);
+}
+
+isKnifeUnlocked(num)
+{
+	return self isUnlocked(level.assets["knife"], num);
+}
+
+isGloveUnlocked(num)
+{
+	return self isUnlocked(level.assets["glove"], num);
+}
+
+isFxUnlocked(num)
+{
+	return self isUnlocked(level.assets["fx"], num, level.special_roles["vip"]);
+}
+
+isUnlocked(assets, num, vip)
+{
+	if (num > assets.size || num <= -1)
+		return 0;
+	if (isDefined(vip) && self sr\sys\_admins::isVIP() >= vip)
+		return vip;
+	if (self.pers["prestige"] < assets[num]["prestige"])
+		return 0;
+	if (self.pers["rank"] < assets[num]["rank"] && self.pers["prestige"] <= assets[num]["prestige"])
+		return 0;
+	return 1;
 }

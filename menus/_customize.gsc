@@ -250,7 +250,7 @@ buildWeapon()
 
 pickCharacter(id)
 {
-	if (!self sr\core\_rank::isCharacterUnlocked(id))
+	if (!self sr\core\_assets::isCharacterUnlocked(id))
 		return;
 
 	self setStat(980, id);
@@ -259,7 +259,7 @@ pickCharacter(id)
 
 pickFx(id)
 {
-	if (!self sr\core\_rank::isFxUnlocked(id))
+	if (!self sr\core\_assets::isFxUnlocked(id))
 		return;
 
 	if (isDefined(self.customize_fx))
@@ -280,7 +280,7 @@ pickFx(id)
 
 pickGlove(id)
 {
-	if (!self sr\core\_rank::isGloveUnlocked(id))
+	if (!self sr\core\_assets::isGloveUnlocked(id))
 		return;
 
 	self setStat(985, id);
@@ -289,7 +289,7 @@ pickGlove(id)
 
 pickKnife(id)
 {
-	if (!self sr\core\_rank::isKnifeUnlocked(id))
+	if (!self sr\core\_assets::isKnifeUnlocked(id))
 		return;
 
 	self setStat(982, id);
@@ -298,7 +298,7 @@ pickKnife(id)
 
 pickKnifeSkin(id)
 {
-	if (!self sr\core\_rank::isKnifeSkinUnlocked(id))
+	if (!self sr\core\_assets::isKnifeSkinUnlocked(id))
 		return;
 
 	self setStat(983, id);
@@ -307,7 +307,7 @@ pickKnifeSkin(id)
 
 pickSpray(id)
 {
-	if (!self sr\core\_rank::isSprayUnlocked(id))
+	if (!self sr\core\_assets::isSprayUnlocked(id))
 		return;
 
 	self setStat(979, id);
@@ -315,7 +315,7 @@ pickSpray(id)
 
 pickWeapon(id)
 {
-	if (!self sr\core\_rank::isWeaponUnlocked(id))
+	if (!self sr\core\_assets::isWeaponUnlocked(id))
 		return;
 
 	self setStat(981, id);

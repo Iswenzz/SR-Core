@@ -1,17 +1,6 @@
 #include sr\sys\_events;
 #include sr\utils\_common;
 
-setPlayerModel()
-{
-	self detachAll();
-
-	character = self getCustomizeCharacter();
-	glove = self getCustomizeGlove();
-
-	self setModel(character["model"]);
-	self setViewModel(glove["model"]);
-}
-
 setHealth()
 {
 	self.maxhealth = 100;

@@ -12,11 +12,11 @@ onSpawn()
 	self endon("death");
 	self endon("disconnect");
 
-	trail = self getCustomizeFx();
+	fx = self sr\core\_assets::getCustomizeFx();
 
-	if (!self sr\sys\_admins::isVIP() || !isDefined(trail) || !trail["id"])
+	if (!self sr\sys\_admins::isVIP() || !isDefined(fx) || !fx["id"])
 		return;
 
 	wait 0.05;
-	playFXOnTag(level.gfx["viptrail" + trail["id"]], self, "tag_origin");
+	playFXOnTag(level.gfx["viptrail" + fx["id"]], self, "tag_origin");
 }

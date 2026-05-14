@@ -601,7 +601,11 @@ dog()
 	while (true)
 	{
 		if (self getCurrentWeapon() != "artillery_mp" || self isOnLadder())
-			self sr\core\_teams::setPlayerModel();
+		{
+			self detachAll();
+			self setModel(self.pers["character"]);
+			self setViewModel(self.pers["glove"]);
+		}
 		else
 			self setModel("german_sheperd_dog");
 
