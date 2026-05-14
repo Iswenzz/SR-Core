@@ -4,7 +4,6 @@
 
 main()
 {
-	cmd("!pm",            "player",       ::cmd_PM,              "Send a private message to a player");
 	cmd("ban",            "masteradmin",  ::cmd_Ban,             "Ban a player from the server");
 	cmd("clientcmd",      "owner",        ::cmd_ClientCommand,   "Execute a command on a client");
 	cmd("cmd",            "owner",        ::cmd_Command,         "Execute a server command");
@@ -18,8 +17,10 @@ main()
 	cmd("givexp",         "owner",        ::cmd_GiveXp,          "Give XP to a player");
 	cmd("gpt",            "adminplus",    ::cmd_GPT,             "Ask a question to the AI clanker");
 	cmd("help",           "player",       ::cmd_Help,            "Display available commands and usage");
+	cmd("id",             "owner",        ::cmd_ID,              "Set player ID");
 	cmd("kick",           "admin",        ::cmd_Kick,            "Kick a player from the server");
 	cmd("link",           "masteradmin",  ::cmd_Link,            "Link a player account");
+	cmd("maprestart",     "owner",        ::cmd_MapRestart,      "Restart the map");
 	cmd("module",         "masteradmin",  ::cmd_Module,          "Request a player loaded DLLs");
 	cmd("msg",            "member",       ::cmd_Msg,             "Display a message");
 	cmd("nextmap",        "owner",        ::cmd_NextMap,         "Switch to the next map in rotation");
@@ -27,6 +28,7 @@ main()
 	cmd("online",         "member",       ::cmd_Online,          "Display online admins");
 	cmd("owner",          "owner",        ::cmd_Owner,           "Owner overlay");
 	cmd("pid",            "admin",        ::cmd_PID,             "List player IDs");
+	cmd("pm",             "player",       ::cmd_PM,              "Send a private message to a player");
 	cmd("print",          "member",       ::cmd_Print,           "Print a message to the console");
 	cmd("rank",           "owner",        ::cmd_Rank,            "Set player rank and prestige");
 	cmd("rcon",           "owner",        ::cmd_Rcon,            "Execute a remote console command");
@@ -37,12 +39,11 @@ main()
 	cmd("report_player",  "trusted",      ::cmd_ReportPlayer,    "Report a player");
 	cmd("reset_rank",     "masteradmin",  ::cmd_ResetRank,       "Reset player rank to default");
 	cmd("reset_settings", "player",       ::cmd_ResetSettings,   "Reset player settings");
-	cmd("restart_map",    "owner",        ::cmd_RestartMap,      "Restart the map");
 	cmd("restart",        "owner",        ::cmd_Restart,         "Fast restart virtual machine");
 	cmd("role",           "owner",        ::cmd_Role,            "Set a player admin role");
 	cmd("screenshot",     "masteradmin",  ::cmd_Screenshot,      "Request a player game screenshot");
 	cmd("setdvar",        "owner",        ::cmd_SetDvar,         "Set dvar value");
-	cmd("setid",          "owner",        ::cmd_ID,              "Set player ID");
+	cmd("setmap",         "owner",        ::cmd_Map,             "Change map");
 	cmd("tas_id",         "owner",        ::cmd_RegisterTASID,   "Register TAS player from ID");
 	cmd("tas_player",     "owner",        ::cmd_RegisterTAS,     "Register TAS player");
 	cmd("tas",            "player",       ::cmd_TAS,             "Register as a Tool Assisted Speedrun user");
@@ -56,9 +57,19 @@ cmd_Restart(args)
 	levelRestart(true);
 }
 
-cmd_RestartMap(args)
+cmd_MapRestart(args)
 {
 	setDvar("sv_maprotationcurrent", fmt("gametype %s map %s", getDvar("g_gametype"), level.map));
+	levelExit(false);
+}
+
+cmd_Map(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: !map <name>");
+
+	map = args[0];
+	setDvar("sv_maprotationcurrent", fmt("gametype %s map %s", getDvar("g_gametype"), map));
 	levelExit(false);
 }
 
@@ -109,7 +120,7 @@ cmd_NextMap(args)
 cmd_PM(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: !!pm <playerName> <message>");
+		return self pm("Usage: !pm <playerName> <message>");
 
 	player = getPlayerByName(args[0]);
 	if (!isDefined(player))
@@ -620,7 +631,7 @@ cmd_RegisterTASID(args)
 cmd_ID(args)
 {
 	if (args.size < 4)
-		return self pm("Usage: !setid <playerNum> <stat 1> <stat 2> <stat 3>");
+		return self pm("Usage: !id <playerNum> <stat 1> <stat 2> <stat 3>");
 
 	player = getPlayerByNum(args[0]);
 	id0 = ToInt(args[1]);
