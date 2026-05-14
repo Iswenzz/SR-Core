@@ -4,11 +4,11 @@
 
 main()
 {
-    cmd("race", "player", ::cmd_Race);
-    cmd("race_trig", "adminplus", ::cmd_RaceTrig);
-	cmd("race_spawn", "adminplus", ::cmd_RaceSpawn);
-	cmd("race_mk", "adminplus", ::cmd_RaceMk);
-	cmd("race_save", "adminplus", ::cmd_RaceSave);
+    cmd("race",       "player",    ::cmd_Race,      "Join the race minigame");
+    cmd("race_trig",  "adminplus", ::cmd_RaceTrig,  "Place the race end trigger");
+	cmd("race_spawn", "adminplus", ::cmd_RaceSpawn, "Place the race spawn point");
+	cmd("race_mk",    "adminplus", ::cmd_RaceMk,    "Place a race point");
+	cmd("race_save",  "adminplus", ::cmd_RaceSave,  "Save the race configuration");
 }
 
 cmd_Race(args)

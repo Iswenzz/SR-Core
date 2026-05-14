@@ -226,22 +226,19 @@ cmd_GetDvar(args)
 cmd_Help(args)
 {
 	valids = [];
-	keys = getArrayKeys(level.admin_commands);
+	keys = Sort(getArrayKeys(level.admin_commands));
 	for (i = 0; i < keys.size; i++)
 	{
 		if (!self canExecuteCommand(level.admin_commands[keys[i]]))
 			continue;
 		valids[valids.size] = keys[i];
 	}
-	chunks = Chunk(valids, 5);
 	self pm(fmt("%s ^7commands:", self getRoleName()));
 
-	for (i = 0; i < chunks.size; i++)
+	for (i = 0; i < valids.size; i++)
 	{
-		strings = strTokByPixLen(StrJoin(chunks[i], ", "), 500);
-		for (k = 0; k < strings.size; k++)
-			self pm(strings[k]);
-
+		cmd = level.admin_commands[valids[i]];
+		self pm(fmt("!%s %s", cmd.name, cmd.description));
 		wait 0.05;
 	}
 }

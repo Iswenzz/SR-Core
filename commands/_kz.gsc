@@ -4,7 +4,7 @@
 
 main()
 {
-	cmd("killzone",  "player",   ::cmd_Kz,        "Join the killzone");
+	cmd("killzone",  "player",   ::cmd_Kz,        "Join the killzone minigame");
 	cmd("kz_save",   "adminplus", ::cmd_KzSave,   "Save the current killzone configuration");
 	cmd("kz_weapon", "admin",    ::cmd_KzWeapon,  "Set the weapon used in killzone");
 	cmd("kz_spawn",  "adminplus", ::cmd_KzSpawn,  "Set the killzone spawn point");

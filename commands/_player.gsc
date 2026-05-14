@@ -25,7 +25,7 @@ main()
 	cmd("move_speed",      "owner",        ::cmd_MoveSpeed,       "Set the player move speed");
 	cmd("practise_mode",   "masteradmin",  ::cmd_PractiseMode,    "Toggle practice mode");
 	cmd("shock",           "adminplus",    ::cmd_Shock,           "Apply a shock to a player");
-	cmd("shovel",          "vip",          ::cmd_Shovel,          "Give a player the shovel weapon");
+	cmd("shovel",          "vip",          ::cmd_Shovel,          "Give a shovel weapon");
 	cmd("spawn_all",       "masteradmin",  ::cmd_SpawnAll,        "Spawn all players");
 	cmd("spawn",           "masteradmin",  ::cmd_Spawn,           "Spawn a player");
 	cmd("takeall",         "adminplus",    ::cmd_TakeAll,         "Remove all weapons from a player");

@@ -5,7 +5,7 @@
 main()
 {
 	cmd("bomberman_spawn", "owner",  ::cmd_BombermanSpawn, "Spawn the bomberman area");
-	cmd("bomberman",       "player", ::cmd_Bomberman,      "Join bomberman");
+	cmd("bomberman",       "player", ::cmd_Bomberman,      "Join bomberman minigame");
 }
 
 cmd_Bomberman(args)
