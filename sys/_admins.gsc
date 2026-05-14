@@ -230,8 +230,10 @@ command(name, arg)
 	args = strTok(IfUndef(arg, ""), " ");
 
 	if (!self canExecuteCommand(cmd))
+	{
+		self pm("^1Access denied");
 		return;
-
+	}
 	self.lastCommand = fmt("%s %s", name, arg);
 	comPrintLn("%s: !%s", self.name, self.lastCommand);
 	self thread [[cmd.callback]](args);
