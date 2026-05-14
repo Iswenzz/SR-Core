@@ -36,9 +36,9 @@ static float dn_cloud_absorbtion = 0.36f; 	// w
 static float4 dn_skydome = float4(dn_skydome_scale, dn_cloud_coverage, dn_cloud_thickness, dn_cloud_absorbtion);
 
 // FILTER_TAP_3
-static float dn_star_scale	= 0.02f;				// x
-static float dn_cloud_step_distance_xz	= 150.0f; 	// y
-static float dn_cloud_exposure	= 0.65f; 			// w
+static float dn_star_scale = 0.02f;					// x
+static float dn_cloud_step_distance_xz = 150.0f; 	// y
+static float dn_cloud_exposure = 0.65f; 			// w
 static float4 dn_star = float4(dn_star_scale, dn_cloud_step_distance_xz, 0.0, dn_cloud_exposure);
 
 // FILTER_TAP_4
@@ -53,7 +53,7 @@ static float4 dn_sun = float4(dn_sky_sun_intensity, dn_sky_rayleigh_coeff);
 
 // FILTER_TAP_6
 static float dn_sky_mie_coeff = 7.00f;				// x
-static float dn_sky_rayleigh_scale	= 1000.0f;		// y
+static float dn_sky_rayleigh_scale = 1000.0f;		// y
 static float dn_sky_mie_scale = 400.0f;				// z
 static float dn_sky_mie_scatter_dir = 0.99f;		// w
 static float4 dn_sky_mie = float4(dn_sky_mie_coeff, dn_sky_rayleigh_scale, dn_sky_mie_scale, dn_sky_mie_scatter_dir);

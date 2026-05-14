@@ -223,7 +223,7 @@ angleToRange(player, start, end, yaw)
 
 	split = end > start;
 	start = angleNormalizePi(start - yaw);
-	end	= angleNormalizePi(end - yaw);
+	end = angleNormalizePi(end - yaw);
 
 	if (end > start)
 	{
@@ -231,7 +231,7 @@ angleToRange(player, start, end, yaw)
 
 		tmp = start;
 		start = end;
-		end	= tmp;
+		end = tmp;
 	}
 
 	range.x1 = player angleScreenProjection(start);

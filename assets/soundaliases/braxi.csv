@@ -1,7 +1,0 @@
-name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage,center percentage,platform,envelop_min,envelop_max,envelop percentage
-
-ee1,,misc/ee1.wav,1,1,na,1,1,,,auto2d,loaded,,,,all_mp,,,,,,,,,,,,,
-sprayer,,misc/sprayer.wav,1.0,1.0,,,,240,300,auto,loaded,,nonlooping,,all_mp,,,,,,,,,,,,,
-last_alive,,misc/last_alive.mp3,1,1,na,1,1,,,auto2d,streamed,,nonlooping,,all_mp,,,,,,,nowetlevel fulldrylevel,,,,,,
-first_blood,,misc/firstblood.mp3,1,1,na,1,1,,,auto2d,streamed,,nonlooping,,all_mp,,,,,,,nowetlevel fulldrylevel,,,,,,
-wtf,,misc/wtf.mp3,1.0,1.0,,,,1200,2000,auto,streamed,,nonlooping,,all_mp,,,,,,,,,,,,,

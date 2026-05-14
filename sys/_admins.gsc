@@ -6,8 +6,6 @@ initAdmins()
 {
 	level.files["commands"] = PATH_Mod("data/logs/commands.txt");
 
-	precache();
-
 	level.ids = [];
 	level.accounts = [];
 	level.bans = [];
@@ -16,50 +14,22 @@ initAdmins()
 	level.whitelist = FILE_Exists("/etc/nftables/cod4.nft");
 
 	level.admin_roles = [];
-	level.admin_roles["player"] 		= 1;
-	level.admin_roles["trusted"] 		= 2;
-	level.admin_roles["member"] 		= 10;
-	level.admin_roles["admin"] 			= 30;
-	level.admin_roles["adminplus"] 		= 50;
-	level.admin_roles["masteradmin"] 	= 60;
-	level.admin_roles["owner"] 			= 100;
+	level.admin_roles["player"] = 1;
+	level.admin_roles["trusted"] = 2;
+	level.admin_roles["member"] = 10;
+	level.admin_roles["admin"] = 30;
+	level.admin_roles["adminplus"] = 50;
+	level.admin_roles["masteradmin"] = 60;
+	level.admin_roles["owner"] = 100;
 
 	level.special_roles = [];
-	level.special_roles["vip"] 			= 1;
-	level.special_roles["vipplus"] 		= 2;
-	level.special_roles["donator"] 		= 3;
+	level.special_roles["vip"] = 1;
+	level.special_roles["vipplus"] = 2;
+	level.special_roles["donator"] = 3;
 
 	event("command", ::command);
 
 	thread fetch();
-}
-
-precache()
-{
-	precacheModel("axis");
-	precacheModel("chicken");
-	precacheModel("bc_militarytent_draped");
-	precacheModel("ch_roadrock_06");
-	precacheModel("ch_russian_table");
-	precacheModel("prop_flag_russian");
-	precacheModel("prop_flag_neutral");
-
-	precacheStatusIcon("vip_status");
-	precacheShader("vip_status");
-	precacheShader("vip_gold");
-
-	precacheStatusIcon("hud_status_connecting");
-	precacheStatusIcon("hud_status_dead");
-	precacheHeadIcon("headicon_vip");
-
-	precacheShellShock("default");
-	precacheShellShock("flashbang");
-	precacheShellShock("concussion_grenade_mp");
-	precacheShellShock("damage_mp");
-	precacheShellShock("frag_grenade_mp");
-	precacheShellShock("radiation_high");
-
-	precacheMenu("clientcmd");
 }
 
 fetch()

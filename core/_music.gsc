@@ -64,7 +64,7 @@ main()
 
 precache()
 {
-	level.gfx["blue_particles"] = loadFX("deathrun/blue_particles");
+	level.gfx["blue_particles"] = loadFX("speedrun/blue_particles");
 	level.gfx["thunder"] = loadFX("weather/lightning_mp_farm");
 	level.gfx["rain"] = loadFX("weather/rain_mp_farm");
 	level.gfx["snow"] = loadFX("weather/snow_light_mp_bloc");

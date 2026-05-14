@@ -10,6 +10,11 @@ health_pickup_large,,speedrun/pu_health01.wav,0.45,0.53,na,0.9,0.9,60,120,item
 grenade_pickup,,speedrun/pu_grenade.wav,0.58,0.71,na,0.9,0.9,60,120,item
 wpfoly_uav_control_unit_pullout,,weapons/unit/wpfoly_uav_control_unit_pullout.wav,1,1,,,,200,300,auto,streamed
 wpfoly_uav_control_unit_putaway,,weapons/unit/wpfoly_uav_control_unit_putaway.wav,1,1,,,,200,300,auto,streamed
+ee1,,misc/ee1.wav,1,1,na,1,1,,,auto2d,loaded,,,,all_mp,,,,,,,,,,,,,
+sprayer,,misc/sprayer.wav,1.0,1.0,,,,240,300,auto,loaded,,nonlooping,,all_mp,,,,,,,,,,,,,
+last_alive,,misc/last_alive.mp3,1,1,na,1,1,,,auto2d,streamed,,nonlooping,,all_mp,,,,,,,nowetlevel fulldrylevel,,,,,,
+first_blood,,misc/firstblood.mp3,1,1,na,1,1,,,auto2d,streamed,,nonlooping,,all_mp,,,,,,,nowetlevel fulldrylevel,,,,,,
+wtf,,misc/wtf.mp3,1.0,1.0,,,,1200,2000,auto,streamed,,nonlooping,,all_mp,,,,,,,,,,,,,
 
 end_map1,,misc/endmap1.mp3,1,1,na,1,1,,,auto2d,streamed,,nonlooping,,all_mp,,,,,,,nowetlevel fulldrylevel,,,,,,
 end_map2,,misc/endmap2.mp3,1,1,na,1,1,,,auto2d,streamed,,nonlooping,,all_mp,,,,,,,nowetlevel fulldrylevel,,,,,,
