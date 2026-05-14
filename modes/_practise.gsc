@@ -35,10 +35,9 @@ watchSave()
 	{
 		if (self meleeButtonPressed())
 		{
+			self saveState();
 			self.practise["origin"] = self getOrigin();
 			self.practise["angles"] = self getPlayerAngles();
-			self.practise["velocity"] = self getVelocity();
-			self.practise["flags"] = self pmFlags();
 			self iPrintLn("^2Position saved");
 			wait 0.2;
 		}
@@ -62,10 +61,9 @@ watchLoad()
 				wait 0.2;
 				continue;
 			}
+			self loadState();
 			self setOrigin(self.practise["origin"]);
 			self setPlayerAngles(self.practise["angles"]);
-			self setVelocity(self.practise["velocity"]);
-			self setPmFlags(self.practise["flags"]);
 			self iPrintLn("^5Position loaded");
 			wait 0.2;
 		}
