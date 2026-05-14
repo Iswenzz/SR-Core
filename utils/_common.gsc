@@ -797,7 +797,7 @@ ragdoll(sHitLoc, vDir, sWeapon, eInflictor, sMeansOfDeath, deathAnimDuration)
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		if (players[i].settings["gfx_ragdoll"])
+		if (players[i] sr\core\_settings::getPlayerSetting("gfx_ragdoll", true))
 			body showToPlayer(players[i]);
 	}
 	if (isDefined(body))

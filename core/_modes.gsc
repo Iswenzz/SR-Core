@@ -37,7 +37,7 @@ cleanModes()
 
 isInMode(name)
 {
-	return self.modes[name];
+	return IfUndef(self.modes[name], false);
 }
 
 isInOtherMode(name)
