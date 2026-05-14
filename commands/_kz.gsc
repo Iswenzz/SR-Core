@@ -4,10 +4,10 @@
 
 main()
 {
-	cmd("player", 		"killzone",		::cmd_Kz);
-    cmd("adminplus", 	"kz_spawn",		::cmd_KzSpawn);
-	cmd("adminplus", 	"kz_save",		::cmd_KzSave);
-	cmd("admin", 		"kz_weapon",	::cmd_KzWeapon);
+	cmd("killzone",  "player",   ::cmd_Kz,        "Join the killzone");
+	cmd("kz_save",   "adminplus", ::cmd_KzSave,   "Save the current killzone configuration");
+	cmd("kz_weapon", "admin",    ::cmd_KzWeapon,  "Set the weapon used in killzone");
+	cmd("kz_spawn",  "adminplus", ::cmd_KzSpawn,  "Set the killzone spawn point");
 }
 
 cmd_Kz(args)
@@ -57,7 +57,7 @@ cmd_KzSave(args)
 cmd_KzWeapon(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: kz_weapon <name>");
+		return self pm("Usage: !kz_weapon <name>");
 
 	weapon = args[0];
 	sr\minigames\_kz::setWeapon(weapon);

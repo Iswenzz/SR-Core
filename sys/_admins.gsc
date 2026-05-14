@@ -210,12 +210,13 @@ database()
 	critical_release("mysql");
 }
 
-cmd(role, name, callback)
+cmd(name, role, callback, description)
 {
 	level.admin_commands[name] = spawnStruct();
 	level.admin_commands[name].name = name;
 	level.admin_commands[name].role = role;
 	level.admin_commands[name].callback = callback;
+	level.admin_commands[name].description = description;
 
 	addScriptCommand(name, 1);
 }
@@ -288,7 +289,7 @@ banned()
 	self setClientDvar("ui_sr_info2", "More info at https://discord.gg/76aHfGF");
 
 	// Use this instead of kick() to get the ui_sr_info menu
-	exec(fmt("kick %d banned", self.number));
+	exec(fmt("sv_kick %d", self.number));
 }
 
 tas(player, tas)

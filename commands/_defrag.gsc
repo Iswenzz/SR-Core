@@ -3,9 +3,9 @@
 
 main()
 {
-	cmd("owner", 		"defrag_mode",		::cmd_DefragMode);
-	cmd("owner", 		"defrag_weapon",	::cmd_DefragWeapon);
-	cmd("owner", 		"defrag_perk",		::cmd_DefragPerk);
+	cmd("defrag_mode",   "owner", ::cmd_DefragMode,   "Toggle defrag mode");
+	cmd("defrag_perk",   "owner", ::cmd_DefragPerk,   "Spawn a defrag perk");
+	cmd("defrag_weapon", "owner", ::cmd_DefragWeapon, "Spawn a defrag weapon");
 }
 
 cmd_DefragMode(args)
@@ -22,7 +22,7 @@ cmd_DefragMode(args)
 cmd_DefragWeapon(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: defrag_weapon <weapon> <ammo>");
+		return self pm("Usage: !defrag_weapon <weapon> <ammo>");
 
 	weapon = args[0];
 	ammo = IfUndef(ToInt(args[1]), 0);
@@ -40,7 +40,7 @@ cmd_DefragWeapon(args)
 cmd_DefragPerk(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: defrag_perk <perk> <time>");
+		return self pm("Usage: !defrag_perk <perk> <time>");
 
 	perk = args[0];
 	time = IfUndef(ToInt(args[1]), 0);

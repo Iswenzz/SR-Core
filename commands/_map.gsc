@@ -8,9 +8,9 @@ main()
 	level.files["map"] = fmt(PATH_Mod("data/maps/%s.txt"), level.map);
 	level.files["chicken"] = fmt(PATH_Mod("sr/data/chickens/%s.txt"), level.map);
 
-	cmd("member", 	"chicken",		::cmd_Chicken);
-	cmd("owner", 	"chicken_save",	::cmd_ChickenSave);
-	cmd("owner",	"map_save", 	::cmd_MapSave);
+	cmd("chicken_save", "owner",  ::cmd_ChickenSave, "Save the chicken map configuration");
+	cmd("chicken",      "member", ::cmd_Chicken,     "Spawn a chicken");
+	cmd("map_save",     "owner",  ::cmd_MapSave,     "Save the current map configuration");
 
 	event("map", ::spawnChickens);
 	event("map", ::spawnBrushes);

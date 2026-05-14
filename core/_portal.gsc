@@ -14,13 +14,13 @@ main()
 	sr\libs\portal\_portal_gun::main();
 	sr\libs\portal\_turret::main();
 
-	addDvar("portal_block_bullet", 				"portal_block_bullet", 				1, 0, 1, 	"int");
-	addDvar("portal_block_c4", 					"portal_block_c4", 					0, 0, 1, 	"int");
-	addDvar("portal_block_grenade", 			"portal_block_grenade", 			0, 0, 1, 	"int");
-	addDvar("portal_forbid_terrain", 			"portal_forbid_terrain", 			0, 0, 1, 	"int");
-	addDvar("portal_help_orientation", 			"portal_help_orientation", 			1, 0, 1, 	"int");
-	addDvar("portal_max_turrets", 				"portal_max_turrets", 				4, 0, 10, 	"int");
-	addDvar("portal_turret_target_owner", 		"portal_turret_target_owner", 		0, 0, 1, 	"int");
+	addDvar("portal_block_bullet", "portal_block_bullet", 1, 0, 1, "int");
+	addDvar("portal_block_c4", "portal_block_c4", 0, 0, 1, "int");
+	addDvar("portal_block_grenade", "portal_block_grenade", 0, 0, 1, "int");
+	addDvar("portal_forbid_terrain", "portal_forbid_terrain", 0, 0, 1, "int");
+	addDvar("portal_help_orientation", "portal_help_orientation", 1, 0, 1, "int");
+	addDvar("portal_max_turrets", "portal_max_turrets", 4, 0, 10, "int");
+	addDvar("portal_turret_target_owner", "portal_turret_target_owner", 0, 0, 1, "int");
 
 	precache();
 

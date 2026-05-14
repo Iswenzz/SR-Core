@@ -3,7 +3,7 @@
 
 main()
 {
-    cmd("player", 	"discord",      ::cmd_Discord);
+    cmd("discord", "player", ::cmd_Discord, "Display the server Discord");
 }
 
 cmd_Discord(args)

@@ -4,42 +4,42 @@
 
 main()
 {
-	cmd("masteradmin", 	"angles",			::cmd_Angles);
-	cmd("masteradmin", 	"bounce",			::cmd_Bounce);
-	cmd("owner", 		"bullet",			::cmd_Bullet);
-	cmd("owner", 		"clone",			::cmd_Clone);
-	cmd("owner", 		"debug",			::cmd_Debug);
-	cmd("owner", 		"damage",			::cmd_Damage);
-	cmd("vip", 			"dance",			::cmd_Dance);
-	cmd("adminplus", 	"drop",				::cmd_Drop);
-	cmd("owner", 		"dog",				::cmd_Dog);
-	cmd("adminplus", 	"flash",			::cmd_Flash);
-	cmd("owner", 		"g_gravity",		::cmd_G_Gravity);
-	cmd("owner", 		"g_speed",			::cmd_G_Speed);
-	cmd("owner", 		"dr_jumpers_speed",	::cmd_Dr_Jumpers_Speed);
-	cmd("owner", 		"god",				::cmd_God);
-	cmd("admin", 		"heal",				::cmd_Heal);
-	cmd("owner",		"jump_height",		::cmd_JumpHeight);
-	cmd("admin",        "kill",				::cmd_Kill);
-	cmd("owner", 		"model",			::cmd_Model);
-	cmd("masteradmin", 	"practise_mode",	::cmd_PractiseMode);
-	cmd("masteradmin", 	"sr_freeze",		::cmd_Freeze);
-	cmd("masteradmin", 	"sr_unfreeze",		::cmd_UnFreeze);
-	cmd("adminplus", 	"shock",			::cmd_Shock);
-	cmd("vip", 			"shovel",			::cmd_Shovel);
-	cmd("masteradmin", 	"spawn",			::cmd_Spawn);
-	cmd("masteradmin", 	"spawn_all",		::cmd_SpawnAll);
-	cmd("adminplus", 	"team",				::cmd_Team);
-	cmd("adminplus", 	"takeall",			::cmd_TakeAll);
-	cmd("owner", 		"trooper",			::cmd_Trooper);
-	cmd("admin", 		"teleport_player",	::cmd_TeleportPlayer);
-	cmd("admin", 		"teleport_to",		::cmd_TeleportTo);
-	cmd("admin", 		"teleport_at",		::cmd_TeleportAt);
-	cmd("admin", 		"teleport_ent",		::cmd_TeleportEnt);
-	cmd("owner", 		"uammo",			::cmd_UAmmo);
-	cmd("adminplus", 	"weapon",			::cmd_Weapon);
-	cmd("adminplus", 	"weapon_all",		::cmd_WeaponAll);
-	cmd("adminplus", 	"weapon_acti",		::cmd_WeaponActi);
+	cmd("angles",          "masteradmin",  ::cmd_Angles,          "Set player view angles");
+	cmd("bounce",          "masteradmin",  ::cmd_Bounce,          "Bounce a player");
+	cmd("bullet",          "owner",        ::cmd_Bullet,          "Toggle instant bullets");
+	cmd("clone",           "owner",        ::cmd_Clone,           "Spawn clones");
+	cmd("damage",          "owner",        ::cmd_Damage,          "Toggle damage");
+	cmd("dance",           "vip",          ::cmd_Dance,           "Fortnite default dance");
+	cmd("debug",           "owner",        ::cmd_Debug,           "Toggle debug mode");
+	cmd("dog",             "owner",        ::cmd_Dog,             "Toggle dog model");
+	cmd("drop",            "adminplus",    ::cmd_Drop,            "Force a player to drop their weapon");
+	cmd("flash",           "adminplus",    ::cmd_Flash,           "Flash a player");
+	cmd("freeze",          "masteradmin",  ::cmd_Freeze,          "Freeze a player in place");
+	cmd("g_gravity",       "owner",        ::cmd_G_Gravity,       "Set the player g_gravity");
+	cmd("g_speed",         "owner",        ::cmd_G_Speed,         "Set the player g_speed");
+	cmd("god",             "owner",        ::cmd_God,             "Toggle god mode");
+	cmd("heal",            "admin",        ::cmd_Heal,            "Restore player health");
+	cmd("jump_height",     "owner",        ::cmd_JumpHeight,      "Set the player jump_height");
+	cmd("kill",            "admin",        ::cmd_Kill,            "Kill a player");
+	cmd("model",           "owner",        ::cmd_Model,           "Set a character model");
+	cmd("move_speed",      "owner",        ::cmd_MoveSpeed,       "Set the player move speed");
+	cmd("practise_mode",   "masteradmin",  ::cmd_PractiseMode,    "Toggle practice mode");
+	cmd("shock",           "adminplus",    ::cmd_Shock,           "Apply a shock to a player");
+	cmd("shovel",          "vip",          ::cmd_Shovel,          "Give a player the shovel weapon");
+	cmd("spawn_all",       "masteradmin",  ::cmd_SpawnAll,        "Spawn all players");
+	cmd("spawn",           "masteradmin",  ::cmd_Spawn,           "Spawn a player");
+	cmd("takeall",         "adminplus",    ::cmd_TakeAll,         "Remove all weapons from a player");
+	cmd("team",            "adminplus",    ::cmd_Team,            "Move a player to a specific team");
+	cmd("teleport_at",     "admin",        ::cmd_TeleportAt,      "Teleport a player to coordinates");
+	cmd("teleport_ent",    "admin",        ::cmd_TeleportEnt,     "Teleport a player to an entity");
+	cmd("teleport_player", "admin",        ::cmd_TeleportPlayer,  "Teleport a player to me");
+	cmd("teleport_to",     "admin",        ::cmd_TeleportTo,      "Teleport me to a player");
+	cmd("trooper",         "owner",        ::cmd_Trooper,         "Trooper character FX");
+	cmd("uammo",           "owner",        ::cmd_UAmmo,           "Toggle unlimited ammo");
+	cmd("unfreeze",        "masteradmin",  ::cmd_UnFreeze,        "Unfreeze a player");
+	cmd("weapon_acti",     "adminplus",    ::cmd_WeaponActi,      "Give a weapon to the activator");
+	cmd("weapon_all",      "adminplus",    ::cmd_WeaponAll,       "Give a weapon to all players");
+	cmd("weapon",          "adminplus",    ::cmd_Weapon,          "Give a weapon to a player");
 }
 
 cmd_Spawn(args)
@@ -67,7 +67,7 @@ cmd_SpawnAll(args)
 cmd_TeleportPlayer(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: teleport_player <playerName>");
+		return self pm("Usage: !teleport_player <playerName>");
 
 	player = getPlayerByName(args[0]);
 
@@ -81,7 +81,7 @@ cmd_TeleportPlayer(args)
 cmd_TeleportTo(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: teleport_to <playerName>");
+		return self pm("Usage: !teleport_to <playerName>");
 
 	player = getPlayerByName(args[0]);
 
@@ -95,7 +95,7 @@ cmd_TeleportTo(args)
 cmd_TeleportAt(args)
 {
 	if (args.size < 3)
-		return self pm("Usage: teleport_at <X> <Y> <Z>");
+		return self pm("Usage: !teleport_at <X> <Y> <Z>");
 
 	x = ToFloat(args[0]);
 	y = ToFloat(args[1]);
@@ -108,7 +108,7 @@ cmd_TeleportAt(args)
 cmd_TeleportEnt(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: teleport_ent <targetname>");
+		return self pm("Usage: !teleport_ent <targetname>");
 
 	ent = getEntArray(args[0], "targetname");
 	if (!isDefined(ent) || !ent.size)
@@ -121,7 +121,7 @@ cmd_TeleportEnt(args)
 cmd_Angles(args)
 {
 	if (args.size < 4)
-		return self pm("Usage: angles <player> <x> <y> <z>");
+		return self pm("Usage: !angles <player> <x> <y> <z>");
 
 	player = getPlayerByName(args[0]);
 	player cheat();
@@ -194,7 +194,7 @@ cmd_Dance(args)
 cmd_Drop(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: drop <playerName>");
+		return self pm("Usage: !drop <playerName>");
 
 	player = getPlayerByName(args[0]);
 
@@ -214,7 +214,7 @@ cmd_Dog(args)
 cmd_Flash(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: flash <playerName>");
+		return self pm("Usage: !flash <playerName>");
 
 	player = getPlayerByName(args[0]);
 
@@ -227,7 +227,7 @@ cmd_Flash(args)
 cmd_G_Gravity(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: g_gravity <value> <playerName>");
+		return self pm("Usage: !g_gravity <value> <playerName>");
 
 	value = ToInt(args[0]);
 	player = IfUndef(getPlayerByName(args[1]), self);
@@ -244,7 +244,7 @@ cmd_G_Gravity(args)
 cmd_G_Speed(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: g_speed <value> <playerName>");
+		return self pm("Usage: !g_speed <value> <playerName>");
 
 	value = ToInt(args[0]);
 	player = IfUndef(getPlayerByName(args[1]), self);
@@ -258,10 +258,10 @@ cmd_G_Speed(args)
 	player setMoveSpeed(player.moveSpeed);
 }
 
-cmd_Dr_Jumpers_Speed(args)
+cmd_MoveSpeed(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: dr_jumpers_speed <value> <playerName>");
+		return self pm("Usage: !move_speed <value> <playerName>");
 
 	value = ToFloat(args[0]);
 	player = IfUndef(getPlayerByName(args[1]), self);
@@ -286,7 +286,7 @@ cmd_God(args)
 cmd_Heal(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: heal <playerName>");
+		return self pm("Usage: !heal <playerName>");
 
 	player = getPlayerByName(args[0]);
 
@@ -301,7 +301,7 @@ cmd_Heal(args)
 cmd_JumpHeight(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: jump_height <value> <playerName>");
+		return self pm("Usage: !jump_height <value> <playerName>");
 
 	value = ToInt(args[0]);
 	player = IfUndef(getPlayerByName(args[1]), self);
@@ -318,7 +318,7 @@ cmd_JumpHeight(args)
 cmd_Kill(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: kill <playerName>");
+		return self pm("Usage: !kill <playerName>");
 
 	player = getPlayerByName(args[0]);
 
@@ -332,7 +332,7 @@ cmd_Kill(args)
 cmd_Model(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: model <name> <playerName>");
+		return self pm("Usage: !model <name> <playerName>");
 
 	model = args[0];
 	player = IfUndef(getPlayerByName(args[1]), self);
@@ -357,7 +357,7 @@ cmd_PractiseMode(args)
 cmd_Freeze(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: sr_freeze <playerName>");
+		return self pm("Usage: !freeze <playerName>");
 
 	player = getPlayerByName(args[0]);
 	player cheat();
@@ -372,7 +372,7 @@ cmd_Freeze(args)
 cmd_UnFreeze(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: sr_unfreeze <playerName>");
+		return self pm("Usage: !unfreeze <playerName>");
 
 	player = getPlayerByName(args[0]);
 	player cheat();
@@ -387,7 +387,7 @@ cmd_UnFreeze(args)
 cmd_Shock(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: shock <playerName> <name>");
+		return self pm("Usage: !shock <playerName> <name>");
 
 	player = getPlayerByName(args[0]);
 	shock = args[1];
@@ -410,7 +410,7 @@ cmd_Shovel(args)
 cmd_Team(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: team <playerName> <team>");
+		return self pm("Usage: !team <playerName> <team>");
 
 	player = getPlayerByName(args[0]);
 	team = args[1];
@@ -425,7 +425,7 @@ cmd_Team(args)
 cmd_TakeAll(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: takeall <playerName>");
+		return self pm("Usage: !takeall <playerName>");
 
 	player = getPlayerByName(args[0]);
 
@@ -449,7 +449,7 @@ cmd_UAmmo(args)
 cmd_Weapon(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: weapon <playerName> <weapon>");
+		return self pm("Usage: !weapon <playerName> <weapon>");
 
 	player = getPlayerByName(args[0]);
 	player cheat();
@@ -467,7 +467,7 @@ cmd_Weapon(args)
 cmd_WeaponAll(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: weapon_all <weapon>");
+		return self pm("Usage: !weapon_all <weapon>");
 
 	weapon = args[0];
 
@@ -485,7 +485,7 @@ cmd_WeaponAll(args)
 cmd_WeaponActi(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: weapon_acti <weapon>");
+		return self pm("Usage: !weapon_acti <weapon>");
 
 	weapon = args[0];
 

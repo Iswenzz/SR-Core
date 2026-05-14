@@ -6,22 +6,23 @@
 
 main()
 {
-	cmd("owner",  		"bots",					::cmd_Bots);
-	cmd("owner",  		"debug_ents",			::cmd_DebugEnts);
-	cmd("owner",  		"debug_ents_spawn",		::cmd_DebugEntsSpawn);
-	cmd("owner",  		"debug_speed",			::cmd_DebugSpeed);
-	cmd("owner",  		"debug_surface",		::cmd_DebugSurface);
-	cmd("owner",  		"debug_save_spawn",		::cmd_DebugSaveSpawn);
-	cmd("owner",  		"debug_scriptusage",	::cmd_DebugScriptUsage);
-	cmd("owner",  		"debug_rotation",		::cmd_DebugRotation);
-	cmd("owner",  		"debug_critical",		::cmd_DebugCriticalSections);
-	cmd("masteradmin",  "debug_origin",			::cmd_DebugOrigin);
-	cmd("owner",  		"debug_kz",				::cmd_DebugKZ);
-	cmd("owner",  		"debug_spectate",		::cmd_DebugSpectate);
-	cmd("owner",		"test",					::cmd_Test);
+	cmd("bots",               "owner",       ::cmd_Bots,                 "Spawn bots");
+	cmd("debug_critical",     "owner",       ::cmd_DebugCriticalSections,"Display critical sections");
+	cmd("debug_ents_spawn",   "owner",       ::cmd_DebugEntsSpawn,       "Spawn an amount of entities");
+	cmd("debug_ents",         "owner",       ::cmd_DebugEnts,            "Display all entities");
+	cmd("debug_kz",           "owner",       ::cmd_DebugKZ,              "Spawn a bot inside the killzone");
+	cmd("debug_origin",       "masteradmin", ::cmd_DebugOrigin,          "Add current position to the origin file");
+	cmd("debug_rotation",     "owner",       ::cmd_DebugRotation,        "Test all maps in rotation");
+	cmd("debug_save_spawn",   "owner",       ::cmd_DebugSaveSpawn,       "Test all maps and write the player spawn to file");
+	cmd("debug_scriptusage",  "owner",       ::cmd_DebugScriptUsage,     "Display script memory usage");
+	cmd("debug_spectate",     "owner",       ::cmd_DebugSpectate,        "Spawn a bot in spectator and autoassign in a loop");
+	cmd("debug_speed",        "owner",       ::cmd_DebugSpeed,           "Display player movement variables info");
+	cmd("debug_surface",      "owner",       ::cmd_DebugSurface,         "Display surface type at player aim position");
+	cmd("test",               "owner",       ::cmd_Test,                 "Test function");
 
 	if (getDvarInt("debug_rotation"))
 		event("map", ::cmd_DebugRotation);
+
 	if (getDvarInt("debug_save_spawn"))
 		event("map", ::cmd_DebugSaveSpawn);
 }
@@ -29,7 +30,7 @@ main()
 cmd_Bots(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: bots <amount>");
+		return self pm("Usage: !bots <amount>");
 
 	amount = ToInt(args[0]);
 
@@ -118,7 +119,7 @@ cmd_DebugSaveSpawn(args)
 cmd_DebugEntsSpawn(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: debug_ents_amount <amount>");
+		return self pm("Usage: !debug_ents_spawn <amount>");
 
 	ents = getEntArray("debug_ent", "targetname");
 	for (i = 0; i < ents.size; i++)
@@ -143,7 +144,7 @@ cmd_DebugCriticalSections(args)
 
 cmd_DebugScriptUsage(args)
 {
-	self pm(fmt("Script usage: ^5%d", debug_scriptusage()));
+	self pm(fmt("Script Usage: !^5%d", debug_scriptusage()));
 }
 
 cmd_DebugOrigin(args)

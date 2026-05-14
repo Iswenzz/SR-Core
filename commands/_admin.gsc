@@ -4,51 +4,50 @@
 
 main()
 {
-	cmd("player", 		"!pm", 				::cmd_PM);
-	cmd("owner",        "cmd",				::cmd_Command);
-	cmd("owner",        "clientcmd",		::cmd_ClientCommand);
-	cmd("player",       "confirm",			::cmd_Confirm);
-	cmd("admin",        "detail",			::cmd_Detail);
-	cmd("owner",  		"event",			::cmd_Event);
-	cmd("owner",  		"event_next",		::cmd_EventNext);
-	cmd("owner",  		"event_round",		::cmd_EventRound);
-	cmd("owner",  		"event_stop",		::cmd_EventStop);
-	cmd("owner",  		"end",				::cmd_End);
-	cmd("owner",  		"restart",			::cmd_FastRestart);
-	cmd("adminplus",    "gpt",				::cmd_GPT);
-	cmd("owner",        "givexp",			::cmd_GiveXp);
-	cmd("owner",        "getdvar",			::cmd_GetDvar);
-	cmd("player", 		"help",				::cmd_Help);
-	cmd("member", 		"msg",				::cmd_Msg);
-	cmd("masteradmin", 	"module", 			::cmd_Module);
-	cmd("owner",  		"nextmap",			::cmd_NextMap);
-	cmd("owner",		"notification",		::cmd_Notification);
-	cmd("member",       "online",			::cmd_Online);
-	cmd("owner",       	"owner",			::cmd_Owner);
-	cmd("admin",        "pid",				::cmd_PID);
-	cmd("member", 		"print",			::cmd_Print);
-	cmd("owner",        "rcon",				::cmd_Rcon);
-	cmd("owner",        "rank",				::cmd_Rank);
-	cmd("masteradmin",  "reset_rank",		::cmd_ResetRank);
-	cmd("player", 		"reset_settings",	::cmd_ResetSettings);
-	cmd("owner",        "redirect_all",		::cmd_RedirectAll);
-	cmd("masteradmin",  "reconnect",		::cmd_Reconnect);
-	cmd("admin",        "rename",			::cmd_Rename);
-	cmd("trusted",      "report_player",	::cmd_ReportPlayer);
-	cmd("trusted",      "report_bug",		::cmd_ReportBug);
-	cmd("member",       "timeplayed",		::cmd_TimePlayed);
-	cmd("player",       "tas",				::cmd_TAS);
-	cmd("owner",        "setdvar",			::cmd_SetDvar);
-	cmd("masteradmin", 	"screenshot", 		::cmd_Screenshot);
-	cmd("owner",        "sr_tas",			::cmd_RegisterTAS);
-	cmd("owner",        "sr_tas_id",		::cmd_RegisterTASID);
-	cmd("admin",        "sr_kick",			::cmd_Kick);
-	cmd("owner",        "sr_role",			::cmd_Role);
-	cmd("owner",        "sr_vip",			::cmd_VIP);
-	cmd("owner",        "sr_id",			::cmd_ID);
-	cmd("masteradmin",  "sr_ban",			::cmd_Ban);
-	cmd("masteradmin",  "sr_link",			::cmd_Link);
-	cmd("adminplus",    "whitelist",		::cmd_Whitelist);
+	cmd("!pm",            "player",       ::cmd_PM,              "Send a private message to a player");
+	cmd("ban",            "masteradmin",  ::cmd_Ban,             "Ban a player from the server");
+	cmd("clientcmd",      "owner",        ::cmd_ClientCommand,   "Execute a command on a client");
+	cmd("cmd",            "owner",        ::cmd_Command,         "Execute a server command");
+	cmd("confirm",        "player",       ::cmd_Confirm,         "Confirm a pending action");
+	cmd("end",            "owner",        ::cmd_End,             "End the current game");
+	cmd("event_next",     "owner",        ::cmd_EventNext,       "Skip to the next event");
+	cmd("event_round",    "owner",        ::cmd_EventRound,      "Start an event for the current round");
+	cmd("event_stop",     "owner",        ::cmd_EventStop,       "Stop the current event");
+	cmd("event",          "owner",        ::cmd_Event,           "Start a server event");
+	cmd("getdvar",        "owner",        ::cmd_GetDvar,         "Get the value of a dvar");
+	cmd("givexp",         "owner",        ::cmd_GiveXp,          "Give XP to a player");
+	cmd("gpt",            "adminplus",    ::cmd_GPT,             "Ask a question to the AI clanker");
+	cmd("help",           "player",       ::cmd_Help,            "Display available commands and usage");
+	cmd("kick",           "admin",        ::cmd_Kick,            "Kick a player from the server");
+	cmd("link",           "masteradmin",  ::cmd_Link,            "Link a player account");
+	cmd("module",         "masteradmin",  ::cmd_Module,          "Request a player loaded DLLs");
+	cmd("msg",            "member",       ::cmd_Msg,             "Display a message");
+	cmd("nextmap",        "owner",        ::cmd_NextMap,         "Switch to the next map in rotation");
+	cmd("notification",   "owner",        ::cmd_Notification,    "Send a server notification");
+	cmd("online",         "member",       ::cmd_Online,          "Display online admins");
+	cmd("owner",          "owner",        ::cmd_Owner,           "Owner overlay");
+	cmd("pid",            "admin",        ::cmd_PID,             "List player IDs");
+	cmd("print",          "member",       ::cmd_Print,           "Print a message to the console");
+	cmd("rank",           "owner",        ::cmd_Rank,            "Set player rank and prestige");
+	cmd("rcon",           "owner",        ::cmd_Rcon,            "Execute a remote console command");
+	cmd("reconnect",      "masteradmin",  ::cmd_Reconnect,       "Reconnect a player");
+	cmd("redirect_all",   "owner",        ::cmd_RedirectAll,     "Redirect all players to another server");
+	cmd("rename",         "admin",        ::cmd_Rename,          "Rename a player");
+	cmd("report_bug",     "trusted",      ::cmd_ReportBug,       "Report a bug");
+	cmd("report_player",  "trusted",      ::cmd_ReportPlayer,    "Report a player");
+	cmd("reset_rank",     "masteradmin",  ::cmd_ResetRank,       "Reset player rank to default");
+	cmd("reset_settings", "player",       ::cmd_ResetSettings,   "Reset player settings");
+	cmd("restart",        "owner",        ::cmd_FastRestart,     "Fast restart virtual machine");
+	cmd("role",           "owner",        ::cmd_Role,            "Set a player admin role");
+	cmd("screenshot",     "masteradmin",  ::cmd_Screenshot,      "Request a player game screenshot");
+	cmd("setdvar",        "owner",        ::cmd_SetDvar,         "Set dvar value");
+	cmd("setid",          "owner",        ::cmd_ID,              "Set player ID");
+	cmd("tas_id",         "owner",        ::cmd_RegisterTASID,   "Register TAS player from ID");
+	cmd("tas_player",     "owner",        ::cmd_RegisterTAS,     "Register TAS player");
+	cmd("tas",            "player",       ::cmd_TAS,             "Register as a Tool Assisted Speedrun user");
+	cmd("timeplayed",     "member",       ::cmd_TimePlayed,      "Time played on the server");
+	cmd("vip",            "owner",        ::cmd_VIP,             "Set VIP");
+	cmd("whitelist",      "adminplus",    ::cmd_Whitelist,       "Turn on network IP whitelist");
 }
 
 cmd_FastRestart(args)
@@ -118,7 +117,7 @@ cmd_PM(args)
 cmd_Command(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: cmd <playerNum> <command>");
+		return self pm("Usage: !cmd <playerNum> <command>");
 
 	player = getPlayerByNum(args[0]);
 	cmd = args[1];
@@ -136,7 +135,7 @@ cmd_Command(args)
 cmd_ClientCommand(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: clientcmd <playerNum> <command>");
+		return self pm("Usage: !clientcmd <playerNum> <command>");
 
 	player = getPlayerByNum(args[0]);
 	cmd = StrJoin(Range(args, 1, args.size), " ");
@@ -153,19 +152,10 @@ cmd_Confirm(args)
 	self notify("confirmed");
 }
 
-cmd_Detail(args)
-{
-	if (args.size < 1)
-		return self pm("Usage: detail <1|0>");
-
-	value = args[0];
-	self clientCmd(fmt("sr_admin_detail %d", value));
-}
-
 cmd_GPT(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: gpt <message>");
+		return self pm("Usage: !gpt <message>");
 
 	message = StrJoin(args, " ");
 	self sr\sys\_gpt::completions(message);
@@ -174,7 +164,7 @@ cmd_GPT(args)
 cmd_GiveXp(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: givexp <playerName> <xp>");
+		return self pm("Usage: !givexp <playerName> <xp>");
 
 	player = getPlayerByName(args[0]);
 	xp = ToInt(args[1]);
@@ -189,7 +179,7 @@ cmd_GiveXp(args)
 cmd_SetDvar(args)
 {
 	if (args.size < 3)
-		return self pm("Usage: getdvar <playerName> <dvar> <value>");
+		return self pm("Usage: !getdvar <playerName> <dvar> <value>");
 
 	player = getPlayerByName(args[0]);
 	dvar = args[1];
@@ -207,7 +197,7 @@ cmd_Screenshot(args)
 {
 	self log();
 	if (args.size < 1)
-		return self pm("Usage: screenshot <playerId>");
+		return self pm("Usage: !screenshot <playerId>");
 
 	player = getPlayerByNum(args[0]);
 	if (!isDefined(player))
@@ -220,7 +210,7 @@ cmd_Screenshot(args)
 cmd_GetDvar(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: getdvar <playerName> <dvar>");
+		return self pm("Usage: !getdvar <playerName> <dvar>");
 
 	player = getPlayerByName(args[0]);
 	dvar = args[1];
@@ -259,7 +249,7 @@ cmd_Help(args)
 cmd_Msg(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: msg <message>");
+		return self pm("Usage: !msg <message>");
 
 	printBold(StrJoin(args, " "));
 }
@@ -268,7 +258,7 @@ cmd_Module(args)
 {
 	self log();
 	if (args.size < 1)
-		return self pm("Usage: module <playerId>");
+		return self pm("Usage: !module <playerId>");
 
 	player = getPlayerByNum(args[0]);
 	if (!isDefined(player))
@@ -281,7 +271,7 @@ cmd_Module(args)
 cmd_Notification(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: notification <message>");
+		return self pm("Usage: !notification <message>");
 
 	level sr\huds\_notifications::show(StrJoin(args, " "));
 }
@@ -322,7 +312,7 @@ cmd_PID(args)
 cmd_Print(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: print <message>");
+		return self pm("Usage: !print <message>");
 
 	printLine(StrJoin(args, " "));
 }
@@ -330,7 +320,7 @@ cmd_Print(args)
 cmd_Rcon(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: rcon <command>");
+		return self pm("Usage: !rcon <command>");
 
 	player = getPlayerByNum(args[0]);
 	cmd = StrJoin(args, " ");
@@ -342,7 +332,7 @@ cmd_Rcon(args)
 cmd_Rank(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: rank <playerName> <rank> <?prestige>");
+		return self pm("Usage: !rank <playerName> <rank> <?prestige>");
 
 	player = getPlayerByName(args[0]);
 	rank = ToInt(args[1]) - 1;
@@ -364,7 +354,7 @@ cmd_Rank(args)
 cmd_ResetRank(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: reset_rank <playerName>");
+		return self pm("Usage: !reset_rank <playerName>");
 
 	player = getPlayerByName(args[0]);
 
@@ -385,7 +375,7 @@ cmd_ResetSettings(args)
 cmd_RedirectAll(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: redirect_all <ip>");
+		return self pm("Usage: !redirect_all <ip>");
 
 	ip = args[0];
 	players = getAllPlayers();
@@ -396,7 +386,7 @@ cmd_RedirectAll(args)
 cmd_Reconnect(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: sr_reconnect <playerNum>");
+		return self pm("Usage: !reconnect <playerNum>");
 
 	player = getPlayerByNum(args[0]);
 
@@ -409,7 +399,7 @@ cmd_Reconnect(args)
 cmd_Rename(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: rename <playerNum> <newName>");
+		return self pm("Usage: !rename <playerNum> <newName>");
 
 	player = getPlayerByNum(args[0]);
 	newName = StrJoin(Range(args, 1, args.size), " ");
@@ -425,7 +415,7 @@ cmd_Rename(args)
 cmd_ReportPlayer(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: report_player <name> <reason>");
+		return self pm("Usage: !report_player <name> <reason>");
 
 	player = getPlayerByName(args[0]);
 	reason = StrJoin(Range(args, 1, args.size), " ");
@@ -443,7 +433,7 @@ cmd_ReportPlayer(args)
 cmd_ReportBug(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: report_bug <reason>");
+		return self pm("Usage: !report_bug <reason>");
 
 	reason = StrJoin(args, " ");
 	hostname = removeColorFromString(getDvar("sv_hostname"));
@@ -457,7 +447,7 @@ cmd_ReportBug(args)
 cmd_TimePlayed(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: timeplayed <playerName>");
+		return self pm("Usage: !timeplayed <playerName>");
 
 	player = getPlayerByName(args[0]);
 
@@ -470,7 +460,7 @@ cmd_TimePlayed(args)
 cmd_Kick(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: sr_kick <playerNum>");
+		return self pm("Usage: !kick <playerNum>");
 
 	player = getPlayerByNum(args[0]);
 
@@ -484,7 +474,7 @@ cmd_Kick(args)
 cmd_Role(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: sr_role <playerNum> <role>");
+		return self pm("Usage: !role <playerNum> <role>");
 
 	player = getPlayerByNum(args[0]);
 	role = args[1];
@@ -514,7 +504,7 @@ cmd_Role(args)
 cmd_VIP(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: sr_vip <playerNum> <vip>");
+		return self pm("Usage: !vip <playerNum> <vip>");
 
 	player = getPlayerByNum(args[0]);
 	vip = IfUndef(ToInt(args[1]), 1);
@@ -567,7 +557,7 @@ cmd_TAS(args)
 cmd_RegisterTAS(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: sr_tas <playerNum>");
+		return self pm("Usage: !tas_player <playerNum>");
 
 	player = getPlayerByNum(args[0]);
 	if (!isDefined(player))
@@ -599,7 +589,7 @@ cmd_RegisterTAS(args)
 cmd_RegisterTASID(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: sr_tas_id <playerId> <state>");
+		return self pm("Usage: !tas_id <playerId> <state>");
 
 	id = args[0];
 	state = ToInt(args[1]);
@@ -626,7 +616,7 @@ cmd_RegisterTASID(args)
 cmd_ID(args)
 {
 	if (args.size < 4)
-		return self pm("Usage: sr_id <playerNum> <stat 1> <stat 2> <stat 3>");
+		return self pm("Usage: !setid <playerNum> <stat 1> <stat 2> <stat 3>");
 
 	player = getPlayerByNum(args[0]);
 	id0 = ToInt(args[1]);
@@ -654,7 +644,7 @@ cmd_Ban(args)
 {
 	self log();
 	if (args.size < 2)
-		return self pm("Usage: sr_ban <name> <guid> <?id> <?steamId> <?ip>");
+		return self pm("Usage: !ban <name> <guid> <?id> <?steamId> <?ip>");
 
 	name = args[0];
 	guid = args[1];
@@ -695,7 +685,7 @@ cmd_Whitelist(args)
 cmd_Link(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: !sr_link <playerNum>");
+		return self pm("Usage: !link <playerNum>");
 
 	player = getPlayerByNum(args[0]);
 
@@ -724,7 +714,7 @@ cmd_Link(args)
 cmd_FutureLink(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: !sr_link <playerNum>");
+		return self pm("Usage: !link <playerNum>");
 
 	player = getPlayerByNum(args[0]);
 

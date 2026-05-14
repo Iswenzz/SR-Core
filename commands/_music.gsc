@@ -4,18 +4,18 @@
 
 main()
 {
-	cmd("adminplus", 	"music", 		::cmd_Music);
-	cmd("adminplus", 	"music_seq", 	::cmd_MusicSequence);
-	cmd("adminplus", 	"music_help", 	::cmd_MusicHelp);
-	cmd("player", 		"music_stop", 	::cmd_MusicStop);
-	cmd("owner",  		"radio",		::cmd_Radio);
-	cmd("adminplus",	"soundalias", 	::cmd_SoundAlias);
+	cmd("music_help", "adminplus", ::cmd_MusicHelp,     "List the music aliases");
+	cmd("music_seq",  "adminplus", ::cmd_MusicSequence, "Play a music sequence");
+	cmd("music_stop", "player",    ::cmd_MusicStop,     "Stop the current track");
+	cmd("music",      "adminplus", ::cmd_Music,         "Play a music track");
+	cmd("radio",      "owner",     ::cmd_Radio,         "Start a radio stream");
+	cmd("soundalias", "adminplus", ::cmd_SoundAlias,    "List the sound aliases");
 }
 
 cmd_Radio(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: radio <file> (.wav/.mp3)");
+		return self pm("Usage: !radio <file> (.wav/.mp3)");
 
 	if (args[0] == "stop")
 	{
@@ -40,7 +40,7 @@ cmd_Radio(args)
 cmd_MusicSequence(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: music_seq <name>");
+		return self pm("Usage: !music_seq <name>");
 
 	name = args[0];
 
@@ -50,7 +50,7 @@ cmd_MusicSequence(args)
 cmd_Music(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: music <name>");
+		return self pm("Usage: !music <name>");
 
 	name = args[0];
 	sr\core\_music::playAmbient(name);

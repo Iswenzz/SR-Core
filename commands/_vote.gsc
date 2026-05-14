@@ -3,11 +3,11 @@
 
 main()
 {
-	cmd("owner", 		"poll", 		::cmd_Poll);
-	cmd("trusted", 		"vote", 		::cmd_Vote);
-	cmd("trusted", 		"vote_cd", 		::cmd_VoteCooldown);
-	cmd("masteradmin", 	"vote_fail", 	::cmd_VoteFail);
-	cmd("masteradmin", 	"vote_pass", 	::cmd_VotePass);
+	cmd("poll",      "owner",       ::cmd_Poll,          "Start a poll");
+	cmd("vote_cd",   "trusted",     ::cmd_VoteCooldown,  "Reset the vote cooldown");
+	cmd("vote_fail", "masteradmin", ::cmd_VoteFail,      "Force the current vote to fail");
+	cmd("vote_pass", "masteradmin", ::cmd_VotePass,      "Force the current vote to pass");
+	cmd("vote",      "trusted",     ::cmd_Vote,          "Start a vote");
 }
 
 cmd_Poll(args)

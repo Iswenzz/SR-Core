@@ -3,19 +3,19 @@
 
 main()
 {
-    cmd("player", 		"fov",			::cmd_FOV);
-	cmd("player", 		"fps",			::cmd_FPS);
-	cmd("vip", 			"color",		::cmd_Color);
-	cmd("owner", 		"shader",		::cmd_Shader);
-	cmd("owner", 		"spawn_model",	::cmd_SpawnModel);
-	cmd("owner", 		"mirror",		::cmd_Mirror);
-	cmd("owner", 		"vision",		::cmd_Vision);
+	cmd("color",       "vip",    ::cmd_Color,      "Change your HUD color");
+	cmd("fps",         "player", ::cmd_FPS,        "Toggle fullbright");
+	cmd("mirror",      "owner",  ::cmd_Mirror,     "Spawn a mirror");
+	cmd("shader",      "owner",  ::cmd_Shader,     "Apply a shader effect to a player");
+	cmd("spawn_model", "owner",  ::cmd_SpawnModel, "Spawn a model in the world");
+	cmd("vision",      "owner",  ::cmd_Vision,     "Set the vision");
+	cmd("fov",         "player", ::cmd_FOV,        "Set your field of view");
 }
 
 cmd_Vision(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: vision <name>");
+		return self pm("Usage: !vision <name>");
 
 	vision = args[0];
 
@@ -52,7 +52,7 @@ cmd_Mirror(args)
 cmd_Shader(args)
 {
 	if (args.size < 2)
-		return self pm("Usage: shader <player> <name> <...props>");
+		return self pm("Usage: !shader <player> <name> <...props>");
 
 	player = IfUndef(getPlayerByName(args[0]), self);
 	name = args[1];
@@ -95,7 +95,7 @@ cmd_Shader(args)
 cmd_FOV(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: fov <value>");
+		return self pm("Usage: !fov <value>");
 
 	value = ToFloat(args[0]);
 	f3 = fmt("%.3f", value);
@@ -120,7 +120,7 @@ cmd_FPS(args)
 cmd_Color(args)
 {
 	if (args.size < 3)
-		return self pm("Usage: color <r> <g> <b>");
+		return self pm("Usage: !color <r> <g> <b>");
 
 	r = ToInt(args[0]);
 	g = ToInt(args[1]);

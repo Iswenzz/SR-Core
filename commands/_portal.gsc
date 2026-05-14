@@ -3,11 +3,10 @@
 
 main()
 {
-	cmd("owner", 	"portal_mode",		::cmd_Portal);
-	cmd("owner", 	"portal_players",	::cmd_PortalPlayers);
-	cmd("owner", 	"detonate",			::cmd_Detonate);
-    cmd("owner", 	"turret",			::cmd_Turret);
-	cmd("owner", 	"turret_delete",	::cmd_TurretDelete);
+	cmd("portal_mode",    "owner", ::cmd_Portal,        "Toggle portal mode");
+	cmd("portal_players", "owner", ::cmd_PortalPlayers, "Allow players to go through other players portals");
+	cmd("turret_delete",  "owner", ::cmd_TurretDelete,  "Delete turrets");
+    cmd("turret",         "owner", ::cmd_Turret,        "Spawn a turret");
 }
 
 cmd_Portal(args)
@@ -34,11 +33,6 @@ cmd_PortalPlayers(args)
 		self.forcePortalVisual = true;
 	}
 	self pm(Ternary(self.forcePortalPlayersAllowed, "^5Portal players", "^1Portal players"));
-}
-
-cmd_Detonate(args)
-{
-	self.detonate = true;
 }
 
 cmd_Turret(args)
