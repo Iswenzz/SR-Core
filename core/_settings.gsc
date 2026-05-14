@@ -123,6 +123,11 @@ getSetting(id)
 	return setting;
 }
 
+getPlayerSetting(id, defaultValue)
+{
+	return IfUndef(self.settings[id], defaultValue);
+}
+
 updateHud(index, state, string)
 {
 	value = IfUndef(string, Ternary(state, "^2ON", "^1OFF"));

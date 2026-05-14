@@ -17,6 +17,8 @@ createMinigame(minigame)
 
 isInQueue(minigame)
 {
+	if (!isDefined(level.minigames[minigame]))
+		return false;
 	return Contains(level.minigames[minigame].queue, self);
 }
 
