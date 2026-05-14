@@ -37,8 +37,8 @@ main()
 	cmd("report_player",  "trusted",      ::cmd_ReportPlayer,    "Report a player");
 	cmd("reset_rank",     "masteradmin",  ::cmd_ResetRank,       "Reset player rank to default");
 	cmd("reset_settings", "player",       ::cmd_ResetSettings,   "Reset player settings");
+	cmd("restart_map",    "owner",        ::cmd_RestartMap,      "Restart the map");
 	cmd("restart",        "owner",        ::cmd_Restart,         "Fast restart virtual machine");
-	cmd("restartmap",     "owner",        ::cmd_RestartMap,      "Restart the map");
 	cmd("role",           "owner",        ::cmd_Role,            "Set a player admin role");
 	cmd("screenshot",     "masteradmin",  ::cmd_Screenshot,      "Request a player game screenshot");
 	cmd("setdvar",        "owner",        ::cmd_SetDvar,         "Set dvar value");

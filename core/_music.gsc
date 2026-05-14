@@ -74,17 +74,19 @@ sequence_FaceTheTruth(animation)
 {
 	level endon("music_sequence_end");
 
-	setExpFog(900, 700, 0.67, 0.03, 0.88, 0);
+	skybox = spawn("script_model", level.spawn["spectator"].origin);
+	skybox setModel("x_space_curvature");
+	addEnt(skybox);
+
+	while (true)
+	{
+		for (i = 0; i < 10; i++)
+			addFX(level.gfx["blue_particles"], level.spawn["spectator"].origin);
+		wait 10;
+	}
 }
 
 sequence_FirstContact(animation)
-{
-	level endon("music_sequence_end");
-
-	setExpFog(200, 500, 0, 0, 0, 0);
-}
-
-sequence_Fuji(animation)
 {
 	level endon("music_sequence_end");
 
@@ -92,7 +94,21 @@ sequence_Fuji(animation)
 	skybox setModel("x_space_curvature");
 	addEnt(skybox);
 
-	setExpFog(700, 600, 0, 0.18, 0.17, 0);
+	while (true)
+	{
+		for (i = 0; i < 10; i++)
+			addFX(level.gfx["blue_particles"], level.spawn["spectator"].origin);
+		wait 10;
+	}
+}
+
+sequence_Fuji(animation)
+{
+	level endon("music_sequence_end");
+
+	skybox = spawn("script_model", level.spawn["spectator"].origin);
+	skybox setModel("x_aurora");
+	addEnt(skybox);
 
 	while (true)
 	{
@@ -106,41 +122,69 @@ sequence_JapaneseNightclub(animation)
 {
 	level endon("music_sequence_end");
 
-	addFX(level.gfx["lasershow"], level.spawn["spectator"].origin);
+	skybox = spawn("script_model", level.spawn["spectator"].origin);
+	skybox setModel("x_hexagon");
+	addEnt(skybox);
 
-	setExpFog(900, 700, 0.03, 0.68, 0.81, 0);
+	addFX(level.gfx["lasershow"], level.spawn["spectator"].origin);
 }
 
 sequence_Moment(animation)
 {
 	level endon("music_sequence_end");
 
-	setExpFog(200, 500, 0, 0, 0, 0);
+	skybox = spawn("script_model", level.spawn["spectator"].origin);
+	skybox setModel("x_space_curvature");
+	addEnt(skybox);
 
 	addFX(level.gfx["snow"], level.spawn["spectator"].origin);
+
+	while (true)
+	{
+		for (i = 0; i < 10; i++)
+			addFX(level.gfx["blue_particles"], level.spawn["spectator"].origin);
+		wait 10;
+	}
 }
 
 sequence_Symphony(animation)
 {
 	level endon("music_sequence_end");
 
-	setExpFog(700, 500, 0, 0.1, 0, 0);
+	skybox = spawn("script_model", level.spawn["spectator"].origin);
+	skybox setModel("x_space_curvature");
+	addEnt(skybox);
 
 	addFX(level.gfx["endgame"], level.spawn["spectator"].origin);
+
+	while (true)
+	{
+		for (i = 0; i < 10; i++)
+			addFX(level.gfx["blue_particles"], level.spawn["spectator"].origin);
+		wait 10;
+	}
 }
 
 sequence_Thunderstorm(animation)
 {
 	level endon("music_sequence_end");
-	time = 0;
+
+	skybox = spawn("script_model", level.spawn["spectator"].origin);
+	skybox setModel("x_space_curvature");
+	addEnt(skybox);
 
 	setExpFog(200, 500, 0, 0.04, 0.1, 0);
+
 	addFX(level.gfx["rain"], level.spawn["spectator"].origin);
-
-	time = timeline(time, 10.9);
-
 	for (i = 0; i < 30; i++)
 		addFX(level.gfx["thunder"], level.spawn["spectator"].origin);
+
+	while (true)
+	{
+		for (i = 0; i < 10; i++)
+			addFX(level.gfx["blue_particles"], level.spawn["spectator"].origin);
+		wait 10;
+	}
 }
 
 sequence_Together(animation)
@@ -150,8 +194,6 @@ sequence_Together(animation)
 	skybox = spawn("script_model", level.spawn["spectator"].origin);
 	skybox setModel("x_aurora");
 	addEnt(skybox);
-
-	setExpFog(900, 700, 0.05, 0.09, 0.21, 0);
 
 	while (true)
 	{
@@ -164,7 +206,6 @@ sequence_Together(animation)
 sequence_Triptonite(animation)
 {
 	level endon("music_sequence_end");
-	time = 0;
 
 	skybox = spawn("script_model", level.spawn["spectator"].origin);
 	skybox setModel("x_hexagon");
