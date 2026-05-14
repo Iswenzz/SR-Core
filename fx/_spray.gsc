@@ -39,6 +39,9 @@ onSpawn()
 			continue;
 
 		spray = self getCustomizeSpray();
+		if (!isDefined(spray))
+			continue;
+
 		switch (spray["type"])
 		{
 			case "fx": 		self fx(spray, trace);		break;

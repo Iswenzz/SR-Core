@@ -14,7 +14,7 @@ onSpawn()
 
 	trail = self getCustomizeFx();
 
-	if (!self sr\sys\_admins::isVIP() || !trail["id"])
+	if (!self sr\sys\_admins::isVIP() || !isDefined(trail) || !trail["id"])
 		return;
 
 	wait 0.05;
