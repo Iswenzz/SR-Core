@@ -79,7 +79,7 @@ cmd_DebugRotation(args)
 	rotation = sr\core\_map::getRotation(true);
 	index = IndexOf(rotation, level.map);
 	map = rotation[index + 1];
-	setDvar("sv_maprotationcurrent", "gametype deathrun map " + IfUndef(map, ""));
+	setDvar("sv_maprotationcurrent", fmt("gametype %s map %s", getDvar("g_gametype"), IfUndef(map, "")));
 
 	// Next map
 	if (!isDefined(map))
@@ -96,7 +96,7 @@ cmd_DebugSaveSpawn(args)
 	rotation = sr\core\_map::getRotation(true);
 	index = IndexOf(rotation, level.map);
 	map = rotation[index + 1];
-	setDvar("sv_maprotationcurrent", "gametype deathrun map " + IfUndef(map, ""));
+	setDvar("sv_maprotationcurrent", fmt("gametype %s map %s", getDvar("g_gametype"), IfUndef(map, "")));
 
 	// Write map spawn
 	wait 1;

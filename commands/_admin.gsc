@@ -37,7 +37,8 @@ main()
 	cmd("report_player",  "trusted",      ::cmd_ReportPlayer,    "Report a player");
 	cmd("reset_rank",     "masteradmin",  ::cmd_ResetRank,       "Reset player rank to default");
 	cmd("reset_settings", "player",       ::cmd_ResetSettings,   "Reset player settings");
-	cmd("restart",        "owner",        ::cmd_FastRestart,     "Fast restart virtual machine");
+	cmd("restart",        "owner",        ::cmd_Restart,         "Fast restart virtual machine");
+	cmd("restartmap",     "owner",        ::cmd_RestartMap,      "Restart the map");
 	cmd("role",           "owner",        ::cmd_Role,            "Set a player admin role");
 	cmd("screenshot",     "masteradmin",  ::cmd_Screenshot,      "Request a player game screenshot");
 	cmd("setdvar",        "owner",        ::cmd_SetDvar,         "Set dvar value");
@@ -50,9 +51,15 @@ main()
 	cmd("whitelist",      "adminplus",    ::cmd_Whitelist,       "Turn on network IP whitelist");
 }
 
-cmd_FastRestart(args)
+cmd_Restart(args)
 {
 	levelRestart(true);
+}
+
+cmd_RestartMap(args)
+{
+	setDvar("sv_maprotationcurrent", fmt("gametype %s map %s", getDvar("g_gametype"), level.map));
+	levelExit(false);
 }
 
 cmd_Event(args)
@@ -95,7 +102,7 @@ cmd_NextMap(args)
 {
 	maps = level.randomizedMaps;
 	map = maps[randomInt(maps.size)];
-	setDvar("sv_maprotationcurrent", "gametype deathrun map " + map);
+	setDvar("sv_maprotationcurrent", fmt("gametype %s map %s", getDvar("g_gametype"), map));
 	levelExit(false);
 }
 
