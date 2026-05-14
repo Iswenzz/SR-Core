@@ -142,7 +142,7 @@ canSpawn()
 		return false;
 	if (self isPlaying())
 		return false;
-	if (level.freeRun)
+	if (isDefined(level.freeRun) && level.freeRun)
 		return true;
 	if (self isDead() && !self.pers["lifes"])
 		return false;
@@ -609,6 +609,20 @@ triggerOn()
 		self.origin = self.realOrigin;
 }
 
+playersSetLowerMessage(text, time)
+{
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+		players[i] setLowerMessage(text, time);
+}
+
+playersClearLowerMessage(fadetime)
+{
+	players = getAllPlayers();
+	for (i = 0; i < players.size; i++)
+		players[i] clearLowerMessage(fadetime);
+}
+
 setLowerMessage(text, time)
 {
 	if (!isDefined(self.lowerMessage))
@@ -654,6 +668,12 @@ clearLowerMessage(fadetime)
 	wait fadetime;
 
 	self setLowerMessage("");
+}
+
+clearLowerMessageAfterTime(time)
+{
+	wait IfUndef(time, 3);
+	self clearLowerMessage();
 }
 
 waitMapLoad(time)
