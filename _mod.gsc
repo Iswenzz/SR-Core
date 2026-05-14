@@ -75,6 +75,8 @@ precache()
 	precacheStatusIcon("hud_status_dead");
 	precacheStatusIcon("vip_status");
 
+	precacheShellShock("flashbang");
+
 	precacheMenu("clientcmd");
 }
 
