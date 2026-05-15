@@ -24,10 +24,10 @@ main()
 	sr\core\_overlays::menuOption(weapons, "Dance", ::menu_Weapon, "fortnite_mp");
 
 	// Redirect
-	sr\core\_overlays::menuOption(redirect, "SR-BR", ::menu_Redirect, "iswenzz.com:28964");
-	sr\core\_overlays::menuOption(redirect, "SR-DR", ::menu_Redirect, "iswenzz.com:28962");
-	sr\core\_overlays::menuOption(redirect, "FNRP", ::menu_Redirect, "fr1.fnrp-servers.com:28940");
-	sr\core\_overlays::menuOption(redirect, "3xP CJ", ::menu_Redirect, "c.3xP-Clan.com:1337");
+	sr\core\_overlays::menuOption(redirect, "SR Speedrun", ::menu_Redirect, "sr-speedrun.com:28960");
+	sr\core\_overlays::menuOption(redirect, "SR Deathrun", ::menu_Redirect, "sr-speedrun.com:28962");
+	sr\core\_overlays::menuOption(redirect, "SR BattleRoyale", ::menu_Redirect, "sr-speedrun.com:28964");
+	sr\core\_overlays::menuOption(redirect, "SR Test", ::menu_Redirect, "sr-speedrun.com:28970");
 }
 
 onConnect()
