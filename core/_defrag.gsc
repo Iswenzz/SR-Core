@@ -60,9 +60,10 @@ onSpawn()
 		self.bhopOnGround = self isOnGround();
 		self.bhopHeight = sqrt((self.jumpHeight * 2) * self.gravity);
 
-		if (self.bhopOnGround && !self.bhopPrevOnGround && self jumpButtonPressed() && self getStance() == "stand")
+		if (self.bhopOnGround && !self.bhopPrevOnGround && self jumpButtonPressed())
 		{
 			velocity = self.bhopPrevAirVelocity - self.bhopAirVelocity;
+			self setStance("stand");
 
 			flags = self PmFlags();
 			flags &= 4294966911;
