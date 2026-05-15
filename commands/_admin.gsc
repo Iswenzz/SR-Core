@@ -66,7 +66,7 @@ cmd_MapRestart(args)
 cmd_Map(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: !map <name>");
+		return self pm("Usage: !setmap <name>");
 
 	map = args[0];
 	setDvar("sv_maprotationcurrent", fmt("gametype %s map %s", getDvar("g_gametype"), map));
@@ -469,7 +469,9 @@ cmd_TimePlayed(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	pm(fmt("%s play time: %d", player.name, player getStat(2629)));
+	mins = player getStat(2629);
+	hours = mins / 60;
+	pm(fmt("%s played: %d", player.name, int(hours) + "h"));
 }
 
 cmd_Kick(args)
