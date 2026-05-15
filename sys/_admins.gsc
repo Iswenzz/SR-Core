@@ -112,6 +112,7 @@ connection()
 	self setPersistence("tas", self.admin_tas);
 
 	self setClientDvar("sr_admin_role", self getRoleName());
+	self setStat(2000, self.admin_vip);
 
 	self welcome();
 	self thread database();
