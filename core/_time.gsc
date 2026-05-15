@@ -27,5 +27,7 @@ playedTime()
 
 updateMenu()
 {
-	self setClientDvar("sr_info_timePlayed", self getStat(2629));
+    mins = self getStat(2629);
+    hours = mins / 60;
+    self setClientDvar("sr_info_timePlayed", int(hours) + "h");
 }
