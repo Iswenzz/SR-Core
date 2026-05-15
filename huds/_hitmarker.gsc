@@ -17,7 +17,7 @@ onDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint
 {
 	if (!isPlayer(self) || !isPlayer(eAttacker) || self == eAttacker)
 		return;
-	if (self sameTeam(eAttacker) && !eAttacker.teamKill)
+	if (self sameTeam(eAttacker) && !eAttacker.teamKill && !eAttacker sr\core\_settings::getPlayerSetting("hud_hitmarker", false))
 		return;
 
 	armor = self hasPerk("specialty_armorvest") && level.dvar["pi_hm_av"];
