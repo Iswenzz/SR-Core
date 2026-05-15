@@ -4,12 +4,13 @@
 main()
 {
 	cmd("color",       "vip",    ::cmd_Color,      "Change your HUD color");
+	cmd("fov",         "player", ::cmd_FOV,        "Set your field of view");
 	cmd("fps",         "player", ::cmd_FPS,        "Toggle fullbright");
+	cmd("graphics",    "player", ::cmd_Graphics,   "Re-enable common graphics settings");
 	cmd("mirror",      "owner",  ::cmd_Mirror,     "Spawn a mirror");
 	cmd("shader",      "owner",  ::cmd_Shader,     "Apply a shader effect to a player");
 	cmd("spawn_model", "owner",  ::cmd_SpawnModel, "Spawn a model in the world");
 	cmd("vision",      "owner",  ::cmd_Vision,     "Set the vision");
-	cmd("fov",         "player", ::cmd_FOV,        "Set your field of view");
 }
 
 cmd_Vision(args)
@@ -115,6 +116,27 @@ cmd_FPS(args)
 
 	msg = Ternary(self.settings["gfx_fullbright"], "^2Fullbright On", "^1Fullbright Off");
 	self pm(msg);
+}
+
+cmd_Graphics(args)
+{
+	self setClientDvars(
+		"r_drawDecals", 1,
+		"r_drawSun", 1,
+		"r_drawWater", 1,
+		"r_detail", 1,
+		"r_glow_allowed", 1,
+		"r_specular", 1
+	);
+	wait 0.05;
+	self setClientDvars(
+		"sm_enable", 1,
+		"dynEnt_active", 1,
+		"cg_blood", 1,
+		"fx_marks", 1
+	);
+	wait 0.05;
+	self pm("Re-enabled common graphics settings");
 }
 
 cmd_Color(args)
