@@ -134,10 +134,10 @@
 		#undef BUTTON_SIZE_X
 		#define BUTTON_SIZE_X		200
 
-		SR_BUTTON_LEFT(1, "Speedrun", exec "connect iswenzz.com:28960";, when(!localvarBool(ui_hideBack)))
-		SR_BUTTON_LEFT(2, "Deathrun", exec "connect iswenzz.com:28962";, when(!localvarBool(ui_hideBack)))
-		SR_BUTTON_LEFT(3, "Battle Royale", exec "connect iswenzz.com:28964";, when(!localvarBool(ui_hideBack)))
-		SR_BUTTON_LEFT(4, "^5Test", exec "connect iswenzz.com:28969";, when(!localvarBool(ui_hideBack) && dvarBool("developer")))
+		SR_BUTTON_LEFT(1, "Speedrun", exec "connect sr-speedrun.com:28960";, when(!localvarBool(ui_hideBack)))
+		SR_BUTTON_LEFT(2, "Deathrun", exec "connect sr-speedrun.com:28962";, when(!localvarBool(ui_hideBack)))
+		SR_BUTTON_LEFT(3, "Battle Royale", exec "connect sr-speedrun.com:28964";, when(!localvarBool(ui_hideBack)))
+		SR_BUTTON_LEFT(4, "^5Test", exec "connect sr-speedrun.com:28969";, when(!localvarBool(ui_hideBack) && dvarBool("developer")))
 		SR_BUTTON_LEFT(5, "^5Localhost", exec "connect 127.0.0.1:28960";, when(!localvarBool(ui_hideBack) && dvarBool("developer")))
 
 		itemDef
