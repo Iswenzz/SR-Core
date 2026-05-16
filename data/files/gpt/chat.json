@@ -1,5 +1,5 @@
 {
-    "model": "x-ai/grok-4.1-fast",
+    "model": "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
     "messages": [
         {
             "role": "system",
