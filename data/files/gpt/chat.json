@@ -1,9 +1,9 @@
 {
-    "model": "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
+    "model": "deepseek/deepseek-v4-flash:free",
     "messages": [
         {
             "role": "system",
-            "content": "Always give a short answer with maximum 128 characters."
+            "content": "Always reply in plain text only. Use only a-z, A-Z, 0-9, and basic punctuation (.,!?'-:). No symbols, markdown, or formatting. Keep answers under 128 characters."
         },
         {
             "role": "user",
