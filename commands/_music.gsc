@@ -73,7 +73,21 @@ cmd_MusicStop(args)
 
 cmd_SoundAlias(args)
 {
-	aliases = SoundAlias();
+	aliases = [];
+	soundaliases = SoundAlias();
+	excluded = strTok("end_map;end_round;srm;music_mainmenu;last_alive;first_blood;wtf", ";");
+
+	for (i = 0; i < soundaliases.size; i++)
+    {
+        skip = false;
+        for (j = 0; j < excluded.size; j++)
+            if (StartsWith(soundaliases[i], excluded[j]))
+				skip = true;
+
+        if (!skip)
+            aliases[aliases.size] = soundaliases[i];
+    }
+	self pm(fmt("^5%d aliases", aliases.size));
 	for (i = 0; i < aliases.size; i++)
 	{
 		self pm(aliases[i]);
