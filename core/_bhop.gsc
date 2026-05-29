@@ -1,19 +1,11 @@
 #include sr\sys\_events;
 #include sr\utils\_common;
 
-main()
-{
-	event("spawn", ::onSpawn);
-}
-
-onSpawn()
+start()
 {
 	self endon("spawned");
 	self endon("disconnect");
 	self endon("death");
-
-	if (!self isBhop())
-		return;
 
 	self.bhopPrevAirVelocity = (0, 0, 0);
 	self.bhopPrevOnGround = true;

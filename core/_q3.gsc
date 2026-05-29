@@ -3,9 +3,9 @@
 
 main()
 {
-	level.defragVisuals = [];
-	level.defragWeapons = [];
-	level.defragStartWeapons = [];
+	level.q3Visuals = [];
+	level.q3Weapons = [];
+	level.q3StartWeapons = [];
 
 	addWeapon("rl", "gl_ak47_mp");
 	addWeapon("pl", "gl_g3_mp");
@@ -21,79 +21,33 @@ main()
 
 triggers()
 {
-	sections = getEntArray("defrag_section", "targetname");
+	sections = getEntArray("q3_section", "targetname");
 	for (i = 0; i < sections.size; i++)
 		sections[i] thread triggerSection();
 
-	weapons = getEntArray("defrag_weapon", "targetname");
+	weapons = getEntArray("q3_weapon", "targetname");
 	for (i = 0; i < weapons.size; i++)
 		weapons[i] thread triggerWeapon();
 
-	perks = getEntArray("defrag_perk", "targetname");
+	perks = getEntArray("q3_perk", "targetname");
 	for (i = 0; i < perks.size; i++)
 		perks[i] thread triggerPerk();
 }
 
 onSpawn()
 {
-	self.defragCooldowns = [];
-
-	self endon("spawned");
-	self endon("disconnect");
-	self endon("death");
-
-	if (!self isDefrag())
-		return;
-
-	self.bhopPrevAirVelocity = (0, 0, 0);
-	self.bhopPrevOnGround = true;
-
-	while (true)
-	{
-		if (!isDefined(self.jumpHeight) || !isDefined(self.gravity))
-		{
-			wait 0.05;
-			continue;
-		}
-
-		self.bhopAirVelocity = self getVelocity();
-		self.bhopOnGround = self isOnGround();
-		self.bhopHeight = sqrt((self.jumpHeight * 2) * self.gravity);
-
-		if (self.bhopOnGround && !self.bhopPrevOnGround && self jumpButtonPressed())
-		{
-			velocity = self.bhopPrevAirVelocity - self.bhopAirVelocity;
-			self setStance("stand");
-
-			flags = self PmFlags();
-			flags &= 4294966911;
-  			flags |= 16384;
-			self SetPmFlags(flags);
-			self SetPmTime(0);
-
-			jumpOrigin = self GetJumpOrigin();
-			if (jumpOrigin < self.origin[2]) jumpOrigin = self.origin[2] + 1;
-			self SetJumpOrigin(jumpOrigin);
-
-			self setVelocity((self.bhopAirVelocity[0], self.bhopAirVelocity[1], 0)
-				+ (velocity[0], velocity[1], self.bhopHeight));
-		}
-		wait 0.05;
-
-		self.bhopPrevAirVelocity = self.bhopAirVelocity;
-		self.bhopPrevOnGround = self.bhopOnGround;
-	}
+	self.q3Cooldowns = [];
 }
 
 defaultWeapons()
 {
-	level.defragStartWeapons[level.defragStartWeapons.size] = "rl";
-	level.defragStartWeapons[level.defragStartWeapons.size] = "pl";
+	level.q3StartWeapons[level.q3StartWeapons.size] = "rl";
+	level.q3StartWeapons[level.q3StartWeapons.size] = "pl";
 }
 
 addWeapon(name, item)
 {
-	level.defragWeapons[name] = item;
+	level.q3Weapons[name] = item;
 }
 
 visuals()
@@ -102,15 +56,15 @@ visuals()
 	{
 		players = getAllPlayers();
 
-		for (i = 0; i < level.defragVisuals.size; i++)
+		for (i = 0; i < level.q3Visuals.size; i++)
 		{
-			level.defragVisuals[i] hide();
+			level.q3Visuals[i] hide();
 
 			for (j = 0; j < players.size; j++)
 			{
 				player = IfUndef(players[j] getSpectatorClient(), players[j]);
-				if (player isDefrag())
-					level.defragVisuals[i] showToPlayer(players[j]);
+				if (player isQ3())
+					level.q3Visuals[i] showToPlayer(players[j]);
 			}
 		}
 		wait 1;
@@ -123,7 +77,7 @@ visualLoop(model)
 	if (isDefined(model))
 		self.preview setModel(model);
 
-	level.defragVisuals[level.defragVisuals.size] = self.preview;
+	level.q3Visuals[level.q3Visuals.size] = self.preview;
 	wait 0.05;
 	playLoopedFX(level.gfx["pickup"], 3, self.preview.origin  - (0, 0, 30));
 
@@ -160,7 +114,7 @@ playerSection(trigger)
 
 triggerWeapon()
 {
-	weapon = getWeaponModel(level.defragWeapons[self.weapon]);
+	weapon = getWeaponModel(level.q3Weapons[self.weapon]);
 	self thread visualLoop(weapon);
 	self thread triggerWeaponLoop();
 }
@@ -180,7 +134,7 @@ triggerWeaponLoop()
 
 playerWeapon(trigger)
 {
-	weapon = level.defragWeapons[trigger.weapon];
+	weapon = level.q3Weapons[trigger.weapon];
 
 	self giveWeapon(weapon);
 	self switchToWeapon(weapon);
@@ -226,9 +180,9 @@ playerPerk(trigger)
 
 canTrigger(trigger)
 {
-	if (self.sr_mode != "Defrag" || isDefined(self.defragCooldowns[trigger.id]))
+	if (self.sr_mode != "Q3" || self.sr_mode != "Q3CPM" || self.sr_mode != "Q3CPMW" || isDefined(self.q3Cooldowns[trigger.id]))
 		return false;
-	self.defragCooldowns[trigger.id] = true;
+	self.q3Cooldowns[trigger.id] = true;
 	return true;
 }
 
@@ -236,7 +190,7 @@ removeCooldown(trigger)
 {
 	wait 3;
 
-	self.defragCooldowns[trigger.id] = undefined;
+	self.q3Cooldowns[trigger.id] = undefined;
 }
 
 haste()

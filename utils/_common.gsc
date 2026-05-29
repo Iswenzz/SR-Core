@@ -264,7 +264,7 @@ doPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, 
 }
 
 // Radius damage with knockback
-// This function is used for defrag and any knockback runs
+// This function is used for q3 and any knockback runs
 doRadiusDamage(position, range, power, knockback)
 {
 	if (!isDefined(self) || game["state"] == "end")
@@ -430,18 +430,16 @@ isBot()
 	return isDefined(self) && self.isBot;
 }
 
-isBhop()
+isQ3()
 {
-	if (isDefined(self.sr_mode) && self.sr_mode == "Bhop")
+	if (isDefined(self.sr_mode) && (self.sr_mode == "Q3" || self.sr_mode == "Q3CPM" || self.sr_mode == "Q3CPMW"))
 		return true;
 	return false;
 }
 
-isDefrag()
+isCS()
 {
-	if (isDefined(self.sr_mode) && self.sr_mode == "Defrag")
-		return true;
-	if (self sr\core\_modes::isInMode("defrag"))
+	if (isDefined(self.sr_mode) && (self.sr_mode == "CS" || self.sr_mode == "Portal"))
 		return true;
 	return false;
 }
@@ -449,8 +447,6 @@ isDefrag()
 isPortal()
 {
 	if (isDefined(self.sr_mode) && self.sr_mode == "Portal")
-		return true;
-	if (self sr\core\_modes::isInMode("portal"))
 		return true;
 	return false;
 }

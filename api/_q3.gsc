@@ -2,7 +2,7 @@
 
 weapons(list)
 {
-	level.defragStartWeapons = strTok(list, ";");
+	level.q3StartWeapons = strTok(list, ";");
 }
 
 perks(list)
@@ -13,7 +13,7 @@ perks(list)
 triggerSection(id, origin, width, height, callback)
 {
 	trigger = spawn("trigger_radius", origin, 0, width, height);
-	trigger.targetname = "defrag_section";
+	trigger.targetname = "q3_section";
 	trigger.radius = width;
 	trigger.callback = callback;
 	trigger.id = id;
@@ -24,7 +24,7 @@ triggerSection(id, origin, width, height, callback)
 triggerWeapon(id, origin, width, height, weapon, ammo)
 {
 	trigger = spawn("trigger_radius", origin, 0, width, height);
-	trigger.targetname = "defrag_weapon";
+	trigger.targetname = "q3_weapon";
 	trigger.radius = width;
 	trigger.weapon = weapon;
 	trigger.ammo = ammo;
@@ -36,7 +36,7 @@ triggerWeapon(id, origin, width, height, weapon, ammo)
 triggerPerk(id, origin, width, height, perk, time)
 {
 	trigger = spawn("trigger_radius", origin, 0, width, height);
-	trigger.targetname = "defrag_perk";
+	trigger.targetname = "q3_perk";
 	trigger.radius = width;
 	trigger.perk = perk;
 	trigger.time = time;
@@ -45,14 +45,14 @@ triggerPerk(id, origin, width, height, perk, time)
 	return trigger;
 }
 
-switchToDefragWeapon(name)
+switchToQ3Weapon(name)
 {
-	self switchToWeapon(level.defragWeapons[name]);
+	self switchToWeapon(level.q3Weapons[name]);
 }
 
-takeDefragWeapon(name)
+takeQ3Weapon(name)
 {
-	self takeWeapon(level.defragWeapons[name]);
+	self takeWeapon(level.q3Weapons[name]);
 }
 
 takeAllPerks()
@@ -60,14 +60,14 @@ takeAllPerks()
 	self.perks = [];
 }
 
-takeDefragPerk(id)
+takeQ3Perk(id)
 {
 	self sr\core\_perks::playerRemovePerk(id);
 }
 
-giveDefragWeapon(name, ammo)
+giveQ3Weapon(name, ammo)
 {
-	weapon = level.defragWeapons[name];
+	weapon = level.q3Weapons[name];
 
 	self giveWeapon(weapon);
 	self switchToWeapon(weapon);
@@ -76,13 +76,13 @@ giveDefragWeapon(name, ammo)
 		self setWeaponAmmoClip(weapon, ammo);
 }
 
-giveDefragPerk(id, time)
+giveQ3Perk(id, time)
 {
 	self sr\core\_perks::playerSetPerk(id);
 
 	if (isDefined(time))
 	{
 		wait time;
-		self takeDefragPerk(id);
+		self takeQ3Perk(id);
 	}
 }

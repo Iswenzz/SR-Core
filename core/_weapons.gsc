@@ -59,7 +59,7 @@ weapon_FortniteRPG()
 
 weapon_Q3Rocket()
 {
-	weapon["type"] = "defrag";
+	weapon["type"] = "q3";
 	weapon["name"] = "Q3 Rocket";
 	weapon["item"] = "gl_ak47_mp";
 	weapon["delay"] = 0.8;
@@ -73,14 +73,14 @@ weapon_Q3Rocket()
 	weapon["knockback"] = 500;
 	weapon["knockback_range"] = 120;
 	weapon["fire"] = ::fire;
-	weapon["fire_condition"] = ::canFireDefragWeapon;
+	weapon["fire_condition"] = ::canFireQ3Weapon;
 
 	return weapon;
 }
 
 weapon_Q3Plasma()
 {
-	weapon["type"] = "defrag";
+	weapon["type"] = "q3";
 	weapon["name"] = "Q3 Plasma";
 	weapon["item"] = "gl_g3_mp";
 	weapon["delay"] = 0.05;
@@ -93,7 +93,7 @@ weapon_Q3Plasma()
 	weapon["knockback"] = 30;
 	weapon["knockback_range"] = 40;
 	weapon["fire"] = ::fire;
-	weapon["fire_condition"] = ::canFireDefragWeapon;
+	weapon["fire_condition"] = ::canFireQ3Weapon;
 
 	return weapon;
 }
@@ -196,7 +196,7 @@ fire()
 impact(time)
 {
 	self.player endon("disconnect");
-	if (self.player isDefrag())
+	if (self.player isQ3())
 		self.player endon("death");
 
 	self thread impactCleanup();
@@ -223,7 +223,7 @@ impact(time)
 impactWaittill()
 {
 	self.player endon("disconnect");
-	if (self.player isDefrag())
+	if (self.player isQ3())
 		self.player endon("death");
 
 	self waittill("impact");
@@ -396,9 +396,9 @@ canFireWeapon()
 	return true;
 }
 
-canFireDefragWeapon()
+canFireQ3Weapon()
 {
-	// Using stocks as clips for defrag from asset manager limitation
+	// Using stocks as clips for q3 from asset manager limitation
 	if (!isDefined(self.scriptedWeapon["fire"]))
 		return false;
 	if (!self getWeaponAmmoStock(self.scriptedWeapon["item"]))
@@ -413,15 +413,15 @@ canFireDefragWeapon()
 
 showVisual()
 {
-	return self.forceWeaponVisual || !self isDefrag();
+	return self.forceWeaponVisual || !self isQ3();
 }
 
 shouldKnockback()
 {
-	return self.forceWeaponKnockback || self.teamKill || self isDefrag();
+	return self.forceWeaponKnockback || self.teamKill || self isQ3();
 }
 
 shouldHitPlayers()
 {
-	return self.forceWeaponHitPlayers || self.teamKill || !self isDefrag();
+	return self.forceWeaponHitPlayers || self.teamKill || !self isQ3();
 }

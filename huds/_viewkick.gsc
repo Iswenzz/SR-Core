@@ -10,14 +10,14 @@ enableViewkick()
 {
 	if (self.pers["viewkick"])
 		return false;
-	return !self isDefrag();
+	return !self isQ3();
 }
 
 disableViewkick()
 {
 	if (!self.pers["viewkick"])
 		return false;
-	return self isDefrag();
+	return self isQ3();
 }
 
 onSpawn()
