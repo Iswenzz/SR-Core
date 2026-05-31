@@ -5,6 +5,23 @@
 
 main()
 {
+	level.cod4_accelerate = 9.0;
+	level.cod4_crouch_accelerate = 12.0;
+	level.cod4_prone_accelerate = 19.0;
+	level.cod4_airaccelerate = 1.0;
+
+	level.q3_accelerate = 10.0;
+	level.q3_airaccelerate = 1.0;
+
+	level.q3cpm_accelerate = 15.0;
+	level.q3cpm_airaccelerate = 1.0;
+	level.q3cpm_strafeaccelerate = 70.0;
+	level.q3cpm_airspeedcap = 30.0;
+
+	level.cs_accelerate = 10.0;
+	level.cs_airaccelerate = 150.0;
+	level.cs_airspeedcap = 30.0;
+
 	event("spawn", ::hud);
 	event("spectator", ::hud);
 	event("death", ::clear);
@@ -176,19 +193,35 @@ pm_walkMove()
 		self.cgaz.wishvel[i] = self.cgaz.forwardMove * self.cgaz.forward[i] +
 			self.cgaz.rightMove * self.cgaz.right[i];
 	}
-
+	accel = 0;
 	dmgScale = self pm_damageScaleWalk(self getDamageTimer()) * self pm_cmdScaleWalk();
 	wishSpeed = dmgScale * vectorLength2(self.cgaz.wishvel);
 
 	if (self SurfaceFlags() & 2 || self PmFlags() & 256)
-		self pm_slickAccelerate(wishSpeed, 9);
-
-	accel = 0;
-	switch (self.cgaz.viewHeight)
 	{
-		case 11: accel = 19; break;
-		case 40: accel = 12; break;
-		default: accel = 9; break;
+		self pm_slickAccelerate(wishSpeed, 9);
+		return;
+	}
+	switch (self.sr_mode)
+	{
+	case "190":
+	case "210":
+		accel = level.cod4_accelerate;
+		if (self.cgaz.viewHeight == 11)
+			accel = level.cod4_prone_accelerate;
+		else if (self.cgaz.viewHeight == 40)
+			accel = level.cod4_crouch_accelerate;
+		break;
+	case "Q3":
+		accel = level.q3_accelerate;
+		break;
+	case "Q3CPM":
+	case "Q3CPMW":
+		accel = level.q3cpm_accelerate;
+		break;
+	case "CS":
+		accel = level.cs_accelerate;
+		break;
 	}
 	self pm_accelerate(wishspeed, accel);
 }
@@ -208,11 +241,36 @@ pm_airMove()
 		self.cgaz.wishvel[i] = self.cgaz.forwardMove * self.cgaz.forward[i] +
 			self.cgaz.rightMove * self.cgaz.right[i];
 	}
-
 	scale = self pm_cmdScale();
 	wishspeed = scale * vectorLength2(self.cgaz.wishvel);
+	accel = 0;
 
-	self pm_accelerate(wishspeed, 1);
+	switch (self.sr_mode)
+	{
+	case "190":
+	case "210":
+		accel = level.cod4_airaccelerate;
+		break;
+	case "Q3":
+		accel = level.q3_airaccelerate;
+		break;
+	case "Q3CPM":
+	case "Q3CPMW":
+		accel = level.q3cpm_airaccelerate;
+		if (self.cgaz.forwardMove == 0 && self.cgaz.rightMove != 0)
+		{
+			accel = level.q3cpm_strafeaccelerate;
+			if (wishspeed > level.q3cpm_airspeedcap)
+				wishspeed = level.q3cpm_airspeedcap;
+		}
+		break;
+	case "CS":
+		accel = level.cs_airaccelerate;
+		if (wishspeed > level.cs_airspeedcap)
+			wishspeed = level.cs_airspeedcap;
+		break;
+	}
+	self pm_accelerate(wishspeed, accel);
 }
 
 pm_jumpReduceFriction()
