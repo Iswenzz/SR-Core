@@ -17,7 +17,7 @@ Core mod for SR containing libraries, utilities, player movements, player huds, 
 * Callback-based event system
 * Command suite covering graphics, minigames, maps, players, and debugging
 * Demo playback and recording
-* HUD elements: cgaz, crosshair, keys, velocity, FPS, viewkick, killcam, and hitmarker
+* HUD elements: CGAZ, crosshair, keys, velocity, spectator, FPS, viewkick, killcam, and hitmarker
 * In-game map edition
 * Leaderboards and personal bests
 * MediaSync integration for IW3SR browser playback
