@@ -129,6 +129,8 @@ cmd_Seek(args)
 		return self pm("Usage: !seek <time>");
 
 	time = args[0];
+	time = Replace(time, "+", "p");
+	time = Replace(time, "-", "p");
 
 	critical_enter("http");
 
