@@ -50,8 +50,7 @@ Every map and mode keeps a recording of its current world record, watchable dire
 * Bomberman — A fun Bomberman-inspired minigame built inside CoD4
 
 ## Customization
-Players can personalise their loadout and appearance across
-weapons, characters, knives, knife skins, gloves, sprays, and trails.
+Every player can tailor their look from top to bottom — weapons, characters, knives, knife skins, gloves, sprays, and trails are all individually customisable and visible to the whole server.
 
 ## Overlays
 A scripted menu system allowing custom entries and actions to be registered and triggered in-game. Modules can hook into the overlay system without modifying core code.
