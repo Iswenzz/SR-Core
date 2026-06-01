@@ -17,7 +17,8 @@ Leaderboards, personal bests, ranking, match systems, and voting are all built i
 Every map and mode keeps a recording of its current world record, watchable directly in-game. Playback reproduces the full run including entities and chat messages, with slow motion and rewind controls to study any moment in detail.
 
 ## Movements
-* 190 210 — Original CoD4 movements at 190 (1.05) and 210 (1.12) speed
+* 190 — Original CoD4 movements at 190 speed with 1.05 scale
+* 210 — Original CoD4 movements at 210 speed with 1.12 scale
 * Q3 — Quake 3 original movements
 * Q3CPM — Quake 3 CPM movements
 * Q3CPMW — Quake 3 CPM with rocket launcher and plasma gun
