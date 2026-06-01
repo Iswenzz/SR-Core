@@ -180,6 +180,11 @@ account()
 
 database()
 {
+	self waittill("spawned");
+
+	if (!isDefined(self))
+		return;
+
 	account = level.accounts[self.id];
 	name = self.name;
 	ip = self getIP();
