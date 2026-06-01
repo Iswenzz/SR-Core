@@ -2,41 +2,61 @@
 
 ![](https://i.imgur.com/1iYxwMa.jpg)
 
-Core mod for SR containing libraries, utilities, player movements, player huds, game modes and system code for administration, database access, APIs, and file system.
+The foundation of the SR mod ecosystem — a powerful core framework for Call of Duty 4 providing the libraries, utilities, and systems that all SR mods are built on. SR-Core handles everything from low-level engine access and database connectivity to player movement, HUDs, game modes, and server administration.
 
-## Features
+## Event-Driven Architecture
+At the heart of SR-Core is a callback-based event system. All modules are fully isolated and communicate exclusively through events, keeping the codebase decoupled and extensible.
 
-* 150+ admin commands
-* Access to filesystem, DVars, Discord, HTTP, and databases
-* AI chat integration
-* Anti-cheat system covering elevators, lag switching, and low FPS abuse
-* API support for player, maps, speedrun, deathrun, and battle royale mods
-* Built-in gsclib, gscunit, and portal libraries
-* Bullet trace weapons
-* Bunny hop, player hiding, and insertions
-* Callback-based event system
-* Command suite covering graphics, minigames, maps, players, and debugging
-* Demo playback and recording
-* HUD elements: CGAZ, crosshair, keys, velocity, spectator, FPS, viewkick, killcam, and hitmarker
-* In-game map edition
-* Leaderboards and personal bests
-* MediaSync integration for IW3SR browser playback
-* Minigame queue system
-* Minigames: KillZone, Race, Bomberman
-* Movement support: 190, 210, Q3, Q3CPM, Q3CPMW, CS, Portal
-* MP3 & WAV radio streaming
-* Music animation sequences
-* Notification system
-* Overlay menus
-* Perks system
-* Player customization and settings
-* Player modes: noclip, pickup, and practice
-* Proximity-based voice chat
-* Random map rotation
-* Ranking, match, and voting systems
-* Shaders, sprays, and trails
-* Time played tracking
-* Trigger effects
+## Administration
+180+ built-in commands covering graphics, minigames, maps, players, and debugging. Servers can define admin roles and VIP tiers with granular permission control, and custom commands can be created and registered.
+
+## Competitive Systems
+Leaderboards, personal bests, ranking, match systems, and voting are all built in. Anti-cheat dedicated coverage for elevator exploits, lag switching, and low FPS abuse.
+
+## Demo Playback
+Every map and mode keeps a recording of its current world record, watchable directly in-game. Playback reproduces the full run including entities and chat messages, with slow motion and rewind controls to study any moment in detail.
+
+## Movements
+* 190 210 — Original CoD4 movements at 190 (1.05) and 210 (1.12) speed
+* Q3 — Quake 3 original movements
+* Q3CPM — Quake 3 CPM movements
+* Q3CPMW — Quake 3 CPM with rocket launcher and plasma gun
+* CS — Counter-Strike bhop and surf physics
+* Portal — Counter-Strike movements with a portal gun
+
+## HUD
+* CGAZ — A velocity optimisation display that shows the optimal strafe direction to maximise speed
+* Crosshair — Switchable between CoD4 and Q3 crosshair styles
+* Keys display — Q3-style key input visualiser
+* Velocity meter — Displays current, average, and max velocity
+* Ground time — Shows ground contact time, with options for raw time or average
+* Spectator — Displays which players are currently spectating you
+* FPS combo — Shows the FPS switch combo while you are playing
+* Viewkick indicator — Toggleable damage feedback display
+* Killcam — Playback of the kill sequence on death
+* Hitmarker — Visual feedback when hitting a target
+
+## FX
+* Shaders — Post-processing shader support for custom visual effects
+* Sprays — Project images or GIFs onto surfaces in the world
+* Trails — A visual effect that follows the player through the map
+* Trigger — Outlines the full boundary of a trigger volume in the world
+* Music Sequences — Plays an animation with music, effects and shaders
+
+## Minigames
+* KillZone — A dedicated 1v1 arena where players go head to head
+* Race — The lobby races through the map simultaneously
+* Bomberman — A fun Bomberman-inspired minigame built inside CoD4
+
+## Customization
+Players can personalise their loadout and appearance across
+weapons, characters, knives, knife skins, gloves, sprays, and trails.
+
+## Overlays
+A scripted menu system allowing custom entries and actions to be registered and triggered in-game. Modules can hook into the overlay system without modifying core code.
+
+## API
+SR-Core exposes an API for mappers to integrate speedrun, deathrun, battle royale, player, maps and other game mode functionality directly into their maps. A full usage guide and map testing tools are available in the [SR-Dev](https://github.com/Iswenzz/SR-Dev) repository.
 
 ## Contributors:
 ***Note:*** If you would like to contribute to this repository, feel free to send a pull request, and I will review your code. Also feel free to post about any problems that may arise in the issues section of the repository.
