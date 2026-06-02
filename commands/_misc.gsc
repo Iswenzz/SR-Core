@@ -3,9 +3,15 @@
 
 main()
 {
+    cmd("about",   "player", ::cmd_About, "Display the about menu");
     cmd("discord", "player", ::cmd_Discord, "Display the server Discord");
     cmd("emojis",  "player", ::cmd_Emojis,  "Display the client emojis");
     cmd("website", "player", ::cmd_Website, "Display the server website");
+}
+
+cmd_About(args)
+{
+	self openMenu("about_page_1");
 }
 
 cmd_Discord(args)
