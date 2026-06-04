@@ -197,7 +197,7 @@ pm_walkMove()
 	dmgScale = self pm_damageScaleWalk(self getDamageTimer()) * self pm_cmdScaleWalk();
 	wishSpeed = dmgScale * vectorLength2(self.cgaz.wishvel);
 
-	if (self SurfaceFlags() & 2 || self PmFlags() & 256)
+	if (self SurfaceFlags() & 2 || self PmFlags() & level.PMF_TIME_KNOCKBACK)
 	{
 		self pm_slickAccelerate(wishSpeed, 9);
 		return;
@@ -308,12 +308,12 @@ pm_friction()
 
 	drop = 0;
 	surfaceSlick = self SurfaceFlags() & 2;
-	if (self.player isOnGround() && !surfaceSlick && !(self.player PmFlags() & 256))
+	if (self.player isOnGround() && !surfaceSlick && !(self.player PmFlags() & level.PMF_TIME_KNOCKBACK))
 	{
 		control = Ternary(100 <= speed, speed, 100);
-		if (self.player PmFlags() & 128)
+		if (self.player PmFlags() & level.PMF_TIME_HARDLANDING)
 			control = control * 0.30000001;
-		else if (self.player PmFlags() & 16384)
+		else if (self.player PmFlags() & level.PMF_JUMPING)
 			control = self pm_jumpReduceFriction() * control;
 
 		drop = ((control * 5.5) * self.cgaz.frameTime) + drop;

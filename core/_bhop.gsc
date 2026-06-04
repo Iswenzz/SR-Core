@@ -28,8 +28,7 @@ start()
 			self setStance("stand");
 
 			flags = self PmFlags();
-			flags &= 4294966911;
-  			flags |= 16384;
+  			flags |= level.PMF_JUMPING;
 			self SetPmFlags(flags);
 			self SetPmTime(0);
 
