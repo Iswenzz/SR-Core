@@ -55,8 +55,17 @@ Every player can tailor their look from top to bottom — weapons, characters, k
 ## Overlays
 A scripted menu system allowing custom entries and actions to be registered and triggered in-game. Modules can hook into the overlay system without modifying core code.
 
-## API
-SR-Core exposes an API for mappers to integrate speedrun, deathrun, battle royale, player, maps and other game mode functionality directly into their maps. A full usage guide and map testing tools are available in the [SR-Dev](https://github.com/Iswenzz/SR-Dev) repository.
+## Documentation
+
+| Module | Description |
+|--------|-------------|
+| [Tutorials](docs/tutorials.md) | Installation and tutorials on how to add maps using the SR API |
+| [Map](docs/map.md) | Spawns, triggers, teleporters, and movement modifiers shared across all game modes |
+| [Player](docs/player.md) | Player speed, gravity, jump height, and movement helpers |
+| [Speedrun](docs/speedrun.md) | Ways, end triggers, and speedrun-specific map setup |
+| [Deathrun](docs/deathrun.md) | Ways, rooms, teleporters, and deathrun-specific map setup |
+| [BattleRoyale](docs/battleroyale.md) | Spawns, zones, plane paths, and entity definitions |
+| [Q3](docs/q3.md) | Q3 weapons, perks, and section triggers |
 
 ## Contributors:
 ***Note:*** If you would like to contribute to this repository, feel free to send a pull request, and I will review your code. Also feel free to post about any problems that may arise in the issues section of the repository.

@@ -1,27 +1,5 @@
 #include sr\utils\_common;
 
-removeAllMapTriggers()
-{
-	classnames = strTok("trigger_damage;trigger_disk;trigger_friendlychain;trigger_hurt;trigger_lookat;trigger_multiple;trigger_once;trigger_radius;trigger_use;trigger_use_touch", ";");
-	for (i = 0; i < classnames.size; i++)
-	{
-		triggers = getEntArray(classnames[i], "classname");
-		for (j = 0; j < triggers.size; j++)
-			triggers[j] delete();
-	}
-}
-
-removeAllSpawns()
-{
-	classnames = strTok("mp_tdm_spawn;mp_dm_spawn", ";");
-	for (i = 0; i < classnames.size; i++)
-	{
-		spawns = getEntArray(classnames[i], "classname");
-		for (j = 0; j < spawns.size; j++)
-			spawns[j] delete();
-	}
-}
-
 createSpawn(origin, angle)
 {
 	level.spawn["player"] = spawn("script_origin", (origin[0], origin[1], origin[2] - 60));
@@ -159,4 +137,26 @@ createGrenade(id, sound, icon, weapon, rng)
 
 	level.items[id] = item;
 	return item;
+}
+
+removeAllMapTriggers()
+{
+	classnames = strTok("trigger_damage;trigger_disk;trigger_friendlychain;trigger_hurt;trigger_lookat;trigger_multiple;trigger_once;trigger_radius;trigger_use;trigger_use_touch", ";");
+	for (i = 0; i < classnames.size; i++)
+	{
+		triggers = getEntArray(classnames[i], "classname");
+		for (j = 0; j < triggers.size; j++)
+			triggers[j] delete();
+	}
+}
+
+removeAllSpawns()
+{
+	classnames = strTok("mp_tdm_spawn;mp_dm_spawn", ";");
+	for (i = 0; i < classnames.size; i++)
+	{
+		spawns = getEntArray(classnames[i], "classname");
+		for (j = 0; j < spawns.size; j++)
+			spawns[j] delete();
+	}
 }

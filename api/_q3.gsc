@@ -35,12 +35,12 @@ createPerk(id, origin, width, height, perk, time)
 	return trigger;
 }
 
-weapons(list)
+setWeapons(list)
 {
 	level.q3StartWeapons = strTok(list, ";");
 }
 
-perks(list)
+setPerks(list)
 {
 	level.mapPerks = strTok(list, ";");
 }
@@ -55,14 +55,14 @@ takeWeapon(name)
 	self takeWeapon(level.q3Weapons[name]);
 }
 
-takeAllPerks()
-{
-	self.perks = [];
-}
-
 takePerk(id)
 {
 	self sr\core\_perks::playerRemovePerk(id);
+}
+
+takeAllPerks()
+{
+	self.perks = [];
 }
 
 giveWeapon(name, ammo)
