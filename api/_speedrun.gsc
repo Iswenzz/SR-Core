@@ -40,11 +40,47 @@ createEndMap(origin, width, height, way)
 	return trigger;
 }
 
+createEndMapFromTarget(target, way)
+{
+	trigger = getEnt(target, "target");
+
+	thread watchTriggerEndMap(trigger, way);
+	thread sr\fx\_trigger::effect(trigger, "red");
+	return trigger;
+}
+
+createEndMapFromTargetname(targetname, way)
+{
+	trigger = getEnt(targetname, "targetname");
+
+	thread watchTriggerEndMap(trigger, way);
+	thread sr\fx\_trigger::effect(trigger, "red");
+	return trigger;
+}
+
 createWay(triggerOrigin, width, height, color, way)
 {
 	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
 	trigger.radius = width;
 	trigger.targetname = "sr_" + way;
+
+	thread watchWay(trigger, way);
+	thread sr\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
+	return trigger;
+}
+
+createWayFromTarget(target, color, way)
+{
+	trigger = getEnt(target, "target");
+
+	thread watchWay(trigger, way);
+	thread sr\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
+	return trigger;
+}
+
+createWayFromTargetname(targetname, color, way)
+{
+	trigger = getEnt(targetname, "targetname");
 
 	thread watchWay(trigger, way);
 	thread sr\fx\_trigger::effect(trigger, IfUndef(color, "blue"));

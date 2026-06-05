@@ -109,6 +109,20 @@ playerTeleport(origin, angles, state)
 	}
 }
 
+swapTargetname(from, to)
+{
+	ents = getEntArray(from, "targetname");
+	for (i = 0; i < ents.size; i++)
+		ents[i].targetname = to;
+}
+
+deleteEntities(value, key)
+{
+	ents = getEntArray(value, key);
+	for (i = 0; i < ents.size; i++)
+		ents[i] delete();
+}
+
 noFallDamage()
 {
 	setDvar("bg_falldamagemaxheight", 2000000000);
