@@ -26,21 +26,6 @@ createSecretWays(token)
 	}
 }
 
-changeWay(way)
-{
-	self thread sr\libs\portal\_portal_gun::resetPortals();
-
-	self.sr_way = way;
-	self playLocalSound("change_way");
-	self thread speedrun\huds\_speedrun::updateWay();
-}
-
-finishWay(way)
-{
-	if (self.sr_way == way)
-		self thread speedrun\core\_run::endTimer();
-}
-
 createEndMap(origin, width, height, way)
 {
 	if (!isDefined(way))
@@ -55,15 +40,6 @@ createEndMap(origin, width, height, way)
 	return trigger;
 }
 
-watchTriggerEndMap(trig, way)
-{
-	while (true)
-	{
-		trig waittill("trigger", player);
-		player finishWay(way);
-	}
-}
-
 createWay(triggerOrigin, width, height, color, way)
 {
 	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
@@ -73,17 +49,6 @@ createWay(triggerOrigin, width, height, color, way)
 	thread watchWay(trigger, way);
 	thread sr\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
 	return trigger;
-}
-
-watchWay(trigger, way)
-{
-	while (true)
-	{
-		trigger waittill("trigger", player);
-
-		if (isDefined(way))
-			player changeWay(way);
-	}
 }
 
 createTeleporter(triggerOrigin, width, height, origin, angles, state, color, way)
@@ -100,6 +65,26 @@ createTeleporter(triggerOrigin, width, height, origin, angles, state, color, way
 	return trigger;
 }
 
+watchTriggerEndMap(trig, way)
+{
+	while (true)
+	{
+		trig waittill("trigger", player);
+		player finishWay(way);
+	}
+}
+
+watchWay(trigger, way)
+{
+	while (true)
+	{
+		trigger waittill("trigger", player);
+
+		if (isDefined(way))
+			player changeWay(way);
+	}
+}
+
 watchTeleporter(trigger, origin, angles, state, way)
 {
 	while (true)
@@ -109,54 +94,21 @@ watchTeleporter(trigger, origin, angles, state, way)
 		if (isDefined(way))
 			player changeWay(way);
 
-		player thread playerTeleport(origin, angles, state);
+		player thread sr\api\_map::playerTeleport(origin, angles, state);
 	}
 }
 
-playerTeleport(origin, angles, state)
+changeWay(way)
 {
-	self endon("death");
-	self endon("disconnect");
+	self thread sr\libs\portal\_portal_gun::resetPortals();
 
-	if (state == "freeze")
-	{
-		self sr\api\_player::antiElevator(false);
-		self freezeControls(true);
-	}
-
-	self setOrigin(origin);
-	self setPlayerAngles((0, angles, 0));
-
-	if (state == "freeze")
-	{
-		wait 0.05;
-		self freezeControls(false);
-		self sr\api\_player::antiElevator(true);
-	}
+	self.sr_way = way;
+	self playLocalSound("change_way");
+	self thread speedrun\huds\_speedrun::updateWay();
 }
 
-cj()
+finishWay(way)
 {
-	level.map_cj = true;
-}
-
-slide(speed)
-{
-	level.map_slide = true;
-	level.map_slide_multiplier = speed;
-}
-
-isCJ()
-{
-	return isDefined(level.map_cj) && level.map_cj;
-}
-
-isSlide()
-{
-	return isDefined(level.map_slide) && level.map_slide;
-}
-
-disableXP()
-{
-	level.leaderboard_xp_disabled = true;
+	if (self.sr_way == way)
+		self thread speedrun\core\_run::endTimer();
 }

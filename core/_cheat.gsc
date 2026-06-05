@@ -48,7 +48,7 @@ onSpawn()
 
 	while (true)
 	{
-		if (self antiLag() || self antiElevator())
+		if (self setAntiLag() || self setAntiElevator())
 			self rollback();
 		else if (self isOnGround())
 			self setRollback();
@@ -56,7 +56,7 @@ onSpawn()
 	}
 }
 
-antiLag()
+setAntiLag()
 {
 	if (self isAxis() || !self.antiLag)
 		return false;
@@ -64,7 +64,7 @@ antiLag()
 	return self getFPS() <= 10 || self getPing() >= 800;
 }
 
-antiElevator()
+setAntiElevator()
 {
 	if (self isAxis() || !self.antiElevator)
 		return false;

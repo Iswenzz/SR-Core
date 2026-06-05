@@ -444,6 +444,16 @@ isCS()
 	return false;
 }
 
+isCJ()
+{
+	return isDefined(level.map_cj) && level.map_cj;
+}
+
+isSlide()
+{
+	return isDefined(level.map_slide) && level.map_slide;
+}
+
 isPortal()
 {
 	if (isDefined(self.sr_mode) && self.sr_mode == "Portal")

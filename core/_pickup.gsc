@@ -38,7 +38,7 @@ pickup()
 		if (IsPlayer(ent))
 		{
 			ent cheat();
-			ent sr\api\_player::antiElevator(false);
+			ent sr\api\_player::setAntiElevator(false);
 		}
 		else if (!isDefined(ent.defaultOrigin))
 		{

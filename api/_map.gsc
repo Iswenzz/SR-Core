@@ -33,6 +33,43 @@ createDeath(triggerOrigin, width, height)
 	return trigger;
 }
 
+createSpawn(origin, angles)
+{
+	level.spawn["player"] = spawn("script_origin", (origin[0], origin[1], origin[2] - 60));
+	level.spawn["player"].angles = (0, angles, 0);
+}
+
+createSpawnOrigin(origin, angles)
+{
+	level.spawn["player"] = spawn("script_origin", origin);
+	level.spawn["player"].angles = (0, angles, 0);
+}
+
+createTriggerFx(trigger, fx)
+{
+	thread sr\fx\_trigger::effect(trigger, fx);
+}
+
+getSpeed(speed)
+{
+	return int(ceil(getDvarInt("g_speed") * (speed / 190)));
+}
+
+getMoveSpeedScale(moveSpeedScale)
+{
+	return getDvarFloat("dr_jumpers_speed") * (moveSpeedScale / 1.05);
+}
+
+getGravity(gravity)
+{
+	return int(ceil(getDvarFloat("g_gravity") * (gravity / 800)));
+}
+
+getJumpHeight(jumpHeight)
+{
+	return int(ceil(getDvarFloat("jump_height") * (jumpHeight / 39)));
+}
+
 watchTeleporter(trigger, origin, angles, state)
 {
 	while (true)
@@ -58,10 +95,9 @@ playerTeleport(origin, angles, state)
 
 	if (state == "freeze")
 	{
-		self sr\api\_player::antiElevator(false);
+		self sr\api\_player::setAntiElevator(false);
 		self freezeControls(true);
 	}
-
 	self setOrigin(origin);
 	self setPlayerAngles((0, angles, 0));
 
@@ -69,25 +105,8 @@ playerTeleport(origin, angles, state)
 	{
 		wait 0.05;
 		self freezeControls(false);
-		self sr\api\_player::antiElevator(true);
+		self sr\api\_player::setAntiElevator(true);
 	}
-}
-
-createSpawn(origin, angles)
-{
-	level.spawn["player"] = spawn("script_origin", (origin[0], origin[1], origin[2] - 60));
-	level.spawn["player"].angles = (0, angles, 0);
-}
-
-createSpawnOrigin(origin, angles)
-{
-	level.spawn["player"] = spawn("script_origin", origin);
-	level.spawn["player"].angles = (0, angles, 0);
-}
-
-createTriggerFx(trigger, fx)
-{
-	thread sr\fx\_trigger::effect(trigger, fx);
 }
 
 noFallDamage()
@@ -96,22 +115,19 @@ noFallDamage()
 	setDvar("bg_falldamageminheight", 1500000000);
 }
 
-getSpeed(speed)
+cj()
 {
-	return int(ceil(getDvarInt("g_speed") * (speed / 190)));
+	level.map_cj = true;
+	noFallDamage();
 }
 
-getMoveSpeedScale(moveSpeedScale)
+slide(speed)
 {
-	return getDvarFloat("dr_jumpers_speed") * (moveSpeedScale / 1.05);
+	level.map_slide = true;
+	level.map_slide_multiplier = speed;
 }
 
-getGravity(gravity)
+disableXP()
 {
-	return int(ceil(getDvarFloat("g_gravity") * (gravity / 800)));
-}
-
-getJumpHeight(jumpHeight)
-{
-	return int(ceil(getDvarFloat("jump_height") * (jumpHeight / 39)));
+	level.leaderboard_xp_disabled = true;
 }

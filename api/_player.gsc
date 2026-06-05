@@ -1,11 +1,11 @@
 #include sr\utils\_common;
 
-antiElevator(state)
+setAntiElevator(state)
 {
 	self.antiElevator = state;
 }
 
-antiLag(state)
+setAntiLag(state)
 {
 	self.antiLag = state;
 }
