@@ -83,6 +83,6 @@ givePerk(id, time)
 	if (isDefined(time))
 	{
 		wait time;
-		self takeQ3Perk(id);
+		self takePerk(id);
 	}
 }

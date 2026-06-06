@@ -29,10 +29,10 @@ For full 3D visualization of triggers and entities in-game, use the following la
 Create a shortcut to `iw3mp.exe` from your CoD4 folder, right-click it, open **Properties**, and set the **Target** field to:
 
 ```
-"D:\Program Files (x86)\Activision\Cod4Mod\iw3mp.exe" +set fs_game "mods\sr_speedrun" +set logfile 2 +set monkeytoy 0 +set com_introplayed 1 +set developer 1 +set developer_script 1 +set thereisacow 1337 +set g_gametype "speedrun"
+"D:\Program Files (x86)\Activision\Cod4Mod\iw3mp.exe" +set fs_game "mods\sr_speedrun" +set logfile 2 +set monkeytoy 0 +set com_introplayed 1 +set developer 1 +set developer_script 1 +set thereisacow 1337
 ```
 
-> Adjust the path and `fs_game` and `g_gametype` value to match your setup.
+> Adjust the path and `fs_game` value to match your setup.
 
 ---
 
