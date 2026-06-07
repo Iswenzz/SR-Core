@@ -40,18 +40,9 @@ createEndMap(origin, width, height, way)
 	return trigger;
 }
 
-createEndMapFromTarget(target, way)
+createEndMapFromEntity(value, key, index, way)
 {
-	trigger = getEnt(target, "target");
-
-	thread watchTriggerEndMap(trigger, way);
-	thread sr\fx\_trigger::effect(trigger, "red");
-	return trigger;
-}
-
-createEndMapFromTargetname(targetname, way)
-{
-	trigger = getEnt(targetname, "targetname");
+	trigger = getEntArray(value, key)[index];
 
 	thread watchTriggerEndMap(trigger, way);
 	thread sr\fx\_trigger::effect(trigger, "red");
@@ -69,18 +60,9 @@ createWay(triggerOrigin, width, height, color, way)
 	return trigger;
 }
 
-createWayFromTarget(target, color, way)
+createWayFromEntity(value, key, index, color, way)
 {
-	trigger = getEnt(target, "target");
-
-	thread watchWay(trigger, way);
-	thread sr\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
-	return trigger;
-}
-
-createWayFromTargetname(targetname, color, way)
-{
-	trigger = getEnt(targetname, "targetname");
+	trigger = getEntArray(value, key)[index];
 
 	thread watchWay(trigger, way);
 	thread sr\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
@@ -97,6 +79,22 @@ createTeleporter(triggerOrigin, width, height, origin, angles, state, color, way
 	trigger.targetname = "sr_teleport_" + way;
 
 	thread watchTeleporter(trigger, origin, angles, state, way);
+	thread sr\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
+	return trigger;
+}
+
+createTeleporterToEntity(triggerOrigin, width, height, value, key, index, state, color, way)
+{
+	if (!isDefined(way))
+		return sr\api\_map::createTeleporterToEntity(triggerOrigin, width, height, value, key, index, state, color);
+
+	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
+	trigger.radius = width;
+	trigger.targetname = "sr_teleport_" + way;
+
+	to = getEntArray(value, key)[index];
+
+	thread watchTeleporter(trigger, to.origin, to.angles, state, way);
 	thread sr\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
 	return trigger;
 }

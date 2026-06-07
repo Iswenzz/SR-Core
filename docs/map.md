@@ -20,6 +20,7 @@ Use the `getSpeed`, `getMoveSpeedScale`, `getGravity`, and `getJumpHeight` helpe
 
 - [createEndMap](#createendmap)
 - [createTeleporter](#createteleporter)
+- [createTeleporterToEntity](#createteleportertoentity)
 - [createDeath](#createdeath)
 - [createSpawn](#createspawn)
 - [createSpawnOrigin](#createspawnorigin)
@@ -69,6 +70,27 @@ Creates a teleporter with a colored trigger zone.
 
 ```c
 sr\api\_map::createTeleporter((0, 0, 0), 150, 100, (500, 0, 0), 90, "none", "blue");
+```
+
+---
+
+### `sr\api\_map::createTeleporterToEntity(<triggerOrigin>, <width>, <height>, <origin>, <angles>, <value>, <key>, <index>, <state>, <color>)`
+
+Creates a teleporter with a colored trigger zone to entity.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `triggerOrigin` | vector | Trigger center position |
+| `width` | float | Trigger width |
+| `height` | float | Trigger height |
+| `value` | string | The entity value |
+| `key` | string | The entity key |
+| `index` | int | The entity index |
+| `state` | string | `"freeze"` to freeze the player on arrival, `"none"` for no freeze |
+| `color` | string | Trigger zone color |
+
+```c
+sr\api\_map::createTeleporterToEntity((0, 0, 0), 150, 100, "example", "targetname", 0, "none", "blue");
 ```
 
 ---

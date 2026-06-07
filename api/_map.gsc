@@ -23,6 +23,19 @@ createTeleporter(triggerOrigin, width, height, origin, angles, state, color)
 	return trigger;
 }
 
+createTeleporterToEntity(triggerOrigin, width, height, value, key, index, state, color)
+{
+	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
+	trigger.radius = width;
+	trigger.targetname = "sr_teleport";
+
+	to = getEntArray(value, key)[index];
+
+	thread watchTeleporter(trigger, to.origin, to.angles, state);
+	thread sr\fx\_trigger::effect(trigger, IfUndef(color, "blue"));
+	return trigger;
+}
+
 createDeath(triggerOrigin, width, height)
 {
 	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);

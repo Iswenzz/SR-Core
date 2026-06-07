@@ -14,12 +14,11 @@ API for setting up speedrun maps.
 - [createNormalWays](#createnormalways)
 - [createSecretWays](#createsecretways)
 - [createEndMap](#createendmap)
-- [createEndMapFromTarget](#createendmapfromtarget)
-- [createEndMapFromTargetname](#createendmapfromtargetname)
+- [createEndMapFromEntity](#createendmapfromentity)
 - [createWay](#createway)
-- [createWayFromTarget](#createwayfromtarget)
-- [createWayFromTargetname](#createwayfromtargetname)
+- [createWayFromEntity](#createwayfromentity)
 - [createTeleporter](#createteleporter)
+- [createTeleporterToEntity](#createteleportertoentity)
 - [changeWay](#changeway)
 - [finishWay](#finishway)
 
@@ -71,34 +70,20 @@ sr\api\_speedrun::createEndMap((0, 0, 0), 150, 100, "normal_1");
 
 ---
 
-### `sr\api\_speedrun::createEndMapFromTarget(<target>, <?way>)`
+### `sr\api\_speedrun::createEndMapFromEntity(<value>, <key>, <key>, <?way>)`
 
-Creates an end-of-map trigger using an existing map entity's targetname. If `way` is omitted, the trigger finishes `normal_0`.
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `target` | string | Target entity name |
-| `way` | string | *(optional)* Specific way to finish on trigger |
-
-```c
-sr\api\_speedrun::createEndMapFromTarget("test");
-sr\api\_speedrun::createEndMapFromTarget("test", "normal_1");
-```
-
----
-
-### `sr\api\_speedrun::createEndMapFromTargetname(<targetname>, <?way>)`
-
-Creates end-of-map triggers for all entities matching the given targetname. If `way` is omitted, the trigger finishes `normal_0`.
+Creates an end-of-map trigger using an existing map entity. If `way` is omitted, the trigger finishes `normal_0`.
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `targetname` | string | Targetname to match |
+| `value` | string | The entity value |
+| `key` | string | The entity key |
+| `index` | int | The entity index |
 | `way` | string | *(optional)* Specific way to finish on trigger |
 
 ```c
-sr\api\_speedrun::createEndMapFromTargetname("test");
-sr\api\_speedrun::createEndMapFromTargetname("test", "normal_1");
+sr\api\_speedrun::createEndMapFromEntity("test", "targetname", 0);
+sr\api\_speedrun::createEndMapFromEntity("test", "targetname", 0, "normal_1");
 ```
 
 ---
@@ -121,34 +106,20 @@ sr\api\_speedrun::createWay((0, 0, 0), 150, 100, "yellow", "normal_1");
 
 ---
 
-### `sr\api\_speedrun::createWayFromTarget(<target>, <color>, <way>)`
+### `sr\api\_speedrun::createWayFromEntity(<value>, <key>, <index>, <color>, <way>)`
 
-Creates a way trigger using an existing map entity's target.
+Creates a way trigger using an existing map entity.
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `target` | string | Target entity name |
+| `value` | string | The entity value |
+| `key` | string | The entity key |
+| `index` | int | The entity index |
 | `color` | string | Trigger zone color |
 | `way` | string | Way ID to switch to |
 
 ```c
-sr\api\_speedrun::createWayFromTarget("way_trig", "yellow", "normal_1");
-```
-
----
-
-### `sr\api\_speedrun::createWayFromTargetname(<targetname>, <color>, <way>)`
-
-Creates way triggers for all entities matching the given targetname.
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `targetname` | string | Targetname to match |
-| `color` | string | Trigger zone color |
-| `way` | string | Way ID to switch to |
-
-```c
-sr\api\_speedrun::createWayFromTargetname("way_trig", "yellow", "normal_1");
+sr\api\_speedrun::createWayFromEntity("way_trig", "targetname", 0, "yellow", "normal_1");
 ```
 
 ---
@@ -170,6 +141,28 @@ Creates a teleporter that optionally changes the player's active way on arrival.
 
 ```c
 sr\api\_speedrun::createTeleporter((0, 0, 0), 150, 100, (500, 0, 0), 90, "none", "blue", "secret_0");
+```
+
+---
+
+### `sr\api\_speedrun::createTeleporterToEntity(<triggerOrigin>, <width>, <height>, <value>, <key>, <index>, <state>, <color>, <way>)`
+
+Creates a teleporter that optionally changes the player's active way on arrival.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `triggerOrigin` | vector | Trigger center position |
+| `width` | float | Trigger width |
+| `height` | float | Trigger height |
+| `value` | string | The entity value |
+| `key` | string | The entity key |
+| `index` | int | The entity index |
+| `state` | string | `"freeze"` to freeze the player on arrival, `"none"` for no freeze |
+| `color` | string | Trigger zone color |
+| `way` | string | Way ID to switch to on arrival |
+
+```c
+sr\api\_speedrun_::createTeleporterToEntity((0, 0, 0), 150, 100, "example", "targetname", 0, "none", "blue", "normal_1");
 ```
 
 ---
