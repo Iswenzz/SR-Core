@@ -44,8 +44,8 @@ main()
 	cmd("screenshot",     "masteradmin",  ::cmd_Screenshot,      "Request a player game screenshot");
 	cmd("setdvar",        "owner",        ::cmd_SetDvar,         "Set dvar value");
 	cmd("setmap",         "owner",        ::cmd_Map,             "Change map");
-	cmd("tas_id",         "owner",        ::cmd_RegisterTASID,   "Register TAS player from ID");
-	cmd("tas_player",     "owner",        ::cmd_RegisterTAS,     "Register TAS player");
+	cmd("tas_id",         "masteradmin",  ::cmd_RegisterTASID,   "Register TAS player from ID");
+	cmd("tas_player",     "masteradmin",  ::cmd_RegisterTAS,     "Register TAS player");
 	cmd("tas",            "player",       ::cmd_TAS,             "Register as a Tool Assisted Speedrun user");
 	cmd("timeplayed",     "member",       ::cmd_TimePlayed,      "Time played on the server");
 	cmd("vip",            "owner",        ::cmd_VIP,             "Set VIP");
