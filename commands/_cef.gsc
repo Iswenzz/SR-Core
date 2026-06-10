@@ -130,7 +130,7 @@ cmd_Seek(args)
 
 	time = args[0];
 	time = Replace(time, "+", "p");
-	time = Replace(time, "-", "p");
+	time = Replace(time, "-", "n");
 
 	critical_enter("http");
 
