@@ -276,6 +276,16 @@ sr\api\_map::slide(500);
 
 ---
 
+### `sr\api\_map::surf()`
+
+Flags this map as a surf map.
+
+```c
+sr\api\_map::surf();
+```
+
+---
+
 ### `sr\api\_map::disableXP()`
 
 Disables XP gain on this map.

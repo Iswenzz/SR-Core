@@ -454,6 +454,11 @@ isSlide()
 	return isDefined(level.map_slide) && level.map_slide;
 }
 
+isSurf()
+{
+	return isDefined(level.map_surf) && level.map_surf;
+}
+
 isPortal()
 {
 	if (isDefined(self.sr_mode) && self.sr_mode == "Portal")

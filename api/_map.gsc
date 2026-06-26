@@ -154,6 +154,11 @@ slide(speed)
 	level.map_slide_multiplier = speed;
 }
 
+surf()
+{
+	level.map_surf = true;
+}
+
 disableXP()
 {
 	level.leaderboard_xp_disabled = true;
