@@ -13,8 +13,8 @@ main()
 	cmd("screen",     "member", ::cmd_Screen,          "Spawn a screen");
 	cmd("seek",       "member", ::cmd_Seek,            "Seek to a position in the media");
 	cmd("shorts",     "member", ::cmd_Shorts,          "Start youtube shorts");
-	cmd("tg_channel", "member", ::cmd_TelegramChannel, "Play a media from a Telegram channel");
-	cmd("tg_video",   "member", ::cmd_TelegramVideo,   "Play a specific Telegram video");
+	cmd("tg_channel", "masteradmin", ::cmd_TelegramChannel, "Play a media from a Telegram channel");
+	cmd("tg_video",   "masteradmin", ::cmd_TelegramVideo,   "Play a specific Telegram video");
 	cmd("video",      "player", ::cmd_Video,           "Play a video");
 }
 
