@@ -80,14 +80,15 @@ cmd_Playlist(args)
 cmd_TelegramChannel(args)
 {
 	if (args.size < 1)
-		return self pm("Usage: !tg_channel <name>");
+		return self pm("Usage: !tg_channel <name> <?limit>");
 
 	name = args[0];
+	limit = IfUndef(args[1], "50");
 
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", fmt("http://localhost:9000/api/telegram/channel?name=%s", name));
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/telegram/channel?name=%s&limit=%s", name, limit));
 	AsyncWait(request);
 	HTTP_Free(request);
 
