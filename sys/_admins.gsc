@@ -5,13 +5,14 @@
 initAdmins()
 {
 	level.files["commands"] = PATH_Mod("data/logs/commands.txt");
+	level.files["whitelist"] = PATH_Mod("data/match/whitelist.txt");
 
 	level.ids = [];
 	level.accounts = [];
 	level.bans = [];
 	level.admin_role = "owner";
 	level.admin_commands = [];
-	level.whitelist = FILE_Exists("/etc/nftables/cod4.nft");
+	level.whitelist = [];
 
 	level.admin_roles = [];
 	level.admin_roles["player"] = 1;
@@ -76,6 +77,7 @@ fetch()
 
 		level.bans[level.bans.size] = entry;
 	}
+	loadWhitelist();
 	level setLoading("admins", false);
 }
 
@@ -293,10 +295,6 @@ banned()
 	if (!self isBanned())
 		return;
 
-	self setClientDvar("ui_sr_info", "^5You have been banned.");
-	self setClientDvar("ui_sr_info2", "More info at https://discord.gg/76aHfGF");
-
-	// Use this instead of kick() to get the ui_sr_info menu
 	exec(fmt("sv_kick %d", self.number));
 }
 
@@ -336,12 +334,11 @@ welcome()
 
 whitelist()
 {
-	if (level.whitelist)
+	if (level.dvar["whitelist"])
 	{
-		FILE_Delete("/etc/nftables/cod4.nft");
-		system("nft delete table ip cod4");
 		message("Whitelist ^1disabled");
-		level.whitelist = false;
+		setDvar("sr_whitelist", "0");
+		level.dvar["whitelist"] = false;
 		return;
 	}
 	critical_enter("mysql");
@@ -360,7 +357,7 @@ whitelist()
 	// Local
 	ips[ips.size] = "0.0.0.0";
 	ips[ips.size] = "127.0.0.1";
-	ips[ips.size] = "213.32.18.205";
+	ips[ips.size] = "217.182.173.180";
 
 	// Gametracker
 	ips[ips.size] = "108.61.78.149";
@@ -369,29 +366,23 @@ whitelist()
 	ips[ips.size] = "155.138.163.54";
 	ips[ips.size] = "45.77.200.250";
 
-	file = FILE_Open("/etc/nftables/cod4.nft", "w");
-
-	FILE_WriteLine(file, "table ip cod4 {");
-	FILE_WriteLine(file, "	set whitelist {");
-	FILE_WriteLine(file, "		type ipv4_addr");
-	FILE_Write(file, "		elements = { ");
+	file = FILE_Open(level.files["whitelist"], "w");
 	for (i = 0; i < ips.size; i++)
-		FILE_Write(file, ips[i] + ", ");
-	FILE_WriteLine(file, "0.0.0.0 }");
-	FILE_WriteLine(file, "	}");
-	FILE_WriteLine(file, "	chain input {");
-	FILE_WriteLine(file, "		type filter hook input priority 0; policy accept;");
-	FILE_WriteLine(file, "		udp dport { 28960, 28962, 28964 } ip saddr != @whitelist drop");
-	FILE_WriteLine(file, "	}");
-	FILE_WriteLine(file, "}");
+		FILE_WriteLine(file, ips[i]);
 	FILE_Close(file);
 
-	system("nft delete table ip cod4");
-	system("nft -f /etc/nftables/cod4.nft");
 	message("Whitelist ^5enabled");
-	level.whitelist = true;
+	setDvar("sr_whitelist", "1");
+	level.dvar["whitelist"] = true;
 
 	critical_release("mysql");
+}
+
+loadWhitelist()
+{
+	file = FILE_Open(level.files["whitelist"], "a+");
+	level.whitelist = FILE_ReadLines(file);
+	FILE_Close(file);
 }
 
 log()
@@ -446,6 +437,9 @@ isTAS()
 
 isBanned()
 {
+	if (level.dvar["whitelist"] && !Contains(level.whitelist, self getIP()))
+		return true;
+
 	for (i = 0; i < level.bans.size; i++)
 	{
 		entry = level.bans[i];

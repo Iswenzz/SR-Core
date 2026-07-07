@@ -5,17 +5,17 @@
 
 main()
 {
-	cmd("cef",        "owner",  ::cmd_CEF,             "Set the CEF URL");
-	cmd("next",       "member", ::cmd_Next,            "Skip to the next media");
-	cmd("pause",      "member", ::cmd_Pause,           "Pause the current media");
-	cmd("playlist",   "member", ::cmd_Playlist,        "Play a playlist");
-	cmd("prev",       "member", ::cmd_Prev,            "Go to the previous media");
-	cmd("screen",     "member", ::cmd_Screen,          "Spawn a screen");
-	cmd("seek",       "member", ::cmd_Seek,            "Seek to a position in the media");
-	cmd("shorts",     "member", ::cmd_Shorts,          "Start youtube shorts");
+	cmd("cef",        "owner",       ::cmd_CEF,             "Set the CEF URL");
+	cmd("next",       "member",      ::cmd_Next,            "Skip to the next media");
+	cmd("pause",      "member",      ::cmd_Pause,           "Pause the current media");
+	cmd("playlist",   "member",      ::cmd_Playlist,        "Play a playlist");
+	cmd("prev",       "member",      ::cmd_Prev,            "Go to the previous media");
+	cmd("screen",     "member",      ::cmd_Screen,          "Spawn a screen");
+	cmd("seek",       "member",      ::cmd_Seek,            "Seek to a position in the media");
+	cmd("shorts",     "member",      ::cmd_Shorts,          "Start youtube shorts");
 	cmd("tg_channel", "masteradmin", ::cmd_TelegramChannel, "Play a media from a Telegram channel");
 	cmd("tg_video",   "masteradmin", ::cmd_TelegramVideo,   "Play a specific Telegram video");
-	cmd("video",      "player", ::cmd_Video,           "Play a video");
+	cmd("video",      "player",      ::cmd_Video,           "Play a video");
 }
 
 cmd_Screen(args)
