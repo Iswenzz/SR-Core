@@ -37,7 +37,7 @@ fetch()
 {
 	critical_enter("mysql");
 
-	request = SQL_Prepare("SELECT password, player, role, vip, tas FROM players");
+	request = SQL_Prepare("SELECT password, player, role, vip, tas FROM players WHERE password != 0");
 	SQL_Execute(request);
 	AsyncWait(request);
 	accounts = SQL_FetchRowsDict(request);
@@ -53,30 +53,30 @@ fetch()
 
 	for (i = 0; i < accounts.size; i++)
 	{
-		row = accounts[i];
-
 		account = spawnStruct();
-		account.id = row["player"];
-		account.password = ToInt(row["password"]);
-		account.role = row["role"];
-		account.vip = row["vip"];
-		account.tas = row["tas"];
+		account.id = accounts[i]["player"];
+		account.password = ToInt(accounts[i]["password"]);
+		account.role = accounts[i]["role"];
+		account.vip = accounts[i]["vip"];
+		account.tas = accounts[i]["tas"];
+		accounts[i] = [];
 
 		level.ids[level.ids.size] = account.id;
 		level.accounts[account.id] = account;
 	}
+	accounts = undefined;
 	for (i = 0; i < bans.size; i++)
 	{
-		row = bans[i];
-
 		entry = spawnStruct();
-		entry.id = row["player"];
-		entry.guid = row["guid"];
-		entry.steamId = row["steamId"];
-		entry.ip = row["ip"];
+		entry.id = bans[i]["player"];
+		entry.guid = bans[i]["guid"];
+		entry.steamId = bans[i]["steamId"];
+		entry.ip = bans[i]["ip"];
+		bans[i] = [];
 
 		level.bans[level.bans.size] = entry;
 	}
+	bans = undefined;
 	loadWhitelist();
 	level setLoading("admins", false);
 }
