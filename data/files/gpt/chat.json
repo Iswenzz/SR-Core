@@ -1,5 +1,5 @@
 {
-    "model": "deepseek/deepseek-v4-flash:free",
+    "model": "openrouter/auto",
     "messages": [
         {
             "role": "system",
