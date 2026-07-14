@@ -32,13 +32,14 @@ cmd_Video(args)
 	if (args.size < 1)
 		return self pm("Usage: !video <id>");
 
+	room = level.dvar["seed"];
 	id = args[0];
 	ifEnded = Ternary(self.admin_role == "player", "&ifEnded=true", "");
 
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/video?id=%s%s", id, ifEnded));
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/video?room=%s&id=%s%s", room, id, ifEnded));
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -47,12 +48,13 @@ cmd_Video(args)
 
 cmd_Shorts(args)
 {
+	room = level.dvar["seed"];
 	keywords = StrJoin(args, ",");
 
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/shorts?keywords=%s", keywords));
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/shorts?room=%s&keywords=%s", room, keywords));
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -64,13 +66,14 @@ cmd_Playlist(args)
 	if (args.size < 1)
 		return self pm("Usage: !playlist <id> <?page>");
 
+	room = level.dvar["seed"];
 	id = args[0];
 	page = IfUndef(args[1], "1");
 
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/playlist?id=%s&page=%s", id, page));
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/youtube/playlist?room=%s&id=%s&page=%s", room, id, page));
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -82,13 +85,14 @@ cmd_TelegramChannel(args)
 	if (args.size < 1)
 		return self pm("Usage: !tg_channel <name> <?limit>");
 
+	room = level.dvar["seed"];
 	name = args[0];
 	limit = IfUndef(args[1], "50");
 
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", fmt("http://localhost:9000/api/telegram/channel?name=%s&limit=%s", name, limit));
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/telegram/channel?room=%s&name=%s&limit=%s", room, name, limit));
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -100,12 +104,13 @@ cmd_TelegramVideo(args)
 	if (args.size < 1)
 		return self pm("Usage: !tg_video <messageId>");
 
+	room = level.dvar["seed"];
 	messageId = args[0];
 
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", fmt("http://localhost:9000/api/telegram/video?messageId=%s", messageId));
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/telegram/video?room=%s&messageId=%s", room, messageId));
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -116,8 +121,10 @@ cmd_Pause(args)
 {
 	critical_enter("http");
 
+	room = level.dvar["seed"];
+
 	request = HTTP_Init();
-	HTTP_Post(request, "", "http://localhost:9000/api/video/pause");
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/video/pause?room=%s", room));
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -129,6 +136,7 @@ cmd_Seek(args)
 	if (args.size < 1)
 		return self pm("Usage: !seek <time>");
 
+	room = level.dvar["seed"];
 	time = args[0];
 	time = Replace(time, "+", "p");
 	time = Replace(time, "-", "n");
@@ -136,7 +144,7 @@ cmd_Seek(args)
 	critical_enter("http");
 
 	request = HTTP_Init();
-	HTTP_Post(request, "", fmt("http://localhost:9000/api/video/seek?time=%s", time));
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/video/seek?room=%s&time=%s", room, time));
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -147,8 +155,10 @@ cmd_Next(args)
 {
 	critical_enter("http");
 
+	room = level.dvar["seed"];
+
 	request = HTTP_Init();
-	HTTP_Post(request, "", "http://localhost:9000/api/video/next");
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/video/next?room=%s", room));
 	AsyncWait(request);
 	HTTP_Free(request);
 
@@ -159,8 +169,10 @@ cmd_Prev(args)
 {
 	critical_enter("http");
 
+	room = level.dvar["seed"];
+
 	request = HTTP_Init();
-	HTTP_Post(request, "", "http://localhost:9000/api/video/prev");
+	HTTP_Post(request, "", fmt("http://localhost:9000/api/video/prev?room=%s", room));
 	AsyncWait(request);
 	HTTP_Free(request);
 
