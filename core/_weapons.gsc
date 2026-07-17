@@ -196,7 +196,7 @@ fire()
 impact(time)
 {
 	self.player endon("disconnect");
-	if (self.player isQ3())
+	if (self.player isQ3CPMW())
 		self.player endon("death");
 
 	self thread impactCleanup();
@@ -223,7 +223,7 @@ impact(time)
 impactWaittill()
 {
 	self.player endon("disconnect");
-	if (self.player isQ3())
+	if (self.player isQ3CPMW())
 		self.player endon("death");
 
 	self waittill("impact");
@@ -413,15 +413,15 @@ canFireQ3Weapon()
 
 showVisual()
 {
-	return self.forceWeaponVisual || !self isQ3();
+	return self.forceWeaponVisual || !self isQ3CPMW();
 }
 
 shouldKnockback()
 {
-	return self.forceWeaponKnockback || self.teamKill || self isQ3();
+	return self.forceWeaponKnockback || self.teamKill || self isQ3CPMW();
 }
 
 shouldHitPlayers()
 {
-	return self.forceWeaponHitPlayers || self.teamKill || !self isQ3();
+	return self.forceWeaponHitPlayers || self.teamKill || !self isQ3CPMW();
 }

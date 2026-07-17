@@ -437,6 +437,13 @@ isQ3()
 	return false;
 }
 
+isQ3CPMW()
+{
+	if (isDefined(self.sr_mode) && self.sr_mode == "Q3CPMW")
+		return true;
+	return false;
+}
+
 isCS()
 {
 	if (isDefined(self.sr_mode) && (self.sr_mode == "CS" || self.sr_mode == "Portal"))
