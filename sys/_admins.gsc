@@ -16,6 +16,7 @@ initAdmins()
 
 	level.admin_roles = [];
 	level.admin_roles["player"] = 1;
+	level.admin_roles["retard"] = 1;
 	level.admin_roles["trusted"] = 2;
 	level.admin_roles["member"] = 10;
 	level.admin_roles["admin"] = 30;
@@ -272,6 +273,8 @@ getRoleName()
 			return "^6Admin";
 		case "member":
 			return "^3Member";
+		case "retard":
+			return "^8Retard";
 		case "trusted":
 			return "^8Trusted";
 	}
