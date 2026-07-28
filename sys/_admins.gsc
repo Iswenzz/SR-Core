@@ -440,7 +440,7 @@ isTAS()
 
 isBanned()
 {
-	if (level.dvar["whitelist"] && !Contains(level.whitelist, self getIP()))
+	if (isDefined(level.dvar["whitelist"]) && level.dvar["whitelist"] && !Contains(level.whitelist, self getIP()))
 		return true;
 
 	for (i = 0; i < level.bans.size; i++)
