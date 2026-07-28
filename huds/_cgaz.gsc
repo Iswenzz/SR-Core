@@ -21,6 +21,7 @@ main()
 	level.cs_accelerate = 10.0;
 	level.cs_airaccelerate = 150.0;
 	level.cs_airspeedcap = 30.0;
+	level.cs_air_tick_ms = 10.0;
 
 	event("spawn", ::hud);
 	event("spectator", ::hud);
@@ -197,9 +198,18 @@ pm_walkMove()
 	dmgScale = self pm_damageScaleWalk(self getDamageTimer()) * self pm_cmdScaleWalk();
 	wishSpeed = dmgScale * vectorLength2(self.cgaz.wishvel);
 
-	if (self SurfaceFlags() & 2 || self PmFlags() & level.PMF_TIME_KNOCKBACK)
+	if ((self SurfaceFlags() & 2 || self PmFlags() & level.PMF_TIME_KNOCKBACK))
 	{
-		self pm_slickAccelerate(wishSpeed, 9);
+		switch (self.sr_mode)
+		{
+			case "Q3CPM":
+			case "Q3CPMW":
+				self pm_slickAccelerate(wishSpeed, level.q3cpm_accelerate);
+				break;
+			default:
+				self pm_slickAccelerate(wishSpeed, level.cod4_accelerate);
+				break;
+		}
 		return;
 	}
 	switch (self.sr_mode)
@@ -220,6 +230,7 @@ pm_walkMove()
 		accel = level.q3cpm_accelerate;
 		break;
 	case "CS":
+	case "Portal":
 		accel = level.cs_accelerate;
 		break;
 	}
@@ -268,6 +279,7 @@ pm_airMove()
 		accel = level.cs_airaccelerate;
 		if (wishspeed > level.cs_airspeedcap)
 			wishspeed = level.cs_airspeedcap;
+		self.cgaz.frameTime = level.cs_air_tick_ms / 1000.0;
 		break;
 	}
 	self pm_accelerate(wishspeed, accel);
