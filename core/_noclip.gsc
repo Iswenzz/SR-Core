@@ -11,6 +11,12 @@ onSpawn()
 	self endon("death");
 	self endon("disconnect");
 
+	if (isDefined(self.linker))
+	{
+		self unlink();
+		self.linker delete();
+	}
+
 	if (!sr\core\_modes::isInMode("practise") && !sr\core\_modes::isInMode("debug"))
 		return;
 
