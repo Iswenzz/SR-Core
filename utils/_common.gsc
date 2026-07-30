@@ -234,13 +234,128 @@ playSoundOnAllPlayers(soundAlias)
 	for (i = 0; i < players.size; i++)
 		players[i] playLocalSound(soundAlias);
 }
+doRadiusDamage(position, range, power, knockback)
+{
+	if (!isDefined(self) || game["state"] == "end")
+		return;
 
-bounce(origin, direction, power, repeat)
+	players = getPlayingPlayers();
+	for (i = 0; i < players.size; i++)
+	{
+		player = players[i];
+		// Q3 style: distance to the closest point of the player's box, sphere radius
+		dist = player bboxDistance(position);
+		// Q3: dir = player center - explosion, +24 up (center is +35 on cod4 feet origin)
+		direction = player.origin + (0, 0, 59) - position;
+		modifier = 1 - dist / (range * 1.0);
+		damage = int(power * modifier);
+		kb = int(knockback * modifier);
+
+		if (dist > range || damage < 1)
+			continue;
+		if (!splashVisible(position, player))
+			continue;
+
+		// Q3: half damage when hurting self, knockback stays full
+		if (player == self)
+			damage = int(damage * 0.5);
+
+		player eventDamage(self, self, damage, 0, "MOD_PROJECTILE", "none", position, direction, "none", 0);
+
+		if (kb < 1)
+			continue;
+		if (self sameTeam(player) && !self.teamKill)
+			continue;
+		if (self == player)
+			continue;
+
+		player cheat();
+		player bounce(position, direction, kb);
+	}
+}
+
+collidePlayerRange(position, range)
+{
+	return self bboxDistance(position) <= range;
+}
+
+bboxDistance(position)
+{
+	return bboxDistanceAt(self.origin, position);
+}
+
+bboxDistanceAt(origin, position)
+{
+	dx = axisDistance(position[0], origin[0] - 15, origin[0] + 15);
+	dy = axisDistance(position[1], origin[1] - 15, origin[1] + 15);
+	dz = axisDistance(position[2], origin[2], origin[2] + 70);
+
+	return length((dx, dy, dz));
+}
+
+axisDistance(p, min, max)
+{
+	if (p < min)
+		return min - p;
+	if (p > max)
+		return p - max;
+	return 0;
+}
+
+splashVisible(position, player)
+{
+	center = player.origin + (0, 0, 35);
+
+	if (traceClear(position, center))
+		return true;
+	if (traceClear(position, center + (15, 15, 0)))
+		return true;
+	if (traceClear(position, center + (15, -15, 0)))
+		return true;
+	if (traceClear(position, center + (-15, 15, 0)))
+		return true;
+	if (traceClear(position, center + (-15, -15, 0)))
+		return true;
+	return false;
+}
+
+traceClear(from, to)
+{
+	trace = bulletTrace(from, to, false, undefined);
+	return trace["fraction"] == 1;
+}
+
+// Q3: velocity += dir * points * 5 (points == damage dealt, max 200)
+// CoD4 engine: kb = min(60, int(power * stanceMod)); vel += dir * kb * g_knockback / 250
+// Maxes out at 60 * g_knockback / 250 ups -> split into repeats
+bounce(origin, direction, points)
 {
 	self endon("disconnect");
 	self endon("death");
 
-	repeat = IfUndef(repeat, 1);
+	if (points > 200)
+		points = 200;
+	if (points < 1)
+		return;
+
+	stanceMod = 0.3;
+	stance = self getStance();
+	if (stance == "crouch")
+		stanceMod = 0.15;
+	else if (stance == "prone")
+		stanceMod = 0.02;
+
+	scale = getDvarFloat("g_knockback") / 250;
+	if (scale <= 0)
+		return;
+
+	ups = points * 5;
+	maxUps = 60 * scale;
+	repeat = int(ups / maxUps) + 1;
+
+	kbPoints = (ups / repeat) / scale;
+	power = int(kbPoints / stanceMod + 0.5);
+
 	for (i = 0; i < repeat; i++)
 	{
 		previousMaxHealth = self.maxhealth;
@@ -261,49 +376,6 @@ doPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, 
 		return;
 
 	self finishPlayerDamage(eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, psOffsetTime);
-}
-
-// Radius damage with knockback
-// This function is used for q3 and any knockback runs
-doRadiusDamage(position, range, power, knockback)
-{
-	if (!isDefined(self) || game["state"] == "end")
-		return;
-
-	players = getPlayingPlayers();
-	for (i = 0; i < players.size; i++)
-	{
-		player = players[i];
-		distance = int(distance(player.origin, position));
-		distanceXY = int(distance2D(player.origin, position));
-		direction = player eyePos() - position;
-		modifier = 1 - (distanceXY / range);
-		damage = int(power * modifier);
-		multiplier = 2;
-
-		if (!player collidePlayerRange(position, range))
-			continue;
-
-		player eventDamage(self, self, damage, 0, "MOD_PROJECTILE", "none", position, direction, "none", 0);
-
-		if (distance > range || !knockback)
-			continue;
-		if (self sameTeam(player) && !self.teamKill)
-			continue;
-		if (self == player)
-			continue;
-
-		player cheat();
-		player bounce(position, direction, knockback, multiplier);
-	}
-}
-
-collidePlayerRange(position, range)
-{
-	distanceXY = int(distance2D(self.origin, position));
-	distanceZ = int(abs(self.origin[2] - position[2]));
-
-	return distanceXY <= range && distanceZ <= 70;
 }
 
 clientCmd(dvar)

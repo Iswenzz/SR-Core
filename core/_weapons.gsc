@@ -27,8 +27,8 @@ weapon_RPG()
 	weapon["sfx_fire"] = "weap_rpg_fire_plr";
 	weapon["sfx_trail"] = "weap_rpg_loop";
 	weapon["sfx_impact"] = "weap_rpg_loop";
-	weapon["damage"] = 200;
-	weapon["knockback"] = 500;
+	weapon["damage"] = 100;
+	weapon["knockback"] = 100;
 	weapon["knockback_range"] = 140;
 	weapon["fire"] = ::fire;
 	weapon["fire_condition"] = ::canFireWeapon;
@@ -48,8 +48,8 @@ weapon_FortniteRPG()
 	weapon["sfx_fire"] = "weap_rpg_fire_plr";
 	weapon["sfx_trail"] = "weap_rpg_loop";
 	weapon["sfx_impact"] = "weap_rpg_loop";
-	weapon["damage"] = 200;
-	weapon["knockback"] = 500;
+	weapon["damage"] = 100;
+	weapon["knockback"] = 100;
 	weapon["knockback_range"] = 140;
 	weapon["fire"] = ::fire;
 	weapon["fire_condition"] = ::canFireWeapon;
@@ -63,14 +63,15 @@ weapon_Q3Rocket()
 	weapon["name"] = "Q3 Rocket";
 	weapon["item"] = "gl_ak47_mp";
 	weapon["delay"] = 0.8;
+	weapon["speed"] = 900;
 	weapon["projectile"] = "quake_rocket_projectile";
 	weapon["muzzle"] = loadFX("muzzleflashes/m203_flshview");
 	weapon["impact"] = loadFX("explosions/grenadeExp_default");
 	weapon["trail"] = loadFX("q3/rocket_trail");
 	weapon["sfx_fire"] = "weap_quake_rocket_shoot";
 	weapon["sfx_impact"] = "weap_quake_rocket_explode";
-	weapon["damage"] = 200;
-	weapon["knockback"] = 500;
+	weapon["damage"] = 100;
+	weapon["knockback"] = 100;
 	weapon["knockback_range"] = 120;
 	weapon["fire"] = ::fire;
 	weapon["fire_condition"] = ::canFireQ3Weapon;
@@ -84,14 +85,15 @@ weapon_Q3Plasma()
 	weapon["name"] = "Q3 Plasma";
 	weapon["item"] = "gl_g3_mp";
 	weapon["delay"] = 0.05;
+	weapon["speed"] = 2000;
 	weapon["projectile"] = "tag_origin";
 	weapon["muzzle"] = loadFX("muzzleflashes/mist_mk2_flashview");
 	weapon["trail"] = loadFX("q3/plasma_fire");
 	weapon["sfx_fire"] = "weap_quake_plasma_shoot";
 	weapon["sfx_impact"] = "weap_quake_plasma_explode";
 	weapon["damage"] = 20;
-	weapon["knockback"] = 30;
-	weapon["knockback_range"] = 40;
+	weapon["knockback"] = 20;
+	weapon["knockback_range"] = 20;
 	weapon["fire"] = ::fire;
 	weapon["fire_condition"] = ::canFireQ3Weapon;
 
@@ -181,8 +183,8 @@ fire()
 	fxpos = trace["fx_position"];
 	p = trace["start_position"];
 	p += vectorNormalize(oldpos - p) * 33;
-	speed = 1500;
-	time = length(fxpos - p) / speed * 1.5;
+	speed = IfUndef(weapon["speed"], 1000);
+	time = length(fxpos - p) / speed;
 
 	if (isDefined(weapon["sfx_fire"]))
 		self playSoundToPlayer(weapon["sfx_fire"], self);
@@ -244,7 +246,7 @@ damage()
 	self.player endon("disconnect");
 	self.player endon("death");
 
-	position = self.trace["position"];
+	position = self.trace["fx_position"];
 	range = self.weapon["knockback_range"];
 	damage = self.weapon["damage"];
 	knockbackPlayers = self.player shouldKnockback();
@@ -259,20 +261,37 @@ knockback()
 	if (!self.player shouldKnockback())
 		return;
 
-	position = self.trace["position"];
-	range =  self.weapon["knockback_range"];
+	position = self.trace["fx_position"];
+	range = self.weapon["knockback_range"];
 	knockback = self.weapon["knockback"];
-	direction = self.player eyePos() - position;
-	distance = int(distance(position, self.player.origin));
-	multiplier = 2;
+	origin = self.player.origin;
 
 	if (isDefined(self.player.instantBullet))
 		self.player cheat();
 
-	if (distance > range)
+	// Blast resolves a frame late, inflating distance at speed. Scalar only,
+	// so push direction is untouched. Capped so small splashes stay small.
+	dist = bboxDistanceAt(origin, position);
+	slack = length(self.player getVelocity()) * 0.05;
+	maxSlack = range * 0.5;
+	if (slack > maxSlack)
+		slack = maxSlack;
+
+	dist -= slack;
+	if (dist < 0)
+		dist = 0;
+
+	if (dist > range)
 		return;
 
-	self.player bounce(position, direction, knockback, multiplier);
+	// Q3: dir = player center - explosion, +24 up (center is +35 on cod4 feet origin)
+	direction = origin + (0, 0, 59) - position;
+
+	kb = int(knockback * (1 - dist / (range * 1.0)));
+	if (kb < 1)
+		return;
+
+	self.player bounce(position, direction, kb);
 }
 
 trailFX()

@@ -141,8 +141,7 @@ cmd_Bounce(args)
 	self log();
 	player = IfUndef(getPlayerByName(args[0]), self);
 	player cheat();
-	player bounce(player.origin, vectorNormalize((0, 0, 20)), 800);
-	player bounce(player.origin, vectorNormalize((0, 0, 20)), 800);
+	player bounce(player.origin, vectorNormalize((0, 0, 20)), 100);
 }
 
 cmd_Bullet(args)
