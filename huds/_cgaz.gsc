@@ -21,7 +21,6 @@ main()
 	level.cs_accelerate = 10.0;
 	level.cs_airaccelerate = 150.0;
 	level.cs_airspeedcap = 30.0;
-	level.cs_air_tick_ms = 10.0;
 
 	event("spawn", ::hud);
 	event("spectator", ::hud);
@@ -279,7 +278,6 @@ pm_airMove()
 		accel = level.cs_airaccelerate;
 		if (wishspeed > level.cs_airspeedcap)
 			wishspeed = level.cs_airspeedcap;
-		self.cgaz.frameTime = level.cs_air_tick_ms / 1000.0;
 		break;
 	}
 	self pm_accelerate(wishspeed, accel);
