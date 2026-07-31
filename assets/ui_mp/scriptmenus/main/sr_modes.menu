@@ -1,0 +1,102 @@
+#define LAYOUT_NAME             "sr_modes"
+#define LAYOUT_X_START          0
+#define LAYOUT_Y_START          100
+#define LAYOUT_SIZE_X           520
+#define LAYOUT_HORIZONTAL_ALIGN HORIZONTAL_ALIGN_CENTER
+#define LAYOUT_VERTICAL_ALIGN   VERTICAL_ALIGN_CENTER
+
+#include "ui/components/base.inc"
+
+#define MODES_X             120
+#define MODES_Y             150
+#define MODES_W             400
+#define MODES_LINE_H        24
+#define MODES_PAD           14
+#define MODES_H             (MODES_LINE_H * 7 + MODES_PAD * 2)
+#define MODES_BORDER_COLOR  0.5 0.1 1 1
+#define MODES_BORDER_H      2
+#define MODES_NAME_W        90
+#define MODES_GAP           12
+#define MODES_BTN_H         20
+
+#define MODES_WINDOW(menuname) \
+    menuDef \
+    { \
+        name        menuname \
+        rect        0 0 640 480 HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP \
+        style       WINDOW_STYLE_EMPTY \
+        visible     0 \
+        onEsc       { close self; } \
+        onOpen      { focusFirst; } \
+        foreColor   1 1 1 1 \
+        focusColor  1 1 1 1 \
+        itemDef \
+        { \
+            name        "window" \
+            rect        MODES_X MODES_Y MODES_W MODES_H HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP \
+            style       1 \
+            backcolor   0 0 0 0.6 \
+            visible     1 \
+            decoration \
+        }
+
+#define MODES_LINE(index, mode, response, desc) \
+        itemDef \
+        { \
+            name        "mode_name" \
+            text        mode \
+            type        ITEM_TYPE_BUTTON \
+            rect        (MODES_X + MODES_PAD) (MODES_Y + MODES_PAD + (MODES_LINE_H * index)) MODES_NAME_W MODES_BTN_H HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP \
+            style       WINDOW_STYLE_FILLED \
+            backcolor   0 0 0 0.4 \
+            border      1 \
+            bordersize  1 \
+            bordercolor MODES_BORDER_COLOR \
+            textfont    1 \
+            textscale   0.30 \
+            textalign   ITEM_ALIGN_MIDDLE_CENTER \
+            forecolor   1 1 1 1 \
+            textstyle   3 \
+            visible     1 \
+            mouseEnter \
+            { \
+                play "mouse_over"; \
+            } \
+            action \
+            { \
+                play "mouse_click"; \
+                scriptmenuresponse response; \
+                close self; \
+            } \
+        } \
+        itemDef \
+        { \
+            name        "mode_desc" \
+            text        desc \
+            type        0 \
+            rect        (MODES_X + MODES_PAD + MODES_NAME_W + MODES_GAP) (MODES_Y + MODES_PAD + (MODES_LINE_H * index)) (MODES_W - (MODES_PAD * 2) - MODES_NAME_W - MODES_GAP) MODES_LINE_H HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP \
+            textfont    1 \
+            textscale   0.30 \
+            textalign   ITEM_ALIGN_MIDDLE_LEFT \
+            forecolor   0.8 0.8 0.8 1 \
+            textstyle   3 \
+            visible     1 \
+            decoration \
+        }
+
+#define MODES_CLOSE \
+        execKeyInt 13   { scriptmenuresponse "enter"; } \
+        execKeyInt 32   { scriptmenuresponse "space"; } \
+    }
+
+{
+    MODES_WINDOW("sr_modes")
+    MODES_LINE(0, "190",    "mode:1", "Original CoD4 movements at 190 speed with 1.05 scale.")
+    MODES_LINE(1, "210",    "mode:2", "Original CoD4 movements at 210 speed with 1.12 scale.")
+    MODES_LINE(2, "Q3",     "mode:3", "Quake 3 Arena original movement physics.")
+    MODES_LINE(3, "Q3CPM",  "mode:4", "Quake 3 Challenge Pro Mode, faster and tighter.")
+    MODES_LINE(4, "Q3CPMW", "mode:5", "Quake 3 CPM with rocket launcher and plasma gun.")
+    MODES_LINE(5, "CS",     "mode:6", "Counter-Strike bhop and surf physics.")
+    MODES_LINE(6, "Portal", "mode:7", "Counter-Strike movements with a portal gun.")
+    MODES_CLOSE
+}
