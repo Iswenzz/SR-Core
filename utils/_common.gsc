@@ -95,7 +95,7 @@ getDeadPlayers()
 	array = [];
 	for (i = 0; i < players.size; i++)
 	{
-		if (!players[i] isPlaying() && players[i] isDead())
+		if (!players[i] isPlaying() && players[i] isDead() && players[i] isAllies())
 			array[array.size] = players[i];
 	}
 	return array;

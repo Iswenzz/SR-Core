@@ -50,7 +50,7 @@ cmd_Spawn(args)
 
 	self log();
 
-	if (!player isPlaying())
+	if (!player isPlaying() && player isAllies())
 		player respawn();
 }
 
