@@ -8,9 +8,7 @@ main()
 	level.q3StartWeapons = [];
 
 	addWeapon("rl", "gl_ak47_mp");
-	addWeapon("pl", "gl_g3_mp");
-
-	sr\core\_perks::addPerk("haste", "Haste", undefined, ::haste);
+	addWeapon("pg", "gl_g3_mp");
 
 	defaultWeapons();
 	thread visuals();
@@ -21,6 +19,8 @@ main()
 
 triggers()
 {
+	sr\core\_perks::addPerk("haste", "Haste", undefined, ::haste);
+
 	sections = getEntArray("q3_section", "targetname");
 	for (i = 0; i < sections.size; i++)
 		sections[i] thread triggerSection();
@@ -42,7 +42,7 @@ onSpawn()
 defaultWeapons()
 {
 	level.q3StartWeapons[level.q3StartWeapons.size] = "rl";
-	level.q3StartWeapons[level.q3StartWeapons.size] = "pl";
+	level.q3StartWeapons[level.q3StartWeapons.size] = "pg";
 }
 
 addWeapon(name, item)
@@ -138,9 +138,7 @@ playerWeapon(trigger)
 
 	self giveWeapon(weapon);
 	self switchToWeapon(weapon);
-
-	if (trigger.ammo > 0)
-		self setWeaponAmmoStock(weapon, trigger.ammo);
+	self.scriptedAmmo = trigger.ammo;
 
 	self removeCooldown(trigger);
 }
@@ -148,6 +146,7 @@ playerWeapon(trigger)
 triggerPerk()
 {
 	perk = level.perks[self.perk];
+	perk.time = self.time;
 	self thread visualLoop(perk.model);
 	self thread triggerPerkLoop();
 }
@@ -167,6 +166,9 @@ triggerPerkLoop()
 
 playerPerk(trigger)
 {
+	self endon("death");
+	self endon("disconnect");
+
 	self sr\core\_perks::playerSetPerk(trigger.perk);
 
 	if (trigger.time > 0)
@@ -180,7 +182,7 @@ playerPerk(trigger)
 
 canTrigger(trigger)
 {
-	if (self.sr_mode != "Q3" || self.sr_mode != "Q3CPM" || self.sr_mode != "Q3CPMW" || isDefined(self.q3Cooldowns[trigger.id]))
+	if (!self isQ3() || isDefined(self.q3Cooldowns[trigger.id]))
 		return false;
 	self.q3Cooldowns[trigger.id] = true;
 	return true;
@@ -188,13 +190,20 @@ canTrigger(trigger)
 
 removeCooldown(trigger)
 {
+	self endon("death");
+	self endon("disconnect");
+
 	wait 3;
 
 	self.q3Cooldowns[trigger.id] = undefined;
 }
 
-haste()
+haste(perk)
 {
-	self.moveSpeedScale = sr\api\_map::getMoveSpeedScale(1.0);
-	self setMoveSpeedScale(self.moveSpeedScale);
+	self endon("death");
+	self endon("disconnect");
+
+	self setMoveSpeed(416);
+	wait perk.time;
+	self setMoveSpeed(320);
 }

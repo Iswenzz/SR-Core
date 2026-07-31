@@ -130,6 +130,7 @@ onConnect()
 	self.forceWeaponKnockback = false;
 	self.forceWeaponHitPlayers = false;
 	self.scriptedBullets = 0;
+	self.scriptedAmmo = 0;
 }
 
 onSpawn()
@@ -198,7 +199,7 @@ fire()
 impact(time)
 {
 	self.player endon("disconnect");
-	if (self.player isQ3CPMW())
+	if (self.player isQ3())
 		self.player endon("death");
 
 	self thread impactCleanup();
@@ -225,7 +226,7 @@ impact(time)
 impactWaittill()
 {
 	self.player endon("disconnect");
-	if (self.player isQ3CPMW())
+	if (self.player isQ3())
 		self.player endon("death");
 
 	self waittill("impact");
@@ -417,30 +418,29 @@ canFireWeapon()
 
 canFireQ3Weapon()
 {
-	// Using stocks as clips for q3 from asset manager limitation
 	if (!isDefined(self.scriptedWeapon["fire"]))
 		return false;
-	if (!self getWeaponAmmoStock(self.scriptedWeapon["item"]))
+	if (!self.scriptedAmmo)
 		return false;
 	if (!self attackButtonPressed() && !self demoButton("fire"))
 		return false;
 	if (self.scriptedBullets >= 100)
 		return false;
-	self setWeaponAmmoStock(self.scriptedWeapon["item"], self getWeaponAmmoStock(self.scriptedWeapon["item"]) - 1);
+	self.scriptedAmmo--;
 	return true;
 }
 
 showVisual()
 {
-	return self.forceWeaponVisual || !self isQ3CPMW();
+	return self.forceWeaponVisual || !self isQ3();
 }
 
 shouldKnockback()
 {
-	return self.forceWeaponKnockback || self.teamKill || self isQ3CPMW();
+	return self.forceWeaponKnockback || self.teamKill || self isQ3();
 }
 
 shouldHitPlayers()
 {
-	return self.forceWeaponHitPlayers || self.teamKill || !self isQ3CPMW();
+	return self.forceWeaponHitPlayers || self.teamKill || !self isQ3();
 }

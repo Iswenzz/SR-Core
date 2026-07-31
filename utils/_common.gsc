@@ -509,16 +509,16 @@ isQ3()
 	return false;
 }
 
-isQ3CPMW()
+isCS()
 {
-	if (isDefined(self.sr_mode) && self.sr_mode == "Q3CPMW")
+	if (isDefined(self.sr_mode) && (self.sr_mode == "CS" || self.sr_mode == "Portal"))
 		return true;
 	return false;
 }
 
-isCS()
+isPortal()
 {
-	if (isDefined(self.sr_mode) && (self.sr_mode == "CS" || self.sr_mode == "Portal"))
+	if (isDefined(self.sr_mode) && self.sr_mode == "Portal")
 		return true;
 	return false;
 }
@@ -536,13 +536,6 @@ isSlide()
 isSurf()
 {
 	return isDefined(level.map_surf) && level.map_surf;
-}
-
-isPortal()
-{
-	if (isDefined(self.sr_mode) && self.sr_mode == "Portal")
-		return true;
-	return false;
 }
 
 waitSessionState(state)

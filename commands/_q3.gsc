@@ -25,7 +25,7 @@ cmd_Weapon(args)
 		return self pm("Usage: !q3_weapon <weapon> <ammo>");
 
 	weapon = args[0];
-	ammo = IfUndef(ToInt(args[1]), 0);
+	ammo = IfUndef(ToInt(args[1]), 999999);
 
 	trigger = spawn("trigger_radius", self.origin + (0, 0, 60), 0, 50, 50);
 	trigger.radius = 50;

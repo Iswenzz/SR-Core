@@ -11,7 +11,7 @@ main()
 
 cmd_Portal(args)
 {
-	if (self.sr_mode == "Portal" || self sr\core\_modes::isInOtherMode("portal"))
+	if (self sr\core\_modes::isInOtherMode("portal"))
 		return;
 
 	self sr\core\_modes::toggleMode("portal");

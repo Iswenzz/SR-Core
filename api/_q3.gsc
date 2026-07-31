@@ -71,9 +71,6 @@ giveWeapon(name, ammo)
 
 	self giveWeapon(weapon);
 	self switchToWeapon(weapon);
-
-	if (isDefined(ammo))
-		self setWeaponAmmoClip(weapon, ammo);
 }
 
 givePerk(id, time)
