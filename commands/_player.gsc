@@ -418,7 +418,8 @@ cmd_Team(args)
 		return pm("Could not find player");
 
 	player sr\core\_teams::setTeam(team);
-	player eventSpawn();
+	if (player isAllies() || player isAxis())
+		player eventSpawn();
 }
 
 cmd_TakeAll(args)
