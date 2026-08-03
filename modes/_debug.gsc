@@ -82,7 +82,7 @@ debugSounds()
 		if (groups != prevGroups)
 		{
 			self setClientDvar("snd_drawinfo", groups + 1);
-			setAction(0, fmt("^8%s: ^7[{+melee}]", labels[groups]));
+			setAction(0, fmt("^>%s: ^7[{+melee}]", labels[groups]));
 		}
 		wait 0.05;
 	}
@@ -124,7 +124,7 @@ debugEntities()
 
 		if (render == 5)
 		{
-			self setInfo(0, "^8Variables:^7", debug_scriptusage());
+			self setInfo(0, "^>Variables:^7", debug_scriptusage());
 			self countEntities();
 		}
 		if (!isDefined(ent))
@@ -206,10 +206,10 @@ countEntities()
 		+  getEntArray("trigger_use", "classname").size
 		+  getEntArray("trigger_use_touch", "classname").size;
 
-	self setInfo(1, "^8Models:^7", models);
-	self setInfo(2, "^8Origins:^7", origins);
-	self setInfo(3, "^8Brushes:^7", brushes);
-	self setInfo(4, "^8Triggers:^7", triggers);
+	self setInfo(1, "^>Models:^7", models);
+	self setInfo(2, "^>Origins:^7", origins);
+	self setInfo(3, "^>Brushes:^7", brushes);
+	self setInfo(4, "^>Triggers:^7", triggers);
 }
 
 triggerPlayerLoop()
@@ -341,7 +341,7 @@ vars()
 huds()
 {
 	self waittill("speedrun");
-	self.huds["speedrun"]["name"] setText("^8Debug");
+	self.huds["speedrun"]["name"] setText("^>Debug");
 
 	self.huds["debug"] = [];
 	self.huds["debug"]["title"] = addHud(self, -3, 50, 1, "right", "top", 1.4, 90, true);

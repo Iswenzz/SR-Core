@@ -266,19 +266,19 @@ getRoleName()
 		case "owner":
 			return "^5Owner";
 		case "masteradmin":
-			return "^9Master Admin";
+			return "^=Master Admin";
 		case "adminplus":
 			return "^1Admin+";
 		case "admin":
 			return "^6Admin";
 		case "member":
-			return "^3Member";
+			return "^2Member";
 		case "retard":
-			return "^8Retard";
+			return "^>Retard";
 		case "trusted":
-			return "^8Trusted";
+			return "^>Trusted";
 	}
-	return Ternary(!self isBot(), "^7Player", "^8Bot");
+	return Ternary(!self isBot(), "^7Player", "^>Bot");
 }
 
 getPlayerInfo()

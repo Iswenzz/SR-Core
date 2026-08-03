@@ -196,8 +196,8 @@ hudScoreboard()
 		switch (i)
 		{
 			case 0: color = "^3"; break;
-			case 1: color = "^8"; break;
-			case 2: color = "^9"; break;
+			case 1: color = "^>"; break;
+			case 2: color = "^<"; break;
 		}
 		scores += fmt("%s#%d (%d) %s\n", color, i + 1, players[i].pers["kills"], players[i].name);
 	}
