@@ -274,7 +274,7 @@ getRoleName()
 		case "member":
 			return "^2Member";
 		case "retard":
-			return "^>Retard";
+			return "^<Retard";
 		case "trusted":
 			return "^>Trusted";
 	}
@@ -332,7 +332,7 @@ welcome()
 	if (self isTAS())
 		role = fmt("^5[TAS] ^7%s", role);
 
-	message(fmt("^2Welcome ^7%s ^7%s ^7from ^1%s", role, self.name, geo));
+	message(fmt("^7Welcome ^7%s ^7%s ^7from ^1%s", role, self.name, geo));
 }
 
 whitelist()
