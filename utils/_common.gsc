@@ -192,11 +192,6 @@ playLocalSoundLoop(soundAlias, length)
 	}
 }
 
-playerButton(id)
-{
-	return buttonFlags(self getDemoButtons(), id);
-}
-
 demoButton(id)
 {
 	return buttonFlags(self getDemoButtons(), id);
@@ -750,7 +745,7 @@ clearLowerMessage(fadetime)
 
 	wait fadetime;
 
-	self setLowerMessage("");
+	self setLowerMessage(&"");
 }
 
 clearLowerMessageAfterTime(time)

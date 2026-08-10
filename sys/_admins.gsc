@@ -248,7 +248,7 @@ command(name, arg)
 	self thread [[cmd.callback]](args);
 }
 
-canExecuteCommand(cmd, index)
+canExecuteCommand(cmd)
 {
 	if (!isDefined(cmd))
 		return false;
@@ -303,7 +303,8 @@ banned()
 
 tas(player, tas)
 {
-	level.accounts[player.id].tas = tas;
+	if (isDefined(level.accounts[player]))
+		level.accounts[player].tas = tas;
 
 	critical_enter("mysql");
 

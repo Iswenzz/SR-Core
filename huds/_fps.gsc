@@ -118,7 +118,7 @@ updateFps()
 
 isBouncing()
 {
-    if (self.isOnGround)
+    if (self isOnGround())
         return false;
     return !self getJumpOrigin();
 }

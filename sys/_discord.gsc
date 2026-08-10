@@ -12,8 +12,8 @@ initDiscord()
 
 	json();
 
-	webhook("reports", "768027900841689108/Z2BNqAwA2kXmr98JyhJWo7wSr1OOoRKgrVa04kA3zxUcFCQjKMyjiiqzHhzdwBDKyAYs");
-	webhook("admins", "1088531438820933704/Iwaq_awNifJ744T_Oofs2B4d3QeXOgB4YOaxolR5oAXxL___WJQayIuqD_xWsFh4Ygip");
+	webhook("reports", level.envs["DISCORD_REPORTS"]);
+	webhook("admins", level.envs["DISCORD_ADMINS"]);
 }
 
 json()
@@ -26,8 +26,14 @@ template(id)
 	return IfUndef(level.discord["json"][id], "");
 }
 
+// An unset id leaves the webhook unregistered, which disables it at the call sites.
 webhook(name, id)
 {
+	if (IsNullOrEmpty(id))
+	{
+		comPrintLn(fmt("Discord webhook '%s' is not configured", name));
+		return;
+	}
 	level.discord["webhooks"][name] = spawnStruct();
 	level.discord["webhooks"][name].name = name;
 	level.discord["webhooks"][name].url = fmt("https://discord.com/api/webhooks/%s", id);
@@ -36,6 +42,9 @@ webhook(name, id)
 embed(webhook, title, message)
 {
 	hook = level.discord["webhooks"][webhook];
+	if (!isDefined(hook))
+		return;
+
 	json = fmt(template("embed"), level.discord["color"], title, message, level.discord["icon"]);
 
 	critical_enter("http");
@@ -56,6 +65,9 @@ image(webhook, title, message, image)
 		return;
 
 	hook = level.discord["webhooks"][webhook];
+	if (!isDefined(hook))
+		return;
+
 	json = fmt(template("embed"), level.discord["color"], title, message, "");
 
 	critical_enter("http");

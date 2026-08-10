@@ -13,7 +13,10 @@ randomizeMaps(amount)
 	playedMaps = FILE_ReadLines(file);
 
 	if (rotation.size < amount)
+	{
+		FILE_Close(file);
 		return;
+	}
 
 	// No more new maps found
 	if (playedMaps.size >= rotation.size - amount)

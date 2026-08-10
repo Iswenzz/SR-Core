@@ -12,26 +12,65 @@ playersVisibility()
 
     while (true)
     {
-        wait 0.05;
+        wait 0.1;
 
         players = getAllPlayers();
-		for (i = 0; i < players.size; i++)
-			players[i] hide();
+        observers = getHidingObservers(players);
+
         for (i = 0; i < players.size; i++)
         {
-            current = players[i];
+            player = players[i];
+
+            if (!player tagHiders(observers))
+            {
+                if (player.hidden)
+                {
+                    player show();
+                    player.hidden = false;
+                }
+                continue;
+            }
+            player.hidden = true;
+            player hide();
 
             for (j = 0; j < players.size; j++)
             {
-                player = players[j];
-                if (current == player)
-                    continue;
-
-                if (current.settings["player_hide"] == 0 || !current sameTeam(player))
-                    player showToPlayer(current);
-                if (current.settings["player_hide"] == 1 && distance(current.origin, player.origin) > 100)
-					player showToPlayer(current);
+                if (players[j] != player && !players[j].hidesTarget)
+                    player showToPlayer(players[j]);
             }
         }
     }
+}
+
+getHidingObservers(players)
+{
+    observers = [];
+    for (i = 0; i < players.size; i++)
+    {
+        players[i].hidesTarget = false;
+        players[i].hidden = IfUndef(players[i].hidden, false);
+
+        if (players[i] sr\core\_settings::getPlayerSetting("player_hide", 0))
+            observers[observers.size] = players[i];
+    }
+    return observers;
+}
+
+tagHiders(observers)
+{
+    count = 0;
+    for (i = 0; i < observers.size; i++)
+    {
+        observer = observers[i];
+        observer.hidesTarget = false;
+
+        if (observer == self || !observer sameTeam(self))
+            continue;
+        if (observer.settings["player_hide"] == 1 && distance(observer.origin, self.origin) > 100)
+            continue;
+
+        observer.hidesTarget = true;
+        count++;
+    }
+    return count;
 }
