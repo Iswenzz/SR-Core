@@ -44,7 +44,7 @@ hud()
 	{
 		self.player = IfUndef(self getSpectatorClient(), self);
 
-		if (self.player getPlayerVelocity() >= 1)
+		if (self getStance() == "stand" && self.player getPlayerVelocity() >= 1)
 		{
 			self pmove();
 			self draw();
@@ -489,15 +489,25 @@ update_d(wishspeed, accel, slickGravity)
 	self.cgaz.d_vel = atan2(self.cgaz.velocity[1], self.cgaz.velocity[0]);
 }
 
+safe_acos(num, den)
+{
+	if (den <= 0.0)
+		return 0.0;
+
+	return acos1(clamp(num / den, -1.0, 1.0));
+}
+
 update_d_min()
 {
 	num_squared = self.cgaz.wishspeed * self.cgaz.wishspeed - self.cgaz.v_squared +
 		self.cgaz.vf_squared + self.cgaz.g_squared;
 	num = sqrt(num_squared);
 
+	if (num_squared < 0.0)
+		return 0.0;
 	if (num >= self.cgaz.vf || !self.cgaz.vf)
 		return 0;
-	return acos1(num / self.cgaz.vf);
+	return safe_acos(num, self.cgaz.vf);
 }
 
 update_d_opt()
@@ -506,17 +516,20 @@ update_d_opt()
 
 	if (num >= self.cgaz.vf || !self.cgaz.vf)
 		return 0;
-	return acos1(num / self.cgaz.vf);
+	return safe_acos(num, self.cgaz.vf);
 }
 
 update_d_max_cos(d_opt)
 {
-	num = sqrt(self.cgaz.v_squared - self.cgaz.g_squared) - self.cgaz.vf;
+	root = self.cgaz.v_squared - self.cgaz.g_squared;
+	if (root < 0.0)
+		return d_opt;
+
+	num = sqrt(root) - self.cgaz.vf;
 
 	d_max_cos = 0;
-	if (!(num >= self.cgaz.a) && self.cgaz.a != 0)
-		d_max_cos = acos1(num / self.cgaz.a);
-
+	if (num < self.cgaz.a)
+		d_max_cos = safe_acos(num, self.cgaz.a);
 	if (d_max_cos < d_opt)
 		d_max_cos = d_opt;
 	return d_max_cos;
@@ -527,13 +540,14 @@ update_d_max(d_max_cos)
 	num = self.cgaz.v_squared - self.cgaz.vf_squared - self.cgaz.a_squared - self.cgaz.g_squared;
 	den = 2 * self.cgaz.a * self.cgaz.vf;
 
+	if (den <= 0.0)
+		return d_max_cos;
 	if (num >= den)
 		return 0;
-
 	if (neg(num) >= den)
 		return pi();
 
-	d_max = acos1(num / den);
+	d_max = safe_acos(num, den);
 
 	if (d_max < d_max_cos)
 		d_max = d_max_cos;
