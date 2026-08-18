@@ -194,10 +194,15 @@ pm_walkMove()
 			self.cgaz.rightMove * self.cgaz.right[i];
 	}
 	accel = 0;
-	dmgScale = self pm_damageScaleWalk(self getDamageTimer()) * self pm_cmdScaleWalk();
-	wishSpeed = dmgScale * vectorLength2(self.cgaz.wishvel);
+	// Only the CoD4 walk move scales by damage, stance, weapon and strafe direction
+	if (self isQ3() || self isCS())
+		scale = self pm_cmdScale();
+	else
+		scale = self pm_damageScaleWalk(self getDamageTimer()) * self pm_cmdScaleWalk();
+	wishSpeed = scale * vectorLength2(self.cgaz.wishvel);
 
-	if ((self SurfaceFlags() & 2 || self PmFlags() & level.PMF_TIME_KNOCKBACK))
+	// CS accelerates the same way on every surface
+	if ((self SurfaceFlags() & 2 || self pm_inKnockback()) && !self isCS())
 	{
 		switch (self.sr_mode)
 		{
@@ -206,7 +211,7 @@ pm_walkMove()
 				self pm_slickAccelerate(wishSpeed, level.q3cpm_accelerate);
 				break;
 			default:
-				self pm_slickAccelerate(wishSpeed, level.cod4_accelerate);
+				self pm_slickAccelerate(wishSpeed, level.cod4_airaccelerate);
 				break;
 		}
 		return;
@@ -299,6 +304,12 @@ pm_jumpGetSlowdownFriction()
 	return 2.5;
 }
 
+// The flag only means anything while its timer runs, nothing clears it once pm_time is zero
+pm_inKnockback()
+{
+	return (self.player PmFlags() & level.PMF_TIME_KNOCKBACK) && self.player PmTime();
+}
+
 pm_friction()
 {
 	vec = [];
@@ -309,7 +320,7 @@ pm_friction()
 	if (self.player isOnGround())
 		vec[2] = 0;
 
-	speed = abs(vec[0]);
+	speed = length((vec[0], vec[1], vec[2]));
 	if (speed < 1)
 	{
 		self.cgaz.velocity = (0, 0, 0);
@@ -318,7 +329,7 @@ pm_friction()
 
 	drop = 0;
 	surfaceSlick = self SurfaceFlags() & 2;
-	if (self.player isOnGround() && !surfaceSlick && !(self.player PmFlags() & level.PMF_TIME_KNOCKBACK))
+	if (self.player isOnGround() && !surfaceSlick && !(self pm_inKnockback()))
 	{
 		control = Ternary(100 <= speed, speed, 100);
 		if (self.player PmFlags() & level.PMF_TIME_HARDLANDING)
@@ -328,7 +339,8 @@ pm_friction()
 
 		drop = ((control * 5.5) * self.cgaz.frameTime) + drop;
 	}
-	if (surfaceSlick)
+	// Q3 drops friction entirely on slick surfaces
+	if (surfaceSlick && !self isQ3())
 	{
 		player_sliding_friction = 1;
 		drop = ((speed * player_sliding_friction) * self.cgaz.frameTime) + drop;
