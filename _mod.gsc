@@ -103,7 +103,6 @@ precacheText()
 
 precacheFx()
 {
-	level.gfx["pickup"] = loadFx("misc/ui_pickup_available");
 	level.gfx["lasershow"] = loadFx("speedrun/lasershow");
 	level.gfx["endgame"] = loadFx("speedrun/endgame_fx");
 	level.gfx["light_blink"] = loadFx("misc/light_c4_blink");

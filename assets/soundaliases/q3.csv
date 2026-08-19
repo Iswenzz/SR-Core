@@ -1,0 +1,12 @@
+name,sequence,file,vol_min,vol_max,vol_mod,pitch_min,pitch_max,dist_min,dist_max,channel,type,probability,loop,masterslave,loadspec,subtitle,compression,secondaryaliasname,volumefalloffcurve,startdelay,speakermap,reverb,lfe percentage
+
+q3_pickup_weapon,,q3/q3_w_pkup.wav,1,1,,,,500000,,local,,,,,,,,,,,,,
+q3_pickup_ammo,,q3/q3_am_pkup.wav,1,1,,,,500000,,local,,,,,,,,,,,,,
+q3_pickup_armor,,q3/q3_ar1_pkup.wav,1,1,,,,500000,,local,,,,,,,,,,,,,
+q3_pickup_armor_shard,,q3/q3_ar2_pkup.wav,1,1,,,,500000,,local,,,,,,,,,,,,,
+q3_pickup_health_small,,q3/q3_s_health.wav,1,1,,,,500000,,local,,,,,,,,,,,,,
+q3_pickup_health,,q3/q3_n_health.wav,1,1,,,,500000,,local,,,,,,,,,,,,,
+q3_pickup_health_large,,q3/q3_l_health.wav,1,1,,,,500000,,local,,,,,,,,,,,,,
+q3_pickup_health_mega,,q3/q3_m_health.wav,1,1,,,,500000,,local,,,,,,,,,,,,,
+q3_pickup_powerup,,q3/q3_n_health.wav,1,1,,,,500000,,local,,,,,,,,,,,,,
+q3_pickup_holdable,,q3/q3_holdable.wav,1,1,,,,500000,,local,,,,,,,,,,,,,

@@ -23,6 +23,18 @@ createWeapon(id, origin, width, height, weapon, ammo)
 	return trigger;
 }
 
+createAmmo(id, origin, width, height, weapon, ammo)
+{
+	trigger = spawn("trigger_radius", origin, 0, width, height);
+	trigger.targetname = "q3_ammo";
+	trigger.radius = width;
+	trigger.weapon = weapon;
+	trigger.ammo = ammo;
+	trigger.id = id;
+
+	return trigger;
+}
+
 createPerk(id, origin, width, height, perk, time)
 {
 	trigger = spawn("trigger_radius", origin, 0, width, height);
@@ -32,6 +44,40 @@ createPerk(id, origin, width, height, perk, time)
 	trigger.time = time;
 	trigger.id = id;
 
+	return trigger;
+}
+
+createHealth(id, origin, width, height, health)
+{
+	trigger = spawn("trigger_radius", origin, 0, width, height);
+	trigger.targetname = "q3_health";
+	trigger.radius = width;
+	trigger.health = health;
+	trigger.id = id;
+
+	return trigger;
+}
+
+createArmor(id, origin, width, height, armor)
+{
+	trigger = spawn("trigger_radius", origin, 0, width, height);
+	trigger.targetname = "q3_armor";
+	trigger.radius = width;
+	trigger.armor = armor;
+	trigger.id = id;
+
+	return trigger;
+}
+
+createTeleporter(id, origin, width, height, destination)
+{
+	trigger = spawn("trigger_radius", origin, 0, width, height);
+	trigger.targetname = "q3_teleporter";
+	trigger.radius = width;
+	trigger.target = destination;
+	trigger.id = id;
+
+	trigger thread sr\core\_q3::teleporter();
 	return trigger;
 }
 
@@ -73,6 +119,11 @@ giveWeapon(name, ammo)
 	self switchToWeapon(weapon);
 }
 
+giveAmmo(name, ammo)
+{
+	self sr\core\_q3::playerAddAmmo(name, ammo);
+}
+
 givePerk(id, time)
 {
 	self sr\core\_perks::playerSetPerk(id);
@@ -82,4 +133,19 @@ givePerk(id, time)
 		wait time;
 		self takePerk(id);
 	}
+}
+
+giveHealth(amount)
+{
+	self sr\core\_q3::playerAddHealth(amount);
+}
+
+giveArmor(amount)
+{
+	self sr\core\_q3::playerAddArmor(amount);
+}
+
+takeArmor()
+{
+	self.q3Armor = 0;
 }
