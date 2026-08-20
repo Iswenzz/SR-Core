@@ -1,0 +1,16 @@
+{
+	stateMap "additive";
+
+	vertexShader 3.0 "q3_envmap_7c3f1a95d2"
+	{
+
+	}
+
+	pixelShader 3.0 "q3_envmap_7c3f1a95d2"
+	{
+		colorMapSampler = material.colorMap;
+	}
+
+	vertex.position = code.position;
+	vertex.normal = code.normal;
+}

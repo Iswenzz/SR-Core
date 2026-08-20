@@ -353,7 +353,9 @@
 	}
 	"iz_haste" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_haste.tga"
@@ -402,7 +404,9 @@
 	}
 	"iz_plasma_glass" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "glass"
 		"colorMap" "texture_assets/iz_tinfxb.tga"
@@ -453,7 +457,9 @@
 	}
 	"iz_teleport_base" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_teleport_base.tga"
@@ -461,7 +467,9 @@
 	}
 	"iz_teleport_sphere" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_teleport_sphere.tga"
@@ -487,7 +495,9 @@
 	}
 	"iz_bfg" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_bfg.tga"
@@ -537,7 +547,9 @@
 	}
 	"iz_invis" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_invis.tga"
@@ -642,7 +654,9 @@
 	}
 	"iz_mega1" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_envmapblue2.tga"
@@ -651,7 +665,9 @@
 	}
 	"iz_machammo" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_machammo.tga"
@@ -667,7 +683,9 @@
 	}
 	"iz_shotammo" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_shotammo.tga"
@@ -683,7 +701,9 @@
 	}
 	"iz_grenammo" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_grenammo.tga"
@@ -699,7 +719,9 @@
 	}
 	"iz_rockammo" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "rock"
 		"colorMap" "texture_assets/iz_rockammo.tga"
@@ -747,7 +769,9 @@
 	}
 	"iz_red" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_red.tga"
@@ -771,7 +795,9 @@
 	}
 	"iz_regen" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_envmapred.tga"
@@ -779,7 +805,9 @@
 	}
 	"iz_newred" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_newred.tga"
@@ -796,7 +824,9 @@
 	}
 	"iz_shard2" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_shard2.tga"
@@ -804,7 +834,9 @@
 	}
 	"iz_energy_grn1" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_energy_grn1.tga"
@@ -830,7 +862,9 @@
 	}
 	"iz_green" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_green.tga"
@@ -838,7 +872,9 @@
 	}
 	"iz_newyellow" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_newyellow.tga"
@@ -855,7 +891,9 @@
 	}
 	"iz_green_sphere" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_green_sphere.tga"
@@ -864,7 +902,9 @@
 	}
 	"iz_yellow" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_yellow.tga"
@@ -872,7 +912,9 @@
 	}
 	"iz_yellow_sphere" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_yellow_sphere.tga"
@@ -881,7 +923,9 @@
 	}
 	"iz_red_sphere" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_envmapgold2.tga"
@@ -890,7 +934,9 @@
 	}
 	"iz_mega2" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_mega2.tga"
@@ -898,7 +944,9 @@
 	}
 	"iz_quad" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_quad.tga"
@@ -906,7 +954,9 @@
 	}
 	"iz_flight" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_envmappurp.tga"
@@ -914,7 +964,9 @@
 	}
 	"iz_enviro" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_enviro.tga"
@@ -931,7 +983,9 @@
 	}
 	"iz_medkit_sphere" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_medkit_sphere.tga"
@@ -940,7 +994,9 @@
 	}
 	"iz_medkit_base" ( "material.gdf" )
 	{
-		"materialType" "model phong"
+		"materialType" "custom"
+		"customTemplate" "q3_envmap"
+		"customString" "q3_envmap"
 		"usage" "tools"
 		"surfaceType" "<none>"
 		"colorMap" "texture_assets/iz_medkit_base.tga"

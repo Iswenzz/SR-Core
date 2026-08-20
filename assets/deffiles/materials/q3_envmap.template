@@ -1,0 +1,47 @@
+// A Quake 3 "tcGen environment" stage: the sphere map the model's own shader
+// draws, which no fixed material can state. One template serves both blends -
+// customString names the techset, and that is the only thing that differs.
+forModel( 1 );
+forWorld( 0 );
+
+// Quake blends the spheres and orbs additively, but an additive pass over a lit
+// CoD4 surface with these near-black envmaps adds nothing you can see - the
+// medkit shell vanishes against a brick floor. Drawn opaque they read as the
+// glassy shells they are, with the sphere map moving across them.
+refBlend( "Opaque" );
+
+#include "sort.template"
+#include "clamp.template"
+
+tessSize( 0 );
+
+// Stated rather than included: textureAtlas.template reads two .gdt fields the
+// exporter does not write, and the converter asserts on a zero column count
+// rather than defaulting it. One cell is the whole image.
+textureAtlas( 1, 1 );
+
+hasEditorMaterial( @hasEditorMaterial@ );
+allocLightmap( false );
+
+#include "statebits.template"
+
+#if "@customString@" != ""
+	techniqueSet( "@customString@" );
+#else
+	#error "<customString> must name the techset this material draws with."
+#endif
+
+textureTable
+{
+	#if "$colorMap$" != ""
+		"colorMap" = map( "@tileColor@", "@filterColor@", "$colorMap$", @nopicmipColor@ ) "@formatColor@" : "colorMap";
+	#else
+		#error "<colorMap> cannot be empty: the sphere map is the surface."
+	#endif
+}
+
+#if "$colorMap$" != ""
+	refImage( "$colorMap$" );
+#else
+	refImage( "$white" );
+#endif

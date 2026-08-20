@@ -1,0 +1,9 @@
+"unlit":
+"lit":
+"lit sun":
+"lit sun shadow":
+"lit spot":
+"lit spot shadow":
+"lit omni":
+"lit omni shadow":
+	q3_envmap_add;

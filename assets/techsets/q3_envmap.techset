@@ -1,0 +1,18 @@
+"depth prepass":
+	zprepass;
+
+"build shadowmap depth":
+	build_shadowmap_model;
+
+"build floatz":
+	build_floatz_dtex;
+
+"unlit":
+"lit":
+"lit sun":
+"lit sun shadow":
+"lit spot":
+"lit spot shadow":
+"lit omni":
+"lit omni shadow":
+	q3_envmap;

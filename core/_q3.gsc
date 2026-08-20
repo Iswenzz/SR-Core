@@ -74,12 +74,17 @@ triggers()
 	teleporters = getEntArray("q3_teleporter", "targetname");
 	for (i = 0; i < teleporters.size; i++)
 		teleporters[i] thread teleporter();
+
+	pads = getEntArray("q3_push", "targetname");
+	for (i = 0; i < pads.size; i++)
+		pads[i] thread push();
 }
 
 onSpawn()
 {
 	self.q3Cooldowns = [];
 	self.q3Armor = 0;
+	refreshVisuals();
 }
 
 precacheItems()
@@ -127,21 +132,35 @@ visuals()
 {
 	while (true)
 	{
-		players = getAllPlayers();
-
-		for (i = 0; i < level.q3Visuals.size; i++)
-		{
-			level.q3Visuals[i] hide();
-
-			for (j = 0; j < players.size; j++)
-			{
-				player = IfUndef(players[j] getSpectatorClient(), players[j]);
-				if (player isQ3())
-					level.q3Visuals[i] showToPlayer(players[j]);
-			}
-		}
+		refreshVisuals();
 		wait 1;
 	}
+}
+
+refreshVisuals()
+{
+	players = getAllPlayers();
+
+	for (i = 0; i < level.q3Visuals.size; i++)
+	{
+		visual = level.q3Visuals[i];
+		visual hide();
+
+		for (j = 0; j < players.size; j++)
+		{
+			player = IfUndef(players[j] getSpectatorClient(), players[j]);
+			if (player isQ3() && !player onCooldown(visual.q3Owner))
+				visual showToPlayer(players[j]);
+		}
+	}
+}
+
+onCooldown(trigger)
+{
+	if (!isDefined(trigger) || !isDefined(trigger.id) || !isDefined(self.q3Cooldowns))
+		return false;
+
+	return isDefined(self.q3Cooldowns[trigger.id]);
 }
 
 visualLoop(model, spin)
@@ -177,6 +196,8 @@ spawnVisual(model, origin)
 	visual = spawn("script_model", origin);
 	if (isDefined(model))
 		visual setModel(model);
+
+	visual.q3Owner = self;
 
 	level.q3Visuals[level.q3Visuals.size] = visual;
 	return visual;
@@ -505,6 +526,63 @@ playerPerk(trigger)
 	self removeCooldown(trigger);
 }
 
+push()
+{
+	dest = teleporterDest(self.push);
+	if (!isDefined(dest))
+		return;
+
+	self.q3Velocity = pushVelocity(self.origin, dest.origin);
+	if (!isDefined(self.q3Velocity))
+		return;
+
+	self thread pushLoop();
+}
+
+pushVelocity(from, to)
+{
+	gravity = getDvarInt("g_gravity");
+	if (gravity <= 0)
+		gravity = 800;
+
+	height = to[2] - from[2];
+	if (height <= 0)
+		return undefined;
+
+	time = sqrt(height / (0.5 * gravity));
+	if (time <= 0)
+		return undefined;
+
+	flat = (to[0] - from[0], to[1] - from[1], 0);
+	forward = length(flat) / time;
+	dir = vectorNormalize(flat);
+
+	return (dir[0] * forward, dir[1] * forward, time * gravity);
+}
+
+pushLoop()
+{
+	while (true)
+	{
+		self waittill("trigger", player);
+
+		if (!player isQ3())
+			continue;
+
+		player thread playerPush(self);
+	}
+}
+
+playerPush(pad)
+{
+	self endon("death");
+	self endon("disconnect");
+
+	self playSound("q3_jumppad");
+	self setVelocity(pad.q3Velocity);
+	self notify("q3_pushed", pad);
+}
+
 teleporter()
 {
 	self.q3Dest = teleporterDest(self.target);
@@ -687,7 +765,9 @@ canTrigger(trigger)
 {
 	if (!self isQ3() || isDefined(self.q3Cooldowns[trigger.id]))
 		return false;
+
 	self.q3Cooldowns[trigger.id] = true;
+	refreshVisuals();
 	return true;
 }
 
@@ -699,6 +779,7 @@ removeCooldown(trigger)
 	wait 3;
 
 	self.q3Cooldowns[trigger.id] = undefined;
+	refreshVisuals();
 }
 
 haste(perk)
