@@ -77,7 +77,11 @@ triggers()
 
 	pads = getEntArray("q3_push", "targetname");
 	for (i = 0; i < pads.size; i++)
-		pads[i] thread push();
+		pads[i] thread push(false);
+
+	pads = getEntArray("q3_push_velocity", "targetname");
+	for (i = 0; i < pads.size; i++)
+		pads[i] thread push(true);
 }
 
 onSpawn()
@@ -526,14 +530,39 @@ playerPerk(trigger)
 	self removeCooldown(trigger);
 }
 
-push()
+pushFlag(flags, bit)
+{
+	return (flags & bit) == bit;
+}
+
+push(accelerate)
 {
 	dest = teleporterDest(self.push);
 	if (!isDefined(dest))
 		return;
 
-	self.q3Velocity = pushVelocity(self.origin, dest.origin);
-	if (!isDefined(self.q3Velocity))
+	// Quake aims from the middle of the trigger brush; a brush entity has no
+	// origin of its own to speak of, so the converter measures it and sends it.
+	from = self.origin;
+	if (isDefined(self.pad_origin))
+		from = self.pad_origin;
+
+	self.q3Velocity = pushVelocity(from, dest.origin);
+
+	self.q3Flags = 0;
+	if (accelerate && isDefined(self.spawnflags))
+		self.q3Flags = int(self.spawnflags);
+	self.q3Speed = 0;
+	if (isDefined(self.speed))
+		self.q3Speed = int(self.speed);
+	self.q3Count = 0;
+	if (isDefined(self.count))
+		self.q3Count = int(self.count);
+	self.q3Accelerate = accelerate;
+
+	// No arc to take a component from and no player-directional speed to stand
+	// in for one leaves nothing for the pad to do.
+	if (!isDefined(self.q3Velocity) && !pushFlag(self.q3Flags, 1) && !pushFlag(self.q3Flags, 4))
 		return;
 
 	self thread pushLoop();
@@ -578,8 +607,92 @@ playerPush(pad)
 	self endon("death");
 	self endon("disconnect");
 
-	self playSound("q3_jumppad");
-	self setVelocity(pad.q3Velocity);
+	velocity = self getVelocity();
+
+	// The target's own contribution, where there is an arc to take it from.
+	// A target below the pad has no arc - Quake would be taking the root of a
+	// negative - and that axis contributes nothing rather than something wrong.
+	targetXY = (0, 0, 0);
+	targetZ = 0;
+	arc = isDefined(pad.q3Velocity);
+	if (arc)
+	{
+		targetXY = (pad.q3Velocity[0], pad.q3Velocity[1], 0);
+		targetZ = pad.q3Velocity[2];
+	}
+
+	// Horizontal.
+	if (pushFlag(pad.q3Flags, 1)) // PLAYERDIR_XY
+	{
+		// A player standing still has no direction of travel to throw along.
+		flat = (velocity[0], velocity[1], 0);
+		pushXY = (0, 0, 0);
+		if (length(flat) > 0.001)
+		{
+			travel = vectorNormalize(flat);
+			pushXY = (travel[0] * pad.q3Speed, travel[1] * pad.q3Speed, 0);
+		}
+	}
+	else
+	{
+		pushXY = targetXY;
+		if (pushFlag(pad.q3Flags, 16) // BIDIRECTIONAL_XY
+			&& velocity[0] * pushXY[0] + velocity[1] * pushXY[1] < 0)
+			pushXY = (0 - pushXY[0], 0 - pushXY[1], 0);
+	}
+
+	// Vertical.
+	if (pushFlag(pad.q3Flags, 4)) // PLAYERDIR_Z
+	{
+		up = 1;
+		if (velocity[2] < 0)
+			up = -1;
+		pushZ = up * pad.q3Count;
+	}
+	else
+	{
+		pushZ = targetZ;
+		if (pushFlag(pad.q3Flags, 32) && velocity[2] * pushZ < 0) // BIDIRECTIONAL_Z
+			pushZ = 0 - pushZ;
+	}
+
+	addXY = pushFlag(pad.q3Flags, 2); // ADD_XY
+	addZ = pushFlag(pad.q3Flags, 8);  // ADD_Z
+
+	// An axis told to take the target's component when there is no arc to take
+	// it from keeps what the player had. Setting it to nothing would stop them
+	// dead on an axis the pad was never asked to touch.
+	if (!arc && !pushFlag(pad.q3Flags, 1))
+		addXY = true;
+	if (!arc && !pushFlag(pad.q3Flags, 4))
+		addZ = true;
+
+	if (addXY)
+		result = (velocity[0] + pushXY[0], velocity[1] + pushXY[1], 0);
+	else
+		result = (pushXY[0], pushXY[1], 0);
+
+	if (addZ)
+		resultZ = velocity[2] + pushZ;
+	else
+		resultZ = pushZ;
+
+	// CLAMP_NEGATIVE_ADDS: an add that only ever slows the player may not turn
+	// them around, so a reversed axis stops at rest instead.
+	if (pushFlag(pad.q3Flags, 64))
+	{
+		if (addXY && velocity[0] * result[0] + velocity[1] * result[1] < 0)
+			result = (0, 0, 0);
+		if (addZ && velocity[2] * resultZ < 0)
+			resultZ = 0;
+	}
+
+	// The vanilla pad throws you whole and announces itself; a velocity pad
+	// that only trims what you had is meant to go unheard.
+	if (!pad.q3Accelerate)
+		self playSound("q3_jumppad");
+
+	self setVelocity((result[0], result[1], resultZ));
 	self notify("q3_pushed", pad);
 }
 
@@ -680,6 +793,10 @@ doorLoop()
 
 		while (self doorWanted())
 			wait level.q3DoorPoll;
+
+		if (self.q3Wait < 0)
+			return;
+
 		wait self.q3Wait;
 
 		self moveTo(self.q3Shut, self.q3Travel);
@@ -728,6 +845,9 @@ buttonLoop()
 		}
 
 		self buttonFire();
+
+		if (self.q3Wait < 0)
+			return;
 
 		wait self.q3Wait;
 		if (self.q3Travel > 0)
@@ -788,6 +908,10 @@ haste(perk)
 	self endon("disconnect");
 
 	self setMoveSpeed(416);
+
+	if (!isDefined(perk.time) || perk.time <= 0)
+		return;
+
 	wait perk.time;
 	self setMoveSpeed(320);
 }

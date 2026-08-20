@@ -378,6 +378,7 @@ int		armor
 string	id
 int		checkpoint
 string	push
+vector	pad_origin
 string	move
 float	lip
 float	angle
