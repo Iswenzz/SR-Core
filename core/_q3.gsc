@@ -494,7 +494,7 @@ triggerPerkLoop()
 		if (!player canTrigger(self))
 			continue;
 
-		player playerPerk(self);
+		player thread playerPerk(self);
 	}
 }
 
@@ -514,18 +514,8 @@ playerGivePerk(perk, time)
 
 playerPerk(trigger)
 {
-	self endon("death");
-	self endon("disconnect");
-
 	self playerPickupSound(trigger);
-	self sr\core\_perks::playerSetPerk(trigger.perk);
-
-	if (trigger.time > 0)
-	{
-		wait trigger.time;
-		self sr\core\_perks::playerRemovePerk(trigger.perk);
-	}
-
+	self thread playerGivePerk(trigger.perk, trigger.time);
 	self removeCooldown(trigger);
 }
 
