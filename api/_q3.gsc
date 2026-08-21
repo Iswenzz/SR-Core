@@ -86,6 +86,11 @@ setWeapons(list)
 	level.q3StartWeapons = strTok(list, ";");
 }
 
+setAmmo(count)
+{
+	level.q3StartAmmo = count;
+}
+
 setPerks(list)
 {
 	level.mapPerks = strTok(list, ";");

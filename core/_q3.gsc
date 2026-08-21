@@ -21,7 +21,6 @@ main()
 	addWeapon("grapple", undefined, "q3_grapple");
 
 	precacheItems();
-	defaultWeapons();
 	thread visuals();
 
 	event("map", ::triggers);
@@ -107,12 +106,6 @@ precacheItems()
 	}
 	precacheModel("q3_armor_combat");
 	precacheModel("q3_armor_body");
-}
-
-defaultWeapons()
-{
-	level.q3StartWeapons[level.q3StartWeapons.size] = "rl";
-	level.q3StartWeapons[level.q3StartWeapons.size] = "pg";
 }
 
 addWeapon(name, item, model)
