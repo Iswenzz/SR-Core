@@ -84,7 +84,7 @@ weapon_Q3Plasma()
 	weapon["type"] = "q3";
 	weapon["name"] = "Q3 Plasma";
 	weapon["item"] = "gl_g3_mp";
-	weapon["delay"] = 0.05;
+	weapon["delay"] = 0.1;
 	weapon["speed"] = 2000;
 	weapon["projectile"] = "tag_origin";
 	weapon["muzzle"] = loadFX("muzzleflashes/mist_mk2_flashview");
@@ -382,6 +382,7 @@ fireDelay(weapon)
 	delay = weapon["delay"];
 	if (self sr\core\_perks::playerHasPerk("haste"))
 		delay /= 1.3;
+	delay -= 0.05;
 	if (delay < 0.05)
 		delay = 0;
 	return delay;
