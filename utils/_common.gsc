@@ -359,7 +359,10 @@ bounce(origin, direction, points)
 		self.maxhealth = self.maxhealth + power;
 		self.health = self.health + power;
 
-		self doPlayerDamage(self, self, power, 0, "MOD_PROJECTILE", "none", origin, direction, "none", 0);
+		// G_DamageKnockback quarters vertical velocity when the attacker is the
+		// target and the means of death is 3-6 (grenade/projectile). Quake keeps
+		// self-knockback whole, so the push goes in under a mod outside that set.
+		self doPlayerDamage(self, self, power, 0, "MOD_IMPACT", "none", origin, direction, "none", 0);
 		self.maxhealth = previousMaxHealth;
 		self.health = previousHealth;
 	}
@@ -500,6 +503,13 @@ isBot()
 isQ3()
 {
 	if (isDefined(self.sr_mode) && (self.sr_mode == "Q3" || self.sr_mode == "Q3CPM" || self.sr_mode == "Q3CPMW"))
+		return true;
+	return false;
+}
+
+isQ3W()
+{
+	if (isDefined(self.sr_mode) && self.sr_mode == "Q3CPMW")
 		return true;
 	return false;
 }

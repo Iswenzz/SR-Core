@@ -79,9 +79,9 @@ triggers()
 	for (i = 0; i < pads.size; i++)
 		pads[i] thread push(false);
 
-	pads = getEntArray("q3_push_velocity", "targetname");
-	for (i = 0; i < pads.size; i++)
-		pads[i] thread push(true);
+	pads_velocity = getEntArray("q3_push_velocity", "targetname");
+	for (i = 0; i < pads_velocity.size; i++)
+		pads_velocity[i] thread push(true);
 }
 
 onSpawn()
@@ -341,6 +341,9 @@ playerWeapon(trigger)
 
 playerGiveWeapon(name, ammo)
 {
+	if (self isQ3W())
+		return;
+
 	weapon = level.q3Weapons[name];
 	if (!isDefined(weapon))
 		return;
@@ -379,6 +382,9 @@ playerAmmoPickup(trigger)
 
 playerAddAmmo(name, ammo)
 {
+	if (self isQ3W())
+		return;
+
 	if (isDefined(name))
 	{
 		weapon = level.q3Weapons[name];

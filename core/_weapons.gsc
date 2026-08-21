@@ -187,6 +187,12 @@ fire()
 	speed = IfUndef(weapon["speed"], 1000);
 	time = length(fxpos - p) / speed;
 
+	// What the blast needs to rebuild where the projectile actually caught the
+	// player: a wait only ever resolves on a frame boundary.
+	bullet.fireOrigin = self.origin;
+	bullet.fireVelocity = self getVelocity();
+	bullet.travelTime = time;
+
 	if (isDefined(weapon["sfx_fire"]))
 		self playSoundToPlayer(weapon["sfx_fire"], self);
 	bullet thread trailFX();
@@ -265,22 +271,18 @@ knockback()
 	position = self.trace["fx_position"];
 	range = self.weapon["knockback_range"];
 	knockback = self.weapon["knockback"];
+
+	// Where the projectile caught the player, not where the frame boundary left
+	// them. That drift is the shot: it is what turns a rocket under your feet
+	// into a forward boost, and rounding it to a frame loses or invents it.
 	origin = self.player.origin;
+	if (isDefined(self.fireOrigin) && isDefined(self.fireVelocity) && isDefined(self.travelTime))
+		origin = self.fireOrigin + self.fireVelocity * self.travelTime;
 
 	if (isDefined(self.player.instantBullet))
 		self.player cheat();
 
-	// Blast resolves a frame late, inflating distance at speed. Scalar only,
-	// so push direction is untouched. Capped so small splashes stay small.
 	dist = bboxDistanceAt(origin, position);
-	slack = length(self.player getVelocity()) * 0.05;
-	maxSlack = range * 0.5;
-	if (slack > maxSlack)
-		slack = maxSlack;
-
-	dist -= slack;
-	if (dist < 0)
-		dist = 0;
 
 	if (dist > range)
 		return;
