@@ -33,6 +33,7 @@ createEndMap(origin, width, height, way)
 
 	trigger = spawn("trigger_radius", origin, 0, width, height);
 	trigger.radius = width;
+	trigger.height = height;
 	trigger.targetname = "sr_" + way;
 
 	thread watchTriggerEndMap(trigger, way);
@@ -44,6 +45,7 @@ createWay(triggerOrigin, width, height, color, way)
 {
 	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
 	trigger.radius = width;
+	trigger.height = height;
 	trigger.targetname = "sr_" + way;
 
 	thread watchWay(trigger, way);
@@ -58,6 +60,7 @@ createTeleporter(triggerOrigin, width, height, origin, angles, state, color, way
 
 	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
 	trigger.radius = width;
+	trigger.height = height;
 	trigger.targetname = "sr_" + way;
 
 	thread watchTeleporter(trigger, origin, angles, state, way);

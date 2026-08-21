@@ -379,6 +379,8 @@ string	id
 int		checkpoint
 string	push
 vector	pad_origin
+vector	trig_min
+vector	trig_max
 string	move
 float	lip
 float	angle

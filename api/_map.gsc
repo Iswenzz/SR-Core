@@ -7,8 +7,9 @@ createEndMap(origin, width, height)
 		array[i] delete();
 
 	trigger = spawn("trigger_radius", origin, 0, width, height);
-	trigger.targetname = "endmap_trig";
 	trigger.radius = width;
+	trigger.height = height;
+	trigger.targetname = "endmap_trig";
 	return trigger;
 }
 
@@ -16,6 +17,7 @@ createTeleporter(triggerOrigin, width, height, origin, angles, state, color)
 {
 	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
 	trigger.radius = width;
+	trigger.height = height;
 	trigger.targetname = "sr_teleport";
 
 	thread watchTeleporter(trigger, origin, angles, state);
@@ -27,6 +29,7 @@ createTeleporterToEntity(triggerOrigin, width, height, value, key, index, state,
 {
 	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
 	trigger.radius = width;
+	trigger.height = height;
 	trigger.targetname = "sr_teleport";
 
 	to = getEntArray(value, key)[index];
@@ -40,6 +43,7 @@ createDeath(triggerOrigin, width, height)
 {
 	trigger = spawn("trigger_radius", triggerOrigin, 0, width, height);
 	trigger.radius = width;
+	trigger.height = height;
 	trigger.targetname = "sr_death";
 
 	thread watchDeath(trigger);

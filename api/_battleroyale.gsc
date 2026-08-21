@@ -9,6 +9,8 @@ createSpawn(origin, angle)
 createLobbyBlocker(origin, width, height)
 {
 	trigger = spawn("trigger_radius", (origin[0], origin[1], origin[2] - 60), 0, width, height);
+	trigger.radius = origin[2] - 60;
+	trigger.height = height;
 
 	trigger.targetname = "lobby";
 	if (!level.dvar["debug"])
@@ -40,6 +42,7 @@ createPlaneDropTrigger(origin, radius)
 {
 	ent = spawn("trigger_radius", origin, 0, radius, 2000);
 	ent.radius = radius;
+	ent.height = 2000;
 	ent.targetname = "drop";
 }
 
