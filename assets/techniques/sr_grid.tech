@@ -1,12 +1,12 @@
 {
 	stateMap "default2d";
 
-	vertexShader 3.0 "sr_grid_dcfcfec4a3"
+	vertexShader 3.0 "sr_grid"
     {
 
 	}
 
-	pixelShader 3.0 "sr_grid_dcfcfec4a3"
+	pixelShader 3.0 "sr_grid"
 	{
 
 	}

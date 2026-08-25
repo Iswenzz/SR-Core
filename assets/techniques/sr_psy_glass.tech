@@ -1,12 +1,12 @@
 {
 	stateMap "default2d";
 
-	vertexShader 3.0 "sr_psy_glass_11d46ca201"
+	vertexShader 3.0 "sr_psy_glass"
     {
 
 	}
 
-	pixelShader 3.0 "sr_psy_glass_11d46ca201"
+	pixelShader 3.0 "sr_psy_glass"
 	{
 		colorMapSampler = sampler.resolvedPostSun;
 	}

@@ -1,12 +1,12 @@
 {
 	stateMap "default2d";
 
-	vertexShader 3.0 "sr_bokeh_72a1bf12fc"
+	vertexShader 3.0 "sr_bokeh"
     {
 
 	}
 
-	pixelShader 3.0 "sr_bokeh_72a1bf12fc"
+	pixelShader 3.0 "sr_bokeh"
 	{
 
 	}

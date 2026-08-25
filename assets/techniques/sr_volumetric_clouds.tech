@@ -1,12 +1,12 @@
 {
 	stateMap "color_only";
 
-	vertexShader 3.0 "sr_volumetric_clouds_373849a5fc"
+	vertexShader 3.0 "sr_volumetric_clouds"
 	{
 
 	}
 
-	pixelShader 3.0 "sr_volumetric_clouds_373849a5fc"
+	pixelShader 3.0 "sr_volumetric_clouds"
 	{
         detailMapSampler = material.detailMap;
 		skyMapSampler = material.colorMap;

@@ -1,12 +1,12 @@
 {
 	stateMap "default";
 
-	vertexShader 3.0 "sr_spray_ec8ef9ff77"
+	vertexShader 3.0 "sr_spray"
     {
 		atlasSize = material.atlasSize;
 	}
 
-	pixelShader 3.0 "sr_spray_ec8ef9ff77"
+	pixelShader 3.0 "sr_spray"
 	{
 		colorMapSampler = material.colorMap;
 	}

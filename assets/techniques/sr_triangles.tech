@@ -1,12 +1,12 @@
 {
 	stateMap "default";
 
-	vertexShader 3.0 "sr_triangles_f82c030abb"
+	vertexShader 3.0 "sr_triangles"
     {
 
 	}
 
-	pixelShader 3.0 "sr_triangles_f82c030abb"
+	pixelShader 3.0 "sr_triangles"
 	{
 
 	}

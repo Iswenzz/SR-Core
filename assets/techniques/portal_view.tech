@@ -1,16 +1,16 @@
 {
 	stateMap "default";
 
-	vertexShader 3.0 "q3_envmap"
+	vertexShader 3.0 "portal_view"
 	{
 
 	}
 
-	pixelShader 3.0 "q3_envmap"
+	pixelShader 3.0 "portal_view"
 	{
 		colorMapSampler = material.colorMap;
+		colorTint = material.colorTint;
 	}
 
 	vertex.position = code.position;
-	vertex.normal = code.normal;
 }

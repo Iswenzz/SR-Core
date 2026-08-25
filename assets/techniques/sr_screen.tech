@@ -1,12 +1,12 @@
 {
 	stateMap "default";
 
-	vertexShader 3.0 "sr_screen_6d3cd4cb"
+	vertexShader 3.0 "sr_screen"
     {
 
 	}
 
-	pixelShader 3.0 "sr_screen_6d3cd4cb"
+	pixelShader 3.0 "sr_screen"
 	{
 		colorMapSampler = material.colorMap;
 	}
