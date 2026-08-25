@@ -445,7 +445,6 @@ portalDelete(color)
 	self.portal[color] playSound("portal_close");
 	self.portal[color] playSound("portal_close_" + color);
 	self.portal[color] notify("fx");
-	self.portal[color] thread portalDeleteFX(color);
 
 	if (isDefined(self.portal[color].bullet))
 		self.portal[color].bullet delete();
@@ -454,17 +453,6 @@ portalDelete(color)
 	self.portal[color + "_exist"] = false;
 
 	portalCleanArray(self.portal[color]);
-}
-
-portalDeleteFX(color)
-{
-	fx = self.close;
-	if (isDefined(fx))
-		playFXOnTag(level.gfx[color + "portal_close"], fx, "tag_origin");
-
-	wait 0.3;
-	if (isDefined(fx))
-		fx delete();
 }
 
 portalCreate(color, trace)
@@ -491,12 +479,6 @@ portalCreate(color, trace)
 	portal[color].bullet setContents(0);
 	portal[color].bullet setModel("collision_sphere");
 	portal[color].bullet visibility(self);
-
-	portal[color].close = spawn("script_model", trace["fx_position"]);
-	portal[color].close setContents(0);
-	portal[color].close setModel("tag_origin");
-	portal[color].close visibility(self);
-	portal[color].close.angles = trace["angles"];
 
 	self.portal[color] = portal[color];
 	self.portal[color + "_exist"] = true;
@@ -544,12 +526,11 @@ portalFX()
 
 	self.bullet moveCurve(self.owner eyePos() + f * 22 + u * -6 + r, oldpos, self.trace["position"], t);
 	self thread playOpenSound(self.color, fxpos + self.trace["normal"] * 2);
-	self setModel("portal_" + self.color);
+
+	// The ring model and its attached glow are gone: the portal_view shader on the dummy quad draws
+	// the whole portal now, opening and rim alike. This entity is kept for the trace data it carries.
+	self setModel("tag_origin");
 	self.dummy setModel("portal_dummy_" + self.color);
-
-	wait 0.05;
-
-	playFXOnTag(level.gfx[self.color + "portal_open"], self, "tag_origin");
 }
 
 playOpenSound(color, soundPos)

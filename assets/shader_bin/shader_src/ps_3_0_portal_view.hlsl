@@ -10,8 +10,8 @@
 // Where the opening stops and the energy lip begins, in normalised ellipse radius. The lip stays
 // tight against the boundary so it reads as the edge of the hole; the ring model draws the wider
 // glow that sits around it, and a fat lip here just fights with it.
-#define APERTURE            0.90
-#define LIP                 0.975
+#define APERTURE            0.78
+#define LIP                 0.93
 
 // colorTint carries the portal colour; the material sets it per colour variant.
 #define PORTAL_COLOR        colorTint.rgb
@@ -96,19 +96,20 @@ float4 ps_main(PixelShaderInput input) : COLOR
 	float fresnel = grazing * grazing * grazing;
 	view = lerp(view, view * PORTAL_COLOR * 1.35, fresnel * 0.35 + bend * 0.22);
 
-	// Energy lip: a hot core on the ellipse boundary with filaments dragged around it.
-	float lip = smoothstep(APERTURE, LIP, radius) * (1.0 - smoothstep(LIP, 1.0, radius));
-	float edge = smoothstep(LIP - 0.03, LIP, radius) * (1.0 - smoothstep(LIP, LIP + 0.045, radius));
-	float flicker = 0.75 + 0.25 * valueNoise(float2(dir.x * 3.0, time * 2.2));
+	// Energy ring. With the ring model gone this is the entire rim, so it carries a wide coloured
+	// band, a hot white core just inside the boundary, and filaments dragged around it.
+	float band = smoothstep(APERTURE, LIP, radius) * (1.0 - smoothstep(LIP, 1.0, radius));
+	float core = smoothstep(LIP - 0.05, LIP, radius) * (1.0 - smoothstep(LIP, LIP + 0.04, radius));
+	float flicker = 0.78 + 0.22 * valueNoise(float2(dir.x * 3.0, time * 2.2));
 
-	float3 rim = PORTAL_COLOR * (lip * (0.45 + 1.4 * filament) + edge * 1.8) * flicker;
-	rim += edge * 0.6 * flicker;
+	float3 rim = PORTAL_COLOR * (band * (1.15 + 2.3 * filament) + core * 3.4) * flicker;
+	rim += core * core * 1.9 * flicker;
 
-	// Fade the opening out under the lip so the two blend instead of meeting at a seam.
+	// Fade the opening out under the ring so the two blend instead of meeting at a seam.
 	float aperture = 1.0 - smoothstep(APERTURE, LIP, radius);
 	float3 color = view * aperture + rim;
 
-	// Alpha keeps the quad from clipping square against the ring model drawn with it.
-	float alpha = saturate(aperture + lip * 1.4 + edge * 2.0) * (1.0 - smoothstep(0.985, 1.0, radius));
+	// Alpha rolls off at the ellipse so the quad never shows as a rectangle.
+	float alpha = saturate(aperture + band * 1.4 + core * 2.0) * (1.0 - smoothstep(0.985, 1.0, radius));
 	return float4(color, alpha * colorTint.a);
 }

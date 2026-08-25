@@ -1,5 +1,5 @@
 {
-	stateMap "default";
+	stateMap "portal_view";
 
 	vertexShader 3.0 "portal_view"
 	{
