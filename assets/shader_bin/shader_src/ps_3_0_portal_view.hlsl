@@ -79,12 +79,15 @@ float4 ps_main(PixelShaderInput input) : COLOR
 	float2 mid = clipToScreen(input.clipMid);
 	float2 outward = normalize(uv - mid + float2(0.00001, 0.0));
 
-	// The opening bends light as it approaches the lip and splits it into channels right at
-	// the boundary -- the two cues that sell a flat quad as a hole in the wall.
-	float bend = smoothstep(0.30, 1.0, radius);
-	float shimmer = (swirl - 0.5) * 0.0035 * bend;
-	float2 refracted = uv + outward * (bend * bend * 0.022 + shimmer);
-	float2 split = outward * (bend * bend * 0.006);
+	// The window itself is a straight screen-space lookup. A portal only reads as a hole in the
+	// wall while what shows through lines up with the room around it, and bending the sample from
+	// radius 0.3 outward -- most of the visible opening -- curved the far side into a fisheye.
+	// The refraction and the channel split are confined to the band where the view is already
+	// dissolving under the lip, which is the only place they were selling anything.
+	float edge = smoothstep(APERTURE, LIP, radius);
+	float shimmer = (swirl - 0.5) * 0.0035 * edge;
+	float2 refracted = uv + outward * (edge * edge * 0.010 + shimmer);
+	float2 split = outward * (edge * edge * 0.004);
 
 	float3 view;
 	view.r = tex2D(colorMapSampler, refracted + split).r;
@@ -94,7 +97,7 @@ float4 ps_main(PixelShaderInput input) : COLOR
 	// Grazing angles pick up the portal's own colour, like light caught in the surface.
 	float grazing = saturate(1.0 - abs(dot(normalize(input.viewDir), normalize(input.normal))));
 	float fresnel = grazing * grazing * grazing;
-	view = lerp(view, view * PORTAL_COLOR * 1.35, fresnel * 0.35 + bend * 0.22);
+	view = lerp(view, view * PORTAL_COLOR * 1.35, fresnel * 0.35 + edge * 0.22);
 
 	// Energy ring. With the ring model gone this is the entire rim, so it carries a wide coloured
 	// band, a hot white core just inside the boundary, and filaments dragged around it.
