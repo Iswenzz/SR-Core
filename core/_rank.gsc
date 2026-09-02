@@ -236,11 +236,12 @@ saveRank()
 
 	critical_enter("mysql");
 
-	request = SQL_Prepare("UPDATE ranks SET name = ?, xp = ?, level = ?, prestige = ? WHERE player IN (?, ?)");
+	request = SQL_Prepare("UPDATE ranks SET name = ?, xp = ?, level = ?, prestige = ?, player = ? WHERE player IN (?, ?)");
 	SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(request, self.pers["rankxp"], level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, self.pers["rank"] + 1, level.MYSQL_TYPE_LONG);
 	SQL_BindParam(request, self.pers["prestige"], level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
 	SQL_BindParam(request, self.guid, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
