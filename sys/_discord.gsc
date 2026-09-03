@@ -12,8 +12,7 @@ initDiscord()
 
 	json();
 
-	webhook("reports", level.envs["DISCORD_REPORTS"]);
-	webhook("admins", level.envs["DISCORD_ADMINS"]);
+	webhook("bots", level.envs["DISCORD_BOTS"]);
 }
 
 json()
@@ -26,7 +25,6 @@ template(id)
 	return IfUndef(level.discord["json"][id], "");
 }
 
-// An unset id leaves the webhook unregistered, which disables it at the call sites.
 webhook(name, id)
 {
 	if (IsNullOrEmpty(id))

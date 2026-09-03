@@ -35,8 +35,6 @@ main()
 	cmd("reconnect",      "masteradmin",  ::cmd_Reconnect,       "Reconnect a player");
 	cmd("redirect_all",   "owner",        ::cmd_RedirectAll,     "Redirect all players to another server");
 	cmd("rename",         "admin",        ::cmd_Rename,          "Rename a player");
-	cmd("report_bug",     "trusted",      ::cmd_ReportBug,       "Report a bug");
-	cmd("report_player",  "trusted",      ::cmd_ReportPlayer,    "Report a player");
 	cmd("reset_rank",     "masteradmin",  ::cmd_ResetRank,       "Reset player rank to default");
 	cmd("reset_settings", "player",       ::cmd_ResetSettings,   "Reset player settings");
 	cmd("restart",        "owner",        ::cmd_Restart,         "Fast restart virtual machine");
@@ -425,38 +423,6 @@ cmd_Rename(args)
 	player clientCmd(fmt("name %s", IfUndef(newName, ToString(randomInt(999999)))));
 	wait 0.1;
 	player reconnect();
-}
-
-cmd_ReportPlayer(args)
-{
-	if (args.size < 2)
-		return self pm("Usage: !report_player <name> <reason>");
-
-	player = getPlayerByName(args[0]);
-	reason = StrJoin(Range(args, 1, args.size), " ");
-	hostname = removeColorFromString(getDvar("sv_hostname"));
-
-	if (!isDefined(player))
-		return pm("Could not find player");
-
-	message = fmt("%s\\n**%s**\\n**Reported: %s**\\n\\n%s",
-		hostname, self.name, player.name, reason);
-
-	sr\sys\_discord::embed("reports", "Report Player", message);
-}
-
-cmd_ReportBug(args)
-{
-	if (args.size < 1)
-		return self pm("Usage: !report_bug <reason>");
-
-	reason = StrJoin(args, " ");
-	hostname = removeColorFromString(getDvar("sv_hostname"));
-
-	message = fmt("%s\\n**%s**\\n**%s**\\n\\n%s",
-		hostname, self.name, level.map, reason);
-
-	sr\sys\_discord::embed("reports", "Report Bug", message);
 }
 
 cmd_TimePlayed(args)
