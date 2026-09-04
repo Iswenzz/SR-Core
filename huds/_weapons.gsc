@@ -27,7 +27,7 @@ hud()
 		self.player = IfUndef(self getSpectatorClient(), self);
 
 		ammo = IfUndef(self.player.scriptedAmmo, 0);
-		shown = self.player isQ3() && !self.player isQ3W();
+		shown = self.player isQ3() && !self.player isQ3W() && ammo < 100;
 
 		if (!isDefined(self.prevWeaponAmmo) || ammo != self.prevWeaponAmmo)
 			self.huds["weapon"] setValue(ammo);
