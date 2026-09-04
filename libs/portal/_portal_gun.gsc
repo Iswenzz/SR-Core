@@ -13,6 +13,7 @@ main()
 	level.portal_height = 110;
 	level.portal_options_num = 2000;
 	level.portal_check_dist = 700;
+	level.portal_fire_delay = 0.5;
 	level.portal_surfaces = strTok("concrete,carpet,brick,asphalt,glass,plaster,plastic,gravel,ice,wood,grass,mud,dirt,metal,paper,rock,sand,snow,wood,paintedmetal", ",");
 
 	level.portalgun_w = "w_portalgun";
@@ -37,6 +38,7 @@ onSpawn()
 	self endon("disconnect");
 
 	self.portal["inportal"] = false;
+	self.portal["next_fire"] = 0;
 
 	while (true)
 	{
@@ -51,15 +53,19 @@ onSpawn()
 			continue;
 		}
 		color = undefined;
-		if (self attackButtonPressed() || self demoButton("fire"))
-			color = "blue";
-		else if (self aimButtonPressed() || self demoButton("ads"))
+		if (self aimButtonPressed() || self demoButton("ads"))
 			color = "red";
+		else if (self attackButtonPressed() || self demoButton("fire"))
+			color = "blue";
 		else if (self fragButtonPressed() || self demoButton("frag"))
 			self resetPortals();
 
+		if (isDefined(color) && getTime() < self.portal["next_fire"])
+			color = undefined;
+
 		if (isDefined(color))
 		{
+			self.portal["next_fire"] = getTime() + level.portal_fire_delay * 1000;
 			self playLocalSound("portal_gun_shoot_" + color);
 
 			if (self isPortal())
@@ -67,9 +73,7 @@ onSpawn()
 			else
 				self thread bullet(color);
 		}
-		while ((self attackButtonPressed() || self demoButton("fire"))
-			|| (self aimButtonPressed() || self demoButton("ads"))
-			|| (self fragButtonPressed() || self demoButton("frag")))
+		while (self fragButtonPressed() || self demoButton("frag"))
 			wait 0.05;
 
 		wait 0.05;
