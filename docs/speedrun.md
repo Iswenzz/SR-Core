@@ -70,7 +70,7 @@ sr\api\_speedrun::createEndMap((0, 0, 0), 150, 100, "normal_1");
 
 ---
 
-### `sr\api\_speedrun::createEndMapFromEntity(<value>, <key>, <key>, <?way>)`
+### `sr\api\_speedrun::createEndMapFromEntity(<value>, <key>, <index>, <?way>)`
 
 Creates an end-of-map trigger using an existing map entity. If `way` is omitted, the trigger finishes `normal_0`.
 
@@ -162,7 +162,7 @@ Creates a teleporter that optionally changes the player's active way on arrival.
 | `way` | string | Way ID to switch to on arrival |
 
 ```c
-sr\api\_speedrun_::createTeleporterToEntity((0, 0, 0), 150, 100, "example", "targetname", 0, "none", "blue", "normal_1");
+sr\api\_speedrun::createTeleporterToEntity((0, 0, 0), 150, 100, "example", "targetname", 0, "none", "blue", "normal_1");
 ```
 
 ---

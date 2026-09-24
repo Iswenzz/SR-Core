@@ -16,7 +16,8 @@ main()
 
 record()
 {
-	if (self isCheat())
+	// With demos off the delete handlers aren't registered, the files would pile up.
+	if (!level.dvar["demos"] || self isCheat())
 		return;
 
 	thread recordTimeout();
@@ -27,6 +28,7 @@ record()
 
 recordTimeout()
 {
+	self endon("spawned");
 	self endon("death");
 	self endon("disconnect");
 	self endon("record");

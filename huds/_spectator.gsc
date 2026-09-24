@@ -6,7 +6,7 @@ main()
 {
 	event("connect", ::hud);
 	event("spawn", ::clear);
-	event("spectate", ::clear);
+	event("spectator", ::clear);
 }
 
 hud()

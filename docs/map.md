@@ -74,7 +74,7 @@ sr\api\_map::createTeleporter((0, 0, 0), 150, 100, (500, 0, 0), 90, "none", "blu
 
 ---
 
-### `sr\api\_map::createTeleporterToEntity(<triggerOrigin>, <width>, <height>, <origin>, <angles>, <value>, <key>, <index>, <state>, <color>)`
+### `sr\api\_map::createTeleporterToEntity(<triggerOrigin>, <width>, <height>, <value>, <key>, <index>, <state>, <color>)`
 
 Creates a teleporter with a colored trigger zone to entity.
 
@@ -264,14 +264,14 @@ sr\api\_map::cj();
 
 ### `sr\api\_map::slide(<speed>)`
 
-Flags this map as a slide map with the given slide speed.
+Flags this map as a slide map with the given slide speed multiplier.
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `speed` | float | Slide speed |
+| `speed` | float | Multiplier applied to the mode's base speed |
 
 ```c
-sr\api\_map::slide(500);
+sr\api\_map::slide(5);
 ```
 
 ---

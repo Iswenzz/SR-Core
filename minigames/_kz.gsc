@@ -222,7 +222,7 @@ watchGame()
 
 isRoomEmpty(player, index)
 {
-	return level.kzPlayersInRoom.size < 2 || (isDefined(player) && !player isPlaying());
+	return level.kzPlayersInRoom.size < 2 || !isDefined(player) || !player isPlaying();
 }
 
 gameRandomize()

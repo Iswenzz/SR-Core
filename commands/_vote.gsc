@@ -34,6 +34,8 @@ cmd_Vote(args)
 
 	value = args[0];
 	type = Ternary(StartsWith(value, "mp_"), "map", "msg");
+	if (type == "map" && !Contains(level.rotation, value))
+		return self pm(fmt("^1Map %s is not in the rotation", value));
 
 	self log();
 	sr\core\_vote::start(type, value);

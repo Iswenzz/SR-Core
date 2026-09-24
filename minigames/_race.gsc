@@ -41,7 +41,7 @@ race()
 		if (!canStart())
 			continue;
 
-		message("^3Race start in 10sec! ^7[^2!race^7]");
+		iPrintLn("^3Race start in 10sec! ^7[^2!race^7]");
 		foreachCall(level.minigames["race"].queue, ::cleanRaceHud);
 		foreachThread(level.minigames["race"].queue, ::raceSpawn);
 		countdown();
@@ -97,8 +97,8 @@ join()
 		return;
 	}
 	self sr\core\_minigames::addToQueue("race");
-	self addToScoreboard();
 	self.raceWon = 0;
+	self addToScoreboard();
 
 	message(fmt("%s ^7joined the race! [^2!race^7] [^1%d^7]", self.name, level.minigames["race"].queue.size));
 }
@@ -280,9 +280,12 @@ watchRaceEndTrig()
 
 	while (true)
 	{
+		// The end trigger is the map's endmap_trig, normal runners touch it too.
 		level.raceEndTrig waittill("trigger", player);
-		if (!player.raceFinish)
-			player thread playerFinish();
+		if (!player sr\core\_minigames::isInQueue("race") || IfUndef(player.raceFinish, false))
+			continue;
+
+		player thread playerFinish();
 	}
 }
 
@@ -309,7 +312,10 @@ watchEnd()
 	startEndCountdown = false;
 	while (true)
 	{
-		level.raceEndTrig waittill("trigger");
+		level.raceEndTrig waittill("trigger", player);
+		if (!player sr\core\_minigames::isInQueue("race"))
+			continue;
+
 		if (!startEndCountdown)
 		{
 			startEndCountdown = true;
@@ -337,8 +343,7 @@ playerFinish()
 	self.time = originToTime(getTime() - self.raceTime);
 	self speedrun\huds\_speedrun::updateTime();
 
-	playerMessage(fmt("%s ^7finished %s ^7in ^2%d:%d.%d", self.name, getPlacementString(placement),
-		self.time.min, self.time.sec, self.time.ms));
+	playerMessage(fmt("%s ^7finished %s ^7in ^2%s", self.name, getPlacementString(placement), timeToString(self.time)));
 
 	if (placement == 1)
 		self updateScoreHud();
@@ -359,7 +364,7 @@ countdownStop()
 	level endon("race ended");
 
 	wait 5;
-	message("^3Race end in 30secs!");
+	iPrintLn("^3Race end in 30secs!");
 
 	wait 30;
 	level notify("race ended");

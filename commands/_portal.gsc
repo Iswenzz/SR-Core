@@ -42,10 +42,15 @@ cmd_Turret(args)
 
 cmd_TurretDelete(args)
 {
-	for (i = 0; i < level.portal_turrets.size; i++)
+	// turretDelete shrinks level.portal_turrets, so iterate over a copy.
+	turrets = level.portal_turrets;
+	for (i = 0; i < turrets.size; i++)
+		turrets[i] thread sr\libs\portal\_turret::explode("MOD_EXPLOSIVE");
+
+	wait 1;
+	for (i = 0; i < turrets.size; i++)
 	{
-		level.portal_turrets[i] sr\libs\portal\_turret::explode("MOD_EXPLOSIVE");
-		wait 1;
-		level.portal_turrets[i] sr\libs\portal\_turret::turretDelete();
+		if (isDefined(turrets[i]))
+			turrets[i] sr\libs\portal\_turret::turretDelete();
 	}
 }

@@ -173,7 +173,7 @@ sr\api\_battleroyale::createEntity("m16", (0, 0, 0));
 
 ---
 
-### `sr\api\_battleroyale::createEntities(<entities>)`
+### `sr\api\_battleroyale::createEntities(<id>, <origins>)`
 
 Spawns registered battle royale entities at the given positions.
 

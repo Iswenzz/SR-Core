@@ -124,11 +124,10 @@ cmd_Angles(args)
 		return self pm("Usage: !angles <player> <x> <y> <z>");
 
 	player = getPlayerByName(args[0]);
-	player cheat();
-
 	if (!isDefined(player))
 		return pm("Could not find player");
 
+	player cheat();
 	x = ToFloat(args[1]);
 	y = ToFloat(args[2]);
 	z = ToFloat(args[3]);
@@ -359,12 +358,12 @@ cmd_Freeze(args)
 		return self pm("Usage: !freeze <playerName>");
 
 	player = getPlayerByName(args[0]);
-	player cheat();
 
 	self log();
 	if (!isDefined(player))
 		return pm("Could not find player");
 
+	player cheat();
 	player freezeControls(true);
 }
 
@@ -374,12 +373,12 @@ cmd_UnFreeze(args)
 		return self pm("Usage: !unfreeze <playerName>");
 
 	player = getPlayerByName(args[0]);
-	player cheat();
 
 	self log();
 	if (!isDefined(player))
 		return pm("Could not find player");
 
+	player cheat();
 	player freezeControls(false);
 }
 
@@ -452,12 +451,12 @@ cmd_Weapon(args)
 		return self pm("Usage: !weapon <playerName> <weapon>");
 
 	player = getPlayerByName(args[0]);
-	player cheat();
 	weapon = args[1];
 
 	if (!isDefined(player))
 		return pm("Could not find player");
 
+	player cheat();
 	player giveWeapon(weapon);
 	player switchToWeapon(weapon);
 	wait 0.05;

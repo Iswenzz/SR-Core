@@ -247,7 +247,7 @@ isFxUnlocked(num)
 
 isUnlocked(assets, num, vip)
 {
-	if (num > assets.size || num <= -1)
+	if (num >= assets.size || num <= -1)
 		return 0;
 	if (isDefined(vip) && self sr\sys\_admins::isVIP() >= vip)
 		return vip;

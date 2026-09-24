@@ -139,8 +139,12 @@ stopAll(delete_portals, disconnected)
 		if (isDefined(self.test_turret))
 			self.test_turret delete();
 
-		for (i = 0; i < self.turrets.size; i++)
-			self.turrets[i] sr\libs\portal\_turret::turretDelete();
+		turrets = self.turrets;
+		for (i = 0; i < turrets.size; i++)
+		{
+			if (isDefined(turrets[i]))
+				turrets[i] sr\libs\portal\_turret::turretDelete();
+		}
 
 		self.turrets = [];
 	}

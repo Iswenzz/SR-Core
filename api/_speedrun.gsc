@@ -44,7 +44,7 @@ createEndMapFromEntity(value, key, index, way)
 {
 	trigger = getEntArray(value, key)[index];
 
-	thread watchTriggerEndMap(trigger, way);
+	thread watchTriggerEndMap(trigger, IfUndef(way, "normal_0"));
 	thread sr\fx\_trigger::effect(trigger, "red");
 	return trigger;
 }

@@ -126,8 +126,8 @@ cmd_PM(args)
 
 	msg = StrJoin(Range(args, 1, args.size), " ");
 
-	exec(fmt("tell %d ^2To %s:^7 %s", self.number, player.name, msg));
-	exec(fmt("tell %d ^2%s:^7 %s", player.number, self.name, msg));
+	exec(sanitizeCommand(fmt("tell %d ^2To %s:^7 %s", self.number, player.name, msg)));
+	exec(sanitizeCommand(fmt("tell %d ^2%s:^7 %s", player.number, self.name, msg)));
 }
 
 cmd_Command(args)
@@ -420,7 +420,8 @@ cmd_Rename(args)
 	if (!isDefined(player))
 		return pm("Could not find player");
 
-	player clientCmd(fmt("name %s", IfUndef(newName, ToString(randomInt(999999)))));
+	// clientcmd runs through vstr on the client, so a ; would run any console command there.
+	player clientCmd(fmt("name %s", sanitizeCommand(newName)));
 	wait 0.1;
 	player reconnect();
 }
@@ -437,7 +438,7 @@ cmd_TimePlayed(args)
 
 	mins = player getStat(2629);
 	hours = mins / 60;
-	pm(fmt("%s played: %d", player.name, int(hours) + "h"));
+	pm(fmt("%s played: %dh", player.name, int(hours)));
 }
 
 cmd_Kick(args)
@@ -465,6 +466,8 @@ cmd_Role(args)
 	self log();
 	if (!isDefined(player))
 		return pm("Could not find player");
+	if (!isDefined(level.admin_roles[role]))
+		return pm(fmt("^1Unknown role %s", role));
 
 	critical_enter("mysql");
 
@@ -682,9 +685,14 @@ cmd_Link(args)
 	wait 0.05;
 	self pm("Make sure this is the right person, this will ^5grant them the password to this account. ^7Type ^2!confirm ^7to proceed");
 
+	id = player.id;
 	response = self confirmation();
 	if (!hasConfirmed(response))
 		return;
+
+	player = getPlayerById(id);
+	if (!isDefined(player))
+		return self pm("^1Player disconnected");
 
 	password = ToInt(generateToken(9));
 	account = level.accounts[player.id];

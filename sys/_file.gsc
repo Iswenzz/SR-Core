@@ -10,6 +10,8 @@ initFiles()
 	FILE_MkDir(PATH_Mod("data/maps"));
 	FILE_MkDir(PATH_Mod("data/match"));
 	FILE_MkDir(PATH_Mod("data/downloads"));
+	FILE_MkDir(PATH_Mod("data/debug"));
+	FILE_MkDir(PATH_Mod("data/debug/origins"));
 
 	FILE_MkDir(PATH_Mod("sr/data"));
 	FILE_MkDir(PATH_Mod("sr/data/admin"));

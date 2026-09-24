@@ -428,4 +428,6 @@ deletePreview()
 {
 	if (isDefined(self.customize_preview))
 		self.customize_preview delete();
+	if (isDefined(self.customize_fx))
+		self.customize_fx delete();
 }

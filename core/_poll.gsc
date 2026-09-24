@@ -102,6 +102,10 @@ poll(title, values)
 	for (i = 0; i < players.size; i++)
 		players[i] clean();
 	level.pollProgress = false;
+
+	// Nobody voted, let the caller use its default instead of the first entry.
+	if (!result.votes)
+		return undefined;
 	return result;
 }
 

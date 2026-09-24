@@ -159,7 +159,8 @@ playSoundOnPosition(soundAlias, pos, local)
 	soundObj = spawn("script_model", pos);
 	if (isDefined(local) && local)
 		soundObj playSoundToPlayer(soundAlias, self);
-	soundObj playSound(soundAlias);
+	else
+		soundObj playSound(soundAlias);
 	soundObj delete();
 }
 
@@ -410,7 +411,10 @@ pickRandom(array, amount)
 	if (array.size < amount)
 		return randoms;
 	if (amount == 1)
-		return array;
+	{
+		randoms[0] = array[randomInt(array.size)];
+		return randoms;
+	}
 
 	while (randoms.size < amount)
 	{
@@ -1131,7 +1135,7 @@ printLine(msg)
 message(msg)
 {
 	if (isPlayer(self))
-		exec(fmt("say %s", msg));
+		exec(fmt("say %s", sanitizeCommand(msg)));
 	else
 		comPrintLn(msg);
 }
@@ -1139,9 +1143,64 @@ message(msg)
 pm(msg)
 {
 	if (isPlayer(self))
-		exec(fmt("tell %d %s", self.number, msg));
+		exec(fmt("tell %d %s", self.number, sanitizeCommand(msg)));
 	else
 		comPrintLn(msg);
+}
+
+sanitizeCommand(text)
+{
+	output = "";
+	for (i = 0; i < text.size; i++)
+	{
+		c = text[i];
+		if (c == ";" || c == "\"" || c == "\n" || c == "\r")
+			continue;
+		output += c;
+	}
+	return output;
+}
+
+isUrlToken(value)
+{
+	if (!isDefined(value) || !value.size)
+		return false;
+
+	allowed = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.:";
+	for (i = 0; i < value.size; i++)
+	{
+		if (!isSubStr(allowed, value[i]))
+			return false;
+	}
+	return true;
+}
+
+escapeJson(text)
+{
+	output = "";
+	for (i = 0; i < text.size; i++)
+	{
+		c = text[i];
+		if (c == "\\" || c == "\"")
+			output += "\\" + c;
+		else if (c == "\n" || c == "\r" || c == "\t")
+			output += " ";
+		else
+			output += c;
+	}
+	return output;
+}
+
+timeToString(time)
+{
+	sec = time.sec + "";
+	if (time.sec < 10)
+		sec = "0" + sec;
+
+	ms = time.ms + "";
+	while (ms.size < 3)
+		ms = "0" + ms;
+	return fmt("%d:%s.%s", time.min, sec, ms);
 }
 
 confirmation()

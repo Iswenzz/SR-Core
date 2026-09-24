@@ -21,12 +21,13 @@ buildEnvs()
 			continue;
 
 		// KV
-		tokens = strTok(line, "=");
-		if (tokens.size < 2)
+		line = Replace(line, "\r", "");
+		index = sr\utils\_common::stringIndex(line, "=");
+		if (index < 1)
 			continue;
 
-		key = tokens[0];
-		value = tokens[1];
+		key = getSubStr(line, 0, index);
+		value = getSubStr(line, index + 1, line.size);
 
 		level.envs[key] = value;
 	}

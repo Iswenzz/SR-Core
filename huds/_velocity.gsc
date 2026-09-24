@@ -51,16 +51,16 @@ vars()
     self.prevVelocityDist = 0;
     self.prevOnGround = true;
 
-	if (!self.settings["hud_velocity"])
+	if (!self.settings["hud_velocity"] || !isDefined(self.huds["velocity"]))
 		return;
 
-	self.huds["velocity"]["units"] setValue(0);
-	if (self.settings["hud_velocity_ground"] >= 1)
-		self.huds["velocity"]["ground"] setValue(0);
-	if (self.settings["hud_velocity_info"] >= 1)
-		self.huds["velocity"]["average"] setValue(0);
-	if (self.settings["hud_velocity_info"] >= 2)
-		self.huds["velocity"]["max"] setValue(0);
+	// The huds only exist for settings that were on when they were built.
+	keys = strTok("units;ground;average;max", ";");
+	for (i = 0; i < keys.size; i++)
+	{
+		if (isDefined(self.huds["velocity"][keys[i]]))
+			self.huds["velocity"][keys[i]] setValue(0);
+	}
 }
 
 getPosition()

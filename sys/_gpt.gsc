@@ -25,10 +25,15 @@ completions(message)
 {
 	message(fmt("^5[Prompt]^7 %s: %s", self.name, message));
 
+	if (IsNullOrEmpty(level.envs["API_GPT"]))
+	{
+		message("^1[AI] Not configured");
+		return;
+	}
 	critical_enter("http");
 
 	url = "https://openrouter.ai/api/v1/chat/completions";
-	json = fmt(template("chat"), message);
+	json = fmt(template("chat"), escapeJson(message));
 
 	request = HTTP_Init();
 	HTTP_JSON(request);

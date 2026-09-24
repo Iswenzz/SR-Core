@@ -4,8 +4,12 @@
 
 start()
 {
-	event("spawn", ::onSpawn);
-	event("death", ::onDeath);
+	if (!isDefined(level.eventHandlers))
+	{
+		level.eventHandlers = true;
+		event("spawn", ::onSpawn);
+		event("death", ::onDeath);
+	}
 
 	sr\core\_map::addTime(30);
 

@@ -35,6 +35,8 @@ cmd_Video(args)
 	room = level.dvar["seed"];
 	id = args[0];
 	ifEnded = Ternary(self.admin_role == "player", "&ifEnded=true", "");
+	if (!isUrlToken(id))
+		return self pm("^1Invalid video id");
 
 	critical_enter("http");
 
@@ -50,6 +52,11 @@ cmd_Shorts(args)
 {
 	room = level.dvar["seed"];
 	keywords = StrJoin(args, ",");
+	for (i = 0; i < args.size; i++)
+	{
+		if (!isUrlToken(args[i]))
+			return self pm("^1Invalid keyword");
+	}
 
 	critical_enter("http");
 
@@ -69,6 +76,8 @@ cmd_Playlist(args)
 	room = level.dvar["seed"];
 	id = args[0];
 	page = IfUndef(args[1], "1");
+	if (!isUrlToken(id) || !isUrlToken(page))
+		return self pm("^1Invalid playlist");
 
 	critical_enter("http");
 
@@ -88,6 +97,8 @@ cmd_TelegramChannel(args)
 	room = level.dvar["seed"];
 	name = args[0];
 	limit = IfUndef(args[1], "50");
+	if (!isUrlToken(name) || !isUrlToken(limit))
+		return self pm("^1Invalid channel");
 
 	critical_enter("http");
 
@@ -106,6 +117,8 @@ cmd_TelegramVideo(args)
 
 	room = level.dvar["seed"];
 	messageId = args[0];
+	if (!isUrlToken(messageId))
+		return self pm("^1Invalid message id");
 
 	critical_enter("http");
 
@@ -140,6 +153,8 @@ cmd_Seek(args)
 	time = args[0];
 	time = Replace(time, "+", "p");
 	time = Replace(time, "-", "n");
+	if (!isUrlToken(time))
+		return self pm("^1Invalid time");
 
 	critical_enter("http");
 

@@ -99,14 +99,16 @@ turret()
 			}
 		}
 		self notify("place_turret");
-		self.turrets[self.turrets.size] = self thread turretSpawn(self.test_turret.origin, self.test_turret.angles);
+		turret = self turretSpawn(self.test_turret.origin, self.test_turret.angles);
+		if (isDefined(turret))
+			self.turrets[self.turrets.size] = turret;
 		self.test_turret delete();
 	}
 }
 
 turretSpawn(pos, angles)
 {
-	if (getEntArray().size > 700)
+	if (getEntArray().size > 700 && level.portal_turrets.size)
 	{
 		printLn("too many turrets spawned, deleting old turrets");
 		level.portal_turrets[0] turretDelete();
@@ -733,6 +735,11 @@ turretDelete()
 		newarray[newarray.size] = level.portal_turrets[i];
 	}
 	level.portal_turrets = newarray;
+
+	// Portal traces ignore every entry of portal_objects, a deleted one errors in bulletTrace.
+	level.portal_objects = Remove(level.portal_objects, self);
+	if (isDefined(self.owner) && isDefined(self.owner.turrets))
+		self.owner.turrets = Remove(self.owner.turrets, self);
 
 	self.aim delete();
 	self.wings[0] delete();

@@ -291,7 +291,7 @@ banned()
 	if (!self isBanned())
 		return;
 
-	exec(fmt("sv_kick %d", self.number));
+	exec(fmt("clientkick %d", self.number));
 }
 
 tas(player, tas)

@@ -132,7 +132,7 @@ EXPECT_NE(a, b)
 			break;
 
 		case "VECTOR":
-			if (a[0] != b[0] && a[1] != b[1] && a[2] != b[2])
+			if (a[0] != b[0] || a[1] != b[1] || a[2] != b[2])
 				return true;
 			break;
 
@@ -192,7 +192,7 @@ EXPECT_NOT_CONTAIN(a, b)
 			break;
 
 		case "VECTOR":
-			if (a[0] != b || a[1] != b || a[2] != b)
+			if (a[0] != b && a[1] != b && a[2] != b)
 				return true;
 			break;
 
@@ -376,7 +376,7 @@ EXPECT_GE(a, b)
 EXPECT_TYPE(a, b)
 {
 	gscunit_debug(a);
-	if (GetType(a) != GetType(b)) return true;
+	if (GetType(a) == GetType(b)) return true;
 
 	error_expect(GetType(a), GetType(b));
 	return FAIL();

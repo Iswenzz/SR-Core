@@ -118,10 +118,7 @@ takeAllPerks()
 
 giveWeapon(name, ammo)
 {
-	weapon = level.q3Weapons[name];
-
-	self giveWeapon(weapon);
-	self switchToWeapon(weapon);
+	self sr\core\_q3::playerGiveWeapon(name, ammo);
 }
 
 giveAmmo(name, ammo)

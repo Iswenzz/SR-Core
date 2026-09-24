@@ -24,9 +24,11 @@ cmd_Race(args)
 
 cmd_RaceTrig(args)
 {
-	radius = IfUndef(ToInt(args[0]), 120);
+	radius = 120;
+	if (args.size && args[0] != "reset")
+		radius = ToInt(args[0]);
 
-	if (args.size)
+	if (args.size && args[0] == "reset")
 	{
 		array = getEntArray("endmap_trig", "targetname");
 		if (!array.size)

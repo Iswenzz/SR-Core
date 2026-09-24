@@ -20,7 +20,7 @@ onConnect()
 
 toggleMode(name)
 {
-	self.modes[name] = !self.modes[name];
+	self.modes[name] = !self isInMode(name);
 
 	if (self.modes[name])
 		self cheat();

@@ -166,10 +166,12 @@ onConnect()
 
 loadRank()
 {
+	id = self.id;
+
 	critical_enter("mysql");
 
 	request = SQL_Prepare("SELECT xp, level, prestige FROM ranks WHERE player = ?");
-	SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, id, level.MYSQL_TYPE_STRING);
 	SQL_Execute(request);
 	AsyncWait(request);
 	row = IfUndef(SQL_FetchRowDict(request), []);
@@ -184,8 +186,8 @@ loadRank()
 	self.pers["rank"] = IfUndef(row["level"], 1) - 1;
 	self.pers["prestige"] = IfUndef(row["prestige"], 0);
 
-	self.pers["rankxp"] = clamp(self.pers["rankxp"], getRankInfoMinXP(self.pers["rank"]), getRankInfoMaxXP(self.pers["rank"]));
 	self.pers["rank"] = clamp(self.pers["rank"], 0, level.maxRank);
+	self.pers["rankxp"] = clamp(self.pers["rankxp"], getRankInfoMinXP(self.pers["rank"]), getRankInfoMaxXP(self.pers["rank"]));
 	self.pers["prestige"] = self.pers["prestige"];
 
 	self setStat(2326, self.pers["prestige"]);
@@ -233,32 +235,25 @@ saveRank()
 	self maps\mp\gametypes\_persistence::statSet("MAXXP", getRankInfoMaxXp(self.pers["rank"]));
 	self maps\mp\gametypes\_persistence::statSet("PRESTIGE", self.pers["prestige"]);
 
+	id = self.id;
+	name = self.name;
+	xp = self.pers["rankxp"];
+	rank = self.pers["rank"] + 1;
+	prestige = self.pers["prestige"];
+
 	critical_enter("mysql");
 
-	request = SQL_Prepare("UPDATE ranks SET name = ?, xp = ?, level = ?, prestige = ? WHERE player = ?");
-	SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
-	SQL_BindParam(request, self.pers["rankxp"], level.MYSQL_TYPE_LONG);
-	SQL_BindParam(request, self.pers["rank"] + 1, level.MYSQL_TYPE_LONG);
-	SQL_BindParam(request, self.pers["prestige"], level.MYSQL_TYPE_LONG);
-	SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
+	request = SQL_Prepare("INSERT INTO ranks (name, player, xp, level, prestige) VALUES (?, ?, ?, ?, ?) "
+		+ "ON DUPLICATE KEY UPDATE name = VALUES(name), xp = VALUES(xp), level = VALUES(level), prestige = VALUES(prestige)");
+	SQL_BindParam(request, name, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, id, level.MYSQL_TYPE_STRING);
+	SQL_BindParam(request, xp, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, rank, level.MYSQL_TYPE_LONG);
+	SQL_BindParam(request, prestige, level.MYSQL_TYPE_LONG);
 	SQL_Execute(request);
 	AsyncWait(request);
-
-	affected = SQL_AffectedRows(request);
 	SQL_Free(request);
 
-	if (!affected)
-	{
-		request = SQL_Prepare("INSERT INTO ranks (name, player, xp, level, prestige) VALUES (?, ?, ?, ?, ?)");
-		SQL_BindParam(request, self.name, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, self.id, level.MYSQL_TYPE_STRING);
-		SQL_BindParam(request, self.pers["rankxp"], level.MYSQL_TYPE_LONG);
-		SQL_BindParam(request, self.pers["rank"] + 1, level.MYSQL_TYPE_LONG);
-		SQL_BindParam(request, self.pers["prestige"], level.MYSQL_TYPE_LONG);
-		SQL_Execute(request);
-		AsyncWait(request);
-		SQL_Free(request);
-	}
 	critical_release("mysql");
 }
 

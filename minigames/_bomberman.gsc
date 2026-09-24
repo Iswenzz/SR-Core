@@ -90,8 +90,15 @@ leave()
 
 sendPlayers()
 {
-	level.bombermanSpawns = pickRandom(getSpawns(), 4);
-	level.bombermanPlayersInRoom = sr\core\_minigames::pickRandomPlayers("bomberman", 1);
+	spawns = getSpawns();
+	count = level.minigames["bomberman"].queue.size;
+	if (count > 4)
+		count = 4;
+	if (count > spawns.size)
+		count = spawns.size;
+
+	level.bombermanSpawns = pickRandom(spawns, count);
+	level.bombermanPlayersInRoom = sr\core\_minigames::pickRandomPlayers("bomberman", count);
 
 	foreachCall(level.minigames["bomberman"].queue, ::spawnPlayerInSpec);
 	for (i = 0; i < level.bombermanPlayersInRoom.size; i++)
@@ -123,7 +130,7 @@ spawnPlayerInRoom(spawnIndex)
 spawnPlayerInSpec()
 {
 	self endon("disconnect");
-	self.teamKill = undefined;
+	self.teamKill = false;
 	self sr\core\_teams::setSpectator();
 }
 
@@ -148,7 +155,7 @@ watchGame()
 	{
 		wait 0.5;
 
-		if (!Any(level.bombermanPlayersInRoom, ::isRoomEmpty))
+		if (playersAlive() >= 2)
 			continue;
 
 		level.bombermanStarted = false;
@@ -209,10 +216,9 @@ bombRadius()
 			intersected = wall collisionIntersectRadius(self.origin, self.radius);
 			if (intersected.size > 0)
 				wall removeWall();
-
-			self bombDamage();
 		}
 	}
+	self bombDamage();
 }
 
 bombDamage()
@@ -220,7 +226,7 @@ bombDamage()
 	players = level.bombermanPlayersInRoom;
 	for (i = 0; i < players.size; i++)
 	{
-		if (players[i] == self.owner)
+		if (!isDefined(players[i]) || players[i] == self.owner)
 			continue;
 
 		if (distance2D(players[i].origin, self.origin) <= self.radius)
@@ -352,9 +358,16 @@ getSpawns()
 	return spawns;
 }
 
-isRoomEmpty(player, index)
+playersAlive()
 {
-	return level.bombermanPlayersInRoom.size < 2 || !player isPlaying();
+	count = 0;
+	players = level.bombermanPlayersInRoom;
+	for (i = 0; i < players.size; i++)
+	{
+		if (isDefined(players[i]) && players[i] isPlaying())
+			count++;
+	}
+	return count;
 }
 
 isBorder()

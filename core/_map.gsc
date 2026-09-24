@@ -18,8 +18,15 @@ randomizeMaps(amount)
 		return;
 	}
 
-	// No more new maps found
-	if (playedMaps.size >= rotation.size - amount)
+	unplayed = [];
+	for (i = 0; i < rotation.size; i++)
+	{
+		if (!Contains(playedMaps, rotation[i]))
+			unplayed[unplayed.size] = rotation[i];
+	}
+
+	// No more new maps found, only reset when something was played or this would recurse forever
+	if (unplayed.size < amount && playedMaps.size)
 	{
 		FILE_Close(file);
 		FILE_Delete(level.files["rotation"]);
@@ -28,15 +35,11 @@ randomizeMaps(amount)
 
 	while (maps.size != amount)
 	{
-		picked = rotation[randomInt(rotation.size)];
-		rotation = Remove(rotation, picked);
+		picked = unplayed[randomInt(unplayed.size)];
+		unplayed = Remove(unplayed, picked);
 
-		// Found map
-		if (!Contains(playedMaps, picked))
-		{
-			maps[maps.size] = picked;
-			FILE_WriteLine(file, picked);
-		}
+		maps[maps.size] = picked;
+		FILE_WriteLine(file, picked);
 	}
 	FILE_Close(file);
 	level.randomizedMaps = maps;
