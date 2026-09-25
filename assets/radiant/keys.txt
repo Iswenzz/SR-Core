@@ -384,3 +384,5 @@ vector	trig_max
 string	move
 float	lip
 float	angle
+int		notcpm
+int		notvq3

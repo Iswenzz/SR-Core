@@ -4,6 +4,7 @@
 main()
 {
 	level.q3Visuals = [];
+	level.q3Layouts = [];
 	level.q3Weapons = [];
 	level.q3Models = [];
 	level.q3StartWeapons = [];
@@ -23,6 +24,7 @@ main()
 	precacheItems();
 	thread visuals();
 
+	event("map", ::layouts);
 	event("map", ::triggers);
 	event("spawn", ::onSpawn);
 }
@@ -81,6 +83,63 @@ triggers()
 	pads_velocity = getEntArray("q3_push_velocity", "targetname");
 	for (i = 0; i < pads_velocity.size; i++)
 		pads_velocity[i] thread push(true);
+}
+
+// Defrag ships a map in two physics layouts: brushwork, pickups and triggers
+// tagged notcpm are gone in CPM, notvq3 in VQ3. Everyone not running CPM gets
+// the VQ3 layout, the one with the helping platforms.
+inLayout(ent)
+{
+	if (self isQ3CPM())
+		return !isDefined(ent.notcpm) || !ent.notcpm;
+	return !isDefined(ent.notvq3) || !ent.notvq3;
+}
+
+layouts()
+{
+	brushes = getEntArray("script_brushmodel", "classname");
+	for (i = 0; i < brushes.size; i++)
+	{
+		if (!isDefined(brushes[i].notcpm) && !isDefined(brushes[i].notvq3))
+			continue;
+
+		brushes[i].q3Solid = true;
+		level.q3Layouts[level.q3Layouts.size] = brushes[i];
+	}
+	if (level.q3Layouts.size)
+		thread layoutLoop();
+}
+
+// Each player sees their own layout. Collision cannot be per player, so a
+// brush stays solid while anyone alive runs its layout.
+layoutLoop()
+{
+	while (true)
+	{
+		players = getAllPlayers();
+		for (i = 0; i < level.q3Layouts.size; i++)
+		{
+			brush = level.q3Layouts[i];
+			brush hide();
+
+			wanted = false;
+			for (j = 0; j < players.size; j++)
+			{
+				viewer = IfUndef(players[j] getSpectatorClient(), players[j]);
+				if (viewer inLayout(brush))
+					brush showToPlayer(players[j]);
+				if (isAlive(players[j]) && players[j] inLayout(brush))
+					wanted = true;
+			}
+
+			if (wanted && !brush.q3Solid)
+				brush solid();
+			else if (!wanted && brush.q3Solid)
+				brush notSolid();
+			brush.q3Solid = wanted;
+		}
+		wait 0.1;
+	}
 }
 
 onSpawn()
@@ -146,7 +205,7 @@ refreshVisuals()
 		for (j = 0; j < players.size; j++)
 		{
 			player = IfUndef(players[j] getSpectatorClient(), players[j]);
-			if (player isQ3() && !player onCooldown(visual.q3Owner))
+			if (player isQ3() && player inLayout(visual.q3Owner) && !player onCooldown(visual.q3Owner))
 				visual showToPlayer(players[j]);
 		}
 	}
@@ -584,7 +643,7 @@ pushLoop()
 	{
 		self waittill("trigger", player);
 
-		if (!player isQ3())
+		if (!player isQ3() || !player inLayout(self))
 			continue;
 
 		player thread playerPush(self);
@@ -714,6 +773,9 @@ teleporterLoop()
 	{
 		self waittill("trigger", player);
 
+		if (!player inLayout(self))
+			continue;
+
 		player thread playerTeleport(self.q3Dest);
 	}
 }
@@ -799,7 +861,7 @@ doorWanted()
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		if (!isAlive(players[i]))
+		if (!isAlive(players[i]) || !players[i] inLayout(self))
 			continue;
 
 		lead = length(players[i] getVelocity()) * (level.q3DoorPoll + self.q3Travel);
@@ -852,7 +914,7 @@ buttonPressed()
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		if (!isAlive(players[i]) || !players[i] isQ3())
+		if (!isAlive(players[i]) || !players[i] isQ3() || !players[i] inLayout(self))
 			continue;
 		if (distance(players[i].origin, self.q3Shut) < 128)
 			return true;
@@ -872,7 +934,7 @@ buttonFire()
 
 canTrigger(trigger)
 {
-	if (!self isQ3() || isDefined(self.q3Cooldowns[trigger.id]))
+	if (!self isQ3() || !self inLayout(trigger) || isDefined(self.q3Cooldowns[trigger.id]))
 		return false;
 
 	self.q3Cooldowns[trigger.id] = true;

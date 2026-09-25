@@ -518,6 +518,13 @@ isQ3W()
 	return false;
 }
 
+isQ3CPM()
+{
+	if (isDefined(self.sr_mode) && (self.sr_mode == "Q3CPM" || self.sr_mode == "Q3CPMW"))
+		return true;
+	return false;
+}
+
 isCS()
 {
 	if (isDefined(self.sr_mode) && (self.sr_mode == "CS" || self.sr_mode == "Portal"))
