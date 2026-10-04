@@ -35,8 +35,6 @@ cmd_Video(args)
 	room = level.dvar["seed"];
 	id = args[0];
 	ifEnded = Ternary(self.admin_role == "player", "&ifEnded=true", "");
-	if (!isUrlToken(id))
-		return self pm("^1Invalid video id");
 
 	critical_enter("http");
 
