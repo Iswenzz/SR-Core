@@ -44,6 +44,10 @@
 #define SR_BORDER_COLOR 	0.5 0.1 1 1
 #endif
 
+#ifndef SR_WINDOW_BACKCOLOR
+#define SR_WINDOW_BACKCOLOR	0 0 0 0.3
+#endif
+
 #ifndef SR_KEY_SIZE_X
 #define SR_KEY_SIZE_X 		230
 #endif
@@ -64,14 +68,25 @@
 #define SR_VALUE_OFFSET_X	0
 #endif
 
+#ifndef SR_KV_BACKCOLOR
+#define SR_KV_BACKCOLOR		0 0 0 0.4
+#endif
+
 #ifndef SR_TEXTALIGN_VALUE
 #define SR_TEXTALIGN_VALUE	ITEM_ALIGN_MIDDLE_CENTER
 #endif
 
+// Width of the left rail of the windows with pages (options, controls).
+#ifndef SR_NAV_W
+#define SR_NAV_W			150
+#endif
+
+// A page sits right of its window's rail. Its rect has to stay clear of the rail: the UI drops a click
+// outside the focused menu's rect to the menus under it, which is how the rail stays clickable.
 #define SR_WINDOW_CONTENT_RECT \
-	SR_WINDOW_X \
+	(SR_WINDOW_X + SR_NAV_W) \
 	(SR_WINDOW_Y + SR_WINDOW_HEADER_H) \
-	SR_WINDOW_W \
+	(SR_WINDOW_W - SR_NAV_W) \
 	(SR_WINDOW_H - SR_WINDOW_HEADER_H) \
 	SR_ALIGN_TOP_SUBLEFT \
 
@@ -105,7 +120,7 @@
 		name			"window" \
 		rect			0 0 SR_WINDOW_SIZE SR_ALIGN_TOP_SUBLEFT \
 		style			1 \
-		backcolor		0 0 0 0.3 \
+		backcolor		SR_WINDOW_BACKCOLOR \
 		visible			1 \
 		decoration \
 	} \
@@ -199,7 +214,7 @@
 	{ \
 		name			"textKey" \
 		style			1 \
-		backcolor		0 0 0 0.4 \
+		backcolor		SR_KV_BACKCOLOR \
 		visible			visArg \
 		type			0 \
 		rect			LAYOUT_X(itemIndex) LAYOUT_Y(itemIndex) SR_KEY_SIZE_X LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
@@ -216,7 +231,7 @@
 	{ \
 		name			"textValue" \
 		style			1 \
-		backcolor		0 0 0 0.4 \
+		backcolor		SR_KV_BACKCOLOR \
 		visible			visArg \
 		type			ITEM_TYPE_BUTTON \
 		rect			(LAYOUT_X(itemIndex) + SR_KEY_SIZE_X + 2) LAYOUT_Y(itemIndex) SR_VALUE_SIZE_X LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \

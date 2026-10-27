@@ -47,7 +47,7 @@
 			name		voicechat_level_indicator
 			ownerdraw	UI_RECORDLEVEL
 			rect		LAYOUT_ORIGIN(25) 100 10 LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN
-			origin 		520 8
+			origin 		437 8
 			style		WINDOW_STYLE_EMPTY
 			visible		1
 			decoration

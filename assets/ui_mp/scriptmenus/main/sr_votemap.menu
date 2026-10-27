@@ -1,33 +1,132 @@
-#define LAYOUT_NAME				"votemap"
-#define LAYOUT_Y_COUNT			1
-#define LAYOUT_X_START			20
-#define LAYOUT_Y_START			68
-#define LAYOUT_X_SPACING		199
-#define LAYOUT_SIZE_X			198
-#define LAYOUT_TEXT_OFFSET_X 	0
-#define LAYOUT_TEXTALIGN		ITEM_ALIGN_MIDDLE_CENTER
-#define BUTTON_SIZE_X			198
-#define SR_HEADER_TEXTALIGN 	ITEM_ALIGN_MIDDLE_CENTER
-#define SR_HEADER_OFFSET_X		0
-#define SR_WINDOW_HEADER_H		40
-#define HEADER_HALF				(SR_WINDOW_HEADER_H / 2)
-#define FOOTER_H				30
-#define BOTTOM_Y				(SR_WINDOW_H - FOOTER_H)
-
 #include "ui/components/base.inc"
 
-#define ENTRY(id, script) \
-	BUTTON_VIS(id, dvarString("sr_votemap_" + (id - 1)), scriptMenuResponse script;, when(dvarString("sr_votemap_" + (id - 1)) != ""))
+// Muted and number text.
+#define VOTE_DIM				0.85 0.85 0.85 1
+
+// sr_votemap_<slot> holds the page's maps, empty past the last one.
+#define VOTE_MAP(slot)			dvarString("sr_votemap_" + slot)
+#define VOTE_HAS(slot)			(dvarString("sr_votemap_" + slot) != "")
+#define VOTE_IS_SEL(slot)		(VOTE_HAS(slot) && dvarString("sr_votemap_" + slot) == dvarString("sr_vote_selected"))
+
+// A slot's place in the whole filtered list. sr_vote_page reads "<page>/<pages>" and int() keeps <page>.
+#define VOTE_NUM(slot)			("" + (((int(dvarString("sr_vote_page")) - 1) * 24) + slot + 1))
+
+#define VOTE_ROW(slot)			(70 + (slot) * 12)
+
+#define VOTE_FILL(x, y, w, h, color) \
+	itemDef \
+	{ \
+		rect			x y w h SR_ALIGN_TOP_SUBLEFT \
+		style			WINDOW_STYLE_FILLED \
+		backcolor		color \
+		visible			1 \
+		decoration \
+	}
+
+#define VOTE_FILL_IF(x, y, w, h, color, cond) \
+	itemDef \
+	{ \
+		rect			x y w h SR_ALIGN_TOP_SUBLEFT \
+		style			WINDOW_STYLE_FILLED \
+		backcolor		color \
+		visible			when(cond) \
+		decoration \
+	}
+
+#define VOTE_TEXT(x, y, w, h, textArg, scale, align, color) \
+	itemDef \
+	{ \
+		rect			x y w h SR_ALIGN_TOP_SUBLEFT \
+		exp				text(textArg) \
+		textfont		UI_FONT_NORMAL \
+		textscale		scale \
+		textstyle		ITEM_TEXTSTYLE_SHADOWED \
+		textalign		align \
+		forecolor		color \
+		visible			1 \
+		decoration \
+	}
+
+#define VOTE_TEXT_IF(x, y, w, h, textArg, scale, align, color, cond) \
+	itemDef \
+	{ \
+		rect			x y w h SR_ALIGN_TOP_SUBLEFT \
+		exp				text(textArg) \
+		textfont		UI_FONT_NORMAL \
+		textscale		scale \
+		textstyle		ITEM_TEXTSTYLE_SHADOWED \
+		textalign		align \
+		forecolor		color \
+		visible			when(cond) \
+		decoration \
+	}
+
+#define VOTE_HOVER(id, x, y, w, h, color) \
+	VOTE_FILL_IF(x, y, w, h, color, localVarInt(ui_vote_hover) == id)
+
+// Clickable part of a control. id lights the hover fill drawn under it and must be unique in the menu.
+#define VOTE_HIT(id, x, y, w, h, textArg, scale, align, alignX, script, vis) \
+	itemDef \
+	{ \
+		type			ITEM_TYPE_BUTTON \
+		rect			x y w h SR_ALIGN_TOP_SUBLEFT \
+		exp				text(textArg) \
+		textfont		UI_FONT_NORMAL \
+		textscale		scale \
+		textstyle		ITEM_TEXTSTYLE_SHADOWED \
+		textalign		align \
+		textalignx		alignX \
+		forecolor		1 1 1 1 \
+		visible			vis \
+		onFocus \
+		{ \
+			play "mouse_over"; \
+			setLocalVarInt ui_vote_hover id; \
+		} \
+		leaveFocus \
+		{ \
+			setLocalVarInt ui_vote_hover 0; \
+		} \
+		action \
+		{ \
+			play "mouse_click"; \
+			script; \
+		} \
+	}
+
+#define VOTE_BUTTON(id, x, y, w, h, label, scale, color, script) \
+	VOTE_FILL(x, y, w, h, color) \
+	VOTE_HOVER(id, x, y, w, h, 1 1 1 0.12) \
+	VOTE_HIT(id, x, y, w, h, label, scale, ITEM_ALIGN_MIDDLE_CENTER, 0, script, 1)
+
+#define VOTE_ARROW(id, x, label, script) \
+	VOTE_FILL(x, 362, 18, 18, 1 1 1 0.08) \
+	VOTE_HOVER(id, x, 362, 18, 18, 0.5 0.1 1 0.45) \
+	VOTE_HIT(id, x, 362, 18, 18, label, 0.24, ITEM_ALIGN_MIDDLE_CENTER, 0, script, 1)
+
+#define VOTE_STRIPE(r) \
+	VOTE_FILL(6, VOTE_ROW(r), 220, 12, 1 1 1 0.04)
+
+// One map slot: hover and selection fills, the clickable name, then its list number in the first
+// 22px. The selected map gets the brand fill and a white edge.
+#define VOTE_SLOT(id, slot, script) \
+	VOTE_FILL_IF(6, VOTE_ROW(slot), 220, 12, 0.5 0.1 1 0.3, localVarInt(ui_vote_hover) == id && VOTE_HAS(slot)) \
+	VOTE_FILL_IF(6, VOTE_ROW(slot), 220, 12, 0.5 0.1 1 0.55, VOTE_IS_SEL(slot)) \
+	VOTE_FILL_IF(6, VOTE_ROW(slot), 3, 12, 1 1 1 0.9, VOTE_IS_SEL(slot)) \
+	VOTE_HIT(id, 6, VOTE_ROW(slot), 220, 12, VOTE_MAP(slot), 0.21, ITEM_ALIGN_MIDDLE_LEFT, 32, script, when(VOTE_HAS(slot))) \
+	VOTE_TEXT_IF(6, VOTE_ROW(slot), 22, 12, VOTE_NUM(slot), 0.21, ITEM_ALIGN_MIDDLE_RIGHT, VOTE_DIM, VOTE_HAS(slot))
 
 {
+	// A dock on the left of the 4:3 frame, so the game stays in view.
 	menuDef
 	{
-		SR_WINDOW("sr_votemap")
-
-		focusColor	COLOR_FOCUSED
+		name			"sr_votemap"
+		rect			4 35 232 410 SR_ALIGN_TOP_SUBLEFT
+		focusColor		COLOR_FOCUSED
 
 		onOpen
 		{
+			setLocalVarInt ui_vote_hover 0;
 			scriptMenuResponse "open";
 		}
 
@@ -41,140 +140,93 @@
 			close self;
 		}
 
-		SR_FRAME_HEADER("Vote", 0, 0, SR_WINDOW_W, HEADER_HALF, 0)
-		SR_FRAME_HEADER(dvarString("sr_vote_selected"), 0, HEADER_HALF, SR_WINDOW_W, HEADER_HALF, 0)
+		VOTE_FILL(0, 0, 232, 410, 0 0 0 0.5)
 
-		BUTTON_DVAREDIT_VIS_EX(1, "", "sr_vote_search", 30, 30, ;, 1, textalignx LAYOUT_TEXT_OFFSET_X)
-		SR_FRAME_BORDER(LAYOUT_X_START, (LAYOUT_Y_START + 22), BUTTON_SIZE_X, 2)
+		VOTE_TEXT(10, 2, 214, 18, "Vote", 0.3, ITEM_ALIGN_MIDDLE_LEFT, 1 1 1 1)
+		VOTE_TEXT_IF(10, 20, 214, 16, dvarString("sr_vote_selected"), 0.24, ITEM_ALIGN_MIDDLE_LEFT, 0 1 1 1, dvarString("sr_vote_selected") != "")
+		VOTE_TEXT_IF(10, 20, 214, 16, "No map selected", 0.24, ITEM_ALIGN_MIDDLE_LEFT, VOTE_DIM, dvarString("sr_vote_selected") == "")
+		VOTE_FILL(0, 38, 230, 1, 0.5 0.1 1 0.6)
 
-		#undef LAYOUT_Y_START
-		#define LAYOUT_Y_START			110
-
-		#undef LAYOUT_Y_COUNT
-		#define LAYOUT_Y_COUNT			8
-
-		#undef LAYOUT_NAME
-		#define LAYOUT_NAME				"entry"
-
-		ENTRY(1, "select:0")
-		ENTRY(2, "select:1")
-		ENTRY(3, "select:2")
-		ENTRY(4, "select:3")
-		ENTRY(5, "select:4")
-		ENTRY(6, "select:5")
-		ENTRY(7, "select:6")
-		ENTRY(8, "select:7")
-
-		ENTRY(9, "select:8")
-		ENTRY(10, "select:9")
-		ENTRY(11, "select:10")
-		ENTRY(12, "select:11")
-		ENTRY(13, "select:12")
-		ENTRY(14, "select:13")
-		ENTRY(15, "select:14")
-		ENTRY(16, "select:15")
-
-		ENTRY(17, "select:16")
-		ENTRY(18, "select:17")
-		ENTRY(19, "select:18")
-		ENTRY(20, "select:19")
-		ENTRY(21, "select:20")
-		ENTRY(22, "select:21")
-		ENTRY(23, "select:22")
-		ENTRY(24, "select:23")
-
-		#undef LAYOUT_NAME
-		#define LAYOUT_NAME			"call"
-
-		#undef LAYOUT_Y_START
-		#define LAYOUT_Y_START		(BOTTOM_Y + 5)
-
-		#undef LAYOUT_Y_COUNT
-		#define LAYOUT_Y_COUNT 		1
-
-		#undef LAYOUT_X_SPACING
-		#define LAYOUT_X_SPACING	61
-
-		#undef LAYOUT_SIZE_X
-		#define LAYOUT_SIZE_X		60
-
-		#undef BUTTON_SIZE_X
-		#define BUTTON_SIZE_X		60
-
-		#undef LAYOUT_HORIZONTAL_ALIGN
-		#define LAYOUT_HORIZONTAL_ALIGN	HORIZONTAL_ALIGN_DEFAULT
-
-		SR_FRAME_HEADER("", 0, BOTTOM_Y, SR_WINDOW_W, FOOTER_H, 0)
-		SR_FRAME_BORDER(0, BOTTOM_Y, SR_WINDOW_W, 2)
-
-		BUTTON(1, "^8Call Vote", scriptMenuResponse "vote:map";)
-		BUTTON(2, "^8End Map", scriptMenuResponse "vote:endmap";)
-		BUTTON(3, "^8Time +10", scriptMenuResponse "vote:add10";)
-		BUTTON(4, "^8Time +20", scriptMenuResponse "vote:add20";)
-
-		#define MARGIN 245
-
-		itemdef
+		// Search over sr_vote_search, the userinfo the server filters the rotation with. Typed text starts
+		// about 12px in (a one-space label plus the engine's 8px gap), where the placeholder sits.
+		VOTE_FILL(6, 44, 220, 20, 0 0 0 0.5)
+		VOTE_HOVER(40, 6, 44, 220, 20, 1 1 1 0.06)
+		VOTE_FILL(6, 62, 220, 2, 0.5 0.1 1 1)
+		VOTE_TEXT_IF(18, 44, 208, 20, "Search maps", 0.24, ITEM_ALIGN_MIDDLE_LEFT, VOTE_DIM, dvarString("sr_vote_search") == "")
+		itemDef
 		{
-			name			"prev"
-			rect			(MARGIN + 20) (BOTTOM_Y - 45) 30 30 0 0
-			style			WINDOW_STYLE_FILLED
-			text			"<"
-			textalign		ITEM_ALIGN_CENTER
-			textalignx		0
-			textaligny		26
-			type			ITEM_TYPE_BUTTON
+			type			ITEM_TYPE_EDITFIELD
+			rect			6 44 220 20 SR_ALIGN_TOP_SUBLEFT
+			text			" "
+			dvar			"sr_vote_search"
+			maxChars		30
+			maxpaintchars	34
+			textfont		UI_FONT_NORMAL
+			textscale		0.24
 			textstyle		ITEM_TEXTSTYLE_SHADOWED
+			textalign		ITEM_ALIGN_MIDDLE_LEFT
+			textalignx		2
+			forecolor		1 1 1 1
 			visible			1
 
-			mouseEnter
+			onFocus
 			{
 				play "mouse_over";
+				setLocalVarInt ui_vote_hover 40;
 			}
 
-			action
+			leaveFocus
 			{
-				play "mouse_click";
-				scriptMenuResponse "prev";
+				setLocalVarInt ui_vote_hover 0;
 			}
 		}
 
-		itemdef
-		{
-			name			"next"
-			rect			(MARGIN + 100) (BOTTOM_Y - 45) 30 30 0 0
-			style			WINDOW_STYLE_FILLED
-			text			">"
-			textalign		ITEM_ALIGN_CENTER
-			textalignx		0
-			textaligny		26
-			type			ITEM_TYPE_BUTTON
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			visible			1
+		VOTE_FILL(6, 70, 220, 288, 0 0 0 0.3)
+		VOTE_STRIPE(1)
+		VOTE_STRIPE(3)
+		VOTE_STRIPE(5)
+		VOTE_STRIPE(7)
+		VOTE_STRIPE(9)
+		VOTE_STRIPE(11)
+		VOTE_STRIPE(13)
+		VOTE_STRIPE(15)
+		VOTE_STRIPE(17)
+		VOTE_STRIPE(19)
+		VOTE_STRIPE(21)
+		VOTE_STRIPE(23)
 
-			mouseEnter
-			{
-				play "mouse_over";
-			}
+		VOTE_SLOT(1, 0, scriptMenuResponse "select:0")
+		VOTE_SLOT(2, 1, scriptMenuResponse "select:1")
+		VOTE_SLOT(3, 2, scriptMenuResponse "select:2")
+		VOTE_SLOT(4, 3, scriptMenuResponse "select:3")
+		VOTE_SLOT(5, 4, scriptMenuResponse "select:4")
+		VOTE_SLOT(6, 5, scriptMenuResponse "select:5")
+		VOTE_SLOT(7, 6, scriptMenuResponse "select:6")
+		VOTE_SLOT(8, 7, scriptMenuResponse "select:7")
+		VOTE_SLOT(9, 8, scriptMenuResponse "select:8")
+		VOTE_SLOT(10, 9, scriptMenuResponse "select:9")
+		VOTE_SLOT(11, 10, scriptMenuResponse "select:10")
+		VOTE_SLOT(12, 11, scriptMenuResponse "select:11")
+		VOTE_SLOT(13, 12, scriptMenuResponse "select:12")
+		VOTE_SLOT(14, 13, scriptMenuResponse "select:13")
+		VOTE_SLOT(15, 14, scriptMenuResponse "select:14")
+		VOTE_SLOT(16, 15, scriptMenuResponse "select:15")
+		VOTE_SLOT(17, 16, scriptMenuResponse "select:16")
+		VOTE_SLOT(18, 17, scriptMenuResponse "select:17")
+		VOTE_SLOT(19, 18, scriptMenuResponse "select:18")
+		VOTE_SLOT(20, 19, scriptMenuResponse "select:19")
+		VOTE_SLOT(21, 20, scriptMenuResponse "select:20")
+		VOTE_SLOT(22, 21, scriptMenuResponse "select:21")
+		VOTE_SLOT(23, 22, scriptMenuResponse "select:22")
+		VOTE_SLOT(24, 23, scriptMenuResponse "select:23")
 
-			action
-			{
-				play "mouse_click";
-				scriptMenuResponse "next";
-			}
-		}
+		VOTE_ARROW(31, 48, "<", scriptMenuResponse "prev")
+		VOTE_TEXT(66, 362, 100, 18, "Page " + dvarString("sr_vote_page"), 0.24, ITEM_ALIGN_MIDDLE_CENTER, 0 1 1 1)
+		VOTE_ARROW(32, 166, ">", scriptMenuResponse "next")
 
-		itemdef
-		{
-			name			"pageindex"
-			rect			(MARGIN + 65) (BOTTOM_Y - 45) 20 20 0 0
-			style			WINDOW_STYLE_EMPTY
-			textstyle		ITEM_TEXTSTYLE_SHADOWED
-			textalign		ITEM_ALIGN_MIDDLE_CENTER
-			textaligny		4
-			visible			1
-			exp				text("^8" + dvarString("sr_vote_page"))
-			decoration
-		}
+		VOTE_BUTTON(41, 6, 386, 64, 20, "Call Vote", 0.22, 0.5 0.1 1 0.55, scriptMenuResponse "vote:map")
+		VOTE_BUTTON(42, 72, 386, 50, 20, "End Map", 0.2, 0 1 1 0.4, scriptMenuResponse "vote:endmap")
+		VOTE_BUTTON(43, 124, 386, 50, 20, "Time +10", 0.2, 0 1 1 0.4, scriptMenuResponse "vote:add10")
+		VOTE_BUTTON(44, 176, 386, 50, 20, "Time +20", 0.2, 0 1 1 0.4, scriptMenuResponse "vote:add20")
 	}
 }

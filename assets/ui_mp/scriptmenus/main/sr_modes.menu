@@ -35,7 +35,7 @@
             name        "window" \
             rect        MODES_X MODES_Y MODES_W MODES_H HORIZONTAL_ALIGN_SUBLEFT VERTICAL_ALIGN_SUBTOP \
             style       1 \
-            backcolor   0 0 0 0.6 \
+            backcolor   SR_WINDOW_BACKCOLOR \
             visible     1 \
             decoration \
         }
@@ -78,7 +78,7 @@
             textfont    1 \
             textscale   0.30 \
             textalign   ITEM_ALIGN_MIDDLE_LEFT \
-            forecolor   0.8 0.8 0.8 1 \
+            forecolor   0.85 0.85 0.85 1 \
             textstyle   3 \
             visible     1 \
             decoration \

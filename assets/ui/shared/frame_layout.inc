@@ -11,10 +11,10 @@
 #define TITLE_Y_OFFSET				-36
 
 #undef LAYOUT_TEXTSIZE
-#define LAYOUT_TEXTSIZE				0.3
+#define LAYOUT_TEXTSIZE				0.27
 
 #undef LAYOUT_SIZE_X
-#define LAYOUT_SIZE_X 				160
+#define LAYOUT_SIZE_X 				136
 
 #undef LAYOUT_SIZE_Y
 #define LAYOUT_SIZE_Y 				22
@@ -82,8 +82,10 @@
 #undef LAYOUT_SEPATATOR_2
 #define LAYOUT_SEPATATOR_2		32
 
+// Two columns between the window's rail and its right edge. An item adds its page's x, which already
+// starts at the rail, on top of this offset from the screen centre.
 #undef LAYOUT_X_START
-#define LAYOUT_X_START			-298
+#define LAYOUT_X_START			-306
 
 #undef LAYOUT_Y_START
 #define LAYOUT_Y_START			15
@@ -92,16 +94,29 @@
 #define LAYOUT_TEXT_OFFSET_X 	0
 
 #undef	LAYOUT_X_SPACING
-#define LAYOUT_X_SPACING 		310
+#define LAYOUT_X_SPACING 		236
 
 #undef	LAYOUT_Y_COUNT
 #define LAYOUT_Y_COUNT 			15
 
 #undef BUTTON_SIZE_X
-#define BUTTON_SIZE_X 			280
+#define BUTTON_SIZE_X 			226
 
+// Rows beside the rail sit on darker plates, the same 0.5 everywhere: a row's two layers of 0.29 stack up
+// to it, a key/value row's single plate is it.
+#undef LAYOUT_ROW_COLOR
+#define LAYOUT_ROW_COLOR		0 0 0 0.29
+
+#undef SR_KV_BACKCOLOR
+#define SR_KV_BACKCOLOR			0 0 0 0.5
+
+// Rows are narrower beside the rail, so a slider's bar starts early enough to end inside its row.
+#undef LAYOUT_SLIDER_X
+#define LAYOUT_SLIDER_X			(BUTTON_SIZE_X - 100)
+
+// Also added to the page's x, so the Apply button stays near the window's right edge.
 #undef 	BUTTON_APPLY_X
-#define BUTTON_APPLY_X 			240
+#define BUTTON_APPLY_X 			90
 
 #undef 	BUTTON_APPLY_Y
 #define BUTTON_APPLY_Y 			-150

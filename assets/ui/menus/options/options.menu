@@ -1,14 +1,14 @@
 #include "ui/components/base.inc"
-#include "ui/shared/frame_header.inc"
 
-#undef HEADER_X_START
-#define HEADER_X_START		-((HEADER_X_SPACING * 2))
+// The pages open beside the rail; Speedrun is the in-game sr_settings page.
+#define OPTIONS_PAGE(id, y, label, page, script) \
+	RAIL_PAGE(id, 10, y, (SR_NAV_W - 20), 28, label, page, script)
 
 {
     menuDef
 	{
-		SR_WINDOW("main_options")
-
+		name			"main_options"
+		rect			SR_WINDOW_RECT
 		fullScreen		0
 		focusColor		COLOR_FOCUSED
 		soundloop		""
@@ -18,6 +18,7 @@
 		{
 			setLocalVarBool ui_showApply 0;
 			setLocalVarBool ui_showTextureApply 0;
+			setLocalVarInt ui_rail_hover 0;
 
 			CLOSE_SERVERBROWSER;
 			CLOSE_CREATE_SERVER;
@@ -37,9 +38,12 @@
 			close self;
 		}
 
-		HEADER(2, "@MENU_GRAPHICS", open options_graphics;)
-		HEADER(3, "@MENU_SOUND", open options_sound;)
-		HEADER(4, "@MENU_MULTIPLAYER_OPTIONS", open options_game;)
-		HEADER(5, "Mute Players...", open muteplayer;)
+		RAIL_FILL(0, 0, SR_WINDOW_W, SR_WINDOW_H, SR_WINDOW_BACKCOLOR)
+		RAIL_PANEL(SR_NAV_W, SR_WINDOW_H, "Settings")
+		OPTIONS_PAGE(1, 58, "Speedrun", sr_settings, CLOSE_ALL_OPTIONS; open sr_settings;)
+		OPTIONS_PAGE(2, 90, "Graphics", options_graphics, close sr_settings; open options_graphics;)
+		OPTIONS_PAGE(3, 122, "Sound", options_sound, close sr_settings; open options_sound;)
+		OPTIONS_PAGE(4, 154, "Game", options_game, close sr_settings; open options_game;)
+		OPTIONS_PAGE(5, 186, "Mute Players", muteplayer, close sr_settings; open muteplayer;)
 	}
 }

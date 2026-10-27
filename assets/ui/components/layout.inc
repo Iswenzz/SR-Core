@@ -5,6 +5,11 @@
 #define BUTTON_SIZE_X 			150
 #endif
 
+// Where a slider's bar starts in its row; the engine draws the bar about 96 wide from there.
+#ifndef LAYOUT_SLIDER_X
+#define LAYOUT_SLIDER_X			(LAYOUT_SIZE_X+20)
+#endif
+
 #ifndef BUTTON_DVAR_TEXTALIGN
 #define BUTTON_DVAR_TEXTALIGN		ITEM_ALIGN_MIDDLE_LEFT
 #endif
@@ -212,6 +217,11 @@
 #define BACKGROUND_COLOR			0 0 0 0.3
 #endif
 
+// Each of the two layers BACKGROUND draws under a row.
+#ifndef LAYOUT_ROW_COLOR
+#define LAYOUT_ROW_COLOR			0 0 0 0.1
+#endif
+
 #if !defined(LAYOUT_SEPATATOR_1) || !defined(LAYOUT_SEPARATOR_SPACING)
 #define LAYOUT_SEPARATOR_TOTAL_SPACING(itemIndex)	0
 #elif !defined(LAYOUT_SEPATATOR_2)
@@ -259,7 +269,7 @@
 			style			WINDOW_STYLE_FILLED \
 			rect			LAYOUT_ORIGIN(itemIndex) (BUTTON_SIZE_X) LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 			forecolor		1 1 1 0 \
-			backColor       0 0 0 0.1 \
+			backColor       LAYOUT_ROW_COLOR \
 			visible			visArg \
 			decoration \
 		} \
@@ -268,7 +278,7 @@
 			style			WINDOW_STYLE_FILLED \
 			rect			LAYOUT_ORIGIN(itemIndex) (BUTTON_SIZE_X) LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 			forecolor		1 1 1 0 \
-			backColor       0 0 0 0.1 \
+			backColor       LAYOUT_ROW_COLOR \
 			visible			visArg \
 			decoration \
 		} \
@@ -980,7 +990,7 @@
 			dvarfloat		dvarArg defaultArg minArg maxArg \
 			rect			LAYOUT_ORIGIN(itemIndex) (BUTTON_SIZE_X) LAYOUT_SIZE_Y LAYOUT_HORIZONTAL_ALIGN LAYOUT_VERTICAL_ALIGN \
 			textalign		ITEM_ALIGN_MIDDLE_LEFT \
-			textalignx		(LAYOUT_SIZE_X+20) /*(-(LAYOUT_TEXT_OFFSET_X))*/ \
+			textalignx		(LAYOUT_SLIDER_X) /*(-(LAYOUT_TEXT_OFFSET_X))*/ \
 			textscale		LAYOUT_TEXTSIZE \
 			textstyle		ITEM_TEXTSTYLE_NORMAL \
 			style			WINDOW_STYLE_FILLED \

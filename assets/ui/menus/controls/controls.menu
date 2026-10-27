@@ -1,20 +1,14 @@
 #include "ui/components/base.inc"
-#include "ui/shared/frame_header.inc"
 
-#undef HEADER_SIZE_X
-#define HEADER_SIZE_X		120
-
-#undef HEADER_X_SPACING
-#define HEADER_X_SPACING	121
-
-#undef HEADER_X_START
-#define HEADER_X_START		-300
+// The binding pages open beside the rail; Multiplayer is the mod's own controls_multi page.
+#define CONTROLS_PAGE(id, y, label, page) \
+	RAIL_PAGE(id, 10, y, (SR_NAV_W - 20), 28, label, page, open page;)
 
 {
 	menuDef
 	{
-		SR_WINDOW("main_controls")
-
+		name			"main_controls"
+		rect			SR_WINDOW_RECT
 		fullScreen		0
 		focusColor		COLOR_FOCUSED
 		forecolor		1 1 1 0.04
@@ -23,6 +17,7 @@
 		onOpen
 		{
 			setLocalVarBool ui_showApply 0;
+			setLocalVarInt ui_rail_hover 0;
 
 			CLOSE_SERVERBROWSER;
 			CLOSE_CREATE_SERVER;
@@ -42,10 +37,12 @@
 			close self;
 		}
 
-		HEADER(2, "@MENU_LOOK", open options_look;)
-		HEADER(3, "@MENU_MOVE", open options_move;)
-		HEADER(4, "@MENU_COMBAT", open options_shoot;)
-		HEADER(5, "@MENU_INTERACT", open options_misc;)
-		HEADER(6, "Multiplayer...", open options_mod;)
+		RAIL_FILL(0, 0, SR_WINDOW_W, SR_WINDOW_H, SR_WINDOW_BACKCOLOR)
+		RAIL_PANEL(SR_NAV_W, SR_WINDOW_H, "Controls")
+		CONTROLS_PAGE(1, 58, "Look", options_look)
+		CONTROLS_PAGE(2, 90, "Move", options_move)
+		CONTROLS_PAGE(3, 122, "Combat", options_shoot)
+		CONTROLS_PAGE(4, 154, "Interact", options_misc)
+		CONTROLS_PAGE(5, 186, "Multiplayer", options_mod)
 	}
 }
