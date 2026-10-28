@@ -62,6 +62,12 @@ sweep()
 		}
 
 		current = self.origin;
+		// A teleport is a jump, not a path: nothing between its two ends was crossed.
+		if (distanceSquared(previous, current) > 512 * 512)
+		{
+			previous = current;
+			continue;
+		}
 		self step(previous, current);
 		previous = current;
 	}
