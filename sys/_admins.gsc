@@ -235,6 +235,9 @@ command(name, arg)
 	// CoD4x crash without delay in the callback
 	wait 0.05;
 
+	if (!self isAuth())
+		return self printLinkRequired();
+
 	cmd = level.admin_commands[toLower(name)];
 	args = strTok(IfUndef(arg, ""), " ");
 

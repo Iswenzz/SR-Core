@@ -154,8 +154,14 @@ onConnect()
 		self setLoading("rank", false);
 		return;
 	}
+	// Unlinked players start over locally; saveRank leaves the account alone.
 	if (self isFirstConnection())
-		self loadRank();
+	{
+		if (self sr\sys\_admins::isAuth())
+			self loadRank();
+		else
+			self reset();
+	}
 
 	if (!isDefined(self))
 		return;
@@ -234,6 +240,9 @@ saveRank()
 	self maps\mp\gametypes\_persistence::statSet("MINXP", getRankInfoMinXp(self.pers["rank"]));
 	self maps\mp\gametypes\_persistence::statSet("MAXXP", getRankInfoMaxXp(self.pers["rank"]));
 	self maps\mp\gametypes\_persistence::statSet("PRESTIGE", self.pers["prestige"]);
+
+	if (!self sr\sys\_admins::isAuth())
+		return;
 
 	id = self.id;
 	name = self.name;
