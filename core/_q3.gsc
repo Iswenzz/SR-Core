@@ -420,6 +420,7 @@ playerGiveWeapon(name, ammo)
 	self setWeaponAmmoStock(weapon, 0);
 	self setWeaponAmmoClip(weapon, IfUndef(ammo, clip));
 	self switchToWeapon(weapon);
+	self takeKnife();
 }
 
 triggerAmmo()
@@ -463,8 +464,34 @@ playerAddAmmo(name, ammo)
 		self giveWeapon(weapon);
 		self setWeaponAmmoStock(weapon, 0);
 		self setWeaponAmmoClip(weapon, 0);
+		self takeKnife();
 	}
 	self setWeaponAmmoClip(weapon, self getWeaponAmmoClip(weapon) + IfUndef(ammo, 0));
+}
+
+// Once a Q3 weapon is in hand the knife is only an extra step when switching.
+takeKnife()
+{
+	if (isDefined(self.pers["knife"]) && self hasWeapon(self.pers["knife"]))
+		self takeWeapon(self.pers["knife"]);
+}
+
+// The engine leaves the hands empty when the weapon in them is taken.
+switchToHeldWeapon()
+{
+	if (self hasWeapon(self getCurrentWeapon()))
+		return;
+
+	if (isDefined(self.pers["weapon"]) && self hasWeapon(self.pers["weapon"]))
+		self switchToWeapon(self.pers["weapon"]);
+	else if (isDefined(self.pers["knife"]) && self hasWeapon(self.pers["knife"]))
+		self switchToWeapon(self.pers["knife"]);
+	else
+	{
+		weapons = self getWeaponsList();
+		if (weapons.size)
+			self switchToWeapon(weapons[0]);
+	}
 }
 
 // The weapon an ammo pickup feeds: the one it names, or the Q3 weapon in hand.
@@ -1228,6 +1255,7 @@ playerInit(target)
 			if (self hasWeapon(level.q3Weapons[names[i]]))
 				self takeWeapon(level.q3Weapons[names[i]]);
 		}
+		self switchToHeldWeapon();
 	}
 
 	perks = [];
