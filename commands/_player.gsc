@@ -6,7 +6,6 @@ main()
 {
 	cmd("angles",          "masteradmin",  ::cmd_Angles,          "Set player view angles");
 	cmd("bounce",          "masteradmin",  ::cmd_Bounce,          "Bounce a player");
-	cmd("bullet",          "owner",        ::cmd_Bullet,          "Toggle instant bullets");
 	cmd("clone",           "owner",        ::cmd_Clone,           "Spawn clones");
 	cmd("damage",          "owner",        ::cmd_Damage,          "Toggle damage");
 	cmd("dance",           "vip",          ::cmd_Dance,           "Fortnite default dance");
@@ -143,20 +142,6 @@ cmd_Bounce(args)
 	player bounce(player.origin, vectorNormalize((0, 0, 20)), 100);
 }
 
-cmd_Bullet(args)
-{
-	if (isDefined(self.instantBullet))
-	{
-		self.instantBullet = undefined;
-		self pm("^1Instant bullets");
-	}
-	else
-	{
-		self.instantBullet = true;
-		self cheat();
-		self pm("^2Instant bullets");
-	}
-}
 
 cmd_Clone(args)
 {
@@ -180,6 +165,7 @@ cmd_Debug(args)
 cmd_Damage(args)
 {
 	self.teamKill = !self.teamKill;
+	self setQ3Weapons(self.teamKill, false);
 
 	self pm(Ternary(self.teamKill, "^2Damage enabled", "^1Damage disabled"));
 }

@@ -26,8 +26,11 @@ hud()
 	{
 		self.player = IfUndef(self getSpectatorClient(), self);
 
-		ammo = IfUndef(self.player.scriptedAmmo, 0);
-		shown = self.player isQ3() && !self.player isQ3W() && ammo < 100;
+		weapon = self.player getCurrentWeapon();
+		shown = self.player isQ3() && !self.player isQ3W() && isQ3Item(weapon);
+		ammo = 0;
+		if (shown)
+			ammo = self.player getWeaponAmmoClip(weapon);
 
 		if (!isDefined(self.prevWeaponAmmo) || ammo != self.prevWeaponAmmo)
 			self.huds["weapon"] setValue(ammo);
@@ -39,6 +42,17 @@ hud()
 
 		wait 0.05;
 	}
+}
+
+isQ3Item(weapon)
+{
+	names = getArrayKeys(level.q3Weapons);
+	for (i = 0; i < names.size; i++)
+	{
+		if (isDefined(level.q3Weapons[names[i]]) && level.q3Weapons[names[i]] == weapon)
+			return true;
+	}
+	return false;
 }
 
 create()

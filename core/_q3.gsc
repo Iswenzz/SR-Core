@@ -21,6 +21,7 @@ main()
 	addWeapon("grapple", undefined, "q3_grapple");
 
 	precacheItems();
+	precacheMissiles();
 	thread visuals();
 
 	event("map", ::triggers);
@@ -29,7 +30,7 @@ main()
 
 triggers()
 {
-	addQuakePerk("quad", "Quad Damage", ::none);
+	addQuakePerk("quad", "Quad Damage", ::quad);
 	addQuakePerk("haste", "Haste", ::haste);
 	addQuakePerk("invis", "Invisibility", ::none);
 	addQuakePerk("regen", "Regeneration", ::none);
@@ -62,13 +63,25 @@ triggers()
 	for (i = 0; i < armor.size; i++)
 		armor[i] thread triggerArmor();
 
+	level.q3Shootables = [];
 	doors = getEntArray("q3_door", "targetname");
 	for (i = 0; i < doors.size; i++)
-		doors[i] thread door();
+		doors[i] door(true);
+	// getEntArray reads only the engine's own string keys, never script_noteworthy.
+	movers = getEntArray("script_brushmodel", "classname");
+	for (i = 0; i < movers.size; i++)
+	{
+		if (isDefined(movers[i].script_noteworthy) && movers[i].script_noteworthy == "func_door")
+			movers[i] door(false);
+	}
 
 	buttons = getEntArray("q3_button", "targetname");
 	for (i = 0; i < buttons.size; i++)
-		buttons[i] thread button();
+		buttons[i] button();
+
+	uses = getEntArray("q3_use", "targetname");
+	for (i = 0; i < uses.size; i++)
+		uses[i] thread useLoop();
 
 	teleporters = getEntArray("q3_teleporter", "targetname");
 	for (i = 0; i < teleporters.size; i++)
@@ -97,8 +110,17 @@ inLayout(ent)
 
 onSpawn()
 {
+	self thread explosions();
+
 	self.q3Cooldowns = [];
+	self.q3Uses = [];
+	self.q3Frags = 0;
 	self.q3Armor = 0;
+	if (self isQ3())
+	{
+		self unsetPerk("specialty_rof");
+		self unsetPerk("specialty_explosivedamage");
+	}
 	refreshVisuals();
 }
 
@@ -118,6 +140,41 @@ precacheItems()
 	}
 	precacheModel("q3_armor_combat");
 	precacheModel("q3_armor_body");
+}
+
+// What SR-Server draws for the rocket and plasma, which it can only find once the map precached them.
+precacheMissiles()
+{
+	precacheModel("quake_rocket_projectile");
+	precacheModel("tag_origin");
+	loadFX("q3/rocket_trail");
+	loadFX("q3/plasma_fire");
+	loadFX("explosions/grenadeExp_default");
+	loadFX("q3/plasma_explode");
+}
+
+// SR-Server runs the rocket and plasma and pushes everyone itself; a blast here only presses shootable buttons
+// and deals damage by the mod's rules.
+explosions()
+{
+	self endon("spawned");
+	self endon("death");
+	self endon("disconnect");
+
+	while (true)
+	{
+		self waittill("q3_explode", origin, item, hit);
+
+		range = 20;
+		damage = 15;
+		if (item == level.q3Weapons["rl"])
+		{
+			range = 120;
+			damage = 100;
+		}
+		self doRadiusDamage(origin, range, damage, 0);
+		self blast(origin, range, hit);
+	}
 }
 
 addWeapon(name, item, model)
@@ -264,6 +321,8 @@ playerSection(trigger)
 		self thread [[trigger.callback]]();
 	else
 		self sectionKeys(trigger);
+	// Whatever else shares the give's name: the gives themselves are gone.
+	useTargets(trigger.target, self);
 
 	self removeCooldown(trigger);
 }
@@ -353,9 +412,14 @@ playerGiveWeapon(name, ammo)
 	if (!isDefined(weapon))
 		return;
 
+	clip = 0;
+	if (self hasWeapon(weapon))
+		clip = self getWeaponAmmoClip(weapon);
+
 	self giveWeapon(weapon);
+	self setWeaponAmmoStock(weapon, 0);
+	self setWeaponAmmoClip(weapon, IfUndef(ammo, clip));
 	self switchToWeapon(weapon);
-	self.scriptedAmmo = IfUndef(ammo, IfUndef(self.scriptedAmmo, 0));
 }
 
 triggerAmmo()
@@ -390,13 +454,33 @@ playerAddAmmo(name, ammo)
 	if (self isQ3W())
 		return;
 
-	if (isDefined(name))
+	weapon = self ammoWeapon(name);
+	if (!isDefined(weapon))
+		return;
+
+	if (!self hasWeapon(weapon))
 	{
-		weapon = level.q3Weapons[name];
-		if (isDefined(weapon) && !self hasWeapon(weapon))
-			self giveWeapon(weapon);
+		self giveWeapon(weapon);
+		self setWeaponAmmoStock(weapon, 0);
+		self setWeaponAmmoClip(weapon, 0);
 	}
-	self.scriptedAmmo = IfUndef(self.scriptedAmmo, 0) + IfUndef(ammo, 0);
+	self setWeaponAmmoClip(weapon, self getWeaponAmmoClip(weapon) + IfUndef(ammo, 0));
+}
+
+// The weapon an ammo pickup feeds: the one it names, or the Q3 weapon in hand.
+ammoWeapon(name)
+{
+	if (isDefined(name))
+		return level.q3Weapons[name];
+
+	current = self getCurrentWeapon();
+	names = getArrayKeys(level.q3Weapons);
+	for (i = 0; i < names.size; i++)
+	{
+		if (isDefined(level.q3Weapons[names[i]]) && level.q3Weapons[names[i]] == current)
+			return current;
+	}
+	return undefined;
 }
 
 triggerHealth()
@@ -517,7 +601,9 @@ playerGivePerk(perk, time)
 
 	self sr\core\_perks::playerSetPerk(perk);
 
-	if (isDefined(time) && time > 0)
+	// A map meaning "for good" says so with a count past what a wait can hold
+	// (0xFFFFFE ms, dfwc2014_4's 9999999).
+	if (isDefined(time) && time > 0 && time < 16000)
 	{
 		wait time;
 		self sr\core\_perks::playerRemovePerk(perk);
@@ -767,13 +853,36 @@ toVector(text)
 	return (ToFloat(parts[0]), ToFloat(parts[1]), ToFloat(parts[2]));
 }
 
-door()
+// A Quake door. One the converter left as q3_door opens as a player nears; one
+// it marked func_door (named, or shot) waits to be used (doorUse).
+door(near)
 {
 	self.q3Shut = self.origin;
 	self.q3Open = self.origin + toVector(self.move);
-	self.q3Speed = IfUndef(self.speed, 100);
-	self.q3Wait = IfUndef(self.time, 2);
+	// START_OPEN: placed open, it shuts where it would have opened to.
+	if (pushFlag(IfUndef(self.spawnflags, 0), 1))
+	{
+		self.q3Open = self.origin;
+		self.q3Shut = self.origin + toVector(self.move);
+		self.origin = self.q3Shut;
+	}
+	// Quake's defaults for 0.
+	self.q3Speed = IfUndef(self.speed, 0);
+	if (self.q3Speed == 0)
+		self.q3Speed = 400;
+	self.q3Wait = IfUndef(self.time, 0);
+	if (self.q3Wait == 0)
+		self.q3Wait = 2;
 	self.q3Moving = false;
+
+	if (!near)
+	{
+		self.q3Door = true;
+		self.q3State = "shut";
+		if (isDefined(self.health) && self.health > 0)
+			level.q3Shootables[level.q3Shootables.size] = self;
+		return;
+	}
 
 	self.q3Travel = distance(self.q3Shut, self.q3Open) / self.q3Speed;
 	if (self.q3Travel <= 0)
@@ -788,14 +897,19 @@ doorLoop()
 {
 	while (true)
 	{
-		while (!self doorWanted())
+		player = self doorWanted();
+		while (!isDefined(player))
+		{
 			wait level.q3DoorPoll;
+			player = self doorWanted();
+		}
 
 		self.q3Moving = true;
 		self moveTo(self.q3Open, self.q3Travel);
 		wait self.q3Travel;
+		useTargets(self.target, player);
 
-		while (self doorWanted())
+		while (isDefined(self doorWanted()))
 			wait level.q3DoorPoll;
 
 		if (self.q3Wait < 0)
@@ -819,70 +933,474 @@ doorWanted()
 
 		lead = length(players[i] getVelocity()) * (level.q3DoorPoll + self.q3Travel);
 		if (distance(players[i].origin, self.q3Shut) < self.q3Range + lead)
-			return true;
+			return players[i];
 	}
-	return false;
+	return undefined;
 }
 
+// Quake's Use_BinaryMover on a door: shut, it opens; open, it waits its wait
+// again; closing, it opens again. Opening, it carries on rather than turning
+// back as Quake's does, so one player cannot shut it on another.
+doorUse(activator)
+{
+	if (self.q3State == "opening")
+		return;
+
+	self.q3Activator = activator;
+	self notify("q3_door_used");
+	self thread doorCycle();
+}
+
+// Out to open and back. Quake fires a door's targets once it is fully open, and
+// sends it back at once for a negative wait.
+doorCycle()
+{
+	self endon("q3_door_used");
+	self.q3Moving = true;
+
+	if (self.q3State != "open")
+	{
+		self.q3State = "opening";
+		time = self doorTime(self.q3Open);
+		self moveTo(self.q3Open, time);
+		wait time;
+		self.q3State = "open";
+		useTargets(self.target, self.q3Activator);
+	}
+
+	if (self.q3Wait > 0)
+		wait self.q3Wait;
+
+	self.q3State = "closing";
+	time = self doorTime(self.q3Shut);
+	self moveTo(self.q3Shut, time);
+	wait time;
+	self.q3State = "shut";
+	self.q3Moving = false;
+}
+
+// What is left of the way at the door's speed; a speed Quake cannot travel at
+// still takes a frame.
+doorTime(to)
+{
+	if (self.q3Speed <= 0)
+		return 0.05;
+	return max(distance(self.origin, to) / self.q3Speed, 0.05);
+}
+
+// A Quake button. The converter sends its travel (move) and its box
+// (trig_min/trig_max); one with health is shot rather than touched.
 button()
 {
 	self.q3Shut = self.origin;
 	self.q3Open = self.origin + toVector(self.move);
-	self.q3Speed = IfUndef(self.speed, 40);
-	self.q3Wait = IfUndef(self.time, 1);
+	self.q3Moving = false;
 
-	self.q3Travel = distance(self.q3Shut, self.q3Open) / self.q3Speed;
-	self thread buttonLoop();
+	// Quake's defaults for 0. A speed it cannot divide by still takes a frame.
+	speed = IfUndef(self.speed, 0);
+	if (speed == 0)
+		speed = 40;
+	self.q3Wait = IfUndef(self.time, 0);
+	if (self.q3Wait == 0)
+		self.q3Wait = 1;
+	self.q3Travel = 0.05;
+	if (speed > 0)
+		self.q3Travel = max(distance(self.q3Shut, self.q3Open) / speed, 0.05);
+
+	if (isDefined(self.health) && self.health > 0)
+		level.q3Shootables[level.q3Shootables.size] = self;
+	else
+		self thread buttonTouchLoop();
 }
 
-buttonLoop()
+// Out, fire the targets for whoever pressed it, back after the wait. Quake
+// returns at once for a negative wait, which is how a map makes a target that
+// can be shot again straight away.
+buttonPress(activator)
 {
+	self.q3Moving = true;
+
+	self moveTo(self.q3Open, self.q3Travel);
+	wait self.q3Travel;
+	useTargets(self.target, activator);
+
+	if (self.q3Wait > 0)
+		wait self.q3Wait;
+	self moveTo(self.q3Shut, self.q3Travel);
+	wait self.q3Travel;
+
+	self.q3Moving = false;
+}
+
+buttonTouchLoop()
+{
+	if (!isDefined(self.trig_min) || !isDefined(self.trig_max))
+		return;
+
 	while (true)
 	{
-		while (!self buttonPressed())
-			wait 0.1;
-
-		if (self.q3Travel > 0)
-		{
-			self moveTo(self.q3Open, self.q3Travel);
-			wait self.q3Travel;
-		}
-
-		self buttonFire();
-
-		if (self.q3Wait < 0)
-			return;
-
-		wait self.q3Wait;
-		if (self.q3Travel > 0)
-		{
-			self moveTo(self.q3Shut, self.q3Travel);
-			wait self.q3Travel;
-		}
+		player = self buttonToucher();
+		if (isDefined(player))
+			self buttonPress(player);
+		else
+			wait 0.05;
 	}
 }
 
-buttonPressed()
+// Quake presses a button when a player runs into it: the player's box within a
+// unit of the button's.
+buttonToucher()
 {
 	players = getAllPlayers();
 	for (i = 0; i < players.size; i++)
 	{
-		if (!isAlive(players[i]) || !players[i] isQ3() || !players[i] inLayout(self))
+		player = players[i];
+		if (!isAlive(player) || !player isQ3() || !player inLayout(self))
 			continue;
-		if (distance(players[i].origin, self.q3Shut) < 128)
-			return true;
+
+		low = self.trig_min - (16, 16, 71);
+		high = self.trig_max + (16, 16, 1);
+		if (player.origin[0] >= low[0] && player.origin[0] <= high[0]
+			&& player.origin[1] >= low[1] && player.origin[1] <= high[1]
+			&& player.origin[2] >= low[2] && player.origin[2] <= high[2])
+			return player;
 	}
-	return false;
+	return undefined;
 }
 
-buttonFire()
+// A rocket or plasma blast presses a shootable button by a direct hit, or by a
+// radius reaching its box with a clear line to it (G_RadiusDamage, CanDamage).
+// The shooter is who its targets act on. Called rather than notified: a woken
+// waittill misses a second blast landing in the same frame.
+blast(position, range, hit)
 {
-	if (!isDefined(self.target))
+	if (!isDefined(level.q3Shootables) || !isPlayer(self) || !self isQ3())
 		return;
 
-	targets = getEntArray(self.target, "targetname");
+	for (i = 0; i < level.q3Shootables.size; i++)
+	{
+		mover = level.q3Shootables[i];
+		if (mover.q3Moving || !self inLayout(mover))
+			continue;
+		if (!(isDefined(hit) && hit == mover) && !mover blastReaches(position, range))
+			continue;
+		if (isDefined(mover.q3Door))
+			mover doorUse(self);
+		else
+			mover thread buttonPress(self);
+	}
+}
+
+blastReaches(position, range)
+{
+	if (!isDefined(self.trig_min) || !isDefined(self.trig_max))
+		return false;
+
+	dx = axisDistance(position[0], self.trig_min[0], self.trig_max[0]);
+	dy = axisDistance(position[1], self.trig_min[1], self.trig_max[1]);
+	dz = axisDistance(position[2], self.trig_min[2], self.trig_max[2]);
+	if (length((dx, dy, dz)) >= range)
+		return false;
+
+	center = (self.trig_min + self.trig_max) * 0.5;
+	return self blastSees(position, center)
+		|| self blastSees(position, center + (15, 15, 0))
+		|| self blastSees(position, center + (15, -15, 0))
+		|| self blastSees(position, center + (-15, 15, 0))
+		|| self blastSees(position, center + (-15, -15, 0));
+}
+
+blastSees(from, to)
+{
+	trace = bulletTrace(from, to, false, undefined);
+	return trace["fraction"] == 1 || (isDefined(trace["entity"]) && trace["entity"] == self);
+}
+
+// A trigger whose targets act on the player who touched it.
+useLoop()
+{
+	while (true)
+	{
+		self waittill("trigger", player);
+
+		if (!player isQ3() || !player inLayout(self) || !player useReady(self))
+			continue;
+
+		useTargets(self.target, player);
+	}
+}
+
+// Quake's trigger_multiple fires again after its wait, half a second unless
+// stated, and never again for a wait of zero or less. Per player here, and
+// each life starts over.
+useReady(trigger)
+{
+	id = trigger getEntityNumber();
+	if (isDefined(self.q3Uses[id]) && getTime() < self.q3Uses[id])
+		return false;
+
+	delay = IfUndef(trigger.time, 0.5);
+	if (delay > 0)
+		self.q3Uses[id] = getTime() + int(delay * 1000);
+	else
+		self.q3Uses[id] = 2147483647;
+	return true;
+}
+
+// Quake's G_UseTargets: what a button or trigger names acts on the player who
+// set it off, in that player's own layout. The converter keeps each target's
+// Quake classname in script_noteworthy.
+useTargets(name, activator)
+{
+	if (!isDefined(name))
+		return;
+
+	targets = getEntArray(name, "targetname");
 	for (i = 0; i < targets.size; i++)
-		targets[i] notify("q3_button", self);
+		targets[i] useTarget(activator);
+}
+
+useTarget(activator)
+{
+	if (!isDefined(activator) || !isAlive(activator) || !activator inLayout(self) || !isDefined(self.script_noteworthy))
+		return;
+
+	switch (self.script_noteworthy)
+	{
+		case "target_speed":
+			activator playerSpeed(self);
+			break;
+		case "target_push":
+			activator playerTargetPush(self);
+			break;
+		case "target_teleporter":
+			dest = teleporterDest(self.target);
+			if (isDefined(dest))
+				activator thread playerTeleport(dest);
+			break;
+		case "target_delay":
+			self thread delayTargets(activator);
+			break;
+		case "target_kill":
+			activator suicide();
+			break;
+		case "target_init":
+			activator playerInit(self);
+			useTargets(self.target, activator);
+			break;
+		case "target_print":
+		case "target_smallprint":
+			// Defrag shows it to whoever set it off, or to everyone for BROADCAST.
+			if (!isDefined(self.script_hint))
+				break;
+			if (pushFlag(IfUndef(self.spawnflags, 0), 8))
+				iPrintLnBold(self.script_hint);
+			else
+				activator iPrintLnBold(self.script_hint);
+			break;
+		case "target_score":
+			activator.q3Frags = IfUndef(activator.q3Frags, 0) + Ternary(self.count != 0, self.count, 1);
+			break;
+		case "target_fragsFilter":
+			activator playerFragsFilter(self);
+			break;
+		case "func_door":
+			if (isDefined(self.q3Door))
+				self doorUse(activator);
+			break;
+	}
+}
+
+// Defrag's target_init takes back what its flags do not keep: 1 armour,
+// 2 health, 4 weapons, 8 powerups, 16 holdables.
+playerInit(target)
+{
+	flags = IfUndef(target.spawnflags, 0);
+	if (!pushFlag(flags, 1))
+		self.q3Armor = 0;
+	if (!pushFlag(flags, 2))
+		self.health = self.maxhealth;
+	if (!pushFlag(flags, 4) && !self isQ3W())
+	{
+		names = getArrayKeys(level.q3Weapons);
+		for (i = 0; i < names.size; i++)
+		{
+			if (self hasWeapon(level.q3Weapons[names[i]]))
+				self takeWeapon(level.q3Weapons[names[i]]);
+		}
+	}
+
+	perks = [];
+	if (!pushFlag(flags, 8))
+	{
+		perks[perks.size] = "quad";
+		perks[perks.size] = "haste";
+		perks[perks.size] = "invis";
+		perks[perks.size] = "regen";
+		perks[perks.size] = "flight";
+		perks[perks.size] = "enviro";
+	}
+	if (!pushFlag(flags, 16))
+	{
+		perks[perks.size] = "medkit";
+		perks[perks.size] = "teleporter";
+	}
+	for (i = 0; i < perks.size; i++)
+	{
+		if (!self sr\core\_perks::playerHasPerk(perks[i]))
+			continue;
+		self sr\core\_perks::playerRemovePerk(perks[i]);
+		if (perks[i] == "haste")
+			self setMoveSpeed(320);
+	}
+}
+
+// Defrag's target_fragsFilter: fires its targets once the player holds the
+// frags it asks (count), exactly that many for MATCH (16). REMOVER (1) spends
+// them, RESET (8) zeroes the score after, SILENT (4) keeps the shortfall quiet.
+playerFragsFilter(filter)
+{
+	flags = IfUndef(filter.spawnflags, 0);
+	need = Ternary(filter.count != 0, filter.count, 1);
+	have = IfUndef(self.q3Frags, 0);
+	if (have < need || (pushFlag(flags, 16) && have != need))
+	{
+		if (have < need && !pushFlag(flags, 4))
+			self iPrintLnBold((need - have) + " more frags needed");
+		return;
+	}
+
+	if (pushFlag(flags, 1))
+		self.q3Frags = have - need;
+	useTargets(filter.target, self);
+	if (pushFlag(flags, 8))
+		self.q3Frags = 0;
+}
+
+delayTargets(activator)
+{
+	activator endon("disconnect");
+	activator endon("death");
+
+	delay = IfUndef(self.time, 0);
+	if (delay == 0)
+		delay = 1;
+	wait max(delay, 0.05);
+	useTargets(self.target, activator);
+}
+
+// Defrag's target_speed. Spawnflags: 1 PERCENTAGE, 2 ADD, 4/8 +X/-X, 16/32
+// +Y/-Y, 64/128 +Z/-Z, 256 LAUNCHER. Defrag's code is closed; this follows
+// Xonotic's port of it for Quake maps (target/speed.qc, Q3COMPAT).
+playerSpeed(target)
+{
+	flags = IfUndef(target.spawnflags, 0);
+	speed = IfUndef(target.speed, 100);
+	add = pushFlag(flags, 2);
+	launcher = pushFlag(flags, 256);
+	if (!add && speed < 0)
+		speed = 0;
+
+	positive = [];
+	negative = [];
+	positive[0] = pushFlag(flags, 4);
+	negative[0] = pushFlag(flags, 8);
+	positive[1] = pushFlag(flags, 16);
+	negative[1] = pushFlag(flags, 32);
+	positive[2] = pushFlag(flags, 64);
+	negative[2] = pushFlag(flags, 128);
+
+	// Only the axes the flags name take part; a launcher named both ways on
+	// one axis leaves it out.
+	velocity = self getVelocity();
+	axis = [];
+	for (i = 0; i < 3; i++)
+	{
+		if (launcher && positive[i] && negative[i])
+		{
+			positive[i] = false;
+			negative[i] = false;
+		}
+		axis[i] = 0;
+		if (positive[i] || negative[i])
+			axis[i] = velocity[i];
+	}
+
+	old = length((axis[0], axis[1], axis[2]));
+	if (pushFlag(flags, 1))
+		speed = old * speed / 100;
+
+	// A launcher throws along its axes from rest, adding its speed once per
+	// axis; otherwise the player's own motion on each axis is the direction,
+	// turned the way the flag says.
+	launch = 0;
+	for (i = 0; i < 3; i++)
+	{
+		if (positive[i] == negative[i] || (axis[i] == 0 && !launcher))
+			continue;
+		if (launcher)
+		{
+			axis[i] = 1;
+			launch += speed;
+			if (add)
+				launch += old;
+		}
+		axis[i] = abs(axis[i]);
+		if (negative[i])
+			axis[i] = 0 - axis[i];
+	}
+
+	direction = vectorNormalize((axis[0], axis[1], axis[2]));
+	if (launcher)
+		result = direction * abs(launch);
+	else if (add)
+		result = direction * speed + velocity;
+	else
+		result = direction * speed;
+
+	for (i = 0; i < 3; i++)
+		axis[i] = Ternary(positive[i] || negative[i], result[i], velocity[i]);
+
+	self setVelocity((axis[0], axis[1], axis[2]));
+}
+
+// Quake's target_push sets the velocity outright: toward its target on a pad's
+// arc, or along its angles at its speed (1000 unless stated).
+playerTargetPush(target)
+{
+	if (isDefined(target.target))
+	{
+		dest = teleporterDest(target.target);
+		if (!isDefined(dest))
+			return;
+		velocity = pushVelocity(target.origin, dest.origin);
+	}
+	else
+	{
+		speed = IfUndef(target.speed, 0);
+		if (speed == 0)
+			speed = 1000;
+		velocity = moveDir(target.angles) * speed;
+	}
+	if (!isDefined(velocity))
+		return;
+
+	if (pushFlag(IfUndef(target.spawnflags, 0), 1)) // BOUNCEPAD
+		self playSound("q3_jumppad");
+	self setVelocity(velocity);
+	self notify("q3_pushed", target);
+}
+
+// G_SetMovedir: a yaw of -1 is straight up and -2 straight down.
+moveDir(angles)
+{
+	if (!isDefined(angles))
+		return (1, 0, 0);
+	if (angles == (0, -1, 0))
+		return (0, 0, 1);
+	if (angles == (0, -2, 0))
+		return (0, 0, -1);
+	return anglesToForward(angles);
 }
 
 canTrigger(trigger)
@@ -906,16 +1424,34 @@ removeCooldown(trigger)
 	refreshVisuals();
 }
 
+// Sonic Boom is how pmove sees quad: SR-Server and IW3SR triple the Q3 weapons splash under it.
+quad(perk)
+{
+	self endon("death");
+	self endon("disconnect");
+
+	self setPerk("specialty_explosivedamage");
+
+	if (!isDefined(perk.time) || perk.time <= 0)
+		return;
+
+	wait perk.time;
+	self unsetPerk("specialty_explosivedamage");
+}
+
+// Rapid Fire is how pmove sees haste: SR-Server and IW3SR fire the Q3 weapons 1.3x faster under it.
 haste(perk)
 {
 	self endon("death");
 	self endon("disconnect");
 
 	self setMoveSpeed(416);
+	self setPerk("specialty_rof");
 
 	if (!isDefined(perk.time) || perk.time <= 0)
 		return;
 
 	wait perk.time;
 	self setMoveSpeed(320);
+	self unsetPerk("specialty_rof");
 }
