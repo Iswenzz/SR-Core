@@ -4,7 +4,6 @@
 main()
 {
 	level.q3Visuals = [];
-	level.q3Layouts = [];
 	level.q3Weapons = [];
 	level.q3Models = [];
 	level.q3StartWeapons = [];
@@ -24,7 +23,6 @@ main()
 	precacheItems();
 	thread visuals();
 
-	event("map", ::layouts);
 	event("map", ::triggers);
 	event("spawn", ::onSpawn);
 }
@@ -87,59 +85,14 @@ triggers()
 
 // Defrag ships a map in two physics layouts: brushwork, pickups and triggers
 // tagged notcpm are gone in CPM, notvq3 in VQ3. Everyone not running CPM gets
-// the VQ3 layout, the one with the helping platforms.
+// the VQ3 layout, the one with the helping platforms. The server shows each
+// player their own brushwork and collides them with it alone (SR-Server's
+// Layout); pickups and triggers are gated here.
 inLayout(ent)
 {
 	if (self isQ3CPM())
 		return !isDefined(ent.notcpm) || !ent.notcpm;
 	return !isDefined(ent.notvq3) || !ent.notvq3;
-}
-
-layouts()
-{
-	brushes = getEntArray("script_brushmodel", "classname");
-	for (i = 0; i < brushes.size; i++)
-	{
-		if (!isDefined(brushes[i].notcpm) && !isDefined(brushes[i].notvq3))
-			continue;
-
-		brushes[i].q3Solid = true;
-		level.q3Layouts[level.q3Layouts.size] = brushes[i];
-	}
-	if (level.q3Layouts.size)
-		thread layoutLoop();
-}
-
-// Each player sees their own layout. Collision cannot be per player, so a
-// brush stays solid while anyone alive runs its layout.
-layoutLoop()
-{
-	while (true)
-	{
-		players = getAllPlayers();
-		for (i = 0; i < level.q3Layouts.size; i++)
-		{
-			brush = level.q3Layouts[i];
-			brush hide();
-
-			wanted = false;
-			for (j = 0; j < players.size; j++)
-			{
-				viewer = IfUndef(players[j] getSpectatorClient(), players[j]);
-				if (viewer inLayout(brush))
-					brush showToPlayer(players[j]);
-				if (isAlive(players[j]) && players[j] inLayout(brush))
-					wanted = true;
-			}
-
-			if (wanted && !brush.q3Solid)
-				brush solid();
-			else if (!wanted && brush.q3Solid)
-				brush notSolid();
-			brush.q3Solid = wanted;
-		}
-		wait 0.1;
-	}
 }
 
 onSpawn()
