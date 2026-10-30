@@ -10,6 +10,8 @@ initAdmins()
 	level.ids = [];
 	level.accounts = [];
 	level.bans = [];
+	// Commands typed in the server console run on level, as a logged in owner.
+	level.admin_auth = true;
 	level.admin_role = "owner";
 	level.admin_commands = [];
 	level.whitelist = [];
