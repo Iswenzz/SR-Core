@@ -113,6 +113,7 @@ onSpawn()
 	self thread explosions();
 
 	self.q3Cooldowns = [];
+	self.q3PerkTimes = [];
 	self.q3Uses = [];
 	self.q3Frags = 0;
 	self.q3Armor = 0;
@@ -632,9 +633,31 @@ playerGivePerk(perk, time)
 	// (0xFFFFFE ms, dfwc2014_4's 9999999).
 	if (isDefined(time) && time > 0 && time < 16000)
 	{
+		// A later pickup of the same powerup restarts its clock rather than being cut short by this one
+		given = getTime();
+		self.q3PerkTimes[perk] = given;
 		wait time;
-		self sr\core\_perks::playerRemovePerk(perk);
+		if (isDefined(self.q3PerkTimes[perk]) && self.q3PerkTimes[perk] == given)
+			self playerEndPerk(perk);
 	}
+}
+
+// Takes a Q3 powerup back along with what it changed on the player.
+playerEndPerk(id)
+{
+	if (!self sr\core\_perks::playerHasPerk(id))
+		return;
+
+	self sr\core\_perks::playerRemovePerk(id);
+	self.q3PerkTimes[id] = undefined;
+
+	if (id == "haste")
+	{
+		self setMoveSpeed(320);
+		self unsetPerk("specialty_rof");
+	}
+	else if (id == "quad")
+		self unsetPerk("specialty_explosivedamage");
 }
 
 playerPerk(trigger)
@@ -1274,13 +1297,7 @@ playerInit(target)
 		perks[perks.size] = "teleporter";
 	}
 	for (i = 0; i < perks.size; i++)
-	{
-		if (!self sr\core\_perks::playerHasPerk(perks[i]))
-			continue;
-		self sr\core\_perks::playerRemovePerk(perks[i]);
-		if (perks[i] == "haste")
-			self setMoveSpeed(320);
-	}
+		self playerEndPerk(perks[i]);
 }
 
 // Defrag's target_fragsFilter: fires its targets once the player holds the
@@ -1453,33 +1470,16 @@ removeCooldown(trigger)
 }
 
 // Sonic Boom is how pmove sees quad: SR-Server and IW3SR triple the Q3 weapons splash under it.
+// It ends in playerEndPerk, on the pickup's own time or at a target_init.
 quad(perk)
 {
-	self endon("death");
-	self endon("disconnect");
-
 	self setPerk("specialty_explosivedamage");
-
-	if (!isDefined(perk.time) || perk.time <= 0)
-		return;
-
-	wait perk.time;
-	self unsetPerk("specialty_explosivedamage");
 }
 
 // Rapid Fire is how pmove sees haste: SR-Server and IW3SR fire the Q3 weapons 1.3x faster under it.
+// It ends in playerEndPerk, on the pickup's own time or at a target_init.
 haste(perk)
 {
-	self endon("death");
-	self endon("disconnect");
-
 	self setMoveSpeed(416);
 	self setPerk("specialty_rof");
-
-	if (!isDefined(perk.time) || perk.time <= 0)
-		return;
-
-	wait perk.time;
-	self setMoveSpeed(320);
-	self unsetPerk("specialty_rof");
 }
