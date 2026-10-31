@@ -827,6 +827,8 @@ spawnPlayer()
 		spawn = self.playerSpawn;
 	else if (isDefined(self.insertionSpawn))
 		spawn = self.insertionSpawn;
+	else if (isDefined(self.sr_mode) && isDefined(level.spawn["mode_" + self.sr_mode]))
+		spawn = level.spawn["mode_" + self.sr_mode];
 	else if (isDefined(level.spawn["player"]))
 		spawn = level.spawn["player"];
 

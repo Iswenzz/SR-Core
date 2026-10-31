@@ -15,6 +15,8 @@ API for setting up speedrun maps.
 - [createSecretWays](#createsecretways)
 - [createEndMap](#createendmap)
 - [createEndMapFromEntity](#createendmapfromentity)
+- [createModeSpawn](#createmodespawn)
+- [createModeEndMap](#createmodeendmap)
 - [createWay](#createway)
 - [createWayFromEntity](#createwayfromentity)
 - [createTeleporter](#createteleporter)
@@ -85,6 +87,48 @@ Creates an end-of-map trigger using an existing map entity. If `way` is omitted,
 sr\api\_speedrun::createEndMapFromEntity("test", "targetname", 0);
 sr\api\_speedrun::createEndMapFromEntity("test", "targetname", 0, "normal_1");
 ```
+
+---
+
+### `sr\api\_speedrun::createModeSpawn(<mode>, <origin>, <angles>)`
+
+Creates a spawn point used only by players in `mode`, instead of the regular spawn. Like `createSpawn`, the origin is an in-game position and the 60-unit player height is taken off.
+
+Modes: `"190"`, `"210"`, `"Q3"`, `"Q3CPM"`, `"Q3CPMW"`, `"CS"`, `"Portal"`, or `"COD4"` for both `190` and `210`.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `mode` | string | Mode that spawns here |
+| `origin` | vector | Spawn position |
+| `angles` | float | Spawn facing angle (yaw) |
+
+```c
+sr\api\_speedrun::createModeSpawn("210", (0, 0, 0), 90);
+sr\api\_speedrun::createModeSpawn("COD4", (0, 0, 0), 90);
+```
+
+> The owner command `!mode_spawn <mode>` writes this line for your current position to `debug.txt` in the mod folder.
+
+---
+
+### `sr\api\_speedrun::createModeEndMap(<mode>, <origin>, <width>, <height>, <?way>)`
+
+Creates an end-of-map trigger that only finishes runs in `mode`. The regular end still finishes every mode. Takes the same modes as `createModeSpawn`.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `mode` | string | Mode that finishes here |
+| `origin` | vector | Trigger center position |
+| `width` | float | Trigger width |
+| `height` | float | Trigger height |
+| `way` | string | *(optional)* Specific way to finish on trigger |
+
+```c
+sr\api\_speedrun::createModeEndMap("210", (0, 0, 0), 120, 80);
+sr\api\_speedrun::createModeEndMap("COD4", (0, 0, 0), 120, 80, "secret_0");
+```
+
+> The owner command `!mode_end <mode> [width] [height]` writes this line for your current position to `debug.txt` in the mod folder.
 
 ---
 

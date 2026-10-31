@@ -40,6 +40,60 @@ createEndMap(origin, width, height, way)
 	return trigger;
 }
 
+createModeSpawn(mode, origin, angles)
+{
+	modes = getModes(mode);
+
+	point = spawn("script_origin", (origin[0], origin[1], origin[2] - 60));
+	point.angles = (0, angles, 0);
+
+	for (i = 0; i < modes.size; i++)
+		level.spawn["mode_" + modes[i]] = point;
+	return point;
+}
+
+createModeEndMap(mode, origin, width, height, way)
+{
+	modes = getModes(mode);
+
+	trigger = spawn("trigger_radius", origin, 0, width, height);
+	trigger.radius = width;
+	trigger.height = height;
+	trigger.targetname = "sr_end_mode";
+
+	thread watchModeEndMap(trigger, modes, way);
+	thread sr\fx\_trigger::effect(trigger, "red");
+	return trigger;
+}
+
+getModeName(mode)
+{
+	names = strTok("190;210;COD4;Q3;Q3CPM;Q3CPMW;CS;Portal", ";");
+	for (i = 0; i < names.size; i++)
+	{
+		if (toLower(names[i]) == toLower(mode))
+			return names[i];
+	}
+	return undefined;
+}
+
+getModes(mode)
+{
+	modes = [];
+	name = getModeName(mode);
+
+	if (!isDefined(name))
+		return modes;
+	if (name == "COD4")
+	{
+		modes[0] = "190";
+		modes[1] = "210";
+		return modes;
+	}
+	modes[0] = name;
+	return modes;
+}
+
 createEndMapFromEntity(value, key, index, way)
 {
 	trigger = getEntArray(value, key)[index];
@@ -105,6 +159,22 @@ watchTriggerEndMap(trig, way)
 	{
 		trig waittill("trigger", player);
 		player finishWay(way);
+	}
+}
+
+watchModeEndMap(trigger, modes, way)
+{
+	while (true)
+	{
+		trigger waittill("trigger", player);
+
+		if (isDefined(way) && player.sr_way != way)
+			continue;
+		for (i = 0; i < modes.size; i++)
+		{
+			if (player.sr_mode == modes[i])
+				player thread speedrun\core\_run::endTimer();
+		}
 	}
 }
 

@@ -18,6 +18,8 @@ main()
 	cmd("debug_spectate",     "owner",       ::cmd_DebugSpectate,        "Spawn a bot in spectator and autoassign in a loop");
 	cmd("debug_speed",        "owner",       ::cmd_DebugSpeed,           "Display player movement variables info");
 	cmd("debug_surface",      "owner",       ::cmd_DebugSurface,         "Display surface type at player aim position");
+	cmd("mode_end",           "owner",       ::cmd_ModeEnd,              "Add a mode end trigger at your position to debug.txt");
+	cmd("mode_spawn",         "owner",       ::cmd_ModeSpawn,            "Add a mode spawn at your position to debug.txt");
 	cmd("test",               "owner",       ::cmd_Test,                 "Test function");
 
 	if (getDvarInt("debug_rotation"))
@@ -159,6 +161,51 @@ cmd_DebugOrigin(args)
 	FILE_Close(file);
 
 	self pm(fmt("Saved origin: ^5%d %d %d", x, y, z));
+}
+
+cmd_ModeSpawn(args)
+{
+	if (args.size < 1 || !isDefined(sr\api\_speedrun::getModeName(args[0])))
+		return self pm("Usage: !mode_spawn <190|210|COD4|Q3|Q3CPM|Q3CPMW|CS|Portal>");
+
+	mode = sr\api\_speedrun::getModeName(args[0]);
+	origin = self.origin + (0, 0, 60);
+	angle = int(self getPlayerAngles()[1]);
+
+	sr\api\_speedrun::createModeSpawn(mode, origin, angle);
+	writeDebugLine(fmt("thread sr\\api\\_speedrun::createModeSpawn(\"%s\", (%.1f, %.1f, %.1f), %d); // %s",
+		mode, origin[0], origin[1], origin[2], angle, level.map));
+
+	self pm(fmt("Saved ^5%s ^7spawn to debug.txt", mode));
+}
+
+cmd_ModeEnd(args)
+{
+	if (args.size < 1 || !isDefined(sr\api\_speedrun::getModeName(args[0])))
+		return self pm("Usage: !mode_end <190|210|COD4|Q3|Q3CPM|Q3CPMW|CS|Portal> [width] [height]");
+
+	mode = sr\api\_speedrun::getModeName(args[0]);
+	width = 120;
+	height = 80;
+	origin = self.origin;
+
+	if (args.size > 1)
+		width = ToInt(args[1]);
+	if (args.size > 2)
+		height = ToInt(args[2]);
+
+	sr\api\_speedrun::createModeEndMap(mode, origin, width, height);
+	writeDebugLine(fmt("thread sr\\api\\_speedrun::createModeEndMap(\"%s\", (%.1f, %.1f, %.1f), %d, %d); // %s",
+		mode, origin[0], origin[1], origin[2], width, height, level.map));
+
+	self pm(fmt("Saved ^5%s ^7end to debug.txt", mode));
+}
+
+writeDebugLine(line)
+{
+	file = FILE_Open(PATH_Mod("debug.txt"), "a+");
+	FILE_WriteLine(file, line);
+	FILE_Close(file);
 }
 
 cmd_DebugKZ(args)
