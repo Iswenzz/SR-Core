@@ -549,11 +549,6 @@ isSlide()
 	return isDefined(level.map_slide) && level.map_slide;
 }
 
-isSurf()
-{
-	return isDefined(level.map_surf) && level.map_surf;
-}
-
 waitSessionState(state)
 {
 	while (self.sessionstate != state)
