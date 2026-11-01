@@ -950,7 +950,7 @@ door(near)
 		self.q3Door = true;
 		self.q3State = "shut";
 		if (isDefined(self.health) && self.health > 0)
-			level.q3Shootables[level.q3Shootables.size] = self;
+			self shootable();
 		return;
 	}
 
@@ -1078,9 +1078,36 @@ button()
 		self.q3Travel = max(distance(self.q3Shut, self.q3Open) / speed, 0.05);
 
 	if (isDefined(self.health) && self.health > 0)
-		level.q3Shootables[level.q3Shootables.size] = self;
+		self shootable();
 	else
 		self thread buttonTouchLoop();
+}
+
+// A mover with health: blasts press it (blast), and so does any hit, as Quake's
+// G_Damage uses it. That is how the player's own gun shoots what the map meant
+// for a weapon the mod has none of.
+shootable()
+{
+	level.q3Shootables[level.q3Shootables.size] = self;
+	self setCanDamage(true);
+	self thread shotLoop();
+}
+
+shotLoop()
+{
+	while (true)
+	{
+		// Never worn down to nothing: the mover is pressed, not destroyed.
+		self.health = 100000;
+		self waittill("damage", amount, attacker);
+
+		if (!isPlayer(attacker) || !attacker isQ3() || self.q3Moving || !attacker inLayout(self))
+			continue;
+		if (isDefined(self.q3Door))
+			self doorUse(attacker);
+		else
+			self thread buttonPress(attacker);
+	}
 }
 
 // Out, fire the targets for whoever pressed it, back after the wait. Quake
