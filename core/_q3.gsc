@@ -411,7 +411,13 @@ playerGiveWeapon(name, ammo)
 
 	weapon = level.q3Weapons[name];
 	if (!isDefined(weapon))
+	{
+		// A railgun or lightning gun the mod has none of: the player's own gun
+		// stands in, and its bullets press what the map meant to be shot.
+		if (name != "grapple")
+			self playerMainWeapon();
 		return;
+	}
 
 	clip = 0;
 	if (self hasWeapon(weapon))
@@ -422,6 +428,20 @@ playerGiveWeapon(name, ammo)
 	self setWeaponAmmoClip(weapon, IfUndef(ammo, clip));
 	self switchToWeapon(weapon);
 	self takeKnife();
+}
+
+playerMainWeapon()
+{
+	weapon = self.pers["weapon"];
+	if (!isDefined(weapon))
+		return;
+
+	if (!self hasWeapon(weapon))
+	{
+		self giveWeapon(weapon);
+		self giveMaxAmmo(weapon);
+	}
+	self switchToWeapon(weapon);
 }
 
 triggerAmmo()
