@@ -1,0 +1,179 @@
+iwfx 1
+
+{
+	name "cloud";
+	editorFlags looping useRandSize0 useRandRotDelta modColorByAlpha useRandVel1 absVel0;
+	flags spawnRelative spawnOffsetCylinder runRelToEffect;
+	spawnRange 0 0;
+	spawnFrustumCullRadius 0;
+	spawnLooping 12 8;
+	spawnOneShot 1 0;
+	spawnDelayMsec 0 0;
+	lifeSpanMsec 220 120;
+	spawnOrgX -14 28;
+	spawnOrgY -14 28;
+	spawnOrgZ -14 6;
+	spawnOffsetRadius 2 0;
+	spawnOffsetHeight -4 8;
+	spawnAnglePitch 0 0;
+	spawnAngleYaw 0 0;
+	spawnAngleRoll 0 0;
+	angleVelPitch 0 0;
+	angleVelYaw 0 0;
+	angleVelRoll 0 0;
+	initialRot -45 90;
+	gravity 0 0;
+	elasticity 1 0;
+	atlasBehavior startRandom;
+	atlasIndex 0;
+	atlasFps 24;
+	atlasLoopCount 0;
+	atlasColIndexBits 0;
+	atlasRowIndexBits 0;
+	atlasEntryCount 0;
+	velGraph0X 0
+	{
+		{
+			0 0
+			1 0
+		}
+		{
+			0 0
+			1 0
+		}
+	};
+	velGraph0Y 0
+	{
+		{
+			0 0
+			1 0
+		}
+		{
+			0 0
+			1 0
+		}
+	};
+	velGraph0Z -220
+	{
+		{
+			0 0.5
+			1 0.5
+		}
+		{
+			0 0.5
+			1 0.5
+		}
+	};
+	velGraph1X 0
+	{
+		{
+			0 0
+			1 0
+		}
+		{
+			0 0
+			1 0
+		}
+	};
+	velGraph1Y 0
+	{
+		{
+			0 0
+			1 0
+		}
+		{
+			0 0
+			1 0
+		}
+	};
+	velGraph1Z 0
+	{
+		{
+			0 0
+			1 0
+		}
+		{
+			0 0
+			1 0
+		}
+	};
+	rotGraph 80
+	{
+		{
+			0 -0.5
+			1 -0.5
+		}
+		{
+			0 0.5
+			1 0.5
+		}
+	};
+	sizeGraph0 9
+	{
+		{
+			0 1
+			1 0.25
+		}
+		{
+			0 0.7
+			1 0.2
+		}
+	};
+	sizeGraph1 9
+	{
+		{
+			0 1
+			1 0.25
+		}
+		{
+			0 0.7
+			1 0.2
+		}
+	};
+	scaleGraph 1
+	{
+		{
+			0 1
+			1 0
+		}
+		{
+			0 1
+			1 0
+		}
+	};
+	colorGraph 1
+	{
+		{
+			0 1 0.9 0.3
+			0.5 1 0.9 0.3
+			1 1 0.9 0.3
+		}
+		{
+			0 1 0.9 0.3
+			1 1 0.9 0.3
+		}
+	};
+	alphaGraph 1
+	{
+		{
+			0 0.9
+			0.5 0.7
+			1 0
+		}
+		{
+			0 0.9
+			1 0
+		}
+	};
+	collOffset 0 0 0;
+	collRadius 0;
+	fxOnImpact "";
+	fxOnDeath "";
+	emission "";
+	emitDist 1 0;
+	emitDistVariance 0 0;
+	billboardSprite
+	{
+		"gfx_exp_spark"
+	};
+}
