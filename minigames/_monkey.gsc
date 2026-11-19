@@ -44,7 +44,8 @@ join()
 	self sr\core\_minigames::addToQueue("monkey");
 	self.sr_movement = 2;
 
-	self pm("You are in a ball! [^3!monkey^7]");
+	self message(fmt("%s ^7joined monkey ball! [^3!monkey^7] [^1%d^7]",
+		self.name, level.minigames["monkey"].queue.size));
 	if (sr\minigames\_round::running("monkey"))
 	{
 		self pm("A round is on: you watch it and roll in the next.");
@@ -198,4 +199,5 @@ goal()
 	time = (getTime() - level.monkeyRound.time) / 1000;
 	sr\minigames\_round::announce("monkey", "^3" + self.monkeyDone + ". ^7" + self.name + " ^3" + time + "s");
 	self freezeControls(true);
+	self setBallSolid(false);
 }

@@ -73,7 +73,8 @@ join()
 	self sr\core\_minigames::addToQueue("mkw");
 	self mount();
 
-	self pm("You are racing! [^1!mkw^7]");
+	self message(fmt("%s ^7joined the Mario Kart race! [^1!mkw^7] [^1%d^7]",
+		self.name, level.minigames["mkw"].queue.size));
 	if (sr\minigames\_round::running("mkw"))
 	{
 		self pm("A race is on: you watch it and run in the next.");
