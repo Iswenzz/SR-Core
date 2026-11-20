@@ -52,6 +52,8 @@ main()
 		for (i = 0; i < named.size; i++)
 			level.mkPlaces[n][i] = int(named[i]) - 1;
 	}
+	// Counted up each time a race ends, so what is still out from one knows to go.
+	level.mkRound = 0;
 
 	// What the whole race feels is not drawn twice in a row: how long after one before the next, and none
 	// of them in a race's first half minute.
@@ -1021,6 +1023,21 @@ road(spot)
 	return undefined;
 }
 
+// A race's end takes everything off the road. What lies there goes quietly, by its own thread, and what
+// still flies stops when it sees the count moved on.
+clear()
+{
+	for (i = 0; i < level.mkThings.size; i++)
+	{
+		if (!isDefined(level.mkThings[i]))
+			continue;
+		level.mkThings[i].mkCleared = true;
+		level.mkThings[i].mkBroken = true;
+	}
+	level.mkThings = [];
+	level.mkRound++;
+}
+
 // What lies on the road is kept track of, so a shell can break on it.
 lay(what)
 {
@@ -1051,6 +1068,7 @@ thingNear(spot, reach, but)
 toss(kind, reach)
 {
 	owner = self;
+	round = level.mkRound;
 	from = self getEye();
 	flat = anglesToForward((0, self getPlayerAngles()[1], 0));
 	rest = 16;
@@ -1116,6 +1134,13 @@ toss(kind, reach)
 	if (isDefined(mark))
 		mark moveGravity(way, time);
 	wait time;
+	if (round != level.mkRound)
+	{
+		if (isDefined(mark))
+			mark delete();
+		thing delete();
+		return;
+	}
 	thing.origin = to;
 	if (isDefined(mark))
 		mark.origin = to;
@@ -1176,7 +1201,8 @@ trap(owner, kind)
 			noise("mkw_fake", self.origin);
 		break;
 	}
-	playFx(level.mkFx["puff"], self.origin);
+	if (!isDefined(self.mkCleared))
+		playFx(level.mkFx["puff"], self.origin);
 	if (isDefined(self.mkMark))
 		self.mkMark delete();
 	self delete();
@@ -1194,7 +1220,8 @@ fuse(owner)
 		if (isDefined(racer) && (!isDefined(owner) || racer != owner || getTime() >= armed))
 			break;
 	}
-	burst(self.origin, 280, owner, "burst", "mkw_bomb");
+	if (!isDefined(self.mkCleared))
+		burst(self.origin, 280, owner, "burst", "mkw_bomb");
 	self delete();
 }
 
@@ -1252,9 +1279,10 @@ shell(kind, speed, target, bounces)
 
 	safe = getTime() + 400;
 	ends = getTime() + 15000;
+	round = level.mkRound;
 	fall = 0;
 	struck = false;
-	while (getTime() < ends)
+	while (getTime() < ends && round == level.mkRound)
 	{
 		if (isDefined(target))
 		{
@@ -1340,9 +1368,12 @@ shell(kind, speed, target, bounces)
 		}
 		wait 0.05;
 	}
-	playFx(level.mkFx["puff"], spot);
-	if (!struck)
-		noise("mkw_shell_break", spot);
+	if (round == level.mkRound)
+	{
+		playFx(level.mkFx["puff"], spot);
+		if (!struck)
+			noise("mkw_shell_break", spot);
+	}
 	shell delete();
 }
 
@@ -1362,8 +1393,9 @@ spiny()
 
 	warned = undefined;
 	ends = getTime() + 30000;
+	round = level.mkRound;
 	spot = shell.origin;
-	while (getTime() < ends)
+	while (getTime() < ends && round == level.mkRound)
 	{
 		if ((!isDefined(target) || !isAlive(target)) && isDefined(owner))
 			target = owner leader();
@@ -1400,7 +1432,8 @@ spiny()
 	}
 	if (isDefined(warned))
 		warned stopLocalSound("mkw_alarm");
-	burst(spot, 300, owner, "big", "mkw_blue_burst");
+	if (round == level.mkRound)
+		burst(spot, 300, owner, "big", "mkw_blue_burst");
 	shell delete();
 }
 

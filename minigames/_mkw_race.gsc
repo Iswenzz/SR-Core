@@ -61,7 +61,10 @@ stop()
 		players[i].mkRank = undefined;
 		players[i] freezeControls(false);
 		players[i] clean();
+		players[i] notify("mk_orbit");
+		players[i] sr\minigames\_mkw_items::lose();
 	}
+	sr\minigames\_mkw_items::clear();
 	level.mkRace = undefined;
 	sr\minigames\_round::announce("mkw", "^3Race over");
 	level notify("mk_race_over");
