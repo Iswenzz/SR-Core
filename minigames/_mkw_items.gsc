@@ -1543,7 +1543,7 @@ bullet()
 	shape = spawn("script_model", self.origin + (0, 0, 40));
 	shape setModel(level.mkModels["bullet"]);
 	shape notSolid();
-	shape.angles = (0, self getPlayerAngles()[1], 0);
+	shape.angles = aimed(anglesToForward((0, self getPlayerAngles()[1], 0)));
 	self.mkCarried = carrier;
 	self thread bulletEnd(carrier, shape);
 	self hide();
@@ -1571,7 +1571,7 @@ bullet()
 		way = vectorNormalize(to - from);
 		carrier glide(to);
 		shape glide(to + (0, 0, 40));
-		shape rotateTo(vectorToAngles(way), 0.1);
+		shape rotateTo(aimed(way), 0.1);
 		from = to;
 		wait 0.05;
 	}
@@ -1580,6 +1580,13 @@ bullet()
 	self show();
 	self setVelocity((way[0], way[1], 0) * level.mkSpeed);
 	self notify("mk_bullet_off");
+}
+
+// The bullet's nose is its model's +Y, not +X: a quarter turn less, and tipped up or down by roll.
+aimed(way)
+{
+	angles = vectorToAngles(way);
+	return (0, angles[1] - 90, 0 - angles[0]);
 }
 
 bulletEnd(carrier, shape)
