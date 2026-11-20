@@ -99,6 +99,7 @@ run()
 	for (i = 0; i < racers.size; i++)
 	{
 		racers[i] iPrintLn("^3[{+attack}]^7 uses the item you hold, ^3[{+back}]^7 held leaves it behind");
+		racers[i] iPrintLn("^3[{+breath_sprint}]^7 held through a turn charges a mini-turbo, let go to fire it");
 	}
 	for (count = 3; count > 0; count--)
 	{
