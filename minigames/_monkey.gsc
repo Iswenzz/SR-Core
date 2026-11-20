@@ -111,6 +111,7 @@ run()
 		players[i] freezeControls(false);
 		players[i] thread fall();
 	}
+	level thread apart(3);
 
 	// Over when no ball is left rolling, half a minute after the first goal, or after five minutes.
 	first = undefined;
@@ -157,6 +158,23 @@ roundList()
 			list[list.size] = players[i];
 	}
 	return list;
+}
+
+// Every ball sets off from the one spot, so for the first seconds of a round they roll through each other.
+apart(time)
+{
+	level endon("monkey_over");
+
+	players = roundList();
+	for (i = 0; i < players.size; i++)
+		players[i] setBallSolid(false);
+	wait time;
+	players = roundList();
+	for (i = 0; i < players.size; i++)
+	{
+		if (players[i] rolling())
+			players[i] setBallSolid(true);
+	}
 }
 
 // At the start and held there until the countdown is through.
