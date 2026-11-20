@@ -33,8 +33,8 @@ ride(model, inside)
 	}
 }
 
-// Off the stage: with nothing under the ride, and well below where something last was, it has fallen out.
-// Falling fast for three seconds on end says the same where the map has a floor nobody was meant to reach.
+// Off the stage once it has fallen freely for twenty seconds on end, with nothing under it all that time.
+// Nothing sooner: a stage's own way on can be a long drop past nothing to a part far below.
 fallen()
 {
 	self endon("disconnect");
@@ -42,25 +42,14 @@ fallen()
 	self endon("spawned");
 	self endon("sr_ride_off");
 
-	falling = 0;
-	over = self.origin[2];
+	since = getTime();
 	for (;;)
 	{
 		wait 0.1;
-		under = bulletTrace(self.origin + (0, 0, 10), self.origin - (0, 0, 6000), false, self);
+		under = bulletTrace(self.origin + (0, 0, 10), self.origin - (0, 0, 120), false, self);
 		if (under["fraction"] < 1)
-			over = self.origin[2];
-		else if (self.origin[2] < over - 600)
-		{
-			self suicide();
-			return;
-		}
-
-		if (self getVelocity()[2] < -900)
-			falling++;
-		else
-			falling = 0;
-		if (falling >= 30)
+			since = getTime();
+		else if (getTime() - since >= 20000)
 		{
 			self suicide();
 			return;
