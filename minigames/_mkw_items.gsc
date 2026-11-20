@@ -29,6 +29,30 @@ main()
 	item("triple_red", 3, "0 0 5 10 20 20 15 10 0 0 0 0");
 	item("triple_banana", 3, "25 25 15 5 0 0 0 0 0 0 0 0");
 
+	// The game's own spread of its twelve places over fewer racers (StaticR.rel, ItemSlotData's
+	// PostProcessVSTable at 807bad20): with n racing, each place draws from the twelve-racer place named here.
+	places = [];
+	places[1] = "1";
+	places[2] = "1 4";
+	places[3] = "1 3 6";
+	places[4] = "1 3 6 9";
+	places[5] = "1 3 5 7 10";
+	places[6] = "1 3 5 7 9 11";
+	places[7] = "1 3 5 7 9 10 12";
+	places[8] = "1 2 4 6 7 9 10 12";
+	places[9] = "1 2 4 5 7 8 9 11 12";
+	places[10] = "1 2 3 5 6 7 8 10 11 12";
+	places[11] = "1 2 3 4 5 7 8 9 10 11 12";
+	places[12] = "1 2 3 4 5 6 7 8 9 10 11 12";
+	level.mkPlaces = [];
+	for (n = 1; n <= 12; n++)
+	{
+		level.mkPlaces[n] = [];
+		named = strTok(places[n], " ");
+		for (i = 0; i < named.size; i++)
+			level.mkPlaces[n][i] = int(named[i]) - 1;
+	}
+
 	// What the whole race feels is not drawn twice in a row: how long after one before the next, and none
 	// of them in a race's first half minute.
 	level.mkRare = [];
@@ -583,16 +607,25 @@ give(name)
 	return true;
 }
 
-// How far back in the race the racer is, 0 in front and 1 last; alone, or with no race on, it is in front.
+// How far back in the race the racer is, 0 in front and 1 last, as the game's table places them.
 behind()
+{
+	return self place() / 11;
+}
+
+// The twelve-racer place, 0 for first, whose odds the racer draws from: the game's own table up to twelve
+// racing, evenly spread past that. Alone, or with no race on, it is first.
+place()
 {
 	racers = sr\minigames\_mkw_race::raceList();
 	if (racers.size < 2 || !isDefined(self.mkRank))
 		return 0;
-	back = (self.mkRank - 1) / (racers.size - 1);
-	if (back > 1)
-		back = 1;
-	return back;
+	rank = self.mkRank;
+	if (rank > racers.size)
+		rank = racers.size;
+	if (racers.size > 12)
+		return int((rank - 1) * 11 / (racers.size - 1));
+	return level.mkPlaces[racers.size][rank - 1];
 }
 
 // Whether an item may be drawn now: the cloud not under one, and what the whole race feels neither in a
@@ -611,21 +644,15 @@ drawn(index)
 	return !isDefined(level.mkLast[name]) || now - level.mkLast[name] > level.mkRare[name];
 }
 
-// The game spreads its twelve places over however many race and reads between two of them.
+// The odds of the place the game's table reads for the racer's.
 draw()
 {
-	place = self behind() * 11;
-	low = int(place);
-	high = low + 1;
-	if (high > 11)
-		high = 11;
-	share = place - low;
-
+	place = self place();
 	odds = [];
 	total = 0;
 	for (i = 0; i < level.mkItems.size; i++)
 	{
-		odds[i] = level.mkItems[i].odds[low] * (1 - share) + level.mkItems[i].odds[high] * share;
+		odds[i] = level.mkItems[i].odds[place];
 		if (!self drawn(i))
 			odds[i] = 0;
 		total += odds[i];
