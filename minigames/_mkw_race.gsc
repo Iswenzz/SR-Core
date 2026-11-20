@@ -123,8 +123,10 @@ run()
 	}
 	level thread places();
 
-	// Over when everyone is in, half a minute after the first, or after ten minutes.
+	// Over when everyone is in, half a minute after the first, or three minutes after the start; the last
+	// half minute of either is called.
 	first = undefined;
+	called = false;
 	for (;;)
 	{
 		wait 0.5;
@@ -139,8 +141,16 @@ run()
 			first = getTime();
 		if (!left || !racers.size || (isDefined(first) && getTime() - first > 30000))
 			break;
-		if (getTime() - level.mkRace.time > 600000)
+		if (getTime() - level.mkRace.time > 180000)
+		{
+			sr\minigames\_round::announce("mkw", "^1Time's up");
 			break;
+		}
+		if (!called && (isDefined(first) || getTime() - level.mkRace.time > 150000))
+		{
+			called = true;
+			sr\minigames\_round::announce("mkw", "^330 seconds left!");
+		}
 	}
 	wait 1;
 	// Stopping ends this thread, so it is left to another.
