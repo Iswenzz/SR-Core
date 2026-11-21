@@ -101,7 +101,9 @@ main()
 
 	level.mkThings = [];
 	level.mkRoute = [];
+	level.mkLine = undefined;
 	event("map", ::boxes);
+	event("spawn", ::farSide);
 }
 
 item(name, uses, odds)
@@ -195,6 +197,50 @@ route()
 		}
 		level.mkRoute[i] = spot;
 	}
+
+	// Where the course's line crosses the route. Its trigger stands far taller than the road: its height is the grid's.
+	finish = getEntArray("iz_finish", "targetname");
+	if (level.mkRoute.size > 3 && finish.size)
+	{
+		spot = finish[0] getOrigin();
+		if (isDefined(level.spawn["player"]))
+			spot = (spot[0], spot[1], level.spawn["player"].origin[2]);
+		on = routeOn(spot);
+		level.mkLine = on[0] + on[1];
+	}
+}
+
+// The line is right by the start, so a lap needs the far side of the course first: crossing it backwards and
+// forwards again, or straight from the grid, is no lap however few gates a course has.
+farSide()
+{
+	self endon("disconnect");
+	self endon("death");
+	self endon("spawned");
+
+	// A racer put back after a fall keeps the lap they were on.
+	if (!self sr\minigames\_mkw_race::racing())
+		self.mkFar = undefined;
+	if (!isDefined(level.iz_route))
+		return;
+	for (;;)
+	{
+		wait 0.25;
+		if (isDefined(self.mkFar) || !isDefined(level.mkLine))
+			continue;
+		on = routeOn(self.origin);
+		share = (on[0] + on[1] - level.mkLine) / level.mkRoute.size;
+		if (share < 0)
+			share += 1;
+		if (share > 0.3 && share < 0.7)
+			self.mkFar = true;
+	}
+}
+
+// Whether crossing the course's line ends a lap, and so a run. Any line off a course does.
+lapped()
+{
+	return !isDefined(level.mkLine) || isDefined(self.mkFar);
 }
 
 // A spot against the stretch of the line after a point: how far off it squared, and how far along it.

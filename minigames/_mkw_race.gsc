@@ -86,6 +86,7 @@ run()
 		racers[i].mkRank = undefined;
 		racers[i].mkAt = undefined;
 		racers[i].mkRel = 0;
+		racers[i].mkFar = undefined;
 		racers[i].mkSlot = i;
 		racers[i].mkLined = undefined;
 		racers[i] thread sr\minigames\_round::muster();
@@ -335,16 +336,7 @@ places()
 
 	gates = getEntArray("iz_gate", "targetname");
 	finish = getEntArray("iz_finish", "targetname");
-	line = 0;
-	if (level.mkRoute.size > 3 && finish.size)
-	{
-		// The line's trigger stands far taller than the road: its height is the grid's.
-		spot = finish[0] getOrigin();
-		if (isDefined(level.spawn["player"]))
-			spot = (spot[0], spot[1], level.spawn["player"].origin[2]);
-		on = sr\minigames\_mkw_items::routeOn(spot);
-		line = on[0] + on[1];
-	}
+	line = IfUndef(level.mkLine, 0);
 
 	for (;;)
 	{

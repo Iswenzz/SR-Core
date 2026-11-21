@@ -213,6 +213,8 @@ changeWay(way)
 
 finishWay(way)
 {
-	if (self.sr_way == way)
-		self thread speedrun\core\_run::endTimer();
+	if (self.sr_way != way || !self sr\minigames\_mkw_items::lapped())
+		return;
+	self.mkFar = undefined;
+	self thread speedrun\core\_run::endTimer();
 }
