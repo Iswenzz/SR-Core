@@ -8,6 +8,7 @@ main()
 	cmd("clientcmd",      "owner",        ::cmd_ClientCommand,   "Execute a command on a client");
 	cmd("cmd",            "owner",        ::cmd_Command,         "Execute a server command");
 	cmd("confirm",        "player",       ::cmd_Confirm,         "Confirm a pending action");
+	cmd("discord_feed",   "owner",        ::cmd_DiscordFeed,     "Post a message to the Discord feed");
 	cmd("end",            "owner",        ::cmd_End,             "End the current game");
 	cmd("event_next",     "owner",        ::cmd_EventNext,       "Skip to the next event");
 	cmd("event_round",    "owner",        ::cmd_EventRound,      "Start an event for the current round");
@@ -279,6 +280,25 @@ cmd_Module(args)
 
 	exec(fmt("getmodules %d %s_%d", player.number, player.id, randomInt(999999)));
 	self pm("^5Module request sent");
+}
+
+cmd_DiscordFeed(args)
+{
+	if (args.size < 1)
+		return self pm("Usage: !discord_feed <message>");
+	if (!isDefined(level.discord["channels"]["feed"]))
+		return self pm("^1DISCORD_TOKEN or DISCORD_FEED is not set");
+
+	json = fmt("{\"allowed_mentions\": {\"parse\": []}, \"content\": \"%s\"}", escapeJson(StrJoin(args, " ")));
+	response = sr\sys\_discord::send("feed", json);
+
+	if (isDefined(response) && isSubStr(response, "\"channel_id\""))
+		return self pm("^2Posted to the Discord feed");
+
+	reason = IfUndef(response, "no response");
+	if (reason.size > 100)
+		reason = getSubStr(reason, 0, 100);
+	self pm("^1Discord refused it: " + reason);
 }
 
 cmd_Notification(args)
