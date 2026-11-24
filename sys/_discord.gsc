@@ -5,19 +5,13 @@
 initDiscord()
 {
 	level.discord = [];
-	level.discord["icon"] = "https://cdn.discordapp.com/icons/335075122467700740/8152834be097199cff8d46a2ae1e5588.png";
-	level.discord["color"] = 10753784;
-	level.discord["webhooks"] = [];
+	level.discord["icon"] = "https://sr-speedrun.com/images/logo.jpg";
+	level.discord["token"] = level.envs["DISCORD_TOKEN"];
+	level.discord["channels"] = [];
 	level.discord["json"] = [];
+	level.discord["json"]["record"] = FILE_ReadAll(PATH_Mod("sr/data/files/discord/record.json"));
 
-	json();
-
-	webhook("bots", level.envs["DISCORD_BOTS"]);
-}
-
-json()
-{
-	level.discord["json"]["embed"] = FILE_ReadAll(PATH_Mod("sr/data/files/discord/embed.json"));
+	channel("feed", level.envs["DISCORD_FEED"]);
 }
 
 template(id)
@@ -25,63 +19,33 @@ template(id)
 	return IfUndef(level.discord["json"][id], "");
 }
 
-webhook(name, id)
+channel(name, id)
 {
-	if (IsNullOrEmpty(id))
+	if (IsNullOrEmpty(level.discord["token"]) || IsNullOrEmpty(id))
 	{
-		comPrintLn(fmt("Discord webhook '%s' is not configured", name));
+		comPrintLn(fmt("Discord channel '%s' is not configured", name));
 		return;
 	}
-	level.discord["webhooks"][name] = spawnStruct();
-	level.discord["webhooks"][name].name = name;
-	level.discord["webhooks"][name].url = fmt("https://discord.com/api/webhooks/%s", id);
+	level.discord["channels"][name] = fmt("https://discord.com/api/v10/channels/%s/messages", id);
 }
 
-embed(webhook, title, message)
+send(name, json)
 {
-	hook = level.discord["webhooks"][webhook];
-	if (!isDefined(hook))
-		return;
-
-	json = fmt(template("embed"), level.discord["color"], title, message, level.discord["icon"]);
+	url = level.discord["channels"][name];
+	if (!isDefined(url))
+		return undefined;
 
 	critical_enter("http");
 
 	request = HTTP_Init();
 	HTTP_JSON(request);
-
-	HTTP_Post(request, json, hook.url);
+	HTTP_AddHeader(request, fmt("Authorization: Bot %s", level.discord["token"]));
+	HTTP_AddHeader(request, "User-Agent: DiscordBot (https://sr-speedrun.com, 1.0)");
+	HTTP_Post(request, json, url);
 	AsyncWait(request);
+	response = HTTP_Response(request);
 	HTTP_Free(request);
 
 	critical_release("http");
-}
-
-image(webhook, title, message, image)
-{
-	if (!EndsWith(image, ".jpg") && !EndsWith(image, ".png") && !EndsWith(image, ".gif"))
-		return;
-
-	hook = level.discord["webhooks"][webhook];
-	if (!isDefined(hook))
-		return;
-
-	json = fmt(template("embed"), level.discord["color"], title, message, "");
-
-	critical_enter("http");
-
-	request = HTTP_Init();
-	HTTP_JSON(request);
-	HTTP_Post(request, json, hook.url);
-	AsyncWait(request);
-	HTTP_Free(request);
-
-	request = HTTP_Init();
-	HTTP_AddHeader(request, "Content-Type: multipart/form-data");
-	HTTP_Verbose(request);
-	HTTP_PostFile(request, image, hook.url);
-	AsyncWait(request);
-	HTTP_Free(request);
-
-	critical_release("http");
+	return response;
 }

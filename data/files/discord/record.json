@@ -1,0 +1,27 @@
+{
+    "allowed_mentions": { "parse": [] },
+    "embeds": [
+        {
+            "color": %d,
+            "author": {
+                "name": "Epic World Record",
+                "icon_url": "https://sr-speedrun.com/images/trophy_diamond.png"
+            },
+            "title": "%s",
+            "url": "%s",
+            "description": "%s",
+            "thumbnail": {
+                "url": "https://sr-speedrun.com/images/trophy_diamond.png"
+            },
+            "fields": [
+                { "name": "Time", "value": "%s", "inline": true },
+                { "name": "Previous record", "value": "%s", "inline": true },
+                { "name": "Leaderboard", "value": "%s", "inline": true }
+            ],
+            "footer": {
+                "text": "%s",
+                "icon_url": "%s"
+            }
+        }
+    ]
+}
